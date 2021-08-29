@@ -50,8 +50,8 @@ Puedes seguir mi trabajo de divulgación en [Twitter (@DadosDeLaplace)](https://
   
 <!-- toc -->
 * Docencia de **grado**
-  - **Descripción y Exploración de Datos** (Grado en Estadística Aplicada, UCM, 60 horas)(https://github.com/dadosdelaplace/hilostwitter/tree/main/plots/%23matesendomingo/2021_07_27_DRAFT_LOTTERY_VIETNAM)
+  - **Descripción y Exploración de Datos** (Grado en Estadística Aplicada, UCM, 60 horas)(...)
 * Docencia de **máster**
-  - **Técnicas y Metodología de la Minería de Datos (SEMMA)** (Máster en Minería de Datos e Inteligencia de Negocios, UCM, 90 horas)(https://github.com/dadosdelaplace/hilostwitter/tree/main/plots/%23matesendomingo/2021_07_27_DRAFT_LOTTERY_VIETNAM)
+  - **Técnicas y Metodología de la Minería de Datos (SEMMA)** (Máster en Minería de Datos e Inteligencia de Negocios, UCM, 90 horas)(...)
 
 <!-- tocstop -->
