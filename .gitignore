@@ -33,3 +33,4 @@
 # R Environment Variables
 .Renviron
 
+.Rdata

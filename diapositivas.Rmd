@@ -15,6 +15,7 @@ output:
       countIncrementalSlides: false
       ratio: "16:9"
       beforeInit: "https://platform.twitter.com/widgets.js"
+      
 ---
 
 ```{r settings, echo = FALSE, message = FALSE}
@@ -39,6 +40,7 @@ use_clipboard( # About clipboard
 use_freezeframe() # restarting gifs
 use_animate_all("fade") # animates
 use_panelset() # panels 
+xaringanExtra::embed_xaringan(url = "https://modest-newton-e4d710.netlify.app")
 ```
 
 class: inverse, center, middle
