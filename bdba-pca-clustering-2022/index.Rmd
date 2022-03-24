@@ -64,10 +64,10 @@ $$\\[2.7in]$$
 .pull-left[
 
 - **Diapositivas** del curso:
-<https://dadosdelaplace.github.io/curso-dataviz-ECI-2022>
+<https://dadosdelaplace.github.io/teaching/pca-clustering>
 
 - **Scripts** del curso:
-<https://github.com/dadosdelaplace/courses-ECI-2022/tree/main/scripts>
+<https://github.com/dadosdelaplace/teaching/tree/main/bdba-pca-clustering-2022/scripts>
 
 &nbsp;
 
