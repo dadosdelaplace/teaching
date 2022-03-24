@@ -69,23 +69,20 @@ $$\\[2.7in]$$
 - **Scripts** del curso:
 <https://github.com/dadosdelaplace/teaching/tree/main/bdba-pca-clustering-2022/scripts>
 
-- **Bibliografía**: <
+- **Bibliografía**: <https://github.com/dadosdelaplace/teaching/tree/main/bdba-pca-clustering-2022/biblio>
 
 &nbsp;
 
-- **Manual** de R ([**código R del manual**](https://github.com/dadosdelaplace/courses-intro-R): <https://dadosdelaplace.github.io/courses-intro-R/>
+- **Manual** de R: <https://dadosdelaplace.github.io/courses-intro-R/>
 
-- **Materiales del curso de dataviz** en R ([**código R del manual**](https://github.com/dadosdelaplace/courses-ECI-2022)):
-
-<https://dadosdelaplace.github.io/curso-dataviz-ECI-2022>
-
+- **Materiales del curso de dataviz** en R: <https://dadosdelaplace.github.io/curso-dataviz-ECI-2022>
 
 
 ]
 
 .pull-right[
 
-```{r material, echo = FALSE,  out.width = "120%", fig.align = "left"}
+```{r material, echo = FALSE,  out.width = "83%", fig.align = "right"}
 knitr::include_graphics("./img/portada_master.jpg")
 ``` 
 
@@ -107,32 +104,45 @@ knitr::include_graphics("./img/me.jpeg")
 
 * **Javier Álvarez Liébana**, nacido en 1989 en Carabanchel Bajo (Madrid)
 
+--
+
 * No, lo siento, Manolito era de Caranbanchel Alto)
 
-* Licenciado en **Matemáticas** (Erasmus en Bologna mediante)
+--
 
-* **Máster en Ingeniería Matemática** (2013-2014)
+* Licenciado (UCM) en **Matemáticas** (Erasmus en Bologna mediante)
+
+--
+
+* **Máster (UCM) en Ingeniería Matemática** (2013-2014)
+
+--
 
 * **Doctorado en estadística** por la Universidad de Granada
 
+--
+
 * Encargado de la **visualización y análisis de datos covid** de la Consejería de Salud del **Principado de Asturias**
+
 ]
 
 &nbsp;
 
-Intentando la **divulgación científica** por Twitter (@dadosdelaplace) e Instagram (@javieralvarezliebana)
+Intentando la **divulgación científica** por `Twitter (@dadosdelaplace)` e `Instagram (@javieralvarezliebana)`
 
 ---
 
-# Objetivos de las clases
+# Objetivos
 
 
 .pull-left[
 
-El objetivo de estas clase será el tratamiento de **datos multidimensionales**, con tres objetivos principales:
+El propósito de estas clases será el tratamiento de **datos multidimensionales**, con tres objetivos principales:
 
 - **Reducción de la dimensión**: ¿todas las variables (columnas) nos aportan información? ¿Todas son necesarias? ¿Podemos transformar las variables para mantener la información de los datos pero reducir la dimensionalidad de los mismos?
+
 - **Visualización**: ¿cuántas dimensiones podemos incluir en un gráfico 2D? ¿Cómo visualizar datos multidimensionales?
+
 - **Encontrar patrones**: ¿cómo agrupar (clusterizar) los elementos en función de sus diferencias y similitudes?
 
 ]
@@ -339,34 +349,34 @@ En paralelo al **auge de los primeros «sistemas financieros» en Italia**, «La
 
 # Navegación y astronomía
 
-Y es de aquella época medieval, en la que la navegación y la astronomía empezaban a tomar relevancia científica, cuando aparece la que se considera la primera gráfica (aunque no propiamente estadística) <sup>3</sup>, representando el **movimiento cíclico de los planetas** (entre los siglos X y XI)
+Y es de aquella época medieval, en la que la navegación y la astronomía empezaban a tomar relevancia científica, cuando aparece la que se considera la primera gráfica (aunque no propiamente estadística) <sup>1</sup>, representando el **movimiento cíclico de los planetas** (entre los siglos X y XI)
 
 ```{r echo = FALSE,  out.width = "60%", fig.align = "center", fig.cap = "Gráfica extraída de Beniger y Robyn (1978)"}
 knitr::include_graphics("./img/dataviz_historico_1.png")
 ``` 
 
-[3] [«Quantitative Graphics in Statistics: A Brief History» de James R. Beniger y Dorothy L. Robyn. The American Statistician (1978)](https://www.jstor.org/stable/2683467)
+[1] [📚 «Quantitative Graphics in Statistics: A Brief History» de James R. Beniger y Dorothy L. Robyn. The American Statistician (1978)](https://www.jstor.org/stable/2683467)
 
  
 ---
 
 # Navegación y astronomía
 
-Con una motivación similar, en torno a 1360 el matemático **Nicole Oresme** diseñó el **primer gráfico de barras** (no estadístico), con la idea de **visualizar a la vez dos magnitudes físicas teóricas**.
+Con una motivación similar, en torno a 1360 el matemático **Nicole Oresme** diseñó el **primer gráfico de barras**<sup>1</sup> (no estadístico), con la idea de **visualizar a la vez dos magnitudes físicas teóricas**.
 
 
 ```{r echo = FALSE,  out.width = "30%", fig.align = "center", fig.cap = "Gráfica extraída de Friendly y Valero-Mora (2010), de «Tractatus De Latitudinibus Formarum»"}
 knitr::include_graphics("./img/dataviz_historico_2.jpeg")
 ``` 
 
-[5] [«The First (Known) Statistical Graph: Michael Florent van Langren and the 'Secret' of Longitude» de M. Friendly y P. M. Valero-Mora. The American Statistician (2010)](https://www.researchgate.net/publication/227369016_The_First_Known_Statistical_Graph_Michael_Florent_van_Langren_and_the_Secret_of_Longitude)
+[1] [📚 «The First (Known) Statistical Graph: Michael Florent van Langren and the 'Secret' of Longitude» de M. Friendly y P. M. Valero-Mora. The American Statistician (2010)](https://www.researchgate.net/publication/227369016_The_First_Known_Statistical_Graph_Michael_Florent_van_Langren_and_the_Secret_of_Longitude)
 
  
 ---
 
 # Primer gráfico estadístico
 
-La mayoría de expertos, como Tufte <sup>6,7</sup>, consideran **este gráfico** casi longitudinal como la **primera visualización de datos** de la historia, hecha por **van Langren** en 1644, representando la **distancia (en longitud) entre Toledo y Roma** (un poco mal medida ya que la distancia real es de 16.5º).
+La mayoría de expertos, como Tufte <sup>1,2</sup>, consideran **este gráfico** casi longitudinal como la **primera visualización de datos** de la historia, hecha por **van Langren** en 1644, representando la **distancia (en longitud) entre Toledo y Roma** (un poco mal medida ya que la distancia real es de 16.5º).
 
 ```{r echo = FALSE,  out.width = "45%", fig.align = "center", fig.cap = "Gráfica original extraída de Friendly y Valero-Mora (2010)"}
 knitr::include_graphics("./img/longitud_dataviz.jpg")
@@ -376,9 +386,9 @@ knitr::include_graphics("./img/longitud_dataviz.jpg")
 knitr::include_graphics("./img/dataviz_historico_3.jpeg")
 ``` 
 
-[6] [«Visual explanations: images and quantities, evidence and narrative» de E. Tufte](https://archive.org/details/visualexplanatio00tuft)
+[1] [📚 «Visual explanations: images and quantities, evidence and narrative» de E. Tufte](https://archive.org/details/visualexplanatio00tuft)
 
-[7] [«PowerPoint is evil» de E. Tufte](https://www.wired.com/2003/09/ppt2/)
+[2] [📚 «PowerPoint is evil» de E. Tufte](https://www.wired.com/2003/09/ppt2/)
 
 ---
 
@@ -450,7 +460,7 @@ knitr::include_graphics("https://omeka.lehigh.edu/files/fullsize/65fc32c11a768f1
 
 # El gran boom: los gráficos de Playfair
 
-La figura que cambió el dataviz fue, sin lugar a dudas, el economista y político **William Playfair (1759-1823)**. En 1786 publicó el **«Atlas político y comercial»** con 44 gráficas (43 series temporales y el **diagrama de barras más famoso**, aunque no el primero).
+La figura que cambió el dataviz fue, sin lugar a dudas, el economista y político **William Playfair (1759-1823)**. En 1786 publicó el **«Atlas político y comercial»**<sup>1,2</sup> con 44 gráficas (43 series temporales y el **diagrama de barras más famoso**, aunque no el primero).
 
 .pull-left[
 
@@ -468,9 +478,9 @@ knitr::include_graphics("./img/playfair_2.jpg")
 
 ]
 
-[10] [«Atlas político y comercial» de William Playfair (1786)](https://www.amazon.es/Playfairs-Commercial-Political-Statistical-Breviary/dp/0521855543)
+[1] [📚 «Atlas político y comercial» de William Playfair (1786)](https://www.amazon.es/Playfairs-Commercial-Political-Statistical-Breviary/dp/0521855543)
 
-[11] [«Playfair and his charts» de H. Gray Funkhouser and  Helen M. Walker (1935)](https://www.jstor.org/stable/45366440)
+[2] [📚 «Playfair and his charts» de H. Gray Funkhouser and  Helen M. Walker (1935)](https://www.jstor.org/stable/45366440)
 
 ---
 
@@ -494,7 +504,6 @@ knitr::include_graphics("./img/playfair_6.jpg")
 
 ]
 
-[10] [«Atlas político y comercial» de William Playfair (1786)](https://www.amazon.es/Playfairs-Commercial-Political-Statistical-Breviary/dp/0521855543)
 
 ---
 
@@ -557,10 +566,10 @@ knitr::include_graphics("https://media.revistagq.com/photos/5cc84a91c46d3a2b7435
 
 #### John Snow
 
-Se le considera uno de los pioneros de la **epidemiología moderna** y la **estadística espacial**: aunque los **diagramas de Voronoi** tardarían años en ser formalizados, John Snow aplicó el mismo concepto para mitigar la **epidemia de cólera en Londres**, con su **mapa con diagrama de barras**, localizando el foco en la conocida fuente de Broad Street.
+Se le considera uno de los pioneros de la **epidemiología moderna** y la **estadística espacial**: aunque los **diagramas de Voronoi** tardarían años en ser formalizados, John Snow aplicó el mismo concepto para mitigar la **epidemia de cólera en Londres**, con su **mapa con diagrama de barras**, localizando el foco en la conocida fuente de Broad Street<sup>1</sup>.
 
 
-[📚 «El mapa fantasma», Steven Johnson, sobre la historia de John Snow](https://capitanswing.com/libros/el-mapa-fantasma/)
+[1] [📚 «El mapa fantasma», Steven Johnson, sobre la historia de John Snow](https://capitanswing.com/libros/el-mapa-fantasma/)
 
 
 ]
@@ -585,14 +594,14 @@ knitr::include_graphics("./img/snow_mapa.jpg")
 
 # Cólera en Londres
 
-Esa **epidemia de cólera** en Londres fue una catástrofe en términos humanos pero supuso un verdadero auge de la **bioestadística y visualización de datos**. Unos años antes que Snow, **William Farr** ya usaba el dataviz para **monitorizar las muertes diarias** de cólera (abajo, cólera en azul, diarre en amarillo), en función del tiempo meteorológico (arriba)
+Esa **epidemia de cólera** en Londres fue una catástrofe en términos humanos pero supuso un verdadero auge de la **bioestadística y visualización de datos**. Unos años antes que Snow, **William Farr** ya usaba el dataviz para **monitorizar las muertes diarias**<sup>1</sup> de cólera (abajo, cólera en azul, diarre en amarillo), en función del tiempo meteorológico (arriba)
 
 
 ```{r echo = FALSE, out.width = "48%", fig.align = "center"}
 knitr::include_graphics("./img/farr_colera.png")
 ``` 
 
-[16] [«General Register Office, Report on the Mortality of Cholera in England, 1848–49» publicado en 1852](https://wellcomecollection.org/works/pajtrpez/items?canvas=9)
+[1] [«General Register Office, Report on the Mortality of Cholera in England, 1848–49» publicado en 1852](https://wellcomecollection.org/works/pajtrpez/items?canvas=9)
 
 
 ---
@@ -629,7 +638,7 @@ Hasta la década de los 60, la mayoría de la estadística que se realizaba era
 
 * **estadística unidimensional**: extraer información de una sola variable (rentas, impuestos, exportaciones, etc).
 
-* **estadística bidimensional**: desde que Galton acuñó la regresión, los grandes estadísticos de principios de siglo se centraron en el **análisis bidimensional**, analizando la dependencia entre una variable $X$ y otra variable $Y$, con herramientas como los **coeficientes de correlación de Pearson, Spearman o Kendall** <sup>1</sup>
+* **estadística bidimensional**: desde que Galton acuñó la regresión, los grandes estadísticos de principios de siglo se centraron en el **análisis bidimensional**, analizando la dependencia entre una variable $X$ y otra variable $Y$, con herramientas como los **coeficientes de correlación** de Pearson, Spearman o Kendall<sup>1</sup>
 
 
 [1] [📚 Kendall, M. (1938). «A New Measure of Rank Correlation». Biometrika 30 (1–2): 81-89. doi:10.1093/biomet/30.1-2.81](https://doi.org/10.1093/biomet/30.1-2.81)
@@ -640,10 +649,10 @@ Hasta la década de los 60, la mayoría de la estadística que se realizaba era
 
 ## Wishart, contigo empezó todo
 
-En 1928, Wishart publicó su famoso artículo <sup>2</sup> en el que, se demostraba y desarrollaba explícitamente la función de distribución de una 
+En 1928, Wishart publicó su famoso artículo <sup>1</sup> en el que, se demostraba y desarrollaba explícitamente la función de distribución de una 
 **distribución normal multivariante**, trabajo más tarde extendido por Fisher.
 
-[2] [📚 Wishart, J. (1928). «The generalised product moment distribution in samples from a normal multivariate population». Biometrika. 20A (1–2): 32–52. doi:10.1093/biomet/20A.1-2.32](https://doi.org/10.1093/biomet/20A.1-2.32)
+[1] [📚 Wishart, J. (1928). «The generalised product moment distribution in samples from a normal multivariate population». Biometrika. 20A (1–2): 32–52. doi:10.1093/biomet/20A.1-2.32](https://doi.org/10.1093/biomet/20A.1-2.32)
 
 
 ---
@@ -921,7 +930,7 @@ ggplot(iris, aes(x = Petal.Width, y = Petal.Length)) +
  practica-PCA
 class: center, middle
 
-# Práctica: PCA en R (visualización)
+# Práctica: PCA en R
 
 
 ---
@@ -932,7 +941,7 @@ class: inverse center middle
 
 &nbsp;
 
-### [Dataviz: introducción histórica.](#intro-historica)
+### [¿Qué es una gráfica?](#intro-historica)
 
 ### [Introducción a ggplot2](#intro-ggplot2)
 
@@ -949,7 +958,7 @@ class: center, middle
 
 # Primer gráfico estadístico
 
-La mayoría de expertos, como Tufte <sup>6,7</sup>, consideran **este gráfico** casi longitudinal como la **primera visualización de datos** de la historia, hecha por **van Langren** en 1644, representando la **distancia (en longitud) entre Toledo y Roma** (un poco mal medida ya que la distancia real es de 16.5º).
+La mayoría de expertos, como Tufte <sup>1,2</sup>, consideran **este gráfico** casi longitudinal como la **primera visualización de datos** de la historia, hecha por **van Langren** en 1644, representando la **distancia (en longitud) entre Toledo y Roma** (un poco mal medida ya que la distancia real es de 16.5º).
 
 ```{r echo = FALSE,  out.width = "45%", fig.align = "center", fig.cap = "Gráfica original extraída de Friendly y Valero-Mora (2010)"}
 knitr::include_graphics("./img/longitud_dataviz.jpg")
@@ -959,9 +968,9 @@ knitr::include_graphics("./img/longitud_dataviz.jpg")
 knitr::include_graphics("./img/dataviz_historico_3.jpeg")
 ``` 
 
-[6] [«Visual explanations: images and quantities, evidence and narrative» de E. Tufte](https://archive.org/details/visualexplanatio00tuft)
+[1] [📚 «Visual explanations: images and quantities, evidence and narrative» de E. Tufte](https://archive.org/details/visualexplanatio00tuft)
 
-[7] [«PowerPoint is evil» de E. Tufte](https://www.wired.com/2003/09/ppt2/)
+[2] [📚 «PowerPoint is evil» de E. Tufte](https://www.wired.com/2003/09/ppt2/)
 
 ---
 
@@ -991,7 +1000,7 @@ knitr::include_graphics("./img/grafica_dinero_sevilla.jpg")
 
 ]
 
-[1] [«Gramática de las gráficas: pistas para mejorar las representaciones de datos» de Joaquín Sevilla](http://academica-e.unavarra.es/bitstream/handle/2454/15785/Gram%C3%A1tica.pdf)
+📚 [1] [«Gramática de las gráficas: pistas para mejorar las representaciones de datos» de Joaquín Sevilla](http://academica-e.unavarra.es/bitstream/handle/2454/15785/Gram%C3%A1tica.pdf)
 
 
 ---
@@ -1026,7 +1035,7 @@ knitr::include_graphics("./img/persona_dataviz.jpg")
 
 # ¿Qué es una gráfica estadística?
 
-Ese **proceso de medida** en el que una gráfica se debe apoyar lo ilustra muy bien Alberto Cairo <sup>8</sup> con esta **infografía**.
+Ese **proceso de medida** en el que una gráfica se debe apoyar lo ilustra muy bien Alberto Cairo <sup>1</sup> con esta **infografía**.
 
 
 * ¿Sabrías decir en 5 segundos en que región el empleo ha crecido más? ¿Y menos?
@@ -1036,7 +1045,7 @@ Ese **proceso de medida** en el que una gráfica se debe apoyar lo ilustra muy b
 knitr::include_graphics("./img/mapa_cairo_esp.jpg")
 ``` 
 
-[8] «The Functional Art: an introduction to information graphics and visualization» de Alberto Cairo.
+📚 [1] «The Functional Art: an introduction to information graphics and visualization» de Alberto Cairo.
 
 ---
 
@@ -1064,7 +1073,7 @@ La principal diferencia entre otro tipo de comunicación visual y una **gráfica
 knitr::include_graphics("./img/sevilla_densidad.jpg")
 ``` 
 
-[1] [«Gramática de las gráficas: pistas para mejorar las representaciones de datos» de Joaquín Sevilla](http://academica-e.unavarra.es/bitstream/handle/2454/15785/Gram%C3%A1tica.pdf)
+📚 [«Gramática de las gráficas: pistas para mejorar las representaciones de datos» de Joaquín Sevilla](http://academica-e.unavarra.es/bitstream/handle/2454/15785/Gram%C3%A1tica.pdf)
 
 
 ---
@@ -1106,258 +1115,6 @@ knitr::include_graphics("https://pbs.twimg.com/media/BgDR4urIMAAnHmG?format=jpg&
 ``` 
 
 Gráfica extraída de <https://twitter.com/Dave_Andrade/status/432576336872624129?t=FGjLtxE8V1BJR_QdXdtZgQ&s=19>
-
----
-
-
-# Primer gráfico de densidad
-
-Son precisamente las tablas de Graunt las que usó **Christiaan Huygens** (pionero en teoría de probabilidad con su «De ratiociniis in ludo aleae» en 1656) para generar la **primera gráfica de densidad** de una distribución continua, visualizando la **esperanza de vida** (en función de la edad).
-
-
-```{r echo = FALSE,  out.width = "50%", fig.align = "center", fig.cap = "Primera función de densidad, extraída de https://omeka.lehigh.edu/exhibits/show/data_visualization/vital_statistics/huygen"}
-knitr::include_graphics("https://omeka.lehigh.edu/files/fullsize/65fc32c11a768f1d3263a99caca28dff.jpg")
-``` 
-
----
-
-# El gran boom: los gráficos de Playfair
-
-La figura que cambió el dataviz fue, sin lugar a dudas, el economista y político **William Playfair (1759-1823)**. En 1786 publicó el **«Atlas político y comercial»** con 44 gráficas (43 series temporales y el **diagrama de barras más famoso**, aunque no el primero).
-
-.pull-left[
-
-```{r echo = FALSE, out.width = "85%", fig.align = "center", fig.cap = "Gráficas de Playfair, extraídas de Funkhouser y Walker (1935)"}
-knitr::include_graphics("./img/playfair_1.jpg")
-``` 
-
-]
-
-.pull-right[
-
-```{r echo = FALSE, out.width = "35%", fig.align = "center", fig.cap = "Gráficas de Playfair, extraídas de Funkhouser y Walker (1935)"}
-knitr::include_graphics("./img/playfair_2.jpg")
-``` 
-
-]
-
-[10] [«Atlas político y comercial» de William Playfair (1786)](https://www.amazon.es/Playfairs-Commercial-Political-Statistical-Breviary/dp/0521855543)
-
-[11] [«Playfair and his charts» de H. Gray Funkhouser and  Helen M. Walker (1935)](https://www.jstor.org/stable/45366440)
-
----
-
-# El gran boom: los gráficos de Playfair
-
-Playfair no solo fue el primero en usar el dataviz para entender (y no solo describir) la realidad: fue el primero en usar **conceptos modernos** como el _grid_ o el color como un elemento no solo estético.
-
-.pull-left[
-
-```{r echo = FALSE, out.width = "99%", fig.align = "center", fig.cap = "Gráficas de Playfair, extraídas de https://friendly.github.io/HistDataVis"}
-knitr::include_graphics("./img/playfair_3.jpg")
-``` 
-
-]
-
-.pull-right[
-
-```{r echo = FALSE, out.width = "99%", fig.align = "center", fig.cap = "Gráficas de Playfair, extraídas de la wikipedia."}
-knitr::include_graphics("./img/playfair_4.png")
-``` 
-
-]
-
-[10] [«Atlas político y comercial» de William Playfair (1786)](https://www.amazon.es/Playfairs-Commercial-Political-Statistical-Breviary/dp/0521855543)
-
----
-
-# Primer gráfico de barras
-
-Playfair es además el **autor del gráfico de barras más famoso** (aunque no fue el primero, pero sí el que sentó un precedente, quien lo hizo _mainstream_).
-
-.pull-left[
-
-```{r echo = FALSE, out.width = "95%", fig.align = "center", fig.cap = "Gráficas de Playfair de importaciones (barras grises) y exportaciones (negras) de Escocia en 1781, extraídas de la wikipedia."}
-knitr::include_graphics("./img/playfair_5.jpg")
-``` 
-
-]
-
-.pull-right[
-
-```{r echo = FALSE, out.width = "95%", fig.align = "center", fig.cap = "Primer diagrama de barras (Philippe Buache y Guillaume de L’Isle), visualizando los niveles del Sena desde 1732 hasta 1766, extraída de https://friendly.github.io/HistDataVis"}
-knitr::include_graphics("./img/playfair_6.jpg")
-``` 
-
-]
-
-[10] [«Atlas político y comercial» de William Playfair (1786)](https://www.amazon.es/Playfairs-Commercial-Political-Statistical-Breviary/dp/0521855543)
-
----
-
-# El gran boom: los gráficos de Playfair
-
-
-Playfair además fue el primero en **combinar gráficos en la misma visualización**
-
-.pull-left[
-
-```{r echo = FALSE, out.width = "92%", fig.align = "center", fig.cap = "Gráfica de Playfair, visualizando 3 series temporales: precios (barras)f a quarter of wheat (the histogram bars), salarios (línea) y time-line con reinados, extraída de https://friendly.github.io/HistDataVis."}
-knitr::include_graphics("./img/playfair_7.jpg")
-``` 
-
-]
-
-.pull-right[
-
-```{r echo = FALSE, out.width = "92%", fig.align = "center", fig.cap = "Gráfica de Playfair, visualizando un time-line histórico, extraída de https://friendly.github.io/HistDataVis."}
-knitr::include_graphics("./img/playfair_8.jpg")
-``` 
-]
-
-[12] [«A Letter on Our Agricultural Distresses, Their Causes and Remedies» de William Playfair (1821)](http://onlinebooks.library.upenn.edu/webbin/book/lookupid?key=ha009726110)
-
-[13] [«An Inquiry Into the Permanent Causes of the Decline and Fall of Powerful and Wealthy Nations» de William Playfair (1821)](https://www.amazon.com/Permanent-Powerful-Nations-Prosperity-Prolonged/dp/140691830X)
-
-
-
----
-
-
-# El boom de la estadística: epidemiología y bioestadística
-
-.pull-left[
-
-#### F. Galton
-
-Primo de Charles Darwin, inventor de los **silbatos para perretes**, de los mapas de predicción meteorológica y la persona que acuñó el concepto de **regresión** (y el de eugenesia :/).
-
-```{r echo = FALSE, out.width = "93%", fig.align = "center"}
-knitr::include_graphics("https://www.bogleheads.org/w/images/thumb/9/95/Screen_Shot_2012-01-03_at_7.36.29_AM.png/600px-Screen_Shot_2012-01-03_at_7.36.29_AM.png")
-``` 
-
-
-]
-
-.pull-right[
-
-```{r echo = FALSE, out.width = "58%", fig.align = "center"}
-knitr::include_graphics("./img/galton_1.jpg")
-``` 
-
-```{r echo = FALSE, out.width = "58%", fig.align = "center"}
-knitr::include_graphics("./img/galton_2.png")
-``` 
-
-]
-
-
-
----
-
-# El boom de la estadística: epidemiología y bioestadística
-
-.pull-left[
-
-#### John Snow
-
-Se le considera uno de los pioneros de la **epidemiología moderna** y la **estadística espacial**: aunque los **diagramas de Voronoi** tardarían años en ser formalizados, John Snow aplicó el mismo concepto para mitigar la **epidemia de cólera en Londres**, con su **mapa con diagrama de barras**, localizando el foco en la conocida fuente de Broad Street.
-
-]
-
-.pull-right[
-
-```{r echo = FALSE, out.width = "100%", fig.align = "center"}
-knitr::include_graphics("https://media.revistagq.com/photos/5cc84a91c46d3a2b7435d7cf/2:3/w_1799,h_2699,c_limit/pelo%20jon%20snow.jpg")
-``` 
-
-]
-
----
-
-
-# El boom de la estadística: epidemiología y bioestadística
-
-
-.pull-left[
-
-#### John Snow
-
-Se le considera uno de los pioneros de la **epidemiología moderna** y la **estadística espacial**: aunque los **diagramas de Voronoi** tardarían años en ser formalizados, John Snow aplicó el mismo concepto para mitigar la **epidemia de cólera en Londres**, con su **mapa con diagrama de barras**, localizando el foco en la conocida fuente de Broad Street.
-
-
-[📚 «El mapa fantasma», Steven Johnson, sobre la historia de John Snow](https://capitanswing.com/libros/el-mapa-fantasma/)
-
-
-]
-
-.pull-right[
-
-```{r echo = FALSE, out.width = "100%", fig.align = "center", fig.cap = "John Snow, el epidemiólogo"}
-knitr::include_graphics("https://s1.eestatic.com/2016/04/22/reportajes/reportajes_119248513_3987143_854x640.jpg")
-``` 
-
-]
-
----
-
-# Nacimiento de la estadística espacial
-
-```{r echo = FALSE, out.width = "77%", fig.align = "center", fig.cap = "Mapa de Londres, mostrando los casos de cólera del 19 de agosto al 30 de septiembre de 1854, extraído de https://friendly.github.io/HistDataVis."}
-knitr::include_graphics("./img/snow_mapa.jpg")
-``` 
-
----
-
-# Cólera en Londres
-
-Esa **epidemia de cólera** en Londres fue una catástrofe en términos humanos pero supuso un verdadero auge de la **bioestadística y visualización de datos**. Unos años antes que Snow, **William Farr** ya usaba el dataviz para **monitorizar las muertes diarias** de cólera (abajo, cólera en azul, diarre en amarillo), en función del tiempo meteorológico (arriba)
-
-
-```{r echo = FALSE, out.width = "48%", fig.align = "center"}
-knitr::include_graphics("./img/farr_colera.png")
-``` 
-
-[16] [«General Register Office, Report on the Mortality of Cholera in England, 1848–49» publicado en 1852](https://wellcomecollection.org/works/pajtrpez/items?canvas=9)
-
-
----
-
-# Primer diagrama de área polar
-
-Fue también Farr al que se le atribuye el primer **diagrama de área polar o radial**, cambiando por completo el **paradigma cartesiano** de la época: para visualizar la estacionalidad de la mortalidad en función de la temperatura, Farr decidió visualizarlo con coordenadas polares o esféricas.
-
-```{r echo = FALSE, out.width = "48%", fig.align = "center"}
-knitr::include_graphics("./img/farr_colera_2.png")
-``` 
-
-[16] [«General Register Office, Report on the Mortality of Cholera in England, 1848–49» publicado en 1852](https://wellcomecollection.org/works/pajtrpez/items?canvas=9)
-
-
----
-
-# Florence Nigthingale: una revolución
-
-.pull-left[
-
-
-* El 21 de octubre de 1854 **Florence Nigthingale** fue enviada para mejorar las **condiciones sanitarias** de los **soldados británicos en la guerra de Crimea**. 
-
-* A su regreso se dedicó a demostrar que los **soldados fallecían por las condiciones sanitarias**: eran **muertes evitables**. Nigthingale es la creadora del famoso **diagrama de rosa**, permitiendo pintar tres variables a la vez y su estacionalidad.
-
-* El 8 de febrero de 1955, The Times la describió como la **«ángel guardián» de los hospitales**, y al finalizar la contienda, fue recibida como una heroína, conocida como **«The Lady with the Lamp»** tras un poema de H. W. Longfellow publicado en 1857.
-
-* Años después se convirtió en la **primera mujer en la Royal Statistical Society** y renunció a su puesto para crear las primeras escuelas de enfermería
-
-]
-
-.pull-right[
-
-```{r echo = FALSE, out.width = "90%", fig.align = "center"}
-knitr::include_graphics("https://www.researchgate.net/profile/Miguel-Guevara-4/publication/325622727/figure/fig1/AS:635977265582080@1528640204506/FIGURA-2-La-dama-con-la-lampara-1891-en-ingles-The-lady-with-the-lamp.png")
-``` 
-
-]
 
 ---
 
@@ -1576,3 +1333,14 @@ Un gráfico se podrá componer de las siguientes **capas**
 
 ### Clustering
 
+
+
+---
+
+# Tareas pendientes
+
+- cuadros en dataviz
+- ¿ggplot2 aquí?
+- scripts covarianza/correlación
+- ¿pls? ¿canonical analysis?
+- clustering

@@ -58,28 +58,25 @@ class: inverse center middle
 .pull-left[
 
 - **Diapositivas** del curso:
-&lt;https://dadosdelaplace.github.io/curso-dataviz-ECI-2022&gt;
+&lt;https://dadosdelaplace.github.io/teaching/pca-clustering&gt;
 
 - **Scripts** del curso:
-&lt;https://github.com/dadosdelaplace/courses-ECI-2022/tree/main/scripts&gt;
+&lt;https://github.com/dadosdelaplace/teaching/tree/main/bdba-pca-clustering-2022/scripts&gt;
+
+- **Bibliografía**: &lt;https://github.com/dadosdelaplace/teaching/tree/main/bdba-pca-clustering-2022/biblio&gt;
 
 &amp;nbsp;
 
-- **Manual** de R ([**código R del manual**](https://github.com/dadosdelaplace/courses-intro-R):
+- **Manual** de R: &lt;https://dadosdelaplace.github.io/courses-intro-R/&gt;
 
-&lt;https://dadosdelaplace.github.io/courses-intro-R/&gt;
-
-- **Materiales del curso de dataviz** en R ([**código R del manual**](https://github.com/dadosdelaplace/courses-ECI-2022)):
-
-&lt;https://dadosdelaplace.github.io/curso-dataviz-ECI-2022&gt;
-
+- **Materiales del curso de dataviz** en R: &lt;https://dadosdelaplace.github.io/curso-dataviz-ECI-2022&gt;
 
 
 ]
 
 .pull-right[
 
-&lt;img src="./img/portada_master.jpg" width="120%" style="display: block; margin: auto auto auto 0;" /&gt;
+&lt;img src="./img/portada_master.jpg" width="83%" style="display: block; margin: auto 0 auto auto;" /&gt;
 
 ]
 
@@ -97,32 +94,45 @@ class: inverse center middle
 
 * **Javier Álvarez Liébana**, nacido en 1989 en Carabanchel Bajo (Madrid)
 
+--
+
 * No, lo siento, Manolito era de Caranbanchel Alto)
 
-* Licenciado en **Matemáticas** (Erasmus en Bologna mediante)
+--
 
-* **Máster en Ingeniería Matemática** (2013-2014)
+* Licenciado (UCM) en **Matemáticas** (Erasmus en Bologna mediante)
+
+--
+
+* **Máster (UCM) en Ingeniería Matemática** (2013-2014)
+
+--
 
 * **Doctorado en estadística** por la Universidad de Granada
 
+--
+
 * Encargado de la **visualización y análisis de datos covid** de la Consejería de Salud del **Principado de Asturias**
+
 ]
 
 &amp;nbsp;
 
-Intentando la **divulgación científica** por Twitter (@dadosdelaplace) e Instagram (@javieralvarezliebana)
+Intentando la **divulgación científica** por `Twitter (@dadosdelaplace)` e `Instagram (@javieralvarezliebana)`
 
 ---
 
-# Objetivos de las clases
+# Objetivos
 
 
 .pull-left[
 
-El objetivo de estas clase será el tratamiento de **datos multidimensionales**, con tres objetivos principales:
+El propósito de estas clases será el tratamiento de **datos multidimensionales**, con tres objetivos principales:
 
 - **Reducción de la dimensión**: ¿todas las variables (columnas) nos aportan información? ¿Todas son necesarias? ¿Podemos transformar las variables para mantener la información de los datos pero reducir la dimensionalidad de los mismos?
+
 - **Visualización**: ¿cuántas dimensiones podemos incluir en un gráfico 2D? ¿Cómo visualizar datos multidimensionales?
+
 - **Encontrar patrones**: ¿cómo agrupar (clusterizar) los elementos en función de sus diferencias y similitudes?
 
 ]
@@ -319,21 +329,21 @@ En paralelo al **auge de los primeros «sistemas financieros» en Italia**, «La
 
 # Navegación y astronomía
 
-Y es de aquella época medieval, en la que la navegación y la astronomía empezaban a tomar relevancia científica, cuando aparece la que se considera la primera gráfica (aunque no propiamente estadística) &lt;sup&gt;3&lt;/sup&gt;, representando el **movimiento cíclico de los planetas** (entre los siglos X y XI)
+Y es de aquella época medieval, en la que la navegación y la astronomía empezaban a tomar relevancia científica, cuando aparece la que se considera la primera gráfica (aunque no propiamente estadística) &lt;sup&gt;1&lt;/sup&gt;, representando el **movimiento cíclico de los planetas** (entre los siglos X y XI)
 
 &lt;div class="figure" style="text-align: center"&gt;
 &lt;img src="./img/dataviz_historico_1.png" alt="Gráfica extraída de Beniger y Robyn (1978)" width="60%" /&gt;
 &lt;p class="caption"&gt;Gráfica extraída de Beniger y Robyn (1978)&lt;/p&gt;
 &lt;/div&gt;
 
-[3] [«Quantitative Graphics in Statistics: A Brief History» de James R. Beniger y Dorothy L. Robyn. The American Statistician (1978)](https://www.jstor.org/stable/2683467)
+[1] [📚 «Quantitative Graphics in Statistics: A Brief History» de James R. Beniger y Dorothy L. Robyn. The American Statistician (1978)](https://www.jstor.org/stable/2683467)
 
  
 ---
 
 # Navegación y astronomía
 
-Con una motivación similar, en torno a 1360 el matemático **Nicole Oresme** diseñó el **primer gráfico de barras** (no estadístico), con la idea de **visualizar a la vez dos magnitudes físicas teóricas**.
+Con una motivación similar, en torno a 1360 el matemático **Nicole Oresme** diseñó el **primer gráfico de barras**&lt;sup&gt;1&lt;/sup&gt; (no estadístico), con la idea de **visualizar a la vez dos magnitudes físicas teóricas**.
 
 
 &lt;div class="figure" style="text-align: center"&gt;
@@ -341,14 +351,14 @@ Con una motivación similar, en torno a 1360 el matemático **Nicole Oresme** di
 &lt;p class="caption"&gt;Gráfica extraída de Friendly y Valero-Mora (2010), de «Tractatus De Latitudinibus Formarum»&lt;/p&gt;
 &lt;/div&gt;
 
-[5] [«The First (Known) Statistical Graph: Michael Florent van Langren and the 'Secret' of Longitude» de M. Friendly y P. M. Valero-Mora. The American Statistician (2010)](https://www.researchgate.net/publication/227369016_The_First_Known_Statistical_Graph_Michael_Florent_van_Langren_and_the_Secret_of_Longitude)
+[1] [📚 «The First (Known) Statistical Graph: Michael Florent van Langren and the 'Secret' of Longitude» de M. Friendly y P. M. Valero-Mora. The American Statistician (2010)](https://www.researchgate.net/publication/227369016_The_First_Known_Statistical_Graph_Michael_Florent_van_Langren_and_the_Secret_of_Longitude)
 
  
 ---
 
 # Primer gráfico estadístico
 
-La mayoría de expertos, como Tufte &lt;sup&gt;6,7&lt;/sup&gt;, consideran **este gráfico** casi longitudinal como la **primera visualización de datos** de la historia, hecha por **van Langren** en 1644, representando la **distancia (en longitud) entre Toledo y Roma** (un poco mal medida ya que la distancia real es de 16.5º).
+La mayoría de expertos, como Tufte &lt;sup&gt;1,2&lt;/sup&gt;, consideran **este gráfico** casi longitudinal como la **primera visualización de datos** de la historia, hecha por **van Langren** en 1644, representando la **distancia (en longitud) entre Toledo y Roma** (un poco mal medida ya que la distancia real es de 16.5º).
 
 &lt;div class="figure" style="text-align: center"&gt;
 &lt;img src="./img/longitud_dataviz.jpg" alt="Gráfica original extraída de Friendly y Valero-Mora (2010)" width="45%" /&gt;
@@ -360,9 +370,9 @@ La mayoría de expertos, como Tufte &lt;sup&gt;6,7&lt;/sup&gt;, consideran **est
 &lt;p class="caption"&gt;Adaptación extraída de Friendly y Valero-Mora (2010)&lt;/p&gt;
 &lt;/div&gt;
 
-[6] [«Visual explanations: images and quantities, evidence and narrative» de E. Tufte](https://archive.org/details/visualexplanatio00tuft)
+[1] [📚 «Visual explanations: images and quantities, evidence and narrative» de E. Tufte](https://archive.org/details/visualexplanatio00tuft)
 
-[7] [«PowerPoint is evil» de E. Tufte](https://www.wired.com/2003/09/ppt2/)
+[2] [📚 «PowerPoint is evil» de E. Tufte](https://www.wired.com/2003/09/ppt2/)
 
 ---
 
@@ -435,7 +445,7 @@ Son precisamente las tablas de Graunt las que usó **Christiaan Huygens** (pione
 
 # El gran boom: los gráficos de Playfair
 
-La figura que cambió el dataviz fue, sin lugar a dudas, el economista y político **William Playfair (1759-1823)**. En 1786 publicó el **«Atlas político y comercial»** con 44 gráficas (43 series temporales y el **diagrama de barras más famoso**, aunque no el primero).
+La figura que cambió el dataviz fue, sin lugar a dudas, el economista y político **William Playfair (1759-1823)**. En 1786 publicó el **«Atlas político y comercial»**&lt;sup&gt;1,2&lt;/sup&gt; con 44 gráficas (43 series temporales y el **diagrama de barras más famoso**, aunque no el primero).
 
 .pull-left[
 
@@ -455,9 +465,9 @@ La figura que cambió el dataviz fue, sin lugar a dudas, el economista y políti
 
 ]
 
-[10] [«Atlas político y comercial» de William Playfair (1786)](https://www.amazon.es/Playfairs-Commercial-Political-Statistical-Breviary/dp/0521855543)
+[1] [📚 «Atlas político y comercial» de William Playfair (1786)](https://www.amazon.es/Playfairs-Commercial-Political-Statistical-Breviary/dp/0521855543)
 
-[11] [«Playfair and his charts» de H. Gray Funkhouser and  Helen M. Walker (1935)](https://www.jstor.org/stable/45366440)
+[2] [📚 «Playfair and his charts» de H. Gray Funkhouser and  Helen M. Walker (1935)](https://www.jstor.org/stable/45366440)
 
 ---
 
@@ -483,7 +493,6 @@ Playfair es además el **autor del gráfico de barras más famoso** (aunque no f
 
 ]
 
-[10] [«Atlas político y comercial» de William Playfair (1786)](https://www.amazon.es/Playfairs-Commercial-Political-Statistical-Breviary/dp/0521855543)
 
 ---
 
@@ -538,10 +547,10 @@ Se le considera uno de los pioneros de la **epidemiología moderna** y la **esta
 
 #### John Snow
 
-Se le considera uno de los pioneros de la **epidemiología moderna** y la **estadística espacial**: aunque los **diagramas de Voronoi** tardarían años en ser formalizados, John Snow aplicó el mismo concepto para mitigar la **epidemia de cólera en Londres**, con su **mapa con diagrama de barras**, localizando el foco en la conocida fuente de Broad Street.
+Se le considera uno de los pioneros de la **epidemiología moderna** y la **estadística espacial**: aunque los **diagramas de Voronoi** tardarían años en ser formalizados, John Snow aplicó el mismo concepto para mitigar la **epidemia de cólera en Londres**, con su **mapa con diagrama de barras**, localizando el foco en la conocida fuente de Broad Street&lt;sup&gt;1&lt;/sup&gt;.
 
 
-[📚 «El mapa fantasma», Steven Johnson, sobre la historia de John Snow](https://capitanswing.com/libros/el-mapa-fantasma/)
+[1] [📚 «El mapa fantasma», Steven Johnson, sobre la historia de John Snow](https://capitanswing.com/libros/el-mapa-fantasma/)
 
 
 ]
@@ -568,12 +577,12 @@ Se le considera uno de los pioneros de la **epidemiología moderna** y la **esta
 
 # Cólera en Londres
 
-Esa **epidemia de cólera** en Londres fue una catástrofe en términos humanos pero supuso un verdadero auge de la **bioestadística y visualización de datos**. Unos años antes que Snow, **William Farr** ya usaba el dataviz para **monitorizar las muertes diarias** de cólera (abajo, cólera en azul, diarre en amarillo), en función del tiempo meteorológico (arriba)
+Esa **epidemia de cólera** en Londres fue una catástrofe en términos humanos pero supuso un verdadero auge de la **bioestadística y visualización de datos**. Unos años antes que Snow, **William Farr** ya usaba el dataviz para **monitorizar las muertes diarias**&lt;sup&gt;1&lt;/sup&gt; de cólera (abajo, cólera en azul, diarre en amarillo), en función del tiempo meteorológico (arriba)
 
 
 &lt;img src="./img/farr_colera.png" width="48%" style="display: block; margin: auto;" /&gt;
 
-[16] [«General Register Office, Report on the Mortality of Cholera in England, 1848–49» publicado en 1852](https://wellcomecollection.org/works/pajtrpez/items?canvas=9)
+[1] [«General Register Office, Report on the Mortality of Cholera in England, 1848–49» publicado en 1852](https://wellcomecollection.org/works/pajtrpez/items?canvas=9)
 
 
 ---
@@ -608,7 +617,7 @@ Hasta la década de los 60, la mayoría de la estadística que se realizaba era
 
 * **estadística unidimensional**: extraer información de una sola variable (rentas, impuestos, exportaciones, etc).
 
-* **estadística bidimensional**: desde que Galton acuñó la regresión, los grandes estadísticos de principios de siglo se centraron en el **análisis bidimensional**, analizando la dependencia entre una variable `\(X\)` y otra variable `\(Y\)`, con herramientas como los **coeficientes de correlación de Pearson, Spearman o Kendall** &lt;sup&gt;1&lt;/sup&gt;
+* **estadística bidimensional**: desde que Galton acuñó la regresión, los grandes estadísticos de principios de siglo se centraron en el **análisis bidimensional**, analizando la dependencia entre una variable `\(X\)` y otra variable `\(Y\)`, con herramientas como los **coeficientes de correlación** de Pearson, Spearman o Kendall&lt;sup&gt;1&lt;/sup&gt;
 
 
 [1] [📚 Kendall, M. (1938). «A New Measure of Rank Correlation». Biometrika 30 (1–2): 81-89. doi:10.1093/biomet/30.1-2.81](https://doi.org/10.1093/biomet/30.1-2.81)
@@ -619,10 +628,10 @@ Hasta la década de los 60, la mayoría de la estadística que se realizaba era
 
 ## Wishart, contigo empezó todo
 
-En 1928, Wishart publicó su famoso artículo &lt;sup&gt;2&lt;/sup&gt; en el que, se demostraba y desarrollaba explícitamente la función de distribución de una 
+En 1928, Wishart publicó su famoso artículo &lt;sup&gt;1&lt;/sup&gt; en el que, se demostraba y desarrollaba explícitamente la función de distribución de una 
 **distribución normal multivariante**, trabajo más tarde extendido por Fisher.
 
-[2] [📚 Wishart, J. (1928). «The generalised product moment distribution in samples from a normal multivariate population». Biometrika. 20A (1–2): 32–52. doi:10.1093/biomet/20A.1-2.32](https://doi.org/10.1093/biomet/20A.1-2.32)
+[1] [📚 Wishart, J. (1928). «The generalised product moment distribution in samples from a normal multivariate population». Biometrika. 20A (1–2): 32–52. doi:10.1093/biomet/20A.1-2.32](https://doi.org/10.1093/biomet/20A.1-2.32)
 
 
 ---
@@ -886,7 +895,7 @@ Empecemos por un sencillo ejemplo, visualizando la **longitud y anchura de péta
  practica-PCA
 class: center, middle
 
-# Práctica: PCA en R (visualización)
+# Práctica: PCA en R
 
 
 ---
@@ -1117,9 +1126,9 @@ La figura que cambió el dataviz fue, sin lugar a dudas, el economista y políti
 
 ]
 
-[10] [«Atlas político y comercial» de William Playfair (1786)](https://www.amazon.es/Playfairs-Commercial-Political-Statistical-Breviary/dp/0521855543)
+[8] [«Atlas político y comercial» de William Playfair (1786)](https://www.amazon.es/Playfairs-Commercial-Political-Statistical-Breviary/dp/0521855543)
 
-[11] [«Playfair and his charts» de H. Gray Funkhouser and  Helen M. Walker (1935)](https://www.jstor.org/stable/45366440)
+[9] [«Playfair and his charts» de H. Gray Funkhouser and  Helen M. Walker (1935)](https://www.jstor.org/stable/45366440)
 
 ---
 
