@@ -14,7 +14,6 @@
 .DS_Store
 
 # produced files
-*.pdf
 *_secret.Rmd
 *_secret.png
 
