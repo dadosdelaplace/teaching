@@ -69,11 +69,11 @@ $$\\[2.7in]$$
 - **Scripts** del curso:
 <https://github.com/dadosdelaplace/teaching/tree/main/bdba-pca-clustering-2022/scripts>
 
+- **Bibliografía**: <
+
 &nbsp;
 
-- **Manual** de R ([**código R del manual**](https://github.com/dadosdelaplace/courses-intro-R):
-
-<https://dadosdelaplace.github.io/courses-intro-R/>
+- **Manual** de R ([**código R del manual**](https://github.com/dadosdelaplace/courses-intro-R): <https://dadosdelaplace.github.io/courses-intro-R/>
 
 - **Materiales del curso de dataviz** en R ([**código R del manual**](https://github.com/dadosdelaplace/courses-ECI-2022)):
 
