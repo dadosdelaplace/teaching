@@ -688,8 +688,8 @@ $$f(x) = \frac{1}{\sigma {\sqrt{2\pi}}} e^{-{\frac{(x-\mu )^{2}}{2\sigma^{2}}}},
 
 La normal univariante depende de **dos parámetros**:
 
-* esperanza o media $\mu = {\rm E} [X]$ 
-* varianza (unidimensional) $\sigma^2 := {\rm Var} [X] = {\rm E} [\left(X - \mu \right)^2] = {\rm E} [X^2] - \mu^2$
+* **esperanza o media** $\mu = {\rm E} [X]$ 
+* **varianza** (unidimensional) $\sigma^2 := {\rm Var} [X] = {\rm E} [\left(X - \mu \right)^2] = {\rm E} [X^2] - \mu^2$
 
 
 ]
@@ -753,7 +753,7 @@ Desde un punto de vista teórico, dada una variable aleatoria bidimensional $\bo
 
 $$\boldsymbol{\Sigma} := \begin{pmatrix} \sigma_{1,1}^2 & \sigma_{1,2} \\ \sigma_{2,1} & \sigma_{2,2}^2 \end{pmatrix} = \begin{pmatrix} \sigma_{1}^2 & \sigma_{1,2} \\ \sigma_{1,2} & \sigma_{2}^2 \end{pmatrix}, \quad \left| \boldsymbol{\Sigma} \right| = \sigma_{1}^{2}  \sigma_{2}^{2} - \sigma_{1,2}^{2} > 0$$
 
-&nbsp;
+--
 
 Se puede expresar **matricialmente** como
 
@@ -821,15 +821,15 @@ $$S_{x_{k}}^2 := S_{k}^2 = \frac{1}{n-1} \sum_{i=1}^{n} \left(x_{i, k} - \overli
 
 $$S_{x_{k}, x_{l}} := S_{k, l} = \frac{1}{n-1} \sum_{i=1}^{n} \sum_{j=1}^{n} \left(x_{i, k} - \overline{x}_k \right)\left(x_{j, l} - \overline{x}_l \right) \quad \text{(cuasi) covarianzas}$$
 
-Así, la **matríz de (cuasi) covarianzas empíricas** quedará como
+Así, la **matriz de (cuasi) covarianzas empíricas** quedará como
 
-$$S := \left(S_{k, l} \right)_{k,l=1,\ldots,p} = \frac{1}{n-1} \left(\boldsymbol{X} - \boldsymbol{\mu} \right)^{T} \left(\boldsymbol{X} - \boldsymbol{\mu} \right) =_{\boldsymbol{\mu} = 0} \frac{1}{n-1} \boldsymbol{X}^{T} \boldsymbol{X}$$
+$$S := \frac{1}{n-1} \left(\boldsymbol{X} - \boldsymbol{\mu} \right)^{T} \left(\boldsymbol{X} - \boldsymbol{\mu} \right) =_{\boldsymbol{\mu} = 0} \frac{1}{n-1} \boldsymbol{X}^{T} \boldsymbol{X} = \begin{pmatrix} S_{1,1} & S_{1,2} & \ldots & S_{1, p} \\ S_{2,1} & S_{2,2} & \ldots & S_{2, p} \\ \vdots & \vdots & \ddots & \vdots \\ S_{p,1} & S_{p,2} & \ldots & S_{p, p} \end{pmatrix}$$
 
 &nbsp;
 
 --
 
-Las **covarianzas (y varianzas)** tienen un **problema**: **dependen de la magnitud** de los datos. Datos de magnitudes elevadas nos darán valores más altos, proporcionando una medida que solo nos sirve para ser comparada con otra covariana, pero que **no nos proporciona una escala** para poder decir si la **relación lineal** entre dos variables es alta o baja.
+Las **covarianzas (y varianzas)** tienen un **«problema»**: **dependen de la magnitud** de los datos, proporcionando una medida que solo nos sirve para ser comparada con otra covariana, pero que **no nos proporciona una escala absoluta** para poder cuantificar.
 
 ---
 
@@ -843,6 +843,8 @@ $$\rho_{k, l} := r_{k, l} = \frac{s_{k, l}}{\sqrt{s_{k}^2} \sqrt{s_{l}^2}} = \fr
 tal que siempre $-1 \leq r_{k, l} \leq 1$.
 
 &nbsp;
+
+--
 
 De esta forma la **matriz de correlaciones** se puede expresar como
 
@@ -1092,38 +1094,171 @@ knitr::include_graphics("./img/pca_iris_2.jpg")
 
 # Idea general
 
-.pull-left[
 
 Nuestros datos originales $\boldsymbol{X}$  (dimensiones $n \times p$) serán reconvertidos en un conjunto $\boldsymbol{X}'$ de dimensiones $n \times k$, con $k \leq p$, tal que 
 
 $$\boldsymbol{X}' = \boldsymbol{X} \boldsymbol{\Phi}^{T}$$
 
+--
+
 tal que $\boldsymbol{\Phi}^{T}$ es una matriz $p \times k$ que contiene por columnas las $k$ **direcciones principales**
 
 $$\boldsymbol{\Phi}^{T} = \begin{pmatrix} z_{1,1} & z_{2,1} & \ldots & z_{k,1} \\ z_{1,2} & z_{2,2} & \ldots & z_{k,2} \\ \vdots & \vdots & \ddots & \vdots \\ z_{1,p} & z_{2,p} & \ldots & z_{k,p} \end{pmatrix}$$
 
+--
+
 bajo la condición de que sean **direcciones ortonormales**
 
-$$ \Phi \Phi^{T} = \begin{pmatrix} 1 & 0 & \ldots & 0 \\ 0 & 1 & \ldots & 0 \\ \vdots & \vdots & \ddots & \vdots \\ 0 & 0 & \ldots & 1 \end{pmatrix}$$
+$$\Phi \Phi^{T} = \begin{pmatrix} 1 & 0 & \ldots & 0 \\ 0 & 1 & \ldots & 0 \\ \vdots & \vdots & \ddots & \vdots \\ 0 & 0 & \ldots & 1 \end{pmatrix}$$
 
-]
+tal que dichas direcciones **maximicen la varianza**.
 
-.pull-right[
+---
 
-```{r echo = FALSE,  out.width = "75%", fig.align = "center", fig.cap = "Proyección ortogonal"}
-knitr::include_graphics("./img/pca_iris_2.jpg")
-```
+# Primera componente
 
-]
+Por ejemplo, para la **primera componente** el objetivo es encontrar, de entre todas las direcciones  $\boldsymbol{u}_1$ posibles, la dirección $\boldsymbol{\Phi}_1$ que **maximice la varianza de nuestros datos cuanos los proyectamos sobre dicha dirección**
+
+$$\boldsymbol{x}_{1}' = \boldsymbol{X} \boldsymbol{\Phi}_{1}^{T} = \begin{pmatrix} x_{1,1} & x_{1, 2} & \ldots & x_{1, p} \\ x_{2,1} & x_{2, 1} & \ldots & x_{2, p} \\ \vdots & \vdots & \ddots & \vdots
+\\ x_{n,1} & x_{n, 2} & \ldots & x_{n, p}\end{pmatrix} \begin{pmatrix} z_{1,1} \\ z_{1,2} \\ \vdots \\ z_{1,p} \end{pmatrix} =  \begin{pmatrix} x_{1,1}^{'} \\ x_{2,1}^{'} \\ \vdots \\ x_{n, 1}^{'} \end{pmatrix}$$
+
+
+--
+
+&nbsp;
+
+Dicha dirección por tanto saldrá de un proceso de **optimización**
+
+$$\boldsymbol{\Phi}_1 = \arg \max_{\boldsymbol{u}_{1}^{T} \boldsymbol{u}_1 = 1} {\rm Var} \left( \boldsymbol{x}_{1}'  \right) = \arg \max_{\boldsymbol{u}_{1}^{T} \boldsymbol{u}_1 = 1} {\rm Var} \left( \boldsymbol{X} \boldsymbol{u}_{1}^{T} \right)$$
+
+---
+
+# Primera componente
+
+Dicha dirección por tanto saldrá de un proceso de **optimización**
+
+$$\boldsymbol{\Phi}_1 = \arg \max_{\boldsymbol{u}_{1}^{T} \boldsymbol{u}_1 = 1} {\rm Var} \left( \boldsymbol{x}_{1}'  \right) = \arg \max_{\boldsymbol{u}_{1}^{T} \boldsymbol{u}_1 = 1} {\rm Var} \left( \boldsymbol{X} \boldsymbol{u}_{1}^{T} \right)$$
+
+--
+
+Si **centramos los datos** (restamos su media para tener media nula)
+
+
+$$\begin{eqnarray}\boldsymbol{\Phi}_1 &=& \arg \max_{\boldsymbol{u}_{1}^{T} \boldsymbol{u}_{1} = 1} {\rm Var} \left( \boldsymbol{X}\boldsymbol{u}_{1}^{T} \right) = \arg \max_{\boldsymbol{u}_{1}^{T} \boldsymbol{u}_1 = 1} \left({\rm E} \left[\left( \boldsymbol{X} \boldsymbol{u}_1^{T} \right)^{T}\left( \boldsymbol{X} \boldsymbol{u}_{1}^{T} \right)\right] \right) \\ &=& \arg \max_{\boldsymbol{u}_{1}^{T} \boldsymbol{u}_{1} = 1} \left({\rm E} \left[ \boldsymbol{u}_{1} \boldsymbol{X}^{T} \boldsymbol{X} \boldsymbol{u}_1^{T} \right] \right) = \arg \max_{\boldsymbol{u}_{1}^{T} \boldsymbol{u}_1 = 1} \left( \boldsymbol{u}_1 {\rm E} \left[\boldsymbol{X}^{T} \boldsymbol{X} \right] \boldsymbol{u}_{1}^{T}  \right) \\ &=& \arg \max_{\boldsymbol{u}_{1}^{T} \boldsymbol{u}_1 = 1} \left( \boldsymbol{u}_1 S \boldsymbol{u}_{1}^{T}  \right)\end{eqnarray}$$
+
+--
+
+Si **estandarizamos los datos** (restamos su media y dividimos entre su desviación típica, teniendo **datos con media cero y varianza unitaria** para que todos los datos ponderen por igual)
+
+$$\boldsymbol{\Phi}_1 = \arg \max_{\boldsymbol{u}_{1}^{T} \boldsymbol{u}_1 = 1} {\rm Var} \left( \boldsymbol{X} \boldsymbol{u}_1^{T} \right) = \arg \max_{\boldsymbol{u}_{1}^{T} \boldsymbol{u}_1 = 1} \left( \boldsymbol{u}_1 S \boldsymbol{u}_1^{T}  \right) = \arg \max_{\boldsymbol{u}_{1}^{T} \boldsymbol{u}_1 = 1} \left( \boldsymbol{u}_1 R \boldsymbol{u}_1^{T}  \right)$$
+
+---
+
+# Primera componente
+
+Para **encontrar esa dirección $\boldsymbol{u}_1$** que nos maximiza la varianza de los proyectados en ella, sujeto a la restrcción de que $\boldsymbol{u}_{1}^{T} \boldsymbol{u}_1 = 1$, se puede usar la técnica de los **multiplicadores de Lagrange** que nos dice que
+
+$$\boldsymbol{\Phi}_1 =  \arg \max_{\boldsymbol{u}_{1}^{T} \boldsymbol{u}_1 = 1} \left( \boldsymbol{u}_1 R \boldsymbol{u}_1^{T}  \right) = \arg \max_{\boldsymbol{u}_{1}^{T} \boldsymbol{u}_1 = 1} \left( \boldsymbol{u}_1 R \boldsymbol{u}_1^{T}  - \lambda \left(\boldsymbol{u}_1^{T} \boldsymbol{u}_1  - 1\right) \right), \quad \lambda \in \mathbb{R}$$
+
+--
+
+Eso es equivalente a encontrar el valor que nos **iguale la derivada a cero**
+
+$$\frac{\partial}{\partial \boldsymbol{u}_1} \left( \boldsymbol{u}_1 R \boldsymbol{u}_1^{T}  - \lambda \left(\boldsymbol{u}_1^{T} \boldsymbol{u}_1  - 1\right) \right) =   R \boldsymbol{u}_1  - \lambda \boldsymbol{u}_1^{T} = \left(R - \lambda \boldsymbol{Id}_{p} \right) \boldsymbol{u}_1^{T}  =  0$$
+--
+
+Esto es lo mismo que decir que $R \boldsymbol{u}_1^{T}  = \lambda \boldsymbol{u}_1^{T}$, es decir, la dirección que buscamos $\boldsymbol{u}_{1}^{T}$ es un **autovector de la matriz de covarianzas** (tras **estandarizar** los datos).
+
+---
+
+# Paréntesis: autovectores y autovalores
+
+---
+
+# Primera componente
+
+Recapitulando, para obtener la **primera componente** $\boldsymbol{\Phi}_1$, debemos de 
+
+* **Estandarizar** nuestros datos
+* Calcular la **matriz de (cuasi)covarianzas** $\boldsymbol{S}$
+* Calcula sus **autovectores** tal que $S \boldsymbol{\Phi}_{1}^{T} = \lambda_1 \boldsymbol{\Phi}_{1}^{T}$ (normalizados a módulo 1).
+
+--
+
+Además si es un autovector de la matriz de covarianzas tenemos entonces que la **varianza maximizada**, la **proporción de información** que **explica dicha componente**, será
+
+$$\boldsymbol{\Phi}_{1} \left(  S \boldsymbol{\Phi}_{1}^{T} \right) = \boldsymbol{\Phi}_{1} \left( R \boldsymbol{\Phi}_{1}^{T} \right) =\boldsymbol{\Phi}_{1}\left(  \lambda_1 \boldsymbol{\Phi}_{1}^{T} \right) =  \lambda_1 \boldsymbol{\Phi}_{1} \boldsymbol{\Phi}_{1}^{T} =_{\text{ortonormales}} \lambda_1$$ 
+
+--
+
+Así que obtener la dirección (de todos los autovalores) que mayor información captura nos fijaremos en aquella que tenga **asociada el autovalor más grande**.
+
+
+$$\boldsymbol{x}_{1}' = \boldsymbol{X} \boldsymbol{\Phi}_{1}^{T} = \begin{pmatrix} x_{1,1} & \ldots & x_{1, p}  \\ \vdots  & \ddots & \vdots
+\\ x_{n,1}  & \ldots & x_{n, p}\end{pmatrix} \begin{pmatrix} z_{1,1} \\ \vdots \\ z_{1,p} \end{pmatrix} =  \begin{pmatrix} x_{1,1}^{'} \\ \vdots \\ x_{n, 1}^{'} \end{pmatrix}$$
+
+donde $S \boldsymbol{\Phi}_{1}^{T} = \lambda_1 \boldsymbol{\Phi}_{1}^{T}$, siendo $\lambda_1$ el mayor de los autovalores de la matriz de (cuasi)covarianzas $S$, y $\boldsymbol{\Phi}_{1}^{T}$ su autovector asociado. El **resto de las componentes** se obtendrán de forma similar, siendo ortogonales a cada una de las direcciones obtenidas.
+
+---
+
+# Idea general paso a paso 
+
+El proceso completo es el siguiente:
+
+* Dados unos datos $\boldsymbol{X}$ de $n$ individuos y $p$ variables, el objetivo es encontrar nuevas **direcciones ortonormales** $\left\lbrace \boldsymbol{\Phi}_1, \ldots, \boldsymbol{\Phi}_k \right\rbrace$, con $1 \leq k \leq p$, como combinación lineal de las variables originales.
+
+* Los **datos son estandarizados**  tal que
+
+$$\begin{pmatrix} \frac{x_{1,1} - \overline{x}_1}{S_{1}} & \frac{x_{1,2} - \overline{x}_2}{S_{2}} & \ldots & \frac{x_{1,p} - \overline{x}_p}{S_{p}} \\  \frac{x_{2,1} - \overline{x}_1}{S_{1}} & \frac{x_{2,2} - \overline{x}_2}{S_{2}} & \ldots & \frac{x_{2,p} - \overline{x}_p}{S_{p}} \\ \vdots & \vdots & \ddots & \vdots \\ \frac{x_{n,1} - \overline{x}_1}{S_{1}} & \frac{x_{n,2} - \overline{x}_2}{S_{2}} & \ldots & \frac{x_{n,p} - \overline{x}_p}{S_{p}} \end{pmatrix}$$
+
+* Calcular la **matriz $S$ de (cuasi)covarianzas** de dichos datos estandarizados.
+
+---
+
+# Idea general paso a paso 
+
+El proceso completo es el siguiente:
+
+* Calculamos los $p$ **autovectores** $\left\lbrace \boldsymbol{\Phi}_1, \ldots, \boldsymbol{\Phi}_p \right\rbrace$, y sus **autovalores asociados** $\left\lbrace \lambda_1, \ldots, \lambda_p \right\rbrace$, de la matriz $S$, tal que $S  \boldsymbol{\Phi}_k = \lambda_k  \boldsymbol{\Phi}_k$.
+
+* Seleccionamos las primeras $k \leq p$ componentes $\left\lbrace \boldsymbol{\Phi}_1, \ldots, \boldsymbol{\Phi}_k \right\rbrace$ asociadas a los primeros $\left\lbrace \lambda_1, \ldots, \lambda_k \right\rbrace$ autovalores.
+
+* La **varianza (información) capturada** por la dirección $k$-ésima será igual a $\lambda_k$.
+
+* Las nuevas coordenadas serán
+
+$$\boldsymbol{X}^{'} = \boldsymbol{X} \boldsymbol{\Phi}^{T} = \begin{pmatrix} x_{1,1} & x_{1, 2} & \ldots & x_{1, p} \\ x_{2,1} & x_{2, 1} & \ldots & x_{2, p} \\ \vdots & \vdots & \ddots & \vdots
+\\ x_{n,1} & x_{n, 2} & \ldots & x_{n, p}\end{pmatrix} \begin{pmatrix} z_{1,1} & z_{2,1} & \ldots & z_{k,1} \\ z_{1,2} & z_{2,2} & \ldots & z_{k,2}  \\ \vdots & \vdots & \ddots & \vdots \\ z_{1,p} & z_{2,p} & \ldots & z_{k,p} \end{pmatrix} = \begin{pmatrix} \boldsymbol{x}_1 \boldsymbol{\Phi}_1^{T} & \boldsymbol{x}_1 \boldsymbol{\Phi}_2^{T} & \ldots & \boldsymbol{x}_1 \boldsymbol{\Phi}_k^{T} \\ \boldsymbol{x}_2 \boldsymbol{\Phi}_1^{T} & \boldsymbol{x}_2 \boldsymbol{\Phi}_2^{T} & \ldots & \boldsymbol{x}_2 \boldsymbol{\Phi}_k^{T} \\ \vdots & \vdots & \ddots & \vdots \\ \boldsymbol{x}_n \boldsymbol{\Phi}_1^{T} & \boldsymbol{x}_n \boldsymbol{\Phi}_2^{T} & \ldots & \boldsymbol{x}_n \boldsymbol{\Phi}_k^{T}\end{pmatrix}$$
+
+---
+
+# Idea general paso a paso 
+
+* Los **autovectores** nos indican la **dirección de la componente**, y sus **coeficientes** (conocidos como _loadings_, los que generan la combinación lineal de las variables originales) nos indican el **peso que tiene cada variable original en dicha componente**. Si por ejemplo $\boldsymbol{\Phi}_1 = \left(0.95, 0.15, 0.273 \right)$, significa que la primera componente (la que más varianza captura) será $0.95* \boldsymbol{X}_1 + 0.15 * \boldsymbol{X}_2 + 0.273 * \boldsymbol{X}_3$, estando dominada por la variable original $\boldsymbol{X}_1$ (un peso de 0.95).
+
+
+* El **signo** de dichos _loadings_ nos indican el sentido de la relación entre la componente y la variable original (correlación positiva/negativa). Si alguno de ellos fuese 0 significaría que la nueva componente está incorrelada respecto a dicha variable original.
+
+&nbsp;
+
+--
+
+* Para cada observación $i$, las nuevas coordenadas $\left(x_{i, 1}^{'}, \ldots, x_{i, k}^{'} \right)$, calculadas tras **proyectar la observación original en las direcciones principales** $\boldsymbol{x}_{i} \boldsymbol{\Phi}^{T}$, se conocen como _scores_
+
+&nbsp;
+
+--
+
+* Para **seleccionar el número $k$** de componentes a seleccionar el método más sencillo es **fijar de antemano** un **umbral varianza explicada** que queremos conservar (por ejemplo, $95%$), de forma que nos quedemos con el primer número $k$ tal que $\sum_{j=1}^{k} \lambda_k > 0.95$ (**varianza explicada acumulada**, teniendo los autovalores ordenados de mayor a menor).
+
 
 ---
 
 
-practica-PCA
+name: practica-PCA
 class: center, middle
 
 # Práctica: PCA en R
-
 
 ---
 

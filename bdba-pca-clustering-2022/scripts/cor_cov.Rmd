@@ -1,0 +1,294 @@
+---
+title: "Covarianzas y correlaciones"
+description: |
+  Matrices de covarianzas y correlaciones
+author:
+  - name: Javier Álvarez Liébana
+    url: https://dadosdelaplace.github.io
+    affiliation: Universidad Complutense de Madrid
+    affiliation_url: 
+date: "`r Sys.Date()`"
+output:
+    distill::distill_article:
+        highlight: kate
+        colorlinks: true
+        code_folding: false
+        toc: true            
+        toc_depth: 3     
+---
+
+```{r setup, include = FALSE}
+# Ajuste comunes de los chunk
+knitr::opts_chunk$set(fig.width = 8, fig.asp = 1, out.width = "100%",
+                      message = FALSE, warning = FALSE,
+                      echo = TRUE, res = 400)
+```
+
+# Objetivos
+
+El objetivo de este pequeño manual es calcular las correlaciones y covarianzas de un conjunto de datos.
+
+## Paquetes necesarios
+
+Necesitaremos los siguientes paquetes:
+
+* **Formato de datos** mejorando los `data.frame`: paquete `{tibble}`.
+* **Manejo de datos**: paquete `{tidyverse}`
+* **Cálculo de correlaciones**: paquete `{corrr}`.
+* **Visualización de correlaciones**: paquete `{corrplot}`.
+
+```{r paquetes}
+# Borramos variables del environment
+rm(list = ls())
+
+# Paquetes (si no están instalados, install.packages())
+library(tidyverse)
+library(corrr)
+library(tibble)
+library(corrplot)
+```
+
+```{r corrr, echo = FALSE,  out.width = "90%", fig.align = "center", fig.cap = "Imagen extraída de https://corrr.tidymodels.org/"}
+knitr::include_graphics("https://corrr.tidymodels.org/reference/figures/to-cor-df.png")
+``` 
+
+
+# Matrices de covarianza y correlación
+
+## Covarianza y correlación: caso bidimensional
+
+Usemos como primer ejemplo el famoso conjunto de datos `{iris}` del que seleccionaremos las dos variables del sépalo.
+
+```{r}
+iris_tb <- as_tibble(iris) %>% select(contains("Sepal"))
+iris_tb
+```
+
+Si tenemos ahora dos variables $\boldsymbol{X} = \left(X_1, X_2 \right)$, ¿qué estadísticos tenemos ahora a nuestra disposición?
+
+* **Medidas marginales** (cada variable por separado):
+  - medias $\mu_1:= {\rm E} [X_1]$ y $\mu_2:= {\rm E} [X_2]$
+  - varianzas $\sigma_{1}^{2}:=\sigma_{1, 1}^{2} = \sigma_{X_1, X_1}^2$ y $\sigma_{2}^{2}:=\sigma_{2, 2}^{2} = \sigma_{X_2, X_2}^2$.
+
+* **Varianza**: la varianza ${\rm Var} [X] := \sigma_{X}^2 = {\rm E} [ \left( X - \mu \right)^2 ]$ se puede entender cómo una medida que nos **cuantifica** la relación entre la variable consigo misma. ¿Y si en lugar de medir $X_1$ vs $X_1$ medimos $X_1$ vs $X_2$?
+
+Definiremos la **covarianza** como una especie de varianza en la que cambiamos una de las $X$ por la otra variable
+
+$${\rm Cov} [X_1, X_2] := \sigma_{1,2} =  {\rm E} [ \left( X_1 - \mu_1 \right) \left( X_2 - \mu_2 \right) ] = {\rm E}[X_1 * X_2] - \mu_1 * \mu_2 = \sigma_{2,1}$$
+
+Lo anterior nos permite conocer la **formulación teórica (poblacional)**: ¿cómo calculamos la varianza y covarianza cuando tenemos una muestra $\boldsymbol{X}$ de $n$ individuos y $p=2$ variables medidas?
+
+
+$$\boldsymbol{X} = \begin{pmatrix} x_{1, 1} &  x_{1, 2} \\ \vdots & \vdots \\ x_{n, 1} &  x_{n, 2} \end{pmatrix} \quad \text{muestra}$$
+
+
+* **Varianzas muestrales**: $s_{x_1}^{2} := s_{1}^2 = \frac{1}{n} \sum_{i=1}^n \left(x_{i, 1} - \overline{x}_1 \right)^2$ y $s_{x_2}^{2} := s_{2}^2 = \frac{1}{n} \sum_{i=1}^n \left(x_{i, 2} - \overline{x}_2 \right)^2$, donde $\overline{x}_1$ y $\overline{x}_2$ son sus medias muestrales.
+
+* **Covarianza muestral**: $s_{x_1, x_2}^{2} := s_{1, 2} = s_{2, 1}^2 = \frac{1}{n} \sum_{i=1}^n \sum_{j=1}^n \left(x_{i, 1} - \overline{x}_1 \right)\left(x_{j, 2} - \overline{x}_2 \right)$ (cuyo estimador insesgado irá dividido por $n-1$ en lugar de $n$)
+
+Para calcular dicha (cuasi)covarianza podemos usar la función `cov()`
+
+```{r}
+iris_tb %>% summarise(var = across(everything(), var),
+                      cov = cov(Sepal.Length, Sepal.Width))
+```
+
+
+**¿Es alta o baja?** El problema de la covarianza es que solo nos sirve para ser comparada con otra, ya que depende de la magnitud de los datos. De lo que si podemos extraer información es del signo: si es positiva, en caso de existir relación lineal significativa, será en sentido directa (X crece, Y crece); si es negativo, en caso de existir, será en sentido inverso.
+
+Para poder **cuantificar dicha relación lineal** tenemos la **correlación (de Pearson)** 
+
+$$\rho := r = \frac{s_{x,y}}{\sqrt{s_{x}^2} \sqrt{s_{y}^2}} = \frac{S_{x, y}}{\sqrt{S_{x}^2} \sqrt{S_{y}^2}}$$
+
+un valor que nos permite establecer una escala ya que siempre $-1 \leq r_{k, l} \leq 1$. Para calcularla de momento usaremos simplemente `cor()`
+
+```{r}
+iris_tb %>% summarise(var = across(everything(), var),
+                      cov = cov(Sepal.Length, Sepal.Width),
+                      cor = cor(Sepal.Length, Sepal.Width))
+```
+
+En este caso no parece que haya una relación lineal muy fuerte entre la longitud del sépalo y su anchura, algo que podemos también visualizar.
+
+```{r}
+ggplot(iris_tb, aes(x = Sepal.Length, y = Sepal.Width)) +
+  geom_point(size = 5) +
+  labs(x = "Longitud de sépalo",
+       y = "Anchura del sépalo") +
+  theme_minimal()
+```
+
+¿Qué sucede si repetimos el proceso pero seleccionando esta vez las **variables del pétalo**?
+
+```{r}
+iris_tb <- as_tibble(iris) %>% select(contains("Petal"))
+iris_tb
+
+iris_tb %>% summarise(var = across(everything(), var),
+                      cov = cov(Petal.Length, Petal.Width),
+                      cor = cor(Petal.Length, Petal.Width))
+
+ggplot(iris_tb, aes(x = Petal.Length, y = Petal.Width)) +
+  geom_point(size = 5) +
+  labs(x = "Longitud de pétalo",
+       y = "Anchura de pétalo") +
+  theme_minimal()
+```
+
+Ahora la correlación lineal es mucho más fuerte que en el otro par de variables. **¿Cómo podríamos analizar/visualizar las covarianzas/correlaciones de todas las variables a la vez?**
+
+## Matriz de covarianzas
+
+
+La función `cov()` no solo nos permite calcular covarianzas 2 a 2 sino que si la aplicamos a todo el conjunto de datos, nos devolverá lo que conocemos como **matriz de varianzas/covarianzas** (empíricas)
+
+$$S_{x_{k}, x_{l}} := S_{k, l} = \frac{1}{n-1} \sum_{i=1}^{n} \sum_{j=1}^{n} \left(x_{i, k} - \overline{x}_k \right)\left(x_{j, l} - \overline{x}_l \right) \quad \text{(cuasi) covarianzas}$$
+
+$$S := \frac{1}{n-1} \left(\boldsymbol{X} - \boldsymbol{\mu} \right)^{T} \left(\boldsymbol{X} - \boldsymbol{\mu} \right) =_{\boldsymbol{\mu} = 0} \frac{1}{n-1} \boldsymbol{X}^{T} \boldsymbol{X} = \begin{pmatrix} S_{1,1} & S_{1,2} & \ldots & S_{1, p} \\ S_{2,1} & S_{2,2} & \ldots & S_{2, p} \\ \vdots & \vdots & \ddots & \vdots \\ S_{p,1} & S_{p,2} & \ldots & S_{p, p} \end{pmatrix}$$
+
+
+```{r}
+iris_tb <- as_tibble(iris) %>% select(-Species)
+iris_tb
+
+cov(iris_tb)
+```
+
+Fíjate que hemos eliminado la variable `Species` ya que necesitamos que todas las variables sean de tipo numéricas
+
+```{r error = TRUE}
+cov(iris)
+```
+
+Esa matriz tiene en la diagonal la varianza de las variables y es **simétrica**, ya que la **covarianza lo es**. Para calcular, y sobretodo, **visualizar las correlaciones** vamos a echar mano de alguna otra herramienta más «sofisticada»
+
+## Matriz de correlaciones
+
+La opción más inmediata es usar `cor()` de manera similar a la matriz de covarianzas
+
+```{r}
+cor(iris_tb)
+```
+
+La salida es una **simple matriz** y si quisiéramos trabajar con muchas variables a la vez, nos interesaría que tuviese un formato de «dato» (un `tibble` o `data.frame`) para poder operar de forma más cómoda con ella. Para ello vamos a usar el paquete `{corrr}` dentro del entorno `{tidymodels}`
+
+
+```{r}
+iris_tb %>% correlate()
+```
+
+Por defecto no nos muestra la digonal (nos imputa ausente) pero podemos definir el valor que queramos.
+
+```{r}
+iris_tb %>% correlate(diagonal = 1)
+```
+
+Ahora la salida es un `tibble` que podemos guardar y filtrar como si fuese un dato más. Por ejemplo, supongamos que queremos solo aquellas variables con una correlación (en valor absoluto) mayor de 0.5 respecto a `Sepal.Length`
+
+```{r}
+cor_mat <- iris_tb %>% correlate(diagonal = 1)
+cor_mat %>% filter(abs(Sepal.Length) > 0.5)
+```
+
+También podemos **reordenar las variables por su correlación**
+
+```{r}
+cor_mat %>% rearrange()
+```
+
+Dado que es simétrica, también podemos pedirle que nos muestre solo una mitad de la matriz
+
+```{r}
+cor_mat %>%
+  rearrange() %>% 
+  shave() 
+```
+
+Y con `fashion()` podemos imprimir la matriz de una forma más elegante.
+
+```{r}
+cor_mat %>%
+  rearrange() %>% 
+  shave() %>% 
+  fashion()
+```
+
+Incluso podemos decirle las variables en las que nos queremos enfocar desde el inicio (vamos a usar el conjunto `mtcars` que contiene mayor cantidad de variables).
+
+```{r}
+datasets::mtcars
+datasets::mtcars %>%
+  correlate() %>%
+  focus(-cyl, -vs, mirror = TRUE) %>%
+  rearrange() %>%
+  shave() %>%
+  fashion()
+```
+
+## Visualización de la matriz de correlaciones
+
+El anterior paquete contienen además **dos herramientas útiles para visualizar dicha matriz de correlaciones**: en formato matriz de colores y relacionando las variables entre sí
+
+```{r}
+cor_mat <- datasets::mtcars %>% correlate()
+rplot(cor_mat)
+``` 
+
+```{r}
+datasets::mtcars %>%
+  correlate() %>% 
+  network_plot()
+``` 
+
+Con `network_plot()` podemos incluso indicarle la correlación mínima (en valor absoluto) para ser visualizada, así como los colores en los que quieres que se base el gradiente que va a usar la visualización.
+
+```{r}
+datasets::mtcars %>%
+  correlate() %>% 
+  network_plot(min_cor = .5, colors = c("red", "green"))
+``` 
+
+&nbsp;
+
+Otro paquete muy útil para **visualizar correlaciones** es el paquete `{corrplot}`.
+
+```{r}
+cor_mat <- cor(mtcars)
+corrplot(cor_mat)
+```
+
+Por defecto nos visualiza correlaciones como círculos (el tamaño depende de su valor absoluto, el color de su signo) pero también podemos visualizar directamente la propia matriz numérica.
+
+```{r}
+corrplot(cor_mat, method = 'number')
+```
+
+También podemos visualizar en forma de mosaico
+
+```{r}
+corrplot(cor_mat, method = 'color', order = 'alphabet')
+```
+
+Dicho mosaico podemos añadirle una codificación extra pintando con sombreado aquellas correlaciones negativas.
+
+```{r}
+corrplot(cor_mat, method = 'shade')
+```
+
+El mosaico también puede ser mostrado de forma que el tamaño del cuadrado dependa de la magnitud de la correlación (e indicándole incluso que solo queremos ver una mitad de la matriz al ser simétrica).
+
+```{r}
+corrplot(cor_mat, method = 'square', type = 'lower', diag = FALSE)
+```
+
+También nos proporciona una opción para visualizar tanto formas como sus valores numéricos, aprovechando que ambas mitades son iguales por ser una matriz simétrica.
+
+```{r}
+corrplot.mixed(cor_mat)
+```
+
+E incluso...podemos empezar a vislumbrar el por qué las correlaciones son importantes para un tema futuro: el análisis clúster (nos formará grupos de variables).
+
+```{r}
+corrplot(cor_mat, order = 'hclust', addrect = 3)
+```
