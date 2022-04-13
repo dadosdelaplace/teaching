@@ -69,13 +69,14 @@ $$\\[2.7in]$$
 - **Scripts** del curso:
 <https://github.com/dadosdelaplace/teaching/tree/main/bdba-pca-clustering-2022/scripts>
 
-- **Bibliografía**: <https://github.com/dadosdelaplace/teaching/tree/main/bdba-pca-clustering-2022/biblio>
+- **Evaluaciones**:
+<https://github.com/dadosdelaplace/teaching/tree/main/bdba-pca-clustering-2022/eval>
 
-&nbsp;
+- **Bibliografía**: <https://github.com/dadosdelaplace/teaching/tree/main/bdba-pca-clustering-2022/biblio>
 
 - **Manual** de R: <https://dadosdelaplace.github.io/courses-intro-R/>
 
-- **Materiales del curso de dataviz** en R: <https://dadosdelaplace.github.io/curso-dataviz-ECI-2022>
+- **Curso de dataviz** en R: <https://dadosdelaplace.github.io/curso-dataviz-ECI-2022>
 
 
 ]
@@ -104,14 +105,9 @@ knitr::include_graphics("./img/me.jpeg")
 
 * **Javier Álvarez Liébana**, nacido en 1989 en Carabanchel Bajo (Madrid)
 
+* Licenciado (UCM) en **Matemáticas** (Erasmus en Bologna mediante). **Máster (UCM) en Ingeniería Matemática** (2013-2014)
 
-* No, lo siento, Manolito era de Caranbanchel Alto)
-
-
-* Licenciado (UCM) en **Matemáticas** (Erasmus en Bologna mediante)
-
-* **Máster (UCM) en Ingeniería Matemática** (2013-2014)
-
+&nbsp;
 
 * **Doctorado en estadística** por la Universidad de Granada
 
@@ -122,7 +118,7 @@ knitr::include_graphics("./img/me.jpeg")
 
 &nbsp;
 
-Intentando la **divulgación científica** por `Twitter (@dadosdelaplace)` e `Instagram (@javieralvarezliebana)`
+Intentando la **divulgación** por `Twitter (@dadosdelaplace)` e `Instagram (@javieralvarezliebana)`. Tengo una newsletter: <https://cartasdelaplace.substack.com/>
 
 ---
 
@@ -133,7 +129,7 @@ Intentando la **divulgación científica** por `Twitter (@dadosdelaplace)` e `In
 
 El propósito de estas clases será el tratamiento de **datos multidimensionales**, con tres objetivos principales:
 
-- **Reducción de la dimensión**: ¿todas las variables (columnas) nos aportan información? ¿Todas son necesarias? ¿Podemos transformar las variables para mantener la información de los datos pero reducir la dimensionalidad de los mismos?
+- **Reducción de la dimensión**: ¿todas las variables aportan información? ¿Todas son necesarias? ¿Podemos transformar las variables para mantener la información de los datos pero reducir la dimensionalidad de los mismos?
 
 - **Visualización**: ¿cuántas dimensiones podemos incluir en un gráfico 2D? ¿Cómo visualizar datos multidimensionales?
 
@@ -179,6 +175,13 @@ Para el presente curso los únicos **requisitos** serán:
 
 ---
 
+class: inverse center middle
+
+# POR SI ACASO...¿POR QUÉ R Y NO EXCEL?
+
+
+---
+
 # R vs excel
 
 ![](./img/meme_barco.jpg)
@@ -190,15 +193,6 @@ Para el presente curso los únicos **requisitos** serán:
 ```{r echo = FALSE, out.width = '85%', fig.align = "center"}
 knitr::include_graphics("./img/incel.jpg")
 ```
-
----
-
-# Tips de RStudio: modo oscuro
-
-<img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/menu_1.jpg" alt = "Rstudio" align = "left" width = "300" style = "margin-top: 3vh;margin-right: 2rem;">
-<img src = "https://dadosdelaplace.github.io/courses-ECI-2022/img/menu_2.jpg" alt = "Rstudio" align = "left" width = "350" style = "margin-top: 3vh;margin-right: 2rem;">
-
-**Consejo**: cambiar en tu `RStudio` la tonalidad del fondo de tu programa, en tonos oscuros y no blancos.
 
 ---
 
@@ -240,18 +234,13 @@ class: center, middle
 
 # Breve historia de la estadística
 
+.pull-left[
+
+## Origen
+
 * Del (neo)latín «statisticum collegium»: consejo de **Estado**.
 * Del alemán «statistik» (ciencia del **Estado**, intoducido por G. Achenwall).
 
-&nbsp;
-
-**Origen**: una herramienta para la **administración** eficiente del Estado, pero **sin intención de comunicar ni de convertir el dato en información**.
-
----
-
-# Breve historia de la estadística
-
-.pull-left[
 
 ## Primeros usos: elaboración de censos
 
@@ -356,7 +345,7 @@ knitr::include_graphics("./img/dataviz_historico_1.png")
 
 # Navegación y astronomía
 
-Con una motivación similar, en torno a 1360 el matemático **Nicole Oresme** diseñó el **primer gráfico de barras**<sup>1</sup> (no estadístico), con la idea de **visualizar a la vez dos magnitudes físicas teóricas**.
+Con una motivación similar, en torno a 1360 el matemático **Nicole Oresme** diseñó el **primer gráfico de barras**<sup>1</sup> (no estadístico), con la idea de **visualizar a la vez dos magnitudes físicas teóricas** (pero...aún sin representar datos).
 
 
 ```{r echo = FALSE,  out.width = "30%", fig.align = "center", fig.cap = "Gráfica extraída de Friendly y Valero-Mora (2010), de «Tractatus De Latitudinibus Formarum»"}
@@ -387,7 +376,7 @@ knitr::include_graphics("./img/dataviz_historico_3.jpeg")
 ---
 
 
-# Historia de la estadística: navegación y astronomía
+# Navegación y astronomía
 
 .pull-left[
 
@@ -421,22 +410,23 @@ El **método de los mínimos cuadrados**, en el que basan modelos actuales como 
 
 ---
 
-# Historia de la estadística: demografía, epidemiología y fisiología
+# Demografía, epidemiología y fisiología
 
 .pull-left[
 
-#### J. Graunt
+### J. Graunt
 
 Autor de «Natural and Political Observations Made upon the Bills of Mortality» (1662), uno de los primeros trabajos en los que ya se hablaba de **exceso de mortalidad** a partir de las primeras tablas de natalidad y mortalidad, **estimando la población de Londres**.
 ]
 
 .pull-right[
 
-#### G. Neumann
+### G. Neumann
 
 Las **fakes news** ya existían en el siglo XVII: Gaspar Neumann también un precursor en el **análisis estadístico de tablas de mortalidad**, para desmentir bulos (ejemplo: desmontó la creencia de que en los años acabados en siete morían más personas).
 ]
 
+&nbsp;
 
 Son precisamente las tablas de Graunt las que usó **Christiaan Huygens** (pionero en teoría de probabilidad con su «De ratiociniis in ludo aleae» en 1656) para generar la **primera gráfica de densidad** de una distribución continua, visualizando la **esperanza de vida** (en función de la edad).
 
@@ -506,7 +496,7 @@ knitr::include_graphics("./img/playfair_6.jpg")
 
 .pull-left[
 
-#### F. Galton
+### F. Galton
 
 Primo de Charles Darwin, inventor de los **silbatos para perretes**, de los mapas de predicción meteorológica y la persona que acuñó el concepto de **regresión** (y el de eugenesia :/).
 
@@ -537,7 +527,7 @@ knitr::include_graphics("./img/galton_2.png")
 
 .pull-left[
 
-#### John Snow
+### John Snow
 
 Se le considera uno de los pioneros de la **epidemiología moderna** y la **estadística espacial**: aunque los **diagramas de Voronoi** tardarían años en ser formalizados, John Snow aplicó el mismo concepto para mitigar la **epidemia de cólera en Londres**, con su **mapa con diagrama de barras**, localizando el foco en la conocida fuente de Broad Street.
 
@@ -578,51 +568,11 @@ knitr::include_graphics("https://s1.eestatic.com/2016/04/22/reportajes/reportaje
 
 ---
 
-# Nacimiento de la estadística espacial
+# Primeros usos de la estadística espacial
 
 ```{r echo = FALSE, out.width = "77%", fig.align = "center", fig.cap = "Mapa de Londres, mostrando los casos de cólera del 19 de agosto al 30 de septiembre de 1854, extraído de https://friendly.github.io/HistDataVis."}
 knitr::include_graphics("./img/snow_mapa.jpg")
 ``` 
-
----
-
-# Cólera en Londres
-
-Esa **epidemia de cólera** en Londres fue una catástrofe en términos humanos pero supuso un verdadero auge de la **bioestadística y visualización de datos**. Unos años antes que Snow, **William Farr** ya usaba el dataviz para **monitorizar las muertes diarias**<sup>1</sup> de cólera (abajo, cólera en azul, diarre en amarillo), en función del tiempo meteorológico (arriba)
-
-
-```{r echo = FALSE, out.width = "48%", fig.align = "center"}
-knitr::include_graphics("./img/farr_colera.png")
-``` 
-
-[1] [«General Register Office, Report on the Mortality of Cholera in England, 1848–49» publicado en 1852](https://wellcomecollection.org/works/pajtrpez/items?canvas=9)
-
-
----
-
-
-# Florence Nigthingale: una revolución
-
-.pull-left[
-
-
-* El 21 de octubre de 1854 **Florence Nigthingale** fue enviada para mejorar las **condiciones sanitarias** de los **soldados británicos en la guerra de Crimea**. 
-
-* A su regreso se dedicó a demostrar que los **soldados fallecían por las condiciones sanitarias**: eran **muertes evitables**. Nigthingale es la creadora del famoso **diagrama de rosa**, permitiendo pintar tres variables a la vez y su estacionalidad.
-
-* El 8 de febrero de 1955, The Times la describió como la **«ángel guardián» de los hospitales**, y al finalizar la contienda, fue recibida como una heroína, conocida como **«The Lady with the Lamp»** tras un poema de H. W. Longfellow publicado en 1857.
-
-* Años después se convirtió en la **primera mujer en la Royal Statistical Society** y renunció a su puesto para crear las primeras escuelas de enfermería
-
-]
-
-.pull-right[
-
-```{r echo = FALSE, out.width = "90%", fig.align = "center"}
-knitr::include_graphics("https://www.researchgate.net/profile/Miguel-Guevara-4/publication/325622727/figure/fig1/AS:635977265582080@1528640204506/FIGURA-2-La-dama-con-la-lampara-1891-en-ingles-The-lady-with-the-lamp.png")
-``` 
-
-]
 
 ---
 
@@ -643,8 +593,8 @@ Hasta la década de los 60, la mayoría de la estadística que se realizaba era
 
 ## Wishart, contigo empezó todo
 
-En 1928, Wishart publicó su famoso artículo <sup>1</sup> en el que, se demostraba y desarrollaba explícitamente la función de distribución de una 
-**distribución normal multivariante**<sup>2</sup>, trabajo más tarde extendido por Fisher.
+En 1928, Wishart publicó su famoso artículo <sup>2</sup> en el que, se demostraba y desarrollaba explícitamente la función de distribución de una 
+**distribución normal multivariante**, trabajo más tarde extendido y formalizado por Fisher.
 
 [2] [📚 Wishart, J. (1928). «The generalised product moment distribution in samples from a normal multivariate population». Biometrika. 20A (1–2): 32–52. doi:10.1093/biomet/20A.1-2.32](https://doi.org/10.1093/biomet/20A.1-2.32)
 
@@ -653,8 +603,7 @@ En 1928, Wishart publicó su famoso artículo <sup>1</sup> en el que, se demostr
  
 # ¿Qué es el análisis multidimensional?
  
-
-El verdadero boom no llegó hasta la **década de los 60**,  con la publicación del libro «An Introduction to Multivariate Statistical Analysis»<sup>1</sup> de Anderson (1958), proporcionando todo un marco teórico
+Aunque el verdadero boom no llegó hasta la **década de los 60**, con la publicación del libro «An Introduction to Multivariate Statistical Analysis»<sup>1</sup> de Anderson (1958), proporcionando todo un marco teórico con el que poder trabajar.
 
 [1] [📚 Anderson, T.W. (1958). «An Introduction to Multivariate Analysis». New York: Wiley ISBN 0471026409](http://www.ru.ac.bd/stat/wp-content/uploads/sites/25/2019/03/301_03_Anderson_An-Introduction-to-Multivariate-Statistical-Analysis-2003.pdf)
 
@@ -666,13 +615,14 @@ El verdadero boom no llegó hasta la **década de los 60**,  con la publicación
 
 > El Análisis Multivariante es la rama de la estadística que estudia las relaciones (CONJUNTAMENTE) entre conjuntos de variables dependientes y los individuos para los cuales se han medido dichas variables (Kendall)
 
+
 ## **Notación**
 
-* $n$ tamaño muestral (número de individuos).
+* $n$ tamaño muestral (número de individuos --> filas).
 
-* $\boldsymbol{X}_i = \left(\boldsymbol{X}_{1, i}, \ldots, \boldsymbol{X}_{i, p} \right)$ conjunto de $p$ variables medidas para cada individuo $i=1,\ldots,n$.
+* $\boldsymbol{X}_i = \left(\boldsymbol{X}_{1, i}, \ldots, \boldsymbol{X}_{i, p} \right)$ conjunto de $p$ variables (--> columnas) medidas para cada individuo $i=1,\ldots,n$.
 
-* Nuestros datos serán una matriz $\boldsymbol{X}$ de $n$ filas y $p$ columnas (con $p \ll n$)
+* Nuestros datos estarán en forma de tabla o matriz $\boldsymbol{X}$ de $n$ filas y $p$ columnas (con $p \ll n$)
 
 ---
 
@@ -730,16 +680,15 @@ Si tenemos $\boldsymbol{X} = \left(X_1, X_2 \right)$, ¿qué estadísticos tenem
   - medias $\mu_1:= {\rm E} [X_1]$ y $\mu_2:= {\rm E} [X_2]$
   - varianzas $\sigma_{1}^{2}:=\sigma_{1, 1}^{2} = \sigma_{X_1, X_1}^2$ y $\sigma_{2}^{2}:=\sigma_{2, 2}^{2} = \sigma_{X_2, X_2}^2$.
 
-* **Varianza**: la varianza ${\rm Var} [X] := \sigma_{X}^2 = {\rm E} [ \left( X - \mu \right)^2 ]$ se puede entender cómo una medida que nos **cuantifica** la relación entre la variable consigo misma. ¿Y si en lugar de medir $X_1$ vs $X_1$ medimos $X_1$ vs $X_2$?
-
 --
 
 &nbsp;
 
 ### **Covarianza**
 
-Definiremos la covarianza como una especie de varianza en la que cambiamos una de las $X$ por la otra variable
+La varianza ${\rm Var} [X] := \sigma_{X}^2 = {\rm E} [ \left( X - \mu \right)^2 ]$ es una medida de dispersión que nos **cuantifica** la relación de una variable consigo misma. ¿Y si en lugar de medir $X_1$ vs $X_1$ medimos $X_1$ vs $X_2$?
 
+Definiremos la **covarianza** como una especie de varianza en la que cambiamos una de las $X$ por otra variable
 
 $${\rm Cov} [X_1, X_2] := \sigma_{1,2} =  {\rm E} [ \left( X_1 - \mu_1 \right) \left( X_2 - \mu_2 \right) ] = {\rm E}[X_1 * X_2] - \mu_1 * \mu_2 = \sigma_{2,1}$$
 
@@ -757,7 +706,7 @@ $$\boldsymbol{\Sigma} := \begin{pmatrix} \sigma_{1,1}^2 & \sigma_{1,2} \\ \sigma
 
 Se puede expresar **matricialmente** como
 
-$\begin{eqnarray} \left(\boldsymbol{X} - \boldsymbol{\mu} \right)^{T}\left(\boldsymbol{X} - \boldsymbol{\mu} \right) &=& \left( X_1  - \mu_1, X_2 - \mu_2 \right)^{T} \begin{pmatrix} X_1  - \mu_1 \\ X_2 - \mu_2 \end{pmatrix} \\ &=& \begin{pmatrix} \left(X_1  - \mu_1 \right)^2 & \left(X_1  - \mu_1 \right)\left(X_2  - \mu_2 \right) \\ \left(X_2  - \mu_2 \right)\left(X_1  - \mu_1 \right) & \left(X_2  - \mu_2 \right)^2 \end{pmatrix} \end{eqnarray}$
+$\begin{eqnarray}\boldsymbol{\Sigma} = {\rm E} \left[\left(\boldsymbol{X} - \boldsymbol{\mu} \right)^{T}\left(\boldsymbol{X} - \boldsymbol{\mu} \right) \right] &=& {\rm E} \left[\left( X_1  - \mu_1, X_2 - \mu_2 \right)^{T} \begin{pmatrix} X_1  - \mu_1 \\ X_2 - \mu_2 \end{pmatrix} \right] \\ &=& \begin{pmatrix} {\rm E} \left[ \left(X_1  - \mu_1 \right)^2 \right] & {\rm E} \left[\left(X_1  - \mu_1 \right)\left(X_2  - \mu_2 \right) \right] \\ {\rm E} \left[\left(X_2  - \mu_2 \right)\left(X_1  - \mu_1 \right) \right] & {\rm E} \left[\left(X_2  - \mu_2 \right)^2\right] \end{pmatrix} \end{eqnarray}$
 
 **IMPORTANTE**: es una **matriz simétrica** (nos da igual medir $X$ vs $Y$, que $Y$ vs $X$).
 
@@ -773,6 +722,8 @@ $$X \sim \mathcal{N} \left(\mu, \sigma^2 \right), \quad \boldsymbol{\Sigma} = \s
 ### **Normal bivariante**
 
 $$\boldsymbol{X} = \left(X_1, X_2 \right)^{T}  \sim \mathcal{N} \left( \boldsymbol{\mu}, \boldsymbol{\Sigma} \right), \quad f(x_1, x_2) = \frac{1}{2\pi \left| \Sigma \right|^{1/2}} e^{-\frac{1}{2}{(\boldsymbol{x} - \mu )^{T} \boldsymbol{\Sigma}^{-1}(\boldsymbol{x} - \mu )}}$$
+
+--
 
 ### **Normal multivariante (caso general)** 
 
@@ -795,7 +746,7 @@ $$\boldsymbol{X} = \begin{pmatrix} x_{1, 1} & \ldots & x_{1, p} \\ \vdots & \ddo
 
 * **Varianzas muestrales**: $s_{x_1}^{2} := s_{1}^2 = \frac{1}{n} \sum_{i=1}^n \left(x_{i, 1} - \overline{x}_1 \right)^2$ y $s_{x_2}^{2} := s_{2}^2 = \frac{1}{n} \sum_{i=1}^n \left(x_{i, 2} - \overline{x}_2 \right)^2$, donde $\overline{x}_1$ y $\overline{x}_2$ son sus medias muestrales.
 
-* **Covarianza muestral**: : $s_{x_1, x_2}^{2} := s_{1, 2} = s_{2, 1}^2 = \frac{1}{n} \sum_{i=1}^n \sum_{j=1}^n \left(x_{i, 1} - \overline{x}_1 \right)\left(x_{j, 2} - \overline{x}_2 \right)$
+* **Covarianza muestral**: $s_{x_1, x_2}^{2} := s_{1, 2} = s_{2, 1}^2 = \frac{1}{n} \sum_{i=1}^n \sum_{j=1}^n \left(x_{i, 1} - \overline{x}_1 \right)\left(x_{j, 2} - \overline{x}_2 \right)$
 
 --
 
@@ -823,7 +774,7 @@ $$S_{x_{k}, x_{l}} := S_{k, l} = \frac{1}{n-1} \sum_{i=1}^{n} \sum_{j=1}^{n} \le
 
 Así, la **matriz de (cuasi) covarianzas empíricas** quedará como
 
-$$S := \frac{1}{n-1} \left(\boldsymbol{X} - \boldsymbol{\mu} \right)^{T} \left(\boldsymbol{X} - \boldsymbol{\mu} \right) =_{\boldsymbol{\mu} = 0} \frac{1}{n-1} \boldsymbol{X}^{T} \boldsymbol{X} = \begin{pmatrix} S_{1,1} & S_{1,2} & \ldots & S_{1, p} \\ S_{2,1} & S_{2,2} & \ldots & S_{2, p} \\ \vdots & \vdots & \ddots & \vdots \\ S_{p,1} & S_{p,2} & \ldots & S_{p, p} \end{pmatrix}$$
+$$S := \frac{1}{n-1} \left(\boldsymbol{X} - \boldsymbol{\mu} \right)^{T} \left(\boldsymbol{X} - \boldsymbol{\mu} \right) =_{\boldsymbol{\mu} = 0} \frac{1}{n-1} \boldsymbol{X}^{T} \boldsymbol{X} = \begin{pmatrix} S_{1,1} &  \ldots & S_{1, p} \\ \vdots & \ddots & \vdots \\ S_{p,1} & \ldots & S_{p, p} \end{pmatrix}$$
 
 &nbsp;
 
@@ -865,7 +816,7 @@ class: center, middle
 
 .pull-left[
 
-El **objetivo «mainstream»** del **análisis de componentes principales** (PCA en inglés) suele ser el de **reducir la dimensión** de nuestros datos: pasar de un conjunto de $n$ individuos y $p$ variables a otro de $k \leq p$ variables (para los mismos $n$ individuos).
+El **objetivo «mainstream»** del **análisis de componentes principales** (PCA en inglés) suele ser el de **reducir la dimensión** de nuestros datos: pasar de un conjunto de $n$ individuos y $p$ variables a otro de $k < p$ variables (para los mismos $n$ individuos).
 
 &nbsp;
 
@@ -873,7 +824,7 @@ Esta reducción de la dimensión se suele hacer con **3 objetivos** principalmen
 
 * **Mejora computacional** de los algoritmos al tener un dataset más reducido.
 
-* **Permitir la visualización** en 2 o 3 dimensiones conjuntos $n$-dimensionales.
+* **Permitir la visualización** en 2 o 3 dimensiones de conjuntos $n$-dimensionales.
 
 * **«Reflotar» patrones** subyacentes en los datos.
 
@@ -912,9 +863,10 @@ Empecemos por un sencillo ejemplo, visualizando la **longitud y anchura de péta
 ```{r echo = FALSE, out.width = "100%"}
 library(tidyverse)
 ggplot(iris, aes(x = Petal.Width, y = Petal.Length)) +
-  geom_point() +
+  geom_point(size = 5) +
   labs(x = "Anchura pétalo", y = "Longitud pétalo",
-       caption = "Iris dataset extraído de Fisher (1936) y Anderson (1935).")
+       caption = "Iris dataset extraído de Fisher (1936) y Anderson (1935).") +
+  theme_minimal()
 ```
 
 ]
@@ -945,7 +897,7 @@ La **idea subyacente** tras el cálculo de las componentes principales se puede 
 En el **caso bidimensional**, el resultado de aplicar componentes principales será una especie de «rotación» de los datos
 
 
-```{r echo = FALSE,  out.width = "57%", fig.align = "center", fig.cap = "Gráfica extraída de https://towardsdatascience.com/a-one-stop-shop-for-principal-component-analysis-5582fb7e0a9c"}
+```{r echo = FALSE, out.width = "75%", fig.align = "center"}
 knitr::include_graphics("https://miro.medium.com/max/1400/1*V3JWBvxB92Uo116Bpxa3Tw.png")
 ``` 
 
@@ -986,14 +938,12 @@ knitr::include_graphics("./img/pca_words_23.jpg")
 
 .pull-left[
 
-Vamos a empezar por un **ejemplo sencillo (bidimensional)** tomando algunas observaciones de `{iris}` y solo las variables del pétalo.
+Vamos a empezar por un **ejemplo sencillo (bidimensional)** tomando de `{iris}` solo las variables del pétalo.
 
 ```{r echo = FALSE}
 iris_bi <-
   tibble(iris) %>%
-  select(contains("Petal")) %>%
-  distinct(Petal.Width, .keep_all = TRUE) %>%
-  slice(7:20)
+  select(contains("Petal"))
 ```
 
 ```{r echo = FALSE}
@@ -1109,7 +1059,7 @@ $$\boldsymbol{\Phi}^{T} = \begin{pmatrix} z_{1,1} & z_{2,1} & \ldots & z_{k,1} \
 
 bajo la condición de que sean **direcciones ortonormales**
 
-$$\Phi \Phi^{T} = \begin{pmatrix} 1 & 0 & \ldots & 0 \\ 0 & 1 & \ldots & 0 \\ \vdots & \vdots & \ddots & \vdots \\ 0 & 0 & \ldots & 1 \end{pmatrix}$$
+$$\Phi \Phi^{T} = \begin{pmatrix} 1 & \ldots & 0 \\  \vdots &  \ddots & \vdots \\ 0  & \ldots & 1 \end{pmatrix}$$
 
 tal que dichas direcciones **maximicen la varianza**.
 
@@ -1117,7 +1067,7 @@ tal que dichas direcciones **maximicen la varianza**.
 
 # Primera componente
 
-Por ejemplo, para la **primera componente** el objetivo es encontrar, de entre todas las direcciones  $\boldsymbol{u}_1$ posibles, la dirección $\boldsymbol{\Phi}_1$ que **maximice la varianza de nuestros datos cuanos los proyectamos sobre dicha dirección**
+Por ejemplo, para la **primera componente** el objetivo es encontrar, de entre todas las direcciones  $\boldsymbol{u}_1$ posibles, la dirección $\boldsymbol{\Phi}_1$ que **maximice la varianza de nuestros datos cuando los proyectamos sobre dicha dirección**
 
 $$\boldsymbol{x}_{1}' = \boldsymbol{X} \boldsymbol{\Phi}_{1}^{T} = \begin{pmatrix} x_{1,1} & x_{1, 2} & \ldots & x_{1, p} \\ x_{2,1} & x_{2, 1} & \ldots & x_{2, p} \\ \vdots & \vdots & \ddots & \vdots
 \\ x_{n,1} & x_{n, 2} & \ldots & x_{n, p}\end{pmatrix} \begin{pmatrix} z_{1,1} \\ z_{1,2} \\ \vdots \\ z_{1,p} \end{pmatrix} =  \begin{pmatrix} x_{1,1}^{'} \\ x_{2,1}^{'} \\ \vdots \\ x_{n, 1}^{'} \end{pmatrix}$$
@@ -1172,6 +1122,24 @@ Esto es lo mismo que decir que $R \boldsymbol{u}_1^{T}  = \lambda \boldsymbol{u}
 ---
 
 # Paréntesis: autovectores y autovalores
+
+En álgebra matricial, dada una matriz $\boldsymbol{A}$ cuadrada de tamaño $p \times p$, decimos que $v$ es su **autovector** y $\lambda$ su **autovalor asociado** si y solo sí
+
+$$A v= \lambda v, \quad v = \left(v_1, \ldots, v_p \right) \neq 0$$
+
+Esto es equivalente a decir que 
+
+$$A v - \lambda v = 0 \rightarrow (A - \lambda I_{p}) v = 0$$
+
+donde $I_p$ es la matriz identidad de tamaño $p \times p$. Dicha ecuación tiene solución si y solo sí
+
+$$\left| A - \lambda I_{p} \right| = 0$$
+
+Además, por el **Teorema Fundamental del Algebra** sabemos que dicho determinante puede expresarse como un polinomio de grado $p$ (conocido como **polinomio característico**)
+
+$$\left| A - \lambda I_{p} \right| = \left(\lambda_1 - \lambda \right)\left(\lambda_2 - \lambda \right) \ldots \left(\lambda_p - \lambda \right) = p (\lambda)$$
+
+Además el determinante $\left| A \right|$ será el producto de todos sus autovalores.
 
 ---
 
@@ -1232,24 +1200,20 @@ $$\boldsymbol{X}^{'} = \boldsymbol{X} \boldsymbol{\Phi}^{T} = \begin{pmatrix} x_
 
 ---
 
-# Idea general paso a paso 
+# Glosario 
 
-* Los **autovectores** nos indican la **dirección de la componente**, y sus **coeficientes** (conocidos como _loadings_, los que generan la combinación lineal de las variables originales) nos indican el **peso que tiene cada variable original en dicha componente**. Si por ejemplo $\boldsymbol{\Phi}_1 = \left(0.95, 0.15, 0.273 \right)$, significa que la primera componente (la que más varianza captura) será $0.95* \boldsymbol{X}_1 + 0.15 * \boldsymbol{X}_2 + 0.273 * \boldsymbol{X}_3$, estando dominada por la variable original $\boldsymbol{X}_1$ (un peso de 0.95).
+* **Autovectores**: nos indican la **dirección de la componente**
+
+* **Loadings**: serán los **coeficientes** de dichos autovectores (los que generan la combinación lineal de las variables originales) nos indican el **peso que tiene cada variable original en dicha componente**. Si por ejemplo $\boldsymbol{\Phi}_1 = \left(0.95, 0.15, 0.273 \right)$, significa que la primera componente (la que más varianza captura) será $0.95* \boldsymbol{X}_1 + 0.15 * \boldsymbol{X}_2 + 0.273 * \boldsymbol{X}_3$, estando dominada por la variable original $\boldsymbol{X}_1$ (un peso de 0.95).
 
 
-* El **signo** de dichos _loadings_ nos indican el sentido de la relación entre la componente y la variable original (correlación positiva/negativa). Si alguno de ellos fuese 0 significaría que la nueva componente está incorrelada respecto a dicha variable original.
+* **Signo de los loadings**: nos indica el **sentido de la relación entre la componente y la variable original** (correlación positiva/negativa). Si alguno de ellos fuese 0 significaría que la nueva componente está incorrelada respecto a dicha variable original.
 
-&nbsp;
 
---
+* **Scores**: para cada observación $i$, las nuevas coordenadas $\left(x_{i, 1}^{'}, \ldots, x_{i, k}^{'} \right)$, calculadas tras **proyectar la observación original en las direcciones principales** $\boldsymbol{x}_{i} \boldsymbol{\Phi}^{T}$.
 
-* Para cada observación $i$, las nuevas coordenadas $\left(x_{i, 1}^{'}, \ldots, x_{i, k}^{'} \right)$, calculadas tras **proyectar la observación original en las direcciones principales** $\boldsymbol{x}_{i} \boldsymbol{\Phi}^{T}$, se conocen como _scores_
 
-&nbsp;
-
---
-
-* Para **seleccionar el número $k$** de componentes a seleccionar el método más sencillo es **fijar de antemano** un **umbral varianza explicada** que queremos conservar (por ejemplo, $95%$), de forma que nos quedemos con el primer número $k$ tal que $\sum_{j=1}^{k} \lambda_k > 0.95$ (**varianza explicada acumulada**, teniendo los autovalores ordenados de mayor a menor).
+* **Truncamiento o número de componentes**: para seleccionar el número $k$ de componentes a seleccionar el método más sencillo es **fijar de antemano** un **umbral varianza explicada** que queremos conservar (por ejemplo, $95%$), de forma que nos quedemos con el primer número $k$ tal que $\sum_{j=1}^{k} \lambda_k > 0.95$ (**varianza explicada acumulada**, teniendo los autovalores ordenados de mayor a menor).
 
 
 ---
@@ -1262,324 +1226,589 @@ class: center, middle
 
 ---
 
+# PCA en R: caso «manual»
+
+
+Volvemos a nuestro **ejemplo sencillo (bidimensional)** tomando de `{iris}` solo las variables del pétalo.
+
+```{r}
+iris_bi <- 
+  tibble(iris) %>%
+  select(contains("Petal"))
+iris_bi
+```
+
+---
+
+# PCA en R: caso «manual»
+
+
+**Primer paso**: **estandarizar** los datos.
+
+```{r}
+iris_bi_std <-
+  iris_bi %>%
+  mutate(Petal.Length = (Petal.Length - mean(Petal.Length)) /  sd(Petal.Length),
+         Petal.Width = (Petal.Width - mean(Petal.Width)) / sd(Petal.Width))
+
+iris_bi_std
+```
+
+---
+
+# PCA en R: caso «manual»
+
+.pull-left[
+```{r echo = FALSE}
+ggplot(iris_bi, aes(x = Petal.Width, y = Petal.Length)) +
+  geom_point(size = 5) +
+  labs(x = "Anchura pétalo", y = "Longitud pétalo",
+       caption = "Iris dataset extraído de Fisher (1936) y Anderson (1935).",
+       title = "Datos originales") +
+  theme_minimal()
+```
+
+]
+
+.pull-right[
+```{r echo = FALSE}
+ggplot(iris_bi_std, aes(x = Petal.Width, y = Petal.Length)) +
+  geom_point(size = 5, color = "darkolivegreen") +
+  labs(x = "Anchura pétalo", y = "Longitud pétalo",
+       caption = "Iris dataset extraído de Fisher (1936) y Anderson (1935).",
+       title = "Datos estandarizados") +
+  theme_minimal()
+```
+
+]
+
+---
+
+
+# PCA en R: caso «manual»
+
+**Segundo paso**: calcular la **matriz de covarianzas**
+
+```{r}
+cov_mat <- cov(iris_bi_std)
+cov_mat
+```
+
+Al estar estandarizados los datos, es equivalente a calcular la matriz de correlaciones
+
+```{r}
+library(corrr)
+iris_bi_std %>% correlate(diagonal = 1)
+```
+
+---
+
+# PCA en R: caso «manual»
+
+**Tercer paso**: calcular los **autovalores y autovectores** de la matriz de covarianzas
+
+```{r}
+autoelementos <- eigen(cov_mat)
+autoelementos
+```
+
+**IMPORTANTE** al tener las **variables estandarizadas**, la **suma de los autovalores** es $p$ (ya que será la suma de las varianzas de las variables que tenemos).
+
+---
+
+# PCA en R: caso «manual»
+
+**Cuarto paso**: **ordenar** autovectores segun autovalores (de mayor a menor)
+
+```{r}
+order_lambda <-
+  order(autoelementos$values, decreasing = TRUE)
+lambda <- autoelementos$values[order_lambda]
+PC <- autoelementos$vectors[, order_lambda]
+lambda # autovalores ordenadores
+```
+
+La **varianza capturada** por $\boldsymbol{\Phi}_1$ es $1.963$ y $0.037$ para la segunda componente $\boldsymbol{\Phi}_2$.
+
+```{r}
+PC # autovectores asociados --> direcciones principales
+```
+
+---
+
+# PCA en R: caso «manual»
+
+
+**Quinto paso**: calcular la **varianza explicada acumulada** por cada componente (una vez ordenadas)
+
+```{r}
+cumsum(lambda) / sum(lambda)
+```
+
+La **primera componente captura el 98.14% de la información (de la varianza)** y la segunda el 1.86% restante.
+
+---
+
+# PCA en R: caso «manual»
+
+* **Sexto paso**: proyectar en las nuevas componentes para obtener las **nuevas coordenadas** (¡respecto a la nueva base, a las nuevas componentes!)
+ 
+
+```{r}
+iris_pca <- iris_bi_std * t(PC)
+names(iris_pca) <- c("PC_1", "PC_2")
+iris_pca
+```
+
+---
+
+# PCA en R: con prcomp
+
+Dentro de los paquete básicos cargados por `R` tenemos `prcomp` que nos permite realizar los cálculos anteriores de manera automática (`scale. = TRUE` debe ser indicado si los han datos no entran estandarizados previamente).
+
+```{r}
+pca <- prcomp(iris_bi, scale. = TRUE)
+pca
+```
+
+* **Rotation**: la matriz cuyas columnas son las componentes principales $\boldsymbol{\Phi}_1, \boldsymbol{\Phi}_2$ (recuerda que dijimos que estábamos «rotando» los datos).
+
+* **Standard deviations**: dado que cada $\lambda_j = {\rm Var} \left(\boldsymbol{\Phi}_j \right)$ representa la varianza de las componentes principales, lo que nos proporciona la salida es $\sqrt{\lambda_j}$, para cada $j=1,\ldots,p$
+
+```{r}
+pca$sdev^2 # autovalores
+```
+
+---
+
+# PCA en R: con prcomp
+
+```{r}
+pca <- prcomp(iris_bi, scale. = TRUE)
+pca
+```
+
+La **primera componente** viene definida como
+
+$$\boldsymbol{\Phi}_1 = 0.7071068 * Petal.Length^* +  0.7071068 * Petal.Width^*$$ 
+
+La **segunda componente** viene definida como 
+
+$$\boldsymbol{\Phi}_2 = -0.7071068 * Petal.Length^* +  0.7071068 * Petal.Width^*$$
+
+
+---
+
+# PCA en R: con prcomp
+
+.pull-left[
+
+En `pca$x` quedan guardados los **scores** o nuevas coordenadas de nuestros datos
+
+```{r}
+as_tibble(pca$x)
+```
+
+]
+
+.pull-right[
+
+También podemos calcularlas nosotros mismos **proyectando los datos en las nuevas componentes**
+
+```{r}
+as_tibble(as.matrix(iris_bi_std) %*%
+            pca$rotation)
+```
+
+]
+
+---
+
+# Visualizando la transformación
+
+.pull-left[
+
+```{r echo = FALSE}
+ggplot(iris_bi_std, aes(x = Petal.Width, y = Petal.Length)) +
+  geom_point(size = 5, color = "darkolivegreen") +
+  labs(x = "Anchura pétalo", y = "Longitud pétalo",
+       caption = "Iris dataset extraído de Fisher (1936) y Anderson (1935).",
+       title = "DATOS ESTANDARIZADOS") +
+  theme_minimal()
+```
+
+]
+
+.pull-right[
+
+
+```{r echo = FALSE}
+ggplot(as_tibble(pca$x), aes(x = PC1, y = PC2)) +
+  geom_point(size = 5, color = "pink") +
+  labs(x = "PC 1", y = "PC 2",
+       caption = "Iris dataset extraído de Fisher (1936) y Anderson (1935).",
+       title = "DATOS TRANSFORMADOS") +
+  theme_minimal()
+```
+
+]
+
+---
+
+# Visualizando la transformación
+
+
+Si ahora pintamos los datos **codificando el color en función de la especie** podemos darnos cuenta de por qué la primera componente es la que captura prácticamente toda la información.
+
+.pull-left[
+
+```{r echo = FALSE}
+ggplot(tibble(iris_bi_std, Species = iris$Species),
+       aes(x = Petal.Width, y = Petal.Length,
+           color = Species)) +
+  geom_point(size = 5) +
+  labs(color = "Especies",
+       x = "Anchura pétalo", y = "Longitud pétalo",
+       caption = "Iris dataset extraído de Fisher (1936) y Anderson (1935).",
+       title = "DATOS ESTANDARIZADOS") +
+  theme_minimal()
+```
+
+]
+
+.pull-right[
+
+
+```{r echo = FALSE}
+ggplot(tibble(as_tibble(pca$x), Species = iris$Species),
+       aes(x = PC1, y = PC2, color = Species)) +
+  geom_point(size = 5) +
+  labs(color = "Especies", x = "PC 1", y = "PC 2",
+       caption = "Iris dataset extraído de Fisher (1936) y Anderson (1935).",
+       title = "DATOS TRANSFORMADOS") +
+  theme_minimal()
+```
+
+]
+
+
+---
+
+# PCA en R: con factominer y factoextra
+
+Ahora que controlamos un poco cómo se calculan y qué significan, vamos a ampliar al dataset entero de iris `{iris}` con sus **4 variables numéricas**
+
+```{r}
+iris_full <- iris %>% select(-Species)
+
+# Covarianza y correlación sin estandarizar antes
+library(corrr)
+cov(iris_full)
+iris_full %>% correlate(diagonal = 1) %>% fashion()
+```
+
+---
+
+# PCA en R: con factominer y factoextra
+
+.pull-left[
+
+Las correlaciones también podemos **visualizarlas** con el paquete `{corrplot}`
+
+Las variables con mayor correlación (positiva además) es entre la longitud y la anchura del pétalo.
+
+]
+
+.pull-right[
+
+```{r}
+library(corrplot)
+corrplot(cor(iris_full), type = "upper", tl.col = "black")
+```
+]
+
+---
+
+
+# PCA en R: con factominer y factoextra
+
+Con `{FactoMineR}` podemos calcular con `PCA()` de forma muy sencilla, indicándole que de momento no queremos gráficos, que queremos tantas componentes como variables (luego ya decidiremos con cual nos quedamos) y que estandarice los datos (`scale.unit = TRUE`).
+
+```{r}
+library(FactoMineR)
+library(factoextra)
+pca_fit <-
+  PCA(iris_full, scale.unit = TRUE,
+      ncp = ncol(iris_full), graph = FALSE)
+```
+
+--
+
+Para mostrar los autovalores basta con `pca_fit$eig` (ya nos los da ordenados y con la varianza explicada, tanto componente a componente como acumulada). También se obtienen con `get_eig(pca_fit)`
+
+```{r}
+pca_fit$eig # Alternativa: get_eig(pca_fit)
+```
+
+---
+
+# PCA en R: con factominer y factoextra
+
+En `pca_fit$svd$V` se guardan los **autovectores o componentes principales (de nuevo por columnas)** asociados a los autovalores que ya tenemos ordenados
+
+```{r}
+pca_fit$svd$V
+```
+
+Además con `pca_fit$var$contrib` nos muestra en **porcentaje lo que aporta cada variable** a la varianza explicada por cada componente (la suma de cada columna es el 100%)
+
+```{r}
+pca_fit$var$contrib
+```
+
+---
+
+# PCA en R: con factominer y factoextra
+
+
+Así que darían expresadas las **nuevas componentes principales** en función de las variables originales (estandarizadas$^*$)
+
+```{r echo = FALSE}
+knitr::kable(pca_fit$svd$V,
+             col.names = c("Phi_1", "Phi_2",
+                           "Phi_3", "Phi_4"),
+             digits = 3)
+```
+
+
+$$\boldsymbol{\Phi}_1 = 0.521 * Sepal.Length^* - 0.269 * Sepal.Width^* + 0.580 * Petal.Length^*  + 0.565 * Petal.Width^*$$
+
+$$\boldsymbol{\Phi}_2 = 0.377 * Sepal.Length^*  + 0.923 * Sepal.Width^*  + 0.024 * Petal.Length^*  + 0.067 * Petal.Width^*$$
+
+$$\boldsymbol{\Phi}_3 = -0.719 * Sepal.Length^*  + 0.244 * Sepal.Width^*  + 0.142 * Petal.Length^*  + 0.634 * Petal.Width^*$$
+
+$$\boldsymbol{\Phi}_4 = -0.261 * Sepal.Length^*  + 0.124 * Sepal.Width^*  + 0.801 * Petal.Length^*  - 0.524 * Petal.Width^*$$
+
+---
+
+
+# PCA en R: con factominer y factoextra
+
+En `pca_fit$ind$coord` tenemos guardados los **scores**, las **nuevas coordenadas de los datos** (los **datos proyectados** en las nuevas direcciones).
+
+```{r}
+pca_scores <- as_tibble(pca_fit$ind$coord)
+names(pca_scores) <- c("PC_1", "PC_2", "PC_3", "PC_4")
+pca_scores # Nuevas coordenadas
+```
+
+---
+
+# PCA en R: con factominer y factoextra
+
+
+Podemos también calcular las **covarianzas entre cada componente principal y las variables originales**, tal que ${\rm Cov}(\boldsymbol{\Phi}_i, \boldsymbol{x}_j ) = \lambda_i z_{i,j}$, donde $z_{i,j}$ es el coeficiente $j$-ésimo de la componente $i$-ésima (el peso de la variable $\boldsymbol{x}_j$ en la componente $\boldsymbol{\Phi}_i$)
+
+La correlación será calculada como ${\rm Cor}(\boldsymbol{\Phi}_i, \boldsymbol{x}_j ) = \frac{{\rm Cov}(\boldsymbol{\Phi}_i, \boldsymbol{x}_j )}{s_{\boldsymbol{\Phi}_i} s_{\boldsymbol{x}_j}} = \frac{\lambda_i z_{i,j}}{\sqrt{\lambda_i} s_{\boldsymbol{x}_j}} = \frac{\sqrt{\lambda_i}}{s_{x_j}} z_{i,j}$
+
+Dichas correlaciones las tenemos guardadas en `pca_fit$var$cor` y representan las **coordenadas de cada variable en cada componente** 
+
+```{r}
+pca_fit$var$cor
+```
+
+---
+
+
+# PCA en R: con factominer y factoextra
+
+.pull-left[
+
+En `pca_fit$var$cos2` tenemos las **correlaciones al cuadrado**, que expresan la **proporción de varianza de cada variable explicada por cada componente**
+
+```{r}
+round(pca_fit$var$cos2, 3)
+```
+
+Con `fviz_pca_var` podemos **visualizar de forma bidimensional** como se relacionan las variables originales con las dos componentes que mayor cantidad de varianza capturan.
+
+La **primera componente captura** sobre todo las **dos variables del pétalo** (dichas variables prácticamente están sobre la horizontal de la primera componente). La **segunda componente** captura ligeramente el sépalo, aunque longitud del sépalo es la peor variable representada de todas.
+
+]
+
+.pull-right[
+
+```{r out.width = "93%"}
+col <- c("#00AFBB", "#E7B800", "#FC4E07")
+fviz_pca_var(pca_fit, col.var = "cos2",
+             gradient.cols = col,
+             repel = TRUE) +
+  theme_minimal() + 
+  labs(title = "Coordenadas de las variables",
+       color = "Prop. var. explicada")
+```
+]
+
+
+
+---
+
+
+# PCA en R: con factominer y factoextra
+
+.pull-left[
+
+Con `fviz_cos2()` podemos mostrar el **porcentaje de la varianza de las variables que es explicada** por las componentes que le indiquemos en `axes`
+
+Así podemos apreciar que todas las 
+**dos primeras componentes ya son capaces de capturar** al menos el 75% de la varianza de todas y cada una de las variables, rozando el 100% en las variables `Sepal.Width` y `Petal.Length`
+
+]
+
+.pull-right[
+
+```{r out.width = "93%"}
+fviz_cos2(pca_fit, choice = "var",
+          axes = 1:2)
+```
+]
+
+---
+
+# PCA en R: con factominer y factoextra
+
+.pull-left[
+
+Con `fviz_eig()` podemos visualizar la varianza explicada por cada componente
+
+```{r eval = FALSE}
+fviz_eig(pca_fit,
+         barfill = "darkolivegreen",
+         addlabels = TRUE) +
+  theme_minimal() +
+  labs(x = "Componente", 
+       y = "% varianza explicada",
+       title = "Porcentaje de varianza explicada")
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+fviz_eig(pca_fit,
+         barfill = "darkolivegreen",
+         addlabels = TRUE) +
+  theme_minimal() +
+  labs(x = "Componente", 
+       y = "% varianza explicada",
+       title = "Porcentaje de varianza explicada")
+```
+
+]
+
+---
+
+# PCA en R: con factominer y factoextra
+
+
+
+.pull-left[
+
+También podemos visualizar la **varianza acumulada** de forma manual
+
+```{r eval = FALSE}
+cumvar <- as_tibble(pca_fit$eig)
+names(cumvar) <- c("lambda", "var", "cumvar")
+
+ggplot(cumvar, aes(x = 1:4, y = cumvar)) +
+  geom_col(fill = "pink") +
+  geom_hline(yintercept = 90,
+             linetype = "dashed") +
+  theme_minimal() +
+  labs(x = "Componente", 
+       y = "% varianza explicada",
+       title = "% varianza acumulada")
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+cumvar <- as_tibble(pca_fit$eig)
+names(cumvar) <- c("autovalor", "var", "cumvar")
+
+ggplot(cumvar, aes(x = 1:4, y = cumvar)) +
+  geom_col(fill = "pink") +
+  geom_hline(yintercept = 90,
+             linetype = "dashed") +
+  theme_minimal() +
+  labs(x = "Componente", 
+       y = "% varianza explicada",
+       title = "% varianza acumulada")
+```
+
+]
+
+---
+
+# PCA en R: con factominer y factoextra
+
+.pull-left[
+
+Por último `fviz_pca_biplot()` nos permite visualizar en las dos dimensiones que más varianza capturan, e incluso nos permite **visualizar clústers** de observaciones con las elipses definidas por las matrices de covarianza de cada uno de los grupos.
+
+```{r eval = FALSE}
+fviz_pca_biplot(pca_fit,
+                col.ind = iris$Species,
+                palette = "jco",
+                addEllipses = TRUE,
+                label = "var",
+                col.var = "black",
+                repel = TRUE,
+                legend.title = "Especies")
+```
+
+Observamos de nuevo como la componente determinante es la primera, que nos discrimina perfectamente la especie de Setosa.
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+fviz_pca_biplot(pca_fit, col.ind = iris$Species, palette = "jco",
+                addEllipses = TRUE, label = "var", col.var = "black", repel = TRUE,
+legend.title = "Especie")
+```
+
+]
+
+---
+
+hacerlo con tidymodels el iris y luego hacer ejemplos: notas, conjunto de tidymodels
+
+---
+
 class: inverse center middle
 
-# Extra. Introducción al dataviz en R.
+# BLOQUE II. Análisis clúster
 
 &nbsp;
 
-### [¿Qué es una gráfica?](#intro-historica)
 
-### [Introducción a ggplot2](#intro-ggplot2)
+### [¿Qué es el análisis clúster?](#intro-cluster)
 
-### [La importancia de visualizar datos](#importancia-dataviz)
+### [Métricas](#metricas)
 
-### [Profundizando en ggplot2](#importancia-dataviz)
+### [Algoritmos jerárquicos](#jerarquicos)
 
+### [Algoritmos no jerárquicos](#no-jerarquicos)
 
----
-
-name: intro-historica
-class: center, middle
-
-
-# Primer gráfico estadístico
-
-La mayoría de expertos, como Tufte <sup>1,2</sup>, consideran **este gráfico** casi longitudinal como la **primera visualización de datos** de la historia, hecha por **van Langren** en 1644, representando la **distancia (en longitud) entre Toledo y Roma** (un poco mal medida ya que la distancia real es de 16.5º).
-
-```{r echo = FALSE,  out.width = "45%", fig.align = "center", fig.cap = "Gráfica original extraída de Friendly y Valero-Mora (2010)"}
-knitr::include_graphics("./img/longitud_dataviz.jpg")
-``` 
-
-```{r echo = FALSE,  out.width = "45%", fig.align = "center", fig.cap = "Adaptación extraída de Friendly y Valero-Mora (2010)"}
-knitr::include_graphics("./img/dataviz_historico_3.jpeg")
-``` 
-
-[1] [📚 «Visual explanations: images and quantities, evidence and narrative» de E. Tufte](https://archive.org/details/visualexplanatio00tuft)
-
-[2] [📚 «PowerPoint is evil» de E. Tufte](https://www.wired.com/2003/09/ppt2/)
-
----
-
-# ¿Qué es una gráfica estadística?
-
-¿Por qué ese gráfico se considera la primera visualización estadística de la historia? ¿Qué es lo que hace que una visualización sea una gráfica estadística? **¿Cuál es la frontera entre una ilustración y una gráfica (de datos)?**
-
-&nbsp;
-
-Esas mismas preguntas se hizo **Joaquín Sevilla** en su manual <sup>1</sup>, argumentando que deben cumplir **3 requisitos**:
-
-1. Que se base en el esquema de composición de **eje métrico** (proceso de medida): **no cualquier dibujo que incluya números** lo podemos denominar «gráfica estadística». 
-
-.pull-left[
-
-```{r echo = FALSE,  out.width = "55%", fig.align = "center", fig.cap = "INFOGRAFÍA extraída del manual de Joaquín Sevilla"}
-knitr::include_graphics("./img/mapa_sevilla.jpg")
-``` 
-
-]
-
-.pull-right[
-
-```{r echo = FALSE,  out.width = "53%", fig.align = "center", fig.cap = "GRÁFICA extraída del manual de Joaquín Sevilla"}
-knitr::include_graphics("./img/grafica_dinero_sevilla.jpg")
-``` 
-
-]
-
-📚 [1] [«Gramática de las gráficas: pistas para mejorar las representaciones de datos» de Joaquín Sevilla](http://academica-e.unavarra.es/bitstream/handle/2454/15785/Gram%C3%A1tica.pdf)
+### [Determinación del número de grupos](#n-grupos)
 
 
 ---
-
-# Vizfail
-
-.pull-left[
-
-```{r echo = FALSE,  out.width = "99%", fig.align = "center", fig.cap = "Ejemplo de metáfora visual mal ejecutada"}
-knitr::include_graphics("./img/persona_dataviz.jpg")
-``` 
-
-]
-
-.pull-right[
-
-* La figura elegida (una persona caminando) no guarda relación alguna con lo que se pretende representar.
-
-* Los sectores señalados no tienen relación con el ítem a representar, lo que dificulta su interpretación
-
-* Los colores no dan información de ningún tipo.
-
-* La forma hace imposible la comparación entre áreas (salvo que leas el % adjunto).
-
-* La suma total supera el 100% ¿?
-
-* **Sin la fuente de los datos**.
-
-]
-
----
-
-# ¿Qué es una gráfica estadística?
-
-Ese **proceso de medida** en el que una gráfica se debe apoyar lo ilustra muy bien Alberto Cairo <sup>1</sup> con esta **infografía**.
-
-
-* ¿Sabrías decir en 5 segundos en que región el empleo ha crecido más? ¿Y menos?
-* ¿Sabrías decir en 5 segundos si la variación ha sido mayor en Madrid, La Rioja o Canarias?
-
-```{r echo = FALSE,  out.width = "65%", fig.align = "center", fig.cap = "INFOGRAFÍA extraída de Alberto Cairo"}
-knitr::include_graphics("./img/mapa_cairo_esp.jpg")
-``` 
-
-📚 [1] «The Functional Art: an introduction to information graphics and visualization» de Alberto Cairo.
-
----
-
-# ¿Qué es una gráfica estadística?
-
-
-```{r echo = FALSE,  out.width = "90%", fig.align = "center", fig.cap = "GRÁFICA extraída de Alberto Cairo"}
-knitr::include_graphics("./img/mapa_cairo_2.jpg")
-``` 
-
-La principal diferencia entre otro tipo de comunicación visual y una **gráfica estadística** radica en proporcionar **herramientas de medida**.
-
----
-
-# ¿Qué es una gráfica estadística?
-
-1. Que se base en el esquema de composición de **eje métrico**
-
-2. Debe incluir **información cuantitativa** (debe visualizar datos)
-
-3. La relación de representatividad debería **ser reversible**: los **datos deberían poder «recuperarse»** a partir de la gráfica (una gráfica estadística es un tipo particular de **aplicación** matemática).
-
-
-```{r echo = FALSE,  out.width = "50%", fig.align = "center", fig.cap = "Gráfica extraída del manual de Joaquín Sevilla"}
-knitr::include_graphics("./img/sevilla_densidad.jpg")
-``` 
-
-📚 [«Gramática de las gráficas: pistas para mejorar las representaciones de datos» de Joaquín Sevilla](http://academica-e.unavarra.es/bitstream/handle/2454/15785/Gram%C3%A1tica.pdf)
-
-
----
-
-# ¿Qué es una gráfica estadística?
-
-Hay muchas formas de hacer una gráfica estadística, y **no suele pasar** por hacer un gráfico de tartas. Los **diagramas de tartas o sectores** tiene un problema de reversibilidad:
-
-* Si hay **muchas variables**: salvo que conozcas el montante total y tengas un transportador de ángulos a mano, es muy complicado que obtengas información.
-
-* Si hay **pocas variables**: ¿aporta algo distinto (y/o mejor) que una tabla?
-
-
-```{r echo = FALSE,  out.width = "40%", fig.align = "center", fig.cap = "Gráfica extraída del manual de Joaquín Sevilla"}
-knitr::include_graphics("./img/sectores_sevilla.jpg")
-``` 
-
----
-
-# ¿Qué es una gráfica estadística?
-
-El principal problema de un **diagrama de sectores** es que la posible información está contenido en los **ángulos**, pero nuestra interpretación la realizamos a través de la **comparación de áreas** (nuestros ojos no miden bien ángulos), las cuales dependen no solo del ángulo sino del radio.
-
-Algo similar sucede con los mal llamados **gráficos tridimensionales** (son bidimensionales con perspectiva en realidad): los valores más cercanos aparecen sobredimensionados, siendo prácticamente imposible la reversibilidad.
-
-
-```{r echo = FALSE,  out.width = "70%", fig.align = "center", fig.cap = "Gráfica extraída del manual de Joaquín Sevilla"}
-knitr::include_graphics("./img/sectores_3D_sevilla.jpg")
-``` 
-
----
-
-# Vizfail
-
-Además, dado que un diagrama de sectores solo permite una **visualización relativa** de los datos, no son comparables con otros diagramas de tartas.
-
-```{r echo = FALSE,  out.width = "78%", fig.align = "center"}
-knitr::include_graphics("https://pbs.twimg.com/media/BgDR4urIMAAnHmG?format=jpg&name=medium")
-``` 
-
-Gráfica extraída de <https://twitter.com/Dave_Andrade/status/432576336872624129?t=FGjLtxE8V1BJR_QdXdtZgQ&s=19>
-
----
-
-# ¿Líneas rojas?
-
-* Entender el contexto y respetar el dato
-
-```{r echo = FALSE, out.width = "60%", fig.align = "center", fig.cap = "Infografía extraída de https://twitter.com/storywithdata"}
-knitr::include_graphics("https://pbs.twimg.com/media/FIgZcF4X0AAzLnC?format=jpg&name=medium")
-``` 
-
-(en lo de los diagramas de tartas discrepamos :P)
-
----
-
-# Contexto
-
-Una **buena idea** puede estar mejor o peor ejecutada, y la forma de llevarla a cabo es importante
-
-```{r echo = FALSE, out.width = "30%", fig.align = "center", fig.cap = "Un semáforo no es una mala idea, la forma de instalarlo sí puede serlo. Imagen extraída del manual de Joaquín Sevilla"}
-knitr::include_graphics("./img/semaforo.jpg")
-``` 
-
----
-
-# Fundamentos de la visualización de datos estadísticos
-
-## **Recomendaciones**
-
-[«The Functional Art: an introduction to information graphics and visualization» de Alberto Cairo](https://www.amazon.es/Functional-Art-Voices-That-Matter/dp/0321834739)
-
-
-[«Gramática de las gráficas: pistas para mejorar las representaciones de datos» de Joaquín Sevilla](https://academica-e.unavarra.es/bitstream/handle/2454/15785/Gram%C3%A1tica.pdf)
-
-
-[«A Brief History of Visualization» de Friendly et al. (2008)](https://www.researchgate.net/publication/226400313_A_Brief_History_of_Data_Visualization)
-
-[«Quantitative Graphics in Statistics: A Brief History» de James R. Beniger y Dorothy L. Robyn. The American Statistician (1978)](https://www.jstor.org/stable/2683467)]
-
-[«Presentation Graphics» de Leland Wilkinson. International Encyclopedia of the Social & Behavioral Sciences](https://www.cs.uic.edu/~wilkinson/Publications/iesbs.pdf)
-
-[«The Grammar of Graphics» de Leland Wilkinson](https://www.amazon.es/Grammar-Graphics-Statistics-Computing/dp/0387245448)
-
-
-[«The Minard System: The Graphical Works of Charles-Joseph Minard» de Sandra Rendgen](https://www.amazon.es/gp/product/1616896337/ref=sw_img_1?smid=A1AT7YVPFBWXBL&psc=1)
-
-
-[«The Visual Display of Quantitative Information» de E. W. Tufte](https://www.amazon.es/Visual-Display-Quantitative-Information/dp/0961392142)
-
----
-
-name: intro-ggplot2
-class: center, middle
-
-# Dataviz e introducción a ggplot2
-
-## **La gramática de los gráficos**
-
-&nbsp;
-
-El paquete `{ggplot2}` se basa en la idea propuesta en «Grammar of graphics» del recién fallecido Wilkinson.
-
----
-
-## ggplot2: grammar of graphics (gg)
-
-.pull-left[
-
-```{r echo = FALSE,  out.width = "70%", fig.align = "center", fig.cap = "Imagen extraída de Reddit"}
-knitr::include_graphics("https://dadosdelaplace.github.io/courses-ECI-2022/img/telling-dataviz")
-``` 
-
-]
-
-.pull-right[
-
-Una de las **principales fortalezas** de `R` no solo es el manejo de datos con `{tidyverse}`, también la visualización con uno de sus paquetes: el paquete `{ggplot2}`.
-
-La **visualización de datos** debería ser una parte fundamental de todo análisis de datos. No es solo una cuestión estética. La visualización de datos es fundamental para convertir el dato en información.
-
-]
-
-
----
-
-## ggplot2: grammar of graphics (gg)
-
-.pull-left[
-
-La idea de la filosofía detrás de `{ggplot2}` es entender los **gráficos como parte integrada del flujo de datos**, dotándoles de una **gramática**, basándose en la idea de 
-[«The Grammar of Graphics» de Leland Wilkinson](https://www.amazon.es/Grammar-Graphics-Statistics-Computing/dp/0387245448).
-
-El objetivo es empezar con un lienzo en blanco e ir **añadiendo capas a tu gráfico**, como harías por ejemplo en Photoshop, con la diferencia de que nuestras capas podemos **ligarlas al conjunto de datos**.
-
-La ventaja de `{ggplot2}` es poder **mapear atributos estéticos** (color, forma, tamaño) de **objetos geométricos** (puntos, barras, líneas) en **función de los datos**, añadiendo transformaciones de los datos, resúmenes estadísticos y transformaciones de las coordenadas.
-
-
-La **documentación** del paquete puedes consultarla en <https://ggplot2-book.org/introduction.html> 
-]
-
-.pull-right[
-
-```{r echo = FALSE,  out.width = "100%", fig.align = "center", fig.cap = "Idea detrás de la «Grammar of graphics» de Wilkinson"}
-knitr::include_graphics("https://dadosdelaplace.github.io/courses-ECI-2022/img/grammar.jpg")
-``` 
-]
-
-
----
-
-## ggplot2: grammar of graphics (gg)
-
-.pull-left[
-
-
-```{r echo = FALSE,  out.width = "100%", fig.align = "center", fig.cap = "Idea detrás de la «Grammar of graphics» de Wilkinson"}
-knitr::include_graphics("https://dadosdelaplace.github.io/courses-ECI-2022/img/grammar.jpg")
-``` 
-
-]
-
-.pull-right[
-
-Un gráfico se podrá componer de las siguientes **capas**
-
-* **Datos**
-* **Mapeado de elementos estéticos (aesthetics)**: ejes, color, forma, tamaño, etc (en función de los datos)
-* **Elementos geométricos (geom)**: puntos, líneas, barras, polígonos, etc.
-* **Componer gráficas (facet)**: visualizar varias gráficas a la vez.
-* **Transformaciones estadísticas (stat)**: ordenar, resumir, agrupar, etc.
-* **Sistema de coordenadas (coord)**: coordenadas, grids, etc.
-* **Temas (theme)**: fuente, tamaño de letra, subtítulos, captions, leyenda, ejes, etc.
-
-]
-
----
-
-
 
 # Recursos y bibliografía
 
@@ -1629,6 +1858,8 @@ Un gráfico se podrá componer de las siguientes **capas**
 
 📚 **«Quantitative Graphics in Statistics: A Brief History»**. Beniger and Robyn <https://github.com/dadosdelaplace/teaching/blob/main/bdba-pca-clustering-2022/biblio/graphics_beniger_robin_1978.pdf>
  
+ 
+💻 **«Analizando datos, visualizando información, contando historias»** (curso de dataviz en R). Álvarez-Liébana y Valverde-Castilla (2022) <https://dadosdelaplace.github.io/curso-dataviz-ECI-2022>
 
 ---
 
@@ -1653,6 +1884,24 @@ Un gráfico se podrá componer de las siguientes **capas**
 
 ---
 
+# Bibliografía análisis clúster
+
+Multiclass classification of dry beans using computer vision and machine learning techniques
+https://www.sciencedirect.com/science/article/abs/pii/S0168169919311573
+
+https://rpubs.com/Joaquin_AR/310338
+
+https://www.tidymodels.org/learn/statistics/k-means/
+
+https://emilhvitfeldt.github.io/ISLR-tidymodels-labs/unsupervised-learning.html#kmeans-clustering
+
+Algorithm AS 136: A K-Means Clustering Algorithm Author(s): J. A. Hartigan and M. A. Wong Reviewed work(s): Source: Journal of the Royal Statistical Society. Series C (Applied Statistics), Vol. 28, No. 1 (1979), pp. 100-108 Published by: Wiley-Blackwell for the Royal Statistical Society Stable URL: http://www.jstor.org/stable/2346830 .
+kmeans_hartigan_wong_1979
+
+https://cimentadaj.github.io/ml_socsci/unsupervised-methods.html
+
+---
+
 # Recursos y bibliografía
 
 ### Otras técnicas de reducción de la dimensión
@@ -1661,18 +1910,9 @@ Un gráfico se podrá componer de las siguientes **capas**
 
 📚 **«On the early history of the singular value decomposition»**. Stewart (1993) <https://github.com/dadosdelaplace/teaching/blob/main/bdba-pca-clustering-2022/biblio/svd_stewart_1993.pdf>
 
----
-
-# Bibliografía: clustering
-
+📚 **«UMAP: Uniform Manifold Approximation and Projection for Dimension Reduction»**. McInnes, healy and Melville (2020) <https://github.com/dadosdelaplace/teaching/blob/main/bdba-pca-clustering-2022/biblio/umap_mcinnesetal_2020.pdf>
 
 
 ---
 
-# Tareas pendientes
 
-- cuadros en dataviz
-- ¿ggplot2 aquí?
-- scripts covarianza/correlación
-- ¿pls? ¿canonical analysis?
-- clustering
