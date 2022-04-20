@@ -30,7 +30,7 @@ class: center, middle, inverse, title-slide
 ## Máster propio (NTIC) en «Big Data y Business Analytics»
 ### Profesor: Javier Álvarez Liébana
 ### Facultad de Estudios Estadísticos (UCM)
-### 22/04/2022 - 23/04/2022 (actualizado: 2022-04-13)
+### 22/04/2022 - 23/04/2022 (actualizado: 2022-04-20)
 
 ---
 
@@ -1846,7 +1846,7 @@ pca_fit$var$contrib
 # PCA en R: con factominer y factoextra
 
 
-Así que darían expresadas las **nuevas componentes principales** en función de las variables originales (estandarizadas$^*$)
+Así que darían expresadas los **loadings de las nuevas componentes principales** en función de las variables originales (estandarizadas `\(^*\)`)
 
 
 |  Phi_1| Phi_2|  Phi_3|  Phi_4|
@@ -2083,7 +2083,1050 @@ Observamos de nuevo como la componente determinante es la primera, que nos discr
 
 ---
 
-hacerlo con tidymodels el iris y luego hacer ejemplos: notas, conjunto de tidymodels
+# PCA con tidymodels
+
+Por último, ahora que entendemos las componentes principales vamos a calcularlas haciendo uso de `{tidymodels}`, un conjunto de paquetes y herramientas para obtener un **único flujo de trabajo en el preprocesamiento, modelización y evaluación** de modelos.
+
+
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="https://www.tmwr.org/premade/data-science-model.svg" alt="Infografía extraída de https://www.tmwr.org/dimensionality.html" width="75%" /&gt;
+&lt;p class="caption"&gt;Infografía extraída de https://www.tmwr.org/dimensionality.html&lt;/p&gt;
+&lt;/div&gt;
+
+
+```r
+library(tidymodels)
+```
+
+---
+
+
+# Filosofía tidymodels
+
+La idea detrás de `{tidymodels}` es **tratar por separado** la depuración y preparación de los datos, el modelo o paradigma de aprendizaje que se quiere aplicar, la optimización de los parámetros de dicho modelo, el ajuste, la evaluación y la predicción correspondiente, **creando un flujo de trabajo muy flexible**. La **filosofía es la misma que hay detrás de cocinar un plato**:
+
+1. Primero **escribimos la RECETA**, una lista de pasos e instrucciones.
+2. Después **preparamos HERRAMIENTAS y utensilios para cocinar** (nuestro modelo).
+3. Con la **RECETA + HERRAMIENTAS** podemos cocinar el plato muchas veces, con **distintos lotes de ingredientes (datos)**.
+
+&amp;nbsp;
+
+&lt;img src="https://www.tmwr.org/premade/recipes-process.svg" width="85%" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+# Ejemplo tidymodels: algoritmo knn
+
+.pull-left[
+
+Los datos utilizados forman parte de un cojunto de reservas de hotel elaborado por [Antonio et al., 2019](https://www.sciencedirect.com/science/article/pii/S2352340918315191?via%3Dihub). El **conjunto utilizado tiene 50 000 registros de reservas**, con algunas de las siguientes [variables](https://linkinghub.elsevier.com/retrieve/pii/S2352340918315191)
+
+* `hotel`: nombre del hotel.
+* `lead_time`: lapso de tiempo entre la reserva y la estancia.
+* `children`: si la reserva tiene niños o no.
+* `meal`: régimen de comidas.
+* `country`: país de origen.
+* `average_daily_rate`: tarifa media diaria.
+* `arrival_date`: fecha de llegada.
+
+]
+
+.pull-right[
+
+El **objetivo es predecir si una serva incluye niños/as o no**.
+
+
+```r
+hoteles_raw &lt;- read_csv("./DATOS/hotels.csv")
+glimpse(hoteles_raw)
+```
+
+```
+&gt; Rows: 50,000
+&gt; Columns: 23
+&gt; $ hotel                          &lt;chr&gt; "City_Hotel", "City_Hotel", "Resort_Hot…
+&gt; $ lead_time                      &lt;dbl&gt; 217, 2, 95, 143, 136, 67, 47, 56, 80, 6…
+&gt; $ stays_in_weekend_nights        &lt;dbl&gt; 1, 0, 2, 2, 1, 2, 0, 0, 0, 2, 1, 0, 1, …
+&gt; $ stays_in_week_nights           &lt;dbl&gt; 3, 1, 5, 6, 4, 2, 2, 3, 4, 2, 2, 1, 2, …
+&gt; $ adults                         &lt;dbl&gt; 2, 2, 2, 2, 2, 2, 2, 0, 2, 2, 2, 1, 2, …
+&gt; $ children                       &lt;chr&gt; "none", "none", "none", "none", "none",…
+&gt; $ meal                           &lt;chr&gt; "BB", "BB", "BB", "HB", "HB", "SC", "BB…
+&gt; $ country                        &lt;chr&gt; "DEU", "PRT", "GBR", "ROU", "PRT", "GBR…
+&gt; $ market_segment                 &lt;chr&gt; "Offline_TA/TO", "Direct", "Online_TA",…
+&gt; $ distribution_channel           &lt;chr&gt; "TA/TO", "Direct", "TA/TO", "TA/TO", "D…
+&gt; $ is_repeated_guest              &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+&gt; $ previous_cancellations         &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+&gt; $ previous_bookings_not_canceled &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+&gt; $ reserved_room_type             &lt;chr&gt; "A", "D", "A", "A", "F", "A", "C", "B",…
+&gt; $ assigned_room_type             &lt;chr&gt; "A", "K", "A", "A", "F", "A", "C", "A",…
+&gt; $ booking_changes                &lt;dbl&gt; 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+&gt; $ deposit_type                   &lt;chr&gt; "No_Deposit", "No_Deposit", "No_Deposit…
+&gt; $ days_in_waiting_list           &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+&gt; $ customer_type                  &lt;chr&gt; "Transient-Party", "Transient", "Transi…
+&gt; $ average_daily_rate             &lt;dbl&gt; 80.75, 170.00, 8.00, 81.00, 157.60, 49.…
+&gt; $ required_car_parking_spaces    &lt;chr&gt; "none", "none", "none", "none", "none",…
+&gt; $ total_of_special_requests      &lt;dbl&gt; 1, 3, 2, 1, 4, 1, 1, 1, 1, 1, 0, 1, 0, …
+&gt; $ arrival_date                   &lt;date&gt; 2016-09-01, 2017-08-25, 2016-11-19, 20…
+```
+
+]
+
+---
+
+# Ejemplo tidymodels: algoritmo knn
+
+
+### **Muestreo inicial**
+
+Una de las primeras acciones que quizás queremos realizar es un **muestreo inicial** de los datos
+
+* **Muestreo inicial**: `slice_sample` realiza un **muestreo aleatorio**, indicándole en `prop` el porcentaje de datos a extraer (**reminder**: los que no selecciones no continuan a lo largo del flujo).
+
+
+
+```r
+# Sample inicial: nos quedamos el 15% de los datos
+hoteles &lt;- hoteles_raw %&gt;% slice_sample(prop = 0.15)
+dim(hoteles_raw)
+```
+
+```
+&gt; [1] 50000    23
+```
+
+```r
+dim(hoteles)
+```
+
+```
+&gt; [1] 7500   23
+```
+
+---
+
+# Ejemplo tidymodels: algoritmo knn
+
+
+### **Partición train/test**
+
+Otra acción habitual será obtener varios **subconjuntos**:
+
+* `train`: para entrenar el algoritmo.
+* `validation`: para validar el modelo (quizás haya que volver a `train`)
+* `test`: para puntuar nuestro algoritmo (con datos que no han sido usados ni para entrenar ni para validar)
+
+Dado que **tenemos muy pocos 1's en nuestra variable objetivo**, debemos intentar preservar los máximos posibles (para que no nos quede un conjunto aún más desbalanceado).
+
+
+```r
+# Objetivo: predecir si la reserva tiene niños o no
+hoteles_raw %&gt;%
+  count(children) %&gt;%
+  mutate(porc = 100 * n / sum(n))
+```
+
+```
+&gt; # A tibble: 2 × 3
+&gt;   children     n  porc
+&gt;   &lt;chr&gt;    &lt;int&gt; &lt;dbl&gt;
+&gt; 1 children  4038  8.08
+&gt; 2 none     45962 91.9
+```
+
+---
+
+# Ejemplo tidymodels: algoritmo knn
+
+
+### **Partición train/test**
+
+Realizaremos una **partición train-test** estratificado por la variable `children`: repartiremos en **80-20%** los datos **PERO asegurándonos de que la proporción de 0's-1's se preserva**.
+
+
+```r
+# Partición 80-20%: estratificada para que mantenga 1/0
+hoteles_split &lt;- initial_split(hoteles, strata = children, prop = 0.8)
+hoteles_split
+```
+
+```
+&gt; &lt;Analysis/Assess/Total&gt;
+&gt; &lt;6000/1500/7500&gt;
+```
+
+&amp;nbsp;
+
+En `hoteles_split` tenemos **guardada las instrucciones** de lo que queremos hacer cuando lo apliquemos, pero hasta que no se aplique no realiza ninguna acción.
+
+
+```r
+hotel_train &lt;- training(hoteles_split)
+hotel_test &lt;- testing(hoteles_split)
+```
+
+---
+
+# Ejemplo tidymodels: algoritmo knn
+
+### **Receta sencilla (recipe)**
+
+* Asignar roles a variables
+* Recategorizar
+* Procesar outliers
+* Datos ausentes
+* Fechas
+* Estandarización por rango y/o normalización (tipificación)
+
+La lista de arriba son **algunas de las opciones que quizás querramos hacer** con nuestras variables antes de poder aplicar un modelo.
+
+&amp;nbsp;
+
+Lo que haremos será indicarle una **lista de instrucciones**, algo así como la **receta escrita que tenemos guardada en un cajón** para preparar un plato. La receta por sí sola no se pone a cocinarte menús, simplemente es una lista de instrucciones, lista para cuando la necesites.
+
+Las funciones que empiezan por `step_` tienen implementadas muchas de las funcionalidades que podemos realizar en depuración con `{tidyverse}`. La diferencia al incluirlo en la receta es que **se ejecutará cada vez que dicha receta se aplique (tanto a train como a test)**.
+
+---
+
+# Ejemplo tidymodels: algoritmo knn
+
+### **Receta sencilla (recipe)**
+
+
+* **Variable objetivo**: `children` será nuestra outcome (variable objetivo).
+
+
+```r
+receta &lt;-
+  recipe(data = hotel_train, children ~ .)
+```
+
+---
+
+# Ejemplo tidymodels: algoritmo knn
+
+### **Receta sencilla (recipe)**
+
+
+* **Variable objetivo**: `children` será nuestra outcome (variable objetivo).
+* **Convertimos a cualitativa** las variables de texto.
+
+
+```r
+receta &lt;-
+  recipe(data = hotel_train, children ~ .) %&gt;% 
+  step_mutate(across(where(is.character), as.factor))
+```
+
+---
+
+# Ejemplo tidymodels: algoritmo knn
+
+### **Receta sencilla (recipe)**
+
+
+* **Variable objetivo**: `children` será nuestra outcome (variable objetivo).
+* **Convertimos a cualitativa** las variables de texto.
+* **Roles de variables**: actualizar rol de la variable (`update_role()`), añadir rol amén del existente (`add_role()`), eliminar rol (`remove_role()`)
+
+
+```r
+receta &lt;-
+  recipe(data = hotel_train, children ~ .) %&gt;% 
+  step_mutate(across(where(is.character), as.factor)) %&gt;%
+  add_role(hotel, new_role = "type_hotel") 
+```
+
+
+---
+
+# Ejemplo tidymodels: algoritmo knn
+
+### **Receta sencilla (recipe)**
+
+
+* **Variable objetivo**: `children` será nuestra outcome (variable objetivo).
+* **Convertimos a cualitativa** las variables de texto.
+* **Roles de variables**: actualizar rol de la variable (`update_role()`), añadir rol amén del existente (`add_role()`), eliminar rol (`remove_role()`).
+* **Recategorizar variables**: vamos a pasar a binaria `is_repeated_guest` y convertiremos a factor `previous_cancellations`, `reserved_room_type`, `assigned_room_type`, `booking_changes`, `deposit_type` y `days_in_waiting_list`. Con `step_other()` además le vamos a indicar que si en una **variable cualitativa hay algún nivel en proporciones ínfimas (por ejemplo, representa menos del 0.5% del total) las reagrupe** en una categoría llamada «others».
+
+
+```r
+receta &lt;-
+  recipe(data = hotel_train, children ~ .) %&gt;% 
+  step_mutate(across(where(is.character), as.factor)) %&gt;%
+  add_role(hotel, new_role = "type_hotel") %&gt;%
+  step_mutate(is_repeated_guest = (is_repeated_guest == 1),
+              across(previous_cancellations:days_in_waiting_list,
+                     as.factor)) %&gt;%
+  # Indicamos % mínimo en categoría (si &lt; 0.5%, reagrupa a others)
+  step_other(all_nominal_predictors(), threshold = 0.005)
+```
+
+---
+
+# Ejemplo tidymodels: algoritmo knn
+
+### **Receta sencilla (recipe)**
+
+
+* **Variable objetivo**: `children` será nuestra outcome (variable objetivo).
+* **Convertimos a cualitativa** las variables de texto.
+* **Roles de variables**: actualizar rol de la variable (`update_role()`), añadir rol amén del existente (`add_role()`), eliminar rol (`remove_role()`).
+* **Recategorizar variables**.
+* **Estandarizar por rango** con `step_range()` (siempre entre 0 y 1, aunque podríamos asignarle otro rango dando valores a `max` y `min`). Con `step_normalize()` normalizaríamos (media nula y varianza unitaria).
+
+
+
+```r
+receta &lt;-
+  recipe(data = hotel_train, children ~ .) %&gt;% 
+  step_mutate(across(where(is.character), as.factor)) %&gt;%
+  add_role(hotel, new_role = "type_hotel")  %&gt;%
+  step_mutate(is_repeated_guest = (is_repeated_guest == 1),
+              across(previous_cancellations:days_in_waiting_list,
+                     as.factor)) %&gt;%
+  # Indicamos % mínimo en categoría (si &lt; 0.5%, reagrupa a others)
+  step_other(all_nominal_predictors(), threshold = 0.005) %&gt;% 
+  step_range(all_numeric_predictors(), min = 0, max = 1)
+```
+
+---
+
+# Ejemplo tidymodels: algoritmo knn
+
+### **Receta sencilla (recipe)**
+
+
+* **Variable objetivo**: `children` será nuestra outcome (variable objetivo).
+* **Convertimos a cualitativa** las variables de texto.
+* **Roles de variables**.
+* **Recategorizar variables**.
+* **Estandarizar por rango**.
+* **Rebalancear objetivo**: en nuestros datos tan solo tenemos cerca del 8% de registros con `children = children` (1's). Usaremos el **sobremuestreo**: duplicar algunos registros con 1 en la variable objetivo para que **equilibrar** la proporción de 0's vs 1's. Para ello basta con añadir en nuestra receta el paso `step_upsample` del paquete `{themis}`, indicándole en `over_ratio` la relación que queremos entre la clase minoritaria y la mayoritaria.
+
+
+
+```r
+receta &lt;-
+  recipe(data = hotel_train, children ~ .) %&gt;% 
+  step_mutate(across(where(is.character), as.factor)) %&gt;%
+  add_role(hotel, new_role = "type_hotel")  %&gt;%
+  step_mutate(is_repeated_guest = (is_repeated_guest == 1),
+              across(previous_cancellations:days_in_waiting_list,
+                     as.factor)) %&gt;%
+  # Indicamos % mínimo en categoría (si &lt; 0.5%, reagrupa a others)
+  step_other(all_nominal_predictors(), threshold = 0.005) %&gt;% 
+  step_range(all_numeric_predictors(), min = 0, max = 1) %&gt;%
+  themis::step_upsample(children, over_ratio = 0.5)
+```
+
+---
+
+# Ejemplo tidymodels: algoritmo knn
+
+### **Receta sencilla (recipe)**
+
+
+* **Variable objetivo**: `children` será nuestra outcome (variable objetivo). **Convertimos a cualitativa** las variables de texto.
+* **Roles de variables**. **Recategorizar variables**.
+* **Estandarizar** por rango. **Rebalancear** objetivo.
+* **Tratar datos atípicos y missings**.
+
+
+```r
+receta &lt;-
+  recipe(data = hotel_train, children ~ .) %&gt;% 
+  step_mutate(across(where(is.character), as.factor)) %&gt;%
+  add_role(hotel, new_role = "type_hotel")  %&gt;%
+  step_mutate(is_repeated_guest = (is_repeated_guest == 1),
+              across(previous_cancellations:days_in_waiting_list,
+                     as.factor)) %&gt;%
+  # Indicamos % mínimo en categoría (si &lt; 0.5%, reagrupa a others)
+  step_other(all_nominal_predictors(), threshold = 0.005) %&gt;% 
+  step_range(all_numeric_predictors(), min = 0, max = 1) %&gt;%
+  themis::step_upsample(children, over_ratio = 0.5) %&gt;%
+  step_mutate_at(all_numeric_predictors(),
+                 fn = function(x) { ifelse(abs(x - mean(x, na.rm = TRUE)) &gt; 5 * sd(x, na.rm = TRUE), NA, x)}) %&gt;%
+  # Imputamos por la media las numéricas, por la moda las cuali
+  step_impute_mean(all_numeric_predictors()) %&gt;%
+  step_impute_mode(all_nominal_predictors())
+```
+
+---
+
+# Ejemplo tidymodels: algoritmo knn
+
+### **Receta sencilla (recipe)**
+
+
+* **Variable objetivo**: `children` será nuestra outcome (variable objetivo). **Convertimos a cualitativa** las variables de texto.
+* **Roles de variables**. **Recategorizar variables**.
+* **Estandarizar** por rango. **Rebalancear** objetivo.
+* **Tratar datos atípicos y missings**. Convertimos **cualitativas a dummy**.
+
+
+```r
+receta &lt;-
+  recipe(data = hotel_train, children ~ .) %&gt;% 
+  step_mutate(across(where(is.character), as.factor)) %&gt;%
+  add_role(hotel, new_role = "type_hotel")  %&gt;%
+  step_mutate(is_repeated_guest = (is_repeated_guest == 1),
+              across(previous_cancellations:days_in_waiting_list,
+                     as.factor)) %&gt;%
+  # Indicamos % mínimo en categoría (si &lt; 0.5%, reagrupa a others)
+  step_other(all_nominal_predictors(), threshold = 0.005) %&gt;% 
+  step_range(all_numeric_predictors(), min = 0, max = 1) %&gt;%
+  themis::step_upsample(children, over_ratio = 0.5) %&gt;%
+  step_mutate_at(all_numeric_predictors(),
+                 fn = function(x) { ifelse(abs(x - mean(x, na.rm = TRUE)) &gt; 5 * sd(x, na.rm = TRUE), NA, x)}) %&gt;%
+  # Imputamos por la media las numéricas, por la moda las cuali
+  step_impute_mean(all_numeric_predictors()) %&gt;%
+  step_impute_mode(all_nominal_predictors()) %&gt;% 
+  # nominales las pasemos a dummy 1/0 (country también)
+  step_dummy(all_nominal(), -all_outcomes())
+```
+
+---
+
+# Ejemplo tidymodels: algoritmo knn
+
+### **Receta sencilla (recipe)**
+
+
+```r
+receta
+```
+
+```
+&gt; Recipe
+&gt; 
+&gt; Inputs:
+&gt; 
+&gt;        role #variables
+&gt;     outcome          1
+&gt;   predictor         22
+&gt;  type_hotel          1
+&gt; 
+&gt; Operations:
+&gt; 
+&gt; Variable mutation for across(where(is.character), as.factor)
+&gt; Variable mutation for (is_repeated_guest == 1), across(previous_...
+&gt; Collapsing factor levels for all_nominal_predictors()
+&gt; Range scaling to [0,1] for all_numeric_predictors()
+&gt; $terms
+&gt; &lt;list_of&lt;quosure&gt;&gt;
+&gt; 
+&gt; [[1]]
+&gt; &lt;quosure&gt;
+&gt; expr: ^children
+&gt; env:  0x7ff1374153d8
+&gt; 
+&gt; 
+&gt; $over_ratio
+&gt; [1] 0.5
+&gt; 
+&gt; $ratio
+&gt; [1] NA
+&gt; 
+&gt; $role
+&gt; [1] NA
+&gt; 
+&gt; $trained
+&gt; [1] FALSE
+&gt; 
+&gt; $column
+&gt; NULL
+&gt; 
+&gt; $target
+&gt; [1] NA
+&gt; 
+&gt; $skip
+&gt; [1] TRUE
+&gt; 
+&gt; $id
+&gt; [1] "upsample_2Zkur"
+&gt; 
+&gt; $seed
+&gt; [1] 42898
+&gt; 
+&gt; attr(,"class")
+&gt; [1] "step_upsample" "step"         
+&gt; Variable mutation for all_numeric_predictors()
+&gt; Mean imputation for all_numeric_predictors()
+&gt; Mode imputation for all_nominal_predictors()
+&gt; Dummy variables from all_nominal(), -all_outcomes()
+```
+
+---
+
+# Ejemplo tidymodels: algoritmo knn
+
+### **Horneado (bake)**
+
+Tras escribir la receta vamos a **prepararla** y a **hornear los datos** con `bake()`: para hornearla en el conjunto de train, basta con poner `new_data = NULL`.
+
+
+```r
+# Aplicado a train
+bake(receta %&gt;% prep(), new_data = NULL)
+```
+
+```
+&gt; # A tibble: 8,295 × 72
+&gt;    lead_time stays_in_weekend_nights stays_in_week_nigh… adults is_repeated_gue…
+&gt;        &lt;dbl&gt;                   &lt;dbl&gt;               &lt;dbl&gt;  &lt;dbl&gt; &lt;lgl&gt;           
+&gt;  1   0.0535                   0.143               0.2      0.25 FALSE           
+&gt;  2   0                        0                   0.0286   0.5  FALSE           
+&gt;  3   0.00185                  0.143               0.0286   0.5  FALSE           
+&gt;  4   0.0554                   0.0714              0.0571   0.5  FALSE           
+&gt;  5   0.0554                   0.0714              0.0857   0.5  FALSE           
+&gt;  6   0.116                    0                   0.0286   0.5  FALSE           
+&gt;  7   0                        0                   0.0286   0.25 FALSE           
+&gt;  8   0.0867                   0                   0.0286   0.5  FALSE           
+&gt;  9   0.0793                   0                   0.114    0.5  FALSE           
+&gt; 10   0.0185                   0                   0.0286   0.5  FALSE           
+&gt; # … with 8,285 more rows, and 67 more variables: average_daily_rate &lt;dbl&gt;,
+&gt; #   total_of_special_requests &lt;dbl&gt;, arrival_date &lt;date&gt;, children &lt;fct&gt;,
+&gt; #   hotel_Resort_Hotel &lt;dbl&gt;, meal_HB &lt;dbl&gt;, meal_SC &lt;dbl&gt;,
+&gt; #   meal_Undefined &lt;dbl&gt;, meal_other &lt;dbl&gt;, country_BEL &lt;dbl&gt;,
+&gt; #   country_BRA &lt;dbl&gt;, country_CHE &lt;dbl&gt;, country_CHN &lt;dbl&gt;, country_CN &lt;dbl&gt;,
+&gt; #   country_DEU &lt;dbl&gt;, country_ESP &lt;dbl&gt;, country_FRA &lt;dbl&gt;, country_GBR &lt;dbl&gt;,
+&gt; #   country_IRL &lt;dbl&gt;, country_ISR &lt;dbl&gt;, country_ITA &lt;dbl&gt;, …
+```
+
+---
+
+# Ejemplo tidymodels: algoritmo knn
+
+### **Horneado (bake)**
+
+Para hornearla en el conjunto de test basta con poner `new_data = hotel_test`. Nuestra receta, aplicada a nuestros ingredientes, está lista. Este «horneado» con `bake()` solo lo necesitamos **si queremos ya aplicar la receta a nuestros datos**.
+
+
+```r
+bake(receta %&gt;% prep(), new_data = hotel_test)
+```
+
+```
+&gt; # A tibble: 1,500 × 72
+&gt;    lead_time stays_in_weekend_nights stays_in_week_nigh… adults is_repeated_gue…
+&gt;        &lt;dbl&gt;                   &lt;dbl&gt;               &lt;dbl&gt;  &lt;dbl&gt; &lt;lgl&gt;           
+&gt;  1   0.00185                  0.0714              0.0286   0.5  FALSE           
+&gt;  2   0.0332                   0.0714              0.0286   0.5  FALSE           
+&gt;  3   0.0387                   0.0714              0.0857   0.5  FALSE           
+&gt;  4   0.00738                  0.143               0.0857   0.5  FALSE           
+&gt;  5   0.00369                  0                   0.0286   0.25 FALSE           
+&gt;  6   0.393                    0.0714              0.0286   0.5  FALSE           
+&gt;  7   0.0627                   0.143               0.143    0.5  FALSE           
+&gt;  8   0.0480                   0                   0.0286   0.25 FALSE           
+&gt;  9   0.0185                   0.143               0.0857   0.5  FALSE           
+&gt; 10   0.415                    0.0714              0.0857   0.25 FALSE           
+&gt; # … with 1,490 more rows, and 67 more variables: average_daily_rate &lt;dbl&gt;,
+&gt; #   total_of_special_requests &lt;dbl&gt;, arrival_date &lt;date&gt;, children &lt;fct&gt;,
+&gt; #   hotel_Resort_Hotel &lt;dbl&gt;, meal_HB &lt;dbl&gt;, meal_SC &lt;dbl&gt;,
+&gt; #   meal_Undefined &lt;dbl&gt;, meal_other &lt;dbl&gt;, country_BEL &lt;dbl&gt;,
+&gt; #   country_BRA &lt;dbl&gt;, country_CHE &lt;dbl&gt;, country_CHN &lt;dbl&gt;, country_CN &lt;dbl&gt;,
+&gt; #   country_DEU &lt;dbl&gt;, country_ESP &lt;dbl&gt;, country_FRA &lt;dbl&gt;, country_GBR &lt;dbl&gt;,
+&gt; #   country_IRL &lt;dbl&gt;, country_ISR &lt;dbl&gt;, country_ITA &lt;dbl&gt;, …
+```
+
+---
+
+# Ejemplo tidymodels: algoritmo knn
+
+### **Utensilios (modelo)**
+
+Una vez que tenemos nuestra lista de instrucciones, lo siguiente que haríamos al **cocinar un plato** es buscar los utensilios: cuchillos, cacerolas, batidora, etc. En nuestro caso los **utensilios serán nuestro modelo (en este caso de clasificación)**, con `nearest_neighbor()` (echa un vistazo a los modelos del paquete `{parsnip}`). 
+
+- `mode`: admite dos opciones, `mode = "classification"` o `mode = "regression"`.
+- `neighbors`: el número de vecinos `k` que consideramos como entorno de vecindad.
+- `weight_func`: función (kernel) para promedir distancias (`weight_func = "inv"` nos promedia por el inverso de la distancia; ver opciones en &lt;https://epub.ub.uni-muenchen.de/1769/&gt;)
+- `dist_power`: número `\(p\)` de la distancia de Minkowski
+
+
+```r
+knn_model &lt;-
+  nearest_neighbor(mode = "classification", neighbors = 10,
+                   weight_func = "inv", dist_power = 2) %&gt;%
+  set_engine("kknn") # el «motor» que realiza el ajuste
+knn_model
+```
+
+```
+&gt; K-Nearest Neighbor Model Specification (classification)
+&gt; 
+&gt; Main Arguments:
+&gt;   neighbors = 10
+&gt;   weight_func = inv
+&gt;   dist_power = 2
+&gt; 
+&gt; Computational engine: kknn
+```
+
+---
+
+# Ejemplo tidymodels: algoritmo knn
+
+### **Flujo de trabajo**
+
+
+Con dichos ingredientes podemos crear ya un **flujo de trabajo** con `workflow()`
+
+
+```r
+# Flujo de trabajo
+hoteles_wflow &lt;-
+  workflow() %&gt;%
+  add_recipe(receta) %&gt;%
+  add_model(knn_model)
+hoteles_wflow
+```
+
+```
+&gt; ══ Workflow ════════════════════════════════════════════════════════════════════
+&gt; Preprocessor: Recipe
+&gt; Model: nearest_neighbor()
+&gt; 
+&gt; ── Preprocessor ────────────────────────────────────────────────────────────────
+&gt; 9 Recipe Steps
+&gt; 
+&gt; • step_mutate()
+&gt; • step_mutate()
+&gt; • step_other()
+&gt; • step_range()
+&gt; • step_upsample()
+&gt; • step_mutate_at()
+&gt; • step_impute_mean()
+&gt; • step_impute_mode()
+&gt; • step_dummy()
+&gt; 
+&gt; ── Model ───────────────────────────────────────────────────────────────────────
+&gt; K-Nearest Neighbor Model Specification (classification)
+&gt; 
+&gt; Main Arguments:
+&gt;   neighbors = 10
+&gt;   weight_func = inv
+&gt;   dist_power = 2
+&gt; 
+&gt; Computational engine: kknn
+```
+
+---
+
+# Ejemplo tidymodels: algoritmo knn
+
+### **Ajuste y predicción**
+
+Dichos pasos vamos a **proporcionárselos a nuestro conjunto de entrenamiento** para que nos **aplique el flujo de trabajo** que hemos construido, usando `fit(data = hotel_train)`.
+
+
+```r
+# Aplicamos flujo
+library("kknn")
+hoteles_knn_fit &lt;-
+  hoteles_wflow %&gt;% fit(data = hotel_train)
+hoteles_knn_fit
+```
+
+```
+&gt; ══ Workflow [trained] ══════════════════════════════════════════════════════════
+&gt; Preprocessor: Recipe
+&gt; Model: nearest_neighbor()
+&gt; 
+&gt; ── Preprocessor ────────────────────────────────────────────────────────────────
+&gt; 9 Recipe Steps
+&gt; 
+&gt; • step_mutate()
+&gt; • step_mutate()
+&gt; • step_other()
+&gt; • step_range()
+&gt; • step_upsample()
+&gt; • step_mutate_at()
+&gt; • step_impute_mean()
+&gt; • step_impute_mode()
+&gt; • step_dummy()
+&gt; 
+&gt; ── Model ───────────────────────────────────────────────────────────────────────
+&gt; 
+&gt; Call:
+&gt; kknn::train.kknn(formula = ..y ~ ., data = data, ks = min_rows(10,     data, 5), distance = ~2, kernel = ~"inv")
+&gt; 
+&gt; Type of response variable: nominal
+&gt; Minimal misclassification: 0.02845087
+&gt; Best kernel: inv
+&gt; Best k: 10
+```
+
+---
+
+# Ejemplo tidymodels: algoritmo knn
+
+### **Ajuste y predicción**
+
+Dicho ajuste guardado en `hoteles_knn_fit` podemos usarlo para **predecir el conjunto test** de dos maneras:
+
+* **Clase**
+* **Probabilidades** (de pertenencia a dichas clases, necesario para el cálculo de la **curva ROC**)
+
+Ambas se hacen con `predict()` pasándole un argumento de `type` diferente. **Reminder**: al tenerlo todo integrado en un flujo, **aplicará el procesamiento que necesite al conjunto de test**, tal cual lo hemos indicado en las instrucciones.
+
+
+```r
+# Predecir el conjunto test: devuelve la clase
+predict(hoteles_knn_fit, hotel_test)
+```
+
+```
+&gt; # A tibble: 1,500 × 1
+&gt;    .pred_class
+&gt;    &lt;fct&gt;      
+&gt;  1 none       
+&gt;  2 none       
+&gt;  3 none       
+&gt;  4 none       
+&gt;  5 none       
+&gt;  6 none       
+&gt;  7 none       
+&gt;  8 none       
+&gt;  9 none       
+&gt; 10 none       
+&gt; # … with 1,490 more rows
+```
+
+```r
+# Predecir las probabilidades (las necesitamos para la ROC)
+predict(hoteles_knn_fit, hotel_test, type = "prob")
+```
+
+```
+&gt; # A tibble: 1,500 × 2
+&gt;    .pred_children .pred_none
+&gt;             &lt;dbl&gt;      &lt;dbl&gt;
+&gt;  1          0          1    
+&gt;  2          0          1    
+&gt;  3          0          1    
+&gt;  4          0          1    
+&gt;  5          0          1    
+&gt;  6          0          1    
+&gt;  7          0.167      0.833
+&gt;  8          0          1    
+&gt;  9          0.308      0.692
+&gt; 10          0          1    
+&gt; # … with 1,490 more rows
+```
+
+---
+
+# Ejemplo tidymodels: algoritmo knn
+
+### **Ajuste y predicción**
+
+Dentro del paquete `{parsnip}` que hemos cargado dentro de `{tidymodels}` tenemos a nuestra disposición una función llamada `augment()` que nos permite **incluir en una misma tabla las predicciones de la clase, de las probabilidades y los datos de test originales** (añadiendo columnas).
+
+
+```r
+# Para obtener las probabilidades en los datos (con variables)
+prob_test &lt;- augment(hoteles_knn_fit, hotel_test)
+print(prob_test, width = Inf)
+```
+
+```
+&gt; # A tibble: 1,500 × 26
+&gt;    hotel        lead_time stays_in_weekend_nights stays_in_week_nights adults
+&gt;    &lt;chr&gt;            &lt;dbl&gt;                   &lt;dbl&gt;                &lt;dbl&gt;  &lt;dbl&gt;
+&gt;  1 City_Hotel           1                       1                    1      2
+&gt;  2 City_Hotel          18                       1                    1      2
+&gt;  3 City_Hotel          21                       1                    3      2
+&gt;  4 Resort_Hotel         4                       2                    3      2
+&gt;  5 City_Hotel           2                       0                    1      1
+&gt;  6 Resort_Hotel       213                       1                    1      2
+&gt;  7 Resort_Hotel        34                       2                    5      2
+&gt;  8 Resort_Hotel        26                       0                    1      1
+&gt;  9 Resort_Hotel        10                       2                    3      2
+&gt; 10 Resort_Hotel       225                       1                    3      1
+&gt;    children meal  country market_segment distribution_channel is_repeated_guest
+&gt;    &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;          &lt;chr&gt;                            &lt;dbl&gt;
+&gt;  1 children BB    PRT     Direct         Direct                               0
+&gt;  2 none     BB    PRT     Groups         TA/TO                                0
+&gt;  3 none     SC    FRA     Online_TA      TA/TO                                0
+&gt;  4 none     HB    FRA     Online_TA      TA/TO                                0
+&gt;  5 none     BB    GBR     Online_TA      TA/TO                                0
+&gt;  6 none     HB    DEU     Groups         TA/TO                                0
+&gt;  7 none     BB    PRT     Direct         Direct                               0
+&gt;  8 none     BB    NULL    Corporate      Corporate                            0
+&gt;  9 none     BB    IRL     Online_TA      TA/TO                                0
+&gt; 10 none     BB    GBR     Groups         Direct                               0
+&gt;    previous_cancellations previous_bookings_not_canceled reserved_room_type
+&gt;                     &lt;dbl&gt;                          &lt;dbl&gt; &lt;chr&gt;             
+&gt;  1                      0                              0 A                 
+&gt;  2                      0                              0 A                 
+&gt;  3                      0                              0 A                 
+&gt;  4                      0                              0 E                 
+&gt;  5                      0                              0 A                 
+&gt;  6                      0                              0 A                 
+&gt;  7                      0                              0 F                 
+&gt;  8                      0                              2 A                 
+&gt;  9                      0                              0 A                 
+&gt; 10                      0                              0 A                 
+&gt;    assigned_room_type booking_changes deposit_type days_in_waiting_list
+&gt;    &lt;chr&gt;                        &lt;dbl&gt; &lt;chr&gt;                       &lt;dbl&gt;
+&gt;  1 D                                0 No_Deposit                      0
+&gt;  2 A                                0 No_Deposit                      0
+&gt;  3 A                                0 No_Deposit                      0
+&gt;  4 F                                1 No_Deposit                      0
+&gt;  5 A                                1 No_Deposit                      0
+&gt;  6 A                                0 No_Deposit                      0
+&gt;  7 F                                0 No_Deposit                      0
+&gt;  8 D                                0 No_Deposit                      0
+&gt;  9 A                                0 No_Deposit                      0
+&gt; 10 A                                2 No_Deposit                      0
+&gt;    customer_type   average_daily_rate required_car_parking_spaces
+&gt;    &lt;chr&gt;                        &lt;dbl&gt; &lt;chr&gt;                      
+&gt;  1 Transient                     75   none                       
+&gt;  2 Transient-Party               75   none                       
+&gt;  3 Transient                     67.6 none                       
+&gt;  4 Transient                    124   none                       
+&gt;  5 Transient-Party              103.  none                       
+&gt;  6 Transient-Party               85   none                       
+&gt;  7 Transient                    256   none                       
+&gt;  8 Transient                     48   none                       
+&gt;  9 Transient                     76   parking                    
+&gt; 10 Transient-Party               60   none                       
+&gt;    total_of_special_requests arrival_date .pred_class .pred_children .pred_none
+&gt;                        &lt;dbl&gt; &lt;date&gt;       &lt;fct&gt;                &lt;dbl&gt;      &lt;dbl&gt;
+&gt;  1                         1 2015-08-08   none                 0          1    
+&gt;  2                         0 2015-07-18   none                 0          1    
+&gt;  3                         1 2017-01-12   none                 0          1    
+&gt;  4                         0 2016-05-08   none                 0          1    
+&gt;  5                         0 2016-08-02   none                 0          1    
+&gt;  6                         0 2016-05-16   none                 0          1    
+&gt;  7                         3 2017-08-24   none                 0.167      0.833
+&gt;  8                         0 2015-10-27   none                 0          1    
+&gt;  9                         3 2017-04-09   none                 0.308      0.692
+&gt; 10                         0 2016-05-26   none                 0          1    
+&gt; # … with 1,490 more rows
+```
+
+---
+
+# Ejemplo tidymodels: algoritmo knn
+
+### **Evaluación**
+
+En realidad el conjunto de test solo deberíamos usarlo al final del proceso, no como evaluación intermedia de los hiperparámetros, ya que dicho rol le corresponde a un **tercer conjunto de validación**, pero de momento vamos a simplificarlo en train-test.
+
+Una de las formas más sencillas de **evaluar un método de clasificación es con una matriz de confusión**: una matriz que nos cruce las frecuencias de las etiquetas reales frente a las predichas.
+
+
+```r
+# Matriz de confusión: etiqueta real vs etiqueta predicha
+conf_mat_test &lt;-
+  prob_test %&gt;% conf_mat(truth = children, estimate = .pred_class)
+
+# La guardamos en una tabla
+conf_mat_test &lt;- as_tibble(conf_mat_test$table)
+conf_mat_test 
+```
+
+```
+&gt; # A tibble: 4 × 3
+&gt;   Prediction Truth        n
+&gt;   &lt;chr&gt;      &lt;chr&gt;    &lt;int&gt;
+&gt; 1 children   children    62
+&gt; 2 none       children    67
+&gt; 3 children   none       168
+&gt; 4 none       none      1203
+```
+
+---
+
+
+# Ejemplo tidymodels: algoritmo knn
+
+### **Evaluación**
+
+Muchas de las **métricas las podemos obtener automáticamente** de la matriz de confusión.
+
+
+```r
+# Matriz de confusión + resumen: etiqueta real vs etiqueta predicha
+metricas &lt;-
+  prob_test %&gt;% conf_mat(truth = children, estimate = .pred_class) %&gt;%
+  summary()
+metricas
+```
+
+```
+&gt; # A tibble: 13 × 3
+&gt;    .metric              .estimator .estimate
+&gt;    &lt;chr&gt;                &lt;chr&gt;          &lt;dbl&gt;
+&gt;  1 accuracy             binary         0.843
+&gt;  2 kap                  binary         0.264
+&gt;  3 sens                 binary         0.481
+&gt;  4 spec                 binary         0.877
+&gt;  5 ppv                  binary         0.270
+&gt;  6 npv                  binary         0.947
+&gt;  7 mcc                  binary         0.279
+&gt;  8 j_index              binary         0.358
+&gt;  9 bal_accuracy         binary         0.679
+&gt; 10 detection_prevalence binary         0.153
+&gt; 11 precision            binary         0.270
+&gt; 12 recall               binary         0.481
+&gt; 13 f_meas               binary         0.345
+```
+
+---
+
+# PCA con tidymodels
+
+Ahora que hemos visto por encima la idea de `{tidymodels}` vamos a calcular las componentes principales del conjunto `iris` con dicha idea.
+
+
+
+```r
+iris_ful7 &lt;- iris %&gt;% select(-Species)
+library(corrplot)
+iris_full %&gt;% cor() %&gt;% 
+  corrplot(tl.col = "black", method = "ellipse")
+```
+
+&lt;img src="index_files/figure-html/iris-cor-1.png" width="3%" /&gt;
+
+---
+
+# PCA con tidymodels
+
+La receta tendrá los siguientes pasos:
+
+* Indicar la **variable objetivo** (`Species`)
+* Imputamos **datos ausentes**
+* **Estandarizar/normalizar** los datos
+* Eliminamos variables de **cero varianza**
+
+
+```r
+receta &lt;- 
+  recipe(Species ~ ., data = iris) %&gt;%
+  # Imputamos por la media las numéricas, por la moda las cuali
+  step_impute_mean(all_numeric_predictors()) %&gt;%
+  step_impute_mode(all_nominal_predictors()) %&gt;%
+  # Estandarizamos
+  step_normalize(all_numeric_predictors()) %&gt;%
+  # Filtro cero varianza
+  step_zv(all_numeric_predictors())
+receta
+```
+
+```
+&gt; Recipe
+&gt; 
+&gt; Inputs:
+&gt; 
+&gt;       role #variables
+&gt;    outcome          1
+&gt;  predictor          4
+&gt; 
+&gt; Operations:
+&gt; 
+&gt; Mean imputation for all_numeric_predictors()
+&gt; Mode imputation for all_nominal_predictors()
+&gt; Centering and scaling for all_numeric_predictors()
+&gt; Zero variance filter on all_numeric_predictors()
+```
+
+---
+
+# PCA con tidymodels
+
+Para añadir el **análisis de componentes principales** basta con añadir `step_pca()`
+
+
+```r
+receta &lt;-
+  receta %&gt;%
+  step_pca(all_numeric_predictors(), num_comp = 4,
+           prefix = "PC") 
+```
+ 
+Con el argumento `num_comp = 4` indícamos el número de componentes y con `prefix` el prefijo con el que llamaremos a las nuevas variables
+
+---
+
+# PCA con tidymodels
+
+
+```r
+data_pc &lt;- bake(receta %&gt;% prep(), new_data = NULL)
+data_pc
+```
+
+```
+&gt; # A tibble: 150 × 5
+&gt;    Species   PC1     PC2     PC3      PC4
+&gt;    &lt;fct&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;
+&gt;  1 setosa  -2.26 -0.478   0.127   0.0241 
+&gt;  2 setosa  -2.07  0.672   0.234   0.103  
+&gt;  3 setosa  -2.36  0.341  -0.0441  0.0283 
+&gt;  4 setosa  -2.29  0.595  -0.0910 -0.0657 
+&gt;  5 setosa  -2.38 -0.645  -0.0157 -0.0358 
+&gt;  6 setosa  -2.07 -1.48   -0.0269  0.00659
+&gt;  7 setosa  -2.44 -0.0475 -0.334  -0.0367 
+&gt;  8 setosa  -2.23 -0.222   0.0884 -0.0245 
+&gt;  9 setosa  -2.33  1.11   -0.145  -0.0268 
+&gt; 10 setosa  -2.18  0.467   0.253  -0.0398 
+&gt; # … with 140 more rows
+```
+
+---
+
+# PCA con tidymodels
+
+.pull-left[
+
+
+```r
+ggplot(data_pc %&gt;% select(-Species),
+       aes(x = .panel_x, y = .panel_y,
+           color = Species, fill = Species)) +
+    geom_point(alpha = 0.4, size = 0.7) +
+    ggforce::geom_autodensity(alpha = 0.3) +
+    ggforce::facet_matrix(layer.diag = 2) + 
+    scale_color_brewer(palette = "Dark2") + 
+    scale_fill_brewer(palette = "Dark2")
+```
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-93-1.png" width="100%" /&gt;
+
+]
+
+
+---
+ 
+# PCA con tidymodels
+
+.pull-left[
+
+
+```r
+library(learntidymodels)
+receta %&gt;% prep() %&gt;% 
+  plot_top_loadings(component_number &lt;= 4, n = 4) + 
+  scale_fill_brewer(palette = "Paired")
+```
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-95-1.png" width="100%" /&gt;
+
+]
 
 ---
 
@@ -2106,6 +3149,158 @@ class: inverse center middle
 
 
 ---
+
+name: intro-cluster
+class: center, middle
+
+# ¿Qué es el análisis clúster?
+
+---
+
+# Introducción: ¿análisis clúster?
+
+El **análisis clúster** forma parte de los **algoritmos de agrupación o clasificación** con **aprendizaje no supervisado**:
+
+* **Clasificación supervisada**: los individuos se clasifican en un grupo a partir de la
+información de un conjunto de variables observadas de unos inviduos **cuyo grupo conocemos**, los **datos están etiquetados** (sabemos que es acierto y error). Es el caso por ejemplo del **análisis discriminante**.
+
+
+&lt;img src="./img/supervised_classification.png" width="80%" style="display: block; margin: auto 0 auto auto;" /&gt;
+
+
+---
+
+# Introducción: ¿análisis clúster?
+
+El **análisis clúster** forma parte de los **algoritmos de agrupación o clasificación** con **aprendizaje no supervisado**:
+
+
+* **Clasificación/agrupación no supervisada**: los individuos también se clasifican en un grupo a partir de la información de un conjunto de variables observadas PERO en esta ocasión **no sabemos a qué grupo pertenece cada individuo a priori**, no tenemos conocimiento de qué es acierto y qué es error. Es este el caso del **análisis clúster**.
+
+
+&lt;img src="./img/unsupervised_classification.png" width="80%" style="display: block; margin: auto 0 auto auto;" /&gt;
+
+---
+
+# Introducción: ¿análisis clúster?
+
+### **Objetivo**
+
+El análisis clúster tiene como principal objetivo **encontrar grupos** dentro de los individuos, de forma que los individuos de cada grupo sean **lo más parecidos entre sí** (homogeneidad interna) y **lo más diferentes a los individuos de otros grupos** (heterogeneidad entre grupos)
+
+
+&amp;nbsp;
+
+### **Notación**
+
+* `\(n\)` tamaño muestral (número de individuos --&gt; filas).
+
+* `\(\boldsymbol{X}_i = \left(\boldsymbol{X}_{1, i}, \ldots, \boldsymbol{X}_{i, p} \right)\)` conjunto de `\(p\)` variables (--&gt; columnas) medidas para cada individuo `\(i=1,\ldots,n\)`.
+
+* Nuestros datos estarán en forma de tabla o matriz `\(\boldsymbol{X}\)` de `\(n\)` filas y `\(p\)` columnas (con `\(p \ll n\)`)
+ 
+---
+ 
+# Introducción: ¿análisis clúster?
+ 
+Los algoritmos los dividiremos en dos grandes grupos:
+
+
+* **Algoritmos jerárquicos**: algoritmos que tienen como objetivo construir una jerarquía de grupos. Existen principalmente dos estrategias:
+  - **Aglomerativa**: cada individuo empieza siendo su propio grupo, mientras se van uniendo de forma secuencial ascendiendo en la jerarquía, hasta acabar con un solo grupo que incluya todas las observaciones.
+  - **Divisiva**: se construye una jerarquía descendiente, empezando con un único grupo hasta acabar con un grupo por individuo
+
+Los métodos jerárquicos suelen ser muy **explicativos** y fáciles de visualizar (por ejemplo, con un **dendograma**) pero **muy costoso computacionalmente** (ya que siempre se construye la jerarquía entera, para decidir luego dónde cortar)
+
+&amp;nbsp;
+
+* **Algoritmos no jerárquicos**: dado un número `\(K\)` de grupos fijado a priori, se pretenden agrupar los datos de forma que obtengamos finalmente `\(K\)` agrupaciones de los mismos.
+
+---
+
+name: metricas
+class: center, middle
+
+# Métricas
+
+
+---
+
+# Métricas
+
+En los algoritmos usados será clave el concepto de **métrica**. Los datos serán agrupados en base a los conceptos de «lejos» y «cerca», o mejor dicho, en base a «parecido» y «diferente»
+
+**¿Qué es ser parecido? ¿Y diferente?**
+
+&amp;nbsp;
+
+### **Métrica entre observaciones**
+
+Para medir distancias entre los individuos tenemos principalmente dos alternativas:
+
+* **Distancias geométricas**: distancias que miden la distancia entre dos individuos como si fuesen dos puntos en un espacio geométrico. Son distancias determinísticas.
+
+* **Distancias probabilísticas**: distancias que miden la distancia entre individuos teniendo en cuenta la distribución de las variables y su dependencia.
+
+---
+
+# Métricas determinísticas
+
+
+* **Distancia euclídea bidimensional**: `\(d(\boldsymbol{x}_i, \boldsymbol{x}_j) = \sqrt{(x_{i, 1} - x_{j,1})^2 + (x_{i, 2} - x_{j, 2})^2}\)`
+   
+
+* **Distancia euclídea multidimensional**: `\(d(\boldsymbol{x}_i, \boldsymbol{x}_j) = \sqrt{\displaystyle \sum_{k=1}^{p} (x_{i,k} - x_{j,k})^2}\)`
+
+* **Distancia Manhattan**:  `\(d(\boldsymbol{x}_i, \boldsymbol{x}_j) = \displaystyle \sum_{k=1}^{p} \left| x_{i,k} - x_{j,k} \right|\)`
+
+* **Distancia de Minkowski**: `\(d(\boldsymbol{x}_i, \boldsymbol{x}_j) = \left(\displaystyle \sum_{k=1}^{p} \left| x_{i,k} - x_{j,k} \right|^l\right)^{1/l}\)` (si `\(l=1\)` es Manhattan, si `\(l=2\)` es Euclídea)
+   
+Cuando usemos este tipo métricas es **muy importante** **reescalar por rango**: transformamos para crear nuevas observaciones `\(\widetilde{x}_{i, k} = \frac{x_{i, k} - min(\boldsymbol{x}_i)}{max(\boldsymbol{x}_i) - min(\boldsymbol{x}_i)}\)` de forma que todas las variables estén entre 0 y 1 (y así todas tengan el mismo peso dentro de las métricas).
+
+---
+
+# Métricas determinísticas
+
+&lt;img src="./img/minkowski.png" width="65%" style="display: block; margin: auto;" /&gt;
+
+&lt;img src="./img/minkowski_1.png" width="65%" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+# Métricas probabilísticas
+
+* **Distancia de Mahalanobis** multidimensional **(variables independientes)**:  `\(d(\boldsymbol{x}_i, \boldsymbol{x}_j) = \sqrt{\displaystyle \sum_{k=1}^{p} \left(\frac{x_{i, k} - x_{j,k}}{\sigma_i} \right)^2}\)` que se puede aproximar por `\(d(\boldsymbol{x}_i, \boldsymbol{x}_j) = \sqrt{\displaystyle \sum_{k=1}^{p} \left(\frac{x_{i, k} - x_{j,k}}{S_i} \right)^2}\)`
+
+* **Distancia de Mahalanobis** multidimensional **(variables dependientes)**:  `\(d(\boldsymbol{x}_i, \boldsymbol{x}_j) = \sqrt{\displaystyle \sum_{k=1}^{p} \left(\boldsymbol{x}_i - \boldsymbol{x}_j \right)^{T} \Sigma^{-1} \left(\boldsymbol{x}_i - \boldsymbol{x}_j \right)}\)` que se puede aproximar por `\(d(\boldsymbol{x}_i, \boldsymbol{x}_j) = \sqrt{\displaystyle \sum_{k=1}^{p} \left(\boldsymbol{x}_i - \boldsymbol{x}_j \right)^{T} S^{-1} \left(\boldsymbol{x}_i - \boldsymbol{x}_j \right)}\)`, donde `\(\Sigma\)` es la matriz de covarianzas, con `\(S\)` matriz de (cuasi)covarianzas.
+  
+Cuando usemos este tipo métricas es **muy importante** **estandarizar** para tener variables de media `\(0\)` y varianza `\(1\)`.
+   
+---
+
+name: jerarquicos
+class: center, middle
+
+# Algoritmos jerárquicos
+
+---
+
+name: no-jerarquicos
+class: center, middle
+
+# Algoritmos no jerárquicos
+
+---
+
+
+name: n-grupos
+class: center, middle
+
+# Determinación del número de grupos
+
+---
+
 
 # Recursos y bibliografía
 
