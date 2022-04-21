@@ -690,7 +690,7 @@ La varianza ${\rm Var} [X] := \sigma_{X}^2 = {\rm E} [ \left( X - \mu \right)^2 
 
 Definiremos la **covarianza** como una especie de varianza en la que cambiamos una de las $X$ por otra variable
 
-$${\rm Cov} [X_1, X_2] := \sigma_{1,2} =  {\rm E} [ \left( X_1 - \mu_1 \right) \left( X_2 - \mu_2 \right) ] = {\rm E}[X_1 * X_2] - \mu_1 * \mu_2 = \sigma_{2,1}$$
+$${\rm Cov} (X_1, X_2) := \sigma_{1,2} =  {\rm E} [ \left( X_1 - \mu_1 \right) \left( X_2 - \mu_2 \right) ] = {\rm E}[X_1 * X_2] - \mu_1 * \mu_2 = \sigma_{2,1}$$
 
 ---
 
@@ -731,7 +731,7 @@ Multivariante de $p \ll n$ variables
 
 $$\boldsymbol{X} = \left(X_1, \ldots, X_p \right)^{T}  \sim \mathcal{N} \left( \boldsymbol{\mu}, \boldsymbol{\Sigma} \right), \quad f(x_1, \ldots, x_p) = \frac{1}{\left(2\pi \right)^{p/2} \left| \Sigma \right|^{1/2}} e^{-\frac{1}{2}{(\boldsymbol{x} - \mu )^{T} \boldsymbol{\Sigma}^{-1}(\boldsymbol{x} - \mu )}}$$
 
-$$\boldsymbol{\Sigma} = \left(\Sigma_{i,j} \right)_{i,j=1,\ldots,p}, \quad \Sigma_{i,j}:= {\rm Cov} [X_i, X_j ] = {\rm E}[(X_i-\mu_i) (X_j - \mu_j)]$$
+$$\boldsymbol{\Sigma} = \left(\Sigma_{i,j} \right)_{i,j=1,\ldots,p}, \quad \Sigma_{i,j}:= {\rm Cov} (X_i, X_j ) = {\rm E}[(X_i-\mu_i) (X_j - \mu_j)]$$
 
 ---
 
@@ -1609,7 +1609,7 @@ pca_scores # Nuevas coordenadas
 
 Podemos también calcular las **covarianzas entre cada componente principal y las variables originales**, tal que ${\rm Cov}(\boldsymbol{\Phi}_i, \boldsymbol{x}_j ) = \lambda_i z_{i,j}$, donde $z_{i,j}$ es el coeficiente $j$-ésimo de la componente $i$-ésima (el peso de la variable $\boldsymbol{x}_j$ en la componente $\boldsymbol{\Phi}_i$)
 
-La correlación será calculada como ${\rm Cor}(\boldsymbol{\Phi}_i, \boldsymbol{x}_j ) = \frac{{\rm Cov}(\boldsymbol{\Phi}_i, \boldsymbol{x}_j )}{s_{\boldsymbol{\Phi}_i} s_{\boldsymbol{x}_j}} = \frac{\lambda_i z_{i,j}}{\sqrt{\lambda_i} s_{\boldsymbol{x}_j}} = \frac{\sqrt{\lambda_i}}{s_{x_j}} z_{i,j}$
+La correlación será calculada como ${\rm Cor}(\boldsymbol{\Phi}_i, \boldsymbol{x}_j ) = \frac{Cov (\boldsymbol{\Phi}_i, \boldsymbol{x}_j )}{s_{\boldsymbol{\Phi}_i} s_{\boldsymbol{x}_j}} = \frac{\lambda_i z_{i,j}}{\sqrt{\lambda_i} s_{\boldsymbol{x}_j}} = \frac{\sqrt{\lambda_i}}{s_{x_j}} z_{i,j}$
 
 Dichas correlaciones las tenemos guardadas en `pca_fit$var$cor` y representan las **coordenadas de cada variable en cada componente** 
 
@@ -3729,7 +3729,7 @@ class: center, middle
 
 # Bibliografía análisis clúster
 
-📚 **«Multiclass classification of dry beans using computer vision and machine learning techniques»**. Koklu y Ozkan (2020) <https://www.sciencedirect.com/science/article/abs/pii/S0168169919311573>
+📚 **«Multiclass classification of dry beans using computer vision and machine learning techniques»**. Koklu y Ozkan (2020) <https://github.com/dadosdelaplace/teaching/blob/main/bdba-pca-clustering-2022/biblio/multiclass_classif_koklu_ozlan_2020.pdf>
 
 💻 **«Clustering y heatmaps: aprendizaje no supervisado»**. Amat (2017). <https://rpubs.com/Joaquin_AR/310338>
 
@@ -3757,3 +3757,18 @@ class: center, middle
 
 ---
 
+
+[ANTES DE LAS 17:00]
+* iris en no jerarquicos
+
+
+[ANTES DE LAS 18:00]
+* número de clústers en ambos
+* esperanza de vida con jerarquicos y no jerarquicos
+
+[NOCHE]
+* script: ejemplo final de tidymodels con beans
+* script: notas_pca
+* evaluación clustering
+
+¿arrestos USA? ¿
