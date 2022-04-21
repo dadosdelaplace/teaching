@@ -34,6 +34,10 @@ Necesitaremos los siguientes paquetes
 
 * **Manejo de datos**: paquete `{tidyverse}`.
 * **Resumen numérico**: paquete `{skimr}`.
+* **Correlaciones**: paquetes `{corrr}` y `{corrplot}`
+* **Componentes principales**: paquetes `{FactoMineR}` y `{factoextra}`
+* **Visualización de componentes**: paquete `{learntidymodels}`
+
 
 ```{r paquetes}
 # Borramos variables del environment
@@ -42,6 +46,11 @@ rm(list = ls())
 # Paquetes (si no están instalados, install.packages())
 library(tidyverse)
 library(skimr)
+library(corrr)
+library(corrplot)
+library(FactoMineR)
+library(factoextra)
+library(learntidymodels)
 ```
 
 # Teoría: análisis multidimensional
