@@ -2569,7 +2569,163 @@ knitr::include_graphics("./img/minkowski_1.png")
 * **Distancia de Mahalanobis** multidimensional **(variables dependientes)**:  $d(\boldsymbol{x}_i, \boldsymbol{x}_j) = \sqrt{\displaystyle \sum_{k=1}^{p} \left(\boldsymbol{x}_i - \boldsymbol{x}_j \right)^{T} \Sigma^{-1} \left(\boldsymbol{x}_i - \boldsymbol{x}_j \right)}$ que se puede aproximar por $d(\boldsymbol{x}_i, \boldsymbol{x}_j) = \sqrt{\displaystyle \sum_{k=1}^{p} \left(\boldsymbol{x}_i - \boldsymbol{x}_j \right)^{T} S^{-1} \left(\boldsymbol{x}_i - \boldsymbol{x}_j \right)}$, donde $\Sigma$ es la matriz de covarianzas, con $S$ matriz de (cuasi)covarianzas.
   
 Cuando usemos este tipo métricas es **muy importante** **estandarizar** para tener variables de media $0$ y varianza $1$.
-   
+
+---
+
+# Métricas
+
+### **Métrica entre variables**
+
+Además de medir la distancia entre individuos podemos plantearnos medir la **distancia entre las propias variables**, normalmente basadas en la correlación de Pearson o sus derivados.
+
+* **Correlación de Pearson**: definida como $d(\boldsymbol{X}_1, \boldsymbol{X}_2) = 1 - \left| r_{1,2} \right|$ donde $r_{1,2}$ se define como la correlción entre las variables $\boldsymbol{X}_1$ y $\boldsymbol{X}_2$
+
+* **Correlación de Spearman**: definida como $d(\boldsymbol{X}_1, \boldsymbol{X}_2) = 1 - \left| \rho_{1,2} \right| = 1 - \left| \frac{6 \sum D^{2}}{n (n^{2}-1)} \right|$, donde $D$ es la diferencia entre los correspondientes estadísticos de orden.
+
+
+* **Correlación de Kendall**: definida como  $d(\boldsymbol{X}_1, \boldsymbol{X}_2) = 1 - \left| \tau_{1,2} \right| =  1- \left| \frac{n_c - n_d}{\frac{1}{2} n (n-1)} \right|$ donde $n_c$ es el número de pares concordantes (si el orden de clasificación de $(x_{i},x_{j})$ y $(y_{i},y_{j})$ coinciden, tal que $x_{i}>x_{j}$ y $y_{i}>y_{j}$, donde $i<j$) y $n_d$ es el número de pares discordantes
+
+---
+
+name: jerarquicos
+class: center, middle
+
+# Visualización previa
+
+---
+
+# Visualización previa
+
+Vamos a empezar a trabajar con un conjunto familiar, el conjunto de `iris` que ya conocemos haciendo una selección previa de 35 observaciones
+
+```{r}
+iris_sample <- iris %>% slice_sample(n = 35)
+iris_sample 
+```
+
+---
+
+# Visualización previa
+
+
+Una primera visualización la podemos realizar con `heatmaply()` del paquete homónimo que nos permite realizar agrupaciones tanto de variables (dendograma superior) como de individuos (dendograma en el lateral).
+
+```{r eval = FALSE}
+library(heatmaply)
+heatmaply(iris_sample,
+          seriate = "mean",
+          row_dend_left = TRUE,
+          plot_method = "plotly")
+```
+
+Es importante recordar que el **clustering** es un método de **clasificación NO SUPERVISADA**: no sabemos a priori el grupo correcto de cada individuo.
+
+---
+
+# Visualización previa
+
+```{r echo = FALSE}
+library(heatmaply)
+heatmaply(iris_sample,
+          seriate = "mean",
+          row_dend_left = TRUE,
+          plot_method = "plotly")
+```
+
+
+---
+
+
+# Visualización previa
+
+
+Podemos mejorar la representación **estandarizando** las variables.
+
+```{r eval = FALSE}
+heatmaply(iris_sample %>%  mutate(across(where(is.numeric), ~scale(.))),
+          seriate = "mean", row_dend_left = TRUE, plot_method = "plotly")
+```
+
+---
+
+
+# Visualización previa
+
+```{r echo = FALSE}
+heatmaply(iris_sample %>%
+            mutate(across(where(is.numeric), ~scale(.))),
+          seriate = "mean",
+          row_dend_left = TRUE,
+          plot_method = "plotly")
+```
+
+
+---
+
+# Visualización previa
+
+Con `seriate = ...` podemos cambiar el método de ordenación para una mejor visualización
+
+```{r eval = FALSE}
+heatmaply(iris_sample %>% 
+            mutate(across(where(is.numeric), ~scale(.))),
+          seriate = "OLO",
+          row_dend_left = TRUE,
+          plot_method = "plotly")
+```
+
+---
+
+# Visualización previa
+
+```{r echo = FALSE}
+heatmaply(iris_sample %>%
+            mutate(across(where(is.numeric), ~scale(.))),
+          seriate = "OLO",
+          row_dend_left = TRUE,
+          plot_method = "plotly")
+```
+
+---
+
+# Visualización previa
+
+Otra forma de ver las relaciones entre individuos es calcular su **matriz de distancias** con `dist()`, indicándole en `method = ...` el tipo de métrica.
+
+
+```{r}
+d <- dist(iris_sample %>%
+            select(-Species) %>% 
+            mutate(across(where(is.numeric), ~scale(.))),
+          method = "euclidean")
+d
+```
+
+---
+
+# Visualización previa
+
+.pull-left[
+
+Con `fviz_dist()` podremos visualizar dicha matriz de distancias.
+
+```{r eval = FALSE}
+fviz_dist(d, show_labels = TRUE)
+```
+
+]
+
+.pull-right[
+
+
+```{r echo = FALSE}
+fviz_dist(d, show_labels = TRUE) +
+  labs(title = "Matriz de distancias (estandarizadas)")
+```
+
+]
+
+
 ---
 
 name: jerarquicos
@@ -2579,6 +2735,748 @@ class: center, middle
 
 ---
 
+# Algoritmos jerárquicos: simple
+
+.pull-left[
+
+En nuestro caso empezaremos usando solo **algoritmos aglomerativos**, de forma que empezaremos con un clúster por individuo, e iremos **juntando clúster** en base a distintos enlaces
+
+* **Enlace simple (single)** o del vecino más cercano: la distancia entre dos clústeres será definida como la **distancia mínima** entre pares de observaciones (cada una perteneciente a uno de los dos clústeres)
+
+$$d(C_k, C_l) = \min_{x_i \in C_k, x_j \in C_l} d(x_i, x_j)$$
+
+```{r eval = FALSE}
+# Clustering (single)
+single_clust <-
+  hclust(d, method = "single")
+
+# Dendograma
+library(factoextra)
+fviz_dend(single_clust, cex = 1) +
+  labs(title = "Dendograma (single)")
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+# Clustering (single)
+single_clust <- hclust(d, method = "single")
+
+# Dendograma
+library(factoextra)
+fviz_dend(single_clust, cex = 1) +
+  labs(title = "Dendograma para clustering single")
+```
+
+]
+
+---
+
+# Algoritmos jerárquicos: simple
+
+.pull-left[
+
+Con `cutree()` podemos indicarle el corte del número de clústers que queremos
+
+```{r}
+single_clust <-
+  hclust(d, method = "single")
+
+# Seleccionamos 3 clusters
+groups <- cutree(single_clust, k = 3)
+```
+
+Con `fviz_dend()` podemos visualizar el dendograma
+
+```{r eval = FALSE}
+# k = 3
+fviz_dend(single_clust, k = 3,
+          cex = 0.5, 
+          k_colors =
+            c("#2E9FDF", "#00AFBB",
+              "#E7B800"),
+          # Diferentes colores a los clusters
+          color_labels_by_k = TRUE, 
+          #añade un rectángulo alrededor
+          rect = TRUE) +
+  labs(title = "Dendograma (simple)")
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+# k = 3
+fviz_dend(single_clust, k = 3,
+          cex = 0.5, 
+          k_colors =
+            c("#2E9FDF", "#00AFBB",
+              "#E7B800"),
+          # Diferentes colores a los clusters
+          color_labels_by_k = TRUE, 
+          #añade un rectángulo alrededor
+          rect = TRUE) +
+  labs(title = "Dendograma (clustering simple)")
+```
+
+]
+
+---
+
+# Algoritmos jerárquicos: simple
+
+.pull-left[
+
+Con `fviz_cluster()` visualizaremos los clústers en base a las dos componentes que más varianza capturen
+
+```{r eval = FALSE}
+# Estandarizamos datos
+iris_scale <-
+  iris_sample %>%
+  select(-Species) %>% 
+  mutate(across(where(is.numeric),
+                ~scale(.)))
+
+fviz_cluster(list(data = iris_scale,
+                  cluster = groups),
+             palette =
+               c("#2E9FDF", "#00AFBB", "#E7B800"),
+             ellipse.type = "convex", 
+             repel = TRUE,
+             show.clust.cent = FALSE) +
+  labs(title = "Cluster (single)") +
+  theme_minimal()
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+iris_scale <-
+  iris_sample %>%
+  select(-Species) %>% 
+  mutate(across(where(is.numeric),
+                ~scale(.)))
+
+fviz_cluster(list(data = iris_scale,
+                  cluster = groups),
+             palette =
+               c("#2E9FDF", "#00AFBB", "#E7B800"),
+             ellipse.type = "convex", 
+             repel = TRUE,
+             show.clust.cent = FALSE) +
+  labs(title = "Cluster (single)") +
+  theme_minimal()
+```
+
+]
+
+---
+
+# Algoritmos jerárquicos: simple
+
+.pull-left[
+
+Así quedaría con todas las observaciones
+
+```{r eval = FALSE}
+# Estandarizamos
+iris_scale <-
+  iris %>% select(-Species) %>% 
+  mutate(across(where(is.numeric),
+                ~scale(.)))
+
+# Matriz de distancias
+d <-
+  dist(iris_scale, method = "euclidean")
+
+# Clustering (single)
+single_clust <-
+  hclust(d, method = "single")
+groups <- cutree(single_clust, k = 3)
+
+fviz_cluster(list(data = iris_scale,
+                  cluster = groups),
+             palette =
+               c("#2E9FDF", "#00AFBB", "#E7B800"),
+             ellipse.type = "convex", 
+             repel = TRUE,
+             show.clust.cent = FALSE) +
+  labs(title = "Cluster (single)") +
+  theme_minimal()
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+iris_scale <-
+  iris %>%
+  select(-Species) %>% 
+  mutate(across(where(is.numeric),
+                ~scale(.)))
+
+# Matriz de distancias
+d <- dist(iris_scale, method = "euclidean")
+
+# Clustering (single)
+single_clust <-
+  hclust(d, method = "single")
+groups <- cutree(single_clust, k = 3)
+
+fviz_cluster(list(data = iris_scale, cluster = groups),
+             palette =
+               c("#2E9FDF", "#00AFBB", "#E7B800"),
+             ellipse.type = "convex", 
+             repel = TRUE,
+             show.clust.cent = FALSE) +
+  labs(title = "Cluster (single)") +
+  theme_minimal()
+```
+
+]
+
+---
+
+# Algoritmos jerárquicos: complete
+
+.pull-left[
+
+* **Enlace completo (complete)** o del vecino más alejado (complete): la distancia entre dos clústeres será definida como la **distancia máxima** entre pares de observaciones (cada una perteneciente a uno de los dos clústeres)
+
+$$d(C_k, C_l) = \max_{x_i \in C_k, x_j \in C_l} d(x_i, x_j)$$
+
+```{r eval = FALSE}
+# Clustering (complete)
+complete_clust <-
+  hclust(d, method = "complete")
+
+# k = 3
+fviz_dend(complete_clust, k = 3,
+          cex = 0.5, 
+          k_colors =
+            c("#2E9FDF", "#00AFBB", "#E7B800"),
+          # Diferentes colores a los clusters
+          color_labels_by_k = TRUE, 
+          #añade un rectángulo alrededor
+          rect = TRUE) +
+  labs(title = "Dendograma (complete)")
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+# Clustering (complete
+complete_clust <- hclust(d, method = "complete")
+
+# k = 3
+fviz_dend(complete_clust, k = 3,
+          cex = 0.5, 
+          k_colors =
+            c("#2E9FDF", "#00AFBB", "#E7B800"),
+          # Diferentes colores a los clusters
+          color_labels_by_k = TRUE, 
+          #añade un rectángulo alrededor
+          rect = TRUE) +
+  labs(title = "Dendograma (complete)")
+```
+
+]
+
+
+---
+
+# Algoritmos jerárquicos: complete
+
+.pull-left[
+
+```{r eval = FALSE}
+# Estandarizamos
+iris_scale <-
+  iris %>% select(-Species) %>% 
+  mutate(across(where(is.numeric),
+                ~scale(.)))
+
+# Matriz de distancias
+d <-
+  dist(iris_scale, method = "euclidean")
+
+# Clustering (single)
+complete_clust <-
+  hclust(d, method = "complete")
+groups <- cutree(complete_clust, k = 3)
+
+fviz_cluster(list(data = iris_scale,
+                  cluster = groups),
+             palette =
+               c("#2E9FDF", "#00AFBB", "#E7B800"),
+             ellipse.type = "convex", 
+             repel = TRUE,
+             show.clust.cent = FALSE) +
+  labs(title = "Cluster (complete)") +
+  theme_minimal()
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+# Estandarizamos
+iris_scale <-
+  iris %>% select(-Species) %>% 
+  mutate(across(where(is.numeric),
+                ~scale(.)))
+
+# Matriz de distancias
+d <-
+  dist(iris_scale, method = "euclidean")
+
+# Clustering (single)
+complete_clust <-
+  hclust(d, method = "complete")
+groups <- cutree(complete_clust, k = 3)
+
+fviz_cluster(list(data = iris_scale,
+                  cluster = groups),
+             palette =
+               c("#2E9FDF", "#00AFBB", "#E7B800"),
+             ellipse.type = "convex", 
+             repel = TRUE,
+             show.clust.cent = FALSE) +
+  labs(title = "Cluster (complete)") +
+  theme_minimal()
+```
+
+]
+
+
+---
+
+# Algoritmos jerárquicos: average
+
+.pull-left[
+
+* **Enlace medio (average)**: la distancia entre dos clústeres será definida como la **distancia media** entre observaciones de distintos grupos
+
+$$d(C_k, C_l) = \frac{\sum_{x_i \in C_k} \sum_{x_j \in C_l} d(x_i, x_j)}{n_k n_l}$$
+
+siendo $n_k$ el número de elementos del clúster $C_k$.
+
+```{r eval = FALSE}
+# Clustering (average)
+average_clust <-
+  hclust(d, method = "average")
+
+# k = 3
+fviz_dend(average_clust, k = 3,
+          cex = 0.5, 
+          k_colors =
+            c("#2E9FDF", "#00AFBB", "#E7B800"),
+          # Diferentes colores a los clusters
+          color_labels_by_k = TRUE, 
+          #añade un rectángulo alrededor
+          rect = TRUE) +
+  labs(title = "Dendograma (average)")
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+# Clustering (average)
+average_clust <-
+  hclust(d, method = "average")
+
+# k = 3
+fviz_dend(average_clust, k = 3,
+          cex = 0.5, 
+          k_colors =
+            c("#2E9FDF", "#00AFBB", "#E7B800"),
+          # Diferentes colores a los clusters
+          color_labels_by_k = TRUE, 
+          #añade un rectángulo alrededor
+          rect = TRUE) +
+  labs(title = "Dendograma (average)")
+```
+
+]
+
+---
+
+# Algoritmos jerárquicos: average
+
+.pull-left[
+
+```{r eval = FALSE}
+# Estandarizamos
+iris_scale <-
+  iris %>% select(-Species) %>% 
+  mutate(across(where(is.numeric),
+                ~scale(.)))
+
+# Matriz de distancias
+d <-
+  dist(iris_scale, method = "euclidean")
+
+# Clustering (single)
+average_clust <-
+  hclust(d, method = "average")
+groups <- cutree(average_clust, k = 3)
+
+fviz_cluster(list(data = iris_scale,
+                  cluster = groups),
+             palette =
+               c("#2E9FDF", "#00AFBB", "#E7B800"),
+             ellipse.type = "convex", 
+             repel = TRUE,
+             show.clust.cent = FALSE) +
+  labs(title = "Cluster (average)") +
+  theme_minimal()
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+# Estandarizamos
+iris_scale <-
+  iris %>% select(-Species) %>% 
+  mutate(across(where(is.numeric),
+                ~scale(.)))
+
+# Matriz de distancias
+d <-
+  dist(iris_scale, method = "euclidean")
+
+# Clustering (single)
+average_clust <-
+  hclust(d, method = "average")
+groups <- cutree(average_clust, k = 3)
+
+fviz_cluster(list(data = iris_scale,
+                  cluster = groups),
+             palette =
+               c("#2E9FDF", "#00AFBB", "#E7B800"),
+             ellipse.type = "convex", 
+             repel = TRUE,
+             show.clust.cent = FALSE) +
+  labs(title = "Cluster (average)") +
+  theme_minimal()
+```
+
+]
+
+
+---
+
+# Algoritmos jerárquicos: centroid
+
+.pull-left[
+
+* **Distancia entre centroides** (centroid): la distancia entre dos clústeres será definida como la distancia entre los centroides de cada grupo.
+
+$$d(C_k, C_l) = d(\overline{x}_k, \overline{x}_l)$$
+
+donde $\overline{x}_k = \frac{\sum_{x_k \in C_k} x_{k}}{n_k}$
+
+
+```{r eval = FALSE}
+# Clustering (centroid)
+centroid_clust <-
+  hclust(d, method = "centroid")
+
+# k = 3
+fviz_dend(centroid_clust, k = 3,
+          cex = 0.5, 
+          k_colors =
+            c("#2E9FDF", "#00AFBB", "#E7B800"),
+          # Diferentes colores a los clusters
+          color_labels_by_k = TRUE, 
+          #añade un rectángulo alrededor
+          rect = TRUE) +
+  labs(title = "Dendograma (centroid)")
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+# Clustering (centroid)
+centroid_clust <-
+  hclust(d, method = "centroid")
+
+# k = 3
+fviz_dend(centroid_clust, k = 3,
+          cex = 0.5, 
+          k_colors =
+            c("#2E9FDF", "#00AFBB", "#E7B800"),
+          # Diferentes colores a los clusters
+          color_labels_by_k = TRUE, 
+          #añade un rectángulo alrededor
+          rect = TRUE) +
+  labs(title = "Dendograma (centroid)")
+```
+
+]
+
+---
+
+# Algoritmos jerárquicos: centroid
+
+.pull-left[
+
+```{r eval = FALSE}
+# Estandarizamos
+iris_scale <-
+  iris %>% select(-Species) %>% 
+  mutate(across(where(is.numeric),
+                ~scale(.)))
+
+# Matriz de distancias
+d <-
+  dist(iris_scale, method = "euclidean")
+
+# Clustering (centroid)
+centroid_clust <-
+  hclust(d, method = "centroid")
+groups <- cutree(centroid_clust, k = 3)
+
+fviz_cluster(list(data = iris_scale,
+                  cluster = groups),
+             palette =
+               c("#2E9FDF", "#00AFBB", "#E7B800"),
+             ellipse.type = "convex", 
+             repel = TRUE,
+             show.clust.cent = FALSE) +
+  labs(title = "Cluster (centroid)") +
+  theme_minimal()
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+# Estandarizamos
+iris_scale <-
+  iris %>% select(-Species) %>% 
+  mutate(across(where(is.numeric),
+                ~scale(.)))
+
+# Matriz de distancias
+d <-
+  dist(iris_scale, method = "euclidean")
+
+# Clustering (centroid)
+centroid_clust <-
+  hclust(d, method = "centroid")
+groups <- cutree(centroid_clust, k = 3)
+
+fviz_cluster(list(data = iris_scale,
+                  cluster = groups),
+             palette =
+               c("#2E9FDF", "#00AFBB", "#E7B800"),
+             ellipse.type = "convex", 
+             repel = TRUE,
+             show.clust.cent = FALSE) +
+  labs(title = "Cluster (centroid)") +
+  theme_minimal()
+```
+
+]
+
+
+---
+
+# Algoritmos jerárquicos: Ward
+
+.pull-left[
+
+
+* **Método de Ward** (mínima varianza): de todas las posibles aglomeraciones, selecciona aquella que **minimiza la variabilidad interna**
+
+
+$$W = \sum_{k=1}^{G} W_k, \quad W_k = \sum_{\boldsymbol{X_i} \in C_k} \sum_{j=1}^{p} \left(x_{i,j} - \overline{x}_{j}^{k} \right)$$
+
+donde $\overline{x}_{j}^{k}$ es la coordenada j-ésima del centroide $k$.
+
+```{r eval = FALSE}
+# Clustering (ward)
+ward_clust <-
+  hclust(d, method = "ward.D2")
+
+# k = 3
+fviz_dend(ward_clust, k = 3,
+          cex = 0.5, 
+          k_colors =
+            c("#2E9FDF", "#00AFBB", "#E7B800"),
+          # Diferentes colores a los clusters
+          color_labels_by_k = TRUE, 
+          #añade un rectángulo alrededor
+          rect = TRUE) +
+  labs(title = "Dendograma (Ward)")
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+# Clustering (ward)
+ward_clust <-
+  hclust(d, method = "ward.D2")
+
+# k = 3
+fviz_dend(ward_clust, k = 3,
+          cex = 0.5, 
+          k_colors =
+            c("#2E9FDF", "#00AFBB", "#E7B800"),
+          # Diferentes colores a los clusters
+          color_labels_by_k = TRUE, 
+          #añade un rectángulo alrededor
+          rect = TRUE) +
+  labs(title = "Dendograma (Ward)")
+```
+
+]
+
+---
+
+# Algoritmos jerárquicos: Ward
+
+.pull-left[
+
+```{r eval = FALSE}
+# Estandarizamos
+iris_scale <-
+  iris %>% select(-Species) %>% 
+  mutate(across(where(is.numeric),
+                ~scale(.)))
+
+# Matriz de distancias
+d <-
+  dist(iris_scale, method = "euclidean")
+
+# Clustering (ward)
+ward_clust <-
+  hclust(d, method = "ward.D2")
+groups <- cutree(ward_clust, k = 3)
+
+fviz_cluster(list(data = iris_scale,
+                  cluster = groups),
+             palette =
+               c("#2E9FDF", "#00AFBB", "#E7B800"),
+             ellipse.type = "convex", 
+             repel = TRUE,
+             show.clust.cent = FALSE) +
+  labs(title = "Cluster (Ward)") +
+  theme_minimal()
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+# Estandarizamos
+iris_scale <-
+  iris %>% select(-Species) %>% 
+  mutate(across(where(is.numeric),
+                ~scale(.)))
+
+# Matriz de distancias
+d <-
+  dist(iris_scale, method = "euclidean")
+
+# Clustering (ward)
+ward_clust <-
+  hclust(d, method = "ward.D2")
+groups <- cutree(ward_clust, k = 3)
+
+fviz_cluster(list(data = iris_scale,
+                  cluster = groups),
+             palette =
+               c("#2E9FDF", "#00AFBB", "#E7B800"),
+             ellipse.type = "convex", 
+             repel = TRUE,
+             show.clust.cent = FALSE) +
+  labs(title = "Cluster (centroid)") +
+  theme_minimal()
+```
+
+]
+
+---
+
+# Ejemplo de jerárquico divisivo
+
+.pull-left[
+
+El paquete `{cluster}` nos permite implementar el **algoritmo de clustering jerárquico divisivo** más famoso, **DIANA (DIvisive ANAlysis Clustering)**. En cada iteración se seleccionará el **clúster con mayor diametro** (la mayor de las diferencias entre dos de sus observaciones) y se identificará la observación más alejada (en promedio) del resto de observaciones, siendo esta observación la que inicia el nuevo clúster. 
+
+
+```{r eval = FALSE}
+library(cluster)
+hc_diana <- diana(x = d, diss = TRUE, stand = FALSE)
+
+fviz_dend(hc_diana , k = 3,
+          cex = 0.5, 
+          k_colors =
+            c("#2E9FDF", "#00AFBB", "#E7B800"),
+          # Diferentes colores a los clusters
+          color_labels_by_k = TRUE, 
+          #añade un rectángulo alrededor
+          rect = TRUE) +
+  labs(title = "Dendograma (DIANA, divisivo)")
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+# Estandarizamos
+iris_scale <-
+  iris %>% select(-Species) %>% 
+  mutate(across(where(is.numeric),
+                ~scale(.)))
+
+# Matriz de distancias
+d <-
+  dist(iris_scale, method = "euclidean")
+
+
+library(cluster)
+hc_diana <- diana(x = d, diss = TRUE, stand = FALSE)
+
+fviz_dend(hc_diana, k = 3,
+          cex = 0.5, 
+          k_colors =
+            c("#2E9FDF", "#00AFBB", "#E7B800"),
+          # Diferentes colores a los clusters
+          color_labels_by_k = TRUE, 
+          #añade un rectángulo alrededor
+          rect = TRUE) +
+  labs(title = "Dendograma (DIANA, divisivo)")
+```
+
+
+]
+
+---
+
+
 name: no-jerarquicos
 class: center, middle
 
@@ -2586,6 +3484,166 @@ class: center, middle
 
 ---
 
+# Algoritmo k-means
+
+Dentro de los no jerárquicos nos centraremos en el **algoritmo k-means** (o algoritmo de Lloyd), basado en encontrar los $k$ mejores clústers, entiendo como mejor clúster aquel cuya **varianza interna sea lo más pequeña posible**
+
+1. **Seleccionaremos $k$ puntos iniciales** (tantos cómo número de clústers) aleatorios de nuestro espacio (no tienen porque ser observaciones)  que definiran los **centroides** de nuestros clústers $\left\lbrace C_1, C_2, \ldots, C_k \right\rbrace$
+
+2. Asignaremos **cada observación a su clúster más cercano**, entendiendo como clúster más cercano aquel cuyo centroide tiene más cerca (diagrama de Voronoi)
+
+3. Una vez formado el clúster, **recalcularemos los $k$ centroides** (cómo las coordenadas medias de las observaciones agrupadas en dichos clústers)
+
+4. Se **repiten los pasos 2. y 3.** hasta que no haya ningún cambio en los clúster, hasta que no hayan movido los centroides por encima de una tolerancia o hasta que se haya llegado a un número máximo de iteraciones
+
+---
+
+# Algoritmo k-means
+
+En dicho algoritmo se deberán tomar dos decisiones:
+
+* La métrica usada para medir la distancia entre los individuos (normalmente la Euclídea)
+
+* **Selección inicial de los $k$ centroides**:
+  - Seleccionar las $k$ primeras observaciones
+  - Seleccionar la primera observación como primer centroide, y el centroide i-ésimo como aquella observación cuya distancia a los $i-1$ centroides previos sea tan grande como una distancia predefinida.
+  - Seleccionar $k$ observaciones aleatorias.
+  - Seleccionar $k$ observaciones en base a conocimiento experto.
+
+---
+
+# Algoritmo k-means con R
+
+
+Vamos a generar un **conjunto aleatorio bidimensional**.
+
+```{r}
+centers <- tibble(cluster = factor(1:3), num_points =  c(100, 150, 50),
+                  x = c(5, 0, -3), y = c(-1, 1, -2))
+centers
+
+set.seed(1234567)
+labelled_points <- centers %>% mutate(x = map2(num_points, x, rnorm), y = map2(num_points, y, rnorm)) %>% 
+  select(-num_points) %>%  unnest(cols = c(x, y))
+labelled_points
+```
+
+---
+
+# Algoritmo k-means con R
+
+.pull-left[
+
+```{r eval = FALSE}
+ggplot(labelled_points,
+       aes(x = x, y = y, color = cluster)) +
+  geom_point(alpha = 0.5, size = 5) +
+  labs(x = "Coordenada X",
+       y = "Coordenada Y",
+       title = "Datos simulados")
+```
+  
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(labelled_points,
+       aes(x = x, y = y, color = cluster)) +
+  geom_point(alpha = 0.5, size = 5) +
+  labs(x = "Coordenada X", y = "Coordenada Y",
+       title = "Conjunto de datos a clusterizar") + 
+  theme_minimal()
+```
+  
+]
+
+---
+
+# Algoritmo k-means con R
+
+Para realizar el clustering basta usar la función `kmeans()`, indicándole el **número de clústers** y el **número máximo de iteraciones**
+
+```{r}
+kclust <- kmeans(labelled_points %>% select(-cluster),
+                 centers = 3, iter.max = 50)
+kclust
+```
+
+---
+
+# Algoritmo k-means con R
+
+.pull-left[
+
+Los grupos están guardados en `kclust$cluster` y los centroides en `kclust$centers`
+
+```{r}
+kclust$centers
+```
+
+```{r eval = FALSE}
+fviz_cluster(list(data =
+                    labelled_points %>%
+                    select(-cluster),
+                  cluster = kclust$cluster),
+             palette =
+               c("#2E9FDF", "#00AFBB", "#E7B800"),
+             ellipse.type = "convex", 
+             repel = TRUE,
+             show.clust.cent = FALSE) +
+  labs(title = "Cluster (k-means)") +
+  theme_minimal()
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+fviz_cluster(list(data = labelled_points %>% select(-cluster), cluster = kclust$cluster),
+             palette =
+               c("#2E9FDF", "#00AFBB", "#E7B800"),
+             ellipse.type = "convex", 
+             repel = TRUE,
+             show.clust.cent = FALSE) +
+  labs(title = "Cluster (k-means)") +
+  theme_minimal()
+```
+
+]
+
+---
+
+# Algoritmo k-means con R
+
+.pull-left[
+
+```{r echo = FALSE}
+ggplot(labelled_points,
+       aes(x = x, y = y, color = cluster)) +
+  geom_point(alpha = 0.5, size = 5) +
+  labs(x = "Coordenada X", y = "Coordenada Y",
+       title = "Clústers originales") + 
+  theme_minimal()
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(labelled_points %>%
+         mutate(cluster_predict = as_factor(kclust$cluster)),
+       aes(x = x, y = y, color = cluster_predict)) +
+  geom_point(alpha = 0.5, size = 5) +
+  labs(x = "Coordenada X", y = "Coordenada Y",
+       title = "Clústers tras k-means") + 
+  theme_minimal()
+```
+
+]
+---
 
 name: n-grupos
 class: center, middle
@@ -2671,19 +3729,18 @@ class: center, middle
 
 # Bibliografía análisis clúster
 
-Multiclass classification of dry beans using computer vision and machine learning techniques
-https://www.sciencedirect.com/science/article/abs/pii/S0168169919311573
+📚 **«Multiclass classification of dry beans using computer vision and machine learning techniques»**. Koklu y Ozkan (2020) <https://www.sciencedirect.com/science/article/abs/pii/S0168169919311573>
 
-https://rpubs.com/Joaquin_AR/310338
+💻 **«Clustering y heatmaps: aprendizaje no supervisado»**. Amat (2017). <https://rpubs.com/Joaquin_AR/310338>
 
-https://www.tidymodels.org/learn/statistics/k-means/
+💻 **«K-means clustering with tidy data principles»** <https://www.tidymodels.org/learn/statistics/k-means/>
 
-https://emilhvitfeldt.github.io/ISLR-tidymodels-labs/unsupervised-learning.html#kmeans-clustering
+🔗 **«ISLR tidymodels Labs»** <https://emilhvitfeldt.github.io/ISLR-tidymodels-labs/unsupervised-learning.html#kmeans-clustering>
 
-Algorithm AS 136: A K-Means Clustering Algorithm Author(s): J. A. Hartigan and M. A. Wong Reviewed work(s): Source: Journal of the Royal Statistical Society. Series C (Applied Statistics), Vol. 28, No. 1 (1979), pp. 100-108 Published by: Wiley-Blackwell for the Royal Statistical Society Stable URL: http://www.jstor.org/stable/2346830 .
-kmeans_hartigan_wong_1979
 
-https://cimentadaj.github.io/ml_socsci/unsupervised-methods.html
+📚 **«Algorithm AS 136: a K-Means Clustering Algorithm»**. Hartigan y Wong (1979) <http://www.jstor.org/stable/2346830>
+
+🔗 **«Machine Learning for Social Scientists»**. Cimentada (2020) <https://cimentadaj.github.io/ml_socsci/unsupervised-methods.html>
 
 ---
 
@@ -2699,5 +3756,4 @@ https://cimentadaj.github.io/ml_socsci/unsupervised-methods.html
 
 
 ---
-
 
