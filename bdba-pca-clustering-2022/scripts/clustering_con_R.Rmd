@@ -33,7 +33,11 @@ El objetivo de este pequeño manual es aprender a implementar e interpretar el e
 Necesitaremos los siguientes paquetes
 
 * **Manejo de datos**: paquete `{tidyverse}`.
+* **Modelos**: paquete `{tidymodels}`
+* **Lectura excel**: paquete `{readxl}`
 * **Resumen numérico**: paquete `{skimr}`.
+* **Visualización de clústers**: paquete `{factoextra}`
+* **Clustering divisivo**: paquete `{cluster}`
 
 ```{r paquetes}
 # Borramos variables del environment
@@ -41,7 +45,11 @@ rm(list = ls())
 
 # Paquetes (si no están instalados, install.packages())
 library(tidyverse)
+library(tidymodels)
+library(readxl)
 library(skimr)
+library(factoextra)
+library(cluster)
 ```
 
 # Teoría: análisis clúster
@@ -394,7 +402,6 @@ fviz_cluster(list(data = iris_scale,
 
 ## Enlace medio (average)
 
-.pull-left[
 
 * **Enlace medio (average)**: la distancia entre dos clústeres será definida como la **distancia media** entre observaciones de distintos grupos
 
@@ -402,7 +409,8 @@ $$d(C_k, C_l) = \frac{\sum_{x_i \in C_k} \sum_{x_j \in C_l} d(x_i, x_j)}{n_k n_l
 
 siendo $n_k$ el número de elementos del clúster $C_k$.
 
-```{r eval = FALSE}
+
+```{r}
 # Clustering (average)
 average_clust <-
   hclust(d, method = "average")
@@ -419,49 +427,8 @@ fviz_dend(average_clust, k = 3,
   labs(title = "Dendograma (average)")
 ```
 
-]
 
-.pull-right[
-
-```{r echo = FALSE}
-# Clustering (average)
-average_clust <-
-  hclust(d, method = "average")
-
-# k = 3
-fviz_dend(average_clust, k = 3,
-          cex = 0.5, 
-          k_colors =
-            c("#2E9FDF", "#00AFBB", "#E7B800"),
-          # Diferentes colores a los clusters
-          color_labels_by_k = TRUE, 
-          #añade un rectángulo alrededor
-          rect = TRUE) +
-  labs(title = "Dendograma (average)")
-```
-
-]
-
----
-
-# Algoritmos jerárquicos: average
-
-.pull-left[
-
-```{r eval = FALSE}
-# Estandarizamos
-iris_scale <-
-  iris %>% select(-Species) %>% 
-  mutate(across(where(is.numeric),
-                ~scale(.)))
-
-# Matriz de distancias
-d <-
-  dist(iris_scale, method = "euclidean")
-
-# Clustering (single)
-average_clust <-
-  hclust(d, method = "average")
+```{r}
 groups <- cutree(average_clust, k = 3)
 
 fviz_cluster(list(data = iris_scale,
@@ -475,45 +442,7 @@ fviz_cluster(list(data = iris_scale,
   theme_minimal()
 ```
 
-]
-
-.pull-right[
-
-```{r echo = FALSE}
-# Estandarizamos
-iris_scale <-
-  iris %>% select(-Species) %>% 
-  mutate(across(where(is.numeric),
-                ~scale(.)))
-
-# Matriz de distancias
-d <-
-  dist(iris_scale, method = "euclidean")
-
-# Clustering (single)
-average_clust <-
-  hclust(d, method = "average")
-groups <- cutree(average_clust, k = 3)
-
-fviz_cluster(list(data = iris_scale,
-                  cluster = groups),
-             palette =
-               c("#2E9FDF", "#00AFBB", "#E7B800"),
-             ellipse.type = "convex", 
-             repel = TRUE,
-             show.clust.cent = FALSE) +
-  labs(title = "Cluster (average)") +
-  theme_minimal()
-```
-
-]
-
-
----
-
-# Algoritmos jerárquicos: centroid
-
-.pull-left[
+## Distancia entre centroides (centroid)
 
 * **Distancia entre centroides** (centroid): la distancia entre dos clústeres será definida como la distancia entre los centroides de cada grupo.
 
@@ -522,7 +451,7 @@ $$d(C_k, C_l) = d(\overline{x}_k, \overline{x}_l)$$
 donde $\overline{x}_k = \frac{\sum_{x_k \in C_k} x_{k}}{n_k}$
 
 
-```{r eval = FALSE}
+```{r}
 # Clustering (centroid)
 centroid_clust <-
   hclust(d, method = "centroid")
@@ -539,80 +468,8 @@ fviz_dend(centroid_clust, k = 3,
   labs(title = "Dendograma (centroid)")
 ```
 
-]
 
-.pull-right[
-
-```{r echo = FALSE}
-# Clustering (centroid)
-centroid_clust <-
-  hclust(d, method = "centroid")
-
-# k = 3
-fviz_dend(centroid_clust, k = 3,
-          cex = 0.5, 
-          k_colors =
-            c("#2E9FDF", "#00AFBB", "#E7B800"),
-          # Diferentes colores a los clusters
-          color_labels_by_k = TRUE, 
-          #añade un rectángulo alrededor
-          rect = TRUE) +
-  labs(title = "Dendograma (centroid)")
-```
-
-]
-
----
-
-# Algoritmos jerárquicos: centroid
-
-.pull-left[
-
-```{r eval = FALSE}
-# Estandarizamos
-iris_scale <-
-  iris %>% select(-Species) %>% 
-  mutate(across(where(is.numeric),
-                ~scale(.)))
-
-# Matriz de distancias
-d <-
-  dist(iris_scale, method = "euclidean")
-
-# Clustering (centroid)
-centroid_clust <-
-  hclust(d, method = "centroid")
-groups <- cutree(centroid_clust, k = 3)
-
-fviz_cluster(list(data = iris_scale,
-                  cluster = groups),
-             palette =
-               c("#2E9FDF", "#00AFBB", "#E7B800"),
-             ellipse.type = "convex", 
-             repel = TRUE,
-             show.clust.cent = FALSE) +
-  labs(title = "Cluster (centroid)") +
-  theme_minimal()
-```
-
-]
-
-.pull-right[
-
-```{r echo = FALSE}
-# Estandarizamos
-iris_scale <-
-  iris %>% select(-Species) %>% 
-  mutate(across(where(is.numeric),
-                ~scale(.)))
-
-# Matriz de distancias
-d <-
-  dist(iris_scale, method = "euclidean")
-
-# Clustering (centroid)
-centroid_clust <-
-  hclust(d, method = "centroid")
+```{r}
 groups <- cutree(centroid_clust, k = 3)
 
 fviz_cluster(list(data = iris_scale,
@@ -629,11 +486,8 @@ fviz_cluster(list(data = iris_scale,
 ]
 
 
----
 
-# Algoritmos jerárquicos: Ward
-
-.pull-left[
+## Método de Ward
 
 
 * **Método de Ward** (mínima varianza): de todas las posibles aglomeraciones, selecciona aquella que **minimiza la variabilidad interna**
@@ -643,7 +497,7 @@ $$W = \sum_{k=1}^{G} W_k, \quad W_k = \sum_{\boldsymbol{X_i} \in C_k} \sum_{j=1}
 
 donde $\overline{x}_{j}^{k}$ es la coordenada j-ésima del centroide $k$.
 
-```{r eval = FALSE}
+```{r}
 # Clustering (ward)
 ward_clust <-
   hclust(d, method = "ward.D2")
@@ -660,46 +514,8 @@ fviz_dend(ward_clust, k = 3,
   labs(title = "Dendograma (Ward)")
 ```
 
-]
 
-.pull-right[
-
-```{r echo = FALSE}
-# Clustering (ward)
-ward_clust <-
-  hclust(d, method = "ward.D2")
-
-# k = 3
-fviz_dend(ward_clust, k = 3,
-          cex = 0.5, 
-          k_colors =
-            c("#2E9FDF", "#00AFBB", "#E7B800"),
-          # Diferentes colores a los clusters
-          color_labels_by_k = TRUE, 
-          #añade un rectángulo alrededor
-          rect = TRUE) +
-  labs(title = "Dendograma (Ward)")
-```
-
-]
-
----
-
-# Algoritmos jerárquicos: Ward
-
-.pull-left[
-
-```{r eval = FALSE}
-# Estandarizamos
-iris_scale <-
-  iris %>% select(-Species) %>% 
-  mutate(across(where(is.numeric),
-                ~scale(.)))
-
-# Matriz de distancias
-d <-
-  dist(iris_scale, method = "euclidean")
-
+```{r}
 # Clustering (ward)
 ward_clust <-
   hclust(d, method = "ward.D2")
@@ -716,82 +532,18 @@ fviz_cluster(list(data = iris_scale,
   theme_minimal()
 ```
 
-]
 
-.pull-right[
+## Ejemplo de jerárquico divisivo
 
-```{r echo = FALSE}
-# Estandarizamos
-iris_scale <-
-  iris %>% select(-Species) %>% 
-  mutate(across(where(is.numeric),
-                ~scale(.)))
-
-# Matriz de distancias
-d <-
-  dist(iris_scale, method = "euclidean")
-
-# Clustering (ward)
-ward_clust <-
-  hclust(d, method = "ward.D2")
-groups <- cutree(ward_clust, k = 3)
-
-fviz_cluster(list(data = iris_scale,
-                  cluster = groups),
-             palette =
-               c("#2E9FDF", "#00AFBB", "#E7B800"),
-             ellipse.type = "convex", 
-             repel = TRUE,
-             show.clust.cent = FALSE) +
-  labs(title = "Cluster (Ward)") +
-  theme_minimal()
-```
-
-]
-
----
-
-# Ejemplo de jerárquico divisivo
-
-.pull-left[
-
-El paquete `{cluster}` nos permite implementar el **algoritmo de clustering jerárquico divisivo** más famoso, **DIANA (DIvisive ANAlysis Clustering)**. En cada iteración se seleccionará el **clúster con mayor diametro** (la mayor de las diferencias entre dos de sus observaciones) y se identificará la observación más alejada (en promedio) del resto de observaciones, siendo esta observación la que inicia el nuevo clúster. 
+El paquete `{cluster}` nos permite además implementar el **algoritmo de clustering jerárquico divisivo** más famoso, **DIANA (DIvisive ANAlysis Clustering)**. En cada iteración se seleccionará el **clúster con mayor diametro** (la mayor de las diferencias entre dos de sus observaciones) y se identificará la observación más alejada (en promedio) del resto de observaciones, siendo esta observación la que inicia el nuevo clúster. 
 
 
-```{r eval = FALSE}
+```{r}
+# Clustering DIANA
 library(cluster)
 hc_diana <- diana(x = d, diss = TRUE, stand = FALSE)
 
-fviz_dend(hc_diana , k = 3,
-          cex = 0.5, 
-          k_colors =
-            c("#2E9FDF", "#00AFBB", "#E7B800"),
-          # Diferentes colores a los clusters
-          color_labels_by_k = TRUE, 
-          #añade un rectángulo alrededor
-          rect = TRUE) +
-  labs(title = "Dendograma (DIANA, divisivo)")
-```
-
-]
-
-.pull-right[
-
-```{r echo = FALSE}
-# Estandarizamos
-iris_scale <-
-  iris %>% select(-Species) %>% 
-  mutate(across(where(is.numeric),
-                ~scale(.)))
-
-# Matriz de distancias
-d <-
-  dist(iris_scale, method = "euclidean")
-
-
-library(cluster)
-hc_diana <- diana(x = d, diss = TRUE, stand = FALSE)
-
+# Dendograma
 fviz_dend(hc_diana, k = 3,
           cex = 0.5, 
           k_colors =
@@ -804,19 +556,8 @@ fviz_dend(hc_diana, k = 3,
 ```
 
 
-]
+# Algoritmos no jerárquicos: k-means
 
----
-
-
-name: no-jerarquicos
-class: center, middle
-
-# Algoritmos no jerárquicos
-
----
-
-# Algoritmo k-means
 
 Dentro de los no jerárquicos nos centraremos en el **algoritmo k-means** (o algoritmo de Lloyd), basado en encontrar los $k$ mejores clústers, entiendo como mejor clúster aquel cuya **varianza interna sea lo más pequeña posible**
 
@@ -828,9 +569,7 @@ Dentro de los no jerárquicos nos centraremos en el **algoritmo k-means** (o alg
 
 4. Se **repiten los pasos 2. y 3.** hasta que no haya ningún cambio en los clúster, hasta que no hayan movido los centroides por encima de una tolerancia o hasta que se haya llegado a un número máximo de iteraciones
 
----
-
-# Algoritmo k-means
+&nbsp;
 
 En dicho algoritmo se deberán tomar dos decisiones:
 
@@ -842,44 +581,46 @@ En dicho algoritmo se deberán tomar dos decisiones:
   - Seleccionar $k$ observaciones aleatorias.
   - Seleccionar $k$ observaciones en base a conocimiento experto.
 
----
-
-# Algoritmo k-means con R
-
+&nbsp;
 
 Vamos a generar un **conjunto aleatorio bidimensional**.
 
 ```{r}
-centers <- tibble(cluster = factor(1:3), num_points =  c(100, 150, 50),
-                  x = c(5, 0, -3), y = c(-1, 1, -2))
+# Centroides
+centers <-
+  tibble(cluster = factor(1:3), # id clúster 
+         # tamaño clúster
+         num_points =  c(100, 150, 50),
+         # Coordenadas de los 3 centroides
+         x = c(5, 0, -3),
+         y = c(-1, 1, -2))
 centers
 
+# Fijamos semilla
 set.seed(1234567)
-labelled_points <- centers %>% mutate(x = map2(num_points, x, rnorm), y = map2(num_points, y, rnorm)) %>% 
-  select(-num_points) %>%  unnest(cols = c(x, y))
+
+# Generamos clúster
+labelled_points <-
+  centers %>%
+  # Generamos para cada caso normales con
+  # media en los centros
+  mutate(x = map2(num_points, x, rnorm),
+         y = map2(num_points, y, rnorm)) %>% 
+  select(-num_points) %>% 
+  unnest(cols = c(x, y))
 labelled_points
 ```
 
----
+Podemos estandarizar dichos datos igual que antes
 
-# Algoritmo k-means con R
-
-.pull-left[
-
-```{r eval = FALSE}
-ggplot(labelled_points,
-       aes(x = x, y = y, color = cluster)) +
-  geom_point(alpha = 0.5, size = 5) +
-  labs(x = "Coordenada X",
-       y = "Coordenada Y",
-       title = "Datos simulados")
+```{r}
+labelled_points <-
+  labelled_points %>%
+  mutate(across(where(is.numeric),  ~scale(.)))
 ```
-  
-]
 
-.pull-right[
 
-```{r echo = FALSE}
+```{r}
 ggplot(labelled_points,
        aes(x = x, y = y, color = cluster)) +
   geom_point(alpha = 0.5, size = 5) +
@@ -888,13 +629,8 @@ ggplot(labelled_points,
   theme_minimal()
 ```
   
-]
 
----
-
-# Algoritmo k-means con R
-
-Para realizar el clustering basta usar la función `kmeans()`, indicándole el **número de clústers** y el **número máximo de iteraciones**
+Para realizar el clustering basta usar la función `kmeans()`, indicándole el **número de clústers** en `centers = ...` y el **número máximo de iteraciones** en `iter.max = ...`
 
 ```{r}
 kclust <- kmeans(labelled_points %>% select(-cluster),
@@ -902,21 +638,17 @@ kclust <- kmeans(labelled_points %>% select(-cluster),
 kclust
 ```
 
----
-
-# Algoritmo k-means con R
-
-.pull-left[
-
 Los grupos están guardados en `kclust$cluster` y los centroides en `kclust$centers`
 
 ```{r}
 kclust$centers
+kclust$cluster
 ```
 
-```{r eval = FALSE}
-fviz_cluster(list(data =
-                    labelled_points %>%
+Usando esos centros como antes usábamos los grupos, podemos aplicar `fviz_cluster()` para visualizar la agrupación (importante: ya no tenemos dendograma ya que no es jerárquico)
+
+```{r}
+fviz_cluster(list(data = labelled_points %>%
                     select(-cluster),
                   cluster = kclust$cluster),
              palette =
@@ -928,78 +660,13 @@ fviz_cluster(list(data =
   theme_minimal()
 ```
 
-]
-
-.pull-right[
-
-```{r echo = FALSE}
-fviz_cluster(list(data = labelled_points %>% select(-cluster), cluster = kclust$cluster),
-             palette =
-               c("#2E9FDF", "#00AFBB", "#E7B800"),
-             ellipse.type = "convex", 
-             repel = TRUE,
-             show.clust.cent = FALSE) +
-  labs(title = "Cluster (k-means)") +
-  theme_minimal()
-```
-
-]
-
----
-
-# Algoritmo k-means con R
-
-.pull-left[
-
-```{r echo = FALSE}
-ggplot(labelled_points,
-       aes(x = x, y = y, color = cluster)) +
-  geom_point(alpha = 0.5, size = 5) +
-  labs(x = "Coordenada X", y = "Coordenada Y",
-       title = "Clústers originales") + 
-  theme_minimal()
-```
-
-]
-
-.pull-right[
-
-```{r echo = FALSE}
-ggplot(labelled_points %>%
-         mutate(cluster_predict = as_factor(kclust$cluster)),
-       aes(x = x, y = y, color = cluster_predict)) +
-  geom_point(alpha = 0.5, size = 5) +
-  labs(x = "Coordenada X", y = "Coordenada Y",
-       title = "Clústers tras k-means") + 
-  theme_minimal()
-```
-
-]
-
----
-
-# Algoritmo k-means con R
-
-Podemos también implementar el k-means para nuestro conjunto conocido `iris`
-
+Es importar recordar que si `centers = ...` es simplemente un número, los **centroides iniciales** se seleccionarán eligiendo un **conjunto aleatorio de filas** de nuestros datos, por lo que si lo volvemos a ejecutar (sin fijar semilla) el resultado puede ser diferente.
 
 ```{r}
-kclust <- kmeans(iris %>% select(-Species),
+kclust <- kmeans(labelled_points %>% select(-cluster),
                  centers = 3, iter.max = 50)
-kclust$centers
-kclust
-```
-
----
-
-# Algoritmo k-means con R
-
-.pull-left[
-
-```{r eval = FALSE}
-fviz_cluster(list(data =
-                    iris %>%
-                    select(-Species),
+fviz_cluster(list(data = labelled_points %>%
+                    select(-cluster),
                   cluster = kclust$cluster),
              palette =
                c("#2E9FDF", "#00AFBB", "#E7B800"),
@@ -1010,13 +677,38 @@ fviz_cluster(list(data =
   theme_minimal()
 ```
 
-Recordatorio: de la 1 a la 50 son setosa, de la 51 a la 100 son versicolor, y de la 101 a la 151 virginica. 
 
-]
+```{r}
+ggplot(labelled_points,
+       aes(x = x, y = y, color = cluster)) +
+  geom_point(alpha = 0.5, size = 5) +
+  labs(x = "Coordenada X", y = "Coordenada Y",
+       title = "Clústers originales") + 
+  theme_minimal()
 
-.pull-right[
+ggplot(labelled_points %>%
+         mutate(cluster_predict = as_factor(kclust$cluster)),
+       aes(x = x, y = y, color = cluster_predict)) +
+  geom_point(alpha = 0.5, size = 5) +
+  labs(x = "Coordenada X", y = "Coordenada Y",
+       title = "Clústers tras k-means") + 
+  theme_minimal()
+```
 
-```{r echo = FALSE}
+&nbsp;
+
+Podemos también implementar el k-means para nuestro conjunto conocido `iris`. Recordatorio: de la 1 a la 50 son setosa, de la 51 a la 100 son versicolor, y de la 101 a la 151 virginica. 
+
+```{r}
+set.seed(1234567)
+kclust <- kmeans(iris %>% select(-Species),
+                 centers = 3, iter.max = 50)
+kclust$centers
+kclust
+```
+
+
+```{r}
 fviz_cluster(list(data = iris %>% select(-Species), cluster = kclust$cluster),
              palette =
                c("#2E9FDF", "#00AFBB", "#E7B800"),
@@ -1027,19 +719,10 @@ fviz_cluster(list(data = iris %>% select(-Species), cluster = kclust$cluster),
   theme_minimal()
 ```
 
-]
-
-
----
-
-name: n-grupos
-class: center, middle
+Una buena parte de las observaciones parecen ser agrupadas «correctamente» aunque en realidad...en un análisis clúster no hay opción correcta.
 
 # Determinación del número de grupos
 
----
-
-# Determinación del número de grupos
 
 Hasta ahora **hemos hecho «trampas»** ya que el **número de clústers se lo hemos indicado a priori**, en un caso porque hemos simulado nosotros los datos, y en otro caso porque es un conjunto del que conocemos su etiqueta (aprendizaje supervisado).
 
@@ -1054,10 +737,6 @@ donde $\overline{x}_j  = \frac{\sum_{i=1}^{n} x_{ij}}{n}$
 ```{r}
 kclust$totss
 ```
-
----
-
-# Determinación del número de grupos
 
 
 * **Variabilidad del clúster $C_k$**
@@ -1078,12 +757,6 @@ $$W = \sum_{k=1}^{K} W_k$$
 kclust$tot.withinss
 ```
 
----
-
-# Determinación del número de grupos
-
-
-Para decidir el **número de clúster óptimo** (recuerda que estamos en aprendizaje NO supervisado, no sabemos a priori la etiqueta de los datos), tenemos **varias métricas** a nuestra disposición
 
 
 * **Variabilidad total entre-clústeres**
@@ -1104,70 +777,27 @@ kclust$betweenss + kclust$tot.withinss
 kclust$totss
 ```
 
----
 
-# Determinación del número de grupos
+## Elección en base a la variabilidad
 
-.pull-left[
+Para decidir el **número óptimo** se usan principalmente dos métodos, el primeor de ellos basado en la **variabilidad total intra-clústeres (W)**:
 
-Para decidir el **número óptimo** se usan principalmente dos métodos:
+Con la función `fviz_nbclust()` de `{factoextra}` podremos visualizar dicha medida (`method = "wss"`) para distintos algoritmos de clusterings. En la metodología de clustering podemos usar `kmeans`, `hcut` (ver en `{factoextra}`, para poder hacerlo con algoritmos jeárquicos), `cluster::pam` para clustering con medioides (una versión más robusta del k-means), `cluster::clara` (para conjunto de datos grandes), etc
 
-* Basado en la **variabilidad total intra-clústeres (W)**:
-
-
-```{r eval = FALSE}
-fviz_nbclust(iris_scale, kmeans,
-             method = "wss") +
-  geom_vline(xintercept = 3,
-             linetype = 2) +
-  theme_minimal() +
-  labs(x = "nº clústeres (k)",
-       y = "Variabilidad total intra-clústeres (W)",
-       title = "Número óptimo basado en variabilidad total intra-clústeres")
-```
-
-Con el **«método del codo» (Elbow method)** cuando $W$ ya no se reduce de forma significativa al aumentar el número de clústers.
-
-]
-
-.pull-right[
-
-```{r echo = FALSE}
+```{r}
 fviz_nbclust(iris_scale, kmeans, method = "wss") +
-  geom_vline(xintercept = 3, linetype = 2) +
   theme_minimal() +
   labs(x = "nº clústeres (k)",
        y = "Variabilidad total intra-clústeres (W)",
        title = "Número óptimo basado en variabilidad total intra-clústeres")
 ```
 
+Con el **«método del codo» (Elbow method)** (por ejemplo) podremos decidir cuando $W$ ya no se reduce de forma significativa al aumentar el número de clústers.
 
-]
-
----
-
-# Determinación del número de grupos
-
-.pull-left[
 
 Así sería para el conjunto de datos simulados
 
-```{r echo = FALSE}
-fviz_nbclust(labelled_points %>%
-               select(-cluster),
-             kmeans, method = "wss") +
-  geom_vline(xintercept = 3, linetype = 2) +
-  theme_minimal() +
-  labs(x = "nº clústeres (k)",
-       y = "Variabilidad total intra-clústeres (W)",
-       title = "Número óptimo basado en variabilidad total intra-clústeres")
-```
-
-]
-
-.pull-right[
-
-```{r eval = FALSE}
+```{r}
 fviz_nbclust(labelled_points %>% select(-cluster),
              kmeans, method = "wss") +
   geom_vline(xintercept = 3, linetype = 2) +
@@ -1177,38 +807,19 @@ fviz_nbclust(labelled_points %>% select(-cluster),
        title = "Número óptimo basado en variabilidad total intra-clústeres")
 ```
 
-Con el **«método del codo» (Elbow method)** cuando $W$ ya no se reduce de forma significativa al aumentar el número de clústers.
 
-]
+## Elección en base a la compacidad (silhouette)
 
----
-
-# Determinación del número de grupos
-
-.pull-left[
-
-Para decidir el **número óptimo** se usan principalmente dos métodos:
-
-* Basado en la **compacidad** (índice silhouette)
+El otro método común está basado en la **compacidad** (índice silhouette)
 
 $$S= \frac{\sum_{i=1}^{n} S(i)}{n}, \quad S(i) = \frac{b(i) - a(i)}{\max(a(i), b(i))}$$
 
 donde $a(i)$ representa las **distancia media de la observación i-ésima** a las observaciones de su clúster, y y $b(i)$ respecto a la de otros clústers.
 
-```{r eval = FALSE}
-fviz_nbclust(iris_scale, kmeans,
-             method = "silhouette") +
-  theme_minimal() +
-  labs(x = "nº clústeres (k)",
-       y = "Silhouette media",
-       title = "Número óptimo basado en silhouette")
-```
 
-]
+Basta con volver a aplicar `fviz_nbclust()` con `method = "silhouette"`
 
-.pull-right[
-
-```{r echo = FALSE}
+```{r}
 fviz_nbclust(iris_scale, kmeans,
              method = "silhouette") +
   theme_minimal() +
@@ -1217,25 +828,17 @@ fviz_nbclust(iris_scale, kmeans,
        title = "Número óptimo basado en silhouette")
 ```
 
-]
-
----
-
-# Determinación del número de grupos
-
-La función `silhouette()` del paquete `{cluster}` nos permite calcular dicho índice para la agrupación realizada (más adelante veremos como visualizarlo)
+La función `silhouette()` del paquete `{cluster}` nos permite además calcular dicho índice $S(i)$ para **cada individuo y para la agrupación realizada** (más adelante veremos como visualizarlo)
 
 ```{r}
-kclust <- kmeans(iris_scale,
-                 centers = 3, iter.max = 50)
-d <- dist(iris_scale, method = "euclidean")
 sil <- silhouette(kclust$cluster, d)
 sil
 ```
 
----
+Con `fviz_silhouette()` del mismo paquete podremos visualizar dicho índice para cada individuo (así como su media)
 
-# Poniendo en práctica: clustering de países
+
+# Poniendo en práctica lo aprendido: clustering de países
 
 Para poner en práctica lo aprendido vamos a analizar los **datos de esperanza de vida de distintos países**, en hombres y mujeres, a distintas edades, que tenemos en el archivo `EsperanzaVida.xlsx`
 
@@ -1246,18 +849,12 @@ esperanza <-
 glimpse(esperanza)
 ```
 
----
+## Visualización previa
 
-# Clustering de países
-
-### Visualización previa
-
-
-.pull-left[
 
 La función `heatmaply()` del paquete homónimo qos permite realizar agrupaciones tanto de variables (dendograma superior) como de individuos (dendograma en el lateral).
 
-```{r eval = FALSE}
+```{r}
 # Convertimos a data.frame para
 # tener row.names y eliminamos PAIS
 esperanza_df <-
@@ -1272,35 +869,10 @@ heatmaply(esperanza_df,
           plot_method = "plotly")
 ```
 
-]
-
-.pull-right[
-
-```{r echo = FALSE}
-esperanza_df <-
-  as.data.frame(esperanza) %>%
-  select(-PAIS)
-row.names(esperanza_df) <- esperanza %>% pull(PAIS)
-```
-
-```{r echo = FALSE, out.width = "95%", fig.align = "right"}
-knitr::include_graphics("./img/heatmap_paises_1.jpg")
-``` 
-
-]
-
-
----
-
-# Clustering de países
-
-### Visualización previa
-
-.pull-left[
 
 Dicha representación puede ser mejorada estandarizando los datos
 
-```{r eval = FALSE}
+```{r}
 # Estandarizamos
 esperanza_scale_df <-
   esperanza_df %>%
@@ -1313,48 +885,12 @@ heatmaply(esperanza_scale_df,
           plot_method = "plotly")
 ```
 
-]
 
-.pull-right[
-
-```{r echo = FALSE}
-esperanza_scale_df <-
-  esperanza_df %>%
-  mutate(across(where(is.numeric),
-                ~scale(.)))
-```
-
-```{r echo = FALSE, out.width = "95%", fig.align = "right"}
-knitr::include_graphics("./img/heatmap_paises_2.jpg")
-``` 
-
-]
-
----
-
-# Clustering de países
-
-### Matriz de distancias
-
-.pull-left[
+## Matriz de distancias
 
 Con los datos estandarizados podemos visualizar su matriz de distancias
 
-```{r eval = FALSE}
-# matriz de distancias
-d <- dist(esperanza_scale_df,
-          method = "euclidean")
-
-# Visualizamos
-fviz_dist(d, show_labels = TRUE)
-```
-
-Podemos ya atisbar cuatro grupos de países: Madasgar-Camerún, Nicaragua-Algeria-Tunez, Groenlandia-...-Guatemala, y los demás.
-
-]
-.pull-right[
-
-```{r echo = FALSE, out.width = "95%"}
+```{r}
 # matriz de distancias
 d <- dist(esperanza_scale_df, method = "euclidean")
 
@@ -1362,40 +898,12 @@ d <- dist(esperanza_scale_df, method = "euclidean")
 fviz_dist(d, show_labels = TRUE)
 ```
 
-]
+Podemos ya atisbar cuatro grupos de países: Madasgar-Camerún, Nicaragua-Algeria-Tunez, Groenlandia-...-Guatemala, y los demás.
 
----
+## Clustering (single)
 
-# Clustering de países
 
-### Clustering (single)
-
-.pull-left[
-
-```{r eval = FALSE}
-# Clustering (single)
-single_clust <-
-  hclust(d, method = "single")
-
-# Dendograma
-library(factoextra)
-fviz_dend(single_clust, k = 4,
-          cex = 0.5, 
-          k_colors =
-            c("#2E9FDF", "#00AFBB",
-              "#E7B800", "#FC4E07"),
-          # Diferentes colores a los clusters
-          color_labels_by_k = TRUE, 
-          # añade rectángulo
-          rect = TRUE) +
-  labs(title = "Dendograma (single)")
-```
-
-]
-
-.pull-right[
-
-```{r echo = FALSE}
+```{r}
 # Clustering (single)
 single_clust <-
   hclust(d, method = "single")
@@ -1414,17 +922,11 @@ fviz_dend(single_clust, k = 4,
   labs(title = "Dendograma (single)")
 ```
 
-]
 
----
+## Clustering (complete)
 
-# Clustering de países
 
-### Clustering (complete)
-
-.pull-left[
-
-```{r eval = FALSE}
+```{r}
 # Clustering (complete)
 complete_clust <-
   hclust(d, method = "complete")
@@ -1442,39 +944,9 @@ fviz_dend(complete_clust, k = 4,
   labs(title = "Dendograma (complete)")
 ```
 
-]
+## Clustering (average)
 
-.pull-right[
-
-```{r echo = FALSE}
-# Clustering (complete)
-complete_clust <-
-  hclust(d, method = "complete")
-
-# Dendograma
-fviz_dend(complete_clust, k = 4,
-          cex = 0.5, 
-          k_colors =
-            c("#2E9FDF", "#00AFBB",
-              "#E7B800", "#FC4E07"),
-          # Diferentes colores a los clusters
-          color_labels_by_k = TRUE, 
-          # Añade un rectángulo alrededor
-          rect = TRUE) +
-  labs(title = "Dendograma (complete)")
-```
-
-]
-
----
-
-# Clustering de países
-
-### Clustering (average)
-
-.pull-left[
-
-```{r eval = FALSE}
+```{r}
 # Clustering (average)
 average_clust <-
   hclust(d, method = "average")
@@ -1492,40 +964,10 @@ fviz_dend(average_clust, k = 4,
   labs(title = "Dendograma (average)")
 ```
 
-]
-
-.pull-right[
-
-```{r echo = FALSE}
-# Clustering (average)
-average_clust <-
-  hclust(d, method = "average")
-
-# Dendograma
-fviz_dend(average_clust, k = 4,
-          cex = 0.5, 
-          k_colors =
-            c("#2E9FDF", "#00AFBB",
-              "#E7B800", "#FC4E07"),
-          # Diferentes colores a los clusters
-          color_labels_by_k = TRUE, 
-          #añade un rectángulo alrededor
-          rect = TRUE) +
-  labs(title = "Dendograma (average)")
-```
-
-]
-
----
+## Clustering (centroid)
 
 
-# Clustering de países
-
-### Clustering (centroid)
-
-.pull-left[
-
-```{r eval = FALSE}
+```{r}
 # Clustering (centroid)
 centroid_clust <-
   hclust(d, method = "centroid")
@@ -1543,39 +985,11 @@ fviz_dend(centroid_clust, k = 4,
   labs(title = "Dendograma (centroid)")
 ```
 
-]
+## Clustering (Ward)
 
-.pull-right[
 
-```{r echo = FALSE}
-# Clustering (centroid)
-centroid_clust <-
-  hclust(d, method = "centroid")
 
-# Dendograma
-fviz_dend(centroid_clust, k = 4,
-          cex = 0.5, 
-          k_colors =
-            c("#2E9FDF", "#00AFBB",
-              "#E7B800", "#FC4E07"),
-          # Diferentes colores a los clusters
-          color_labels_by_k = TRUE, 
-          #añade un rectángulo alrededor
-          rect = TRUE) +
-  labs(title = "Dendograma (centroid)")
-```
-
-]
-
----
-
-# Clustering de países
-
-### Clustering (Ward)
-
-.pull-left[
-
-```{r eval = FALSE}
+```{r}
 # Clustering (ward)
 ward_clust <-
   hclust(d, method = "ward.D2")
@@ -1593,40 +1007,11 @@ fviz_dend(ward_clust, k = 4,
   labs(title = "Dendograma (Ward)")
 ```
 
-]
 
-.pull-right[
-
-```{r echo = FALSE}
-# Clustering (ward)
-ward_clust <-
-  hclust(d, method = "ward.D2")
-
-# Dendograma
-fviz_dend(ward_clust, k = 4,
-          cex = 0.5, 
-          k_colors =
-            c("#2E9FDF", "#00AFBB",
-              "#E7B800", "#FC4E07"),
-          # Diferentes colores a los clusters
-          color_labels_by_k = TRUE, 
-          #añade un rectángulo alrededor
-          rect = TRUE) +
-  labs(title = "Dendograma (Ward)")
-```
-
-]
-
----
+## Clustering divisivo
 
 
-# Clustering de países
-
-### Clustering divisivo
-
-.pull-left[
-
-```{r eval = FALSE}
+```{r}
 # Clustering divisivo
 hc_diana <-
   diana(x = d, diss = TRUE,
@@ -1645,66 +1030,10 @@ fviz_dend(hc_diana, k = 4,
   labs(title = "Dendograma (divisivo)")
 ```
 
-]
+## Clustering no jerárquico
 
-.pull-right[
 
-```{r echo = FALSE}
-# Clustering divisivo
-hc_diana <-
-  diana(x = d, diss = TRUE,
-        stand = FALSE)
-
-# Dendograma
-fviz_dend(hc_diana, k = 4,
-          cex = 0.5, 
-          k_colors =
-            c("#2E9FDF", "#00AFBB",
-              "#E7B800", "#FC4E07"),
-          # Diferentes colores a los clusters
-          color_labels_by_k = TRUE, 
-          #añade un rectángulo alrededor
-          rect = TRUE) +
-  labs(title = "Dendograma (divisivo)")
-```
-
-]
-
----
-
-# Clustering de países
-
-### Clustering no jerárquico
-
-.pull-left[
-
-```{r eval = FALSE}
-# Clustering k-means
-kclust <- kmeans(esperanza_scale_df,
-                 centers = 4,
-                 iter.max = 50)
-kclust$totss
-
-# Clustering
-fviz_cluster(list(data =
-                    esperanza_scale_df,
-                  cluster =
-                    kclust$cluster),
-             palette =
-               c("#2E9FDF", "#00AFBB",
-                 "#E7B800", "#FC4E07"),
-             ellipse.type = "convex", 
-             repel = TRUE,
-             show.clust.cent = FALSE) +
-  labs(title = "Cluster (k-means)") +
-  theme_minimal()
-```
-
-]
-
-.pull-right[
-
-```{r echo = FALSE}
+```{r}
 # Clustering k-means
 kclust <- kmeans(esperanza_scale_df,
                  centers = 4, iter.max = 50)
@@ -1722,154 +1051,9 @@ fviz_cluster(list(data = esperanza_scale_df,
   theme_minimal()
 ```
 
-]
+## Elección del número de clusters
 
----
-
-
-# Clustering de países
-
-### Comparativa de clusterings
-
-
-.pull-left[
-
-```{r echo = FALSE}
-groups <- cutree(single_clust, k = 4)
-
-fviz_cluster(list(data = esperanza_scale_df,
-                  cluster = groups),
-             palette =
-               c("#2E9FDF", "#00AFBB",
-                 "#E7B800", "#FC4E07"),
-             ellipse.type = "convex", 
-             repel = TRUE,
-             show.clust.cent = FALSE) +
-  labs(title = "Cluster (single)") +
-  theme_minimal()
-```
-
-]
-
-.pull-right[
-```{r echo = FALSE}
-groups <- cutree(complete_clust, k = 4)
-
-fviz_cluster(list(data = esperanza_scale_df,
-                  cluster = groups),
-             palette =
-               c("#2E9FDF", "#00AFBB",
-                 "#E7B800", "#FC4E07"),
-             ellipse.type = "convex", 
-             repel = TRUE,
-             show.clust.cent = FALSE) +
-  labs(title = "Cluster (complete)") +
-  theme_minimal()
-```
-
-]
-
----
-
-# Clustering de países
-
-### Comparativa de clusterings
-
-.pull-left[
-
-```{r echo = FALSE}
-groups <- cutree(average_clust, k = 4)
-
-fviz_cluster(list(data = esperanza_scale_df,
-                  cluster = groups),
-             palette =
-               c("#2E9FDF", "#00AFBB",
-                 "#E7B800", "#FC4E07"),
-             ellipse.type = "convex", 
-             repel = TRUE,
-             show.clust.cent = FALSE) +
-  labs(title = "Cluster (average)") +
-  theme_minimal()
-```
-
-]
-
-.pull-right[
-
-```{r echo = FALSE}
-groups <- cutree(centroid_clust, k = 4)
-
-fviz_cluster(list(data = esperanza_scale_df,
-                  cluster = groups),
-             palette =
-               c("#2E9FDF", "#00AFBB",
-                 "#E7B800", "#FC4E07"),
-             ellipse.type = "convex", 
-             repel = TRUE,
-             show.clust.cent = FALSE) +
-  labs(title = "Cluster (centroid)") +
-  theme_minimal()
-```
-
-]
-
----
-
-# Clustering de países
-
-### Comparativa de clusterings
-
-.pull-left[
-
-```{r echo = FALSE}
-groups <- cutree(ward_clust, k = 4)
-
-fviz_cluster(list(data = esperanza_scale_df,
-                  cluster = groups),
-             palette =
-               c("#2E9FDF", "#00AFBB",
-                 "#E7B800", "#FC4E07"),
-             ellipse.type = "convex", 
-             repel = TRUE,
-             show.clust.cent = FALSE) +
-  labs(title = "Cluster (Ward)") +
-  theme_minimal()
-```
-
-]
-
-.pull-right[
-
-
-```{r echo = FALSE}
-# Clustering k-means
-kclust <- kmeans(esperanza_scale_df,
-                 centers = 4, iter.max = 50)
-
-# Clustering
-fviz_cluster(list(data = esperanza_scale_df,
-                  cluster = kclust$cluster),
-             palette =
-               c("#2E9FDF", "#00AFBB",
-                 "#E7B800", "#FC4E07"),
-             ellipse.type = "convex", 
-             repel = TRUE,
-             show.clust.cent = FALSE) +
-  labs(title = "Cluster (k-means)") +
-  theme_minimal()
-```
-
-]
-
----
-
-# Poniendo en práctica: clustering de países
-
-### Elección del número de clusters
-
-.pull-left[
-
-```{r eval = FALSE}
+```{r}
 fviz_nbclust(esperanza_scale_df, kmeans,
              method = "wss") +
   theme_minimal() +
@@ -1878,30 +1062,8 @@ fviz_nbclust(esperanza_scale_df, kmeans,
        title = "Número óptimo basado en variabilidad")
 ```
 
-]
 
-.pull-right[
-
-```{r echo = FALSE}
-fviz_nbclust(esperanza_scale_df, kmeans,
-             method = "wss") +
-  theme_minimal() +
-  labs(x = "nº clústeres (k)",
-       y = "Variabilidad total intra-clústeres (W)",
-       title = "Número óptimo basado en variabilidad")
-```
-
-]
-
----
-
-# Poniendo en práctica: clustering de países
-
-### Elección del número de clusters
-
-.pull-left[
-
-```{r eval = FALSE}
+```{r}
 fviz_nbclust(esperanza_scale_df, kmeans,
              method = "silhouette") +
   theme_minimal() +
@@ -1910,125 +1072,40 @@ fviz_nbclust(esperanza_scale_df, kmeans,
        title = "Número óptimo basado en compacidad")
 ```
 
-]
 
-.pull-right[
-
-```{r echo = FALSE}
-fviz_nbclust(esperanza_scale_df, kmeans,
-             method = "silhouette") +
-  theme_minimal() +
-  labs(x = "nº clústeres (k)",
-       y = "Variabilidad total intra-clústeres (W)",
-       title = "Número óptimo basado en compacidad")
-```
-
-]
-
----
-
-# Poniendo en práctica: clustering de países
-
-### Elección del número de clusters
-
-.pull-left[
-
-
-```{r eval = FALSE}
-kclust <- kmeans(esperanza_scale_df,
-                 centers = 4, iter.max = 50)
+```{r}
+# Silhouette numéricamente
 sil <- silhouette(kclust$cluster, d)
 sil
 ```
 
-]
 
-.pull-right[
+Además con `fviz_silhouette()` podemos visualizar $S(i)$ y su media.
 
-```{r echo = FALSE}
-kclust <- kmeans(esperanza_scale_df,
-                 centers = 4, iter.max = 50)
-sil <- silhouette(kclust$cluster, d)
-sil
-```
-
-]
-
----
-
-
-# Poniendo en práctica: clustering de países
-
-### Elección del número de clusters
-
-.pull-left[
-
-
-```{r eval = FALSE}
-kclust <- kmeans(esperanza_scale_df,
-                 centers = 4, iter.max = 50)
-sil <- silhouette(kclust$cluster, d)
+```{r}
 row.names(sil) <- row.names(esperanza_scale_df)
 
 # Visualización
 fviz_silhouette(sil, label = TRUE) +
+  # Colores para el relleno
   scale_fill_manual(values =
                       c("#2E9FDF", "#00AFBB",
                         "#E7B800", "#FC4E07")) +
+  # Colores para el contorno de las barras
   scale_color_manual(values =
                       c("#2E9FDF", "#00AFBB",
                         "#E7B800", "#FC4E07")) +
   theme_minimal() +
   labs(title =
          "Índice silhouette para k-means con k = 4") +
-  # Giramos etiquetas eje
-  theme(axis.text.x =
-          element_text(angle = 90,
-                       vjust = 0.5,
-                       hjust=1))
+  # Giramos etiquetas de los ejes
+  theme(axis.text.x = element_text(angle = 90))
 ```
 
-]
-
-.pull-right[
+Esto mismo lo podemos hacer con otros clustering, usando en `silhouette()` las asignaciones devueltas por `cutree()`
 
 
-```{r echo = FALSE}
-kclust <- kmeans(esperanza_scale_df,
-                 centers = 4, iter.max = 50)
-sil <- silhouette(kclust$cluster, d)
-row.names(sil) <- row.names(esperanza_scale_df)
-
-# Visualización
-fviz_silhouette(sil, label = TRUE) +
-  scale_fill_manual(values =
-                      c("#2E9FDF", "#00AFBB",
-                        "#E7B800", "#FC4E07")) +
-  scale_color_manual(values =
-                      c("#2E9FDF", "#00AFBB",
-                        "#E7B800", "#FC4E07")) +
-  theme_minimal() +
-  labs(title =
-         "Índice silhouette para k-means con k = 4") +
-  # Giramos etiquetas eje
-  theme(axis.text.x =
-          element_text(angle = 90,
-                       vjust = 0.5,
-                       hjust=1))
-```
-
-]
-
----
-
-# Poniendo en práctica: clustering de países
-
-### Elección del número de clusters
-
-.pull-left[
-
-
-```{r eval = FALSE}
+```{r}
 # Clustering (ward)
 ward_clust <-
   hclust(d, method = "ward.D2")
@@ -2049,51 +1126,10 @@ fviz_silhouette(sil, label = TRUE) +
          "Índice silhouette para jerárquico Ward con k = 4") +
   # Giramos etiquetas eje
   theme(axis.text.x =
-          element_text(angle = 90,
-                       vjust = 0.5,
-                       hjust=1))
+          element_text(angle = 90))
 ```
 
-]
-
-.pull-right[
-
-
-```{r echo = FALSE}
-# Clustering (ward)
-ward_clust <-
-  hclust(d, method = "ward.D2")
-groups <- cutree(ward_clust, k = 4)
-sil <- silhouette(groups, d)
-row.names(sil) <- row.names(esperanza_scale_df)
-
-# Visualización
-fviz_silhouette(sil, label = TRUE) +
-  scale_fill_manual(values =
-                      c("#2E9FDF", "#00AFBB",
-                        "#E7B800", "#FC4E07")) +
-  scale_color_manual(values =
-                      c("#2E9FDF", "#00AFBB",
-                        "#E7B800", "#FC4E07")) +
-  theme_minimal() +
-  labs(title =
-         "Índice silhouette para jerárquico Ward con k = 4") +
-  # Giramos etiquetas eje
-  theme(axis.text.x =
-          element_text(angle = 90,
-                       vjust = 0.5,
-                       hjust=1))
-```
-
-]
-
----
-
-# Poniendo en práctica: clustering de países
-
-### Elección del número de clusters
-
-Podemos ejecutar varios clustering a la vez mapeando sobre el número de clusters (por ejemplo, usando el k-medias)
+Por último podemos ejecutar varios clustering a la vez mapeando sobre el número de clusters (por ejemplo, usando el k-medias)
 
 ```{r}
 kclusts <- 

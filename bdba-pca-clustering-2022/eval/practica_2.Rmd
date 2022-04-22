@@ -1,0 +1,81 @@
+---
+title: "Práctica II"
+description: |
+  Análisis clúster
+author:
+  - name: C. Tangana (DNI 0000000-A)
+    affiliation: Universidad Complutense de Madrid
+    affiliation_url: 
+date: "`r Sys.Date()`"
+output:
+    distill::distill_article:
+        highlight: kate
+        colorlinks: true
+        code_folding: false
+        toc: true            
+        toc_depth: 3     
+---
+
+```{r setup, include = FALSE}
+# Ajuste comunes de los chunk
+knitr::opts_chunk$set(fig.width = 9, fig.asp = 1, out.width = "100%",
+                      message = FALSE, warning = FALSE,
+                      echo = TRUE, res = 400)
+```
+
+# Instrucciones (leer antes de empezar)
+
+* Modifica dentro del documento `.Rmd` tus datos personales (nombre y DNI) ubicados en la cabecera del archivo.
+
+* Asegúrate antes de seguir editando el documento que el archivo `.Rmd` compila (Knit) correctamente y se genera el `html` correspondiente.
+
+* Los chunks creados están o vacíos o incompletos, de ahí que tengan la opción `eval = FALSE`. Una vez que edites lo que consideres debes de cambiar a `eval = TRUE` para que los chunk se ejecuten
+
+## Paquetes necesarios
+
+Necesitaremos los siguientes paquetes:
+
+* **Manejo de datos**: paquete `{tidyverse}`.
+* **Modelos**: paquete `{tidymodels}`
+* **Lectura excel**: paquete `{readxl}`
+* **Resumen numérico**: paquete `{skimr}`.
+* **Visualización de clústers**: paquete `{factoextra}`
+* **Clustering divisivo**: paquete `{cluster}`
+
+```{r paquetes}
+# Borramos variables del environment
+rm(list = ls())
+library(tidyverse)
+library(tidymodels)
+library(readxl)
+library(skimr)
+library(factoextra)
+library(cluster)
+```
+
+
+# Carga de datos
+
+El archivo de datos a usar será `provincias.xlsx`
+
+```{r}
+provincias <- read_xlsx(path = "./provincias.xlsx")
+```
+
+El fichero contiene **información socioeconómica de las provincias españolas**
+
+```{r}
+glimpse(provincias)
+```
+
+
+Algunas de las variables son:
+
+* `Prov`: nombre de la provincia
+* `Poblacion`: habitantes
+* `Mortalidad`, `Natalidad`: tasa de mortalidad/natalidad (en tantos por mil)
+* `IPC`: índice de precios de consumo (sobre un valor base de 100).
+* `NumEmpresas`: número de empresas.
+* `PIB`: producto interior bruto
+* `CTH`: coyuntura turística hotelera (pernoctaciones en establecimientos hoteleros)
+
