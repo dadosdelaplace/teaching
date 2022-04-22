@@ -32,11 +32,11 @@ GPLv3](https://img.shields.io/badge/license-GPLv3-blue.svg)](https://www.gnu.org
 Este repositorio contiene el **material docente** (tanto transparencias como códigos R y datos) usados en el aula en los siguientes cursos académicos:
 
 <details>
-  <summary>Curso académico 2021-2022 (CLICK PARA ABRIR)</strong></summary>
+  <summary>Curso académico **2021-2022** (CLICK PARA ABRIR)</strong></summary>
   
 <!-- toc -->
 * Máster propio (NTIC) **«Big Data y Business Analytics»** (Universidad Complutense de Madrid)
-  - **Técnicas de análisis multivariantes** (...)
+  - **Técnicas de análisis multivariantes** (presencial) --> <https://dadosdelaplace.github.io/teaching/bdba-pca-clustering-2022>
 
 <!-- tocstop -->
 </details>
