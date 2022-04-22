@@ -2357,7 +2357,7 @@ data_pc
 .pull-left[
 
 ```{r eval = FALSE}
-ggplot(data_pc %>% select(-Species),
+ggplot(data_pc,
        aes(x = .panel_x, y = .panel_y,
            color = Species, fill = Species)) +
     geom_point(alpha = 0.4, size = 0.7) +
