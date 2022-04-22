@@ -4531,7 +4531,7 @@ fviz_cluster(list(data = esperanza_scale_df,
 
 ---
 
-# Poniendo en práctica: clustering de países
+# Clustering de países
 
 ### Elección del número de clusters
 
@@ -4563,7 +4563,7 @@ fviz_nbclust(esperanza_scale_df, kmeans,
 
 ---
 
-# Poniendo en práctica: clustering de países
+# Clustering de países
 
 ### Elección del número de clusters
 
@@ -4595,7 +4595,7 @@ fviz_nbclust(esperanza_scale_df, kmeans,
 
 ---
 
-# Poniendo en práctica: clustering de países
+# Clustering de países
 
 ### Elección del número de clusters
 
@@ -4625,7 +4625,7 @@ sil
 ---
 
 
-# Poniendo en práctica: clustering de países
+# Clustering de países
 
 ### Elección del número de clusters
 
@@ -4668,7 +4668,8 @@ sil <- silhouette(kclust$cluster, d)
 row.names(sil) <- row.names(esperanza_scale_df)
 
 # Visualización
-fviz_silhouette(sil, label = TRUE) +
+fviz_silhouette(sil, label = TRUE,
+                print.summary = FALSE) +
   scale_fill_manual(values =
                       c("#2E9FDF", "#00AFBB",
                         "#E7B800", "#FC4E07")) +
@@ -4689,7 +4690,7 @@ fviz_silhouette(sil, label = TRUE) +
 
 ---
 
-# Poniendo en práctica: clustering de países
+# Clustering de países
 
 ### Elección del número de clusters
 
@@ -4705,7 +4706,8 @@ sil <- silhouette(groups, d)
 row.names(sil) <- row.names(esperanza_scale_df)
 
 # Visualización
-fviz_silhouette(sil, label = TRUE) +
+fviz_silhouette(sil, label = TRUE,
+                print.summary = FALSE) +
   scale_fill_manual(values =
                       c("#2E9FDF", "#00AFBB",
                         "#E7B800", "#FC4E07")) +
@@ -4719,7 +4721,7 @@ fviz_silhouette(sil, label = TRUE) +
   theme(axis.text.x =
           element_text(angle = 90,
                        vjust = 0.5,
-                       hjust=1))
+                       hjust = 1))
 ```
 
 ]
@@ -4736,7 +4738,8 @@ sil <- silhouette(groups, d)
 row.names(sil) <- row.names(esperanza_scale_df)
 
 # Visualización
-fviz_silhouette(sil, label = TRUE) +
+fviz_silhouette(sil, label = TRUE,
+                print.summary = FALSE) +
   scale_fill_manual(values =
                       c("#2E9FDF", "#00AFBB",
                         "#E7B800", "#FC4E07")) +
@@ -4750,20 +4753,21 @@ fviz_silhouette(sil, label = TRUE) +
   theme(axis.text.x =
           element_text(angle = 90,
                        vjust = 0.5,
-                       hjust=1))
+                       hjust = 1))
 ```
 
 ]
 
 ---
 
-# Poniendo en práctica: clustering de países
+# Clustering de países
 
 ### Elección del número de clusters
 
 Podemos ejecutar varios clustering a la vez mapeando sobre el número de clusters (por ejemplo, usando el k-medias)
 
 ```{r}
+library(tidymodels)
 kclusts <- 
   tibble(k = 1:9) %>%
   mutate(kclust =
@@ -4774,16 +4778,13 @@ kclusts <-
                          esperanza_scale_df)
          )
 clusters <- 
-  kclusts %>%
-  unnest(cols = c(tidied))
+  kclusts %>% unnest(cols = c(tidied))
 
 assignments <- 
-  kclusts %>% 
-  unnest(cols = c(augmented))
+  kclusts %>% unnest(cols = c(augmented))
 
 clusterings <- 
-  kclusts %>%
-  unnest(cols = c(glanced))
+  kclusts %>% unnest(cols = c(glanced))
 ```
 
 ---
