@@ -94,8 +94,8 @@ code span.wa { color: #bf0303; } /* Warning */
   
   
   <!--  https://schema.org/Article -->
-  <meta property="article:published" itemprop="datePublished" content="2022-04-22" />
-  <meta property="article:created" itemprop="dateCreated" content="2022-04-22" />
+  <meta property="article:published" itemprop="datePublished" content="2022-04-26" />
+  <meta property="article:created" itemprop="dateCreated" content="2022-04-26" />
   <meta name="article:author" content="C. Tangana (DNI 0000000-A)" />
   
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
@@ -113,7 +113,7 @@ code span.wa { color: #bf0303; } /* Warning */
   <!--radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output"]}},"value":[{"type":"character","attributes":{},"value":["Práctica II"]},{"type":"character","attributes":{},"value":["Análisis clúster\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","affiliation","affiliation_url"]}},"value":[{"type":"character","attributes":{},"value":["C. Tangana (DNI 0000000-A)"]},{"type":"character","attributes":{},"value":["Universidad Complutense de Madrid"]},{"type":"NULL"}]}]},{"type":"character","attributes":{},"value":["2022-04-22"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["highlight","colorlinks","code_folding","toc","toc_depth"]}},"value":[{"type":"character","attributes":{},"value":["kate"]},{"type":"logical","attributes":{},"value":[true]},{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[3]}]}]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output"]}},"value":[{"type":"character","attributes":{},"value":["Práctica II"]},{"type":"character","attributes":{},"value":["Análisis clúster\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","affiliation","affiliation_url"]}},"value":[{"type":"character","attributes":{},"value":["C. Tangana (DNI 0000000-A)"]},{"type":"character","attributes":{},"value":["Universidad Complutense de Madrid"]},{"type":"NULL"}]}]},{"type":"character","attributes":{},"value":["2022-04-26"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["highlight","colorlinks","code_folding","toc","toc_depth"]}},"value":[{"type":"character","attributes":{},"value":["kate"]},{"type":"logical","attributes":{},"value":[true]},{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[3]}]}]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   
@@ -2462,7 +2462,7 @@ distill-header .nav a {
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Práctica II","description":"Análisis clúster","authors":[{"author":"C. Tangana (DNI 0000000-A)","authorURL":"#","affiliation":"Universidad Complutense de Madrid","affiliationURL":"#","orcidID":""}],"publishedDate":"2022-04-22T00:00:00.000+02:00","citationText":"0000000-A), 2022"}
+{"title":"Práctica II","description":"Análisis clúster","authors":[{"author":"C. Tangana (DNI 0000000-A)","authorURL":"#","affiliation":"Universidad Complutense de Madrid","affiliationURL":"#","orcidID":""}],"publishedDate":"2022-04-26T00:00:00.000+02:00","citationText":"0000000-A), 2022"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2481,7 +2481,7 @@ distill-header .nav a {
 <div class="d-byline">
   C. Tangana (DNI 0000000-A)  (Universidad Complutense de Madrid)
   
-<br />2022-04-22
+<br />2022-04-26
 </div>
 
 <div class="d-article">
@@ -2493,6 +2493,17 @@ distill-header .nav a {
 <li><a href="#paquetes-necesarios">Paquetes necesarios</a></li>
 </ul></li>
 <li><a href="#carga-de-datos">Carga de datos</a></li>
+<li><a href="#ejercicio-1">Ejercicio 1:</a></li>
+<li><a href="#ejercicio-2">Ejercicio 2:</a></li>
+<li><a href="#ejercicio-3">Ejercicio 3:</a></li>
+<li><a href="#ejercicio-4">Ejercicio 4:</a></li>
+<li><a href="#ejercicio-5">Ejercicio 5:</a></li>
+<li><a href="#ejercicio-6">Ejercicio 6:</a></li>
+<li><a href="#ejercicio-7">Ejercicio 7:</a></li>
+<li><a href="#ejercicio-8">Ejercicio 8:</a></li>
+<li><a href="#ejercicio-9">Ejercicio 9:</a></li>
+<li><a href="#ejercicio-10">Ejercicio 10:</a></li>
+<li><a href="#ejercicio-11">Ejercicio 11:</a></li>
 </ul>
 </nav>
 </div>
@@ -2509,7 +2520,7 @@ distill-header .nav a {
 <li><strong>Modelos</strong>: paquete <code>{tidymodels}</code></li>
 <li><strong>Lectura excel</strong>: paquete <code>{readxl}</code></li>
 <li><strong>Resumen numérico</strong>: paquete <code>{skimr}</code>.</li>
-<li><strong>Visualización de clústers</strong>: paquete <code>{factoextra}</code></li>
+<li><strong>Visualización de clústers y PCA</strong>: paquete <code>{factoextra}</code> y <code>{FactoMineR}</code></li>
 <li><strong>Clustering divisivo</strong>: paquete <code>{cluster}</code></li>
 </ul>
 <div class="layout-chunk" data-layout="l-body">
@@ -2521,6 +2532,7 @@ distill-header .nav a {
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readxl.tidyverse.org">readxl</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://docs.ropensci.org/skimr/">skimr</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://www.sthda.com/english/rpkgs/factoextra">factoextra</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://factominer.free.fr">FactoMineR</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://svn.r-project.org/R-packages/trunk/cluster/">cluster</a></span><span class="op">)</span>
 </code></pre>
 </div>
@@ -2571,6 +2583,118 @@ $ VS            &lt;dbl&gt; 30244, 326705, 72486, 9791, 73250, 49441, 8571…</c
 <li><code>PIB</code>: producto interior bruto</li>
 <li><code>CTH</code>: coyuntura turística hotelera (pernoctaciones en establecimientos hoteleros)</li>
 </ul>
+<h1 id="ejercicio-1">Ejercicio 1:</h1>
+<blockquote>
+<p>Calcula la matriz de covarianzas y de correlaciones. Calcula de nuevo la matriz deUsa el paquete <code>{corrplot}</code> para una representación gráfica de la misma. Detalla y comenta lo que consideres para su correcta interpretación.</p>
+</blockquote>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Completa el código</span>
+<span class="va">provincias</span> <span class="op">%&gt;%</span> <span class="va">...</span>
+</code></pre>
+</div>
+</div>
+<h1 id="ejercicio-2">Ejercicio 2:</h1>
+<blockquote>
+<p>Estandariza los datos y guardalos en provincias_std</p>
+</blockquote>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Completa el código</span>
+<span class="va">provincias_std</span> <span class="op">&lt;-</span> <span class="va">...</span>
+</code></pre>
+</div>
+</div>
+<h1 id="ejercicio-3">Ejercicio 3:</h1>
+<blockquote>
+<p>Calcula con <code>eigen()</code> los autovalores y autovectores de la matriz de correlaciones e interpreta dichos resultados en relación a las componentes principales de las variables originales.</p>
+</blockquote>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Completa el código</span>
+</code></pre>
+</div>
+</div>
+<h1 id="ejercicio-4">Ejercicio 4:</h1>
+<blockquote>
+<p>Haciendo uso de <code>PCA()</code> del paquete <code>{FactoMineR}</code> calcula todas las componentes principales. Repite de nuevo el análisis con el mínimo número de componentes necesairas para capturar al menos el 95% de la información de los datos.</p>
+</blockquote>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Completa el código</span>
+</code></pre>
+</div>
+</div>
+<h1 id="ejercicio-5">Ejercicio 5:</h1>
+<blockquote>
+<p>Realiza las gráficas que consideres más útiles para poder interpretar adecuadamente las componentes principales obtenidas. ¿Cuál es la expresión para calcular la primera componente en función de las variables originales?</p>
+</blockquote>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Completa el código</span>
+</code></pre>
+</div>
+</div>
+<h1 id="ejercicio-6">Ejercicio 6:</h1>
+<blockquote>
+<p>¿Cuál es la contribución de las variables originales en cada componente principal seleccionada? Proporciona las nuevas coordenadas de los datos. ¿Cuál de las variables es la que está peor explicada?</p>
+</blockquote>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Completa el código</span>
+</code></pre>
+</div>
+</div>
+<h1 id="ejercicio-7">Ejercicio 7:</h1>
+<blockquote>
+<p>Si tuviéramos que construir un índice que valore de forma conjunta el desarrollo económico de una provincia, como se podría construir utilizando una combinación lineal de todas las variables. ¿Cuál sería el valor de dicho índice en Madrid? ¿Cual sería su valor en Melilla?</p>
+</blockquote>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Completa el código</span>
+</code></pre>
+</div>
+</div>
+<h1 id="ejercicio-8">Ejercicio 8:</h1>
+<blockquote>
+<p>Calcula la matriz de distancias de los datos. Representa un mapa de calor de la matriz de datos, estandarizado y sin estandarizar, así como de la matriz de distancias. Comenta si se detectan inicialmente grupos de provincias.</p>
+</blockquote>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Completa el código</span>
+</code></pre>
+</div>
+</div>
+<h1 id="ejercicio-9">Ejercicio 9:</h1>
+<blockquote>
+<p>Realiza varios análisis de clúster jerárquico con distintos enlaces y comenta las diferencias. En cada caso visualiza el dendograma y comenta cuántos clusters recomendarías usar.</p>
+</blockquote>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Completa el código</span>
+</code></pre>
+</div>
+</div>
+<h1 id="ejercicio-10">Ejercicio 10:</h1>
+<blockquote>
+<p>¿Qué número óptimo de clusters nos indican los criterios Silhoutte y de Elbow? Representar los individuos agrupados según el número de clusters elegido.</p>
+</blockquote>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Completa el código</span>
+</code></pre>
+</div>
+</div>
+<h1 id="ejercicio-11">Ejercicio 11:</h1>
+<blockquote>
+<p>Con el número de clusters decidido en el apartado anterior realizar un agrupamiento no jerárquico de k-medias. Representar los clusters formados en los planos de las Componentes principales. Interpreta los resultados y evalúa la calidad del análisis clúster. Explica las provincias que forman cada uno de los clusters y comentar cuales son las características socioeconómicas que las hacen pertenecer a dicho cluster</p>
+</blockquote>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Completa el código</span>
+</code></pre>
+</div>
+</div>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->

@@ -39,7 +39,7 @@ Necesitaremos los siguientes paquetes:
 * **Modelos**: paquete `{tidymodels}`
 * **Lectura excel**: paquete `{readxl}`
 * **Resumen numérico**: paquete `{skimr}`.
-* **Visualización de clústers**: paquete `{factoextra}`
+* **Visualización de clústers y PCA**: paquete `{factoextra}` y `{FactoMineR}`
 * **Clustering divisivo**: paquete `{cluster}`
 
 ```{r paquetes}
@@ -50,6 +50,7 @@ library(tidymodels)
 library(readxl)
 library(skimr)
 library(factoextra)
+library(FactoMineR)
 library(cluster)
 ```
 
@@ -78,4 +79,109 @@ Algunas de las variables son:
 * `NumEmpresas`: número de empresas.
 * `PIB`: producto interior bruto
 * `CTH`: coyuntura turística hotelera (pernoctaciones en establecimientos hoteleros)
+
+# Ejercicio 1:
+
+> Calcula la matriz de covarianzas y de correlaciones. Calcula de nuevo la matriz deUsa el paquete `{corrplot}` para una representación gráfica de la misma. Detalla y comenta lo que consideres para su correcta interpretación.
+
+```{r eval = FALSE}
+# Completa el código
+provincias %>% ...
+```
+
+# Ejercicio 2:
+
+> Estandariza los datos y guardalos en provincias_std
+
+```{r eval = FALSE}
+# Completa el código
+provincias_std <- ...
+```
+
+# Ejercicio 3:
+
+> Calcula con `eigen()` los autovalores y autovectores de la matriz de correlaciones e interpreta dichos resultados en relación a las componentes principales de las variables originales.
+
+```{r eval = FALSE}
+# Completa el código
+```
+
+# Ejercicio 4:
+
+> Haciendo uso de `PCA()` del paquete `{FactoMineR}` calcula todas las componentes principales. Repite de nuevo el análisis con el mínimo número de componentes necesairas para capturar al menos el 95% de la información de los datos.
+
+```{r eval = FALSE}
+# Completa el código
+```
+
+
+# Ejercicio 5:
+
+> Realiza las gráficas que consideres más útiles para poder interpretar adecuadamente las componentes principales obtenidas. ¿Cuál es
+la expresión para calcular la primera componente en función de las variables
+originales?
+
+
+```{r eval = FALSE}
+# Completa el código
+```
+
+# Ejercicio 6:
+
+> ¿Cuál es la contribución de las variables originales en cada componente principal seleccionada? Proporciona las nuevas coordenadas de los datos. ¿Cuál de las variables es la que está peor explicada?
+
+```{r eval = FALSE}
+# Completa el código
+```
+
+
+
+# Ejercicio 7:
+
+> Si tuviéramos que construir un índice que valore de forma conjunta el
+desarrollo económico de una provincia, como se podría construir utilizando una combinación lineal de todas las variables. ¿Cuál sería el valor de dicho
+índice en Madrid? ¿Cual sería su valor en Melilla? 
+
+```{r eval = FALSE}
+# Completa el código
+```
+
+
+# Ejercicio 8:
+
+> Calcula la matriz de distancias de los datos. Representa un mapa de calor de la matriz de datos, estandarizado y sin estandarizar, así como de la matriz de distancias. Comenta si se detectan inicialmente grupos de provincias.
+
+
+```{r eval = FALSE}
+# Completa el código
+```
+
+
+# Ejercicio 9:
+
+> Realiza varios análisis de clúster jerárquico con distintos enlaces y comenta las diferencias. En cada caso visualiza el dendograma y comenta cuántos clusters recomendarías usar.
+
+
+```{r eval = FALSE}
+# Completa el código
+```
+
+
+# Ejercicio 10:
+
+> ¿Qué número óptimo de clusters nos indican los criterios Silhoutte y de Elbow? Representar los individuos agrupados según el número de clusters elegido.
+
+```{r eval = FALSE}
+# Completa el código
+```
+
+
+# Ejercicio 11:
+
+> Con el número de clusters decidido en el apartado anterior realizar un
+agrupamiento no jerárquico de k-medias. Representar los clusters formados en los planos de las Componentes principales. Interpreta los resultados y evalúa la calidad del análisis clúster. Explica las provincias que forman cada uno de los clusters y comentar cuales son las características socioeconómicas que las hacen pertenecer a dicho cluster
+
+```{r eval = FALSE}
+# Completa el código
+```
 
