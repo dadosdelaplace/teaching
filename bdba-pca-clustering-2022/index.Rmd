@@ -1,10 +1,10 @@
 ---
 title: "TÉCNICAS DE ANÁLISIS MULTIVARIANTE"
-subtitle: "Máster propio (NTIC) en «Big Data y Business Analytics»"
+subtitle: "Máster propio (NTIC)"
 author:
   - "Profesor: Javier Álvarez Liébana"
 institute: "Facultad de Estudios Estadísticos (UCM)"
-date: "Material actualizado: `r Sys.Date()`"
+# date: "Material actualizado: `r Sys.Date()`"
 output:
   xaringan::moon_reader:
     self_contained: false
