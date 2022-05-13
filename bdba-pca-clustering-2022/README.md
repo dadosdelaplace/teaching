@@ -1,4 +1,4 @@
-Material docente para el bloque «Técnicas de Análisis Multivariante» del Máster de Big Data y Business Analytics 2022
+Material docente para el bloque «Técnicas de Análisis Multivariante»
 ======
 
 [![License:
@@ -24,8 +24,9 @@ GPLv3](https://img.shields.io/badge/license-GPLv3-blue.svg)](https://www.gnu.org
 </div>
 <div align="left">
             
-<img width="1216" alt="image" src="https://user-images.githubusercontent.com/26646492/167821850-6ae04ff4-254f-4148-b9d1-48d56f1f5477.png">
+<img width="1195" alt="image" src="https://user-images.githubusercontent.com/26646492/168315387-b7fc71d2-f6d8-47f7-a551-178d12588763.png">
 
+Material del Máster de Big Data y Business Analytics y Máster de Big Data y Data Science  (curso académico 2021-2022)
             
 * **Diapositivas** (https://dadosdelaplace.github.io/teaching/bdba-pca-clustering-2022/#1)
            
