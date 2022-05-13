@@ -18,7 +18,8 @@ GPLv3](https://img.shields.io/badge/license-GPLv3-blue.svg)](https://www.gnu.org
   <a href="https://cartasdelaplace.com"><img border="0" alt="Newsletter" src="https://assets.dryicons.com/uploads/icon/svg/8007/c804652c-fae4-43d7-b539-187d6a408254.svg" width="30" height="30"></a>     
   
 <h1 style="font-weight:normal" align="left">
-  &nbsp;Diapositivas del curso
+  &nbsp;Material del Máster de Big Data y Business Analytics y Máster de Big Data y Data Science  (curso académico 2021-2022)
+
 </h1>
 
 </div>
@@ -26,7 +27,6 @@ GPLv3](https://img.shields.io/badge/license-GPLv3-blue.svg)](https://www.gnu.org
             
 <img width="1195" alt="image" src="https://user-images.githubusercontent.com/26646492/168315387-b7fc71d2-f6d8-47f7-a551-178d12588763.png">
 
-Material del Máster de Big Data y Business Analytics y Máster de Big Data y Data Science  (curso académico 2021-2022)
             
 * **Diapositivas** (https://dadosdelaplace.github.io/teaching/bdba-pca-clustering-2022/#1)
            
