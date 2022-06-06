@@ -670,6 +670,7 @@ Las variables con mayor correlación (positiva además) es entre la longitud y l
 library(corrplot)
 corrplot(cor(iris_full), type = "upper", tl.col = "black")
 ```
+
 ]
 
 ## Calcular PCA
@@ -708,7 +709,7 @@ pca_fit$var$contrib
 
 ## Loadings
 
-Así que darían expresadas los **loadings de las nuevas componentes principales** en función de las variables originales (estandarizadas $^*$)
+Así quedarían expresadas los **loadings de las nuevas componentes principales** en función de las variables originales (estandarizadas $^*$)
 
 ```{r echo = FALSE}
 knitr::kable(pca_fit$svd$V,

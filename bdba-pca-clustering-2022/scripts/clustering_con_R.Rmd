@@ -1133,7 +1133,7 @@ Por último podemos ejecutar varios clustering a la vez mapeando sobre el númer
 
 ```{r}
 kclusts <- 
-  tibble(k = 1:9) %>%
+  tibble(k = 1:25) %>%
   mutate(kclust =
            map(k, ~kmeans(esperanza_scale_df, .x)),
          tidied = map(kclust, tidy),
