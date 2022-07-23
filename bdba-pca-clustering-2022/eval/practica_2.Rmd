@@ -139,7 +139,7 @@ originales?
 # Ejercicio 7:
 
 > Si tuviéramos que construir un índice que valore de forma conjunta el
-desarrollo económico de una provincia, como se podría construir utilizando una combinación lineal de todas las variables. ¿Cuál sería el valor de dicho
+desarrollo económico de una provincia, cómo se podría construir utilizando una combinación lineal de todas las variables. ¿Cuál sería el valor de dicho
 índice en Madrid? ¿Cual sería su valor en Melilla? 
 
 ```{r eval = FALSE}
