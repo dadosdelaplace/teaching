@@ -539,6 +539,14 @@ Excel es una **.bg-purple_light[hoja de cálculo]**, ni más ni menos, y el prop
 
 ---
 
+# .orange[Incel] vs excel
+
+```{r echo = FALSE, out.width = '75%', fig.align = "center"}
+knitr::include_graphics("./img/incel.jpg")
+```
+
+---
+
 
 # .red[EPIC FAILS] en Excel
 
@@ -558,6 +566,9 @@ knitr::include_graphics("./img/excel_genes.jpg")
 
 ]
 
+📚 Ver **.bg-green_light[bibliografía]** en <https://github.com/dadosdelaplace/teaching/tree/main/bioestad/biblio>
+
+
 ---
 
 # .red[EPIC FAILS] en Excel
@@ -575,6 +586,9 @@ knitr::include_graphics("./img/excel_uk.jpg")
 ## Problemas de **.red[memoria]**
 
 ]
+
+📚 Ver **.bg-green_light[bibliografía]** en <https://github.com/dadosdelaplace/teaching/tree/main/bioestad/biblio>
+
 
 ---
 
@@ -596,13 +610,8 @@ knitr::include_graphics("./img/excel_edades.jpg")
 
 ]
 
----
+📚 Ver **.bg-green_light[bibliografía]** en <https://github.com/dadosdelaplace/teaching/tree/main/bioestad/biblio>
 
-# .orange[Incel] vs excel
-
-```{r echo = FALSE, out.width = '75%', fig.align = "center"}
-knitr::include_graphics("./img/incel.jpg")
-```
 
 ---
 
@@ -4102,17 +4111,28 @@ a
 
 # Bibliografía general
 
+📚 **«Statistical tests, P values, confidence intervals, and power: a guide to misinterpretations»**. Greenland et al. (2016) <https://github.com/dadosdelaplace/teaching/blob/main/bioestad/biblio/p-value_Greenland_etal_2016.pdf>
+
 💻 **Tidy Data Tutor**: para visualizar la mecánica interna de `{tidyverse}`. <https://tidydatatutor.com/>
 
 🔗 Web con recursos para la **introducción a la estadística y Machine Learning en R** <https://artofstat.com/>
 
-📚 **«An Introduction to Multivariate Statistical Analysis»**. Anderson (1958) <https://github.com/dadosdelaplace/teaching/blob/main/bdba-pca-clustering-2022/biblio/introduction_mva_anderson_2003.pdf>
+💻 **Manual introductorio de R** (Javier Álvarez Liébana): <https://dadosdelaplace.github.io/courses-intro-R/>
 
-📚 **«A New Measure of Rank Correlation»**. Kendall (1938) <https://github.com/dadosdelaplace/teaching/blob/main/bdba-pca-clustering-2022/biblio/correlation_kendall_1938.pdf>
+---
 
-📚 **«The generalised product moment distribution in samples from a normal multivariate population»**. Wishart (1928) <https://github.com/dadosdelaplace/teaching/blob/main/bdba-pca-clustering-2022/biblio/multivariate_normal_wishart_1928.pdf>
+# Bibliografía general
 
-📚 **«On lines and planes of closest fit to systems of points in space»**. Pearson (1901) <https://github.com/dadosdelaplace/teaching/blob/main/bdba-pca-clustering-2022/biblio/fit_pearson_1901.pdf>
+📚 **«The reproducibility of research and the misinterpretation of p-values»**. Colquhoun (2017) <https://github.com/dadosdelaplace/teaching/blob/main/bioestad/biblio/p-values_Colquhoun_2017.pdf>
+
+
+📚 **«An Introduction to Multivariate Statistical Analysis»**. Anderson (1958) <https://github.com/dadosdelaplace/teaching/blob/main/bioestad/biblio/introduction_mva_anderson_2003.pdf>
+
+📚 **«A New Measure of Rank Correlation»**. Kendall (1938) <https://github.com/dadosdelaplace/teaching/blob/main/bioestad/biblio/correlation_kendall_1938.pdf>
+
+📚 **«The generalised product moment distribution in samples from a normal multivariate population»**. Wishart (1928) <https://github.com/dadosdelaplace/teaching/blob/main/bioestad/biblio/multivariate_normal_wishart_1928.pdf>
+
+📚 **«On lines and planes of closest fit to systems of points in space»**. Pearson (1901) <https://github.com/dadosdelaplace/teaching/blob/main/bioestad/biblio/fit_pearson_1901.pdf>
 
 
 ---
@@ -4123,10 +4143,15 @@ a
 
 📚 **«Gramática de las gráficas: pistas para mejorar las representaciones de datos»**. Sevilla (2005) <http://academica-e.unavarra.es/bitstream/handle/2454/15785/Gram%C3%A1tica.pdf>
 
-📚 **«Quantitative Graphics in Statistics: A Brief History»**. Beniger and Robyn <https://github.com/dadosdelaplace/teaching/blob/main/bdba-pca-clustering-2022/biblio/graphics_beniger_robin_1978.pdf>
+📚 **«Quantitative Graphics in Statistics: A Brief History»**. Beniger and Robyn (1978) <https://github.com/dadosdelaplace/teaching/blob/main/bdba-pca-clustering-2022/biblio/graphics_beniger_robin_1978.pdf>
  
  
 💻 **«Analizando datos, visualizando información, contando historias»** (curso de dataviz en R). Álvarez-Liébana y Valverde-Castilla (2022) <https://dadosdelaplace.github.io/curso-dataviz-ECI-2022>
+
+📚 **«40 years of boxplots»**. Wickham and Stryjewski (2011) <https://github.com/dadosdelaplace/teaching/blob/main/bdba-pca-clustering-2022/biblio/boxplot_Wickham_Stryjewski_2011.pdf>
+ 
+ 
+
 
 ---
 
