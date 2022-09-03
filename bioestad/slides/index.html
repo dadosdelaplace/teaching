@@ -60,6 +60,9 @@ class: inverse center middle
 - **.bg-purple_light[Diapositivas]** del curso:
 &lt;https://dadosdelaplace.github.io/teaching/bioestad/slides&gt;
 
+- **.bg-red_light[Evaluación]** de la asignatura
+&lt;https://github.com/dadosdelaplace/teaching/tree/main/bioestad/eval&gt;
+
 - **.bg-yellow[Scripts]** de la asignatura
 &lt;https://github.com/dadosdelaplace/teaching/tree/main/bioestad/scripts&gt;
 
@@ -491,7 +494,7 @@ Excel es una **.bg-purple_light[hoja de cálculo]**, ni más ni menos, y el prop
 Problemas de **.red[versiones]**
 
 
-&lt;img src="./img/excel_genes.jpg" width="50%" style="display: block; margin: auto auto auto 0;" /&gt;
+&lt;img src="./img/excel_genes.jpg" width="37%" style="display: block; margin: auto auto auto 0;" /&gt;
 
 
 📚 Ver **.bg-green_light[bibliografía]** en &lt;https://github.com/dadosdelaplace/teaching/tree/main/bioestad/biblio&gt;
@@ -1706,7 +1709,7 @@ También podemos obtener el **.bg-purple_light[«hoy y ahora»]** con la funció
 ```
 
 ```
-&gt; [1] "2022-09-03 19:21:41 CEST"
+&gt; [1] "2022-09-03 22:16:43 CEST"
 ```
  
 ---
@@ -2992,8 +2995,8 @@ x &lt;- rnorm(1e3) # 1000 elementos aleatorias
 ```
 &gt; Unit: microseconds
 &gt;         expr    min      lq     mean  median      uq     max neval cld
-&gt;      sort(x) 45.133 49.7245 59.28645 50.7510 57.2970 188.709  1000   b
-&gt;  x[order(x)] 31.450 35.8440 41.48024 36.7325 40.5915 124.250  1000  a
+&gt;      sort(x) 45.038 49.1095 53.56343 49.8935 51.7955 159.930  1000   b
+&gt;  x[order(x)] 32.037 35.4925 38.75145 36.1460 37.2855 132.715  1000  a
 ```
 
 --
@@ -5882,6 +5885,8 @@ Los chunk podemos **.bg-purple_light[personalizar su salida]** con algunas opcio
 
 * `error = TRUE`: se **.bg-green_light[ejecuta el código]** pero permite ejecutar el código **.bg-green_light[con errores]** mostrando los mensajes de error.
  
+--
+
 Estas opciones podemos aplicarlas chunk a chunk o fijar los parámetros de forma global con `knitr::opts_chunk$set()` (dentro de un chunk), pasándole como argumentos dichas opciones (por ejemplo, `knitr::opts_chunk$set(echo = FALSE)`).
 
 ---
@@ -5908,6 +5913,29 @@ Por último en este primer documento vamos a añadir una subsección `## Variabl
 &lt;/div&gt;
 
 ]
+
+---
+
+name: clase5-caso-I
+
+# .orange[CASO PRACTICO]: análisis de Star Wars
+
+Instala el paquete `{dplyr}` y usa el conjunto `starwars` contenido en él mismo (dataset con los personajes de las películas de la saga Star Wars). Deberás **.bg-purple_light[entregar completado]** el archivo `.Rmd` que tienes disponible en ... **.bg-purple_light[antes de las 16:00 del 5 de octubre]**, siguiendo las instrucciones contenidas en el mismo.
+
+
+🔎 Mira antes &lt;https://github.com/dadosdelaplace/teaching/blob/main/bioestad/scripts/segundo_rmarkdown.Rmd&gt; para ver algunas opciones extras que puedes usar para personalizar.
+
+---
+
+name: clase5-caso-II
+
+# .orange[CASO PRACTICO]: análisis socioeconómico (gapminder)
+
+Instala el paquete `{gapminder}` y usa el conjunto `gapminder` contenido en él mismo (dataset con datos económicos de distintos países). Deberás **.bg-purple_light[entregar completado]** el archivo `.Rmd` que tienes disponible en ... **.bg-purple_light[antes de las 16:00 del 5 de octubre]**, siguiendo las instrucciones contenidas en el mismo.
+
+
+
+🔎 Mira antes &lt;https://github.com/dadosdelaplace/teaching/blob/main/bioestad/scripts/segundo_rmarkdown.Rmd&gt; para ver algunas opciones extras que puedes usar para personalizar.
 
 ---
 

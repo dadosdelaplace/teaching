@@ -109,6 +109,9 @@ $$\\[2in]$$
 - **.bg-purple_light[Diapositivas]** del curso:
 <https://dadosdelaplace.github.io/teaching/bioestad/slides>
 
+- **.bg-red_light[Evaluación]** de la asignatura
+<https://github.com/dadosdelaplace/teaching/tree/main/bioestad/eval>
+
 - **.bg-yellow[Scripts]** de la asignatura
 <https://github.com/dadosdelaplace/teaching/tree/main/bioestad/scripts>
 
@@ -4062,6 +4065,29 @@ knitr::include_graphics("./img/variables_html.jpg")
 ``` 
 
 ]
+
+---
+
+name: clase5-caso-I
+
+# .orange[CASO PRACTICO]: análisis de Star Wars
+
+Instala el paquete `{dplyr}` y usa el conjunto `starwars` contenido en él mismo (dataset con los personajes de las películas de la saga Star Wars). Deberás **.bg-purple_light[entregar completado]** el archivo `.Rmd` que tienes disponible en ... **.bg-purple_light[antes de las 16:00 del 5 de octubre]**, siguiendo las instrucciones contenidas en el mismo.
+
+
+🔎 Mira antes <https://github.com/dadosdelaplace/teaching/blob/main/bioestad/scripts/segundo_rmarkdown.Rmd> para ver algunas opciones extras que puedes usar para personalizar.
+
+---
+
+name: clase5-caso-II
+
+# .orange[CASO PRACTICO]: análisis socioeconómico (gapminder)
+
+Instala el paquete `{gapminder}` y usa el conjunto `gapminder` contenido en él mismo (dataset con datos económicos de distintos países). Deberás **.bg-purple_light[entregar completado]** el archivo `.Rmd` que tienes disponible en ... **.bg-purple_light[antes de las 16:00 del 5 de octubre]**, siguiendo las instrucciones contenidas en el mismo.
+
+
+
+🔎 Mira antes <https://github.com/dadosdelaplace/teaching/blob/main/bioestad/scripts/segundo_rmarkdown.Rmd> para ver algunas opciones extras que puedes usar para personalizar.
 
 ---
 
