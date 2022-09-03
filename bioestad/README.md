@@ -1,4 +1,4 @@
-Material docente para el bloque «Técnicas de Análisis Multivariante»
+Material docente de la asignatura «Software para Gestión de Bases de Datos» (R en bioestadística, Máster de Bioestadística)
 ======
 
 [![License:
@@ -17,28 +17,20 @@ GPLv3](https://img.shields.io/badge/license-GPLv3-blue.svg)](https://www.gnu.org
   <a href="https://t.me/dadosdelaplace"><img border="0" alt="Telegram" src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Telegram_2019_Logo.svg/1024px-Telegram_2019_Logo.svg.png" width="30" height="30"></a>
   <a href="https://cartasdelaplace.com"><img border="0" alt="Newsletter" src="https://assets.dryicons.com/uploads/icon/svg/8007/c804652c-fae4-43d7-b539-187d6a408254.svg" width="30" height="30"></a>     
   
-<h1 style="font-weight:normal" align="left">
-  &nbsp;Material del Máster de Big Data y Business Analytics y Máster de Big Data y Data Science  (curso académico 2021-2022)
-
-</h1>
-
-</div>
-<div align="left">
-            
-<img width="1195" alt="image" src="https://user-images.githubusercontent.com/26646492/168315387-b7fc71d2-f6d8-47f7-a551-178d12588763.png">
+      
+<img width="500" alt="image" src="https://user-images.githubusercontent.com/26646492/188280200-5217248c-daa9-4a98-8cb3-6110d3df9a0b.png">
+<img width="500" alt="image" src="https://user-images.githubusercontent.com/26646492/188280216-17bc08b0-fbed-46f1-a042-3fa60f528d8c.png">
 
             
 * **Diapositivas** (https://dadosdelaplace.github.io/teaching/bdba-pca-clustering-2022/#1)
            
 * **Código diapositivas** (https://github.com/dadosdelaplace/teaching/blob/main/bdba-pca-clustering-2022/index.Rmd)
                         
-* **Scripts del curso**: https://github.com/dadosdelaplace/teaching/tree/main/bdba-pca-clustering-2022/scripts
+* **Scripts del curso**: (https://github.com/dadosdelaplace/teaching/tree/main/bdba-pca-clustering-2022/scripts)
 
-* **Evaluaciones**: https://github.com/dadosdelaplace/teaching/tree/main/bdba-pca-clustering-2022/eval
+* **Bibliografía**: (https://github.com/dadosdelaplace/teaching/tree/main/bdba-pca-clustering-2022/biblio)
 
-* **Bibliografía**: https://github.com/dadosdelaplace/teaching/tree/main/bdba-pca-clustering-2022/biblio
+* **Manual introductorio de R**: (https://dadosdelaplace.github.io/courses-intro-R/)
 
-* **Manual de R**: https://dadosdelaplace.github.io/courses-intro-R/
-
-* **Curso de dataviz en R**: https://dadosdelaplace.github.io/curso-dataviz-ECI-2022
+* **Curso de dataviz en R**: (https://dadosdelaplace.github.io/curso-dataviz-ECI-2022)
             
