@@ -20,7 +20,9 @@ GPLv3](https://img.shields.io/badge/license-GPLv3-blue.svg)](https://www.gnu.org
 
             
 * **Diapositivas** (https://dadosdelaplace.github.io/teaching/bioestad/slides)
-           
+    
+* **Evaluación** (https://github.com/dadosdelaplace/teaching/tree/main/bioestad/eval)
+
 * **Código diapositivas** (https://github.com/dadosdelaplace/teaching/tree/main/bioestad/slides)
                         
 * **Scripts del curso**: (https://github.com/dadosdelaplace/teaching/tree/main/bioestad/scripts)
