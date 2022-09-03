@@ -16,13 +16,13 @@ GPLv3](https://img.shields.io/badge/license-GPLv3-blue.svg)](https://www.gnu.org
 <img width="510" alt="image" src="https://user-images.githubusercontent.com/26646492/188280216-17bc08b0-fbed-46f1-a042-3fa60f528d8c.png">
 
             
-* **Diapositivas** (https://dadosdelaplace.github.io/teaching/bdba-pca-clustering-2022/#1)
+* **Diapositivas** (https://dadosdelaplace.github.io/teaching/bioestad/slides)
            
-* **Código diapositivas** (https://github.com/dadosdelaplace/teaching/blob/main/bdba-pca-clustering-2022/index.Rmd)
+* **Código diapositivas** (https://github.com/dadosdelaplace/teaching/tree/main/bioestad/slides)
                         
-* **Scripts del curso**: (https://github.com/dadosdelaplace/teaching/tree/main/bdba-pca-clustering-2022/scripts)
+* **Scripts del curso**: (https://github.com/dadosdelaplace/teaching/tree/main/bioestad/scripts)
 
-* **Bibliografía**: (https://github.com/dadosdelaplace/teaching/tree/main/bdba-pca-clustering-2022/biblio)
+* **Bibliografía**: (https://github.com/dadosdelaplace/teaching/tree/main/bioestad/biblio)
 
 * **Manual introductorio de R**: (https://dadosdelaplace.github.io/courses-intro-R/)
 
