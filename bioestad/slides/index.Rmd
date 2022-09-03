@@ -548,23 +548,16 @@ knitr::include_graphics("./img/incel.jpg")
 ---
 
 
+
 # .red[EPIC FAILS] en Excel
 
+Problemas de **.red[versiones]**
 
-.pull-left[
 
-```{r echo = FALSE,  out.width = "80%", fig.align = "left"}
+```{r echo = FALSE,  out.width = "37%", fig.align = "left"}
 knitr::include_graphics("./img/excel_genes.jpg")
 ``` 
 
-]
-
-.pull-right[
-
-
-## Problemas de **.red[versiones]**
-
-]
 
 📚 Ver **.bg-green_light[bibliografía]** en <https://github.com/dadosdelaplace/teaching/tree/main/bioestad/biblio>
 
@@ -573,19 +566,12 @@ knitr::include_graphics("./img/excel_genes.jpg")
 
 # .red[EPIC FAILS] en Excel
 
-.left[
+Problemas de **.red[memoria]**
 
-```{r echo = FALSE,  out.width = "40%", fig.align = "left"}
+```{r echo = FALSE,  out.width = "50%", fig.align = "left"}
 knitr::include_graphics("./img/excel_uk.jpg")
 ``` 
 
-]
-
-.pull-right[
-
-## Problemas de **.red[memoria]**
-
-]
 
 📚 Ver **.bg-green_light[bibliografía]** en <https://github.com/dadosdelaplace/teaching/tree/main/bioestad/biblio>
 
@@ -594,24 +580,13 @@ knitr::include_graphics("./img/excel_uk.jpg")
 
 # .red[EPIC FAILS] en Excel
 
-.left[
+Problemas de **.red[codificación]**
 
-```{r echo = FALSE,  out.width = "40%", fig.align = "left"}
+```{r echo = FALSE,  out.width = "50%", fig.align = "left"}
 knitr::include_graphics("./img/excel_edades.jpg")
 ``` 
 
-]
-
-.pull-right[
-
-
-## Problemas de **.red[codificación]**
-
-
-]
-
 📚 Ver **.bg-green_light[bibliografía]** en <https://github.com/dadosdelaplace/teaching/tree/main/bioestad/biblio>
-
 
 ---
 
@@ -4061,6 +4036,8 @@ Los chunk podemos **.bg-purple_light[personalizar su salida]** con algunas opcio
 
 * `error = TRUE`: se **.bg-green_light[ejecuta el código]** pero permite ejecutar el código **.bg-green_light[con errores]** mostrando los mensajes de error.
  
+--
+
 Estas opciones podemos aplicarlas chunk a chunk o fijar los parámetros de forma global con `knitr::opts_chunk$set()` (dentro de un chunk), pasándole como argumentos dichas opciones (por ejemplo, `knitr::opts_chunk$set(echo = FALSE)`).
 
 ---
@@ -4118,6 +4095,7 @@ a
 🔗 Web con recursos para la **introducción a la estadística y Machine Learning en R** <https://artofstat.com/>
 
 💻 **Manual introductorio de R** (Javier Álvarez Liébana): <https://dadosdelaplace.github.io/courses-intro-R/>
+
 
 ---
 
