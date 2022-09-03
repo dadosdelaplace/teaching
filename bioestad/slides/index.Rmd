@@ -107,16 +107,16 @@ $$\\[2in]$$
 .pull-left[
 
 - **.bg-purple_light[Diapositivas]** del curso:
-<https://dadosdelaplace.github.io/teaching/pca-clustering>
+<https://dadosdelaplace.github.io/teaching/bioestad/slides>
 
 - **.bg-yellow[Scripts]** de la asignatura
-<https://github.com/dadosdelaplace/teaching/tree/main/bdba-pca-clustering-2022/scripts>
+<https://github.com/dadosdelaplace/teaching/tree/main/bioestad/scripts>
 
-- **.bg-orange[Bibliografía]**: <https://github.com/dadosdelaplace/teaching/tree/main/bdba-pca-clustering-2022/biblio>
+- **.bg-orange[Bibliografía]**: <https://github.com/dadosdelaplace/teaching/tree/main/bioestad/biblio>
 
 &nbsp;
 
-- **.bg-green_light[Manual de R]**: <https://dadosdelaplace.github.io/courses-intro-R/>
+- **.bg-green_light[Manual introductorio de R]**: <https://dadosdelaplace.github.io/courses-intro-R/>
 
 ]
 
