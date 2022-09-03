@@ -12,8 +12,8 @@ GPLv3](https://img.shields.io/badge/license-GPLv3-blue.svg)](https://www.gnu.org
 
 <div align="left">
       
-<img width="490" alt="image" src="https://user-images.githubusercontent.com/26646492/188280200-5217248c-daa9-4a98-8cb3-6110d3df9a0b.png">
-<img width="520" alt="image" src="https://user-images.githubusercontent.com/26646492/188280216-17bc08b0-fbed-46f1-a042-3fa60f528d8c.png">
+<img width="480" alt="image" src="https://user-images.githubusercontent.com/26646492/188280200-5217248c-daa9-4a98-8cb3-6110d3df9a0b.png">
+<img width="510" alt="image" src="https://user-images.githubusercontent.com/26646492/188280216-17bc08b0-fbed-46f1-a042-3fa60f528d8c.png">
 
             
 * **Diapositivas** (https://dadosdelaplace.github.io/teaching/bdba-pca-clustering-2022/#1)
