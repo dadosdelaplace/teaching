@@ -11,6 +11,9 @@ GPLv3](https://img.shields.io/badge/license-GPLv3-blue.svg)](https://www.gnu.org
             alt="Sígueme en Twitter (follow on Twitter)"></a>
 
 <div align="left">
+
+<a href="https://www.buymeacoffee.com/dadosdelaplace" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
+
       
 <img width="440" alt="image" src="https://user-images.githubusercontent.com/26646492/188280200-5217248c-daa9-4a98-8cb3-6110d3df9a0b.png">
 <img width="470" alt="image" src="https://user-images.githubusercontent.com/26646492/188280216-17bc08b0-fbed-46f1-a042-3fa60f528d8c.png">
