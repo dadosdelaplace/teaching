@@ -182,6 +182,10 @@ class: inverse center middle
 
 #### [CLASE 5](#clase-5)
 
+#### [ENTREGA I](#clase5-caso-I)
+
+#### [ENTREGA II](#clase5-caso-II)
+
 ---
 
 
@@ -1709,7 +1713,7 @@ También podemos obtener el **.bg-purple_light[«hoy y ahora»]** con la funció
 ```
 
 ```
-&gt; [1] "2022-09-03 22:16:43 CEST"
+&gt; [1] "2022-09-03 22:21:27 CEST"
 ```
  
 ---
@@ -2995,8 +2999,8 @@ x &lt;- rnorm(1e3) # 1000 elementos aleatorias
 ```
 &gt; Unit: microseconds
 &gt;         expr    min      lq     mean  median      uq     max neval cld
-&gt;      sort(x) 45.038 49.1095 53.56343 49.8935 51.7955 159.930  1000   b
-&gt;  x[order(x)] 32.037 35.4925 38.75145 36.1460 37.2855 132.715  1000  a
+&gt;      sort(x) 46.816 48.9380 58.90758 50.8460 59.1575 219.769  1000   b
+&gt;  x[order(x)] 31.121 35.5705 42.70020 36.6905 42.0980 176.612  1000  a
 ```
 
 --
@@ -5923,6 +5927,13 @@ name: clase5-caso-I
 Instala el paquete `{dplyr}` y usa el conjunto `starwars` contenido en él mismo (dataset con los personajes de las películas de la saga Star Wars). Deberás **.bg-purple_light[entregar completado]** el archivo `.Rmd` que tienes disponible en ... **.bg-purple_light[antes de las 16:00 del 5 de octubre]**, siguiendo las instrucciones contenidas en el mismo.
 
 
+
+```r
+install.packages("dplyr")
+library(dplyr)
+starwars
+```
+
 🔎 Mira antes &lt;https://github.com/dadosdelaplace/teaching/blob/main/bioestad/scripts/segundo_rmarkdown.Rmd&gt; para ver algunas opciones extras que puedes usar para personalizar.
 
 ---
@@ -5934,6 +5945,11 @@ name: clase5-caso-II
 Instala el paquete `{gapminder}` y usa el conjunto `gapminder` contenido en él mismo (dataset con datos económicos de distintos países). Deberás **.bg-purple_light[entregar completado]** el archivo `.Rmd` que tienes disponible en ... **.bg-purple_light[antes de las 16:00 del 5 de octubre]**, siguiendo las instrucciones contenidas en el mismo.
 
 
+```r
+install.packages("gapminder")
+library(gapminder)
+gapminder
+```
 
 🔎 Mira antes &lt;https://github.com/dadosdelaplace/teaching/blob/main/bioestad/scripts/segundo_rmarkdown.Rmd&gt; para ver algunas opciones extras que puedes usar para personalizar.
 

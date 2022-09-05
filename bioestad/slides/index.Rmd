@@ -239,6 +239,10 @@ class: inverse center middle
 
 #### [CLASE 5](#clase-5)
 
+#### [ENTREGA I](#clase5-caso-I)
+
+#### [ENTREGA II](#clase5-caso-II)
+
 ---
 
 
@@ -4075,6 +4079,12 @@ name: clase5-caso-I
 Instala el paquete `{dplyr}` y usa el conjunto `starwars` contenido en él mismo (dataset con los personajes de las películas de la saga Star Wars). Deberás **.bg-purple_light[entregar completado]** el archivo `.Rmd` que tienes disponible en ... **.bg-purple_light[antes de las 16:00 del 5 de octubre]**, siguiendo las instrucciones contenidas en el mismo.
 
 
+```{r eval = FALSE}
+install.packages("dplyr")
+library(dplyr)
+starwars
+```
+
 🔎 Mira antes <https://github.com/dadosdelaplace/teaching/blob/main/bioestad/scripts/segundo_rmarkdown.Rmd> para ver algunas opciones extras que puedes usar para personalizar.
 
 ---
@@ -4085,7 +4095,11 @@ name: clase5-caso-II
 
 Instala el paquete `{gapminder}` y usa el conjunto `gapminder` contenido en él mismo (dataset con datos económicos de distintos países). Deberás **.bg-purple_light[entregar completado]** el archivo `.Rmd` que tienes disponible en ... **.bg-purple_light[antes de las 16:00 del 5 de octubre]**, siguiendo las instrucciones contenidas en el mismo.
 
-
+```{r eval = FALSE}
+install.packages("gapminder")
+library(gapminder)
+gapminder
+```
 
 🔎 Mira antes <https://github.com/dadosdelaplace/teaching/blob/main/bioestad/scripts/segundo_rmarkdown.Rmd> para ver algunas opciones extras que puedes usar para personalizar.
 

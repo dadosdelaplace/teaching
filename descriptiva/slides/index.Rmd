@@ -1,6 +1,6 @@
 ---
-title: "GESTIÓN DE BASES DE DATOS"
-subtitle: "Máster en Bioestadística"
+title: "Descriptiva y exploración de datos"
+subtitle: "Grado en Estadística Aplicada"
 author:
   - "Javier Álvarez Liébana (Fac. Estudios Estadísticos - UCM)"
 date: "Última actualización: `r format(lubridate::today(), format = '%d-%m-%Y')`"
@@ -107,16 +107,19 @@ $$\\[2in]$$
 .pull-left[
 
 - **.bg-purple_light[Diapositivas]** del curso:
-<https://dadosdelaplace.github.io/teaching/pca-clustering>
+<https://dadosdelaplace.github.io/teaching/bioestad/slides>
+
+- **.bg-red_light[Evaluación]** de la asignatura
+<https://github.com/dadosdelaplace/teaching/tree/main/bioestad/eval>
 
 - **.bg-yellow[Scripts]** de la asignatura
-<https://github.com/dadosdelaplace/teaching/tree/main/bdba-pca-clustering-2022/scripts>
+<https://github.com/dadosdelaplace/teaching/tree/main/bioestad/scripts>
 
-- **.bg-orange[Bibliografía]**: <https://github.com/dadosdelaplace/teaching/tree/main/bdba-pca-clustering-2022/biblio>
+- **.bg-orange[Bibliografía]**: <https://github.com/dadosdelaplace/teaching/tree/main/bioestad/biblio>
 
 &nbsp;
 
-- **.bg-green_light[Manual de R]**: <https://dadosdelaplace.github.io/courses-intro-R/>
+- **.bg-green_light[Manual introductorio de R]**: <https://dadosdelaplace.github.io/courses-intro-R/>
 
 ]
 
@@ -151,50 +154,12 @@ Intentando eso de la **.bg-yellow[divulgación]** por **Twitter** (@dadosdelapla
 
 ---
 
-class: inverse center middle
-
-# CLASES
-
-&nbsp;
-
-#### [CLASE 1](#clase-1)
-
-#### [CLASE 2](#clase-2)
-
-#### [CLASE 3](#clase-3)
-
-#### [CLASE 4](#clase-4)
-
-#### [CLASE 5](#clase-5)
-
----
-
-
-class: inverse center middle
-name: clase-1
-
-# CLASE 1: introducción a R desde cero.
-
-&nbsp;
-
-### [Planificación y objetivos](#objetivos)
-
-### [Instalación](#instalacion)
-
-### [¿Qué es R?](#que-es-R)
-
-### [Primeros pasos](#primeros-pasos)
-
-### [Ejercicios](#ejercicios1)
-
----
-
 name: objetivos
 
-# .orange[OBJETIVOS] de la asignatura
+# .orange[OBJETIVOS] de las diapositivas
 
 
-El **.bg-purple_light[propósito]** de esta asignatura será triple
+El **.bg-purple_light[propósito]** de estas diapositiva será triple
 
 - **.bg-orange[Quitarnos el miedo]** a programar: a programar se aprende programando, no hace falta ser Julian Assange para ello
 
@@ -255,13 +220,50 @@ Es una de las razones por las que son capaces de realizar brillantes análisis d
 
 ]
 
+
+---
+
+class: inverse center middle
+
+# LECCIONES
+
+&nbsp;
+
+#### [LECCIÓN 1](#clase-1)
+
+#### [LECCIÓN 2](#clase-2)
+
+#### [LECCIÓN 3](#clase-3)
+
+#### [LECCIÓN 4](#clase-4)
+
+#### [LECCIÓN 5](#clase-5)
+
+---
+
+
+class: inverse center middle
+name: clase-1
+
+# LECCIÓN 1: introducción a R desde cero.
+
+&nbsp;
+
+### [Instalación](#instalacion)
+
+### [¿Qué es R?](#que-es-R)
+
+### [Primeros pasos](#primeros-pasos)
+
+### [Ejercicios](#ejercicios1)
+
 ---
 
 name: instalacion
 
 # Requisitos
 
-Para la asignatura los únicos **.bg-purple_light[requisitos]** serán:
+Los únicos **.bg-purple_light[requisitos]** serán:
 
 --
 
@@ -540,70 +542,54 @@ Excel es una **.bg-purple_light[hoja de cálculo]**, ni más ni menos, y el prop
 
 ---
 
-
-# .red[EPIC FAILS] en Excel
-
-
-.pull-left[
-
-```{r echo = FALSE,  out.width = "80%", fig.align = "left"}
-knitr::include_graphics("./img/excel_genes.jpg")
-``` 
-
-]
-
-.pull-right[
-
-
-## Problemas de **.red[versiones]**
-
-]
-
----
-
-# .red[EPIC FAILS] en Excel
-
-.left[
-
-```{r echo = FALSE,  out.width = "40%", fig.align = "left"}
-knitr::include_graphics("./img/excel_uk.jpg")
-``` 
-
-]
-
-.pull-right[
-
-## Problemas de **.red[memoria]**
-
-]
-
----
-
-# .red[EPIC FAILS] en Excel
-
-.left[
-
-```{r echo = FALSE,  out.width = "40%", fig.align = "left"}
-knitr::include_graphics("./img/excel_edades.jpg")
-``` 
-
-]
-
-.pull-right[
-
-
-## Problemas de **.red[codificación]**
-
-
-]
-
----
-
 # .orange[Incel] vs excel
 
 ```{r echo = FALSE, out.width = '75%', fig.align = "center"}
 knitr::include_graphics("./img/incel.jpg")
 ```
+
+---
+
+
+
+# .red[EPIC FAILS] en Excel
+
+Problemas de **.red[versiones]**
+
+
+```{r echo = FALSE,  out.width = "37%", fig.align = "left"}
+knitr::include_graphics("./img/excel_genes.jpg")
+``` 
+
+
+📚 Ver **.bg-green_light[bibliografía]** en <https://github.com/dadosdelaplace/teaching/tree/main/bioestad/biblio>
+
+
+---
+
+# .red[EPIC FAILS] en Excel
+
+Problemas de **.red[memoria]**
+
+```{r echo = FALSE,  out.width = "50%", fig.align = "left"}
+knitr::include_graphics("./img/excel_uk.jpg")
+``` 
+
+
+📚 Ver **.bg-green_light[bibliografía]** en <https://github.com/dadosdelaplace/teaching/tree/main/bioestad/biblio>
+
+
+---
+
+# .red[EPIC FAILS] en Excel
+
+Problemas de **.red[codificación]**
+
+```{r echo = FALSE,  out.width = "50%", fig.align = "left"}
+knitr::include_graphics("./img/excel_edades.jpg")
+``` 
+
+📚 Ver **.bg-green_light[bibliografía]** en <https://github.com/dadosdelaplace/teaching/tree/main/bioestad/biblio>
 
 ---
 
@@ -815,65 +801,10 @@ e
 
 ---
 
-# Primeros ejercicios
-
-
-.panelset[
-.panel[.panel-name[Ejercicios extra]
-
-
-* 📝 **Ejercicio 4**: asigna un valor positivo a `x` y calcula su raíz cuadrada; asigna otro negativo y calcula su valor absoluto con la función `abs()`.
-
-
-* 📝 **Ejercicio 5**: usando la variable `x` ya definida, completa/modifica el código inferior para guardar en una nueva variable `z` el resultado guardado en `x` menos 5.
-
-```{r eval = FALSE}
-z <- ? - ? # completa el código
-z
-```
-
-* 📝 **Ejercicio 6**: usando las variables `x` e `y` ya definidas, calcula el máximo de ambas (función `max()`), y guárdalo en una nueva variable `t`.
-
-]
-
-.panel[.panel-name[Solución ej. 4]
-
-```{r}
-# Raíz cuadrada
-x <- 73 # por ejemplo
-sqrt(x)
-
-# Valor absoluto
-y <- -19 # por ejemplo
-abs(y)
-```
-]
-
-.panel[.panel-name[Solución ej. 5]
-
-```{r}
-z <- x - 5
-z
-```
-]
-
-.panel[.panel-name[Solución ej. 6]
-
-```{r}
-t <- max(x, y)
-t
-```
-
-]
-]
-
-
----
-
 class: inverse center middle
 name: clase-2
 
-# CLASE 2: primeros datos en R
+# LECCIÓN 2: primeros datos en R
 
 &nbsp;
 
@@ -883,9 +814,7 @@ name: clase-2
 
 ### [Vectores: numéricos y de caracteres](#vectores)
 
-### [Variables de tipo lógicas](#logicas)
-
-### [Variables de tipo fecha](#fecha)
+### [Variables lógicas y de tipo fecha](#logicas)
 
 ### [Ejercicios](#ejercicios2)
 
@@ -1669,7 +1598,7 @@ hoy - cumple
 
 ]
 
-.panel[.panel-name[Solución ej. 9]
+.panel[.panel-name[Sol ej. 9]
 
 ```{r}
 cumple + months(1) + weeks(1)
@@ -1681,71 +1610,8 @@ cumple + months(1) + weeks(1)
 
 ---
 
-# Ejercicios extras
 
-.panelset[
-.panel[.panel-name[Ejercicios extra]
-
-
-* 📝 **Ejercicio 10**: construye con `glue()` una frase que diga «Hola, me llamo … y tengo … años».
-
-* 📝 **Ejercicio 11**: modifica el código inferior para crear un vector de nombre `vector_num` que contenga los números 1, 5 y -7.
-
-```{r eval = FALSE}
-# Vector de números
-vector_num <- c(1)
-vector_num
-```
-
-* 📝 **Ejercicio 12**:  extrae el mes, año y día de la semana de tu cumpleaños
-
-]
-
-.panel[.panel-name[Solución ej. 10]
-
-```{r}
-nombre <- "Javi"
-edad <- 32
-glue("Hola, me llamo {nombre} y tengo {edad} años")
-```
-]
-
-.panel[.panel-name[Solución ej. 11]
-
-```{r}
-# Vector de números
-vector_num <- c(1, 5, -7)
-vector_num
-
-# longitud
-length(vector_num)
-```
-
-]
-
-.panel[.panel-name[Solución ej. 12]
-
-```{r}
-library(lubridate)
-cumple <- as_date("1989-09-10")
-month(cumple)
-day(cumple)
-year(cumple)
-wday(cumple, week_start = 1, label = TRUE)
-```
-
-]
-
-
-]
-
-
----
-
-class: inverse center middle
-name: clase-3
-
-# CLASE 3: operaciones con vectores y matrices
+# LECCIÓN 3: operaciones con vectores
 
 &nbsp;
 
@@ -2418,6 +2284,17 @@ quantile(x)
 
 name: matrices
 
+# LECCIÓN 4: matrices
+
+&nbsp;
+
+### [Matrices](#matrices)
+
+### [Operaciones con matrices](#operaciones-matrices)
+
+### [Ejercicios matrices](#ejercicios-matrices)
+
+
 # De la .orange[celda] a la .green[tabla]
  
 
@@ -2580,6 +2457,8 @@ matrix(1:15, ncol = 5) # Matriz con el vector 1:15
 ```
 
 ---
+
+name: operaciones-matrices
 
 # .green[OPERACIONES] con .orange[MATRICES]
 
@@ -2855,74 +2734,8 @@ apply(x, MARGIN = 2, FUN = sum)
 
 ---
 
-# Ejercicios extras (matrices y vectores)
 
-.panelset[
-.panel[.panel-name[Ejercicios extra]
-
-* 📝 **Ejercicio 1**: define un vector `y` que contenga los 5 primeros pares, y otro `x` con los 5 primeros impares. Haz la suma de `x` (ejercicio 1 anterior) e `y`.
- 
-* 📝 **Ejercicio 2**: encuentra del vector `x <- c(-1, 0, -2, 5, 3, 7)` el lugar (el índice) que ocupa su mínimo y su máximo.
- 
-
-* 📝 **Ejercicio 3**: define el vector `c(-1, 0, 4, 5, -2)`, calcula la raíz cuadrada del vector y determina que lugares son de tipo `NaN`.
-
-* 📝 **Ejercicio 4**:  el siguiente código define una matriz de dimensiones `4 x 3` y calcula la suma por columnas. Modifica el código para que realice la suma por filas.
- 
-```{r eval = FALSE}
-matriz <- matrix(1:12, nrow = 4)
-apply(matriz, MARGIN = 2, FUN = "sum")
-```
-
-]
-
-.panel[.panel-name[Solución ej. 1]
-
-```{r}
-y <- c(0, 2, 4, 6, 8)
-x <- y + 1 # forma más rápida de (1, 3, 5, 7, 9)
-x + y
-```
-
-]
-
-.panel[.panel-name[Solución ej. 2]
-
-```{r}
-x <- c(-1, 0, -2, 5, 3, 7)
-which.max(x)
-which.min(y)
-```
-
-]
-
-.panel[.panel-name[Solución ej. 3]
-
-```{r}
-x <- c(-1, 0, 4, 5, -2)
-sqrt(x)
-is.nan(sqrt(x))
-```
-
-]
-
-.panel[.panel-name[Solución ej. 4]
-
-```{r}
-matriz <- matrix(1:12, nrow = 4)
-apply(matriz, MARGIN = 1, FUN = "sum")
-```
-
-]
-
-]
-
----
-
-class: inverse center middle
-name: clase-4
-
-# CLASE 4: primeros datos
+# LECCIÓN 5: primeros datos estructurados
 
 &nbsp;
 
@@ -3625,52 +3438,458 @@ dim(gapminder)
 
 ]
 
----
-
-a
-
 
 ---
 
 class: inverse center middle
 name: clase-5
 
-# CLASE 5: rmarkdown y casos prácticos
+# LECCIÓN 6: rmarkdown y casos prácticos
 
 &nbsp;
 
 ### [informes/apuntes: rmarkdown](#rmd)
 
-### [Caso práctico I: ...](#clase5-caso-I)
-
-### [Caso práctico II: ...](#clase5-caso-II)
-
 ---
 
-a
+name: rmd
 
----
-
-
-# .orange[TÍTULO] de prueba
-
-Este será el color de **.bg-purple_light[resaltado principal]** aunque se puedan usar otros en la misma slide como **.bg-yellow[resaltado más para código]** y también este otro de **.bg-orange[resaltado random extra]**...de los de lanza en astillero, adarga antigua, rocín flaco y galgo corredor. 
+# .orange[COMUNICANDO] resultados: archivos .green[.Rmd] 
 
 
-- **.bg-yellow[Resaltado]** de algo con **negrita**, con código cuando sea necesario `x <- 1` y web <https://www.linkrandom.com>
-
-
-```{r}
-x <- 1
-y <- 2
-x + y #<<
-```
+Una de las principales **.bg-purple_light[fortalezas]** de `R` es la facilidad para generar informes, libros, webs, **.bg-purple_light[apuntes y hasta diapositivas]** (este material por ejemplo).
 
 &nbsp;
 
-**.bg-green_light[Consejito]**: no trabajes gratis
+Para ello instalaremos antes el paquete `{rmarkdown}` que nos permitirá generar documentos `.Rmd`
 
-**.bg-red_light[¡Cuidado, insensatos!]** No uses excel
+```{r eval = FALSE}
+install.packages("rmarkdown")
+```
+
+---
+
+# .orange[COMUNICANDO] resultados: archivos .green[.Rmd] 
+
+¿Cuál son las **ventajas** de generarlos desde **.bg-purple_light[rmarkdown]**?
+
+--
+
+* Al hacerlo desde `RStudio`, puedes generar un informe o una presentación **.bg-purple_light[sin salirte del entorno]** de programación en el que estás trabajando
+
+--
+
+* Podrás analizar los datos, resumirlos y a la vez **.bg-purple_light[comunicarlos]**. 
+
+--
+
+* Permite **.bg-purple_light[integrar fácilmente código]** `R`, de forma que no solo podremos integrar las salidas de nuestro trabajo sino también el código con el que lo hemos generado.
+
+---
+
+# ¿Qué es .orange[RMARKDOWN]? 
+
+
+Una herramienta que nos permite crear de forma sencilla **documentos combinando**:
+
+--
+
+* **.bg-purple_light[Markdown]**: creado en 2004 por John Gruber, y de uso libre, es un «lenguaje» que nos permite crear contenido de una manera sencilla de escribir, y que en todo momento mantenga un diseño legible, con algunas de las ventajas de un HTML (si acostumbras a escribir en wordpress o blogs, seguramente hayas escrito de esta forma).
+
+--
+
+* **.bg-green_light[Matemáticas (latex)]**: herramienta (lenguaje en realidad) para escribir notación matemática como $x^2$ o $\sqrt{2}$ (si escribes notación similar en editores de texto, seguramente sin saberlo estés usando ya latex).
+
+--
+
+* **.bg-purple_light[Código]** y salidas de `R`: podremos no solo mostrar el paso final sino el código que has ido realizando, con **cajitas de código** como las del manual.
+
+--
+
+* **.bg-green_light[Imágenes y tablas]**.
+
+--
+
+* **.bg-purple_light[Estilos]** (css, js, etc).
+
+---
+
+# Creando nuestro .orange[PRIMER INFORME] 
+
+.pull-left[
+
+```{r echo = FALSE,  out.width = "80%", fig.align = "left", fig.cap = "Creando el primer fichero .rmd"}
+knitr::include_graphics("./img/file_rmarkdown.jpg")
+``` 
+
+
+]
+
+.pull-right[
+
+Vamos a crear el **.bg-purple_light[primer fichero]** con extensión `.Rmd` (la extensión de los archivos R Markdown).
+
+&nbsp;
+
+Haz click en el botón `File << New File << R Markdown`.
+
+]
+
+---
+
+# Creando nuestro .orange[PRIMER INFORME] 
+
+.pull-left[
+
+```{r echo = FALSE,  out.width = "80%", fig.align = "left", fig.cap = "Creando el primer fichero .rmd"}
+knitr::include_graphics("./img/new_rmd.jpg")
+``` 
+
+
+]
+
+.pull-right[
+
+Tras hacerlo, nos aparecerán **.bg-purple_light[varias opciones]**de formatos de salida:
+
+* archivo `.pdf`
+
+* archivo `.html` (**.bg-purple_light[recomendable]**): documento dinámico, permite la interacción con el usuario, como una «página web»)
+
+* archivo `.doc` (nada recomendable)
+
+De momento dejaremos marcado el **.bg-purple_light[formato HTML que viene por defecto]**, y escribiremos el título de nuestro documento. Tras ello tendremos nuestro archivo `.Rmd` (ya no es un script `.R` como los que hemos abierto hasta ahora)
+
+]
+
+---
+
+
+# Creando nuestro .orange[PRIMER INFORME] 
+
+Un fichero `.Rmd` se divide básicamente en **.bg-purple_light[tres partes]**
+
+1. **.bg-purple_light[Cabecera]**: la parte que tienes al inicio entre `---`.
+
+2.  **.bg-purple_light[Texto]**: que podremos formatear y mejorar con **negritas** (escrito como `**negritas**`, con doble astérisco al inicio y final), _cursivas_ (`_cursivas_`, con barra baja al inicio y final) o destacar nombres de funciones o variables de `R` (con ``R`). Recuerda que puedes añadir además ecuaciones como $x^2$ (he escrito `$x^2$`, la ecuación entre dólares).
+
+3. **.bg-purple_light[Código R]**.
+
+---
+
+# .orange[PRIMER INFORME]: .green[CABECERA]
+
+
+La cabecera están en formato `YAML`, y contiene los **.bg-purple_light[metadatos del documento]**: título, autor, fecha, estilos (si los tuviésemos), etc. Para probar, vamos a cambiar la cabecera que nos ha generado por defecto de la siguiente forma:
+
+```{r eval = FALSE}
+---
+title: "Probando Probando"
+author: "Señor/a X"
+date: "11/7/2014"
+output: html_document
+---
+```
+
+Tras tunear nuestra cabecera borraremos todo lo que viene después para **.bg-purple_light[empezar desde cero]**.
+
+```{r echo = FALSE,  out.width = "27%", fig.align = "left", fig.cap = "Fichero .Rmd vacío, solo con la cabecera"}
+knitr::include_graphics("./img/rmd_vacio.jpg")
+``` 
+
+---
+
+# .orange[PRIMER INFORME]: .green[TEXTO]
+
+Solo hay una cosa **.bg-purple_light[importante]** a tener en cuenta en este entorno: salvo que indiquemos lo contrario, **.bg-purple_light[TODO lo que vamos a escribir en el documento es texto]**. No código R. Texto plano que podremos mejorar un poco con algun detalle, pero texto.
+
+Vamos a empezar nuestro documento escribiendo por ejemplo la siguiente frase
+
+
+```{r eval = FALSE}
+Este material ha sido diseñado por el profesor Javier Álvarez Liébana,
+docente en la Universidad Complutense de Madrid
+```
+
+---
+
+# .orange[PRIMER INFORME]: .green[TEXTO]
+
+
+.pull-left[
+
+```{r echo = FALSE,  out.width = "99%", fig.align = "left", fig.cap = "Primer informe html"}
+knitr::include_graphics("./img/html_con_texto.jpg")
+``` 
+
+]
+
+.pull-right[
+
+Una vez que hemos escrito el texto vamos a **.bg-purple_light[guardar el archivo .Rmd]** haciendo click en el botón `Guardar` (yo he llamado al archivo `primer_rmarkdown.Rmd`). Tras guardar el documento, **.bg-purple_light[«tejeremos» nuestro documento]** haciendo click en el botón `Knit`.
+
+Al «tejer» se nos habrá generado (seguramente en una ventana al margen) un archivo .html, que podemos incluso **.bg-purple_light[abrir en nuestro navegador]**. Hemos creado nuestro primer informe, obviamente vacío de momento. 
+
+
+]
+
+
+
+---
+
+# .orange[PRIMER INFORME]: .green[TEXTO]
+
+
+.pull-left[
+
+```{r echo = FALSE,  out.width = "99%", fig.align = "left", fig.cap = "Tuneando nuestro primer informe html"}
+knitr::include_graphics("./img/rmd_con_formato.jpg")
+``` 
+
+]
+
+.pull-right[
+
+Vamos a **.bg-purple_light[mejorar]** un poco el texto haciendo lo siguiente:
+
+* Vamos a añadir **.bg-purple_light[negrita]** al nombre (poniendo `**` al inicio y al final).
+
+* Vamos añadir _cursiva_ a la palabra `material` (poniendo `_` al inicio y al final).
+
+*  Vamos añadir un enlace `https://www.ucm.es`, asociándolo al nombre de la Universidad. Para ello el título lo ponemos entre corchetes y justo detrás el enlace entre paréntesis `[«Universidad Complutense de Madrid»](https://www.ucm.es)`
+
+]
+
+---
+
+
+# .orange[PRIMER INFORME]: .green[CHUNKS] de R
+
+Para añadir **.bg-purple_light[código R]** debemos crear nuestras **.bg-purple_light[cajas de código]** llamadas **.bg-orange[chunks]**: altos en el camino en nuestro texto markdown donde podremos incluir **código**. Para incluir uno deberá de ir encabezado de la siguiente forma.
+
+```{r echo = FALSE,  out.width = "90%", fig.align = "left", fig.cap = "Encabezado/final del chunk"}
+knitr::include_graphics("./img/chunk_1.jpg")
+``` 
+
+---
+
+# .orange[PRIMER INFORME]: .green[CHUNKS] de R
+
+
+Dentro de dicha **.bg-purple_light[cajita]** (que tiene ahora **otro color** en el documento) escribiremos **.bg-purple_light[código R]**, como lo veníamos haciendo hasta ahora. Vamos por ejemplo a **.bg-purple_light[definir dos variables]** y su suma de la siguiente manera, escribiendo dicho código en nuestro `.Rmd` (dentro de ese chunk)
+
+.pull-left[
+
+```{r}
+# Código R
+x <- 1
+y <- 2
+x + y
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "99%", fig.align = "left", fig.cap = "Primer chunk con código"}
+knitr::include_graphics("./img/rmd_3.jpg")
+``` 
+
+]
+
+---
+
+# .orange[PRIMER INFORME]: .green[CHUNKS] de R
+
+.pull-left[
+
+```{r}
+# Código R
+x <- 1
+y <- 2
+x + y
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "70%", fig.align = "left", fig.cap = "Primer chunk con código"}
+knitr::include_graphics("./img/rmd_3.jpg")
+``` 
+
+]
+
+Como ves dentro de esos _chunks_ puedes **.bg-purple_light[comentar código]** con `#` (ahora veremos que hace `#` fuera de esas cajas de código). Tras hacerlo tejemos de nuevo y obtenemos ahora un documento que tiene una caja de código y su salida.
+
+```{r echo = FALSE,  out.width = "40%", fig.align = "left", fig.cap = "Salida del html con el primer chunk"}
+knitr::include_graphics("./img/html_rmd_3.jpg")
+``` 
+
+
+
+---
+
+# .orange[PRIMER INFORME]: .green[CHUNKS] de R
+
+
+Somos capaces de **.bg-purple_light[escribir en un mismo documento texto]** con cierto formato, **.bg-purple_light[código R y la salida]** del resultado, permitiéndonos generar informes (ya veremos como incluir gráficas). De hecho, lo más práctico para **.bg-purple_light[tomar apuntes de R]** es ir anotando en un archivo `.Rmd`.
+
+Los chunks pueden tener un **.bg-purple_light[nombre o etiqueta]**, de forma que podamos referenciarlos de nuevo para no repetir código.
+
+```{r echo = FALSE,  out.width = "40%", fig.align = "left", fig.cap = "Etiquetando un chunk y reciclándolo"}
+knitr::include_graphics("./img/chunk_repe_tag.jpg")
+``` 
+
+
+
+---
+
+# .orange[PRIMER INFORME]: .green[ORGANIZANDO]
+
+Con todo incluido en el documento podemos **.bg-purple_light[dividirlo en secciones y subsecciones]**. Para ello usaremos la sintaxis de markdown, poniendo **.bg-purple_light[almohadillas]**: una `#` para secciones, `##` para subsecciones, `###` para subsubsecciones, etc. Por ejemplo, vamos a
+
+* Hacer una sección principal que sea `# Primer informe`
+* Tras ello añadiremos la parte de texto.
+* Creamos una subsección que se titule `## Chunks de código` donde incluiremos los dos chunks que tenemos hasta ahora.
+
+
+.pull-left[
+
+```{r echo = FALSE,  out.width = "80%", fig.align = "right", fig.cap = "Secciones en el rmd"}
+knitr::include_graphics("./img/secciones_rmd.jpg")
+``` 
+
+
+]
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "80%", fig.align = "left", fig.cap = "Secciones en el html"}
+knitr::include_graphics("./img/secciones_html.jpg")
+``` 
+
+
+]
+
+---
+
+
+# .orange[PRIMER INFORME]: .green[ORGANIZANDO]
+
+Además podemos incluir tras el título (y entre llaves `{}`) **.bg-purple_light[etiquetas]** (con `{#etiqueta}`) para luego **.bg-purple_light[referenciar dichas secciones]** en el documento.
+
+.pull-left[
+
+```{r echo = FALSE,  out.width = "75%", fig.align = "left", fig.cap = "Referencias a secciones y subsecciones"}
+knitr::include_graphics("./img/ref_rmd.jpg")
+``` 
+
+]
+
+.pull-right[
+
+También podemos organizar nuestro código **.bg-purple_light[creando listas]**, usando `*` como ítems.
+
+```{r echo = FALSE,  out.width = "85%", fig.align = "left", fig.cap = "Creando listas con ítems"}
+knitr::include_graphics("./img/items_rmd.jpg")
+``` 
+
+]
+
+---
+
+# .orange[PRIMER INFORME]: .green[PERSONALIZAR]
+
+En cada chunk aparece una **.bg-purple_light[botón de play]**: pulsándolo podemos tener la **ejecución y salida** de cada chunk en nuestro `.Rmd`, sin tener que esperar a «tejer» (con Knit) todo el documento para ver lo que vamos ejecutando.
+
+
+.pull-left[
+
+```{r echo = FALSE,  out.width = "99%", fig.align = "left", fig.cap = "Pulsando al botón play"}
+knitr::include_graphics("./img/play_chunk.jpg")
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "99%", fig.align = "left", fig.cap = "Chunk ejecutado in-line"}
+knitr::include_graphics("./img/chunk_ejecutado.jpg")
+```
+
+]
+
+---
+
+# .orange[PRIMER INFORME]: .green[PERSONALIZAR]
+
+
+Además podemos **.bg-purple_light[incluir código R dentro de la línea de texto]** (en lugar de mostrar el texto x ejecuta el código R mostrando la variable).
+
+
+
+.pull-left[
+
+```{r echo = FALSE,  out.width = "99%", fig.align = "left", fig.cap = "Código R inline"}
+knitr::include_graphics("./img/codigo_inline_rmd.jpg")
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "99%", fig.align = "left", fig.cap = "Salida del código in-line"}
+knitr::include_graphics("./img/codigo_inline_html.jpg")
+```
+
+]
+
+---
+
+# .orange[PRIMER INFORME]: .green[PERSONALIZAR]
+
+
+Los chunk podemos **.bg-purple_light[personalizar su salida]** con algunas opciones, pasándolos como argumentos dentro de las llaves ({r etiqueta, ...}).
+
+* `include = FALSE`: **.bg-green_light[ejecuta código]** pero **.bg-red_light[no se muestra (ni resultados)]** en la salida.
+
+* `echo = FALSE`: **.bg-green_light[ejecuta código]** y se **.bg-green_light[muestra resultado]** pero **.bg-red_light[no el código]** en la salida.
+
+* `eval = FALSE`: se **.bg-green_light[muestra el código]** pero **.bg-red_light[no se ejecuta]** en la salida final.
+
+* `message = FALSE`: se **.bg-green_light[ejecuta el código]** pero **.bg-red_light[no se muestran mensajes]** de salida que tendríamos en consola.
+
+* `warning = FALSE`: **.bg-green_light[ejecuta código]** pero **.bg-red_light[no se muestran warning]**.
+
+* `error = TRUE`: se **.bg-green_light[ejecuta el código]** pero permite ejecutar el código **.bg-green_light[con errores]** mostrando los mensajes de error.
+ 
+--
+
+Estas opciones podemos aplicarlas chunk a chunk o fijar los parámetros de forma global con `knitr::opts_chunk$set()` (dentro de un chunk), pasándole como argumentos dichas opciones (por ejemplo, `knitr::opts_chunk$set(echo = FALSE)`).
+
+---
+
+# .orange[PRIMER INFORME]: .green[VARIABLES/ECUACIONES]
+
+Por último en este primer documento vamos a añadir una subsección `## Variables y ecuaciones` donde añadiremos un chunk asignando la suma `x + y` a una variable `z`, escribiendo antes en texto el nombre de la variable y la **.bg-purple_light[fórmula]** ($z = x + y$ entre dólares).
+
+
+.pull-left[
+
+```{r echo = FALSE,  out.width = "90%", fig.align = "left", fig.cap = "Añadiendo variables en el .rmd"}
+knitr::include_graphics("./img/variables_rmd.jpg")
+``` 
+
+]
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "110%", fig.align = "left", fig.cap = "Añadiendo variables en el .rmd"}
+knitr::include_graphics("./img/variables_html.jpg")
+``` 
+
+]
 
 ---
 
@@ -3693,17 +3912,29 @@ x + y #<<
 
 # Bibliografía general
 
+📚 **«Statistical tests, P values, confidence intervals, and power: a guide to misinterpretations»**. Greenland et al. (2016) <https://github.com/dadosdelaplace/teaching/blob/main/bioestad/biblio/p-value_Greenland_etal_2016.pdf>
+
 💻 **Tidy Data Tutor**: para visualizar la mecánica interna de `{tidyverse}`. <https://tidydatatutor.com/>
 
 🔗 Web con recursos para la **introducción a la estadística y Machine Learning en R** <https://artofstat.com/>
 
-📚 **«An Introduction to Multivariate Statistical Analysis»**. Anderson (1958) <https://github.com/dadosdelaplace/teaching/blob/main/bdba-pca-clustering-2022/biblio/introduction_mva_anderson_2003.pdf>
+💻 **Manual introductorio de R** (Javier Álvarez Liébana): <https://dadosdelaplace.github.io/courses-intro-R/>
 
-📚 **«A New Measure of Rank Correlation»**. Kendall (1938) <https://github.com/dadosdelaplace/teaching/blob/main/bdba-pca-clustering-2022/biblio/correlation_kendall_1938.pdf>
 
-📚 **«The generalised product moment distribution in samples from a normal multivariate population»**. Wishart (1928) <https://github.com/dadosdelaplace/teaching/blob/main/bdba-pca-clustering-2022/biblio/multivariate_normal_wishart_1928.pdf>
+---
 
-📚 **«On lines and planes of closest fit to systems of points in space»**. Pearson (1901) <https://github.com/dadosdelaplace/teaching/blob/main/bdba-pca-clustering-2022/biblio/fit_pearson_1901.pdf>
+# Bibliografía general
+
+📚 **«The reproducibility of research and the misinterpretation of p-values»**. Colquhoun (2017) <https://github.com/dadosdelaplace/teaching/blob/main/bioestad/biblio/p-values_Colquhoun_2017.pdf>
+
+
+📚 **«An Introduction to Multivariate Statistical Analysis»**. Anderson (1958) <https://github.com/dadosdelaplace/teaching/blob/main/bioestad/biblio/introduction_mva_anderson_2003.pdf>
+
+📚 **«A New Measure of Rank Correlation»**. Kendall (1938) <https://github.com/dadosdelaplace/teaching/blob/main/bioestad/biblio/correlation_kendall_1938.pdf>
+
+📚 **«The generalised product moment distribution in samples from a normal multivariate population»**. Wishart (1928) <https://github.com/dadosdelaplace/teaching/blob/main/bioestad/biblio/multivariate_normal_wishart_1928.pdf>
+
+📚 **«On lines and planes of closest fit to systems of points in space»**. Pearson (1901) <https://github.com/dadosdelaplace/teaching/blob/main/bioestad/biblio/fit_pearson_1901.pdf>
 
 
 ---
@@ -3714,10 +3945,15 @@ x + y #<<
 
 📚 **«Gramática de las gráficas: pistas para mejorar las representaciones de datos»**. Sevilla (2005) <http://academica-e.unavarra.es/bitstream/handle/2454/15785/Gram%C3%A1tica.pdf>
 
-📚 **«Quantitative Graphics in Statistics: A Brief History»**. Beniger and Robyn <https://github.com/dadosdelaplace/teaching/blob/main/bdba-pca-clustering-2022/biblio/graphics_beniger_robin_1978.pdf>
+📚 **«Quantitative Graphics in Statistics: A Brief History»**. Beniger and Robyn (1978) <https://github.com/dadosdelaplace/teaching/blob/main/bdba-pca-clustering-2022/biblio/graphics_beniger_robin_1978.pdf>
  
  
 💻 **«Analizando datos, visualizando información, contando historias»** (curso de dataviz en R). Álvarez-Liébana y Valverde-Castilla (2022) <https://dadosdelaplace.github.io/curso-dataviz-ECI-2022>
+
+📚 **«40 years of boxplots»**. Wickham and Stryjewski (2011) <https://github.com/dadosdelaplace/teaching/blob/main/bdba-pca-clustering-2022/biblio/boxplot_Wickham_Stryjewski_2011.pdf>
+ 
+ 
+
 
 ---
 
@@ -3758,14 +3994,3 @@ x + y #<<
 🔗 **«Machine Learning for Social Scientists»**. Cimentada (2020) <https://cimentadaj.github.io/ml_socsci/unsupervised-methods.html>
 
 ---
-
-# Recursos y bibliografía
-
-### Otras técnicas de reducción de la dimensión
-
-🔗 Sobre **PCA y PLS**. Amat (2017). <https://www.cienciadedatos.net/documentos/35_principal_component_analysis#Introducci%C3%B3n>
-
-📚 **«On the early history of the singular value decomposition»**. Stewart (1993) <https://github.com/dadosdelaplace/teaching/blob/main/bdba-pca-clustering-2022/biblio/svd_stewart_1993.pdf>
-
-📚 **«UMAP: Uniform Manifold Approximation and Projection for Dimension Reduction»**. McInnes, healy and Melville (2020) <https://github.com/dadosdelaplace/teaching/blob/main/bdba-pca-clustering-2022/biblio/umap_mcinnesetal_2020.pdf>
-
