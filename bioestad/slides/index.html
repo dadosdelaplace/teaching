@@ -24,7 +24,7 @@ class: center, middle, inverse, title-slide
 # GESTIÓN DE BASES DE DATOS
 ## Máster en Bioestadística
 ### Javier Álvarez Liébana (Fac. Estudios Estadísticos - UCM)
-### Última actualización: 03-09-2022
+### Última actualización: 07-09-2022
 
 ---
 
@@ -183,8 +183,6 @@ class: inverse center middle
 #### [CLASE 5](#clase-5)
 
 #### [ENTREGA I](#clase5-caso-I)
-
-#### [ENTREGA II](#clase5-caso-II)
 
 ---
 
@@ -1700,7 +1698,7 @@ hoy
 ```
 
 ```
-&gt; [1] "2022-09-03"
+&gt; [1] "2022-09-07"
 ```
 
 --
@@ -1713,7 +1711,7 @@ También podemos obtener el **.bg-purple_light[«hoy y ahora»]** con la funció
 ```
 
 ```
-&gt; [1] "2022-09-03 22:21:27 CEST"
+&gt; [1] "2022-09-07 14:49:24 CEST"
 ```
  
 ---
@@ -2097,7 +2095,7 @@ hoy - cumple
 ```
 
 ```
-&gt; Time difference of 12046 days
+&gt; Time difference of 12050 days
 ```
 
 ]
@@ -2723,6 +2721,15 @@ y[length(y)]
 
 ---
 
+
+# Valores .orange[UNICOS]
+
+Con la función `unique()` podemos también extraer los **.bg-purple_light[valores únicos de una variable]**
+
+---
+
+
+
 # .orange[FILTRAR] elementos
 
 
@@ -2999,8 +3006,8 @@ x &lt;- rnorm(1e3) # 1000 elementos aleatorias
 ```
 &gt; Unit: microseconds
 &gt;         expr    min      lq     mean  median      uq     max neval cld
-&gt;      sort(x) 46.816 48.9380 58.90758 50.8460 59.1575 219.769  1000   b
-&gt;  x[order(x)] 31.121 35.5705 42.70020 36.6905 42.0980 176.612  1000  a
+&gt;      sort(x) 43.663 49.8095 61.35030 51.2635 62.7275 213.634  1000   b
+&gt;  x[order(x)] 30.887 36.3535 44.00506 37.3885 44.7400 123.030  1000  a
 ```
 
 --
@@ -4149,6 +4156,9 @@ name: clase-4
 ### [tibble](#tibble)
 
 ### [Ejercicios](#ejercicios-tibble)
+
+### [informes/apuntes: rmarkdown](#rmd)
+
 
 ---
 
@@ -5431,21 +5441,6 @@ dim(gapminder)
 
 ---
 
-class: inverse center middle
-name: clase-5
-
-# CLASE 5: rmarkdown y casos prácticos
-
-&amp;nbsp;
-
-### [informes/apuntes: rmarkdown](#rmd)
-
-### [Caso práctico I: starwars](#clase5-caso-I)
-
-### [Caso práctico II: gapminder](#clase5-caso-II)
-
----
-
 name: rmd
 
 # .orange[COMUNICANDO] resultados: archivos .green[.Rmd] 
@@ -5920,11 +5915,26 @@ Por último en este primer documento vamos a añadir una subsección `## Variabl
 
 ---
 
+
+class: inverse center middle
+name: clase-5
+
+# CLASE 5: ENTREGA I
+
+&amp;nbsp;
+
+### [Caso práctico: starwars](#clase5-caso-I)
+
+### [Caso práctico: gapminder](#clase5-caso-II)
+
+---
+
+
 name: clase5-caso-I
 
-# .orange[CASO PRACTICO]: análisis de Star Wars
+# .orange[CASO PRÁCTICO]: análisis de Star Wars
 
-Instala el paquete `{dplyr}` y usa el conjunto `starwars` contenido en él mismo (dataset con los personajes de las películas de la saga Star Wars). Deberás **.bg-purple_light[entregar completado]** el archivo `.Rmd` que tienes disponible en ... **.bg-purple_light[antes de las 16:00 del 5 de octubre]**, siguiendo las instrucciones contenidas en el mismo.
+Instala el paquete `{dplyr}` y usa el conjunto `starwars` contenido en él mismo (dataset con los personajes de las películas de la saga Star Wars). Deberás **.bg-purple_light[entregar completado]** el archivo `.Rmd` que tienes disponible en &lt;https://github.com/dadosdelaplace/teaching/tree/main/bioestad/eval&gt; **.bg-purple_light[antes de las 23:59 del 27 de septiembre]**, siguiendo las instrucciones contenidas en el mismo.
 
 
 
@@ -5940,9 +5950,9 @@ starwars
 
 name: clase5-caso-II
 
-# .orange[CASO PRACTICO]: análisis socioeconómico (gapminder)
+# .orange[CASO PRÁCTICO]: análisis de gapminder
 
-Instala el paquete `{gapminder}` y usa el conjunto `gapminder` contenido en él mismo (dataset con datos económicos de distintos países). Deberás **.bg-purple_light[entregar completado]** el archivo `.Rmd` que tienes disponible en ... **.bg-purple_light[antes de las 16:00 del 5 de octubre]**, siguiendo las instrucciones contenidas en el mismo.
+Instala el paquete `{gapminder}` y usa el conjunto `gapminder` contenido en él mismo (dataset con datos económicos de distintos países). Deberás **.bg-purple_light[entregar completado]** el archivo `.Rmd` que tienes disponible en &lt;https://github.com/dadosdelaplace/teaching/tree/main/bioestad/eval&gt; **.bg-purple_light[antes de las 23:59 del 27 de septiembre]**, siguiendo las instrucciones contenidas en el mismo.
 
 
 ```r
@@ -5955,7 +5965,128 @@ gapminder
 
 ---
 
-a
+
+class: inverse center middle
+
+# CLASES
+
+&amp;nbsp;
+
+#### [CLASE 6](#clase-6)
+
+#### [CLASE 7](#clase-7)
+
+#### [ENTREGA II](#clase-8)
+
+---
+
+class: inverse center middle
+name: clase-6
+
+# CLASE 6: mejorando nuestro código
+
+&amp;nbsp;
+
+### [Estructuras de control: for, while, if-else.](#estructuras-control)
+
+### [Replicate](#replicate)
+
+### [Definiendo nuestras propias funciones](#funciones)
+
+### [Ejercicios](#ejercicios-6)
+
+
+---
+
+
+class: inverse center middle
+name: clase-7
+
+# CLASE 7: Listas y textos. Importar/exportar datos. 
+
+&amp;nbsp;
+
+### [Listas](#listas)
+
+### [Stringr: textos](#stringr)
+
+### [Importar/exportar datos](#importar-exportar)
+
+### [Ejercicios](#ejercicios-7)
+
+
+---
+
+class: inverse center middle
+name: clase-8
+
+# CLASE 8: ENTREGA II
+
+&amp;nbsp;
+
+### [Caso práctico: análisis de los datos del ISCIII](#clase8-entrega)
+
+---
+
+class: inverse center middle
+name: clase-9
+
+# CLASE 9: introducción al tidydata
+
+&amp;nbsp;
+
+
+---
+
+class: inverse center middle
+name: clase-10
+
+# CLASE 10: primer uso de tidyverse
+
+&amp;nbsp;
+
+
+---
+
+class: inverse center middle
+name: clase-11
+
+# CLASE 11: tidyverse y generación de resúmenes
+
+&amp;nbsp;
+
+---
+
+class: inverse center middle
+name: clase-12
+
+# CLASE 12: cruce de tablas
+
+&amp;nbsp;
+
+
+
+---
+
+class: inverse center middle
+name: clase-13
+
+# CLASE 13: uso de factores con forcats
+
+&amp;nbsp;
+
+
+
+---
+
+class: inverse center middle
+name: clase-14
+
+# CLASE 14: introducción a ggplot
+
+&amp;nbsp;
+
+
 
 ---
 

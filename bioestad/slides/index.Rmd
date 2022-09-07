@@ -241,8 +241,6 @@ class: inverse center middle
 
 #### [ENTREGA I](#clase5-caso-I)
 
-#### [ENTREGA II](#clase5-caso-II)
-
 ---
 
 
@@ -4117,6 +4115,21 @@ gapminder
 
 ---
 
+
+class: inverse center middle
+
+# CLASES
+
+&nbsp;
+
+#### [CLASE 6](#clase-6)
+
+#### [CLASE 7](#clase-7)
+
+#### [ENTREGA II](#clase-8)
+
+---
+
 class: inverse center middle
 name: clase-6
 
@@ -4162,6 +4175,68 @@ name: clase-8
 &nbsp;
 
 ### [Caso práctico: análisis de los datos del ISCIII](#clase8-entrega)
+
+---
+
+class: inverse center middle
+name: clase-9
+
+# CLASE 9: introducción al tidydata
+
+&nbsp;
+
+
+---
+
+class: inverse center middle
+name: clase-10
+
+# CLASE 10: primer uso de tidyverse
+
+&nbsp;
+
+
+---
+
+class: inverse center middle
+name: clase-11
+
+# CLASE 11: tidyverse y generación de resúmenes
+
+&nbsp;
+
+---
+
+class: inverse center middle
+name: clase-12
+
+# CLASE 12: cruce de tablas
+
+&nbsp;
+
+
+
+---
+
+class: inverse center middle
+name: clase-13
+
+# CLASE 13: uso de factores con forcats
+
+&nbsp;
+
+
+
+---
+
+class: inverse center middle
+name: clase-14
+
+# CLASE 14: introducción a ggplot
+
+&nbsp;
+
+
 
 ---
 
