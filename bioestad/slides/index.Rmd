@@ -2080,6 +2080,15 @@ y[length(y)]
 
 ---
 
+
+# Valores .orange[UNICOS]
+
+Con la función `unique()` podemos también extraer los **.bg-purple_light[valores únicos de una variable]**
+
+---
+
+
+
 # .orange[FILTRAR] elementos
 
 
@@ -2920,6 +2929,9 @@ name: clase-4
 
 ### [Ejercicios](#ejercicios-tibble)
 
+### [informes/apuntes: rmarkdown](#rmd)
+
+
 ---
 
 name: data.frame
@@ -3616,21 +3628,6 @@ dim(gapminder)
 
 ---
 
-class: inverse center middle
-name: clase-5
-
-# CLASE 5: rmarkdown y casos prácticos
-
-&nbsp;
-
-### [informes/apuntes: rmarkdown](#rmd)
-
-### [Caso práctico I: starwars](#clase5-caso-I)
-
-### [Caso práctico II: gapminder](#clase5-caso-II)
-
----
-
 name: rmd
 
 # .orange[COMUNICANDO] resultados: archivos .green[.Rmd] 
@@ -4072,11 +4069,26 @@ knitr::include_graphics("./img/variables_html.jpg")
 
 ---
 
+
+class: inverse center middle
+name: clase-5
+
+# CLASE 5: ENTREGA I
+
+&nbsp;
+
+### [Caso práctico: starwars](#clase5-caso-I)
+
+### [Caso práctico: gapminder](#clase5-caso-II)
+
+---
+
+
 name: clase5-caso-I
 
-# .orange[CASO PRACTICO]: análisis de Star Wars
+# .orange[CASO PRÁCTICO]: análisis de Star Wars
 
-Instala el paquete `{dplyr}` y usa el conjunto `starwars` contenido en él mismo (dataset con los personajes de las películas de la saga Star Wars). Deberás **.bg-purple_light[entregar completado]** el archivo `.Rmd` que tienes disponible en ... **.bg-purple_light[antes de las 16:00 del 5 de octubre]**, siguiendo las instrucciones contenidas en el mismo.
+Instala el paquete `{dplyr}` y usa el conjunto `starwars` contenido en él mismo (dataset con los personajes de las películas de la saga Star Wars). Deberás **.bg-purple_light[entregar completado]** el archivo `.Rmd` que tienes disponible en <https://github.com/dadosdelaplace/teaching/tree/main/bioestad/eval> **.bg-purple_light[antes de las 23:59 del 27 de septiembre]**, siguiendo las instrucciones contenidas en el mismo.
 
 
 ```{r eval = FALSE}
@@ -4091,9 +4103,9 @@ starwars
 
 name: clase5-caso-II
 
-# .orange[CASO PRACTICO]: análisis socioeconómico (gapminder)
+# .orange[CASO PRÁCTICO]: análisis de gapminder
 
-Instala el paquete `{gapminder}` y usa el conjunto `gapminder` contenido en él mismo (dataset con datos económicos de distintos países). Deberás **.bg-purple_light[entregar completado]** el archivo `.Rmd` que tienes disponible en ... **.bg-purple_light[antes de las 16:00 del 5 de octubre]**, siguiendo las instrucciones contenidas en el mismo.
+Instala el paquete `{gapminder}` y usa el conjunto `gapminder` contenido en él mismo (dataset con datos económicos de distintos países). Deberás **.bg-purple_light[entregar completado]** el archivo `.Rmd` que tienes disponible en <https://github.com/dadosdelaplace/teaching/tree/main/bioestad/eval> **.bg-purple_light[antes de las 23:59 del 27 de septiembre]**, siguiendo las instrucciones contenidas en el mismo.
 
 ```{r eval = FALSE}
 install.packages("gapminder")
@@ -4105,7 +4117,51 @@ gapminder
 
 ---
 
-a
+class: inverse center middle
+name: clase-6
+
+# CLASE 6: mejorando nuestro código
+
+&nbsp;
+
+### [Estructuras de control: for, while, if-else.](#estructuras-control)
+
+### [Replicate](#replicate)
+
+### [Definiendo nuestras propias funciones](#funciones)
+
+### [Ejercicios](#ejercicios-6)
+
+
+---
+
+
+class: inverse center middle
+name: clase-7
+
+# CLASE 7: Listas y textos. Importar/exportar datos. 
+
+&nbsp;
+
+### [Listas](#listas)
+
+### [Stringr: textos](#stringr)
+
+### [Importar/exportar datos](#importar-exportar)
+
+### [Ejercicios](#ejercicios-7)
+
+
+---
+
+class: inverse center middle
+name: clase-8
+
+# CLASE 8: ENTREGA II
+
+&nbsp;
+
+### [Caso práctico: análisis de los datos del ISCIII](#clase8-entrega)
 
 ---
 
