@@ -4150,18 +4150,18 @@ name: clase-6
 
 &nbsp;
 
-### [Estructuras de control: for, while, if-else.](#estructuras-control)
+### [Estructuras condicionales: if-else](#estructuras-condicionales)
 
-### [Replicate](#replicate)
+### [Bucles: for, while](#bucles)
 
-### [Definiendo nuestras propias funciones](#funciones)
+### [Replicate. Sample](#replicate)
 
 ### [Ejercicios](#ejercicios-6)
 
 
 ---
 
-name: estructuras-control
+name: estructuras-condicionales
 
 # Estructuras de control: .orange[IF-ELSE]
 
@@ -4327,16 +4327,286 @@ nombres
 
 ---
 
-class: inverse center middle
-name: clase-7
+name: bucles
 
-# CLASE 7: Listas y textos. Importar/exportar datos. 
+# Estructuras de control: .orange[BUCLES]
+
+Aunque la mayoría de veces son sustituibles por otras expresiones más legibles y eficientes, es importante que conozcamos otra archiconocida expresion de control: **.bg-purple_light[los bucles]**.
+
+* `for { }`: permite **.bg-purple_light[repetir el mismo código]** un **.bg-orange[número fijo y conocido]** de veces (normalmente en función de un índice).
+
+* `while { }`: permite **.bg-purple_light[repetir el mismo código]** un **.bg-orange[número indeterminado de veces]**, hasta que una **condición** dada se deje de cumplir.
+
+---
+
+# Estructuras de control: .orange[BUCLES FOR]
+
+Un **.bg-purple_light[bucle for]** es una estructura que nos permite **.bg-purple_light[repetir]** un conjunto de órdenes un **.bg-orange[número finito y conocido]** de veces: dado un **conjunto de índices**, el bucle irá recorriendo cada uno de ellos.
+
+Vamos a definir un vector `x`. Si quisiéramos el primer elemento al cuadrado escribiríamos `x[1]^2`; si quisiéramos el segundo elemento al cuadrado `x[2]^2`; si lo quisiéramos hacer en general, para el elemento i-ésimo, `x[i]^2`. Lo que haremos dentro del `for (indices) { órdenes }` es indicarle que valores irá tomando `i` (**.bg-purple_light[vector de índices]**).
+
+```{r}
+x <- c(0, -7, 1, 4)
+for (i in 1:4) { #<<
+  
+  print(x[i]^2) # órdenes
+  
+}
+```
+
+---
+
+# Estructuras de control: .orange[BUCLES FOR]
+
+```{r eval = FALSE}
+for (i in 1:4) { #<<
+  print(x[i]^2) # órdenes
+}
+```
+
+Lo que tenemos dentro de los paréntesis `for ()` no es más que la **.bg-purple_light[secuencia de números]** que hemos aprendido a construir. Si quisiéramos que haga lo mismo pero excluyendo por ejemplo el segundo elemento bastaría con definir los índices a recorrer como `c(1, 3, 4)`.
+
+```{r}
+for (i in c(1, 3, 4)) {
+  
+  print(x[i]^2) # que lo imprima
+  
+}
+```
+
+---
+
+# Estructuras de control: .orange[BUCLES FOR]
+
+Podemos definir también una variable `y <- rep(0, 4)` (un **vector «vacío»** lleno de ceros), y hacer que el **.bg-purple_light[elemento i-ésimo del vector]** se defina como `x[i]^2`
+
+```{r}
+y <- rep(0, 4)
+for (i in 1:4) {
+  
+  y[i] <- x[i]^2
+  
+}
+y
+```
+
+--
+
+Lo anterior es equivalente a esto
+
+```{r}
+y <- x^2
+y
+```
+
+---
+
+# .orange[BUCLES] suelen ser .red[INEFICIENTES]
+
+
+Haciendo uso del paquete `microbenchmark` podemos comprobar como los **.bg-purple_light[bucles son menos eficientes]** (de ahí que la mayoría de veces los intentemos evitar si existe otra alternativa)
+
+```{r}
+library(microbenchmark)
+x <- 1:100
+microbenchmark(x^2, 
+               for (i in 1:100) { y[i] <- x[i]^2 },
+               times = 1000)
+```
+
+---
+ 
+# Estructuras de control: .orange[BUCLES FOR]
+
+
+Veamos otro ejemplo **.bg-purple_light[combinando vectores numéricos y de caracteres]**: vamos a definir de nuevo un vector de edades y nombres, y vamos a recorrer cada uno imprimiento un mensaje por pantalla.
+
+```{r}
+nombres <- c("Javi", "Laura", "Carlos", "Lucía", "Mar")
+edades <- c(32, 51, 18, 43, 29)
+
+# Recorremos cada uno de los 5 elementos e imprimimos un
+# mensaje que depende de ese índice i
+for (i in 1:5) { 
+  
+  print(glue("{nombres[i]} tiene {edades[i]} años")) 
+  
+}
+```
+
+---
+
+# Estructuras de control: .orange[BUCLES FOR]
+
+Fíjate que **.bg-purple_light[si no nos queremos preocupar de si añadimos otra persona]**, podemos hacer que el bucle empiece en 1 y termine en el **.bg-purple_light[último lugar]** (sea el que sea), usando `length()`.
+
+```{r}
+for (i in 1:length(nombres)) { 
+  
+  print(glue("{nombres[i]} tiene {edades[i]} años")) 
+  
+}
+```
+
+---
+
+# Estructuras de control: .orange[BUCLES FOR]
+
+Aunque normalmente el conjunto que recorre el bucle suelen ser índices numéricos, podemos **.bg-purple_light[recorrer cualquier tipo de objeto]**, por ejemplo días e la semana
+
+```{r}
+library(stringr)
+dias_semana <- c("lunes", "martes", "miércoles", "jueves",
+                 "viernes", "sábado", "domingo")
+
+for (dias in dias_semana) { # dias recorre los días de la semana
+  
+  print(str_to_upper(dias)) # Imprimimos en mayúsculas el día
+}
+```
+
+---
+
+# Estructuras de control: .orange[BUCLES FOR]
+
+Un último ejemplo: vamos a recorrer nuestro conjunto de datos `swiss` del paquete `{datasets}` y vamos a **pasar a dato ausente** todos los valores de fertilidad superiores a 80. Para ello recorreremos cada fila para después ejecutar un `if`.
+
+```{r}
+for (i in 1:nrow(swiss)) {
+  
+  # si cumple la condición dicha fila, ponemos ausente.
+  if (swiss$Fertility[i] > 80) { 
+    
+    swiss$Fertility[i] <- NA
+    
+  }
+}
+```
+
+
+Esto sería exactamente equivalente al `ifelse()` vectorizado que vimos en el tema anterior
+
+```{r}
+data("swiss") # lo cargamos de 0
+swiss$Fertility <- ifelse(swiss$Fertility > 80, NA, swiss$Fertility)
+```
+
+
+---
+
+# Estructuras de control: .orange[BUCLES WHILE]
+
+Otra manera de diseñar un bucle es con la estructura `while { }`, que ejecutará el bucle un **.bg-purple_light[número de veces pero que a priori es desconocido]**, lo hará **.bg-orange[hasta que la condición impuesta]** deje de ser `TRUE`. Por ejemplo, vamos a inicializar una variable `ciclos <- 1`, y en cada paso aumentaremos una unidad, y no saldremos del bucle hasta que `ciclos > 4`
+
+```{r}
+ciclos <- 1
+
+# Mientras el número de ciclos sea inferior 4, imprime
+while(ciclos <= 4) {
+  
+  print(paste("Todavía no, vamos por el ciclo ", ciclos)) # Pegamos la frase al número de ciclo por el que vayamos con paste
+  ciclos <- ciclos + 1
+  
+}
+```
+
+
+---
+  
+# Estructuras de control: .orange[BUCLES WHILE]
+
+
+¿Y qué sucede cuando la **.bg-purple_light[condición nunca llega a ser FALSE]**? Compruébalo tú mismo/a.
+
+```{r eval = FALSE}
+while (1 > 0) { # Nunca va a dejar de ser cierto
+  
+  print("Presiona ESC para salir del bucle")
+  
+}
+```
 
 &nbsp;
 
-### [Listas](#listas)
+**.bg-red_light[CUIDADO]**: un bucle `while { }` puede ser muy peligroso sino se controla bien que el bucle acaba en algún momento.
 
-### [Stringr: textos](#stringr)
+---
+
+# Estructuras de control: .orange[BUCLES WHILE]
+
+Tenemos dos comandos reservados para poder **.bg-purple_light[abortar un bucle o avanzar forzosamente]**:
+
+* `break`: os habilita para **.bg-purple_light[parar un bucle]** aunque no haya llegado al final de su conjunto de índices a recorrer (o se siga cumpliendo la condición).
+
+```{r}
+for(i in 1:10) {
+  if (i == 3) {
+    
+    break # si i es 3, el bucle frena aquí
+    
+  }
+  print(i)
+}
+```
+
+---
+
+# Estructuras de control: .orange[BUCLES WHILE]
+
+Tenemos dos comandos reservados para poder **.bg-purple_light[abortar un bucle o avanzar forzosamente]**:
+
+* `next`: **.bg-purple_light[obliga al bucle a avanzar]** a la siguiente iteracción, abortando la iteración actual en la que se encuentra. 
+
+```{r}
+for(i in 1:5) {
+  if (i == 3) {
+    
+    next # si i es 3, pasará a la siguiente
+    
+  }
+  print(i)
+}
+```
+
+---
+
+# Estructuras de control: .orange[BUCLES REPEAT]
+
+Aunque es una opción muy poco usada, existe una estructura de control llamada `repeat { }` que nos ejecuta un **.bg-purple_light[bucle de forma infinita hasta que le ordenemos parar]** con un break.
+
+```{r}
+conteo <- 0
+repeat { 
+  
+  conteo <- conteo + 1
+  if (conteo >= 100) { break }
+  
+}
+conteo
+```
+
+
+---
+
+# Replicando código: .orange[REPLICATE]
+
+---
+
+
+# Simulando muestras: .orange[SAMPLE]
+
+---
+
+class: inverse center middle
+name: clase-7
+
+# CLASE 7: funciones y listas. Importar/exportar datos. 
+
+&nbsp;
+
+### [Creando nuestras propias funciones](#funciones)
+
+### [Listas](#listas)
 
 ### [Importar/exportar datos](#importar-exportar)
 
