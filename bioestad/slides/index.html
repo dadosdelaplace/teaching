@@ -24,7 +24,7 @@ class: center, middle, inverse, title-slide
 # GESTIÓN DE BASES DE DATOS
 ## Máster en Bioestadística
 ### Javier Álvarez Liébana (Fac. Estudios Estadísticos - UCM)
-### Última actualización: 10-09-2022
+### Última actualización: 12-09-2022
 
 ---
 
@@ -1711,7 +1711,7 @@ hoy
 ```
 
 ```
-&gt; [1] "2022-09-10"
+&gt; [1] "2022-09-12"
 ```
 
 --
@@ -1724,7 +1724,7 @@ También podemos obtener el **.bg-purple_light[«hoy y ahora»]** con la funció
 ```
 
 ```
-&gt; [1] "2022-09-10 13:10:40 CEST"
+&gt; [1] "2022-09-12 13:12:18 CEST"
 ```
  
 ---
@@ -2108,7 +2108,7 @@ hoy - cumple
 ```
 
 ```
-&gt; Time difference of 12053 days
+&gt; Time difference of 12055 days
 ```
 
 ]
@@ -3018,9 +3018,9 @@ x &lt;- rnorm(1e3) # 1000 elementos aleatorias
 
 ```
 &gt; Unit: microseconds
-&gt;         expr    min       lq     mean   median       uq      max neval cld
-&gt;      sort(x) 90.381 110.1555 182.2850 156.1075 208.3390 1975.262  1000   b
-&gt;  x[order(x)] 62.561  74.4705 125.4616 103.8405 138.2295 3462.749  1000  a
+&gt;         expr    min     lq      mean   median       uq     max neval cld
+&gt;      sort(x) 89.985 97.534 120.71140 106.6925 129.0965 340.953  1000   b
+&gt;  x[order(x)] 62.812 68.195  83.95558  75.2900  88.9870 244.565  1000  a
 ```
 
 --
@@ -6303,7 +6303,7 @@ y
 
 --
 
-Dado que las operaciones en `R` ya se hacen por defecto de forma vectorial, elemento a elemento, lo anterior es equivalente a esto
+Lo anterior es equivalente a esto
 
 
 ```r
@@ -6333,12 +6333,12 @@ microbenchmark(x^2,
 
 ```
 &gt; Unit: nanoseconds
-&gt;                                     expr     min        lq        mean  median
-&gt;                                      x^2     757     948.5    2485.517    2395
-&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 3514835 3732596.0 4439324.192 3907426
+&gt;                                     expr     min      lq        mean    median
+&gt;                                      x^2     733     975    2816.999    2891.5
+&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 3578590 4130858 5423149.755 4689135.5
 &gt;         uq      max neval cld
-&gt;     3690.5    17915  1000  a 
-&gt;  4289213.5 22008768  1000   b
+&gt;     3774.5    22222  1000  a 
+&gt;  5874752.0 23737060  1000   b
 ```
 
 ---
@@ -6440,6 +6440,7 @@ for (i in 1:nrow(swiss)) {
 }
 ```
 
+--
 
 Esto sería exactamente equivalente al `ifelse()` vectorizado que vimos en el tema anterior
 
@@ -6454,7 +6455,7 @@ swiss$Fertility &lt;- ifelse(swiss$Fertility &gt; 80, NA, swiss$Fertility)
 
 # Estructuras de control: .orange[BUCLES WHILE]
 
-Otra manera de diseñar un bucle es con la estructura `while { }`, que ejecutará el bucle un **.bg-purple_light[número de veces pero que a priori es desconocido]**, lo hará **.bg-orange[hasta que la condición impuesta]** deje de ser `TRUE`. Por ejemplo, vamos a inicializar una variable `ciclos &lt;- 1`, y en cada paso aumentaremos una unidad, y no saldremos del bucle hasta que `ciclos &gt; 4`
+Otra manera de diseñar un bucle es con la estructura `while { }`, que ejecutará el bucle un **.bg-purple_light[número de veces a priori  desconocido]**, lo hará hasta que la **.bg-purple_light[condición impuesta deje de ser cierta]**. Por ejemplo, vamos a inicializar una variable `ciclos &lt;- 1`, y en cada paso aumentaremos una unidad, y no saldremos del bucle hasta que `ciclos &gt; 4`
 
 
 ```r
@@ -6574,12 +6575,665 @@ conteo
 
 ---
 
+name: replicate
+
 # Replicando código: .orange[REPLICATE]
+
+Otra forma de **.bg-purple_light[repetir o replicar]** código, al margen de las estructuras de bucle ya vistas, es haciendo uso de `replicate()`, que de momento no lo haremos depender de un índice: simplemente **.bg-purple_light[repetira n veces]** el mismo código.
+
+
+```r
+x &lt;- 1:3
+replicate(n = 3, x^2)
+```
+
+```
+&gt;      [,1] [,2] [,3]
+&gt; [1,]    1    1    1
+&gt; [2,]    4    4    4
+&gt; [3,]    9    9    9
+```
+          
+---
+
+# Simulando muestras: .orange[SAMPLE]
+
+Es habitual que `replicate()` se use conjuntamente con la función `sample()` que nos permitirá **.bg-purple_light[generar muestras aleatorias]** indicando cuál es la **.bg-purple_light[función de probabilidad]** asociada] (generar **«tiradas de dados»** indicando cuál es la **probabilidad** de cada cara).
+
+* `x`: **.bg-purple_light[soporte]** (valores permitidos, caras del dado).
+* `size`: **.bg-purple_light[tamaño]** (número de tiradas)
+* `replace`: **.bg-purple_light[¿con reemplazamiento?]** (¿puede salir un elemento que ya ha salido?)
+* `prob`: **.bg-purple_light[vector de probabilidades]** (probabilidad de cada cara)
+
+--
+
+Por ejempo, vamos a simular **.bg-purple_light[2 tiradas de una moneda]**, indicando el soporte (0 y 1, cara y cruz), y `size = 2`
+
+
+```r
+sample(x = 0:1, size = 2)
+```
+
+```
+&gt; [1] 1 0
+```
+
+**.bg-red_light[IMPORTANTE]**: si no indicamos nada en el vector de probabilidades `prob`, asume que son equiprobables (en este caso, `\(1/2\)` para cada cara).
+
+
+---
+
+# Simulando muestras: .orange[SAMPLE]
+
+Fíjate que tampoco le hemos indicado nada en `replace`, ya que por defecto toma el valor `FALSE`. ¿Qué sucede si hubiésemos querido generar 10 tiradas de una moneda?
+
+
+```r
+sample(x = 0:1, size = 10)
+```
+
+```
+&gt; Error in sample.int(length(x), size, replace, prob): cannot take a sample larger than the population when 'replace = FALSE'
+```
+
+--
+
+&amp;nbsp;
+
+Dado que solo tenemos 2 posibles valores a elegir, y le hemos pedido 10 tiradas, al llegar a la segunda **.bg-purple_light[no tiene opciones de seguir eligiendo]**. Para poder generarlas deberemos asignar `replace = TRUE` (ahora podrán repetirse las caras).
+
+
+
+```r
+# 30 tiradas
+sample(x = 0:1, size = 30, replace = TRUE)
+```
+
+```
+&gt;  [1] 0 0 0 1 1 0 0 0 0 1 0 0 1 0 1 0 0 1 1 0 0 0 1 0 1 0 0 0 1 1
+```
+
+---
+
+# Simulando muestras: .orange[SAMPLE]
+
+El soporte no solo tiene porqué ser numérico, sino que podríamos definir un **.bg-purple_light[soporte de valores de texto]**, de forma que asignemos en los posibles valores directamente `"cara"` y `"cruz"`
+
+
+```r
+sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
+```
+
+```
+&gt;  [1] "cruz" "cruz" "cara" "cara" "cruz" "cara" "cruz" "cara" "cara" "cruz"
+```
+
+--
+
+El comando `sample()` nos genera **.bg-purple_light[valores (pseudo) aleatorios]**, por lo que si volvemos a ejecutar la misma órden tendremos (seguramente) **.bg-red_light[valores diferentes]**.
+
+
+```r
+sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
+```
+
+```
+&gt;  [1] "cara" "cruz" "cruz" "cruz" "cruz" "cara" "cara" "cara" "cruz" "cruz"
+```
+
+---
+
+# Simulando muestras: .orange[SAMPLE]
+
+Si quisiéramos generar resultados que no dependiesen de la aleatoriedad de una muestra simulada (por ejemplo, para ver si un método es mejor que otro), tenemos la opción de **.bg-purple_light[fijar semilla]** (valor inicial usado para generar el mecanismo de pseudoaleatoriedad).
+
+
+```r
+set.seed(1234567)
+sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
+```
+
+```
+&gt;  [1] "cara" "cruz" "cruz" "cara" "cruz" "cara" "cara" "cara" "cruz" "cruz"
+```
+
+
+
+```r
+set.seed(1234567)
+sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
+```
+
+```
+&gt;  [1] "cara" "cruz" "cruz" "cara" "cruz" "cara" "cara" "cara" "cruz" "cruz"
+```
+
+
+```r
+set.seed(1234567)
+sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
+```
+
+```
+&gt;  [1] "cara" "cruz" "cruz" "cara" "cruz" "cara" "cara" "cara" "cruz" "cruz"
+```
 
 ---
 
 
 # Simulando muestras: .orange[SAMPLE]
+
+
+De esta manera podemos **.bg-purple_light[simular una gran cantidad de datos]** y ver cómo evoluciona por ejemplo la media muestral.
+
+&gt; ¿Cómo hacer uso de un bucle para generar 1 tirada, 2 tiradas, 3 tiradas, ..., 25 tiradas (con `sample()`), y guardar la media de caras?
+
+--
+
+
+```r
+tiradas &lt;- 1:25
+media &lt;- rep(0, length(tiradas))
+
+for (i in tiradas) {
+  
+  tirada &lt;- sample(x = c("cara", "cruz"), size = i, replace = TRUE)
+  media[i] &lt;- sum(tirada == "cruz") / i
+
+}
+media
+```
+
+```
+&gt;  [1] 0.0000000 0.5000000 0.3333333 0.7500000 0.6000000 0.8333333 0.1428571
+&gt;  [8] 0.5000000 0.5555556 0.5000000 0.3636364 0.7500000 0.6153846 0.4285714
+&gt; [15] 0.5333333 0.3750000 0.4705882 0.4444444 0.4210526 0.4500000 0.5238095
+&gt; [22] 0.5000000 0.6086957 0.5833333 0.3600000
+```
+
+---
+
+
+# Simulando muestras: .orange[SAMPLE]
+
+
+Esto nos permite comprobar de primera mano algo muy importante a la hora de simular: nuestra muestra será (seguramente) distinta pero según  **.bg-purple_light[aumenta el tamaño muestral]**, los **.bg-purple_light[parámetros muestrales]** (media, por ejemplo) tenderán a los **.bg-purple_light[parámetros teóricos o poblacionales]** (la media si aumentamos el tamaño debería tender a `\(0.5\)`).
+
+
+
+```r
+tiradas &lt;- c(1, 5, 10, 15, 25, 50, 100, 500, 1000, 5000,
+             10000, 25000, 50000, 100000, 200000, 500000)
+media &lt;- rep(0, length(tiradas))
+
+for (i in 1:length(tiradas)) {
+  
+  tirada &lt;- sample(x = c(0, 1), size = tiradas[i], 
+                   replace = TRUE)
+  media[i] &lt;- mean(tirada)
+
+}
+media
+```
+
+```
+&gt;  [1] 1.000000 0.200000 0.600000 0.600000 0.440000 0.500000 0.560000 0.490000
+&gt;  [9] 0.502000 0.496800 0.491800 0.499960 0.499400 0.499740 0.498540 0.498536
+```
+
+
+Lo anterior se debe al **.bg-purple_light[TEOREMA CENTRAL DEL LÍMITE]**
+
+---
+
+# Simulando muestras: .orange[SAMPLE]
+
+Como has podido ver, aunque el parámetro poblacional tienda al muestral, rara vez será justo igual (dado que `\(n\)` nunca podrá ser infinito en el ordenador). ¿Y si **.bg-purple_light[repetimos]** el experimento de `\(n\)` tiradas `\(m\)` veces? ¿Cuál será la media de las medias obtenidas?
+
+Para ello nos sirve `replicate()`. ¿Se te ocurre cómo, por ejemplo repitiendo `\(m = 1000\)` veces `\(n=10000\)` tiradas?
+
+
+--
+
+
+```r
+tiradas &lt;- replicate(1000, sample(x = c(0, 1), size = 10000,
+                                 replace = TRUE))
+dim(tiradas)
+```
+
+```
+&gt; [1] 10000  1000
+```
+
+```r
+medias &lt;- apply(tiradas, MARGIN = 2, FUN = mean)
+mean(medias)
+```
+
+```
+&gt; [1] 0.500114
+```
+
+
+---
+
+# Simulando muestras: .orange[SAMPLE]
+
+¿Y si lo hiciésemos con la **.bg-purple_light[varianza]**? Sabemos que la varianza (teórica) debe ser `\(\sigma^2  = 0.25\)` (varianza de una binomial de parámetro `\(p\)` es igual a `\(p^2\)`)
+
+.pull-left[
+
+
+```r
+tirada &lt;- sample(x = c(0, 1), size = 100, replace = TRUE)
+mean(tirada^2) - mean(tirada)^2
+```
+
+```
+&gt; [1] 0.2451
+```
+
+```r
+tirada &lt;- sample(x = c(0, 1), size = 100, replace = TRUE)
+mean(tirada^2) - mean(tirada)^2
+```
+
+```
+&gt; [1] 0.2484
+```
+
+]
+
+.pull-right[
+
+
+```r
+tirada &lt;- sample(x = c(0, 1), size = 100, replace = TRUE)
+mean(tirada^2) - mean(tirada)^2
+```
+
+```
+&gt; [1] 0.2475
+```
+
+```r
+tirada &lt;- sample(x = c(0, 1), size = 100, replace = TRUE)
+mean(tirada^2) - mean(tirada)^2
+```
+
+```
+&gt; [1] 0.2496
+```
+
+]
+
+Parece como si siempre se **quedase un poco por debajo**, de forma sistemática (con un sesgo), de forma que la media también quedará por debajo.
+
+--
+
+Un estimador (muestral) `\(T\)` de un parámetro poblacional se dice **.bg-purple_light[ESTIMADOR INSESGADO]** si cumple que la media (esperanza) `\(E[T]\)` es igual a dicho parámetro.
+
+
+---
+
+name: ejercicios-6
+
+# Ejercicios
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+
+* 📝 **Ejercicio 1**: modifica el código inferior para imprimir un mensaje por pantalla si todos los datos del conjunto `airquality` son de meses que no sean enero.
+
+
+```r
+# install.packages("dataset") # solo la primera vez
+library(datasets) # paquete con los datos
+mes &lt;- airquality$Month
+
+if (mes == 2) {
+  
+  print("Ningún dato es del mes de enero")
+  
+}
+```
+
+]
+
+.panel[.panel-name[Solución ej. 1]
+
+* 📝 **Ejercicio 1**: modifica el código inferior para imprimir un mensaje por pantalla si todos los datos del conjunto `airquality` son de meses que no sean enero.
+
+
+```r
+# install.packages("dataset") # solo la primera vez
+library(datasets) # paquete con los datos
+mes &lt;- airquality$Month
+
+if (all(mes != 1)) {
+  
+  print("Ningún dato es del mes de enero")
+  
+}
+```
+
+```
+&gt; [1] "Ningún dato es del mes de enero"
+```
+
+]
+
+]
+
+
+---
+
+# Ejercicios
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+* 📝 **Ejercicio 2**: modifica el código inferior para guardar en una variable llamada `temperatura_alta` un valor `TRUE` si alguno de los registros tiene una temperatura mayor a 90 (están en Farenheit) y un `FALSE` en caso contrario.
+ 
+
+```r
+temperatura &lt;- airquality$Temp
+
+if (temperatura == 100) {
+  
+  print("Alguno de los registros tiene temperatura superior a 90 Farenheit")
+  
+}
+```
+
+]
+
+.panel[.panel-name[Solución ej. 2]
+
+* 📝 **Ejercicio 2**: modifica el código inferior para guardar en una variable llamada `temperatura_alta` un valor `TRUE` si alguno de los registros tiene una temperatura mayor a 90 (están en Farenheit) y un `FALSE` en caso contrario.
+ 
+
+```r
+# Opción 1
+temperatura &lt;- airquality$Temp
+temperatura_alta &lt;- FALSE
+if (any(temperatura &gt; 90)) {
+  
+   temperatura_alta &lt;- TRUE
+  
+}
+
+# Opción 2
+temperatura_alta &lt;- any(airquality$Temp &gt; 90)
+```
+
+
+]
+
+]
+
+---
+
+
+# Ejercicios
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+* 📝 **Ejercicio 3**: modifica el código inferior para diseñar un bucle `for` de 5 iteraciones que recorra los 5 primeros impares y les sume uno.
+
+
+```r
+for (i in 1:5) {
+  
+  print(i)
+}
+```
+
+* 📝 **Ejercicio 4**: modifica el código inferior para diseñar un bucle `while` que parta con una variable `conteo &lt;- 1` y pare cuando llegue a 6.
+
+
+```r
+conteo &lt;- 1
+while (conteo == 2) {
+  
+  print(conteo)
+}
+```
+
+]
+
+.panel[.panel-name[Solución ej. 3]
+
+* 📝 **Ejercicio 3**: modifica el código inferior para diseñar un bucle `for` de 5 iteraciones que recorra los 5 primeros impares y les sume uno.
+
+
+```r
+for (i in c(1, 3, 5, 7, 9)) {
+  
+  print(i + 1)
+}
+```
+
+```
+&gt; [1] 2
+&gt; [1] 4
+&gt; [1] 6
+&gt; [1] 8
+&gt; [1] 10
+```
+
+]
+
+.panel[.panel-name[Solución ej. 4]
+
+* 📝 **Ejercicio 4**: modifica el código inferior para diseñar un bucle `while` que parta con una variable `conteo &lt;- 1` y pare cuando llegue a 6.
+
+
+```r
+conteo &lt;- 1
+while (conteo &lt; 6) {
+  
+  print(conteo)
+  conteo &lt;- conteo + 1
+  
+}
+```
+
+```
+&gt; [1] 1
+&gt; [1] 2
+&gt; [1] 3
+&gt; [1] 4
+&gt; [1] 5
+```
+
+]
+
+]
+
+---
+
+# Ejercicios
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+* 📝 **Ejercicio 5**: diseña un bucle `for` de 200 iteraciones que, empezando en un valor inicial de 100 (euros), te sume 3€ si el número actual de la iteración es par, y te reste 5€ si es impar (investiga la función `%%`).
+
+* 📝 **Ejercicio 6**: diseña el anterior bucle pero guardando el dinero de cada iteración en alguna variable
+ 
+
+* 📝 **Ejercicio 7**: diseña el bucle del ejercicio 5 pero parando cuando no nos quede dinero.
+
+* 📝 **Ejercicio 8**: haciendo uso de `sample()`, simula la tirada de 100 dados (cada uno de 6 caras), pero de forma que el dado esté trucado, y calcula la media de las tiradas.
+
+* 📝 **Ejercicio 9**: repite el ejercicio anterior para 1,2,...,200 dados (haz uso de un `for()`), y guarda la media de las tiradas en cada caso.
+
+]
+
+.panel[.panel-name[Sol. ej. 5]
+
+Un número par será todo aquel número que al dividir entre 2, la división es exacta, es decir, que su resto es nulo. Para calcular ese resto usaremos la función `%%`.
+
+
+
+```r
+# dinero inicial
+dinero &lt;- 100
+
+for (i in 1:200) {
+  dinero &lt;- ifelse(dinero %% 2 == 0, dinero + 3, dinero  - 5)
+}
+dinero
+```
+
+```
+&gt; [1] -100
+```
+
+]
+
+.panel[.panel-name[Sol. ej. 6]
+
+
+```r
+# vector inicial de importes
+dinero &lt;- rep(0, 201)
+dinero[1] &lt;- 100 # dinero inicial
+
+# Bucle for
+for (i in 2:201) {
+  
+  # si dinero[i - 1] es par o  impar
+  dinero[i] &lt;- ifelse(dinero[i - 1] %% 2 == 0, dinero[i - 1] + 3,
+                      dinero[i - 1]  - 5)
+  
+}
+dinero
+```
+
+```
+&gt;   [1]  100  103   98  101   96   99   94   97   92   95   90   93   88   91   86
+&gt;  [16]   89   84   87   82   85   80   83   78   81   76   79   74   77   72   75
+&gt;  [31]   70   73   68   71   66   69   64   67   62   65   60   63   58   61   56
+&gt;  [46]   59   54   57   52   55   50   53   48   51   46   49   44   47   42   45
+&gt;  [61]   40   43   38   41   36   39   34   37   32   35   30   33   28   31   26
+&gt;  [76]   29   24   27   22   25   20   23   18   21   16   19   14   17   12   15
+&gt;  [91]   10   13    8   11    6    9    4    7    2    5    0    3   -2    1   -4
+&gt; [106]   -1   -6   -3   -8   -5  -10   -7  -12   -9  -14  -11  -16  -13  -18  -15
+&gt; [121]  -20  -17  -22  -19  -24  -21  -26  -23  -28  -25  -30  -27  -32  -29  -34
+&gt; [136]  -31  -36  -33  -38  -35  -40  -37  -42  -39  -44  -41  -46  -43  -48  -45
+&gt; [151]  -50  -47  -52  -49  -54  -51  -56  -53  -58  -55  -60  -57  -62  -59  -64
+&gt; [166]  -61  -66  -63  -68  -65  -70  -67  -72  -69  -74  -71  -76  -73  -78  -75
+&gt; [181]  -80  -77  -82  -79  -84  -81  -86  -83  -88  -85  -90  -87  -92  -89  -94
+&gt; [196]  -91  -96  -93  -98  -95 -100
+```
+
+]
+
+.panel[.panel-name[Sol. ej. 7]
+
+
+```r
+dinero &lt;- 100 # dinero inicial
+
+# Bucle while
+while (dinero &gt; 0) {
+  
+  dinero &lt;- ifelse(dinero %% 2 == 0, dinero + 3, dinero - 5)
+  
+}
+dinero
+```
+
+```
+&gt; [1] 0
+```
+
+]
+
+.panel[.panel-name[Sol. ej. 8]
+
+
+* 📝 **Ejercicio 8**: haciendo uso de `sample()`, simula la tirada de 100 dados (cada uno de 6 caras), pero de forma que el dado esté trucado, y calcula la media de las tiradas.
+
+
+```r
+# dado sin trucar
+tiradas &lt;- sample(x = 1:6, size = 100, replace = TRUE)
+mean(tiradas)
+```
+
+```
+&gt; [1] 3.54
+```
+
+```r
+# dado trucado (por ejemplo 1/2 la primera cara)
+tiradas &lt;-
+  sample(x = 1:6, size = 100, replace = TRUE,
+         prob = c(1/2, 1/10, 1/10, 1/10, 1/10, 1/10))
+mean(tiradas)
+```
+
+```
+&gt; [1] 2.33
+```
+
+]
+
+.panel[.panel-name[Sol. ej. 9]
+
+
+* 📝 **Ejercicio 9**: repite el ejercicio anterior para 1,2,...,200 dados (haz uso de un `for()`), y guarda la media de las tiradas en cada caso.
+
+
+```r
+medias &lt;- rep(0, 200)
+for (i in 1:200) {
+  
+  medias[i] &lt;-
+    mean(sample(x = 1:6, size = i, replace = TRUE))
+}
+medias
+```
+
+```
+&gt;   [1] 3.000000 5.000000 4.000000 2.750000 2.800000 3.500000 4.428571 4.000000
+&gt;   [9] 3.888889 3.600000 3.272727 3.416667 3.538462 3.785714 3.800000 2.875000
+&gt;  [17] 3.117647 3.555556 3.684211 3.500000 3.095238 3.090909 2.652174 3.666667
+&gt;  [25] 3.240000 3.807692 3.703704 3.107143 3.689655 3.266667 3.612903 3.593750
+&gt;  [33] 3.575758 3.441176 3.257143 4.055556 3.783784 3.263158 3.717949 3.550000
+&gt;  [41] 3.243902 3.000000 4.023256 3.363636 3.466667 3.369565 3.787234 3.500000
+&gt;  [49] 3.612245 3.140000 3.607843 3.961538 3.245283 3.740741 3.727273 3.767857
+&gt;  [57] 2.982456 3.310345 3.898305 3.650000 3.098361 3.612903 3.730159 3.375000
+&gt;  [65] 3.723077 3.666667 3.522388 3.235294 3.449275 3.328571 3.619718 4.083333
+&gt;  [73] 3.424658 3.310811 3.373333 3.434211 3.532468 3.538462 3.518987 3.525000
+&gt;  [81] 3.716049 3.475610 3.530120 3.357143 3.705882 3.697674 3.804598 3.727273
+&gt;  [89] 3.089888 3.544444 3.549451 3.619565 3.462366 3.553191 3.515789 3.260417
+&gt;  [97] 3.402062 3.367347 3.565657 3.490000 3.623762 3.333333 3.398058 3.490385
+&gt; [105] 3.419048 3.547170 3.504673 3.435185 3.577982 3.390909 3.396396 3.625000
+&gt; [113] 3.283186 3.254386 3.695652 3.318966 3.401709 3.474576 3.285714 3.725000
+&gt; [121] 3.504132 3.754098 3.560976 3.653226 3.560000 3.658730 3.456693 3.476562
+&gt; [129] 3.279070 3.415385 3.519084 3.477273 3.451128 3.582090 3.362963 3.308824
+&gt; [137] 3.233577 3.623188 3.539568 3.492857 3.843972 3.366197 3.566434 3.583333
+&gt; [145] 3.682759 3.328767 3.476190 3.554054 3.651007 3.800000 3.562914 3.328947
+&gt; [153] 3.450980 3.487013 3.393548 3.352564 3.407643 3.613924 3.566038 3.506250
+&gt; [161] 3.670807 3.487654 3.374233 3.506098 3.636364 3.445783 3.473054 3.440476
+&gt; [169] 3.242604 3.711765 3.508772 3.558140 3.341040 3.264368 3.548571 3.761364
+&gt; [177] 3.491525 3.348315 3.329609 3.538889 3.464088 3.489011 3.754098 3.418478
+&gt; [185] 3.529730 3.510753 3.491979 3.436170 3.343915 3.505263 3.502618 3.453125
+&gt; [193] 3.611399 3.376289 3.558974 3.571429 3.492386 3.303030 3.472362 3.515000
+```
+
+
+]
+
+]
+
 
 ---
 
@@ -6598,6 +7252,7 @@ name: clase-7
 
 ### [Ejercicios](#ejercicios-7)
 
+
 ---
 
 class: inverse center middle
@@ -6607,7 +7262,9 @@ name: clase-8
 
 &amp;nbsp;
 
-### [Caso práctico: análisis de los datos del ISCIII](#clase8-entrega)
+### [Caso práctico: starwars (continuación)](#clase8-caso-I)
+
+### [Caso práctico: análisis de los datos covid del ISCIII](#clase8-caso-II)
 
 ---
 
