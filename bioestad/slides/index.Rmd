@@ -5068,7 +5068,7 @@ medias
 class: inverse center middle
 name: clase-7
 
-# CLASE 7: funciones y listas. Importar/exportar datos. 
+# CLASE 7: funciones y listas
 
 &nbsp;
 
@@ -5666,7 +5666,7 @@ data.frame(airquality,
 class: inverse center middle
 name: clase-8
 
-# CLASE 8: ENTREGA II
+# CLASE 8: IMPORTAR/EXPORTAR. ENTREGA II
 
 &nbsp;
 
