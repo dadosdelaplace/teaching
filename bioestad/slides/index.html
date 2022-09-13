@@ -24,7 +24,7 @@ class: center, middle, inverse, title-slide
 # GESTIÓN DE BASES DE DATOS
 ## Máster en Bioestadística
 ### Javier Álvarez Liébana (Fac. Estudios Estadísticos - UCM)
-### Última actualización: 12-09-2022
+### Última actualización: 13-09-2022
 
 ---
 
@@ -193,7 +193,10 @@ class: inverse center middle
 
 #### [CLASE 7](#clase-7)
 
-#### [ENTREGA II](#clase-8)
+#### [CLASE 8](#clase-8)
+
+#### [ENTREGA II](#clase8-caso-I)
+
 
 ]
 
@@ -676,7 +679,6 @@ Un **.bg-purple_light[script]** será el documento en el que programamos, nuestr
 
 ---
 
-# .orange[EJECUTAR] nuestros scripts
 
 Ahora tenemos una **cuarta ventana**: la ventana donde **escribiremos nuestros códigos**
 
@@ -1711,7 +1713,7 @@ hoy
 ```
 
 ```
-&gt; [1] "2022-09-12"
+&gt; [1] "2022-09-13"
 ```
 
 --
@@ -1724,7 +1726,7 @@ También podemos obtener el **.bg-purple_light[«hoy y ahora»]** con la funció
 ```
 
 ```
-&gt; [1] "2022-09-12 13:12:18 CEST"
+&gt; [1] "2022-09-13 19:32:18 CEST"
 ```
  
 ---
@@ -2108,7 +2110,7 @@ hoy - cumple
 ```
 
 ```
-&gt; Time difference of 12055 days
+&gt; Time difference of 12056 days
 ```
 
 ]
@@ -3018,9 +3020,9 @@ x &lt;- rnorm(1e3) # 1000 elementos aleatorias
 
 ```
 &gt; Unit: microseconds
-&gt;         expr    min     lq      mean   median       uq     max neval cld
-&gt;      sort(x) 89.985 97.534 120.71140 106.6925 129.0965 340.953  1000   b
-&gt;  x[order(x)] 62.812 68.195  83.95558  75.2900  88.9870 244.565  1000  a
+&gt;         expr    min     lq     mean  median      uq     max neval cld
+&gt;      sort(x) 43.480 47.235 56.61189 50.8830 59.1340 167.123  1000   b
+&gt;  x[order(x)] 30.474 33.310 39.69813 36.6985 41.3675 114.288  1000  a
 ```
 
 --
@@ -5989,7 +5991,9 @@ class: inverse center middle
 
 #### [CLASE 7](#clase-7)
 
-#### [ENTREGA II](#clase-8)
+#### [CLASE 8](#clase-8)
+
+#### [ENTREGA II](#clase8-caso-I)
 
 ---
 
@@ -6333,12 +6337,12 @@ microbenchmark(x^2,
 
 ```
 &gt; Unit: nanoseconds
-&gt;                                     expr     min      lq        mean    median
-&gt;                                      x^2     733     975    2816.999    2891.5
-&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 3578590 4130858 5423149.755 4689135.5
+&gt;                                     expr     min      lq        mean  median
+&gt;                                      x^2     381     503    1442.654    1199
+&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 1834923 2094464 2551706.125 2285274
 &gt;         uq      max neval cld
-&gt;     3774.5    22222  1000  a 
-&gt;  5874752.0 23737060  1000   b
+&gt;     2141.5    12734  1000  a 
+&gt;  2763421.0 15061196  1000   b
 ```
 
 ---
@@ -6615,7 +6619,7 @@ sample(x = 0:1, size = 2)
 ```
 
 ```
-&gt; [1] 1 0
+&gt; [1] 0 1
 ```
 
 **.bg-red_light[IMPORTANTE]**: si no indicamos nada en el vector de probabilidades `prob`, asume que son equiprobables (en este caso, `\(1/2\)` para cada cara).
@@ -6650,7 +6654,7 @@ sample(x = 0:1, size = 30, replace = TRUE)
 ```
 
 ```
-&gt;  [1] 0 0 0 1 1 0 0 0 0 1 0 0 1 0 1 0 0 1 1 0 0 0 1 0 1 0 0 0 1 1
+&gt;  [1] 1 1 0 1 1 0 0 0 0 1 0 0 0 0 0 0 1 0 1 0 1 1 1 1 0 0 1 1 1 0
 ```
 
 ---
@@ -6665,7 +6669,7 @@ sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
 ```
 
 ```
-&gt;  [1] "cruz" "cruz" "cara" "cara" "cruz" "cara" "cruz" "cara" "cara" "cruz"
+&gt;  [1] "cruz" "cruz" "cruz" "cruz" "cara" "cara" "cruz" "cara" "cruz" "cruz"
 ```
 
 --
@@ -6678,7 +6682,7 @@ sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
 ```
 
 ```
-&gt;  [1] "cara" "cruz" "cruz" "cruz" "cruz" "cara" "cara" "cara" "cruz" "cruz"
+&gt;  [1] "cruz" "cara" "cruz" "cruz" "cara" "cruz" "cara" "cruz" "cara" "cara"
 ```
 
 ---
@@ -7244,14 +7248,935 @@ name: clase-7
 
 &amp;nbsp;
 
-### [Creando nuestras propias funciones](#funciones)
-
 ### [Listas](#listas)
 
-### [Importar/exportar datos](#importar-exportar)
+### [Creando nuestras propias funciones](#funciones)
+
 
 ### [Ejercicios](#ejercicios-7)
 
+---
+
+name: listas
+
+# Último tipo de variable: .orange[LISTAS]
+
+---
+
+
+name: funciones
+
+# Creando .orange[FUNCIONES]
+
+No solo podemos usar **.bg-purple_light[funciones predeterminadas]** que vienen ya cargadas en paquetes, además podemos **.bg-purple_light[crear nuestras propias funciones]** para **automatizar tareas**.
+
+¿Cómo **.bg-purple_light[crear nuestra propia función]**? Veamos su **.bg-orange[esquema básico]**:
+
+--
+
+.pull-left[
+
+* **.bg-purple_light[Nombre]**, por ejemplo `name_fun` (sin espacios ni caracteres extraños).
+
+* Al nombre le **.bg-purple_light[asignamos la palabra reservada]** `function()`.
+
+* Definir **.bg-purple_light[argumentos de entrada]** (dentro de `function()`).
+
+* **.bg-purple_light[Cuerpo]** de la función dentro de `{ }`.
+
+* Finalizamos la función con los **.bg-purple_light[argumentos de salida]** con `return()`.
+
+]
+
+.pull-right[
+
+
+```r
+# No ejecutar --&gt; esquema conceptual
+name_fun &lt;- function(arg1, arg2, ...) {
+  
+  # Código que queramos ejecutar
+  código
+  
+  # Salida
+  return(var_salida)
+}
+```
+
+]
+
+
+---
+
+# Creando .orange[FUNCIONES]
+
+
+.pull-left[
+
+* `arg1, arg2, ...`: serán los **.bg-purple_light[argumentos de entrada]**, los argumentos que toma la función para ejecutar el código que tiene dentro
+
+* `código`: líneas de código que queramos que **.bg-purple_light[ejecute la función]**. 
+
+* `return(var_salida)`: dentro del comando `return()` se introducirán los **.bg-purple_light[argumentos de salida]**.
+
+]
+
+.pull-right[
+
+
+```r
+# No ejecutar --&gt; esquema conceptual
+name_fun &lt;- function(arg1, arg2, ...) {
+  
+  # Código que queramos ejecutar
+  código
+  
+  # Salida
+  return(var_salida)
+}
+```
+
+]
+
+&amp;nbsp;
+
+**.bg-red_light[IMPORTANTE]**: todas las variables que definamos dentro de la función son **.bg-purple_light[variables locales: solo existirán dentro de la función]** salvo que especifiquemos lo contrario.
+
+---
+
+# Creando .orange[FUNCIONES]
+
+Veamos un ejemplo muy simple de función para **.bg-purple_light[calcular el área de un rectángulo]**.
+
+--
+
+Dado que el área de un rectángulo se calcula como el **producto de sus lados**, necesitaremos precisamente eso, sus lados: esos serán los **.bg-purple_light[argumentos de entrada]** y el **.bg-purple_light[valor a devolver]** será justo su **.bg-purple_light[área]**, calculada como `\(lado_1 * lado_2\)`.
+
+--
+
+
+```r
+# Definición del nombre de función y argumentos de entrada
+calcular_area &lt;- function(lado_1, lado_2) {
+  
+  area &lt;- lado_1 * lado_2
+  
+  return(area)
+  
+}
+```
+
+---
+
+# Creando .orange[FUNCIONES]
+
+
+También podemos hacer una definición directa, sin almacenar variables por el camino
+
+
+```r
+# Definición del nombre de función y argumentos de entrada
+calcular_area &lt;- function(lado_1, lado_2) {
+  
+  return(lado_1 * lado_2)
+  
+}
+```
+
+--
+
+**.bg-purple_light[¿Cómo aplicar la función?]**
+
+
+```r
+calcular_area(5, 3) # área de un rectángulo 5 x 3 
+```
+
+```
+&gt; [1] 15
+```
+
+```r
+calcular_area(1, 5) # área de un rectángulo 1 x 5
+```
+
+```
+&gt; [1] 5
+```
+
+---
+
+# Argumentos .orange[POR DEFECTO]
+
+Imagina ahora que nos damos cuenta que el 90% de las veces usamos dicha función para **.bg-purple_light[calcular el área de un cuadrado]** (es decir, solo necesitamos un lado). Para ello, podemos definir **.bg-purple_light[argumentos por defecto]** en la función: tomarán dicho valor salvo que le asignemos otro.
+
+¿Por qué no asignar `lado_2 = lado_1` por defecto, para ahorrar líneas de código y tiempo?
+
+--
+
+
+```r
+# Definición del nombre de función y
+# argumentos de entrada por defecto lado_2 = lado_1
+calcular_area &lt;- function(lado_1, lado_2 = lado_1) {
+  
+  # Cuerpo de la función
+  area &lt;- lado_1 * lado_2
+  
+  # Resultado que devolvemos
+  return(area)
+  
+}
+```
+
+---
+
+# Argumentos .orange[POR DEFECTO]
+
+
+
+```r
+calcular_area &lt;- function(lado_1, lado_2 = lado_1) {
+  
+  # Cuerpo de la función
+  area &lt;- lado_1 * lado_2
+  
+  # Resultado que devolvemos
+  return(area)
+  
+}
+```
+
+
+Ahora **.bg-purple_light[por defecto]** el segundo lado será igual al primero (si se lo añadimos usará ambos).
+
+
+
+```r
+calcular_area(lado_1 = 5) # cuadrado
+```
+
+```
+&gt; [1] 25
+```
+
+```r
+calcular_area(lado_1 = 5, lado_2 = 7) # rectángulo
+```
+
+```
+&gt; [1] 35
+```
+
+---
+ 
+# .orange[SALIDA MÚLTIPLE]
+
+Compliquemos un poco la función y añadamos en la salida los valores de cada lado, etiquetados como `lado_1` y `lado_2`, **.bg-purple_light[empaquetando la salida en una lista]**.
+
+
+```r
+# Definición del nombre de función y argumentos de entrada
+calcular_area &lt;- function(lado_1, lado_2 = lado_1) {
+  
+  # Cuerpo de la función
+  area &lt;- lado_1 * lado_2
+  
+  # Resultado
+  return(list("area" = area, "lado_1" = lado_1, "lado_2" = lado_2))
+  
+}
+```
+
+Veamos que nos devuelve ahora
+
+
+---
+
+# .orange[SALIDA MÚLTIPLE]
+
+
+
+```r
+salida &lt;- calcular_area(5, 3)
+salida
+```
+
+```
+&gt; $area
+&gt; [1] 15
+&gt; 
+&gt; $lado_1
+&gt; [1] 5
+&gt; 
+&gt; $lado_2
+&gt; [1] 3
+```
+
+```r
+salida["area"]
+```
+
+```
+&gt; $area
+&gt; [1] 15
+```
+
+```r
+salida["lado_1"]
+```
+
+```
+&gt; $lado_1
+&gt; [1] 5
+```
+
+---
+
+# .orange[SALIDA MÚLTIPLE]
+
+Antes nos daba igual el orden de los argumentos pero ahora **.bg-purple_light[el orden de los argumentos de entrada importa]**, ya que en la salida incluimos `lado_1` y `lado_2`. 
+
+--
+
+&amp;nbsp;
+
+**.bg-green_light[CONSEJO]**: es altamente recomendable hacer la llamada a la función **.bg-purple_light[indicando explícitamente los argumentos]** para mejorar la **legibilidad e interpretabilidad**.
+
+
+```r
+# Equivalente a calcular_area(5, 3)
+calcular_area(lado_1 = 5, lado_2 = 3)
+```
+
+```
+&gt; $area
+&gt; [1] 15
+&gt; 
+&gt; $lado_1
+&gt; [1] 5
+&gt; 
+&gt; $lado_2
+&gt; [1] 3
+```
+
+---
+
+# Creando .orange[FUNCIONES]
+
+Parece una tontería lo que hemos hecho pero hemos cruzado una frontera importante: hemos pasado de **.bg-purple_light[consumir conocimiento]** (código de otros paquetes, elaborado por otros/as), a **.bg-green_light[generar conocimiento]**, creando nuestras propias funciones.
+
+&amp;nbsp;
+
+En este caso no ganaremos el Nobel por nuestro aporte, pero en un futuro… Si la Unión Europea lo ganó, hay opciones :)
+
+---
+
+# Variables .orange[LOCALES VS GLOBALES]
+
+Un aspecto importante sobre el que reflexionar con las funciones: ¿qué sucede si **.bg-purple_light[nombramos a una variable dentro]** de una función a la que se nos ha **.bg-purple_light[olvidado asignar]** un valor dentro de la misma?
+
+--
+
+Debemos ser cautos al usar funciones en `R`, ya que debido a la **.bg-purple_light[«regla lexicográfica»]**, si una variable no se define dentro de la función, `R` **.bg-purple_light[buscará dicha variable en el entorno]** de variables.
+
+
+```r
+x &lt;- 1
+funcion_ejemplo &lt;- function() {
+    
+  print(x) # No devuelve nada, solo realiza la acción 
+}
+funcion_ejemplo()
+```
+
+```
+&gt; [1] 1
+```
+
+---
+
+# Variables .orange[LOCALES VS GLOBALES]
+
+Si una variable  **.bg-purple_light[ya está definida fuera de la función (entorno global)]**, y además es usada dentro de cambiando su valor, el valor **.bg-purple_light[solo cambia dentro]** pero no en el entorno global.
+
+
+```r
+x &lt;- 1
+funcion_ejemplo &lt;- function() {
+    
+  x &lt;- 2
+  print(x) # lo que vale dentro
+}
+```
+
+
+```r
+# lo que vale dentro
+*funcion_ejemplo()
+```
+
+```
+&gt; [1] 2
+```
+
+```r
+# lo que vale fuera
+*print(x)
+```
+
+```
+&gt; [1] 1
+```
+
+---
+
+# Variables .orange[LOCALES VS GLOBALES]
+
+
+Si queremos que además de cambiar localmente lo haga **.bg-purple_light[globalmente]** deberemos usar la **.bg-purple_light[doble asignación]** (`&lt;&lt;-`).
+
+.pull-left[
+
+
+```r
+x &lt;- 1
+y &lt;- 2
+funcion_ejemplo &lt;- function() {
+  
+  # no cambia globalmente, solo localmente
+  x &lt;- 3 
+  
+  # cambia globalmente
+* y &lt;&lt;- 0
+  
+  print(x)
+  print(y)
+}
+```
+
+]
+
+.pull-right[
+
+
+```r
+funcion_ejemplo() # lo que vale dentro
+```
+
+```
+&gt; [1] 3
+&gt; [1] 0
+```
+
+```r
+x # lo que vale fuera
+```
+
+```
+&gt; [1] 1
+```
+
+```r
+y # lo que vale fuera
+```
+
+```
+&gt; [1] 0
+```
+
+]
+
+---
+
+# Creando .orange[FUNCIONES]
+
+Vamos a practicar un poco las funciones.
+
+**.bg-purple_light[Ejercicio 1]**: crea una función llamada `calculo_IMC` que, dados dos argumentos (peso y estatura en metros), devuelva el IMC de una persona.
+
+
+--
+
+&amp;nbsp;
+
+**.bg-purple_light[Ejercicio 2]**: crea una función llamada `calculo_IMC` que tenga dos argumentos de entrada (peso y estatura en metros), más otro opcional que se llame `unidades` (por defecto, `unidades = "metros"`). Desarrolla la función de forma que haga lo correcto si `unidades = "metros"` y si `unidades = "centímetros"`.
+
+--
+
+&amp;nbsp;
+
+**.bg-purple_light[Ejercicio 3]**: crea un `tibble` ficticio de 7 personas, con tres variables (nombre, peso, estatura), y aplica la función definida de forma que obtengamos una cuarta colunna con su IMC.
+
+---
+
+name: ejercicios-7
+
+# Ejercicios
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+* 📝 **Ejercicio 1**: modifica el código inferior para definir una función llamada `funcion_suma`, de forma que dados dos elementos, devuelve su suma.
+
+
+
+```r
+# Definimos función
+nombre &lt;- function(x, y) {
+  
+  # Sumamos
+  suma &lt;- # código a ejecutar
+  
+  # ¿Qué devolvemos?
+  return()
+}
+# Aplicamos la función
+suma(3, 7)
+```
+ 
+]
+
+.panel[.panel-name[Solución ej. 1]
+
+
+```r
+# Definimos función
+funcion_suma &lt;- function(x, y) {
+  
+  # Sumamos
+  suma &lt;- x + y
+  
+  # Devolvemos la salida
+  return(suma)
+}
+
+# Aplicamos la función
+funcion_suma(3, 7)
+```
+
+```
+&gt; [1] 10
+```
+
+]
+
+]
+
+---
+
+# Ejercicios
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+
+* 📝 **Ejercicio 2**: modifica el código inferior para definir una función llamada `funcion_producto`, de forma que dados dos elementos, devuelve su producto.
+ 
+
+```r
+# Definimos función
+nombre &lt;- function(x, y) {
+  
+  # Multiplicamos
+  producto &lt;- # código de la multiplicación
+  
+  # ¿Qué devolvemos?
+  return()
+}
+
+# Aplicamos la función
+producto(3, -7)
+```
+
+]
+
+.panel[.panel-name[Solución ej. 2]
+
+
+```r
+# Definimos función
+funcion_producto &lt;- function(x, y) {
+  
+  # Multiplicamos
+  producto &lt;- x * y
+  
+  # Devolvemos la salida
+  return(producto)
+}
+
+# Aplicamos la función
+funcion_producto(3, -7)
+```
+
+```
+&gt; [1] -21
+```
+
+]
+
+]
+
+
+---
+
+# Ejercicios
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+
+* 📝 **Ejercicio 3**: modifica el código inferior para definir una función llamada `funcion_producto`, de forma que dados dos elementos, devuelve su producto, pero que por defecto calcule el cuadrado (es decir, por defecto un solo argumento, y el resultado sea el número por sí mismo)
+ 
+
+```r
+# Definimos función
+nombre &lt;- function(x, y) {
+  
+  # Multiplicamos
+  producto &lt;- # código de la multiplicación
+  
+  # ¿Qué devolvemos?
+  return()
+}
+
+# Aplicamos la función solo con un argumento
+producto(3)
+
+# Aplicamos la función con dos argumentos
+producto(3, -7)
+```
+
+]
+
+.panel[.panel-name[Solución ej. 3]
+
+
+```r
+funcion_producto &lt;- function(x, y = x) {
+  
+  producto &lt;- x * y
+  return(producto)
+}
+```
+
+
+```r
+funcion_producto(3) # por defecto x = 3, y = 3
+```
+
+```
+&gt; [1] 9
+```
+
+```r
+funcion_producto(3, -7)
+```
+
+```
+&gt; [1] -21
+```
+
+]
+
+]
+
+
+---
+
+# Ejercicios
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+
+* 📝 **Ejercicio 4**:  define una función llamada `igualdad_nombres` que, dados dos nombres, nos diga si son iguales o no. Hazlo considerando importantes las mayúsculas, y sin que importen las mayúsculas. Echa un vistazo al paquete `{stringr}`.
+ 
+
+* 📝 **Ejercicio 5**:  define una función llamada `pares` que, dados dos números, nos diga si la suma de ambos es par o no.
+ 
+
+* 📝 **Ejercicio 6**: define una función llamada `pasar_a_celsius` que, dada una temperatura en Fahrenheit, la convierta a grados Celsius. Aplica la función a la columna Temp del conjunto airquality, e incorpórala al fichero en una nueva columna Temp_Celsius.
+
+]
+
+.panel[.panel-name[Solución ej. 4a]
+
+
+
+```r
+# Distinguiendo mayúsculas
+igualdad_nombres &lt;- function(persona_1, persona_2) {
+  
+  return(persona_1 == persona_2)
+}
+```
+
+
+```r
+igualdad_nombres("Javi", "javi")
+```
+
+```
+&gt; [1] FALSE
+```
+
+```r
+igualdad_nombres("Javi", "Lucía")
+```
+
+```
+&gt; [1] FALSE
+```
+
+]
+
+.panel[.panel-name[Solución ej. 4b]
+
+
+```r
+# Sin importar mayúsculas
+igualdad_nombres &lt;- function(persona_1, persona_2) {
+  
+  return(toupper(persona_1) == toupper(persona_2))
+}
+```
+
+
+```r
+igualdad_nombres("Javi", "javi")
+```
+
+```
+&gt; [1] TRUE
+```
+
+```r
+igualdad_nombres("Javi", "Lucía")
+```
+
+```
+&gt; [1] FALSE
+```
+
+]
+
+.panel[.panel-name[Solución ej. 5]
+
+
+```r
+pares &lt;- function(x, y) {
+  
+  suma &lt;- x + y
+  par &lt;- suma %% 2 == 0
+  
+  return(par)
+}
+```
+
+
+```r
+pares(1, 3) # suma 4 (par)
+```
+
+```
+&gt; [1] TRUE
+```
+
+```r
+pares(2, 7) # suma 9 (impar)
+```
+
+```
+&gt; [1] FALSE
+```
+
+]
+
+.panel[.panel-name[Solución ej. 6]
+
+
+```r
+pasar_a_celsius &lt;- function(x) {
+  x_celsius &lt;- (x - 32) * (5 / 9)
+  return(x_celsius)
+}
+```
+
+
+```r
+pasar_a_celsius(80)
+```
+
+```
+&gt; [1] 26.66667
+```
+
+```r
+data.frame(airquality,
+           "Temp_Celsius" = pasar_a_celsius(airquality$Temp))
+```
+
+```
+&gt;     Ozone Solar.R Wind Temp Month Day Temp_Celsius
+&gt; 1      41     190  7.4   67     5   1     19.44444
+&gt; 2      36     118  8.0   72     5   2     22.22222
+&gt; 3      12     149 12.6   74     5   3     23.33333
+&gt; 4      18     313 11.5   62     5   4     16.66667
+&gt; 5      NA      NA 14.3   56     5   5     13.33333
+&gt; 6      28      NA 14.9   66     5   6     18.88889
+&gt; 7      23     299  8.6   65     5   7     18.33333
+&gt; 8      19      99 13.8   59     5   8     15.00000
+&gt; 9       8      19 20.1   61     5   9     16.11111
+&gt; 10     NA     194  8.6   69     5  10     20.55556
+&gt; 11      7      NA  6.9   74     5  11     23.33333
+&gt; 12     16     256  9.7   69     5  12     20.55556
+&gt; 13     11     290  9.2   66     5  13     18.88889
+&gt; 14     14     274 10.9   68     5  14     20.00000
+&gt; 15     18      65 13.2   58     5  15     14.44444
+&gt; 16     14     334 11.5   64     5  16     17.77778
+&gt; 17     34     307 12.0   66     5  17     18.88889
+&gt; 18      6      78 18.4   57     5  18     13.88889
+&gt; 19     30     322 11.5   68     5  19     20.00000
+&gt; 20     11      44  9.7   62     5  20     16.66667
+&gt; 21      1       8  9.7   59     5  21     15.00000
+&gt; 22     11     320 16.6   73     5  22     22.77778
+&gt; 23      4      25  9.7   61     5  23     16.11111
+&gt; 24     32      92 12.0   61     5  24     16.11111
+&gt; 25     NA      66 16.6   57     5  25     13.88889
+&gt; 26     NA     266 14.9   58     5  26     14.44444
+&gt; 27     NA      NA  8.0   57     5  27     13.88889
+&gt; 28     23      13 12.0   67     5  28     19.44444
+&gt; 29     45     252 14.9   81     5  29     27.22222
+&gt; 30    115     223  5.7   79     5  30     26.11111
+&gt; 31     37     279  7.4   76     5  31     24.44444
+&gt; 32     NA     286  8.6   78     6   1     25.55556
+&gt; 33     NA     287  9.7   74     6   2     23.33333
+&gt; 34     NA     242 16.1   67     6   3     19.44444
+&gt; 35     NA     186  9.2   84     6   4     28.88889
+&gt; 36     NA     220  8.6   85     6   5     29.44444
+&gt; 37     NA     264 14.3   79     6   6     26.11111
+&gt; 38     29     127  9.7   82     6   7     27.77778
+&gt; 39     NA     273  6.9   87     6   8     30.55556
+&gt; 40     71     291 13.8   90     6   9     32.22222
+&gt; 41     39     323 11.5   87     6  10     30.55556
+&gt; 42     NA     259 10.9   93     6  11     33.88889
+&gt; 43     NA     250  9.2   92     6  12     33.33333
+&gt; 44     23     148  8.0   82     6  13     27.77778
+&gt; 45     NA     332 13.8   80     6  14     26.66667
+&gt; 46     NA     322 11.5   79     6  15     26.11111
+&gt; 47     21     191 14.9   77     6  16     25.00000
+&gt; 48     37     284 20.7   72     6  17     22.22222
+&gt; 49     20      37  9.2   65     6  18     18.33333
+&gt; 50     12     120 11.5   73     6  19     22.77778
+&gt; 51     13     137 10.3   76     6  20     24.44444
+&gt; 52     NA     150  6.3   77     6  21     25.00000
+&gt; 53     NA      59  1.7   76     6  22     24.44444
+&gt; 54     NA      91  4.6   76     6  23     24.44444
+&gt; 55     NA     250  6.3   76     6  24     24.44444
+&gt; 56     NA     135  8.0   75     6  25     23.88889
+&gt; 57     NA     127  8.0   78     6  26     25.55556
+&gt; 58     NA      47 10.3   73     6  27     22.77778
+&gt; 59     NA      98 11.5   80     6  28     26.66667
+&gt; 60     NA      31 14.9   77     6  29     25.00000
+&gt; 61     NA     138  8.0   83     6  30     28.33333
+&gt; 62    135     269  4.1   84     7   1     28.88889
+&gt; 63     49     248  9.2   85     7   2     29.44444
+&gt; 64     32     236  9.2   81     7   3     27.22222
+&gt; 65     NA     101 10.9   84     7   4     28.88889
+&gt; 66     64     175  4.6   83     7   5     28.33333
+&gt; 67     40     314 10.9   83     7   6     28.33333
+&gt; 68     77     276  5.1   88     7   7     31.11111
+&gt; 69     97     267  6.3   92     7   8     33.33333
+&gt; 70     97     272  5.7   92     7   9     33.33333
+&gt; 71     85     175  7.4   89     7  10     31.66667
+&gt; 72     NA     139  8.6   82     7  11     27.77778
+&gt; 73     10     264 14.3   73     7  12     22.77778
+&gt; 74     27     175 14.9   81     7  13     27.22222
+&gt; 75     NA     291 14.9   91     7  14     32.77778
+&gt; 76      7      48 14.3   80     7  15     26.66667
+&gt; 77     48     260  6.9   81     7  16     27.22222
+&gt; 78     35     274 10.3   82     7  17     27.77778
+&gt; 79     61     285  6.3   84     7  18     28.88889
+&gt; 80     79     187  5.1   87     7  19     30.55556
+&gt; 81     63     220 11.5   85     7  20     29.44444
+&gt; 82     16       7  6.9   74     7  21     23.33333
+&gt; 83     NA     258  9.7   81     7  22     27.22222
+&gt; 84     NA     295 11.5   82     7  23     27.77778
+&gt; 85     80     294  8.6   86     7  24     30.00000
+&gt; 86    108     223  8.0   85     7  25     29.44444
+&gt; 87     20      81  8.6   82     7  26     27.77778
+&gt; 88     52      82 12.0   86     7  27     30.00000
+&gt; 89     82     213  7.4   88     7  28     31.11111
+&gt; 90     50     275  7.4   86     7  29     30.00000
+&gt; 91     64     253  7.4   83     7  30     28.33333
+&gt; 92     59     254  9.2   81     7  31     27.22222
+&gt; 93     39      83  6.9   81     8   1     27.22222
+&gt; 94      9      24 13.8   81     8   2     27.22222
+&gt; 95     16      77  7.4   82     8   3     27.77778
+&gt; 96     78      NA  6.9   86     8   4     30.00000
+&gt; 97     35      NA  7.4   85     8   5     29.44444
+&gt; 98     66      NA  4.6   87     8   6     30.55556
+&gt; 99    122     255  4.0   89     8   7     31.66667
+&gt; 100    89     229 10.3   90     8   8     32.22222
+&gt; 101   110     207  8.0   90     8   9     32.22222
+&gt; 102    NA     222  8.6   92     8  10     33.33333
+&gt; 103    NA     137 11.5   86     8  11     30.00000
+&gt; 104    44     192 11.5   86     8  12     30.00000
+&gt; 105    28     273 11.5   82     8  13     27.77778
+&gt; 106    65     157  9.7   80     8  14     26.66667
+&gt; 107    NA      64 11.5   79     8  15     26.11111
+&gt; 108    22      71 10.3   77     8  16     25.00000
+&gt; 109    59      51  6.3   79     8  17     26.11111
+&gt; 110    23     115  7.4   76     8  18     24.44444
+&gt; 111    31     244 10.9   78     8  19     25.55556
+&gt; 112    44     190 10.3   78     8  20     25.55556
+&gt; 113    21     259 15.5   77     8  21     25.00000
+&gt; 114     9      36 14.3   72     8  22     22.22222
+&gt; 115    NA     255 12.6   75     8  23     23.88889
+&gt; 116    45     212  9.7   79     8  24     26.11111
+&gt; 117   168     238  3.4   81     8  25     27.22222
+&gt; 118    73     215  8.0   86     8  26     30.00000
+&gt; 119    NA     153  5.7   88     8  27     31.11111
+&gt; 120    76     203  9.7   97     8  28     36.11111
+&gt; 121   118     225  2.3   94     8  29     34.44444
+&gt; 122    84     237  6.3   96     8  30     35.55556
+&gt; 123    85     188  6.3   94     8  31     34.44444
+&gt; 124    96     167  6.9   91     9   1     32.77778
+&gt; 125    78     197  5.1   92     9   2     33.33333
+&gt; 126    73     183  2.8   93     9   3     33.88889
+&gt; 127    91     189  4.6   93     9   4     33.88889
+&gt; 128    47      95  7.4   87     9   5     30.55556
+&gt; 129    32      92 15.5   84     9   6     28.88889
+&gt; 130    20     252 10.9   80     9   7     26.66667
+&gt; 131    23     220 10.3   78     9   8     25.55556
+&gt; 132    21     230 10.9   75     9   9     23.88889
+&gt; 133    24     259  9.7   73     9  10     22.77778
+&gt; 134    44     236 14.9   81     9  11     27.22222
+&gt; 135    21     259 15.5   76     9  12     24.44444
+&gt; 136    28     238  6.3   77     9  13     25.00000
+&gt; 137     9      24 10.9   71     9  14     21.66667
+&gt; 138    13     112 11.5   71     9  15     21.66667
+&gt; 139    46     237  6.9   78     9  16     25.55556
+&gt; 140    18     224 13.8   67     9  17     19.44444
+&gt; 141    13      27 10.3   76     9  18     24.44444
+&gt; 142    24     238 10.3   68     9  19     20.00000
+&gt; 143    16     201  8.0   82     9  20     27.77778
+&gt; 144    13     238 12.6   64     9  21     17.77778
+&gt; 145    23      14  9.2   71     9  22     21.66667
+&gt; 146    36     139 10.3   81     9  23     27.22222
+&gt; 147     7      49 10.3   69     9  24     20.55556
+&gt; 148    14      20 16.6   63     9  25     17.22222
+&gt; 149    30     193  6.9   70     9  26     21.11111
+&gt; 150    NA     145 13.2   77     9  27     25.00000
+&gt; 151    14     191 14.3   75     9  28     23.88889
+&gt; 152    18     131  8.0   76     9  29     24.44444
+&gt; 153    20     223 11.5   68     9  30     20.00000
+```
+
+
+]
+]
 
 ---
 
@@ -7262,9 +8187,18 @@ name: clase-8
 
 &amp;nbsp;
 
-### [Caso práctico: starwars (continuación)](#clase8-caso-I)
+### [Importar/exportar datos](#importar-exportar)
 
-### [Caso práctico: análisis de los datos covid del ISCIII](#clase8-caso-II)
+### [Entrega II: starwars (continuación)](#clase8-caso-I)
+
+### [Entrega II: análisis de los datos covid del ISCIII](#clase8-caso-II)
+
+---
+
+name: importar-exportar
+
+#  .orange[IMPORTANDO] datos
+
 
 ---
 

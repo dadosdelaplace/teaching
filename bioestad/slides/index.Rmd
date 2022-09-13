@@ -250,7 +250,10 @@ class: inverse center middle
 
 #### [CLASE 7](#clase-7)
 
-#### [ENTREGA II](#clase-8)
+#### [CLASE 8](#clase-8)
+
+#### [ENTREGA II](#clase8-caso-I)
+
 
 ]
 
@@ -719,7 +722,6 @@ knitr::include_graphics("./img/inicio_rstudio_5.jpg")
 
 ---
 
-# .orange[EJECUTAR] nuestros scripts
 
 Ahora tenemos una **cuarta ventana**: la ventana donde **escribiremos nuestros códigos**
 
@@ -4139,7 +4141,9 @@ class: inverse center middle
 
 #### [CLASE 7](#clase-7)
 
-#### [ENTREGA II](#clase-8)
+#### [CLASE 8](#clase-8)
+
+#### [ENTREGA II](#clase8-caso-I)
 
 ---
 
@@ -5068,14 +5072,594 @@ name: clase-7
 
 &nbsp;
 
-### [Creando nuestras propias funciones](#funciones)
-
 ### [Listas](#listas)
 
-### [Importar/exportar datos](#importar-exportar)
+### [Creando nuestras propias funciones](#funciones)
+
 
 ### [Ejercicios](#ejercicios-7)
 
+---
+
+name: listas
+
+# Último tipo de variable: .orange[LISTAS]
+
+---
+
+
+name: funciones
+
+# Creando .orange[FUNCIONES]
+
+No solo podemos usar **.bg-purple_light[funciones predeterminadas]** que vienen ya cargadas en paquetes, además podemos **.bg-purple_light[crear nuestras propias funciones]** para **automatizar tareas**.
+
+¿Cómo **.bg-purple_light[crear nuestra propia función]**? Veamos su **.bg-orange[esquema básico]**:
+
+--
+
+.pull-left[
+
+* **.bg-purple_light[Nombre]**, por ejemplo `name_fun` (sin espacios ni caracteres extraños).
+
+* Al nombre le **.bg-purple_light[asignamos la palabra reservada]** `function()`.
+
+* Definir **.bg-purple_light[argumentos de entrada]** (dentro de `function()`).
+
+* **.bg-purple_light[Cuerpo]** de la función dentro de `{ }`.
+
+* Finalizamos la función con los **.bg-purple_light[argumentos de salida]** con `return()`.
+
+]
+
+.pull-right[
+
+```{r}
+# No ejecutar --> esquema conceptual
+name_fun <- function(arg1, arg2, ...) {
+  
+  # Código que queramos ejecutar
+  código
+  
+  # Salida
+  return(var_salida)
+}
+```
+
+]
+
+
+---
+
+# Creando .orange[FUNCIONES]
+
+
+.pull-left[
+
+* `arg1, arg2, ...`: serán los **.bg-purple_light[argumentos de entrada]**, los argumentos que toma la función para ejecutar el código que tiene dentro
+
+* `código`: líneas de código que queramos que **.bg-purple_light[ejecute la función]**. 
+
+* `return(var_salida)`: dentro del comando `return()` se introducirán los **.bg-purple_light[argumentos de salida]**.
+
+]
+
+.pull-right[
+
+```{r}
+# No ejecutar --> esquema conceptual
+name_fun <- function(arg1, arg2, ...) {
+  
+  # Código que queramos ejecutar
+  código
+  
+  # Salida
+  return(var_salida)
+}
+```
+
+]
+
+&nbsp;
+
+**.bg-red_light[IMPORTANTE]**: todas las variables que definamos dentro de la función son **.bg-purple_light[variables locales: solo existirán dentro de la función]** salvo que especifiquemos lo contrario.
+
+---
+
+# Creando .orange[FUNCIONES]
+
+Veamos un ejemplo muy simple de función para **.bg-purple_light[calcular el área de un rectángulo]**.
+
+--
+
+Dado que el área de un rectángulo se calcula como el **producto de sus lados**, necesitaremos precisamente eso, sus lados: esos serán los **.bg-purple_light[argumentos de entrada]** y el **.bg-purple_light[valor a devolver]** será justo su **.bg-purple_light[área]**, calculada como $lado_1 * lado_2$.
+
+--
+
+```{r}
+# Definición del nombre de función y argumentos de entrada
+calcular_area <- function(lado_1, lado_2) {
+  
+  area <- lado_1 * lado_2
+  
+  return(area)
+  
+}
+```
+
+---
+
+# Creando .orange[FUNCIONES]
+
+
+También podemos hacer una definición directa, sin almacenar variables por el camino
+
+```{r}
+# Definición del nombre de función y argumentos de entrada
+calcular_area <- function(lado_1, lado_2) {
+  
+  return(lado_1 * lado_2)
+  
+}
+```
+
+--
+
+**.bg-purple_light[¿Cómo aplicar la función?]**
+
+```{r}
+calcular_area(5, 3) # área de un rectángulo 5 x 3 
+calcular_area(1, 5) # área de un rectángulo 1 x 5
+```
+
+---
+
+# Argumentos .orange[POR DEFECTO]
+
+Imagina ahora que nos damos cuenta que el 90% de las veces usamos dicha función para **.bg-purple_light[calcular el área de un cuadrado]** (es decir, solo necesitamos un lado). Para ello, podemos definir **.bg-purple_light[argumentos por defecto]** en la función: tomarán dicho valor salvo que le asignemos otro.
+
+¿Por qué no asignar `lado_2 = lado_1` por defecto, para ahorrar líneas de código y tiempo?
+
+--
+
+```{r}
+# Definición del nombre de función y
+# argumentos de entrada por defecto lado_2 = lado_1
+calcular_area <- function(lado_1, lado_2 = lado_1) {
+  
+  # Cuerpo de la función
+  area <- lado_1 * lado_2
+  
+  # Resultado que devolvemos
+  return(area)
+  
+}
+```
+
+---
+
+# Argumentos .orange[POR DEFECTO]
+
+
+```{r}
+calcular_area <- function(lado_1, lado_2 = lado_1) {
+  
+  # Cuerpo de la función
+  area <- lado_1 * lado_2
+  
+  # Resultado que devolvemos
+  return(area)
+  
+}
+```
+
+
+Ahora **.bg-purple_light[por defecto]** el segundo lado será igual al primero (si se lo añadimos usará ambos).
+
+
+```{r}
+calcular_area(lado_1 = 5) # cuadrado
+calcular_area(lado_1 = 5, lado_2 = 7) # rectángulo
+```
+
+---
+ 
+# .orange[SALIDA MÚLTIPLE]
+
+Compliquemos un poco la función y añadamos en la salida los valores de cada lado, etiquetados como `lado_1` y `lado_2`, **.bg-purple_light[empaquetando la salida en una lista]**.
+
+```{r}
+# Definición del nombre de función y argumentos de entrada
+calcular_area <- function(lado_1, lado_2 = lado_1) {
+  
+  # Cuerpo de la función
+  area <- lado_1 * lado_2
+  
+  # Resultado
+  return(list("area" = area, "lado_1" = lado_1, "lado_2" = lado_2))
+  
+}
+```
+
+Veamos que nos devuelve ahora
+
+
+---
+
+# .orange[SALIDA MÚLTIPLE]
+
+
+```{r}
+salida <- calcular_area(5, 3)
+salida
+salida["area"]
+salida["lado_1"]
+```
+
+---
+
+# .orange[SALIDA MÚLTIPLE]
+
+Antes nos daba igual el orden de los argumentos pero ahora **.bg-purple_light[el orden de los argumentos de entrada importa]**, ya que en la salida incluimos `lado_1` y `lado_2`. 
+
+--
+
+&nbsp;
+
+**.bg-green_light[CONSEJO]**: es altamente recomendable hacer la llamada a la función **.bg-purple_light[indicando explícitamente los argumentos]** para mejorar la **legibilidad e interpretabilidad**.
+
+```{r}
+# Equivalente a calcular_area(5, 3)
+calcular_area(lado_1 = 5, lado_2 = 3)
+```
+
+---
+
+# Creando .orange[FUNCIONES]
+
+Parece una tontería lo que hemos hecho pero hemos cruzado una frontera importante: hemos pasado de **.bg-purple_light[consumir conocimiento]** (código de otros paquetes, elaborado por otros/as), a **.bg-green_light[generar conocimiento]**, creando nuestras propias funciones.
+
+&nbsp;
+
+En este caso no ganaremos el Nobel por nuestro aporte, pero en un futuro… Si la Unión Europea lo ganó, hay opciones :)
+
+---
+
+# Variables .orange[LOCALES VS GLOBALES]
+
+Un aspecto importante sobre el que reflexionar con las funciones: ¿qué sucede si **.bg-purple_light[nombramos a una variable dentro]** de una función a la que se nos ha **.bg-purple_light[olvidado asignar]** un valor dentro de la misma?
+
+--
+
+Debemos ser cautos al usar funciones en `R`, ya que debido a la **.bg-purple_light[«regla lexicográfica»]**, si una variable no se define dentro de la función, `R` **.bg-purple_light[buscará dicha variable en el entorno]** de variables.
+
+```{r}
+x <- 1
+funcion_ejemplo <- function() {
+    
+  print(x) # No devuelve nada, solo realiza la acción 
+}
+funcion_ejemplo()
+```
+
+---
+
+# Variables .orange[LOCALES VS GLOBALES]
+
+Si una variable  **.bg-purple_light[ya está definida fuera de la función (entorno global)]**, y además es usada dentro de cambiando su valor, el valor **.bg-purple_light[solo cambia dentro]** pero no en el entorno global.
+
+```{r}
+x <- 1
+funcion_ejemplo <- function() {
+    
+  x <- 2
+  print(x) # lo que vale dentro
+}
+```
+
+```{r}
+# lo que vale dentro
+funcion_ejemplo() #<<
+# lo que vale fuera
+print(x) #<<
+```
+
+---
+
+# Variables .orange[LOCALES VS GLOBALES]
+
+
+Si queremos que además de cambiar localmente lo haga **.bg-purple_light[globalmente]** deberemos usar la **.bg-purple_light[doble asignación]** (`<<-`).
+
+.pull-left[
+
+```{r}
+x <- 1
+y <- 2
+funcion_ejemplo <- function() {
+  
+  # no cambia globalmente, solo localmente
+  x <- 3 
+  
+  # cambia globalmente
+  y <<- 0 #<<
+  
+  print(x)
+  print(y)
+}
+```
+
+]
+
+.pull-right[
+
+```{r}
+funcion_ejemplo() # lo que vale dentro
+x # lo que vale fuera
+y # lo que vale fuera
+```
+
+]
+
+---
+
+# Creando .orange[FUNCIONES]
+
+Vamos a practicar un poco las funciones.
+
+**.bg-purple_light[Ejercicio 1]**: crea una función llamada `calculo_IMC` que, dados dos argumentos (peso y estatura en metros), devuelva el IMC de una persona.
+
+
+--
+
+&nbsp;
+
+**.bg-purple_light[Ejercicio 2]**: crea una función llamada `calculo_IMC` que tenga dos argumentos de entrada (peso y estatura en metros), más otro opcional que se llame `unidades` (por defecto, `unidades = "metros"`). Desarrolla la función de forma que haga lo correcto si `unidades = "metros"` y si `unidades = "centímetros"`.
+
+--
+
+&nbsp;
+
+**.bg-purple_light[Ejercicio 3]**: crea un `tibble` ficticio de 7 personas, con tres variables (nombre, peso, estatura), y aplica la función definida de forma que obtengamos una cuarta colunna con su IMC.
+
+---
+
+name: ejercicios-7
+
+# Ejercicios
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+* 📝 **Ejercicio 1**: modifica el código inferior para definir una función llamada `funcion_suma`, de forma que dados dos elementos, devuelve su suma.
+
+
+```{r eval = FALSE}
+# Definimos función
+nombre <- function(x, y) {
+  
+  # Sumamos
+  suma <- # código a ejecutar
+  
+  # ¿Qué devolvemos?
+  return()
+}
+# Aplicamos la función
+suma(3, 7)
+```
+ 
+]
+
+.panel[.panel-name[Solución ej. 1]
+
+```{r}
+# Definimos función
+funcion_suma <- function(x, y) {
+  
+  # Sumamos
+  suma <- x + y
+  
+  # Devolvemos la salida
+  return(suma)
+}
+
+# Aplicamos la función
+funcion_suma(3, 7)
+```
+
+]
+
+]
+
+---
+
+# Ejercicios
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+
+* 📝 **Ejercicio 2**: modifica el código inferior para definir una función llamada `funcion_producto`, de forma que dados dos elementos, devuelve su producto.
+ 
+```{r eval = FALSE}
+# Definimos función
+nombre <- function(x, y) {
+  
+  # Multiplicamos
+  producto <- # código de la multiplicación
+  
+  # ¿Qué devolvemos?
+  return()
+}
+
+# Aplicamos la función
+producto(3, -7)
+```
+
+]
+
+.panel[.panel-name[Solución ej. 2]
+
+```{r}
+# Definimos función
+funcion_producto <- function(x, y) {
+  
+  # Multiplicamos
+  producto <- x * y
+  
+  # Devolvemos la salida
+  return(producto)
+}
+
+# Aplicamos la función
+funcion_producto(3, -7)
+```
+
+]
+
+]
+
+
+---
+
+# Ejercicios
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+
+* 📝 **Ejercicio 3**: modifica el código inferior para definir una función llamada `funcion_producto`, de forma que dados dos elementos, devuelve su producto, pero que por defecto calcule el cuadrado (es decir, por defecto un solo argumento, y el resultado sea el número por sí mismo)
+ 
+```{r eval = FALSE}
+# Definimos función
+nombre <- function(x, y) {
+  
+  # Multiplicamos
+  producto <- # código de la multiplicación
+  
+  # ¿Qué devolvemos?
+  return()
+}
+
+# Aplicamos la función solo con un argumento
+producto(3)
+
+# Aplicamos la función con dos argumentos
+producto(3, -7)
+```
+
+]
+
+.panel[.panel-name[Solución ej. 3]
+
+```{r}
+funcion_producto <- function(x, y = x) {
+  
+  producto <- x * y
+  return(producto)
+}
+```
+
+```{r}
+funcion_producto(3) # por defecto x = 3, y = 3
+funcion_producto(3, -7)
+```
+
+]
+
+]
+
+
+---
+
+# Ejercicios
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+
+* 📝 **Ejercicio 4**:  define una función llamada `igualdad_nombres` que, dados dos nombres, nos diga si son iguales o no. Hazlo considerando importantes las mayúsculas, y sin que importen las mayúsculas. Echa un vistazo al paquete `{stringr}`.
+ 
+
+* 📝 **Ejercicio 5**:  define una función llamada `pares` que, dados dos números, nos diga si la suma de ambos es par o no.
+ 
+
+* 📝 **Ejercicio 6**: define una función llamada `pasar_a_celsius` que, dada una temperatura en Fahrenheit, la convierta a grados Celsius. Aplica la función a la columna Temp del conjunto airquality, e incorpórala al fichero en una nueva columna Temp_Celsius.
+
+]
+
+.panel[.panel-name[Solución ej. 4a]
+
+
+```{r}
+# Distinguiendo mayúsculas
+igualdad_nombres <- function(persona_1, persona_2) {
+  
+  return(persona_1 == persona_2)
+}
+```
+
+```{r}
+igualdad_nombres("Javi", "javi")
+igualdad_nombres("Javi", "Lucía")
+```
+
+]
+
+.panel[.panel-name[Solución ej. 4b]
+
+```{r}
+# Sin importar mayúsculas
+igualdad_nombres <- function(persona_1, persona_2) {
+  
+  return(toupper(persona_1) == toupper(persona_2))
+}
+```
+
+```{r}
+igualdad_nombres("Javi", "javi")
+igualdad_nombres("Javi", "Lucía")
+``` 
+
+]
+
+.panel[.panel-name[Solución ej. 5]
+
+```{r}
+pares <- function(x, y) {
+  
+  suma <- x + y
+  par <- suma %% 2 == 0
+  
+  return(par)
+}
+```
+
+```{r}
+pares(1, 3) # suma 4 (par)
+pares(2, 7) # suma 9 (impar)
+```
+
+]
+
+.panel[.panel-name[Solución ej. 6]
+
+```{r}
+pasar_a_celsius <- function(x) {
+  x_celsius <- (x - 32) * (5 / 9)
+  return(x_celsius)
+}
+```
+
+```{r}
+pasar_a_celsius(80)
+data.frame(airquality,
+           "Temp_Celsius" = pasar_a_celsius(airquality$Temp))
+```
+
+
+]
+]
 
 ---
 
@@ -5086,9 +5670,18 @@ name: clase-8
 
 &nbsp;
 
-### [Caso práctico: starwars (continuación)](#clase8-caso-I)
+### [Importar/exportar datos](#importar-exportar)
 
-### [Caso práctico: análisis de los datos covid del ISCIII](#clase8-caso-II)
+### [Entrega II: starwars (continuación)](#clase8-caso-I)
+
+### [Entrega II: análisis de los datos covid del ISCIII](#clase8-caso-II)
+
+---
+
+name: importar-exportar
+
+#  .orange[IMPORTANDO] datos
+
 
 ---
 
