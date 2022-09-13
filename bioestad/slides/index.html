@@ -1102,12 +1102,12 @@ Con dicho paquete podemos **.bg-purple_light[usar variables dentro de cadenas]**
 
 
 ```r
-edad &lt;- 32
+edad &lt;- 33
 *glue("La edad es de {edad} años")
 ```
 
 ```
-&gt; La edad es de 32 años
+&gt; La edad es de 33 años
 ```
 
 Dentro de las llaves también podemos ejecutar operaciones
@@ -1119,7 +1119,7 @@ unidades &lt;- "días"
 ```
 
 ```
-&gt; La edad es de 11680 días
+&gt; La edad es de 12045 días
 ```
 
 ---
@@ -1137,12 +1137,12 @@ La forma más sencilla es con el comando `c()` (c de concatenar), y basta con in
 
 
 ```r
-*edades &lt;- c(32, 27, 60, 61)
+*edades &lt;- c(33, 27, 60, 61)
 edades
 ```
 
 ```
-&gt; [1] 32 27 60 61
+&gt; [1] 33 27 60 61
 ```
 
 
@@ -1167,7 +1167,7 @@ edades
 ```
 
 ```
-&gt; [1] 32 27 60 61
+&gt; [1] 33 27 60 61
 ```
 
 ]
@@ -1205,7 +1205,7 @@ c(edades, edades, 8)
 ```
 
 ```
-&gt; [1] 32 27 60 61 32 27 60 61  8
+&gt; [1] 33 27 60 61 33 27 60 61  8
 ```
 
 ]
@@ -1726,7 +1726,7 @@ También podemos obtener el **.bg-purple_light[«hoy y ahora»]** con la funció
 ```
 
 ```
-&gt; [1] "2022-09-13 19:38:28 CEST"
+&gt; [1] "2022-09-13 22:14:23 CEST"
 ```
  
 ---
@@ -1903,12 +1903,12 @@ name: ejercicios2
 
 ```r
 # variable numérica
-edad &lt;- 32
+edad &lt;- 33
 edad
 ```
 
 ```
-&gt; [1] 32
+&gt; [1] 33
 ```
 
 ```r
@@ -2158,12 +2158,12 @@ vector_num
 
 ```r
 nombre &lt;- "Javi"
-edad &lt;- 32
+edad &lt;- 33
 glue("Hola, me llamo {nombre} y tengo {edad} años")
 ```
 
 ```
-&gt; Hola, me llamo Javi y tengo 32 años
+&gt; Hola, me llamo Javi y tengo 33 años
 ```
 ]
 
@@ -2672,14 +2672,14 @@ Otra operación muy habitual es la **.bg-purple_light[extraer un subconjunto del
 
 
 ```r
-edades &lt;- c(20, 30, 32, NA, 61)
+edades &lt;- c(20, 30, 33, NA, 61)
 
 # accedemos a la edad de la tercera persona en la lista
 *edades[3]
 ```
 
 ```
-&gt; [1] 32
+&gt; [1] 33
 ```
 
 ```r
@@ -2704,7 +2704,7 @@ Un número no es más que un vector de longitud uno, así que esta operación ta
 ```
 
 ```
-&gt; [1] 32 NA
+&gt; [1] 33 NA
 ```
 
 --
@@ -2956,14 +2956,14 @@ Una acción también habitual al trabajar con datos es saber **.bg-purple_light[
 
 
 ```r
-edades &lt;- c(81, 7, 25, 41, 65, 20, 32, 23, 77)
+edades &lt;- c(81, 7, 25, 41, 65, 20, 33, 23, 77)
 
 # orden de joven a mayor
 *sort(edades)
 ```
 
 ```
-&gt; [1]  7 20 23 25 32 41 65 77 81
+&gt; [1]  7 20 23 25 33 41 65 77 81
 ```
 
 --
@@ -2977,7 +2977,7 @@ Por defecto, `sort()` ordena de menor a mayor. Con el argumento opcional `decrea
 ```
 
 ```
-&gt; [1]  7 20 23 25 32 41 65 77 81
+&gt; [1]  7 20 23 25 33 41 65 77 81
 ```
 
 ---
@@ -3020,9 +3020,9 @@ x &lt;- rnorm(1e3) # 1000 elementos aleatorias
 
 ```
 &gt; Unit: microseconds
-&gt;         expr    min      lq     mean  median      uq     max neval cld
-&gt;      sort(x) 40.998 44.4345 57.64952 47.1680 60.3115 306.500  1000   b
-&gt;  x[order(x)] 28.479 31.4560 39.50760 33.1905 40.9920 186.057  1000  a
+&gt;         expr    min      lq     mean  median     uq     max neval cld
+&gt;      sort(x) 42.352 45.1735 53.74295 48.0170 55.307 171.769  1000   b
+&gt;  x[order(x)] 29.432 31.8600 38.51196 33.4525 38.965 175.218  1000  a
 ```
 
 --
@@ -6337,12 +6337,12 @@ microbenchmark(x^2,
 
 ```
 &gt; Unit: nanoseconds
-&gt;                                     expr     min      lq        mean  median
-&gt;                                      x^2     342     451    1232.784    1054
-&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 1657620 1799192 2103996.626 1899328
+&gt;                                     expr     min      lq       mean  median
+&gt;                                      x^2     346     454    1189.28    1068
+&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 1671402 1834745 2182945.27 1971757
 &gt;       uq      max neval cld
-&gt;     1716    27695  1000  a 
-&gt;  2209054 14226910  1000   b
+&gt;     1798    20776  1000  a 
+&gt;  2315642 17300263  1000   b
 ```
 
 ---
@@ -6355,7 +6355,7 @@ Veamos otro ejemplo **.bg-purple_light[combinando vectores numéricos y de carac
 
 ```r
 nombres &lt;- c("Javi", "Laura", "Carlos", "Lucía", "Mar")
-edades &lt;- c(32, 51, 18, 43, 29)
+edades &lt;- c(33, 51, 18, 43, 29)
 
 # Recorremos cada uno de los 5 elementos e imprimimos un
 # mensaje que depende de ese índice i
@@ -6367,7 +6367,7 @@ for (i in 1:5) {
 ```
 
 ```
-&gt; Javi tiene 32 años
+&gt; Javi tiene 33 años
 &gt; Laura tiene 51 años
 &gt; Carlos tiene 18 años
 &gt; Lucía tiene 43 años
@@ -6390,7 +6390,7 @@ for (i in 1:length(nombres)) {
 ```
 
 ```
-&gt; Javi tiene 32 años
+&gt; Javi tiene 33 años
 &gt; Laura tiene 51 años
 &gt; Carlos tiene 18 años
 &gt; Lucía tiene 43 años
@@ -6619,7 +6619,7 @@ sample(x = 0:1, size = 2)
 ```
 
 ```
-&gt; [1] 0 1
+&gt; [1] 1 0
 ```
 
 **.bg-red_light[IMPORTANTE]**: si no indicamos nada en el vector de probabilidades `prob`, asume que son equiprobables (en este caso, `\(1/2\)` para cada cara).
@@ -6654,7 +6654,7 @@ sample(x = 0:1, size = 30, replace = TRUE)
 ```
 
 ```
-&gt;  [1] 1 1 1 1 0 0 0 0 1 1 0 1 0 0 0 1 1 0 1 1 1 1 0 1 0 0 1 1 1 0
+&gt;  [1] 0 0 0 0 0 0 1 1 0 0 1 0 1 0 1 1 0 0 0 0 1 0 1 1 1 1 0 0 0 0
 ```
 
 ---
@@ -6669,7 +6669,7 @@ sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
 ```
 
 ```
-&gt;  [1] "cara" "cara" "cara" "cara" "cruz" "cruz" "cruz" "cara" "cara" "cara"
+&gt;  [1] "cruz" "cruz" "cruz" "cruz" "cruz" "cara" "cruz" "cruz" "cruz" "cruz"
 ```
 
 --
@@ -6682,7 +6682,7 @@ sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
 ```
 
 ```
-&gt;  [1] "cara" "cara" "cara" "cruz" "cara" "cruz" "cruz" "cruz" "cruz" "cara"
+&gt;  [1] "cara" "cruz" "cruz" "cruz" "cruz" "cara" "cara" "cara" "cara" "cara"
 ```
 
 ---

@@ -1050,7 +1050,7 @@ library(glue) # solo la 1ª vez install.packages("glue")
 Con dicho paquete podemos **.bg-purple_light[usar variables dentro de cadenas]** de texto. Por ejemplo, la frase «la edad es de ... años», donde la edad concreta la tenemos guardada en una variable.
 
 ```{r}
-edad <- 32
+edad <- 33
 glue("La edad es de {edad} años") #<<
 ```
 
@@ -1075,7 +1075,7 @@ Hasta ahora solo hemos operado con el contenido de las **celdas**, pero cuando t
 La forma más sencilla es con el comando `c()` (c de concatenar), y basta con introducir sus **elementos entre paréntesis y separados por comas** (por ejemplo, la edad de 4 personas).
 
 ```{r}
-edades <- c(32, 27, 60, 61) #<<
+edades <- c(33, 27, 60, 61) #<<
 edades
 ```
 
@@ -1548,7 +1548,7 @@ name: ejercicios2
 
 ```{r}
 # variable numérica
-edad <- 32
+edad <- 33
 edad
 
 # variable de tipo texto
@@ -1706,7 +1706,7 @@ vector_num
 
 ```{r}
 nombre <- "Javi"
-edad <- 32
+edad <- 33
 glue("Hola, me llamo {nombre} y tengo {edad} años")
 ```
 ]
@@ -2054,7 +2054,7 @@ is.nan(x)
 Otra operación muy habitual es la **.bg-purple_light[extraer un subconjunto del mismo]**. La forma más sencilla es **usar el operador de selección** `[i]` para **acceder al elemento i-ésimo**
 
 ```{r}
-edades <- c(20, 30, 32, NA, 61)
+edades <- c(20, 30, 33, NA, 61)
 
 # accedemos a la edad de la tercera persona en la lista
 edades[3] #<<
@@ -2222,7 +2222,7 @@ Con la función `names()` podemos, no solo **.bg-purple_light[consultar los nomb
 Una acción también habitual al trabajar con datos es saber **.bg-purple_light[ordenarlos]**: de menor a mayor edad, datos más recientes vs antiguos, etc. Para ello tenemos la función `sort()`, que podemos usar directamente para ordenar de **menor a mayor**.
 
 ```{r}
-edades <- c(81, 7, 25, 41, 65, 20, 32, 23, 77)
+edades <- c(81, 7, 25, 41, 65, 20, 33, 23, 77)
 
 # orden de joven a mayor
 sort(edades) #<<
@@ -4427,7 +4427,7 @@ Veamos otro ejemplo **.bg-purple_light[combinando vectores numéricos y de carac
 
 ```{r}
 nombres <- c("Javi", "Laura", "Carlos", "Lucía", "Mar")
-edades <- c(32, 51, 18, 43, 29)
+edades <- c(33, 51, 18, 43, 29)
 
 # Recorremos cada uno de los 5 elementos e imprimimos un
 # mensaje que depende de ese índice i
