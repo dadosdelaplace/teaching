@@ -24,7 +24,7 @@ class: center, middle, inverse, title-slide
 # GESTIÓN DE BASES DE DATOS
 ## Máster en Bioestadística
 ### Javier Álvarez Liébana (Fac. Estudios Estadísticos - UCM)
-### Última actualización: 13-09-2022
+### Última actualización: 15-09-2022
 
 ---
 
@@ -1713,7 +1713,7 @@ hoy
 ```
 
 ```
-&gt; [1] "2022-09-13"
+&gt; [1] "2022-09-15"
 ```
 
 --
@@ -1726,7 +1726,7 @@ También podemos obtener el **.bg-purple_light[«hoy y ahora»]** con la funció
 ```
 
 ```
-&gt; [1] "2022-09-13 22:14:23 CEST"
+&gt; [1] "2022-09-15 17:28:43 CEST"
 ```
  
 ---
@@ -2110,7 +2110,7 @@ hoy - cumple
 ```
 
 ```
-&gt; Time difference of 12056 days
+&gt; Time difference of 12058 days
 ```
 
 ]
@@ -2240,7 +2240,7 @@ wday(cumple, week_start = 1, label = TRUE)
 class: inverse center middle
 name: clase-3
 
-# CLASE 3: operaciones con vectores y matrices
+# CLASE 3: primeros datos
 
 &amp;nbsp;
 
@@ -2251,6 +2251,10 @@ name: clase-3
 ### [Matrices](#matrices)
 
 ### [Ejercicios matrices](#ejercicios-matrices)
+
+### [data.frame y tibble](#data.frame)
+
+### [Ejercicios datasets](#ejercicios-tibble)
 
 ---
 
@@ -3020,9 +3024,9 @@ x &lt;- rnorm(1e3) # 1000 elementos aleatorias
 
 ```
 &gt; Unit: microseconds
-&gt;         expr    min      lq     mean  median     uq     max neval cld
-&gt;      sort(x) 42.352 45.1735 53.74295 48.0170 55.307 171.769  1000   b
-&gt;  x[order(x)] 29.432 31.8600 38.51196 33.4525 38.965 175.218  1000  a
+&gt;         expr    min      lq     mean median      uq     max neval cld
+&gt;      sort(x) 42.140 46.4975 54.41902 49.672 55.8345 232.770  1000   b
+&gt;  x[order(x)] 28.923 32.4485 38.21382 35.293 38.8070 162.665  1000  a
 ```
 
 --
@@ -4156,23 +4160,6 @@ apply(matriz, MARGIN = 1, FUN = "sum")
 ]
 
 ]
-
----
-
-class: inverse center middle
-name: clase-4
-
-# CLASE 4: primeros datos
-
-&amp;nbsp;
-
-### [data.frame](#data.frame)
-
-### [tibble](#tibble)
-
-### [Ejercicios](#ejercicios-tibble)
-
-### [informes/apuntes: rmarkdown](#rmd)
 
 
 ---
@@ -5456,6 +5443,1272 @@ dim(gapminder)
 
 ---
 
+class: inverse center middle
+name: clase-4
+
+# CLASE 4: ESTRUCTURAS DE CONTROL. RMD
+
+&amp;nbsp;
+
+### [Estructuras condicionales: if-else](#estructuras-condicionales)
+
+### [Bucles: for, while](#bucles)
+
+### [Replicate. Sample](#replicate)
+
+### [Ejercicios](#ejercicios-4)
+
+
+---
+
+name: estructuras-condicionales
+
+# Estructuras de control: .orange[IF-ELSE]
+
+
+Una **.bg-purple_light[expresión de control]** será un conjunto de órdenes que nos permiten **.bg-purple_light[decidir el camino]** por el que queremos que avance nuestro código:
+
+* ¿Qué hacemos si sucede A?
+
+* ¿Y si sucede B?
+
+* ¿Tengo que programar X veces lo mismo si quiere que se repita?
+
+&amp;nbsp;
+
+Si has programado en algún otro lenguaje, estarás familiarizado/a con **.bg-purple_light[estructuras condicionales]** como un `if (blabla) {...} else {...}` (que los usaremos a veces) o **.bg-purple_light[bucles]** `for/while` (que intentaremos evitarlos lo máximo posible).
+
+---
+
+# Estructuras de control: .orange[IF]
+
+Una de las estructuras de control más famosas de cualquier lenguaje de programación es la **.bg-purple_light[estructura condicional]** `if`
+
+&gt; SI las condiciones impuestas se cumplen (TRUE), ejecuta las órdenes que tengamos dentro de la misma.
+
+Por ejemplo, la estructura `if (x == 1) { código A }` lo que hará será **.bg-purple_light[ejecutar el código entre llaves]** pero **.bg-orange[SI Y SOLO SI]** la **.bg-purple_light[condición es cierta]** (en este caso, solo si `x` es igual 1). En **caso contrario, no hace nada**.
+
+--
+
+Definamos por ejemplo una variable sencilla, las edades de 8 personas y comprobemos cuales son menores de edad.
+
+
+```r
+edades &lt;- c(14, 17, 24, 56, 31, 20, 87, 73)
+edades &lt; 18
+```
+
+```
+&gt; [1]  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE
+```
+
+---
+
+# Estructuras de control: .orange[IF]
+
+
+Recuerda que con las funciones `any()` y `all()` podemos saber si **.bg-purple_light[todos o alguno de los elementos]** de un vector cumplen una condición.
+
+
+```r
+any(edades &lt; 18) # existe algun menor de edad
+```
+
+```
+&gt; [1] TRUE
+```
+
+--
+
+Con dichos elementos vamos a construir nuestra primera estructura condicional: queremos que, **.bg-purple_light[SI existe algún menor de edad, nos imprima un mensaje]**.
+
+
+```r
+if (any(edades &lt; 18)) { 
+  
+  print("existe alguna persona mayor de edad")
+  
+}
+```
+
+```
+&gt; [1] "existe alguna persona mayor de edad"
+```
+
+---
+
+# Estructuras de control: .orange[IF]
+
+
+```r
+if (any(edades &lt; 18)) { 
+  
+  print("existe alguna persona mayor de edad")
+  
+}
+```
+
+
+En caso de que **.bg-purple_light[no se cumplan las condiciones]** dentro del `if()` (FALSE), no sucederá nada. 
+
+
+
+```r
+if (all(edades &gt;= 18)) { 
+  
+  print("todas las personas son mayores de edad")
+  
+}
+```
+
+Fíjate que en este caso **no hemos obtenido ningún mensaje** porque la condición `all(edades &gt;= 18)` no es cierta (no son todos mayores de 18 años), así que **no ha ejecutado el código**.
+
+---
+
+# Estructuras de control: .orange[IF-ELSE]
+
+La estructura `if (condicion) { }` puede ser combinada con un `else { }`: cuando la **.bg-purple_light[condición no se cumpla]** (como en el último ejemplo), se **.bg-purple_light[ejecutará el código alternativo]** que haya dentro del `else { }`, permitiéndonos decidir que sucede cuando SÍ se cumple y cuando NO se cumple.
+
+--
+
+Por ejemplo, la estructura `if (x == 1) { código A } else { código B }` ejecutará A si `x` es 1 y B en cualquier otro caso.
+
+
+```r
+if (all(edades &gt;= 18)) { 
+  
+  print("todas las personas son mayores de edad")
+  
+*} else {
+  
+  print("existe alguna persona menor de edad")
+}
+```
+
+```
+&gt; [1] "existe alguna persona menor de edad"
+```
+
+---
+
+# Estructuras de control: .orange[IF-ELSE]
+
+Dicha estructura `if - else` puede **.bg-purple_light[anidarse]**: imagina que queremos realizar una acción si todos fuesen mayores de edad; en caso contrario, pero si todos los menores tienen 16 años o más, realizar otra acción; en caso contrario, otra acción
+
+
+```r
+if (all(edades &gt;= 18)) { 
+  
+  print("todas las personas son mayores de edad")
+  
+} else if (all(edades &gt;= 16)) {
+  
+  print("Existe alguna persona menor de edad pero todos con 16 años o más")
+  
+} else { print("Existe alguna persona menor de 16 años") }
+```
+
+```
+&gt; [1] "Existe alguna persona menor de 16 años"
+```
+
+**.bg-green_light[CONSEJO]**: puedes **colapsar las estructuras de control** pulsando en la flecha que aparece a la izquierda de ellas en tu script.
+
+
+---
+
+# Estructuras de control: .orange[IFELSE()]
+
+
+Esta estructura condicional puede ser **.bg-purple_light[vectorizada]**: reunir en una sola fila un número elevado de estructuras de comparación con la función `ifelse()`, cuyos argumentos de entrada serán
+
+* la condición a evaluar
+* lo que sucede cuando se cumple
+* lo que sucede cuando no se cumple
+
+Con el ejemplo de las edades, vamos a dejar el dato ausente si son menores de edad, y si son mayores de edad se queda como está.
+
+
+```r
+# NA si no cumple la condición, la edad si se cumple.
+*ifelse(edades &gt;= 18, edades, NA)
+```
+
+```
+&gt; [1] NA NA 24 56 31 20 87 73
+```
+
+---
+
+# Estructuras de control: .orange[IFELSE()]
+
+
+Todas estas estructuras **.bg-purple_light[no solo sirven para datos numéricos]**. Vamos a definir un vector de nombres con algunos ausentes, y vamos a sustituir los ausentes por el texto `"nombre_desconocido"` (los que no sean ausentes, es decir los que `is.na()` devuelva FALSE, se quedan como están).
+
+
+```r
+nombres &lt;- c("Juan", "María", NA, NA, "Lucía",
+             "Carmen", "Javier", NA, "Carlos", 
+             NA, "Gregorio", "Paloma")
+
+# Si tiene ausente --&gt; "nombre_desconocido"
+# Si no tiene ausente --&gt; nombres originales
+nombres &lt;-
+  ifelse(is.na(nombres), "nombre_desconocido", nombres)
+nombres
+```
+
+```
+&gt;  [1] "Juan"               "María"              "nombre_desconocido"
+&gt;  [4] "nombre_desconocido" "Lucía"              "Carmen"            
+&gt;  [7] "Javier"             "nombre_desconocido" "Carlos"            
+&gt; [10] "nombre_desconocido" "Gregorio"           "Paloma"
+```
+
+---
+
+name: bucles
+
+# Estructuras de control: .orange[BUCLES]
+
+Aunque la mayoría de veces son sustituibles por otras expresiones más legibles y eficientes, es importante que conozcamos otra archiconocida expresion de control: **.bg-purple_light[los bucles]**.
+
+* `for { }`: permite **.bg-purple_light[repetir el mismo código]** un **.bg-orange[número fijo y conocido]** de veces (normalmente en función de un índice).
+
+* `while { }`: permite **.bg-purple_light[repetir el mismo código]** un **.bg-orange[número indeterminado de veces]**, hasta que una **condición** dada se deje de cumplir.
+
+---
+
+# Estructuras de control: .orange[BUCLES FOR]
+
+Un **.bg-purple_light[bucle for]** es una estructura que nos permite **.bg-purple_light[repetir]** un conjunto de órdenes un **.bg-orange[número finito y conocido]** de veces: dado un **conjunto de índices**, el bucle irá recorriendo cada uno de ellos.
+
+Vamos a definir un vector `x`. Si quisiéramos el primer elemento al cuadrado escribiríamos `x[1]^2`; si quisiéramos el segundo elemento al cuadrado `x[2]^2`; si lo quisiéramos hacer en general, para el elemento i-ésimo, `x[i]^2`. Lo que haremos dentro del `for (indices) { órdenes }` es indicarle que valores irá tomando `i` (**.bg-purple_light[vector de índices]**).
+
+
+```r
+x &lt;- c(0, -7, 1, 4)
+*for (i in 1:4) {
+  
+  print(x[i]^2) # órdenes
+  
+}
+```
+
+```
+&gt; [1] 0
+&gt; [1] 49
+&gt; [1] 1
+&gt; [1] 16
+```
+
+---
+
+# Estructuras de control: .orange[BUCLES FOR]
+
+
+```r
+*for (i in 1:4) {
+  print(x[i]^2) # órdenes
+}
+```
+
+Lo que tenemos dentro de los paréntesis `for ()` no es más que la **.bg-purple_light[secuencia de números]** que hemos aprendido a construir. Si quisiéramos que haga lo mismo pero excluyendo por ejemplo el segundo elemento bastaría con definir los índices a recorrer como `c(1, 3, 4)`.
+
+
+```r
+for (i in c(1, 3, 4)) {
+  
+  print(x[i]^2) # que lo imprima
+  
+}
+```
+
+```
+&gt; [1] 0
+&gt; [1] 1
+&gt; [1] 16
+```
+
+---
+
+# Estructuras de control: .orange[BUCLES FOR]
+
+Podemos definir también una variable `y &lt;- rep(0, 4)` (un **vector «vacío»** lleno de ceros), y hacer que el **.bg-purple_light[elemento i-ésimo del vector]** se defina como `x[i]^2`
+
+
+```r
+y &lt;- rep(0, 4)
+for (i in 1:4) {
+  
+  y[i] &lt;- x[i]^2
+  
+}
+y
+```
+
+```
+&gt; [1]  0 49  1 16
+```
+
+--
+
+Lo anterior es equivalente a esto
+
+
+```r
+y &lt;- x^2
+y
+```
+
+```
+&gt; [1]  0 49  1 16
+```
+
+---
+
+# .orange[BUCLES] suelen ser .red[INEFICIENTES]
+
+
+Haciendo uso del paquete `microbenchmark` podemos comprobar como los **.bg-purple_light[bucles son menos eficientes]** (de ahí que la mayoría de veces los intentemos evitar si existe otra alternativa)
+
+
+```r
+library(microbenchmark)
+x &lt;- 1:100
+microbenchmark(x^2, 
+               for (i in 1:100) { y[i] &lt;- x[i]^2 },
+               times = 1000)
+```
+
+```
+&gt; Unit: nanoseconds
+&gt;                                     expr     min      lq        mean    median
+&gt;                                      x^2     348     457    1224.558    1042.5
+&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 1653734 1805600 2130735.817 1944889.5
+&gt;       uq      max neval cld
+&gt;     1785    25033  1000  a 
+&gt;  2267676 13290585  1000   b
+```
+
+---
+ 
+# Estructuras de control: .orange[BUCLES FOR]
+
+
+Veamos otro ejemplo **.bg-purple_light[combinando vectores numéricos y de caracteres]**: vamos a definir de nuevo un vector de edades y nombres, y vamos a recorrer cada uno imprimiento un mensaje por pantalla.
+
+
+```r
+nombres &lt;- c("Javi", "Laura", "Carlos", "Lucía", "Mar")
+edades &lt;- c(33, 51, 18, 43, 29)
+
+# Recorremos cada uno de los 5 elementos e imprimimos un
+# mensaje que depende de ese índice i
+for (i in 1:5) { 
+  
+  print(glue("{nombres[i]} tiene {edades[i]} años")) 
+  
+}
+```
+
+```
+&gt; Javi tiene 33 años
+&gt; Laura tiene 51 años
+&gt; Carlos tiene 18 años
+&gt; Lucía tiene 43 años
+&gt; Mar tiene 29 años
+```
+
+---
+
+# Estructuras de control: .orange[BUCLES FOR]
+
+Fíjate que **.bg-purple_light[si no nos queremos preocupar de si añadimos otra persona]**, podemos hacer que el bucle empiece en 1 y termine en el **.bg-purple_light[último lugar]** (sea el que sea), usando `length()`.
+
+
+```r
+for (i in 1:length(nombres)) { 
+  
+  print(glue("{nombres[i]} tiene {edades[i]} años")) 
+  
+}
+```
+
+```
+&gt; Javi tiene 33 años
+&gt; Laura tiene 51 años
+&gt; Carlos tiene 18 años
+&gt; Lucía tiene 43 años
+&gt; Mar tiene 29 años
+```
+
+---
+
+# Estructuras de control: .orange[BUCLES FOR]
+
+Aunque normalmente el conjunto que recorre el bucle suelen ser índices numéricos, podemos **.bg-purple_light[recorrer cualquier tipo de objeto]**, por ejemplo días e la semana
+
+
+```r
+library(stringr)
+dias_semana &lt;- c("lunes", "martes", "miércoles", "jueves",
+                 "viernes", "sábado", "domingo")
+
+for (dias in dias_semana) { # dias recorre los días de la semana
+  
+  print(str_to_upper(dias)) # Imprimimos en mayúsculas el día
+}
+```
+
+```
+&gt; [1] "LUNES"
+&gt; [1] "MARTES"
+&gt; [1] "MIÉRCOLES"
+&gt; [1] "JUEVES"
+&gt; [1] "VIERNES"
+&gt; [1] "SÁBADO"
+&gt; [1] "DOMINGO"
+```
+
+---
+
+# Estructuras de control: .orange[BUCLES FOR]
+
+Un último ejemplo: vamos a recorrer nuestro conjunto de datos `swiss` del paquete `{datasets}` y vamos a **pasar a dato ausente** todos los valores de fertilidad superiores a 80. Para ello recorreremos cada fila para después ejecutar un `if`.
+
+
+```r
+for (i in 1:nrow(swiss)) {
+  
+  # si cumple la condición dicha fila, ponemos ausente.
+  if (swiss$Fertility[i] &gt; 80) { 
+    
+    swiss$Fertility[i] &lt;- NA
+    
+  }
+}
+```
+
+--
+
+Esto sería exactamente equivalente al `ifelse()` vectorizado que vimos en el tema anterior
+
+
+```r
+data("swiss") # lo cargamos de 0
+swiss$Fertility &lt;- ifelse(swiss$Fertility &gt; 80, NA, swiss$Fertility)
+```
+
+
+---
+
+# Estructuras de control: .orange[BUCLES WHILE]
+
+Otra manera de diseñar un bucle es con la estructura `while { }`, que ejecutará el bucle un **.bg-purple_light[número de veces a priori  desconocido]**, lo hará hasta que la **.bg-purple_light[condición impuesta deje de ser cierta]**. Por ejemplo, vamos a inicializar una variable `ciclos &lt;- 1`, y en cada paso aumentaremos una unidad, y no saldremos del bucle hasta que `ciclos &gt; 4`
+
+
+```r
+ciclos &lt;- 1
+
+# Mientras el número de ciclos sea inferior 4, imprime
+while(ciclos &lt;= 4) {
+  
+  print(paste("Todavía no, vamos por el ciclo ", ciclos)) # Pegamos la frase al número de ciclo por el que vayamos con paste
+  ciclos &lt;- ciclos + 1
+  
+}
+```
+
+```
+&gt; [1] "Todavía no, vamos por el ciclo  1"
+&gt; [1] "Todavía no, vamos por el ciclo  2"
+&gt; [1] "Todavía no, vamos por el ciclo  3"
+&gt; [1] "Todavía no, vamos por el ciclo  4"
+```
+
+
+---
+  
+# Estructuras de control: .orange[BUCLES WHILE]
+
+
+¿Y qué sucede cuando la **.bg-purple_light[condición nunca llega a ser FALSE]**? Compruébalo tú mismo/a.
+
+
+```r
+while (1 &gt; 0) { # Nunca va a dejar de ser cierto
+  
+  print("Presiona ESC para salir del bucle")
+  
+}
+```
+
+&amp;nbsp;
+
+**.bg-red_light[CUIDADO]**: un bucle `while { }` puede ser muy peligroso sino se controla bien que el bucle acaba en algún momento.
+
+---
+
+# Estructuras de control: .orange[BUCLES WHILE]
+
+Tenemos dos comandos reservados para poder **.bg-purple_light[abortar un bucle o avanzar forzosamente]**:
+
+* `break`: os habilita para **.bg-purple_light[parar un bucle]** aunque no haya llegado al final de su conjunto de índices a recorrer (o se siga cumpliendo la condición).
+
+
+```r
+for(i in 1:10) {
+  if (i == 3) {
+    
+    break # si i es 3, el bucle frena aquí
+    
+  }
+  print(i)
+}
+```
+
+```
+&gt; [1] 1
+&gt; [1] 2
+```
+
+---
+
+# Estructuras de control: .orange[BUCLES WHILE]
+
+Tenemos dos comandos reservados para poder **.bg-purple_light[abortar un bucle o avanzar forzosamente]**:
+
+* `next`: **.bg-purple_light[obliga al bucle a avanzar]** a la siguiente iteracción, abortando la iteración actual en la que se encuentra. 
+
+
+```r
+for(i in 1:5) {
+  if (i == 3) {
+    
+    next # si i es 3, pasará a la siguiente
+    
+  }
+  print(i)
+}
+```
+
+```
+&gt; [1] 1
+&gt; [1] 2
+&gt; [1] 4
+&gt; [1] 5
+```
+
+---
+
+# Estructuras de control: .orange[BUCLES REPEAT]
+
+Aunque es una opción muy poco usada, existe una estructura de control llamada `repeat { }` que nos ejecuta un **.bg-purple_light[bucle de forma infinita hasta que le ordenemos parar]** con un break.
+
+
+```r
+conteo &lt;- 0
+repeat { 
+  
+  conteo &lt;- conteo + 1
+  if (conteo &gt;= 100) { break }
+  
+}
+conteo
+```
+
+```
+&gt; [1] 100
+```
+
+
+---
+
+
+name: replicate
+
+# Replicando código: .orange[REPLICATE]
+
+Otra forma de **.bg-purple_light[repetir o replicar]** código, al margen de las estructuras de bucle ya vistas, es haciendo uso de `replicate()`, que de momento no lo haremos depender de un índice: simplemente **.bg-purple_light[repetira n veces]** el mismo código.
+
+
+```r
+x &lt;- 1:3
+replicate(n = 3, x^2)
+```
+
+```
+&gt;      [,1] [,2] [,3]
+&gt; [1,]    1    1    1
+&gt; [2,]    4    4    4
+&gt; [3,]    9    9    9
+```
+          
+---
+
+# Simulando muestras: .orange[SAMPLE]
+
+Es habitual que `replicate()` se use conjuntamente con la función `sample()` que nos permitirá **.bg-purple_light[generar muestras aleatorias]** indicando cuál es la **.bg-purple_light[función de probabilidad]** asociada] (generar **«tiradas de dados»** indicando cuál es la **probabilidad** de cada cara).
+
+* `x`: **.bg-purple_light[soporte]** (valores permitidos, caras del dado).
+* `size`: **.bg-purple_light[tamaño]** (número de tiradas)
+* `replace`: **.bg-purple_light[¿con reemplazamiento?]** (¿puede salir un elemento que ya ha salido?)
+* `prob`: **.bg-purple_light[vector de probabilidades]** (probabilidad de cada cara)
+
+--
+
+Por ejempo, vamos a simular **.bg-purple_light[2 tiradas de una moneda]**, indicando el soporte (0 y 1, cara y cruz), y `size = 2`
+
+
+```r
+sample(x = 0:1, size = 2)
+```
+
+```
+&gt; [1] 0 1
+```
+
+**.bg-red_light[IMPORTANTE]**: si no indicamos nada en el vector de probabilidades `prob`, asume que son equiprobables (en este caso, `\(1/2\)` para cada cara).
+
+
+---
+
+# Simulando muestras: .orange[SAMPLE]
+
+Fíjate que tampoco le hemos indicado nada en `replace`, ya que por defecto toma el valor `FALSE`. ¿Qué sucede si hubiésemos querido generar 10 tiradas de una moneda?
+
+
+```r
+sample(x = 0:1, size = 10)
+```
+
+```
+&gt; Error in sample.int(length(x), size, replace, prob): cannot take a sample larger than the population when 'replace = FALSE'
+```
+
+--
+
+&amp;nbsp;
+
+Dado que solo tenemos 2 posibles valores a elegir, y le hemos pedido 10 tiradas, al llegar a la segunda **.bg-purple_light[no tiene opciones de seguir eligiendo]**. Para poder generarlas deberemos asignar `replace = TRUE` (ahora podrán repetirse las caras).
+
+
+
+```r
+# 30 tiradas
+sample(x = 0:1, size = 30, replace = TRUE)
+```
+
+```
+&gt;  [1] 0 0 1 0 1 1 1 0 0 1 1 0 0 0 1 0 1 1 0 1 0 1 0 1 1 0 0 0 1 1
+```
+
+---
+
+# Simulando muestras: .orange[SAMPLE]
+
+El soporte no solo tiene porqué ser numérico, sino que podríamos definir un **.bg-purple_light[soporte de valores de texto]**, de forma que asignemos en los posibles valores directamente `"cara"` y `"cruz"`
+
+
+```r
+sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
+```
+
+```
+&gt;  [1] "cara" "cruz" "cara" "cara" "cruz" "cara" "cara" "cruz" "cara" "cara"
+```
+
+--
+
+El comando `sample()` nos genera **.bg-purple_light[valores (pseudo) aleatorios]**, por lo que si volvemos a ejecutar la misma órden tendremos (seguramente) **.bg-red_light[valores diferentes]**.
+
+
+```r
+sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
+```
+
+```
+&gt;  [1] "cara" "cruz" "cara" "cara" "cara" "cruz" "cruz" "cruz" "cruz" "cara"
+```
+
+---
+
+# Simulando muestras: .orange[SAMPLE]
+
+Si quisiéramos generar resultados que no dependiesen de la aleatoriedad de una muestra simulada (por ejemplo, para ver si un método es mejor que otro), tenemos la opción de **.bg-purple_light[fijar semilla]** (valor inicial usado para generar el mecanismo de pseudoaleatoriedad).
+
+
+```r
+set.seed(1234567)
+sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
+```
+
+```
+&gt;  [1] "cara" "cruz" "cruz" "cara" "cruz" "cara" "cara" "cara" "cruz" "cruz"
+```
+
+
+
+```r
+set.seed(1234567)
+sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
+```
+
+```
+&gt;  [1] "cara" "cruz" "cruz" "cara" "cruz" "cara" "cara" "cara" "cruz" "cruz"
+```
+
+
+```r
+set.seed(1234567)
+sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
+```
+
+```
+&gt;  [1] "cara" "cruz" "cruz" "cara" "cruz" "cara" "cara" "cara" "cruz" "cruz"
+```
+
+---
+
+
+# Simulando muestras: .orange[SAMPLE]
+
+
+De esta manera podemos **.bg-purple_light[simular una gran cantidad de datos]** y ver cómo evoluciona por ejemplo la media muestral.
+
+&gt; ¿Cómo hacer uso de un bucle para generar 1 tirada, 2 tiradas, 3 tiradas, ..., 25 tiradas (con `sample()`), y guardar la media de caras?
+
+--
+
+
+```r
+tiradas &lt;- 1:25
+media &lt;- rep(0, length(tiradas))
+
+for (i in tiradas) {
+  
+  tirada &lt;- sample(x = c("cara", "cruz"), size = i, replace = TRUE)
+  media[i] &lt;- sum(tirada == "cruz") / i
+
+}
+media
+```
+
+```
+&gt;  [1] 0.0000000 0.5000000 0.3333333 0.7500000 0.6000000 0.8333333 0.1428571
+&gt;  [8] 0.5000000 0.5555556 0.5000000 0.3636364 0.7500000 0.6153846 0.4285714
+&gt; [15] 0.5333333 0.3750000 0.4705882 0.4444444 0.4210526 0.4500000 0.5238095
+&gt; [22] 0.5000000 0.6086957 0.5833333 0.3600000
+```
+
+---
+
+
+# Simulando muestras: .orange[SAMPLE]
+
+
+Esto nos permite comprobar de primera mano algo muy importante a la hora de simular: nuestra muestra será (seguramente) distinta pero según  **.bg-purple_light[aumenta el tamaño muestral]**, los **.bg-purple_light[parámetros muestrales]** (media, por ejemplo) tenderán a los **.bg-purple_light[parámetros teóricos o poblacionales]** (la media si aumentamos el tamaño debería tender a `\(0.5\)`).
+
+
+
+```r
+tiradas &lt;- c(1, 5, 10, 15, 25, 50, 100, 500, 1000, 5000,
+             10000, 25000, 50000, 100000, 200000, 500000)
+media &lt;- rep(0, length(tiradas))
+
+for (i in 1:length(tiradas)) {
+  
+  tirada &lt;- sample(x = c(0, 1), size = tiradas[i], 
+                   replace = TRUE)
+  media[i] &lt;- mean(tirada)
+
+}
+media
+```
+
+```
+&gt;  [1] 1.000000 0.200000 0.600000 0.600000 0.440000 0.500000 0.560000 0.490000
+&gt;  [9] 0.502000 0.496800 0.491800 0.499960 0.499400 0.499740 0.498540 0.498536
+```
+
+
+Lo anterior se debe al **.bg-purple_light[TEOREMA CENTRAL DEL LÍMITE]**
+
+---
+
+# Simulando muestras: .orange[SAMPLE]
+
+Como has podido ver, aunque el parámetro poblacional tienda al muestral, rara vez será justo igual (dado que `\(n\)` nunca podrá ser infinito en el ordenador). ¿Y si **.bg-purple_light[repetimos]** el experimento de `\(n\)` tiradas `\(m\)` veces? ¿Cuál será la media de las medias obtenidas?
+
+Para ello nos sirve `replicate()`. ¿Se te ocurre cómo, por ejemplo repitiendo `\(m = 1000\)` veces `\(n=10000\)` tiradas?
+
+
+--
+
+
+```r
+tiradas &lt;- replicate(1000, sample(x = c(0, 1), size = 10000,
+                                 replace = TRUE))
+dim(tiradas)
+```
+
+```
+&gt; [1] 10000  1000
+```
+
+```r
+medias &lt;- apply(tiradas, MARGIN = 2, FUN = mean)
+mean(medias)
+```
+
+```
+&gt; [1] 0.500114
+```
+
+
+---
+
+# Simulando muestras: .orange[SAMPLE]
+
+¿Y si lo hiciésemos con la **.bg-purple_light[varianza]**? Sabemos que la varianza (teórica) debe ser `\(\sigma^2  = 0.25\)` (varianza de una binomial de parámetro `\(p\)` es igual a `\(p^2\)`)
+
+.pull-left[
+
+
+```r
+tirada &lt;- sample(x = c(0, 1), size = 100, replace = TRUE)
+mean(tirada^2) - mean(tirada)^2
+```
+
+```
+&gt; [1] 0.2451
+```
+
+```r
+tirada &lt;- sample(x = c(0, 1), size = 100, replace = TRUE)
+mean(tirada^2) - mean(tirada)^2
+```
+
+```
+&gt; [1] 0.2484
+```
+
+]
+
+.pull-right[
+
+
+```r
+tirada &lt;- sample(x = c(0, 1), size = 100, replace = TRUE)
+mean(tirada^2) - mean(tirada)^2
+```
+
+```
+&gt; [1] 0.2475
+```
+
+```r
+tirada &lt;- sample(x = c(0, 1), size = 100, replace = TRUE)
+mean(tirada^2) - mean(tirada)^2
+```
+
+```
+&gt; [1] 0.2496
+```
+
+]
+
+Parece como si siempre se **quedase un poco por debajo**, de forma sistemática (con un sesgo), de forma que la media también quedará por debajo.
+
+--
+
+Un estimador (muestral) `\(T\)` de un parámetro poblacional se dice **.bg-purple_light[ESTIMADOR INSESGADO]** si cumple que la media (esperanza) `\(E[T]\)` es igual a dicho parámetro.
+
+
+---
+
+name: ejercicios-4
+
+# Ejercicios
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+
+* 📝 **Ejercicio 1**: modifica el código inferior para imprimir un mensaje por pantalla si todos los datos del conjunto `airquality` son de meses que no sean enero.
+
+
+```r
+# install.packages("dataset") # solo la primera vez
+library(datasets) # paquete con los datos
+mes &lt;- airquality$Month
+
+if (mes == 2) {
+  
+  print("Ningún dato es del mes de enero")
+  
+}
+```
+
+]
+
+.panel[.panel-name[Solución ej. 1]
+
+* 📝 **Ejercicio 1**: modifica el código inferior para imprimir un mensaje por pantalla si todos los datos del conjunto `airquality` son de meses que no sean enero.
+
+
+```r
+# install.packages("dataset") # solo la primera vez
+library(datasets) # paquete con los datos
+mes &lt;- airquality$Month
+
+if (all(mes != 1)) {
+  
+  print("Ningún dato es del mes de enero")
+  
+}
+```
+
+```
+&gt; [1] "Ningún dato es del mes de enero"
+```
+
+]
+
+]
+
+
+---
+
+# Ejercicios
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+* 📝 **Ejercicio 2**: modifica el código inferior para guardar en una variable llamada `temperatura_alta` un valor `TRUE` si alguno de los registros tiene una temperatura mayor a 90 (están en Farenheit) y un `FALSE` en caso contrario.
+ 
+
+```r
+temperatura &lt;- airquality$Temp
+
+if (temperatura == 100) {
+  
+  print("Alguno de los registros tiene temperatura superior a 90 Farenheit")
+  
+}
+```
+
+]
+
+.panel[.panel-name[Solución ej. 2]
+
+* 📝 **Ejercicio 2**: modifica el código inferior para guardar en una variable llamada `temperatura_alta` un valor `TRUE` si alguno de los registros tiene una temperatura mayor a 90 (están en Farenheit) y un `FALSE` en caso contrario.
+ 
+
+```r
+# Opción 1
+temperatura &lt;- airquality$Temp
+temperatura_alta &lt;- FALSE
+if (any(temperatura &gt; 90)) {
+  
+   temperatura_alta &lt;- TRUE
+  
+}
+
+# Opción 2
+temperatura_alta &lt;- any(airquality$Temp &gt; 90)
+```
+
+
+]
+
+]
+
+---
+
+
+# Ejercicios
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+* 📝 **Ejercicio 3**: modifica el código inferior para diseñar un bucle `for` de 5 iteraciones que recorra los 5 primeros impares y les sume uno.
+
+
+```r
+for (i in 1:5) {
+  
+  print(i)
+}
+```
+
+* 📝 **Ejercicio 4**: modifica el código inferior para diseñar un bucle `while` que parta con una variable `conteo &lt;- 1` y pare cuando llegue a 6.
+
+
+```r
+conteo &lt;- 1
+while (conteo == 2) {
+  
+  print(conteo)
+}
+```
+
+]
+
+.panel[.panel-name[Solución ej. 3]
+
+* 📝 **Ejercicio 3**: modifica el código inferior para diseñar un bucle `for` de 5 iteraciones que recorra los 5 primeros impares y les sume uno.
+
+
+```r
+for (i in c(1, 3, 5, 7, 9)) {
+  
+  print(i + 1)
+}
+```
+
+```
+&gt; [1] 2
+&gt; [1] 4
+&gt; [1] 6
+&gt; [1] 8
+&gt; [1] 10
+```
+
+]
+
+.panel[.panel-name[Solución ej. 4]
+
+* 📝 **Ejercicio 4**: modifica el código inferior para diseñar un bucle `while` que parta con una variable `conteo &lt;- 1` y pare cuando llegue a 6.
+
+
+```r
+conteo &lt;- 1
+while (conteo &lt; 6) {
+  
+  print(conteo)
+  conteo &lt;- conteo + 1
+  
+}
+```
+
+```
+&gt; [1] 1
+&gt; [1] 2
+&gt; [1] 3
+&gt; [1] 4
+&gt; [1] 5
+```
+
+]
+
+]
+
+---
+
+# Ejercicios
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+* 📝 **Ejercicio 5**: diseña un bucle `for` de 200 iteraciones que, empezando en un valor inicial de 100 (euros), te sume 3€ si el número actual de la iteración es par, y te reste 5€ si es impar (investiga la función `%%`).
+
+* 📝 **Ejercicio 6**: diseña el anterior bucle pero guardando el dinero de cada iteración en alguna variable
+ 
+
+* 📝 **Ejercicio 7**: diseña el bucle del ejercicio 5 pero parando cuando no nos quede dinero.
+
+* 📝 **Ejercicio 8**: haciendo uso de `sample()`, simula la tirada de 100 dados (cada uno de 6 caras), pero de forma que el dado esté trucado, y calcula la media de las tiradas.
+
+* 📝 **Ejercicio 9**: repite el ejercicio anterior para 1,2,...,200 dados (haz uso de un `for()`), y guarda la media de las tiradas en cada caso.
+
+]
+
+.panel[.panel-name[Sol. ej. 5]
+
+Un número par será todo aquel número que al dividir entre 2, la división es exacta, es decir, que su resto es nulo. Para calcular ese resto usaremos la función `%%`.
+
+
+
+```r
+# dinero inicial
+dinero &lt;- 100
+
+for (i in 1:200) {
+  dinero &lt;- ifelse(dinero %% 2 == 0, dinero + 3, dinero  - 5)
+}
+dinero
+```
+
+```
+&gt; [1] -100
+```
+
+]
+
+.panel[.panel-name[Sol. ej. 6]
+
+
+```r
+# vector inicial de importes
+dinero &lt;- rep(0, 201)
+dinero[1] &lt;- 100 # dinero inicial
+
+# Bucle for
+for (i in 2:201) {
+  
+  # si dinero[i - 1] es par o  impar
+  dinero[i] &lt;- ifelse(dinero[i - 1] %% 2 == 0, dinero[i - 1] + 3,
+                      dinero[i - 1]  - 5)
+  
+}
+dinero
+```
+
+```
+&gt;   [1]  100  103   98  101   96   99   94   97   92   95   90   93   88   91   86
+&gt;  [16]   89   84   87   82   85   80   83   78   81   76   79   74   77   72   75
+&gt;  [31]   70   73   68   71   66   69   64   67   62   65   60   63   58   61   56
+&gt;  [46]   59   54   57   52   55   50   53   48   51   46   49   44   47   42   45
+&gt;  [61]   40   43   38   41   36   39   34   37   32   35   30   33   28   31   26
+&gt;  [76]   29   24   27   22   25   20   23   18   21   16   19   14   17   12   15
+&gt;  [91]   10   13    8   11    6    9    4    7    2    5    0    3   -2    1   -4
+&gt; [106]   -1   -6   -3   -8   -5  -10   -7  -12   -9  -14  -11  -16  -13  -18  -15
+&gt; [121]  -20  -17  -22  -19  -24  -21  -26  -23  -28  -25  -30  -27  -32  -29  -34
+&gt; [136]  -31  -36  -33  -38  -35  -40  -37  -42  -39  -44  -41  -46  -43  -48  -45
+&gt; [151]  -50  -47  -52  -49  -54  -51  -56  -53  -58  -55  -60  -57  -62  -59  -64
+&gt; [166]  -61  -66  -63  -68  -65  -70  -67  -72  -69  -74  -71  -76  -73  -78  -75
+&gt; [181]  -80  -77  -82  -79  -84  -81  -86  -83  -88  -85  -90  -87  -92  -89  -94
+&gt; [196]  -91  -96  -93  -98  -95 -100
+```
+
+]
+
+.panel[.panel-name[Sol. ej. 7]
+
+
+```r
+dinero &lt;- 100 # dinero inicial
+
+# Bucle while
+while (dinero &gt; 0) {
+  
+  dinero &lt;- ifelse(dinero %% 2 == 0, dinero + 3, dinero - 5)
+  
+}
+dinero
+```
+
+```
+&gt; [1] 0
+```
+
+]
+
+.panel[.panel-name[Sol. ej. 8]
+
+
+* 📝 **Ejercicio 8**: haciendo uso de `sample()`, simula la tirada de 100 dados (cada uno de 6 caras), pero de forma que el dado esté trucado, y calcula la media de las tiradas.
+
+
+```r
+# dado sin trucar
+tiradas &lt;- sample(x = 1:6, size = 100, replace = TRUE)
+mean(tiradas)
+```
+
+```
+&gt; [1] 3.54
+```
+
+```r
+# dado trucado (por ejemplo 1/2 la primera cara)
+tiradas &lt;-
+  sample(x = 1:6, size = 100, replace = TRUE,
+         prob = c(1/2, 1/10, 1/10, 1/10, 1/10, 1/10))
+mean(tiradas)
+```
+
+```
+&gt; [1] 2.33
+```
+
+]
+
+.panel[.panel-name[Sol. ej. 9]
+
+
+* 📝 **Ejercicio 9**: repite el ejercicio anterior para 1,2,...,200 dados (haz uso de un `for()`), y guarda la media de las tiradas en cada caso.
+
+
+```r
+medias &lt;- rep(0, 200)
+for (i in 1:200) {
+  
+  medias[i] &lt;-
+    mean(sample(x = 1:6, size = i, replace = TRUE))
+}
+medias
+```
+
+```
+&gt;   [1] 3.000000 5.000000 4.000000 2.750000 2.800000 3.500000 4.428571 4.000000
+&gt;   [9] 3.888889 3.600000 3.272727 3.416667 3.538462 3.785714 3.800000 2.875000
+&gt;  [17] 3.117647 3.555556 3.684211 3.500000 3.095238 3.090909 2.652174 3.666667
+&gt;  [25] 3.240000 3.807692 3.703704 3.107143 3.689655 3.266667 3.612903 3.593750
+&gt;  [33] 3.575758 3.441176 3.257143 4.055556 3.783784 3.263158 3.717949 3.550000
+&gt;  [41] 3.243902 3.000000 4.023256 3.363636 3.466667 3.369565 3.787234 3.500000
+&gt;  [49] 3.612245 3.140000 3.607843 3.961538 3.245283 3.740741 3.727273 3.767857
+&gt;  [57] 2.982456 3.310345 3.898305 3.650000 3.098361 3.612903 3.730159 3.375000
+&gt;  [65] 3.723077 3.666667 3.522388 3.235294 3.449275 3.328571 3.619718 4.083333
+&gt;  [73] 3.424658 3.310811 3.373333 3.434211 3.532468 3.538462 3.518987 3.525000
+&gt;  [81] 3.716049 3.475610 3.530120 3.357143 3.705882 3.697674 3.804598 3.727273
+&gt;  [89] 3.089888 3.544444 3.549451 3.619565 3.462366 3.553191 3.515789 3.260417
+&gt;  [97] 3.402062 3.367347 3.565657 3.490000 3.623762 3.333333 3.398058 3.490385
+&gt; [105] 3.419048 3.547170 3.504673 3.435185 3.577982 3.390909 3.396396 3.625000
+&gt; [113] 3.283186 3.254386 3.695652 3.318966 3.401709 3.474576 3.285714 3.725000
+&gt; [121] 3.504132 3.754098 3.560976 3.653226 3.560000 3.658730 3.456693 3.476562
+&gt; [129] 3.279070 3.415385 3.519084 3.477273 3.451128 3.582090 3.362963 3.308824
+&gt; [137] 3.233577 3.623188 3.539568 3.492857 3.843972 3.366197 3.566434 3.583333
+&gt; [145] 3.682759 3.328767 3.476190 3.554054 3.651007 3.800000 3.562914 3.328947
+&gt; [153] 3.450980 3.487013 3.393548 3.352564 3.407643 3.613924 3.566038 3.506250
+&gt; [161] 3.670807 3.487654 3.374233 3.506098 3.636364 3.445783 3.473054 3.440476
+&gt; [169] 3.242604 3.711765 3.508772 3.558140 3.341040 3.264368 3.548571 3.761364
+&gt; [177] 3.491525 3.348315 3.329609 3.538889 3.464088 3.489011 3.754098 3.418478
+&gt; [185] 3.529730 3.510753 3.491979 3.436170 3.343915 3.505263 3.502618 3.453125
+&gt; [193] 3.611399 3.376289 3.558974 3.571429 3.492386 3.303030 3.472362 3.515000
+```
+
+
+]
+
+]
+
+
+---
+
+class: inverse center middle
+name: clase-6
+
+
+---
+
+class: inverse center middle
+name: clase-5
+
+# CLASE 5: COMUNICANDO RESULTADOS. ENTREGA I
+
+&amp;nbsp;
+
+### [informes/apuntes: rmarkdown](#rmd)
+
+### [Caso práctico: starwars](#clase5-caso-I)
+
+### [Caso práctico: gapminder](#clase5-caso-II)
+
+---
+
 name: rmd
 
 # .orange[COMUNICANDO] resultados: archivos .green[.Rmd] 
@@ -5928,19 +7181,6 @@ Por último en este primer documento vamos a añadir una subsección `## Variabl
 
 ]
 
----
-
-
-class: inverse center middle
-name: clase-5
-
-# CLASE 5: ENTREGA I
-
-&amp;nbsp;
-
-### [Caso práctico: starwars](#clase5-caso-I)
-
-### [Caso práctico: gapminder](#clase5-caso-II)
 
 ---
 
@@ -5995,856 +7235,411 @@ class: inverse center middle
 
 #### [ENTREGA II](#clase8-caso-I)
 
+
 ---
 
 class: inverse center middle
 name: clase-6
 
-# CLASE 6: mejorando nuestro código
+# CLASE 6: funciones y listas
 
 &amp;nbsp;
 
-### [Estructuras condicionales: if-else](#estructuras-condicionales)
+### [Listas](#listas)
 
-### [Bucles: for, while](#bucles)
-
-### [Replicate. Sample](#replicate)
+### [Creando nuestras propias funciones](#funciones)
 
 ### [Ejercicios](#ejercicios-6)
 
-
 ---
 
-name: estructuras-condicionales
+name: listas
 
-# Estructuras de control: .orange[IF-ELSE]
+# Último tipo de variable: .orange[LISTAS]
 
+Veamos un pequeño resumen de los datos que ya conocemos:
 
-Una **.bg-purple_light[expresión de control]** será un conjunto de órdenes que nos permiten **.bg-purple_light[decidir el camino]** por el que queremos que avance nuestro código:
+* **.bg-purple_light[vectores]**: colección de elementos de igual tipo. Pueden ser números, caracteres o valores lógicos, entre otros.
 
-* ¿Qué hacemos si sucede A?
+* **.bg-purple_light[matrices]**: colección BIDIMENSIONAL de elementos de igual tipo e igual longitud.
 
-* ¿Y si sucede B?
-
-* ¿Tengo que programar X veces lo mismo si quiere que se repita?
+* **.bg-purple_light[data.frame / tibble]**: colección BIDIMENSIONAL de elementos de igual longitud pero de cualquier tipo, lo más parecido a lo que conocemos como una tabla en Excel.
 
 &amp;nbsp;
 
-Si has programado en algún otro lenguaje, estarás familiarizado/a con **.bg-purple_light[estructuras condicionales]** como un `if (blabla) {...} else {...}` (que los usaremos a veces) o **.bg-purple_light[bucles]** `for/while` (que intentaremos evitarlos lo máximo posible).
+--
+
+Con todos estos ingredientes estamos preparados/as para ver el que probablemente sea el tipo de dato más importante en R: las **.bg-purple_light[listas]**: **.bg-purple_light[colecciones de variables de diferente tipo]** (ya lo teníamos con `data.frame` y `tibble`) pero además también de **.bg-purple_light[diferente longitud]**, con estructuras totalmente heterógeneas (incluso una lista puede tener dentro a su vez otra lista).
 
 ---
 
-# Estructuras de control: .orange[IF]
+# Último tipo de variable: .orange[LISTAS]
 
-Una de las estructuras de control más famosas de cualquier lenguaje de programación es la **.bg-purple_light[estructura condicional]** `if`
 
-&gt; SI las condiciones impuestas se cumplen (TRUE), ejecuta las órdenes que tengamos dentro de la misma.
+Vamos a crear **.bg-purple_light[nuestra primera lista]** con `list()` con tres elementos: el nombre de nuestros padres/madres, nuestro lugar de nacimiento y edades de nuestros hermanos.
 
-Por ejemplo, la estructura `if (x == 1) { código A }` lo que hará será **.bg-purple_light[ejecutar el código entre llaves]** pero **.bg-orange[SI Y SOLO SI]** la **.bg-purple_light[condición es cierta]** (en este caso, solo si `x` es igual 1). En **caso contrario, no hace nada**.
+
+```r
+variable_1 &lt;- c("Paloma", "Gregorio")
+variable_2 &lt;- "Madrid"
+variable_3 &lt;- c(25, 30, 26)
+
+lista &lt;- list("progenitores" = variable_1, "lugar_nacimiento" = variable_2,
+              "edades_hermanos" = variable_3)
+lista
+```
+
+```
+&gt; $progenitores
+&gt; [1] "Paloma"   "Gregorio"
+&gt; 
+&gt; $lugar_nacimiento
+&gt; [1] "Madrid"
+&gt; 
+&gt; $edades_hermanos
+&gt; [1] 25 30 26
+```
+
+---
+
+# Último tipo de variable: .orange[LISTAS]
+
+
+```r
+length(lista)
+```
+
+```
+&gt; [1] 3
+```
+
+Si observas el objeto que hemos definido como lista, su longitud del es de 3 ya que tenemos **.bg-purple_light[guardados tres elementos]**: vector de caracteres (de longitud 2), caracter (vector de longitud 1), vector de números (de longitud 3)
 
 --
 
-Definamos por ejemplo una variable sencilla, las edades de 8 personas y comprobemos cuales son menores de edad.
+Tenemos guardados elementos de **.bg-purple_light[distinto tipo]** (algo que ya podíamos hacer) pero, además, de **.bg-purple_light[longitudes dispares]**.
 
 
 ```r
-edades &lt;- c(14, 17, 24, 56, 31, 20, 87, 73)
-edades &lt; 18
+dim(lista) # devolverá NULL al no tener dos dimensiones
 ```
 
 ```
-&gt; [1]  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE
+&gt; NULL
+```
+
+```r
+class(lista) # de tipo lista
+```
+
+```
+&gt; [1] "list"
 ```
 
 ---
 
-# Estructuras de control: .orange[IF]
+# Último tipo de variable: .orange[LISTAS]
 
-
-Recuerda que con las funciones `any()` y `all()` podemos saber si **.bg-purple_light[todos o alguno de los elementos]** de un vector cumplen una condición.
+Si los juntásemos con un `tibble()`, al tener distinta longitud, obtendríamos un **.bg-red_light[error]**.
 
 
 ```r
-any(edades &lt; 18) # existe algun menor de edad
+library(tibble)
+tibble("progenitores" = variable_1,
+       "lugar_nacimiento" = variable_2,
+       "edades_hermanos" = variable_3)
 ```
 
 ```
-&gt; [1] TRUE
+&gt; Error:
+&gt; ! Tibble columns must have compatible sizes.
+&gt; • Size 2: Existing data.
+&gt; • Size 3: Column `edades_hermanos`.
+&gt; ℹ Only values of size one are recycled.
+```
+
+---
+
+
+# Último tipo de variable: .orange[LISTAS]
+
+.pull-left[
+
+* **.bg-purple_light[Acceder por índice]**: con el operador `[[i]]` accedemos al **elemento i-ésimo** de la lista.
+
+
+```r
+lista[[1]]
+```
+
+```
+&gt; [1] "Paloma"   "Gregorio"
+```
+
+]
+
+.pull-right[
+* **.bg-purple_light[Acceder por nombre]**: con el operador `$nombre_elemento` accedemos por su nombre.
+
+
+```r
+lista$progenitores
+```
+
+```
+&gt; [1] "Paloma"   "Gregorio"
+```
+
+]
+
+--
+
+En contraposición, el **.bg-purple_light[corchete simple]** nos permite acceder a **.bg-purple_light[varios elementos]** a la vez
+
+
+```r
+# Varios elementos
+lista[1:2]
+```
+
+```
+&gt; $progenitores
+&gt; [1] "Paloma"   "Gregorio"
+&gt; 
+&gt; $lugar_nacimiento
+&gt; [1] "Madrid"
+```
+
+---
+
+# Último tipo de variable: .orange[LISTAS]
+
+Las listas nos dan tanta flexibilidad que es el formato natural para guardar **.bg-purple_light[datos que no están estructurados]**, como pueden ser los datos almacenados de una persona.
+
+
+
+```r
+library(lubridate)
+nacimiento &lt;- as_date("1989-09-10")
+
+notas &lt;- data.frame("biología" = c(5, 7), "física" = c(4, 5),
+                    "matemáticas" = c(8, 9.5))
+row.names(notas) &lt;- c("primer_parcial", "segundo_parcial")
+
+tlf &lt;- c("914719567", "617920765", "716505013")
+
+padres &lt;- c("Juan", "Julia")
+
+# Guardamos TODO en una lista (con nombres de cada elemento)
+datos &lt;- list("nacimiento" = nacimiento, "notas_insti" = notas,
+              "teléfonos" = tlf, "nombre_padres" = padres)
+datos
+```
+
+```
+&gt; $nacimiento
+&gt; [1] "1989-09-10"
+&gt; 
+&gt; $notas_insti
+&gt;                 biología física matemáticas
+&gt; primer_parcial         5      4         8.0
+&gt; segundo_parcial        7      5         9.5
+&gt; 
+&gt; $teléfonos
+&gt; [1] "914719567" "617920765" "716505013"
+&gt; 
+&gt; $nombre_padres
+&gt; [1] "Juan"  "Julia"
+```
+
+
+
+---
+
+# Último tipo de variable: .orange[LISTAS]
+
+Hemos creado una lista algo más compleja de 4 elementos, a los cuales podemos acceder por índice o por nombre.
+
+
+```r
+datos[[1]]
+```
+
+```
+&gt; [1] "1989-09-10"
+```
+
+```r
+datos$nacimiento
+```
+
+```
+&gt; [1] "1989-09-10"
+```
+
+
+```r
+datos$notas_insti
+```
+
+```
+&gt;                 biología física matemáticas
+&gt; primer_parcial         5      4         8.0
+&gt; segundo_parcial        7      5         9.5
+```
+
+---
+
+# Último tipo de variable: .orange[LISTAS]
+
+
+También podemos hacer **.bg-purple_light[listas con otras listas dentro]**, de forma que para acceder a cada nivel deberemos usar el operador `[[]]`.
+
+
+```r
+lista_de_listas &lt;- list("lista_1" = datos[3:4], "lista_2" = datos[1:2])
+
+names(lista_de_listas) # Nombres de los elementos del primer nivel
+```
+
+```
+&gt; [1] "lista_1" "lista_2"
+```
+
+```r
+names(lista_de_listas[[1]]) # Nombres de los elementos guardados en el primer elemento, que es a su vez una lista
+```
+
+```
+&gt; [1] "teléfonos"     "nombre_padres"
+```
+
+```r
+lista_de_listas[[1]][[1]] # Elemento 1 de la lista guardada como elemento 1 de la lista superior
+```
+
+```
+&gt; [1] "914719567" "617920765" "716505013"
+```
+
+¡Nos permiten guardar **.bg-purple_light[datos n-dimensionales]**!.
+
+---
+
+# .green[OPERACIONES] con .orange[LISTAS]
+
+Una lista **.bg-purple_light[no se puede vectorizar]** de forma inmediata, por lo cualquier operación aritmética aplicada a una lista dará **.bg-red_light[error]**
+
+
+```r
+datos &lt;- list("a" = 1:5, "b" = 10:20)
+datos / 2
+```
+
+```
+&gt; Error in datos/2: argumento no-numérico para operador binario
 ```
 
 --
 
-Con dichos elementos vamos a construir nuestra primera estructura condicional: queremos que, **.bg-purple_light[SI existe algún menor de edad, nos imprima un mensaje]**.
+
+Para ello una de las opciones es hacer uso de la familia `lapply()`
 
 
 ```r
-if (any(edades &lt; 18)) { 
-  
-  print("existe alguna persona mayor de edad")
-  
-}
+lapply(datos, FUN = function(x) { x / 2})
 ```
 
 ```
-&gt; [1] "existe alguna persona mayor de edad"
+&gt; $a
+&gt; [1] 0.5 1.0 1.5 2.0 2.5
+&gt; 
+&gt; $b
+&gt;  [1]  5.0  5.5  6.0  6.5  7.0  7.5  8.0  8.5  9.0  9.5 10.0
 ```
+
+La salida de `lapply()` por defecto siempre es una **.bg-purple_light[lista de igual longitud]**.
 
 ---
 
-# Estructuras de control: .orange[IF]
+# .green[OPERACIONES] con .orange[LISTAS]
+
+.pull-left[
+
+Una opción más flexible y versatil es hacer uso del paquete `{purrr}` del entorno `{tidyverse}`.
 
 
 ```r
-if (any(edades &lt; 18)) { 
-  
-  print("existe alguna persona mayor de edad")
-  
-}
+# install.packages("purrr")
+library(purrr)
 ```
 
+Dicho paquete pretende imitar lado **.bg-purple_light[programación funcional]** de otros lenguajes como Scala o la **estrategia map-reduce de Hadoop** (de Google).
 
-En caso de que **.bg-purple_light[no se cumplan las condiciones]** dentro del `if()` (FALSE), no sucederá nada. 
+]
 
 
+.pull-right[
 
-```r
-if (all(edades &gt;= 18)) { 
-  
-  print("todas las personas son mayores de edad")
-  
-}
-```
+&lt;img src="./img/purrr.png" width="110%" style="display: block; margin: auto auto auto 0;" /&gt;
 
-Fíjate que en este caso **no hemos obtenido ningún mensaje** porque la condición `all(edades &gt;= 18)` no es cierta (no son todos mayores de 18 años), así que **no ha ejecutado el código**.
+]
 
 ---
 
-# Estructuras de control: .orange[IF-ELSE]
+# .green[OPERACIONES] con .orange[LISTAS]
 
-La estructura `if (condicion) { }` puede ser combinada con un `else { }`: cuando la **.bg-purple_light[condición no se cumpla]** (como en el último ejemplo), se **.bg-purple_light[ejecutará el código alternativo]** que haya dentro del `else { }`, permitiéndonos decidir que sucede cuando SÍ se cumple y cuando NO se cumple.
-
---
-
-Por ejemplo, la estructura `if (x == 1) { código A } else { código B }` ejecutará A si `x` es 1 y B en cualquier otro caso.
-
-
-```r
-if (all(edades &gt;= 18)) { 
-  
-  print("todas las personas son mayores de edad")
-  
-*} else {
-  
-  print("existe alguna persona menor de edad")
-}
-```
-
-```
-&gt; [1] "existe alguna persona menor de edad"
-```
-
----
-
-# Estructuras de control: .orange[IF-ELSE]
-
-Dicha estructura `if - else` puede **.bg-purple_light[anidarse]**: imagina que queremos realizar una acción si todos fuesen mayores de edad; en caso contrario, pero si todos los menores tienen 16 años o más, realizar otra acción; en caso contrario, otra acción
-
-
-```r
-if (all(edades &gt;= 18)) { 
-  
-  print("todas las personas son mayores de edad")
-  
-} else if (all(edades &gt;= 16)) {
-  
-  print("Existe alguna persona menor de edad pero todos con 16 años o más")
-  
-} else { print("Existe alguna persona menor de 16 años") }
-```
-
-```
-&gt; [1] "Existe alguna persona menor de 16 años"
-```
-
-**.bg-green_light[CONSEJO]**: puedes **colapsar las estructuras de control** pulsando en la flecha que aparece a la izquierda de ellas en tu script.
-
-
----
-
-# Estructuras de control: .orange[IFELSE()]
-
-
-Esta estructura condicional puede ser **.bg-purple_light[vectorizada]**: reunir en una sola fila un número elevado de estructuras de comparación con la función `ifelse()`, cuyos argumentos de entrada serán
-
-* la condición a evaluar
-* lo que sucede cuando se cumple
-* lo que sucede cuando no se cumple
-
-Con el ejemplo de las edades, vamos a dejar el dato ausente si son menores de edad, y si son mayores de edad se queda como está.
-
-
-```r
-# NA si no cumple la condición, la edad si se cumple.
-*ifelse(edades &gt;= 18, edades, NA)
-```
-
-```
-&gt; [1] NA NA 24 56 31 20 87 73
-```
-
----
-
-# Estructuras de control: .orange[IFELSE()]
-
-
-Todas estas estructuras **.bg-purple_light[no solo sirven para datos numéricos]**. Vamos a definir un vector de nombres con algunos ausentes, y vamos a sustituir los ausentes por el texto `"nombre_desconocido"` (los que no sean ausentes, es decir los que `is.na()` devuelva FALSE, se quedan como están).
-
-
-```r
-nombres &lt;- c("Juan", "María", NA, NA, "Lucía",
-             "Carmen", "Javier", NA, "Carlos", 
-             NA, "Gregorio", "Paloma")
-
-# Si tiene ausente --&gt; "nombre_desconocido"
-# Si no tiene ausente --&gt; nombres originales
-nombres &lt;-
-  ifelse(is.na(nombres), "nombre_desconocido", nombres)
-nombres
-```
-
-```
-&gt;  [1] "Juan"               "María"              "nombre_desconocido"
-&gt;  [4] "nombre_desconocido" "Lucía"              "Carmen"            
-&gt;  [7] "Javier"             "nombre_desconocido" "Carlos"            
-&gt; [10] "nombre_desconocido" "Gregorio"           "Paloma"
-```
-
----
-
-name: bucles
-
-# Estructuras de control: .orange[BUCLES]
-
-Aunque la mayoría de veces son sustituibles por otras expresiones más legibles y eficientes, es importante que conozcamos otra archiconocida expresion de control: **.bg-purple_light[los bucles]**.
-
-* `for { }`: permite **.bg-purple_light[repetir el mismo código]** un **.bg-orange[número fijo y conocido]** de veces (normalmente en función de un índice).
-
-* `while { }`: permite **.bg-purple_light[repetir el mismo código]** un **.bg-orange[número indeterminado de veces]**, hasta que una **condición** dada se deje de cumplir.
-
----
-
-# Estructuras de control: .orange[BUCLES FOR]
-
-Un **.bg-purple_light[bucle for]** es una estructura que nos permite **.bg-purple_light[repetir]** un conjunto de órdenes un **.bg-orange[número finito y conocido]** de veces: dado un **conjunto de índices**, el bucle irá recorriendo cada uno de ellos.
-
-Vamos a definir un vector `x`. Si quisiéramos el primer elemento al cuadrado escribiríamos `x[1]^2`; si quisiéramos el segundo elemento al cuadrado `x[2]^2`; si lo quisiéramos hacer en general, para el elemento i-ésimo, `x[i]^2`. Lo que haremos dentro del `for (indices) { órdenes }` es indicarle que valores irá tomando `i` (**.bg-purple_light[vector de índices]**).
-
-
-```r
-x &lt;- c(0, -7, 1, 4)
-*for (i in 1:4) {
-  
-  print(x[i]^2) # órdenes
-  
-}
-```
-
-```
-&gt; [1] 0
-&gt; [1] 49
-&gt; [1] 1
-&gt; [1] 16
-```
-
----
-
-# Estructuras de control: .orange[BUCLES FOR]
-
-
-```r
-*for (i in 1:4) {
-  print(x[i]^2) # órdenes
-}
-```
-
-Lo que tenemos dentro de los paréntesis `for ()` no es más que la **.bg-purple_light[secuencia de números]** que hemos aprendido a construir. Si quisiéramos que haga lo mismo pero excluyendo por ejemplo el segundo elemento bastaría con definir los índices a recorrer como `c(1, 3, 4)`.
-
-
-```r
-for (i in c(1, 3, 4)) {
-  
-  print(x[i]^2) # que lo imprima
-  
-}
-```
-
-```
-&gt; [1] 0
-&gt; [1] 1
-&gt; [1] 16
-```
-
----
-
-# Estructuras de control: .orange[BUCLES FOR]
-
-Podemos definir también una variable `y &lt;- rep(0, 4)` (un **vector «vacío»** lleno de ceros), y hacer que el **.bg-purple_light[elemento i-ésimo del vector]** se defina como `x[i]^2`
-
-
-```r
-y &lt;- rep(0, 4)
-for (i in 1:4) {
-  
-  y[i] &lt;- x[i]^2
-  
-}
-y
-```
-
-```
-&gt; [1]  0 49  1 16
-```
-
---
-
-Lo anterior es equivalente a esto
-
-
-```r
-y &lt;- x^2
-y
-```
-
-```
-&gt; [1]  0 49  1 16
-```
-
----
-
-# .orange[BUCLES] suelen ser .red[INEFICIENTES]
-
-
-Haciendo uso del paquete `microbenchmark` podemos comprobar como los **.bg-purple_light[bucles son menos eficientes]** (de ahí que la mayoría de veces los intentemos evitar si existe otra alternativa)
+La función más simple del paquete `{purrr}` es la función `map()`, que nos **.bg-purple_light[aplica una función vectorizada]** a cada uno de los elementos de una lista. Veamos un primer ejemplo aplicada a vectores
 
 
 ```r
 library(microbenchmark)
-x &lt;- 1:100
-microbenchmark(x^2, 
-               for (i in 1:100) { y[i] &lt;- x[i]^2 },
-               times = 1000)
+x &lt;- 1:1000
+y &lt;- sqrt(x) # vectorizado
+
+# bucle
+for (i in 1:1000) { y[i] &lt;- sqrt(x[i]) }
+
+microbenchmark(sqrt(x), for (i in 1:1000) { y[i] &lt;- sqrt(x[i]) }, times = 1e3)
 ```
 
 ```
-&gt; Unit: nanoseconds
-&gt;                                     expr     min      lq       mean  median
-&gt;                                      x^2     346     454    1189.28    1068
-&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 1671402 1834745 2182945.27 1971757
-&gt;       uq      max neval cld
-&gt;     1798    20776  1000  a 
-&gt;  2315642 17300263  1000   b
+&gt; Unit: microseconds
+&gt;                                          expr     min       lq        mean
+&gt;                                       sqrt(x)    2.31    3.076    5.146335
+&gt;  for (i in 1:1000) {     y[i] &lt;- sqrt(x[i]) } 1779.84 2210.195 3044.304838
+&gt;    median        uq       max neval cld
+&gt;     3.959    5.0315   108.822  1000  a 
+&gt;  2695.939 3398.0565 29188.739  1000   b
 ```
 
----
- 
-# Estructuras de control: .orange[BUCLES FOR]
-
-
-Veamos otro ejemplo **.bg-purple_light[combinando vectores numéricos y de caracteres]**: vamos a definir de nuevo un vector de edades y nombres, y vamos a recorrer cada uno imprimiento un mensaje por pantalla.
-
-
-```r
-nombres &lt;- c("Javi", "Laura", "Carlos", "Lucía", "Mar")
-edades &lt;- c(33, 51, 18, 43, 29)
-
-# Recorremos cada uno de los 5 elementos e imprimimos un
-# mensaje que depende de ese índice i
-for (i in 1:5) { 
-  
-  print(glue("{nombres[i]} tiene {edades[i]} años")) 
-  
-}
-```
-
-```
-&gt; Javi tiene 33 años
-&gt; Laura tiene 51 años
-&gt; Carlos tiene 18 años
-&gt; Lucía tiene 43 años
-&gt; Mar tiene 29 años
-```
-
----
-
-# Estructuras de control: .orange[BUCLES FOR]
-
-Fíjate que **.bg-purple_light[si no nos queremos preocupar de si añadimos otra persona]**, podemos hacer que el bucle empiece en 1 y termine en el **.bg-purple_light[último lugar]** (sea el que sea), usando `length()`.
-
-
-```r
-for (i in 1:length(nombres)) { 
-  
-  print(glue("{nombres[i]} tiene {edades[i]} años")) 
-  
-}
-```
-
-```
-&gt; Javi tiene 33 años
-&gt; Laura tiene 51 años
-&gt; Carlos tiene 18 años
-&gt; Lucía tiene 43 años
-&gt; Mar tiene 29 años
-```
-
----
-
-# Estructuras de control: .orange[BUCLES FOR]
-
-Aunque normalmente el conjunto que recorre el bucle suelen ser índices numéricos, podemos **.bg-purple_light[recorrer cualquier tipo de objeto]**, por ejemplo días e la semana
-
-
-```r
-library(stringr)
-dias_semana &lt;- c("lunes", "martes", "miércoles", "jueves",
-                 "viernes", "sábado", "domingo")
-
-for (dias in dias_semana) { # dias recorre los días de la semana
-  
-  print(str_to_upper(dias)) # Imprimimos en mayúsculas el día
-}
-```
-
-```
-&gt; [1] "LUNES"
-&gt; [1] "MARTES"
-&gt; [1] "MIÉRCOLES"
-&gt; [1] "JUEVES"
-&gt; [1] "VIERNES"
-&gt; [1] "SÁBADO"
-&gt; [1] "DOMINGO"
-```
-
----
-
-# Estructuras de control: .orange[BUCLES FOR]
-
-Un último ejemplo: vamos a recorrer nuestro conjunto de datos `swiss` del paquete `{datasets}` y vamos a **pasar a dato ausente** todos los valores de fertilidad superiores a 80. Para ello recorreremos cada fila para después ejecutar un `if`.
-
-
-```r
-for (i in 1:nrow(swiss)) {
-  
-  # si cumple la condición dicha fila, ponemos ausente.
-  if (swiss$Fertility[i] &gt; 80) { 
-    
-    swiss$Fertility[i] &lt;- NA
-    
-  }
-}
-```
-
---
-
-Esto sería exactamente equivalente al `ifelse()` vectorizado que vimos en el tema anterior
-
-
-```r
-data("swiss") # lo cargamos de 0
-swiss$Fertility &lt;- ifelse(swiss$Fertility &gt; 80, NA, swiss$Fertility)
-```
 
 
 ---
 
-# Estructuras de control: .orange[BUCLES WHILE]
 
-Otra manera de diseñar un bucle es con la estructura `while { }`, que ejecutará el bucle un **.bg-purple_light[número de veces a priori  desconocido]**, lo hará hasta que la **.bg-purple_light[condición impuesta deje de ser cierta]**. Por ejemplo, vamos a inicializar una variable `ciclos &lt;- 1`, y en cada paso aumentaremos una unidad, y no saldremos del bucle hasta que `ciclos &gt; 4`
+# .green[OPERACIONES] con .orange[LISTAS]
 
-
-```r
-ciclos &lt;- 1
-
-# Mientras el número de ciclos sea inferior 4, imprime
-while(ciclos &lt;= 4) {
-  
-  print(paste("Todavía no, vamos por el ciclo ", ciclos)) # Pegamos la frase al número de ciclo por el que vayamos con paste
-  ciclos &lt;- ciclos + 1
-  
-}
-```
-
-```
-&gt; [1] "Todavía no, vamos por el ciclo  1"
-&gt; [1] "Todavía no, vamos por el ciclo  2"
-&gt; [1] "Todavía no, vamos por el ciclo  3"
-&gt; [1] "Todavía no, vamos por el ciclo  4"
-```
-
-
----
-  
-# Estructuras de control: .orange[BUCLES WHILE]
-
-
-¿Y qué sucede cuando la **.bg-purple_light[condición nunca llega a ser FALSE]**? Compruébalo tú mismo/a.
-
-
-```r
-while (1 &gt; 0) { # Nunca va a dejar de ser cierto
-  
-  print("Presiona ESC para salir del bucle")
-  
-}
-```
-
-&amp;nbsp;
-
-**.bg-red_light[CUIDADO]**: un bucle `while { }` puede ser muy peligroso sino se controla bien que el bucle acaba en algún momento.
-
----
-
-# Estructuras de control: .orange[BUCLES WHILE]
-
-Tenemos dos comandos reservados para poder **.bg-purple_light[abortar un bucle o avanzar forzosamente]**:
-
-* `break`: os habilita para **.bg-purple_light[parar un bucle]** aunque no haya llegado al final de su conjunto de índices a recorrer (o se siga cumpliendo la condición).
-
-
-```r
-for(i in 1:10) {
-  if (i == 3) {
-    
-    break # si i es 3, el bucle frena aquí
-    
-  }
-  print(i)
-}
-```
-
-```
-&gt; [1] 1
-&gt; [1] 2
-```
-
----
-
-# Estructuras de control: .orange[BUCLES WHILE]
-
-Tenemos dos comandos reservados para poder **.bg-purple_light[abortar un bucle o avanzar forzosamente]**:
-
-* `next`: **.bg-purple_light[obliga al bucle a avanzar]** a la siguiente iteracción, abortando la iteración actual en la que se encuentra. 
-
-
-```r
-for(i in 1:5) {
-  if (i == 3) {
-    
-    next # si i es 3, pasará a la siguiente
-    
-  }
-  print(i)
-}
-```
-
-```
-&gt; [1] 1
-&gt; [1] 2
-&gt; [1] 4
-&gt; [1] 5
-```
-
----
-
-# Estructuras de control: .orange[BUCLES REPEAT]
-
-Aunque es una opción muy poco usada, existe una estructura de control llamada `repeat { }` que nos ejecuta un **.bg-purple_light[bucle de forma infinita hasta que le ordenemos parar]** con un break.
-
-
-```r
-conteo &lt;- 0
-repeat { 
-  
-  conteo &lt;- conteo + 1
-  if (conteo &gt;= 100) { break }
-  
-}
-conteo
-```
-
-```
-&gt; [1] 100
-```
-
-
----
-
-name: replicate
-
-# Replicando código: .orange[REPLICATE]
-
-Otra forma de **.bg-purple_light[repetir o replicar]** código, al margen de las estructuras de bucle ya vistas, es haciendo uso de `replicate()`, que de momento no lo haremos depender de un índice: simplemente **.bg-purple_light[repetira n veces]** el mismo código.
-
-
-```r
-x &lt;- 1:3
-replicate(n = 3, x^2)
-```
-
-```
-&gt;      [,1] [,2] [,3]
-&gt; [1,]    1    1    1
-&gt; [2,]    4    4    4
-&gt; [3,]    9    9    9
-```
-          
----
-
-# Simulando muestras: .orange[SAMPLE]
-
-Es habitual que `replicate()` se use conjuntamente con la función `sample()` que nos permitirá **.bg-purple_light[generar muestras aleatorias]** indicando cuál es la **.bg-purple_light[función de probabilidad]** asociada] (generar **«tiradas de dados»** indicando cuál es la **probabilidad** de cada cara).
-
-* `x`: **.bg-purple_light[soporte]** (valores permitidos, caras del dado).
-* `size`: **.bg-purple_light[tamaño]** (número de tiradas)
-* `replace`: **.bg-purple_light[¿con reemplazamiento?]** (¿puede salir un elemento que ya ha salido?)
-* `prob`: **.bg-purple_light[vector de probabilidades]** (probabilidad de cada cara)
-
---
-
-Por ejempo, vamos a simular **.bg-purple_light[2 tiradas de una moneda]**, indicando el soporte (0 y 1, cara y cruz), y `size = 2`
-
-
-```r
-sample(x = 0:1, size = 2)
-```
-
-```
-&gt; [1] 1 0
-```
-
-**.bg-red_light[IMPORTANTE]**: si no indicamos nada en el vector de probabilidades `prob`, asume que son equiprobables (en este caso, `\(1/2\)` para cada cara).
-
-
----
-
-# Simulando muestras: .orange[SAMPLE]
-
-Fíjate que tampoco le hemos indicado nada en `replace`, ya que por defecto toma el valor `FALSE`. ¿Qué sucede si hubiésemos querido generar 10 tiradas de una moneda?
-
-
-```r
-sample(x = 0:1, size = 10)
-```
-
-```
-&gt; Error in sample.int(length(x), size, replace, prob): cannot take a sample larger than the population when 'replace = FALSE'
-```
-
---
-
-&amp;nbsp;
-
-Dado que solo tenemos 2 posibles valores a elegir, y le hemos pedido 10 tiradas, al llegar a la segunda **.bg-purple_light[no tiene opciones de seguir eligiendo]**. Para poder generarlas deberemos asignar `replace = TRUE` (ahora podrán repetirse las caras).
-
-
-
-```r
-# 30 tiradas
-sample(x = 0:1, size = 30, replace = TRUE)
-```
-
-```
-&gt;  [1] 0 0 0 0 0 0 1 1 0 0 1 0 1 0 1 1 0 0 0 0 1 0 1 1 1 1 0 0 0 0
-```
-
----
-
-# Simulando muestras: .orange[SAMPLE]
-
-El soporte no solo tiene porqué ser numérico, sino que podríamos definir un **.bg-purple_light[soporte de valores de texto]**, de forma que asignemos en los posibles valores directamente `"cara"` y `"cruz"`
-
-
-```r
-sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
-```
-
-```
-&gt;  [1] "cruz" "cruz" "cruz" "cruz" "cruz" "cara" "cruz" "cruz" "cruz" "cruz"
-```
-
---
-
-El comando `sample()` nos genera **.bg-purple_light[valores (pseudo) aleatorios]**, por lo que si volvemos a ejecutar la misma órden tendremos (seguramente) **.bg-red_light[valores diferentes]**.
-
-
-```r
-sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
-```
-
-```
-&gt;  [1] "cara" "cruz" "cruz" "cruz" "cruz" "cara" "cara" "cara" "cara" "cara"
-```
-
----
-
-# Simulando muestras: .orange[SAMPLE]
-
-Si quisiéramos generar resultados que no dependiesen de la aleatoriedad de una muestra simulada (por ejemplo, para ver si un método es mejor que otro), tenemos la opción de **.bg-purple_light[fijar semilla]** (valor inicial usado para generar el mecanismo de pseudoaleatoriedad).
-
-
-```r
-set.seed(1234567)
-sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
-```
-
-```
-&gt;  [1] "cara" "cruz" "cruz" "cara" "cruz" "cara" "cara" "cara" "cruz" "cruz"
-```
-
-
-
-```r
-set.seed(1234567)
-sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
-```
-
-```
-&gt;  [1] "cara" "cruz" "cruz" "cara" "cruz" "cara" "cara" "cara" "cruz" "cruz"
-```
-
-
-```r
-set.seed(1234567)
-sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
-```
-
-```
-&gt;  [1] "cara" "cruz" "cruz" "cara" "cruz" "cara" "cara" "cara" "cruz" "cruz"
-```
-
----
-
-
-# Simulando muestras: .orange[SAMPLE]
-
-
-De esta manera podemos **.bg-purple_light[simular una gran cantidad de datos]** y ver cómo evoluciona por ejemplo la media muestral.
-
-&gt; ¿Cómo hacer uso de un bucle para generar 1 tirada, 2 tiradas, 3 tiradas, ..., 25 tiradas (con `sample()`), y guardar la media de caras?
-
---
-
-
-```r
-tiradas &lt;- 1:25
-media &lt;- rep(0, length(tiradas))
-
-for (i in tiradas) {
-  
-  tirada &lt;- sample(x = c("cara", "cruz"), size = i, replace = TRUE)
-  media[i] &lt;- sum(tirada == "cruz") / i
-
-}
-media
-```
-
-```
-&gt;  [1] 0.0000000 0.5000000 0.3333333 0.7500000 0.6000000 0.8333333 0.1428571
-&gt;  [8] 0.5000000 0.5555556 0.5000000 0.3636364 0.7500000 0.6153846 0.4285714
-&gt; [15] 0.5333333 0.3750000 0.4705882 0.4444444 0.4210526 0.4500000 0.5238095
-&gt; [22] 0.5000000 0.6086957 0.5833333 0.3600000
-```
-
----
-
-
-# Simulando muestras: .orange[SAMPLE]
-
-
-Esto nos permite comprobar de primera mano algo muy importante a la hora de simular: nuestra muestra será (seguramente) distinta pero según  **.bg-purple_light[aumenta el tamaño muestral]**, los **.bg-purple_light[parámetros muestrales]** (media, por ejemplo) tenderán a los **.bg-purple_light[parámetros teóricos o poblacionales]** (la media si aumentamos el tamaño debería tender a `\(0.5\)`).
-
-
-
-```r
-tiradas &lt;- c(1, 5, 10, 15, 25, 50, 100, 500, 1000, 5000,
-             10000, 25000, 50000, 100000, 200000, 500000)
-media &lt;- rep(0, length(tiradas))
-
-for (i in 1:length(tiradas)) {
-  
-  tirada &lt;- sample(x = c(0, 1), size = tiradas[i], 
-                   replace = TRUE)
-  media[i] &lt;- mean(tirada)
-
-}
-media
-```
-
-```
-&gt;  [1] 1.000000 0.200000 0.600000 0.600000 0.440000 0.500000 0.560000 0.490000
-&gt;  [9] 0.502000 0.496800 0.491800 0.499960 0.499400 0.499740 0.498540 0.498536
-```
-
-
-Lo anterior se debe al **.bg-purple_light[TEOREMA CENTRAL DEL LÍMITE]**
-
----
-
-# Simulando muestras: .orange[SAMPLE]
-
-Como has podido ver, aunque el parámetro poblacional tienda al muestral, rara vez será justo igual (dado que `\(n\)` nunca podrá ser infinito en el ordenador). ¿Y si **.bg-purple_light[repetimos]** el experimento de `\(n\)` tiradas `\(m\)` veces? ¿Cuál será la media de las medias obtenidas?
-
-Para ello nos sirve `replicate()`. ¿Se te ocurre cómo, por ejemplo repitiendo `\(m = 1000\)` veces `\(n=10000\)` tiradas?
-
-
---
-
-
-```r
-tiradas &lt;- replicate(1000, sample(x = c(0, 1), size = 10000,
-                                 replace = TRUE))
-dim(tiradas)
-```
-
-```
-&gt; [1] 10000  1000
-```
-
-```r
-medias &lt;- apply(tiradas, MARGIN = 2, FUN = mean)
-mean(medias)
-```
-
-```
-&gt; [1] 0.500114
-```
-
-
----
-
-# Simulando muestras: .orange[SAMPLE]
-
-¿Y si lo hiciésemos con la **.bg-purple_light[varianza]**? Sabemos que la varianza (teórica) debe ser `\(\sigma^2  = 0.25\)` (varianza de una binomial de parámetro `\(p\)` es igual a `\(p^2\)`)
+Con `map()` podemos **.bg-purple_light[«mapear» cada lista]** y aplicar la función elemento a elemento (si fuese el caso).
 
 .pull-left[
 
 
 ```r
-tirada &lt;- sample(x = c(0, 1), size = 100, replace = TRUE)
-mean(tirada^2) - mean(tirada)^2
+library(purrr)
+x &lt;- rep(list(1:2), 3)
+x
 ```
 
 ```
-&gt; [1] 0.2451
-```
-
-```r
-tirada &lt;- sample(x = c(0, 1), size = 100, replace = TRUE)
-mean(tirada^2) - mean(tirada)^2
-```
-
-```
-&gt; [1] 0.2484
+&gt; [[1]]
+&gt; [1] 1 2
+&gt; 
+&gt; [[2]]
+&gt; [1] 1 2
+&gt; 
+&gt; [[3]]
+&gt; [1] 1 2
 ```
 
 ]
@@ -6853,416 +7648,129 @@ mean(tirada^2) - mean(tirada)^2
 
 
 ```r
-tirada &lt;- sample(x = c(0, 1), size = 100, replace = TRUE)
-mean(tirada^2) - mean(tirada)^2
+# purrr
+map(x, sqrt) 
 ```
 
 ```
-&gt; [1] 0.2475
-```
-
-```r
-tirada &lt;- sample(x = c(0, 1), size = 100, replace = TRUE)
-mean(tirada^2) - mean(tirada)^2
-```
-
-```
-&gt; [1] 0.2496
+&gt; [[1]]
+&gt; [1] 1.000000 1.414214
+&gt; 
+&gt; [[2]]
+&gt; [1] 1.000000 1.414214
+&gt; 
+&gt; [[3]]
+&gt; [1] 1.000000 1.414214
 ```
 
 ]
 
-Parece como si siempre se **quedase un poco por debajo**, de forma sistemática (con un sesgo), de forma que la media también quedará por debajo.
+**.bg-green_light[IMPORTANTE]**: en vectores disponemos de una vectorización por defecto porque `R` realiza operaciones elemento a elemento.
+
+---
+
+# .green[OPERACIONES] con .orange[LISTAS]
+
+
+```r
+x &lt;- list(rnorm(n = 1e3, mean = 0, sd = 1), rnorm(n = 1e3, mean = 2, sd = 1))
+map(x, mean)
+```
+
+```
+&gt; [[1]]
+&gt; [1] 0.01976477
+&gt; 
+&gt; [[2]]
+&gt; [1] 1.991007
+```
+
+
+```r
+x &lt;- rep(list(rnorm(n = 1e3, mean = 0, sd = 1)), 1000)
+microbenchmark(map(x, .f = function(x) { mean(x^2) }), lapply(x, FUN = function(x) { mean(x^2) }), times = 1e3)
+```
+
+```
+&gt; Unit: milliseconds
+&gt;                                            expr      min       lq     mean
+&gt;      map(x, .f = function(x) {     mean(x^2) }) 5.470517 6.515595 8.726859
+&gt;  lapply(x, FUN = function(x) {     mean(x^2) }) 5.376921 6.529431 8.697874
+&gt;    median       uq       max neval cld
+&gt;  7.475919 8.603518 169.53476  1000   a
+&gt;  7.421798 8.553083  66.02609  1000   a
+```
+
+
+---
+
+# .green[OPERACIONES] con .orange[LISTAS]
+
+Además de ser **.bg-purple_light[más legible y eficiente]**, con `{purrr}` podemos **.bg-purple_light[decidir el formato de salida]** tras la operación (por ejemplo, en formato de vector con `map_dbl()` para números - en general - y  `map_int()` para enteros), sin necesidad de hacer uso de `unlist()` (deshace formato lista).
+
+
+```r
+x &lt;- list(rnorm(n = 1e3, mean = 0, sd = 1), rnorm(n = 1e3, mean = 2, sd = 1))
+map_dbl(x, mean)
+```
+
+```
+&gt; [1] 0.02348016 2.00226182
+```
 
 --
 
-Un estimador (muestral) `\(T\)` de un parámetro poblacional se dice **.bg-purple_light[ESTIMADOR INSESGADO]** si cumple que la media (esperanza) `\(E[T]\)` es igual a dicho parámetro.
+Además, si se le pasa un **.bg-purple_light[número]** en lugar de una función, nos devolverá el elemento i-ésimo de cada lista de forma inmediata.
 
-
----
-
-name: ejercicios-6
-
-# Ejercicios
-
-.panelset[
-.panel[.panel-name[Ejercicios]
-
-
-* 📝 **Ejercicio 1**: modifica el código inferior para imprimir un mensaje por pantalla si todos los datos del conjunto `airquality` son de meses que no sean enero.
+.pull-left[
 
 
 ```r
-# install.packages("dataset") # solo la primera vez
-library(datasets) # paquete con los datos
-mes &lt;- airquality$Month
+c(x[[1]][3], x[[2]][3])
+```
 
-if (mes == 2) {
-  
-  print("Ningún dato es del mes de enero")
-  
-}
+```
+&gt; [1] 0.170459 2.025621
 ```
 
 ]
 
-.panel[.panel-name[Solución ej. 1]
-
-* 📝 **Ejercicio 1**: modifica el código inferior para imprimir un mensaje por pantalla si todos los datos del conjunto `airquality` son de meses que no sean enero.
-
+.pull-right[
 
 ```r
-# install.packages("dataset") # solo la primera vez
-library(datasets) # paquete con los datos
-mes &lt;- airquality$Month
-
-if (all(mes != 1)) {
-  
-  print("Ningún dato es del mes de enero")
-  
-}
+map_dbl(x, 3)
 ```
 
 ```
-&gt; [1] "Ningún dato es del mes de enero"
+&gt; [1] 0.170459 2.025621
 ```
-
-]
-
 ]
 
 
 ---
 
-# Ejercicios
 
-.panelset[
-.panel[.panel-name[Ejercicios]
+# .green[OPERACIONES] con .orange[LISTAS]
 
-* 📝 **Ejercicio 2**: modifica el código inferior para guardar en una variable llamada `temperatura_alta` un valor `TRUE` si alguno de los registros tiene una temperatura mayor a 90 (están en Farenheit) y un `FALSE` en caso contrario.
- 
+Tenemos además de pasar más de un argumento, realizando **.bg-purple_light[operaciones binarias]** con `map2()`
+
 
 ```r
-temperatura &lt;- airquality$Temp
+x &lt;- list("a" = 1:3, "b" = 4:7)
+y &lt;- list("c" = c(-1, 4, 0), "b" = c(5, -4, -1, 2))
 
-if (temperatura == 100) {
-  
-  print("Alguno de los registros tiene temperatura superior a 90 Farenheit")
-  
-}
+map2(x, y, .f = function(x, y) { x^2 + y^2})
 ```
 
-]
-
-.panel[.panel-name[Solución ej. 2]
-
-* 📝 **Ejercicio 2**: modifica el código inferior para guardar en una variable llamada `temperatura_alta` un valor `TRUE` si alguno de los registros tiene una temperatura mayor a 90 (están en Farenheit) y un `FALSE` en caso contrario.
- 
-
-```r
-# Opción 1
-temperatura &lt;- airquality$Temp
-temperatura_alta &lt;- FALSE
-if (any(temperatura &gt; 90)) {
-  
-   temperatura_alta &lt;- TRUE
-  
-}
-
-# Opción 2
-temperatura_alta &lt;- any(airquality$Temp &gt; 90)
 ```
-
-
-]
-
-]
+&gt; $a
+&gt; [1]  2 20  9
+&gt; 
+&gt; $b
+&gt; [1] 41 41 37 53
+```
 
 ---
-
-
-# Ejercicios
-
-.panelset[
-.panel[.panel-name[Ejercicios]
-
-* 📝 **Ejercicio 3**: modifica el código inferior para diseñar un bucle `for` de 5 iteraciones que recorra los 5 primeros impares y les sume uno.
-
-
-```r
-for (i in 1:5) {
-  
-  print(i)
-}
-```
-
-* 📝 **Ejercicio 4**: modifica el código inferior para diseñar un bucle `while` que parta con una variable `conteo &lt;- 1` y pare cuando llegue a 6.
-
-
-```r
-conteo &lt;- 1
-while (conteo == 2) {
-  
-  print(conteo)
-}
-```
-
-]
-
-.panel[.panel-name[Solución ej. 3]
-
-* 📝 **Ejercicio 3**: modifica el código inferior para diseñar un bucle `for` de 5 iteraciones que recorra los 5 primeros impares y les sume uno.
-
-
-```r
-for (i in c(1, 3, 5, 7, 9)) {
-  
-  print(i + 1)
-}
-```
-
-```
-&gt; [1] 2
-&gt; [1] 4
-&gt; [1] 6
-&gt; [1] 8
-&gt; [1] 10
-```
-
-]
-
-.panel[.panel-name[Solución ej. 4]
-
-* 📝 **Ejercicio 4**: modifica el código inferior para diseñar un bucle `while` que parta con una variable `conteo &lt;- 1` y pare cuando llegue a 6.
-
-
-```r
-conteo &lt;- 1
-while (conteo &lt; 6) {
-  
-  print(conteo)
-  conteo &lt;- conteo + 1
-  
-}
-```
-
-```
-&gt; [1] 1
-&gt; [1] 2
-&gt; [1] 3
-&gt; [1] 4
-&gt; [1] 5
-```
-
-]
-
-]
-
----
-
-# Ejercicios
-
-.panelset[
-.panel[.panel-name[Ejercicios]
-
-* 📝 **Ejercicio 5**: diseña un bucle `for` de 200 iteraciones que, empezando en un valor inicial de 100 (euros), te sume 3€ si el número actual de la iteración es par, y te reste 5€ si es impar (investiga la función `%%`).
-
-* 📝 **Ejercicio 6**: diseña el anterior bucle pero guardando el dinero de cada iteración en alguna variable
- 
-
-* 📝 **Ejercicio 7**: diseña el bucle del ejercicio 5 pero parando cuando no nos quede dinero.
-
-* 📝 **Ejercicio 8**: haciendo uso de `sample()`, simula la tirada de 100 dados (cada uno de 6 caras), pero de forma que el dado esté trucado, y calcula la media de las tiradas.
-
-* 📝 **Ejercicio 9**: repite el ejercicio anterior para 1,2,...,200 dados (haz uso de un `for()`), y guarda la media de las tiradas en cada caso.
-
-]
-
-.panel[.panel-name[Sol. ej. 5]
-
-Un número par será todo aquel número que al dividir entre 2, la división es exacta, es decir, que su resto es nulo. Para calcular ese resto usaremos la función `%%`.
-
-
-
-```r
-# dinero inicial
-dinero &lt;- 100
-
-for (i in 1:200) {
-  dinero &lt;- ifelse(dinero %% 2 == 0, dinero + 3, dinero  - 5)
-}
-dinero
-```
-
-```
-&gt; [1] -100
-```
-
-]
-
-.panel[.panel-name[Sol. ej. 6]
-
-
-```r
-# vector inicial de importes
-dinero &lt;- rep(0, 201)
-dinero[1] &lt;- 100 # dinero inicial
-
-# Bucle for
-for (i in 2:201) {
-  
-  # si dinero[i - 1] es par o  impar
-  dinero[i] &lt;- ifelse(dinero[i - 1] %% 2 == 0, dinero[i - 1] + 3,
-                      dinero[i - 1]  - 5)
-  
-}
-dinero
-```
-
-```
-&gt;   [1]  100  103   98  101   96   99   94   97   92   95   90   93   88   91   86
-&gt;  [16]   89   84   87   82   85   80   83   78   81   76   79   74   77   72   75
-&gt;  [31]   70   73   68   71   66   69   64   67   62   65   60   63   58   61   56
-&gt;  [46]   59   54   57   52   55   50   53   48   51   46   49   44   47   42   45
-&gt;  [61]   40   43   38   41   36   39   34   37   32   35   30   33   28   31   26
-&gt;  [76]   29   24   27   22   25   20   23   18   21   16   19   14   17   12   15
-&gt;  [91]   10   13    8   11    6    9    4    7    2    5    0    3   -2    1   -4
-&gt; [106]   -1   -6   -3   -8   -5  -10   -7  -12   -9  -14  -11  -16  -13  -18  -15
-&gt; [121]  -20  -17  -22  -19  -24  -21  -26  -23  -28  -25  -30  -27  -32  -29  -34
-&gt; [136]  -31  -36  -33  -38  -35  -40  -37  -42  -39  -44  -41  -46  -43  -48  -45
-&gt; [151]  -50  -47  -52  -49  -54  -51  -56  -53  -58  -55  -60  -57  -62  -59  -64
-&gt; [166]  -61  -66  -63  -68  -65  -70  -67  -72  -69  -74  -71  -76  -73  -78  -75
-&gt; [181]  -80  -77  -82  -79  -84  -81  -86  -83  -88  -85  -90  -87  -92  -89  -94
-&gt; [196]  -91  -96  -93  -98  -95 -100
-```
-
-]
-
-.panel[.panel-name[Sol. ej. 7]
-
-
-```r
-dinero &lt;- 100 # dinero inicial
-
-# Bucle while
-while (dinero &gt; 0) {
-  
-  dinero &lt;- ifelse(dinero %% 2 == 0, dinero + 3, dinero - 5)
-  
-}
-dinero
-```
-
-```
-&gt; [1] 0
-```
-
-]
-
-.panel[.panel-name[Sol. ej. 8]
-
-
-* 📝 **Ejercicio 8**: haciendo uso de `sample()`, simula la tirada de 100 dados (cada uno de 6 caras), pero de forma que el dado esté trucado, y calcula la media de las tiradas.
-
-
-```r
-# dado sin trucar
-tiradas &lt;- sample(x = 1:6, size = 100, replace = TRUE)
-mean(tiradas)
-```
-
-```
-&gt; [1] 3.54
-```
-
-```r
-# dado trucado (por ejemplo 1/2 la primera cara)
-tiradas &lt;-
-  sample(x = 1:6, size = 100, replace = TRUE,
-         prob = c(1/2, 1/10, 1/10, 1/10, 1/10, 1/10))
-mean(tiradas)
-```
-
-```
-&gt; [1] 2.33
-```
-
-]
-
-.panel[.panel-name[Sol. ej. 9]
-
-
-* 📝 **Ejercicio 9**: repite el ejercicio anterior para 1,2,...,200 dados (haz uso de un `for()`), y guarda la media de las tiradas en cada caso.
-
-
-```r
-medias &lt;- rep(0, 200)
-for (i in 1:200) {
-  
-  medias[i] &lt;-
-    mean(sample(x = 1:6, size = i, replace = TRUE))
-}
-medias
-```
-
-```
-&gt;   [1] 3.000000 5.000000 4.000000 2.750000 2.800000 3.500000 4.428571 4.000000
-&gt;   [9] 3.888889 3.600000 3.272727 3.416667 3.538462 3.785714 3.800000 2.875000
-&gt;  [17] 3.117647 3.555556 3.684211 3.500000 3.095238 3.090909 2.652174 3.666667
-&gt;  [25] 3.240000 3.807692 3.703704 3.107143 3.689655 3.266667 3.612903 3.593750
-&gt;  [33] 3.575758 3.441176 3.257143 4.055556 3.783784 3.263158 3.717949 3.550000
-&gt;  [41] 3.243902 3.000000 4.023256 3.363636 3.466667 3.369565 3.787234 3.500000
-&gt;  [49] 3.612245 3.140000 3.607843 3.961538 3.245283 3.740741 3.727273 3.767857
-&gt;  [57] 2.982456 3.310345 3.898305 3.650000 3.098361 3.612903 3.730159 3.375000
-&gt;  [65] 3.723077 3.666667 3.522388 3.235294 3.449275 3.328571 3.619718 4.083333
-&gt;  [73] 3.424658 3.310811 3.373333 3.434211 3.532468 3.538462 3.518987 3.525000
-&gt;  [81] 3.716049 3.475610 3.530120 3.357143 3.705882 3.697674 3.804598 3.727273
-&gt;  [89] 3.089888 3.544444 3.549451 3.619565 3.462366 3.553191 3.515789 3.260417
-&gt;  [97] 3.402062 3.367347 3.565657 3.490000 3.623762 3.333333 3.398058 3.490385
-&gt; [105] 3.419048 3.547170 3.504673 3.435185 3.577982 3.390909 3.396396 3.625000
-&gt; [113] 3.283186 3.254386 3.695652 3.318966 3.401709 3.474576 3.285714 3.725000
-&gt; [121] 3.504132 3.754098 3.560976 3.653226 3.560000 3.658730 3.456693 3.476562
-&gt; [129] 3.279070 3.415385 3.519084 3.477273 3.451128 3.582090 3.362963 3.308824
-&gt; [137] 3.233577 3.623188 3.539568 3.492857 3.843972 3.366197 3.566434 3.583333
-&gt; [145] 3.682759 3.328767 3.476190 3.554054 3.651007 3.800000 3.562914 3.328947
-&gt; [153] 3.450980 3.487013 3.393548 3.352564 3.407643 3.613924 3.566038 3.506250
-&gt; [161] 3.670807 3.487654 3.374233 3.506098 3.636364 3.445783 3.473054 3.440476
-&gt; [169] 3.242604 3.711765 3.508772 3.558140 3.341040 3.264368 3.548571 3.761364
-&gt; [177] 3.491525 3.348315 3.329609 3.538889 3.464088 3.489011 3.754098 3.418478
-&gt; [185] 3.529730 3.510753 3.491979 3.436170 3.343915 3.505263 3.502618 3.453125
-&gt; [193] 3.611399 3.376289 3.558974 3.571429 3.492386 3.303030 3.472362 3.515000
-```
-
-
-]
-
-]
-
-
----
-
-class: inverse center middle
-name: clase-7
-
-# CLASE 7: funciones y listas
-
-&amp;nbsp;
-
-### [Listas](#listas)
-
-### [Creando nuestras propias funciones](#funciones)
-
-
-### [Ejercicios](#ejercicios-7)
-
----
-
-name: listas
-
-# Último tipo de variable: .orange[LISTAS]
-
----
-
 
 name: funciones
 
@@ -7710,7 +8218,7 @@ Vamos a practicar un poco las funciones.
 
 ---
 
-name: ejercicios-7
+name: ejercicios-6
 
 # Ejercicios
 
@@ -8180,18 +8688,182 @@ data.frame(airquality,
 
 ---
 
-class: inverse center middle
-name: clase-8
 
-# CLASE 8: IMPORTAR/EXPORTAR. ENTREGA II
+# Ejercicios
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+
+* 📝 **Ejercicio 7**: define una lista de 4 elementos de tipos distintos y accede al segundo de ellos (yo incluiré uno que sea un data.frame para que veas que en una lista cabe de todo).
+ 
+* 📝 **Ejercicio 8**: accede a los elementos que ocupan los lugares 1 y 4 de la lista definida anteriormente.
+ 
+* 📝 **Ejercicio 9**: define una lista de 4 elementos que contenga, en una sola variable, tu nombre, apellido, edad y si estás soltero/a.
+
+* 📝 **Ejercicio 10**: carga el dataset `starwars` del paquete `{dplyr}` y accede a la segunda película que aparece en `starwars$films` (para cada personaje). Determina cuales no no salen en más de una película.
+
+]
+
+.panel[.panel-name[Solución ej. 7]
+
+
+```r
+# Ejemplo: lista con texto, numérico, lógico y un data.frame
+lista_ejemplo &lt;- list("nombre" = "Javier", "cp" = 28019,
+                      "soltero" = TRUE,
+                      "notas" = data.frame("mates" = c(7.5, 8, 9),
+                                           "lengua" = c(10, 5, 6)))
+lista_ejemplo
+```
+
+```
+&gt; $nombre
+&gt; [1] "Javier"
+&gt; 
+&gt; $cp
+&gt; [1] 28019
+&gt; 
+&gt; $soltero
+&gt; [1] TRUE
+&gt; 
+&gt; $notas
+&gt;   mates lengua
+&gt; 1   7.5     10
+&gt; 2   8.0      5
+&gt; 3   9.0      6
+```
+
+]
+
+.panel[.panel-name[Solución ej. 8]
+
+
+```r
+# Accedemos al 1 y al 4
+lista_ejemplo[c(1, 4)]
+```
+
+```
+&gt; $nombre
+&gt; [1] "Javier"
+&gt; 
+&gt; $notas
+&gt;   mates lengua
+&gt; 1   7.5     10
+&gt; 2   8.0      5
+&gt; 3   9.0      6
+```
+
+```r
+# Accedemos por nombre
+lista_ejemplo$nombre
+```
+
+```
+&gt; [1] "Javier"
+```
+
+```r
+lista_ejemplo$notas
+```
+
+```
+&gt;   mates lengua
+&gt; 1   7.5     10
+&gt; 2   8.0      5
+&gt; 3   9.0      6
+```
+
+```r
+lista_ejemplo[c("nombre", "notas")]
+```
+
+```
+&gt; $nombre
+&gt; [1] "Javier"
+&gt; 
+&gt; $notas
+&gt;   mates lengua
+&gt; 1   7.5     10
+&gt; 2   8.0      5
+&gt; 3   9.0      6
+```
+
+
+
+]
+
+.panel[.panel-name[Solución ej. 9]
+
+
+```r
+# Creamos lista: con lubridate calculamos la diferencia de años desde la fecha de nuestro nacimiento hasta hoy (sea cuando sea hoy)
+lista_personal &lt;- list("nombre" = "Javier",
+                       "apellidos" = "Álvarez Liébana",
+                       "edad" = 32,
+                       "soltero" = TRUE)
+lista_personal
+```
+
+```
+&gt; $nombre
+&gt; [1] "Javier"
+&gt; 
+&gt; $apellidos
+&gt; [1] "Álvarez Liébana"
+&gt; 
+&gt; $edad
+&gt; [1] 32
+&gt; 
+&gt; $soltero
+&gt; [1] TRUE
+```
+
+]
+
+.panel[.panel-name[Solución ej. 10]
+
+
+```r
+library(dplyr)
+
+# accedemos a la segunda película que aparece
+# en cada personaje
+segunda_peli &lt;- map(starwars$films, 2)
+
+# ¿Cuáles no salen en más de una película?
+map_lgl(segunda_peli, is.null)
+```
+
+```
+&gt;  [1] FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE FALSE FALSE FALSE
+&gt; [13] FALSE FALSE  TRUE FALSE FALSE  TRUE FALSE FALSE FALSE  TRUE  TRUE FALSE
+&gt; [25]  TRUE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE  TRUE FALSE  TRUE  TRUE
+&gt; [37]  TRUE FALSE  TRUE  TRUE FALSE  TRUE  TRUE FALSE  TRUE  TRUE  TRUE FALSE
+&gt; [49] FALSE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE  TRUE  TRUE  TRUE FALSE
+&gt; [61] FALSE  TRUE  TRUE FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+&gt; [73] FALSE  TRUE  TRUE FALSE  TRUE  TRUE FALSE FALSE  TRUE  TRUE  TRUE  TRUE
+&gt; [85]  TRUE  TRUE FALSE
+```
+
+]
+
+]
+
+---
+
+class: inverse center middle
+name: clase-7
+
+# CLASE 7: IMPORTAR/EXPORTAR. TIDYDATA
 
 &amp;nbsp;
 
 ### [Importar/exportar datos](#importar-exportar)
 
-### [Entrega II: starwars (continuación)](#clase8-caso-I)
+### [Tidydata](#tidydata)
 
-### [Entrega II: análisis de los datos covid del ISCIII](#clase8-caso-II)
 
 ---
 
@@ -8199,13 +8871,39 @@ name: importar-exportar
 
 #  .orange[IMPORTANDO] datos
 
+---
+
+
+name: tidydata
+
+#  .orange[LIMPIANDO] datos
+
+
 
 ---
+
+
+class: inverse center middle
+name: clase-8
+
+# CLASE 8: ENTREGA II
+
+&amp;nbsp;
+
+
+### [Caso I: datos electorales (tidydata)](#clase8-caso-I)
+
+### [Caso II: starwars (continuación)](#clase8-caso-II)
+
+### [Caso III: análisis de los datos covid del ISCIII](#clase8-caso-III)
+
+---
+
 
 class: inverse center middle
 name: clase-9
 
-# CLASE 9: introducción al tidydata
+# CLASE 9: tidyverse
 
 &amp;nbsp;
 
@@ -8215,7 +8913,7 @@ name: clase-9
 class: inverse center middle
 name: clase-10
 
-# CLASE 10: primer uso de tidyverse
+# CLASE 10: tidyverse
 
 &amp;nbsp;
 
