@@ -5272,7 +5272,7 @@ Una opción más flexible y versatil es hacer uso del paquete `{purrr}` del ento
 library(purrr)
 ```
 
-Dicho paquete pretende imitar lado **.bg-purple_light[programación funcional]** de otros lenguajes como Scala o la **estrategia map-reduce de Hadoop** (de Google).
+Dicho paquete pretende imitar la **.bg-purple_light[programación funcional]** de otros lenguajes como Scala o la **estrategia map-reduce de Hadoop** (de Google).
 
 ]
 

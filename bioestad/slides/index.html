@@ -1726,7 +1726,7 @@ También podemos obtener el **.bg-purple_light[«hoy y ahora»]** con la funció
 ```
 
 ```
-&gt; [1] "2022-09-15 17:28:43 CEST"
+&gt; [1] "2022-09-15 17:46:44 CEST"
 ```
  
 ---
@@ -3024,9 +3024,9 @@ x &lt;- rnorm(1e3) # 1000 elementos aleatorias
 
 ```
 &gt; Unit: microseconds
-&gt;         expr    min      lq     mean median      uq     max neval cld
-&gt;      sort(x) 42.140 46.4975 54.41902 49.672 55.8345 232.770  1000   b
-&gt;  x[order(x)] 28.923 32.4485 38.21382 35.293 38.8070 162.665  1000  a
+&gt;         expr    min     lq     mean  median      uq     max neval cld
+&gt;      sort(x) 43.431 47.203 59.14157 50.5665 62.8795 217.339  1000   b
+&gt;  x[order(x)] 30.185 32.762 42.30262 36.5025 44.4795 145.240  1000  a
 ```
 
 --
@@ -5784,11 +5784,11 @@ microbenchmark(x^2,
 ```
 &gt; Unit: nanoseconds
 &gt;                                     expr     min      lq        mean    median
-&gt;                                      x^2     348     457    1224.558    1042.5
-&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 1653734 1805600 2130735.817 1944889.5
-&gt;       uq      max neval cld
-&gt;     1785    25033  1000  a 
-&gt;  2267676 13290585  1000   b
+&gt;                                      x^2     354     449    1245.635     851.5
+&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 1665491 1834708 2159648.754 1949127.5
+&gt;         uq      max neval cld
+&gt;     1813.5    23534  1000  a 
+&gt;  2269636.5 12884525  1000   b
 ```
 
 ---
@@ -6101,7 +6101,7 @@ sample(x = 0:1, size = 30, replace = TRUE)
 ```
 
 ```
-&gt;  [1] 0 0 1 0 1 1 1 0 0 1 1 0 0 0 1 0 1 1 0 1 0 1 0 1 1 0 0 0 1 1
+&gt;  [1] 0 1 1 0 0 0 0 0 0 1 0 1 0 1 1 0 0 0 1 0 0 1 1 1 0 0 0 0 1 1
 ```
 
 ---
@@ -6116,7 +6116,7 @@ sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
 ```
 
 ```
-&gt;  [1] "cara" "cruz" "cara" "cara" "cruz" "cara" "cara" "cruz" "cara" "cara"
+&gt;  [1] "cara" "cara" "cara" "cara" "cara" "cruz" "cara" "cruz" "cara" "cruz"
 ```
 
 --
@@ -6129,7 +6129,7 @@ sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
 ```
 
 ```
-&gt;  [1] "cara" "cruz" "cara" "cara" "cara" "cruz" "cruz" "cruz" "cruz" "cara"
+&gt;  [1] "cruz" "cruz" "cara" "cara" "cruz" "cara" "cara" "cara" "cruz" "cara"
 ```
 
 ---
@@ -7574,7 +7574,7 @@ Una opción más flexible y versatil es hacer uso del paquete `{purrr}` del ento
 library(purrr)
 ```
 
-Dicho paquete pretende imitar lado **.bg-purple_light[programación funcional]** de otros lenguajes como Scala o la **estrategia map-reduce de Hadoop** (de Google).
+Dicho paquete pretende imitar la **.bg-purple_light[programación funcional]** de otros lenguajes como Scala o la **estrategia map-reduce de Hadoop** (de Google).
 
 ]
 
@@ -7605,12 +7605,12 @@ microbenchmark(sqrt(x), for (i in 1:1000) { y[i] &lt;- sqrt(x[i]) }, times = 1e3
 
 ```
 &gt; Unit: microseconds
-&gt;                                          expr     min       lq        mean
-&gt;                                       sqrt(x)    2.31    3.076    5.146335
-&gt;  for (i in 1:1000) {     y[i] &lt;- sqrt(x[i]) } 1779.84 2210.195 3044.304838
-&gt;    median        uq       max neval cld
-&gt;     3.959    5.0315   108.822  1000  a 
-&gt;  2695.939 3398.0565 29188.739  1000   b
+&gt;                                          expr      min        lq        mean
+&gt;                                       sqrt(x)    2.317    2.9715    4.978702
+&gt;  for (i in 1:1000) {     y[i] &lt;- sqrt(x[i]) } 1786.097 2038.4395 2478.695080
+&gt;    median       uq       max neval cld
+&gt;     3.737    4.658    83.235  1000  a 
+&gt;  2188.959 2645.708 13298.908  1000   b
 ```
 
 
@@ -7694,11 +7694,11 @@ microbenchmark(map(x, .f = function(x) { mean(x^2) }), lapply(x, FUN = function(
 ```
 &gt; Unit: milliseconds
 &gt;                                            expr      min       lq     mean
-&gt;      map(x, .f = function(x) {     mean(x^2) }) 5.470517 6.515595 8.726859
-&gt;  lapply(x, FUN = function(x) {     mean(x^2) }) 5.376921 6.529431 8.697874
+&gt;      map(x, .f = function(x) {     mean(x^2) }) 5.469680 6.176732 8.227476
+&gt;  lapply(x, FUN = function(x) {     mean(x^2) }) 5.213116 5.982448 8.048908
 &gt;    median       uq       max neval cld
-&gt;  7.475919 8.603518 169.53476  1000   a
-&gt;  7.421798 8.553083  66.02609  1000   a
+&gt;  7.113843 7.805461 171.81135  1000   a
+&gt;  6.974160 7.704976  41.96602  1000   a
 ```
 
 
