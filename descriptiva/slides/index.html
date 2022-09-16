@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>GESTIÓN DE BASES DE DATOS</title>
+    <title>Introducción a R</title>
     <meta charset="utf-8" />
     <meta name="author" content="Javier Álvarez Liébana (Fac. Estudios Estadísticos - UCM)" />
+    <script src="index_files/header-attrs-2.11/header-attrs.js"></script>
     <link href="index_files/tile-view-0.2.6/tile-view.css" rel="stylesheet" />
     <script src="index_files/tile-view-0.2.6/tile-view.js"></script>
     <link href="index_files/animate.css-3.7.2/animate.xaringan.css" rel="stylesheet" />
@@ -21,13 +22,12 @@
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
-# GESTIÓN DE BASES DE DATOS
-## Máster en Bioestadística
+# Introducción a R
+## Descripción y exploración de datos
 ### Javier Álvarez Liébana (Fac. Estudios Estadísticos - UCM)
-### Última actualización: 03-09-2022
+### Última actualización: 16-09-2022
 
 ---
-
 
 
 
@@ -52,80 +52,6 @@ class: inverse center middle
 
 ---
 
-# .orange[MATERIAL] de las clases
-
-
-.pull-left[
-
-- **.bg-purple_light[Diapositivas]** del curso:
-&lt;https://dadosdelaplace.github.io/teaching/bioestad/slides&gt;
-
-- **.bg-red_light[Evaluación]** de la asignatura
-&lt;https://github.com/dadosdelaplace/teaching/tree/main/bioestad/eval&gt;
-
-- **.bg-yellow[Scripts]** de la asignatura
-&lt;https://github.com/dadosdelaplace/teaching/tree/main/bioestad/scripts&gt;
-
-- **.bg-orange[Bibliografía]**: &lt;https://github.com/dadosdelaplace/teaching/tree/main/bioestad/biblio&gt;
-
-&amp;nbsp;
-
-- **.bg-green_light[Manual introductorio de R]**: &lt;https://dadosdelaplace.github.io/courses-intro-R/&gt;
-
-]
-
----
-
-# Me presento: la turra
-
-.pull-left[
-
-&lt;img src="./img/me.jpeg" width="80%" style="display: block; margin: auto auto auto 0;" /&gt;
-
-]
-
-.pull-right[
-
-* **.bg-purple_light[Javier Álvarez Liébana]**, nacido en 1989 en Carabanchel Bajo (Madrid)
-
-* Licenciado (UCM) en **Matemáticas** (Erasmus en Bologna mediante). **Máster (UCM) en Ingeniería Matemática** (2013-2014)
-
-
-* **.bg-orange[Doctorado en estadística]** por la Universidad de Granada
-
-
-* Encargado de la **visualización y análisis de datos covid** de la Consejería de Salud del **Principado de Asturias**
-
-]
-
-
-Intentando eso de la **.bg-yellow[divulgación]** por **Twitter** (@dadosdelaplace) e **Instagram** (@javieralvarezliebana)
-
----
-
-name: objetivos
-
-# .orange[OBJETIVOS] de la asignatura
-
-
-El **.bg-purple_light[propósito]** de esta asignatura será triple
-
-- **.bg-orange[Quitarnos el miedo]** a programar: a programar se aprende programando, no hace falta ser Julian Assange para ello
-
---
-
-- Aprender a **.bg-orange[abstraer ideas]** para implementarlas en un lenguaje de programación, así como adquirir una base para el **.bg-orange[preprocesamiento, análisis y visualización de datos]**.
-
---
-
-- Amén de no tener miedo a hacerlo, encontrarle la **.bg-orange[utilidad]** y entender las facilidades que nos ofrece `R` frente a otras opciones como Excel o SPSS.
-
-
-&amp;nbsp;
-
-📚 Estas **diapositivas** han sido elaboradas con el propio `R` haciendo uso de los paquetes `{xaringan}`, `{xaringanExtra}` y `{xaringanthemer}`.
-
----
 
 # .orange[CASOS REALES] de uso de R
 
@@ -168,37 +94,45 @@ Es una de las razones por las que son capaces de realizar brillantes análisis d
 
 class: inverse center middle
 
-# CLASES
+# BLOQUES
 
 &amp;nbsp;
 
-#### [CLASE 1](#clase-1)
+.pull-left[
 
-#### [CLASE 2](#clase-2)
+#### [Bloque I: introducción a R desde cero](#bloque-1)
 
-#### [CLASE 3](#clase-3)
+#### [Bloque II: vectores y matrices](#bloque-2)
 
-#### [CLASE 4](#clase-4)
+#### [Bloque III: conjuntos de datos](#bloque-3)
 
-#### [CLASE 5](#clase-5)
+#### [Bloque IV: comunicando resultados](#bloque-4)
 
-#### [ENTREGA I](#clase5-caso-I)
+]
 
-#### [ENTREGA II](#clase5-caso-II)
+.pull-right[
+
+#### [Bloque V: funciones y listas](#bloque-5)
+
+#### [Bloque VI: importar/exportar. Tidydata](#bloque-6)
+
+#### [Bloque VII: ordenando y resumiendo datos (tidyverse)](#bloque-7)
+
+#### [Bloque VIII: visualizando datos](#bloque-7)
+
+]
 
 ---
 
 
 class: inverse center middle
-name: clase-1
+name: bloque-1
 
-# CLASE 1: introducción a R desde cero.
+# Bloque I: introducción a R desde cero
 
 &amp;nbsp;
 
 ### [Instalación](#instalacion)
-
-### [¿Qué es R?](#que-es-R)
 
 ### [Primeros pasos](#primeros-pasos)
 
@@ -210,7 +144,7 @@ name: instalacion
 
 # Requisitos
 
-Para la asignatura los únicos **.bg-purple_light[requisitos]** serán:
+Los únicos **.bg-purple_light[requisitos]** serán:
 
 --
 
@@ -461,75 +395,6 @@ library(ggplot2)
 
 class: center middle
 
-# ¿Por qué .orange[NO] usar Excel?
-
-![](./img/meme_barco.jpg)
-
----
-
-# ¿Por qué .orange[NO] usar Excel?
-
-Excel es una **.bg-purple_light[hoja de cálculo]**, ni más ni menos, y el propio **Microsoft desaconseja su uso** para el análisis de datos. El Excel es una herramienta maravillosa para ser usada como una sencilla hoja de cálculo (llevar cuentas de tu familia, declaración de Renta, planificar viajes, etc).
-
-&amp;nbsp;
-
-**.bg-red_light[NO ESTÁ DISEÑADO]** para ser una base de datos, y muchos menos pensado para generar un entorno flexible para el análisis estadístico:
-
-* **.bg-red_light[Software de pago]**
-
-* **.bg-red_light[Software cerrado]**: solo podemos hacer lo que Excel ha creído que interesante que podamos hacer.
-
-* **.bg-red_light[Alto consumo de memoria]**.
-
-* **.bg-red_light[No es universal]**: no solo es de pago sino que además, dependiendo de la versión que tengas de Excel, tendrá un formato distinto para datos como fechas, teniendo incluso extensiones distintas.
-
----
-
-# .orange[Incel] vs excel
-
-&lt;img src="./img/incel.jpg" width="75%" style="display: block; margin: auto;" /&gt;
-
----
-
-
-
-# .red[EPIC FAILS] en Excel
-
-Problemas de **.red[versiones]**
-
-
-&lt;img src="./img/excel_genes.jpg" width="37%" style="display: block; margin: auto auto auto 0;" /&gt;
-
-
-📚 Ver **.bg-green_light[bibliografía]** en &lt;https://github.com/dadosdelaplace/teaching/tree/main/bioestad/biblio&gt;
-
-
----
-
-# .red[EPIC FAILS] en Excel
-
-Problemas de **.red[memoria]**
-
-&lt;img src="./img/excel_uk.jpg" width="50%" style="display: block; margin: auto auto auto 0;" /&gt;
-
-
-📚 Ver **.bg-green_light[bibliografía]** en &lt;https://github.com/dadosdelaplace/teaching/tree/main/bioestad/biblio&gt;
-
-
----
-
-# .red[EPIC FAILS] en Excel
-
-Problemas de **.red[codificación]**
-
-&lt;img src="./img/excel_edades.jpg" width="50%" style="display: block; margin: auto auto auto 0;" /&gt;
-
-📚 Ver **.bg-green_light[bibliografía]** en &lt;https://github.com/dadosdelaplace/teaching/tree/main/bioestad/biblio&gt;
-
----
-
-name: primeros-pasos
-
 # Primeros pasos en R: .orange[CALCULADORA]
 
 Empecemos por lo sencillo: **.bg-purple-light[¿cómo usar R como una calculadora?]** Si escribimos `2 + 1` en la consola y pulsamos ENTER, la consola nos mostrará el resultado de la suma.
@@ -592,57 +457,6 @@ x + 3
 
 ---
 
-# .red[Errores]
-
-Durante tu aprendizaje va a ser **muy habitual** que las cosas no salgan a la primera, apareciendo en consola **.bg-purple_light[mensajes de error]** en un **.bg-red_light[color rojo]**. No te asustes: lo peor que puede pasar es que tengas que reiniciar `R`).
-
-&amp;nbsp;
-
-* Mensajes de **.bg-red_light[ERROR]**: irán precedidos de la frase **.bg-yellow[«Error in…»]**, y serán aquellos fallos que **impidan la ejecución del código** 
-
-
-```r
-"a" + 1 # intentando sumar 1 a un texto
-```
-
-```
-&gt; Error in "a" + 1: argumento no-numérico para operador binario
-```
-
-&amp;nbsp;
-
-**.bg-green_light[CONSEJO]**: lee siempre los mensajes de error para aprender de ellos (ya que suelen dar pistas de cómo resolverlos).
-
----
-
-# .red[Errores]
-
-Durante tu aprendizaje va a ser **muy habitual** que las cosas no salgan a la primera, apareciendo en consola **.bg-purple_light[mensajes de error]** en un **.bg-red_light[color rojo]**. No te asustes: lo peor que puede pasar es que tengas que reiniciar `R`).
-
-&amp;nbsp;
- 
-* Mensajes de **.bg-orange[WARNING]**: irán precedidos de la frase **.bg-yellow[«Warning in…»]**, y son los fallos más delicados ya que son posibles incoherencias pero sin que tu código deje de ejecutarse.
-
-
-```r
-sqrt(-1) # raiz cuadrada de número negativo
-```
-
-```
-&gt; Warning in sqrt(-1): Se han producido NaNs
-```
-
-```
-&gt; [1] NaN
-```
-
-&amp;nbsp;
-
-**¿Ha ejecutado la orden?** Sí, pero te advierte de que el resultado de la operación es un `NaN`, **Not A Number**, un valor que no existe (al menos dentro de los números reales).
-
-
----
-
 # ¿Dónde programamos? .orange[SCRIPTS]
 
 Un **.bg-purple_light[script]** será el documento en el que programamos, nuestro equivalente a un archivo .doc, pero aquí será un archivo con extensión `.R`, donde **escribiremos las órdenes**. Para **.bg-purple_light[abrir nuestro primero script]**, haz click en el menú superior en `File &lt;&lt; New File &lt;&lt; R Script`.
@@ -665,7 +479,6 @@ Un **.bg-purple_light[script]** será el documento en el que programamos, nuestr
 
 ---
 
-# .orange[EJECUTAR] nuestros scripts
 
 Ahora tenemos una **cuarta ventana**: la ventana donde **escribiremos nuestros códigos**
 
@@ -851,21 +664,23 @@ t
 ---
 
 class: inverse center middle
-name: clase-2
+name: bloque-2
 
-# CLASE 2: primeros datos en R
+# Bloque II: vectores y matrices
 
 &amp;nbsp;
 
-### [Variables individuales: numéricas y caracteres](#variables)
+### [Variables y vectores](#variables)
 
-### [Primer paquete y primera función](#primer-paquete)
+### [Ejercicios vectores](#ejercicios2)
 
-### [Vectores: numéricos y de caracteres](#vectores)
+### [Operaciones con vectores](#operaciones-vectores)
 
-### [Variables lógicas y de tipo fecha](#logicas)
+### [Ejercicios de vectores](#ejercicios-vectores)
 
-### [Ejercicios](#ejercicios2)
+### [Matrices](#matrices)
+
+### [Ejercicios de matrices](#ejercicios-matrices)
 
 ---
 
@@ -939,34 +754,6 @@ En el código anterior, tanto `a` como `b` como la suma `a + b` son de **.bg-pur
 &gt; [1] "double"
 ```
 
-
----
-
-# Variables .orange[NUMÉRICAS]
-
-Como ya hemos visto, con los datos numéricos podemos realizar todas las **.bg-purple_light[operaciones aritméticas]** que se nos ocurriría hacer en una **calculadora** como sumar (`+`), restar (`-`), multiplicar (`+`), dividir (`/`), raíz cuadrada (`sqrt()`), valor absoluto (`abs()`), elevar al cuadrado (`^2`), elevar al cubo (`^3`), etc.
-
-
-
-
-```r
-a &lt;- 5
-a^3 # Elevar al cubo
-```
-
-```
-&gt; [1] 125
-```
-
-
-```r
-b &lt;- -43
-abs(b) # valor absoluto
-```
-
-```
-&gt; [1] 43
-```
 
 ---
 
@@ -1089,12 +876,12 @@ Con dicho paquete podemos **.bg-purple_light[usar variables dentro de cadenas]**
 
 
 ```r
-edad &lt;- 32
+edad &lt;- 33
 *glue("La edad es de {edad} años")
 ```
 
 ```
-&gt; La edad es de 32 años
+&gt; La edad es de 33 años
 ```
 
 Dentro de las llaves también podemos ejecutar operaciones
@@ -1106,7 +893,7 @@ unidades &lt;- "días"
 ```
 
 ```
-&gt; La edad es de 11680 días
+&gt; La edad es de 12045 días
 ```
 
 ---
@@ -1124,12 +911,12 @@ La forma más sencilla es con el comando `c()` (c de concatenar), y basta con in
 
 
 ```r
-*edades &lt;- c(32, 27, 60, 61)
+*edades &lt;- c(33, 27, 60, 61)
 edades
 ```
 
 ```
-&gt; [1] 32 27 60 61
+&gt; [1] 33 27 60 61
 ```
 
 
@@ -1154,7 +941,7 @@ edades
 ```
 
 ```
-&gt; [1] 32 27 60 61
+&gt; [1] 33 27 60 61
 ```
 
 ]
@@ -1192,7 +979,7 @@ c(edades, edades, 8)
 ```
 
 ```
-&gt; [1] 32 27 60 61 32 27 60 61  8
+&gt; [1] 33 27 60 61 33 27 60 61  8
 ```
 
 ]
@@ -1700,7 +1487,7 @@ hoy
 ```
 
 ```
-&gt; [1] "2022-09-03"
+&gt; [1] "2022-09-16"
 ```
 
 --
@@ -1713,7 +1500,7 @@ También podemos obtener el **.bg-purple_light[«hoy y ahora»]** con la funció
 ```
 
 ```
-&gt; [1] "2022-09-03 22:21:27 CEST"
+&gt; [1] "2022-09-16 16:26:48 CEST"
 ```
  
 ---
@@ -1787,45 +1574,6 @@ wday(fecha, week_start = 1) # Día de la semana
 
 ]
 
-
----
-
-# Datos de tipo .orange[FECHA]
-
-
-También podemos **.bg-purple_light[realizar comparaciones]**
-
-
-```r
-fecha_actual &lt;- today()
-fecha_actual &gt; ymd(20170131) # Actual vs 2017-01-31
-```
-
-```
-&gt; [1] TRUE
-```
-
-```r
-fecha_actual &gt; ymd(21000131) # Actual vs 2100-01-31
-```
-
-```
-&gt; [1] FALSE
-```
- 
---
-
-Con la función `leap_year()` podremos saber si la fecha **.bg-purple_light[corresponde a un año bisiesto]**
-
-
-```r
-leap_year(as_date(ymd(20190131)))
-```
-
-```
-&gt; [1] FALSE
-```
-
 ---
 
 # Datos de tipo .orange[FECHA]
@@ -1890,12 +1638,12 @@ name: ejercicios2
 
 ```r
 # variable numérica
-edad &lt;- 32
+edad &lt;- 33
 edad
 ```
 
 ```
-&gt; [1] 32
+&gt; [1] 33
 ```
 
 ```r
@@ -2097,7 +1845,7 @@ hoy - cumple
 ```
 
 ```
-&gt; Time difference of 12046 days
+&gt; Time difference of 12059 days
 ```
 
 ]
@@ -2145,12 +1893,12 @@ vector_num
 
 ```r
 nombre &lt;- "Javi"
-edad &lt;- 32
+edad &lt;- 33
 glue("Hola, me llamo {nombre} y tengo {edad} años")
 ```
 
 ```
-&gt; Hola, me llamo Javi y tengo 32 años
+&gt; Hola, me llamo Javi y tengo 33 años
 ```
 ]
 
@@ -2212,8 +1960,8 @@ wday(cumple, week_start = 1, label = TRUE)
 ```
 
 ```
-&gt; [1] dom
-&gt; Levels: lun &lt; mar &lt; mié &lt; jue &lt; vie &lt; sáb &lt; dom
+&gt; [1] do\\.
+&gt; Levels: lu\\. &lt; ma\\. &lt; mi\\. &lt; ju\\. &lt; vi\\. &lt; sá\\. &lt; do\\.
 ```
 
 ]
@@ -2221,23 +1969,6 @@ wday(cumple, week_start = 1, label = TRUE)
 
 ]
 
-
----
-
-class: inverse center middle
-name: clase-3
-
-# CLASE 3: operaciones con vectores y matrices
-
-&amp;nbsp;
-
-### [Operaciones con vectores](#operaciones-vectores)
-
-### [Ejercicios vectores](#ejercicios-vectores)
-
-### [Matrices](#matrices)
-
-### [Ejercicios matrices](#ejercicios-matrices)
 
 ---
 
@@ -2307,44 +2038,6 @@ y &lt;- c(1, 3, 5)
 
  
 ---
-
-# .green[OPERACIONES] .orange[ARITMÉTICAS]
- 
-
-Dado que la operación (por ejemplo, una suma) se realiza elemento a elemento, ¿qué sucederá si **.bg-purple_light[sumamos dos vectores de distinta longitud]**?
-
---
-
-Por ejemplo, definamos `z` con los 4 primeros impares, e intentemos hacer la suma `x + z`.
-
-
-```r
-z &lt;- c(1, 3, 5, 7)
-x + z
-```
-
-```
-&gt; [1]  3  7 11  9
-```
-
---
-
-.pull-left[
-
-
-&lt;img src="./img/recycle.jpg" width="99%" style="display: block; margin: auto auto auto 0;" /&gt;
-
-
-]
-
-.pull-right[
-
-`R` intenta molestarte lo menos posible, así que lo que hace es **.bg-purple_light[reciclar elementos]**: si tiene un vector de 4 elementos y le intentas sumar uno de 3 elementos, lo que hará será reciclar elementos del vector con menor longitud: hará `1 + 2`, `3 + 4`, `5 + 6` pero… `7 + 2` (vuelve al primero).
-
-]
-
----
-
 
 # .green[OPERACIONES] .orange[ARITMÉTICAS]
 
@@ -2659,14 +2352,14 @@ Otra operación muy habitual es la **.bg-purple_light[extraer un subconjunto del
 
 
 ```r
-edades &lt;- c(20, 30, 32, NA, 61)
+edades &lt;- c(20, 30, 33, NA, 61)
 
 # accedemos a la edad de la tercera persona en la lista
 *edades[3]
 ```
 
 ```
-&gt; [1] 32
+&gt; [1] 33
 ```
 
 ```r
@@ -2691,7 +2384,7 @@ Un número no es más que un vector de longitud uno, así que esta operación ta
 ```
 
 ```
-&gt; [1] 32 NA
+&gt; [1] 33 NA
 ```
 
 --
@@ -2722,6 +2415,15 @@ y[length(y)]
 ```
 
 ---
+
+
+# Valores .orange[UNICOS]
+
+Con la función `unique()` podemos también extraer los **.bg-purple_light[valores únicos de una variable]**
+
+---
+
+
 
 # .orange[FILTRAR] elementos
 
@@ -2934,14 +2636,14 @@ Una acción también habitual al trabajar con datos es saber **.bg-purple_light[
 
 
 ```r
-edades &lt;- c(81, 7, 25, 41, 65, 20, 32, 23, 77)
+edades &lt;- c(81, 7, 25, 41, 65, 20, 33, 23, 77)
 
 # orden de joven a mayor
 *sort(edades)
 ```
 
 ```
-&gt; [1]  7 20 23 25 32 41 65 77 81
+&gt; [1]  7 20 23 25 33 41 65 77 81
 ```
 
 --
@@ -2955,7 +2657,7 @@ Por defecto, `sort()` ordena de menor a mayor. Con el argumento opcional `decrea
 ```
 
 ```
-&gt; [1]  7 20 23 25 32 41 65 77 81
+&gt; [1]  7 20 23 25 33 41 65 77 81
 ```
 
 ---
@@ -2998,9 +2700,9 @@ x &lt;- rnorm(1e3) # 1000 elementos aleatorias
 
 ```
 &gt; Unit: microseconds
-&gt;         expr    min      lq     mean  median      uq     max neval cld
-&gt;      sort(x) 46.816 48.9380 58.90758 50.8460 59.1575 219.769  1000   b
-&gt;  x[order(x)] 31.121 35.5705 42.70020 36.6905 42.0980 176.612  1000  a
+&gt;         expr  min   lq    mean median    uq   max neval
+&gt;      sort(x) 55.0 60.3 69.7276   62.6 67.35 186.7  1000
+&gt;  x[order(x)] 37.4 41.8 49.2337   44.7 48.30 166.7  1000
 ```
 
 --
@@ -4137,18 +3839,22 @@ apply(matriz, MARGIN = 1, FUN = "sum")
 
 ---
 
-class: inverse center middle
-name: clase-4
+name: bloque-3
 
-# CLASE 4: primeros datos
+# Bloque III: conjuntos de datos y estructuras de control
 
 &amp;nbsp;
 
-### [data.frame](#data.frame)
+### [Conjuntos de datos: data.frame y tibble](#data.frame)
 
-### [tibble](#tibble)
+### [Ejercicios data.frame y tibble](#ejercicios-tibble)
 
-### [Ejercicios](#ejercicios-tibble)
+### [Estructuras condicionales: if-else](#estructuras-condicionales)
+
+### [Bucles: for, while](#bucles)
+
+### [Ejercicios if-else y bucles](#ejercicios-4)
+
 
 ---
 
@@ -4805,7 +4511,7 @@ tabla_tb
 ```
 
 ```
-&gt; # A tibble: 50 × 3
+&gt; # A tibble: 50 x 3
 &gt;        x y     logica
 &gt;    &lt;int&gt; &lt;chr&gt; &lt;lgl&gt; 
 &gt;  1     1 a     TRUE  
@@ -4818,8 +4524,7 @@ tabla_tb
 &gt;  8     8 c     FALSE 
 &gt;  9     9 d     TRUE  
 &gt; 10    10 e     FALSE 
-&gt; # … with 40 more rows
-&gt; # ℹ Use `print(n = ...)` to see more rows
+&gt; # ... with 40 more rows
 ```
 
 
@@ -4836,7 +4541,7 @@ Puedes **imprimir las filas y columnas** que quieras con `print()`
 ```
 
 ```
-&gt; # A tibble: 50 × 3
+&gt; # A tibble: 50 x 3
 &gt;        x y     logica
 &gt;    &lt;int&gt; &lt;chr&gt; &lt;lgl&gt; 
 &gt;  1     1 a     TRUE  
@@ -4851,8 +4556,7 @@ Puedes **imprimir las filas y columnas** que quieras con `print()`
 &gt; 10    10 e     FALSE 
 &gt; 11    11 a     TRUE  
 &gt; 12    12 b     FALSE 
-&gt; # … with 38 more rows
-&gt; # ℹ Use `print(n = ...)` to see more rows
+&gt; # ... with 38 more rows
 ```
 
 ---
@@ -4879,7 +4583,7 @@ tibble("x1" = 1:3, "x2" = 4:6, "y" = x1 * x2)
 ```
 
 ```
-&gt; # A tibble: 3 × 3
+&gt; # A tibble: 3 x 3
 &gt;      x1    x2     y
 &gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;
 &gt; 1     1     4     4
@@ -4965,7 +4669,7 @@ tibble(":)" = "emoticono",
 ```
 
 ```
-&gt; # A tibble: 1 × 3
+&gt; # A tibble: 1 x 3
 &gt;   `:)`      ` `       `2000`
 &gt;   &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt; 
 &gt; 1 emoticono en blanco número
@@ -4987,7 +4691,7 @@ as_tibble(USArrests)
 ```
 
 ```
-&gt; # A tibble: 50 × 4
+&gt; # A tibble: 50 x 4
 &gt;    Murder Assault UrbanPop  Rape
 &gt;     &lt;dbl&gt;   &lt;int&gt;    &lt;int&gt; &lt;dbl&gt;
 &gt;  1   13.2     236       58  21.2
@@ -5000,8 +4704,7 @@ as_tibble(USArrests)
 &gt;  8    5.9     238       72  15.8
 &gt;  9   15.4     335       80  31.9
 &gt; 10   17.4     211       60  25.8
-&gt; # … with 40 more rows
-&gt; # ℹ Use `print(n = ...)` to see more rows
+&gt; # ... with 40 more rows
 ```
 
 Puedes consultar **más funcionalidades** de dichos datos en &lt;https://tibble.tidyverse.org/&gt;
@@ -5020,9 +4723,9 @@ glimpse(tabla_tb)
 ```
 &gt; Rows: 50
 &gt; Columns: 3
-&gt; $ x      &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, …
-&gt; $ y      &lt;chr&gt; "a", "b", "c", "d", "e", "a", "b", "c", "d", "e", "a", "b", "c"…
-&gt; $ logica &lt;lgl&gt; TRUE, FALSE, TRUE, FALSE, TRUE, FALSE, TRUE, FALSE, TRUE, FALSE…
+&gt; $ x      &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, ~
+&gt; $ y      &lt;chr&gt; "a", "b", "c", "d", "e", "a", "b", "c", "d", "e", "a", "b", "c"~
+&gt; $ logica &lt;lgl&gt; TRUE, FALSE, TRUE, FALSE, TRUE, FALSE, TRUE, FALSE, TRUE, FALSE~
 ```
 
 ---
@@ -5041,7 +4744,7 @@ datos
 ```
 
 ```
-&gt; # A tibble: 2 × 2
+&gt; # A tibble: 2 x 2
 &gt;   colA   colB
 &gt;   &lt;chr&gt; &lt;dbl&gt;
 &gt; 1 a         1
@@ -5154,7 +4857,7 @@ filtro_fila
 ```
 
 ```
-&gt; # A tibble: 31 × 6
+&gt; # A tibble: 31 x 6
 &gt;    Ozone Solar.R  Wind  Temp Month   Day
 &gt;    &lt;int&gt;   &lt;int&gt; &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;
 &gt;  1    39      83   6.9    81     8     1
@@ -5167,8 +4870,7 @@ filtro_fila
 &gt;  8    89     229  10.3    90     8     8
 &gt;  9   110     207   8      90     8     9
 &gt; 10    NA     222   8.6    92     8    10
-&gt; # … with 21 more rows
-&gt; # ℹ Use `print(n = ...)` to see more rows
+&gt; # ... with 21 more rows
 ```
 ]
 
@@ -5207,7 +4909,7 @@ subset(airquality, subset = !(Month %in% c(7, 8)))
 ```
 
 ```
-&gt; # A tibble: 91 × 6
+&gt; # A tibble: 91 x 6
 &gt;    Ozone Solar.R  Wind  Temp Month   Day
 &gt;    &lt;int&gt;   &lt;int&gt; &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;
 &gt;  1    41     190   7.4    67     5     1
@@ -5220,8 +4922,7 @@ subset(airquality, subset = !(Month %in% c(7, 8)))
 &gt;  8    19      99  13.8    59     5     8
 &gt;  9     8      19  20.1    61     5     9
 &gt; 10    NA     194   8.6    69     5    10
-&gt; # … with 81 more rows
-&gt; # ℹ Use `print(n = ...)` to see more rows
+&gt; # ... with 81 more rows
 ```
 
 ]
@@ -5236,7 +4937,7 @@ filtro_col
 ```
 
 ```
-&gt; # A tibble: 153 × 2
+&gt; # A tibble: 153 x 2
 &gt;    Ozone  Temp
 &gt;    &lt;int&gt; &lt;int&gt;
 &gt;  1    41    67
@@ -5249,8 +4950,7 @@ filtro_col
 &gt;  8    19    59
 &gt;  9     8    61
 &gt; 10    NA    69
-&gt; # … with 143 more rows
-&gt; # ℹ Use `print(n = ...)` to see more rows
+&gt; # ... with 143 more rows
 ```
 
 ]
@@ -5264,7 +4964,7 @@ datos
 ```
 
 ```
-&gt; # A tibble: 31 × 2
+&gt; # A tibble: 31 x 2
 &gt;     Temp  Wind
 &gt;    &lt;int&gt; &lt;dbl&gt;
 &gt;  1    81   6.9
@@ -5277,8 +4977,7 @@ datos
 &gt;  8    90  10.3
 &gt;  9    90   8  
 &gt; 10    92   8.6
-&gt; # … with 21 more rows
-&gt; # ℹ Use `print(n = ...)` to see more rows
+&gt; # ... with 21 more rows
 ```
 
 ```r
@@ -5290,8 +4989,8 @@ glimpse(datos)
 ```
 &gt; Rows: 31
 &gt; Columns: 2
-&gt; $ temperatura &lt;int&gt; 81, 81, 82, 86, 85, 87, 89, 90, 90, 92, 86, 86, 82, 80, 79…
-&gt; $ viento      &lt;dbl&gt; 6.9, 13.8, 7.4, 6.9, 7.4, 4.6, 4.0, 10.3, 8.0, 8.6, 11.5, …
+&gt; $ temperatura &lt;int&gt; 81, 81, 82, 86, 85, 87, 89, 90, 90, 92, 86, 86, 82, 80, 79~
+&gt; $ viento      &lt;dbl&gt; 6.9, 13.8, 7.4, 6.9, 7.4, 4.6, 4.0, 10.3, 8.0, 8.6, 11.5, ~
 ```
 
 ]
@@ -5306,7 +5005,7 @@ nuevos_datos
 ```
 
 ```
-&gt; # A tibble: 153 × 7
+&gt; # A tibble: 153 x 7
 &gt;    Ozone Solar.R  Wind  Temp Month   Day fecha     
 &gt;    &lt;int&gt;   &lt;int&gt; &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;date&gt;    
 &gt;  1    41     190   7.4    67     5     1 1973-05-01
@@ -5319,8 +5018,7 @@ nuevos_datos
 &gt;  8    19      99  13.8    59     5     8 1973-05-08
 &gt;  9     8      19  20.1    61     5     9 1973-05-09
 &gt; 10    NA     194   8.6    69     5    10 1973-05-10
-&gt; # … with 143 more rows
-&gt; # ℹ Use `print(n = ...)` to see more rows
+&gt; # ... with 143 more rows
 ```
 
 ]
@@ -5352,7 +5050,7 @@ tibble("a" = 1:4, "b" = 11:14, "c" = a * b)
 ```
 
 ```
-&gt; # A tibble: 4 × 3
+&gt; # A tibble: 4 x 3
 &gt;       a     b     c
 &gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;
 &gt; 1     1    11    11
@@ -5431,18 +5129,859 @@ dim(gapminder)
 
 ---
 
-class: inverse center middle
-name: clase-5
+name: estructuras-condicionales
 
-# CLASE 5: rmarkdown y casos prácticos
+# Estructuras de control: .orange[IF-ELSE]
+
+
+Una **.bg-purple_light[expresión de control]** será un conjunto de órdenes que nos permiten **.bg-purple_light[decidir el camino]** por el que queremos que avance nuestro código:
+
+* ¿Qué hacemos si sucede A?
+
+* ¿Y si sucede B?
+
+* ¿Tengo que programar X veces lo mismo si quiere que se repita?
 
 &amp;nbsp;
 
+Si has programado en algún otro lenguaje, estarás familiarizado/a con **.bg-purple_light[estructuras condicionales]** como un `if (blabla) {...} else {...}` (que los usaremos a veces) o **.bg-purple_light[bucles]** `for/while` (que intentaremos evitarlos lo máximo posible).
+
+---
+
+# Estructuras de control: .orange[IF]
+
+Una de las estructuras de control más famosas de cualquier lenguaje de programación es la **.bg-purple_light[estructura condicional]** `if`
+
+&gt; SI las condiciones impuestas se cumplen (TRUE), ejecuta las órdenes que tengamos dentro de la misma.
+
+Por ejemplo, la estructura `if (x == 1) { código A }` lo que hará será **.bg-purple_light[ejecutar el código entre llaves]** pero **.bg-orange[SI Y SOLO SI]** la **.bg-purple_light[condición es cierta]** (en este caso, solo si `x` es igual 1). En **caso contrario, no hace nada**.
+
+--
+
+Definamos por ejemplo una variable sencilla, las edades de 8 personas y comprobemos cuales son menores de edad.
+
+
+```r
+edades &lt;- c(14, 17, 24, 56, 31, 20, 87, 73)
+edades &lt; 18
+```
+
+```
+&gt; [1]  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE
+```
+
+---
+
+# Estructuras de control: .orange[IF]
+
+
+Recuerda que con las funciones `any()` y `all()` podemos saber si **.bg-purple_light[todos o alguno de los elementos]** de un vector cumplen una condición.
+
+
+```r
+any(edades &lt; 18) # existe algun menor de edad
+```
+
+```
+&gt; [1] TRUE
+```
+
+--
+
+Con dichos elementos vamos a construir nuestra primera estructura condicional: queremos que, **.bg-purple_light[SI existe algún menor de edad, nos imprima un mensaje]**.
+
+
+```r
+if (any(edades &lt; 18)) { 
+  
+  print("existe alguna persona mayor de edad")
+  
+}
+```
+
+```
+&gt; [1] "existe alguna persona mayor de edad"
+```
+
+---
+
+# Estructuras de control: .orange[IF]
+
+
+```r
+if (any(edades &lt; 18)) { 
+  
+  print("existe alguna persona mayor de edad")
+  
+}
+```
+
+
+En caso de que **.bg-purple_light[no se cumplan las condiciones]** dentro del `if()` (FALSE), no sucederá nada. 
+
+
+
+```r
+if (all(edades &gt;= 18)) { 
+  
+  print("todas las personas son mayores de edad")
+  
+}
+```
+
+Fíjate que en este caso **no hemos obtenido ningún mensaje** porque la condición `all(edades &gt;= 18)` no es cierta (no son todos mayores de 18 años), así que **no ha ejecutado el código**.
+
+---
+
+# Estructuras de control: .orange[IF-ELSE]
+
+La estructura `if (condicion) { }` puede ser combinada con un `else { }`: cuando la **.bg-purple_light[condición no se cumpla]** (como en el último ejemplo), se **.bg-purple_light[ejecutará el código alternativo]** que haya dentro del `else { }`, permitiéndonos decidir que sucede cuando SÍ se cumple y cuando NO se cumple.
+
+--
+
+Por ejemplo, la estructura `if (x == 1) { código A } else { código B }` ejecutará A si `x` es 1 y B en cualquier otro caso.
+
+
+```r
+if (all(edades &gt;= 18)) { 
+  
+  print("todas las personas son mayores de edad")
+  
+*} else {
+  
+  print("existe alguna persona menor de edad")
+}
+```
+
+```
+&gt; [1] "existe alguna persona menor de edad"
+```
+
+---
+
+# Estructuras de control: .orange[IF-ELSE]
+
+Dicha estructura `if - else` puede **.bg-purple_light[anidarse]**: imagina que queremos realizar una acción si todos fuesen mayores de edad; en caso contrario, pero si todos los menores tienen 16 años o más, realizar otra acción; en caso contrario, otra acción
+
+
+```r
+if (all(edades &gt;= 18)) { 
+  
+  print("todas las personas son mayores de edad")
+  
+} else if (all(edades &gt;= 16)) {
+  
+  print("Existe alguna persona menor de edad pero todos con 16 años o más")
+  
+} else { print("Existe alguna persona menor de 16 años") }
+```
+
+```
+&gt; [1] "Existe alguna persona menor de 16 años"
+```
+
+**.bg-green_light[CONSEJO]**: puedes **colapsar las estructuras de control** pulsando en la flecha que aparece a la izquierda de ellas en tu script.
+
+
+---
+
+# Estructuras de control: .orange[IFELSE()]
+
+
+Esta estructura condicional puede ser **.bg-purple_light[vectorizada]**: reunir en una sola fila un número elevado de estructuras de comparación con la función `ifelse()`, cuyos argumentos de entrada serán
+
+* la condición a evaluar
+* lo que sucede cuando se cumple
+* lo que sucede cuando no se cumple
+
+Con el ejemplo de las edades, vamos a dejar el dato ausente si son menores de edad, y si son mayores de edad se queda como está.
+
+
+```r
+# NA si no cumple la condición, la edad si se cumple.
+*ifelse(edades &gt;= 18, edades, NA)
+```
+
+```
+&gt; [1] NA NA 24 56 31 20 87 73
+```
+
+---
+
+# Estructuras de control: .orange[IFELSE()]
+
+
+Todas estas estructuras **.bg-purple_light[no solo sirven para datos numéricos]**. Vamos a definir un vector de nombres con algunos ausentes, y vamos a sustituir los ausentes por el texto `"nombre_desconocido"` (los que no sean ausentes, es decir los que `is.na()` devuelva FALSE, se quedan como están).
+
+
+```r
+nombres &lt;- c("Juan", "María", NA, NA, "Lucía",
+             "Carmen", "Javier", NA, "Carlos", 
+             NA, "Gregorio", "Paloma")
+
+# Si tiene ausente --&gt; "nombre_desconocido"
+# Si no tiene ausente --&gt; nombres originales
+nombres &lt;-
+  ifelse(is.na(nombres), "nombre_desconocido", nombres)
+nombres
+```
+
+```
+&gt;  [1] "Juan"               "María"              "nombre_desconocido"
+&gt;  [4] "nombre_desconocido" "Lucía"              "Carmen"            
+&gt;  [7] "Javier"             "nombre_desconocido" "Carlos"            
+&gt; [10] "nombre_desconocido" "Gregorio"           "Paloma"
+```
+
+---
+
+name: bucles
+
+# Estructuras de control: .orange[BUCLES]
+
+Aunque la mayoría de veces son sustituibles por otras expresiones más legibles y eficientes, es importante que conozcamos otra archiconocida expresion de control: **.bg-purple_light[los bucles]**.
+
+* `for { }`: permite **.bg-purple_light[repetir el mismo código]** un **.bg-orange[número fijo y conocido]** de veces (normalmente en función de un índice).
+
+* `while { }`: permite **.bg-purple_light[repetir el mismo código]** un **.bg-orange[número indeterminado de veces]**, hasta que una **condición** dada se deje de cumplir.
+
+---
+
+# Estructuras de control: .orange[BUCLES FOR]
+
+Un **.bg-purple_light[bucle for]** es una estructura que nos permite **.bg-purple_light[repetir]** un conjunto de órdenes un **.bg-orange[número finito y conocido]** de veces: dado un **conjunto de índices**, el bucle irá recorriendo cada uno de ellos.
+
+Vamos a definir un vector `x`. Si quisiéramos el primer elemento al cuadrado escribiríamos `x[1]^2`; si quisiéramos el segundo elemento al cuadrado `x[2]^2`; si lo quisiéramos hacer en general, para el elemento i-ésimo, `x[i]^2`. Lo que haremos dentro del `for (indices) { órdenes }` es indicarle que valores irá tomando `i` (**.bg-purple_light[vector de índices]**).
+
+
+```r
+x &lt;- c(0, -7, 1, 4)
+*for (i in 1:4) {
+  
+  print(x[i]^2) # órdenes
+  
+}
+```
+
+```
+&gt; [1] 0
+&gt; [1] 49
+&gt; [1] 1
+&gt; [1] 16
+```
+
+---
+
+# Estructuras de control: .orange[BUCLES FOR]
+
+
+```r
+*for (i in 1:4) {
+  print(x[i]^2) # órdenes
+}
+```
+
+Lo que tenemos dentro de los paréntesis `for ()` no es más que la **.bg-purple_light[secuencia de números]** que hemos aprendido a construir. Si quisiéramos que haga lo mismo pero excluyendo por ejemplo el segundo elemento bastaría con definir los índices a recorrer como `c(1, 3, 4)`.
+
+
+```r
+for (i in c(1, 3, 4)) {
+  
+  print(x[i]^2) # que lo imprima
+  
+}
+```
+
+```
+&gt; [1] 0
+&gt; [1] 1
+&gt; [1] 16
+```
+
+---
+
+# Estructuras de control: .orange[BUCLES FOR]
+
+Podemos definir también una variable `y &lt;- rep(0, 4)` (un **vector «vacío»** lleno de ceros), y hacer que el **.bg-purple_light[elemento i-ésimo del vector]** se defina como `x[i]^2`
+
+
+```r
+y &lt;- rep(0, 4)
+for (i in 1:4) {
+  
+  y[i] &lt;- x[i]^2
+  
+}
+y
+```
+
+```
+&gt; [1]  0 49  1 16
+```
+
+--
+
+Lo anterior es equivalente a esto
+
+
+```r
+y &lt;- x^2
+y
+```
+
+```
+&gt; [1]  0 49  1 16
+```
+
+---
+
+# .orange[BUCLES] suelen ser .red[INEFICIENTES]
+
+
+Haciendo uso del paquete `microbenchmark` podemos comprobar como los **.bg-purple_light[bucles son menos eficientes]** (de ahí que la mayoría de veces los intentemos evitar si existe otra alternativa)
+
+
+```r
+library(microbenchmark)
+x &lt;- 1:100
+microbenchmark(x^2, 
+               for (i in 1:100) { y[i] &lt;- x[i]^2 },
+               times = 1000)
+```
+
+```
+&gt; Unit: nanoseconds
+&gt;                                     expr     min      lq      mean  median
+&gt;                                      x^2     200     400    1256.7    1000
+&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 1993200 2149050 2571813.0 2319900
+&gt;       uq     max neval
+&gt;     1600   21600  1000
+&gt;  2661150 9041900  1000
+```
+
+---
+ 
+# Estructuras de control: .orange[BUCLES FOR]
+
+
+Veamos otro ejemplo **.bg-purple_light[combinando vectores numéricos y de caracteres]**: vamos a definir de nuevo un vector de edades y nombres, y vamos a recorrer cada uno imprimiento un mensaje por pantalla.
+
+
+```r
+nombres &lt;- c("Javi", "Laura", "Carlos", "Lucía", "Mar")
+edades &lt;- c(33, 51, 18, 43, 29)
+
+# Recorremos cada uno de los 5 elementos e imprimimos un
+# mensaje que depende de ese índice i
+for (i in 1:5) { 
+  
+  print(glue("{nombres[i]} tiene {edades[i]} años")) 
+  
+}
+```
+
+```
+&gt; Javi tiene 33 años
+&gt; Laura tiene 51 años
+&gt; Carlos tiene 18 años
+&gt; Lucía tiene 43 años
+&gt; Mar tiene 29 años
+```
+
+---
+
+# Estructuras de control: .orange[BUCLES FOR]
+
+Fíjate que **.bg-purple_light[si no nos queremos preocupar de si añadimos otra persona]**, podemos hacer que el bucle empiece en 1 y termine en el **.bg-purple_light[último lugar]** (sea el que sea), usando `length()`.
+
+
+```r
+for (i in 1:length(nombres)) { 
+  
+  print(glue("{nombres[i]} tiene {edades[i]} años")) 
+  
+}
+```
+
+```
+&gt; Javi tiene 33 años
+&gt; Laura tiene 51 años
+&gt; Carlos tiene 18 años
+&gt; Lucía tiene 43 años
+&gt; Mar tiene 29 años
+```
+
+---
+
+# Estructuras de control: .orange[BUCLES FOR]
+
+Aunque normalmente el conjunto que recorre el bucle suelen ser índices numéricos, podemos **.bg-purple_light[recorrer cualquier tipo de objeto]**, por ejemplo días e la semana
+
+
+```r
+library(stringr)
+dias_semana &lt;- c("lunes", "martes", "miércoles", "jueves",
+                 "viernes", "sábado", "domingo")
+
+for (dias in dias_semana) { # dias recorre los días de la semana
+  
+  print(str_to_upper(dias)) # Imprimimos en mayúsculas el día
+}
+```
+
+```
+&gt; [1] "LUNES"
+&gt; [1] "MARTES"
+&gt; [1] "MIÉRCOLES"
+&gt; [1] "JUEVES"
+&gt; [1] "VIERNES"
+&gt; [1] "SÁBADO"
+&gt; [1] "DOMINGO"
+```
+
+---
+
+# Estructuras de control: .orange[BUCLES FOR]
+
+Un último ejemplo: vamos a recorrer nuestro conjunto de datos `swiss` del paquete `{datasets}` y vamos a **pasar a dato ausente** todos los valores de fertilidad superiores a 80. Para ello recorreremos cada fila para después ejecutar un `if`.
+
+
+```r
+for (i in 1:nrow(swiss)) {
+  
+  # si cumple la condición dicha fila, ponemos ausente.
+  if (swiss$Fertility[i] &gt; 80) { 
+    
+    swiss$Fertility[i] &lt;- NA
+    
+  }
+}
+```
+
+--
+
+Esto sería exactamente equivalente al `ifelse()` vectorizado que vimos en el tema anterior
+
+
+```r
+data("swiss") # lo cargamos de 0
+swiss$Fertility &lt;- ifelse(swiss$Fertility &gt; 80, NA, swiss$Fertility)
+```
+
+
+---
+
+# Estructuras de control: .orange[BUCLES WHILE]
+
+Otra manera de diseñar un bucle es con la estructura `while { }`, que ejecutará el bucle un **.bg-purple_light[número de veces a priori  desconocido]**, lo hará hasta que la **.bg-purple_light[condición impuesta deje de ser cierta]**. Por ejemplo, vamos a inicializar una variable `ciclos &lt;- 1`, y en cada paso aumentaremos una unidad, y no saldremos del bucle hasta que `ciclos &gt; 4`
+
+
+```r
+ciclos &lt;- 1
+
+# Mientras el número de ciclos sea inferior 4, imprime
+while(ciclos &lt;= 4) {
+  
+  print(paste("Todavía no, vamos por el ciclo ", ciclos)) # Pegamos la frase al número de ciclo por el que vayamos con paste
+  ciclos &lt;- ciclos + 1
+  
+}
+```
+
+```
+&gt; [1] "Todavía no, vamos por el ciclo  1"
+&gt; [1] "Todavía no, vamos por el ciclo  2"
+&gt; [1] "Todavía no, vamos por el ciclo  3"
+&gt; [1] "Todavía no, vamos por el ciclo  4"
+```
+
+
+---
+  
+# Estructuras de control: .orange[BUCLES WHILE]
+
+
+¿Y qué sucede cuando la **.bg-purple_light[condición nunca llega a ser FALSE]**? Compruébalo tú mismo/a.
+
+
+```r
+while (1 &gt; 0) { # Nunca va a dejar de ser cierto
+  
+  print("Presiona ESC para salir del bucle")
+  
+}
+```
+
+&amp;nbsp;
+
+**.bg-red_light[CUIDADO]**: un bucle `while { }` puede ser muy peligroso sino se controla bien que el bucle acaba en algún momento.
+
+---
+
+# Estructuras de control: .orange[BUCLES WHILE]
+
+Tenemos dos comandos reservados para poder **.bg-purple_light[abortar un bucle o avanzar forzosamente]**:
+
+* `break`: os habilita para **.bg-purple_light[parar un bucle]** aunque no haya llegado al final de su conjunto de índices a recorrer (o se siga cumpliendo la condición).
+
+
+```r
+for(i in 1:10) {
+  if (i == 3) {
+    
+    break # si i es 3, el bucle frena aquí
+    
+  }
+  print(i)
+}
+```
+
+```
+&gt; [1] 1
+&gt; [1] 2
+```
+
+---
+
+# Estructuras de control: .orange[BUCLES WHILE]
+
+Tenemos dos comandos reservados para poder **.bg-purple_light[abortar un bucle o avanzar forzosamente]**:
+
+* `next`: **.bg-purple_light[obliga al bucle a avanzar]** a la siguiente iteracción, abortando la iteración actual en la que se encuentra. 
+
+
+```r
+for(i in 1:5) {
+  if (i == 3) {
+    
+    next # si i es 3, pasará a la siguiente
+    
+  }
+  print(i)
+}
+```
+
+```
+&gt; [1] 1
+&gt; [1] 2
+&gt; [1] 4
+&gt; [1] 5
+```
+
+---
+
+# Estructuras de control: .orange[BUCLES REPEAT]
+
+Aunque es una opción muy poco usada, existe una estructura de control llamada `repeat { }` que nos ejecuta un **.bg-purple_light[bucle de forma infinita hasta que le ordenemos parar]** con un break.
+
+
+```r
+conteo &lt;- 0
+repeat { 
+  
+  conteo &lt;- conteo + 1
+  if (conteo &gt;= 100) { break }
+  
+}
+conteo
+```
+
+```
+&gt; [1] 100
+```
+
+
+---
+
+name: ejercicios-4
+
+
+# Ejercicios
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+
+* 📝 **Ejercicio 1**: modifica el código inferior para imprimir un mensaje por pantalla si todos los datos del conjunto `airquality` son de meses que no sean enero.
+
+
+```r
+# install.packages("dataset") # solo la primera vez
+library(datasets) # paquete con los datos
+mes &lt;- airquality$Month
+
+if (mes == 2) {
+  
+  print("Ningún dato es del mes de enero")
+  
+}
+```
+
+]
+
+.panel[.panel-name[Solución ej. 1]
+
+* 📝 **Ejercicio 1**: modifica el código inferior para imprimir un mensaje por pantalla si todos los datos del conjunto `airquality` son de meses que no sean enero.
+
+
+```r
+# install.packages("dataset") # solo la primera vez
+library(datasets) # paquete con los datos
+mes &lt;- airquality$Month
+
+if (all(mes != 1)) {
+  
+  print("Ningún dato es del mes de enero")
+  
+}
+```
+
+```
+&gt; [1] "Ningún dato es del mes de enero"
+```
+
+]
+
+]
+
+
+---
+
+# Ejercicios
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+* 📝 **Ejercicio 2**: modifica el código inferior para guardar en una variable llamada `temperatura_alta` un valor `TRUE` si alguno de los registros tiene una temperatura mayor a 90 (están en Farenheit) y un `FALSE` en caso contrario.
+ 
+
+```r
+temperatura &lt;- airquality$Temp
+
+if (temperatura == 100) {
+  
+  print("Alguno de los registros tiene temperatura superior a 90 Farenheit")
+  
+}
+```
+
+]
+
+.panel[.panel-name[Solución ej. 2]
+
+* 📝 **Ejercicio 2**: modifica el código inferior para guardar en una variable llamada `temperatura_alta` un valor `TRUE` si alguno de los registros tiene una temperatura mayor a 90 (están en Farenheit) y un `FALSE` en caso contrario.
+ 
+
+```r
+# Opción 1
+temperatura &lt;- airquality$Temp
+temperatura_alta &lt;- FALSE
+if (any(temperatura &gt; 90)) {
+  
+   temperatura_alta &lt;- TRUE
+  
+}
+
+# Opción 2
+temperatura_alta &lt;- any(airquality$Temp &gt; 90)
+```
+
+
+]
+
+]
+
+---
+
+
+# Ejercicios
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+* 📝 **Ejercicio 3**: modifica el código inferior para diseñar un bucle `for` de 5 iteraciones que recorra los 5 primeros impares y les sume uno.
+
+
+```r
+for (i in 1:5) {
+  
+  print(i)
+}
+```
+
+* 📝 **Ejercicio 4**: modifica el código inferior para diseñar un bucle `while` que parta con una variable `conteo &lt;- 1` y pare cuando llegue a 6.
+
+
+```r
+conteo &lt;- 1
+while (conteo == 2) {
+  
+  print(conteo)
+}
+```
+
+]
+
+.panel[.panel-name[Solución ej. 3]
+
+* 📝 **Ejercicio 3**: modifica el código inferior para diseñar un bucle `for` de 5 iteraciones que recorra los 5 primeros impares y les sume uno.
+
+
+```r
+for (i in c(1, 3, 5, 7, 9)) {
+  
+  print(i + 1)
+}
+```
+
+```
+&gt; [1] 2
+&gt; [1] 4
+&gt; [1] 6
+&gt; [1] 8
+&gt; [1] 10
+```
+
+]
+
+.panel[.panel-name[Solución ej. 4]
+
+* 📝 **Ejercicio 4**: modifica el código inferior para diseñar un bucle `while` que parta con una variable `conteo &lt;- 1` y pare cuando llegue a 6.
+
+
+```r
+conteo &lt;- 1
+while (conteo &lt; 6) {
+  
+  print(conteo)
+  conteo &lt;- conteo + 1
+  
+}
+```
+
+```
+&gt; [1] 1
+&gt; [1] 2
+&gt; [1] 3
+&gt; [1] 4
+&gt; [1] 5
+```
+
+]
+
+]
+
+---
+
+# Ejercicios
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+* 📝 **Ejercicio 5**: diseña un bucle `for` de 200 iteraciones que, empezando en un valor inicial de 100 (euros), te sume 3€ si el número actual de la iteración es par, y te reste 5€ si es impar (investiga la función `%%`).
+
+* 📝 **Ejercicio 6**: diseña el anterior bucle pero guardando el dinero de cada iteración en alguna variable
+ 
+
+* 📝 **Ejercicio 7**: diseña el bucle del ejercicio 5 pero parando cuando no nos quede dinero.
+
+
+]
+
+.panel[.panel-name[Sol. ej. 5]
+
+Un número par será todo aquel número que al dividir entre 2, la división es exacta, es decir, que su resto es nulo. Para calcular ese resto usaremos la función `%%`.
+
+
+
+```r
+# dinero inicial
+dinero &lt;- 100
+
+for (i in 1:200) {
+  dinero &lt;- ifelse(dinero %% 2 == 0, dinero + 3, dinero  - 5)
+}
+dinero
+```
+
+```
+&gt; [1] -100
+```
+
+]
+
+.panel[.panel-name[Sol. ej. 6]
+
+
+```r
+# vector inicial de importes
+dinero &lt;- rep(0, 201)
+dinero[1] &lt;- 100 # dinero inicial
+
+# Bucle for
+for (i in 2:201) {
+  
+  # si dinero[i - 1] es par o  impar
+  dinero[i] &lt;- ifelse(dinero[i - 1] %% 2 == 0, dinero[i - 1] + 3,
+                      dinero[i - 1]  - 5)
+  
+}
+dinero
+```
+
+```
+&gt;   [1]  100  103   98  101   96   99   94   97   92   95   90   93   88   91   86
+&gt;  [16]   89   84   87   82   85   80   83   78   81   76   79   74   77   72   75
+&gt;  [31]   70   73   68   71   66   69   64   67   62   65   60   63   58   61   56
+&gt;  [46]   59   54   57   52   55   50   53   48   51   46   49   44   47   42   45
+&gt;  [61]   40   43   38   41   36   39   34   37   32   35   30   33   28   31   26
+&gt;  [76]   29   24   27   22   25   20   23   18   21   16   19   14   17   12   15
+&gt;  [91]   10   13    8   11    6    9    4    7    2    5    0    3   -2    1   -4
+&gt; [106]   -1   -6   -3   -8   -5  -10   -7  -12   -9  -14  -11  -16  -13  -18  -15
+&gt; [121]  -20  -17  -22  -19  -24  -21  -26  -23  -28  -25  -30  -27  -32  -29  -34
+&gt; [136]  -31  -36  -33  -38  -35  -40  -37  -42  -39  -44  -41  -46  -43  -48  -45
+&gt; [151]  -50  -47  -52  -49  -54  -51  -56  -53  -58  -55  -60  -57  -62  -59  -64
+&gt; [166]  -61  -66  -63  -68  -65  -70  -67  -72  -69  -74  -71  -76  -73  -78  -75
+&gt; [181]  -80  -77  -82  -79  -84  -81  -86  -83  -88  -85  -90  -87  -92  -89  -94
+&gt; [196]  -91  -96  -93  -98  -95 -100
+```
+
+]
+
+.panel[.panel-name[Sol. ej. 7]
+
+
+```r
+dinero &lt;- 100 # dinero inicial
+
+# Bucle while
+while (dinero &gt; 0) {
+  
+  dinero &lt;- ifelse(dinero %% 2 == 0, dinero + 3, dinero - 5)
+  
+}
+dinero
+```
+
+```
+&gt; [1] 0
+```
+
+]
+
+
+]
+
+
+---
+
+
+class: inverse center middle
+name: bloque-4
+
+# Bloque IV: comunicando resultados
+
 ### [informes/apuntes: rmarkdown](#rmd)
-
-### [Caso práctico I: starwars](#clase5-caso-I)
-
-### [Caso práctico II: gapminder](#clase5-caso-II)
 
 ---
 
@@ -5920,144 +6459,1532 @@ Por último en este primer documento vamos a añadir una subsección `## Variabl
 
 ---
 
-name: clase5-caso-I
+class: inverse center middle
+name: bloque-5
 
-# .orange[CASO PRACTICO]: análisis de Star Wars
+# BLOQUE V: funciones y listas
 
-Instala el paquete `{dplyr}` y usa el conjunto `starwars` contenido en él mismo (dataset con los personajes de las películas de la saga Star Wars). Deberás **.bg-purple_light[entregar completado]** el archivo `.Rmd` que tienes disponible en ... **.bg-purple_light[antes de las 16:00 del 5 de octubre]**, siguiendo las instrucciones contenidas en el mismo.
+&amp;nbsp;
+
+### [Listas](#listas)
+
+### [Creando nuestras propias funciones](#funciones)
+
+### [Ejercicios](#ejercicios-6)
+
+---
+
+name: listas
+
+# Último tipo de variable: .orange[LISTAS]
+
+Veamos un pequeño resumen de los datos que ya conocemos:
+
+* **.bg-purple_light[vectores]**: colección de elementos de igual tipo. Pueden ser números, caracteres o valores lógicos, entre otros.
+
+* **.bg-purple_light[matrices]**: colección BIDIMENSIONAL de elementos de igual tipo e igual longitud.
+
+* **.bg-purple_light[data.frame / tibble]**: colección BIDIMENSIONAL de elementos de igual longitud pero de cualquier tipo, lo más parecido a lo que conocemos como una tabla en Excel.
+
+&amp;nbsp;
+
+--
+
+Con todos estos ingredientes estamos preparados/as para ver el que probablemente sea el tipo de dato más importante en R: las **.bg-purple_light[listas]**: **.bg-purple_light[colecciones de variables de diferente tipo]** (ya lo teníamos con `data.frame` y `tibble`) pero además también de **.bg-purple_light[diferente longitud]**, con estructuras totalmente heterógeneas (incluso una lista puede tener dentro a su vez otra lista).
+
+---
+
+# Último tipo de variable: .orange[LISTAS]
+
+
+Vamos a crear **.bg-purple_light[nuestra primera lista]** con `list()` con tres elementos: el nombre de nuestros padres/madres, nuestro lugar de nacimiento y edades de nuestros hermanos.
+
+
+```r
+variable_1 &lt;- c("Paloma", "Gregorio")
+variable_2 &lt;- "Madrid"
+variable_3 &lt;- c(25, 30, 26)
+
+lista &lt;- list("progenitores" = variable_1, "lugar_nacimiento" = variable_2,
+              "edades_hermanos" = variable_3)
+lista
+```
+
+```
+&gt; $progenitores
+&gt; [1] "Paloma"   "Gregorio"
+&gt; 
+&gt; $lugar_nacimiento
+&gt; [1] "Madrid"
+&gt; 
+&gt; $edades_hermanos
+&gt; [1] 25 30 26
+```
+
+---
+
+# Último tipo de variable: .orange[LISTAS]
+
+
+```r
+length(lista)
+```
+
+```
+&gt; [1] 3
+```
+
+Si observas el objeto que hemos definido como lista, su longitud del es de 3 ya que tenemos **.bg-purple_light[guardados tres elementos]**: vector de caracteres (de longitud 2), caracter (vector de longitud 1), vector de números (de longitud 3)
+
+--
+
+Tenemos guardados elementos de **.bg-purple_light[distinto tipo]** (algo que ya podíamos hacer) pero, además, de **.bg-purple_light[longitudes dispares]**.
+
+
+```r
+dim(lista) # devolverá NULL al no tener dos dimensiones
+```
+
+```
+&gt; NULL
+```
+
+```r
+class(lista) # de tipo lista
+```
+
+```
+&gt; [1] "list"
+```
+
+---
+
+# Último tipo de variable: .orange[LISTAS]
+
+Si los juntásemos con un `tibble()`, al tener distinta longitud, obtendríamos un **.bg-red_light[error]**.
+
+
+```r
+library(tibble)
+tibble("progenitores" = variable_1,
+       "lugar_nacimiento" = variable_2,
+       "edades_hermanos" = variable_3)
+```
+
+```
+&gt; Error: Tibble columns must have compatible sizes.
+&gt; * Size 2: Existing data.
+&gt; * Size 3: Column `edades_hermanos`.
+&gt; i Only values of size one are recycled.
+```
+
+---
+
+
+# Último tipo de variable: .orange[LISTAS]
+
+.pull-left[
+
+* **.bg-purple_light[Acceder por índice]**: con el operador `[[i]]` accedemos al **elemento i-ésimo** de la lista.
+
+
+```r
+lista[[1]]
+```
+
+```
+&gt; [1] "Paloma"   "Gregorio"
+```
+
+]
+
+.pull-right[
+* **.bg-purple_light[Acceder por nombre]**: con el operador `$nombre_elemento` accedemos por su nombre.
+
+
+```r
+lista$progenitores
+```
+
+```
+&gt; [1] "Paloma"   "Gregorio"
+```
+
+]
+
+--
+
+En contraposición, el **.bg-purple_light[corchete simple]** nos permite acceder a **.bg-purple_light[varios elementos]** a la vez
+
+
+```r
+# Varios elementos
+lista[1:2]
+```
+
+```
+&gt; $progenitores
+&gt; [1] "Paloma"   "Gregorio"
+&gt; 
+&gt; $lugar_nacimiento
+&gt; [1] "Madrid"
+```
+
+---
+
+# Último tipo de variable: .orange[LISTAS]
+
+Las listas nos dan tanta flexibilidad que es el formato natural para guardar **.bg-purple_light[datos que no están estructurados]**, como pueden ser los datos almacenados de una persona.
 
 
 
 ```r
-install.packages("dplyr")
+library(lubridate)
+nacimiento &lt;- as_date("1989-09-10")
+
+notas &lt;- data.frame("biología" = c(5, 7), "física" = c(4, 5),
+                    "matemáticas" = c(8, 9.5))
+row.names(notas) &lt;- c("primer_parcial", "segundo_parcial")
+
+tlf &lt;- c("914719567", "617920765", "716505013")
+
+padres &lt;- c("Juan", "Julia")
+
+# Guardamos TODO en una lista (con nombres de cada elemento)
+datos &lt;- list("nacimiento" = nacimiento, "notas_insti" = notas,
+              "teléfonos" = tlf, "nombre_padres" = padres)
+datos
+```
+
+```
+&gt; $nacimiento
+&gt; [1] "1989-09-10"
+&gt; 
+&gt; $notas_insti
+&gt;                 biología física matemáticas
+&gt; primer_parcial         5      4         8.0
+&gt; segundo_parcial        7      5         9.5
+&gt; 
+&gt; $teléfonos
+&gt; [1] "914719567" "617920765" "716505013"
+&gt; 
+&gt; $nombre_padres
+&gt; [1] "Juan"  "Julia"
+```
+
+
+
+---
+
+# Último tipo de variable: .orange[LISTAS]
+
+Hemos creado una lista algo más compleja de 4 elementos, a los cuales podemos acceder por índice o por nombre.
+
+
+```r
+datos[[1]]
+```
+
+```
+&gt; [1] "1989-09-10"
+```
+
+```r
+datos$nacimiento
+```
+
+```
+&gt; [1] "1989-09-10"
+```
+
+
+```r
+datos$notas_insti
+```
+
+```
+&gt;                 biología física matemáticas
+&gt; primer_parcial         5      4         8.0
+&gt; segundo_parcial        7      5         9.5
+```
+
+---
+
+# Último tipo de variable: .orange[LISTAS]
+
+
+También podemos hacer **.bg-purple_light[listas con otras listas dentro]**, de forma que para acceder a cada nivel deberemos usar el operador `[[]]`.
+
+
+```r
+lista_de_listas &lt;- list("lista_1" = datos[3:4], "lista_2" = datos[1:2])
+
+names(lista_de_listas) # Nombres de los elementos del primer nivel
+```
+
+```
+&gt; [1] "lista_1" "lista_2"
+```
+
+```r
+names(lista_de_listas[[1]]) # Nombres de los elementos guardados en el primer elemento, que es a su vez una lista
+```
+
+```
+&gt; [1] "teléfonos"     "nombre_padres"
+```
+
+```r
+lista_de_listas[[1]][[1]] # Elemento 1 de la lista guardada como elemento 1 de la lista superior
+```
+
+```
+&gt; [1] "914719567" "617920765" "716505013"
+```
+
+¡Nos permiten guardar **.bg-purple_light[datos n-dimensionales]**!.
+
+---
+
+# .green[OPERACIONES] con .orange[LISTAS]
+
+Una lista **.bg-purple_light[no se puede vectorizar]** de forma inmediata, por lo cualquier operación aritmética aplicada a una lista dará **.bg-red_light[error]**
+
+
+```r
+datos &lt;- list("a" = 1:5, "b" = 10:20)
+datos / 2
+```
+
+```
+&gt; Error in datos/2: argumento no-numérico para operador binario
+```
+
+--
+
+
+Para ello una de las opciones es hacer uso de la familia `lapply()`
+
+
+```r
+lapply(datos, FUN = function(x) { x / 2})
+```
+
+```
+&gt; $a
+&gt; [1] 0.5 1.0 1.5 2.0 2.5
+&gt; 
+&gt; $b
+&gt;  [1]  5.0  5.5  6.0  6.5  7.0  7.5  8.0  8.5  9.0  9.5 10.0
+```
+
+La salida de `lapply()` por defecto siempre es una **.bg-purple_light[lista de igual longitud]**.
+
+---
+
+# .green[OPERACIONES] con .orange[LISTAS]
+
+.pull-left[
+
+Una opción más flexible y versatil es hacer uso del paquete `{purrr}` del entorno `{tidyverse}`.
+
+
+```r
+# install.packages("purrr")
+library(purrr)
+```
+
+Dicho paquete pretende imitar la **.bg-purple_light[programación funcional]** de otros lenguajes como Scala o la **estrategia map-reduce de Hadoop** (de Google).
+
+]
+
+
+.pull-right[
+
+&lt;img src="./img/purrr.png" width="110%" style="display: block; margin: auto auto auto 0;" /&gt;
+
+]
+
+
+---
+
+
+# .green[OPERACIONES] con .orange[LISTAS]
+
+Con `map()` podemos **.bg-purple_light[«mapear» cada lista]** y aplicar la función elemento a elemento (si fuese el caso).
+
+.pull-left[
+
+
+```r
+library(purrr)
+x &lt;- rep(list(1:2), 3)
+x
+```
+
+```
+&gt; [[1]]
+&gt; [1] 1 2
+&gt; 
+&gt; [[2]]
+&gt; [1] 1 2
+&gt; 
+&gt; [[3]]
+&gt; [1] 1 2
+```
+
+]
+
+.pull-right[
+
+
+```r
+# purrr
+map(x, sqrt) 
+```
+
+```
+&gt; [[1]]
+&gt; [1] 1.000000 1.414214
+&gt; 
+&gt; [[2]]
+&gt; [1] 1.000000 1.414214
+&gt; 
+&gt; [[3]]
+&gt; [1] 1.000000 1.414214
+```
+
+]
+
+**.bg-green_light[IMPORTANTE]**: en vectores disponemos de una vectorización por defecto porque `R` realiza operaciones elemento a elemento.
+
+---
+
+# .green[OPERACIONES] con .orange[LISTAS]
+
+
+```r
+x &lt;- list(rnorm(n = 1e3, mean = 0, sd = 1), rnorm(n = 1e3, mean = 2, sd = 1))
+map(x, mean)
+```
+
+```
+&gt; [[1]]
+&gt; [1] -0.002029138
+&gt; 
+&gt; [[2]]
+&gt; [1] 1.989492
+```
+
+
+```r
+x &lt;- rep(list(rnorm(n = 1e3, mean = 0, sd = 1)), 1000)
+microbenchmark(map(x, .f = function(x) { mean(x^2) }), lapply(x, FUN = function(x) { mean(x^2) }), times = 1e3)
+```
+
+```
+&gt; Unit: milliseconds
+&gt;                                            expr    min      lq    mean  median
+&gt;      map(x, .f = function(x) {     mean(x^2) }) 5.3931 6.75735 8.45496 7.86925
+&gt;  lapply(x, FUN = function(x) {     mean(x^2) }) 5.2583 6.61050 8.10508 7.69610
+&gt;      uq     max neval
+&gt;  9.2406 93.4493  1000
+&gt;  8.9553 92.7849  1000
+```
+
+
+---
+
+name: funciones
+
+# Creando .orange[FUNCIONES]
+
+No solo podemos usar **.bg-purple_light[funciones predeterminadas]** que vienen ya cargadas en paquetes, además podemos **.bg-purple_light[crear nuestras propias funciones]** para **automatizar tareas**.
+
+¿Cómo **.bg-purple_light[crear nuestra propia función]**? Veamos su **.bg-orange[esquema básico]**:
+
+--
+
+.pull-left[
+
+* **.bg-purple_light[Nombre]**, por ejemplo `name_fun` (sin espacios ni caracteres extraños).
+
+* Al nombre le **.bg-purple_light[asignamos la palabra reservada]** `function()`.
+
+* Definir **.bg-purple_light[argumentos de entrada]** (dentro de `function()`).
+
+* **.bg-purple_light[Cuerpo]** de la función dentro de `{ }`.
+
+* Finalizamos la función con los **.bg-purple_light[argumentos de salida]** con `return()`.
+
+]
+
+.pull-right[
+
+
+```r
+# No ejecutar --&gt; esquema conceptual
+name_fun &lt;- function(arg1, arg2, ...) {
+  
+  # Código que queramos ejecutar
+  código
+  
+  # Salida
+  return(var_salida)
+}
+```
+
+]
+
+
+---
+
+# Creando .orange[FUNCIONES]
+
+
+.pull-left[
+
+* `arg1, arg2, ...`: serán los **.bg-purple_light[argumentos de entrada]**, los argumentos que toma la función para ejecutar el código que tiene dentro
+
+* `código`: líneas de código que queramos que **.bg-purple_light[ejecute la función]**. 
+
+* `return(var_salida)`: dentro del comando `return()` se introducirán los **.bg-purple_light[argumentos de salida]**.
+
+]
+
+.pull-right[
+
+
+```r
+# No ejecutar --&gt; esquema conceptual
+name_fun &lt;- function(arg1, arg2, ...) {
+  
+  # Código que queramos ejecutar
+  código
+  
+  # Salida
+  return(var_salida)
+}
+```
+
+]
+
+&amp;nbsp;
+
+**.bg-red_light[IMPORTANTE]**: todas las variables que definamos dentro de la función son **.bg-purple_light[variables locales: solo existirán dentro de la función]** salvo que especifiquemos lo contrario.
+
+---
+
+# Creando .orange[FUNCIONES]
+
+Veamos un ejemplo muy simple de función para **.bg-purple_light[calcular el área de un rectángulo]**.
+
+--
+
+Dado que el área de un rectángulo se calcula como el **producto de sus lados**, necesitaremos precisamente eso, sus lados: esos serán los **.bg-purple_light[argumentos de entrada]** y el **.bg-purple_light[valor a devolver]** será justo su **.bg-purple_light[área]**, calculada como `\(lado_1 * lado_2\)`.
+
+--
+
+
+```r
+# Definición del nombre de función y argumentos de entrada
+calcular_area &lt;- function(lado_1, lado_2) {
+  
+  area &lt;- lado_1 * lado_2
+  
+  return(area)
+  
+}
+```
+
+---
+
+# Creando .orange[FUNCIONES]
+
+
+También podemos hacer una definición directa, sin almacenar variables por el camino
+
+
+```r
+# Definición del nombre de función y argumentos de entrada
+calcular_area &lt;- function(lado_1, lado_2) {
+  
+  return(lado_1 * lado_2)
+  
+}
+```
+
+--
+
+**.bg-purple_light[¿Cómo aplicar la función?]**
+
+
+```r
+calcular_area(5, 3) # área de un rectángulo 5 x 3 
+```
+
+```
+&gt; [1] 15
+```
+
+```r
+calcular_area(1, 5) # área de un rectángulo 1 x 5
+```
+
+```
+&gt; [1] 5
+```
+
+---
+
+# Argumentos .orange[POR DEFECTO]
+
+Imagina ahora que nos damos cuenta que el 90% de las veces usamos dicha función para **.bg-purple_light[calcular el área de un cuadrado]** (es decir, solo necesitamos un lado). Para ello, podemos definir **.bg-purple_light[argumentos por defecto]** en la función: tomarán dicho valor salvo que le asignemos otro.
+
+¿Por qué no asignar `lado_2 = lado_1` por defecto, para ahorrar líneas de código y tiempo?
+
+--
+
+
+```r
+# Definición del nombre de función y
+# argumentos de entrada por defecto lado_2 = lado_1
+calcular_area &lt;- function(lado_1, lado_2 = lado_1) {
+  
+  # Cuerpo de la función
+  area &lt;- lado_1 * lado_2
+  
+  # Resultado que devolvemos
+  return(area)
+  
+}
+```
+
+---
+
+# Argumentos .orange[POR DEFECTO]
+
+
+
+```r
+calcular_area &lt;- function(lado_1, lado_2 = lado_1) {
+  
+  # Cuerpo de la función
+  area &lt;- lado_1 * lado_2
+  
+  # Resultado que devolvemos
+  return(area)
+  
+}
+```
+
+
+Ahora **.bg-purple_light[por defecto]** el segundo lado será igual al primero (si se lo añadimos usará ambos).
+
+
+
+```r
+calcular_area(lado_1 = 5) # cuadrado
+```
+
+```
+&gt; [1] 25
+```
+
+```r
+calcular_area(lado_1 = 5, lado_2 = 7) # rectángulo
+```
+
+```
+&gt; [1] 35
+```
+
+---
+ 
+# .orange[SALIDA MÚLTIPLE]
+
+Compliquemos un poco la función y añadamos en la salida los valores de cada lado, etiquetados como `lado_1` y `lado_2`, **.bg-purple_light[empaquetando la salida en una lista]**.
+
+
+```r
+# Definición del nombre de función y argumentos de entrada
+calcular_area &lt;- function(lado_1, lado_2 = lado_1) {
+  
+  # Cuerpo de la función
+  area &lt;- lado_1 * lado_2
+  
+  # Resultado
+  return(list("area" = area, "lado_1" = lado_1, "lado_2" = lado_2))
+  
+}
+```
+
+Veamos que nos devuelve ahora
+
+
+---
+
+# .orange[SALIDA MÚLTIPLE]
+
+
+
+```r
+salida &lt;- calcular_area(5, 3)
+salida
+```
+
+```
+&gt; $area
+&gt; [1] 15
+&gt; 
+&gt; $lado_1
+&gt; [1] 5
+&gt; 
+&gt; $lado_2
+&gt; [1] 3
+```
+
+```r
+salida["area"]
+```
+
+```
+&gt; $area
+&gt; [1] 15
+```
+
+```r
+salida["lado_1"]
+```
+
+```
+&gt; $lado_1
+&gt; [1] 5
+```
+
+---
+
+# .orange[SALIDA MÚLTIPLE]
+
+Antes nos daba igual el orden de los argumentos pero ahora **.bg-purple_light[el orden de los argumentos de entrada importa]**, ya que en la salida incluimos `lado_1` y `lado_2`. 
+
+--
+
+&amp;nbsp;
+
+**.bg-green_light[CONSEJO]**: es altamente recomendable hacer la llamada a la función **.bg-purple_light[indicando explícitamente los argumentos]** para mejorar la **legibilidad e interpretabilidad**.
+
+
+```r
+# Equivalente a calcular_area(5, 3)
+calcular_area(lado_1 = 5, lado_2 = 3)
+```
+
+```
+&gt; $area
+&gt; [1] 15
+&gt; 
+&gt; $lado_1
+&gt; [1] 5
+&gt; 
+&gt; $lado_2
+&gt; [1] 3
+```
+
+---
+
+# Creando .orange[FUNCIONES]
+
+Parece una tontería lo que hemos hecho pero hemos cruzado una frontera importante: hemos pasado de **.bg-purple_light[consumir conocimiento]** (código de otros paquetes, elaborado por otros/as), a **.bg-green_light[generar conocimiento]**, creando nuestras propias funciones.
+
+&amp;nbsp;
+
+En este caso no ganaremos el Nobel por nuestro aporte, pero en un futuro… Si la Unión Europea lo ganó, hay opciones :)
+
+---
+
+# Variables .orange[LOCALES VS GLOBALES]
+
+Un aspecto importante sobre el que reflexionar con las funciones: ¿qué sucede si **.bg-purple_light[nombramos a una variable dentro]** de una función a la que se nos ha **.bg-purple_light[olvidado asignar]** un valor dentro de la misma?
+
+--
+
+Debemos ser cautos al usar funciones en `R`, ya que debido a la **.bg-purple_light[«regla lexicográfica»]**, si una variable no se define dentro de la función, `R` **.bg-purple_light[buscará dicha variable en el entorno]** de variables.
+
+
+```r
+x &lt;- 1
+funcion_ejemplo &lt;- function() {
+    
+  print(x) # No devuelve nada, solo realiza la acción 
+}
+funcion_ejemplo()
+```
+
+```
+&gt; [1] 1
+```
+
+---
+
+# Variables .orange[LOCALES VS GLOBALES]
+
+Si una variable  **.bg-purple_light[ya está definida fuera de la función (entorno global)]**, y además es usada dentro de cambiando su valor, el valor **.bg-purple_light[solo cambia dentro]** pero no en el entorno global.
+
+
+```r
+x &lt;- 1
+funcion_ejemplo &lt;- function() {
+    
+  x &lt;- 2
+  print(x) # lo que vale dentro
+}
+```
+
+
+```r
+# lo que vale dentro
+*funcion_ejemplo()
+```
+
+```
+&gt; [1] 2
+```
+
+```r
+# lo que vale fuera
+*print(x)
+```
+
+```
+&gt; [1] 1
+```
+
+---
+
+# Variables .orange[LOCALES VS GLOBALES]
+
+
+Si queremos que además de cambiar localmente lo haga **.bg-purple_light[globalmente]** deberemos usar la **.bg-purple_light[doble asignación]** (`&lt;&lt;-`).
+
+.pull-left[
+
+
+```r
+x &lt;- 1
+y &lt;- 2
+funcion_ejemplo &lt;- function() {
+  
+  # no cambia globalmente, solo localmente
+  x &lt;- 3 
+  
+  # cambia globalmente
+* y &lt;&lt;- 0
+  
+  print(x)
+  print(y)
+}
+```
+
+]
+
+.pull-right[
+
+
+```r
+funcion_ejemplo() # lo que vale dentro
+```
+
+```
+&gt; [1] 3
+&gt; [1] 0
+```
+
+```r
+x # lo que vale fuera
+```
+
+```
+&gt; [1] 1
+```
+
+```r
+y # lo que vale fuera
+```
+
+```
+&gt; [1] 0
+```
+
+]
+
+---
+
+name: ejercicios-6
+
+# Ejercicios
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+* 📝 **Ejercicio 1**: modifica el código inferior para definir una función llamada `funcion_suma`, de forma que dados dos elementos, devuelve su suma.
+
+
+
+```r
+# Definimos función
+nombre &lt;- function(x, y) {
+  
+  # Sumamos
+  suma &lt;- # código a ejecutar
+  
+  # ¿Qué devolvemos?
+  return()
+}
+# Aplicamos la función
+suma(3, 7)
+```
+ 
+]
+
+.panel[.panel-name[Solución ej. 1]
+
+
+```r
+# Definimos función
+funcion_suma &lt;- function(x, y) {
+  
+  # Sumamos
+  suma &lt;- x + y
+  
+  # Devolvemos la salida
+  return(suma)
+}
+
+# Aplicamos la función
+funcion_suma(3, 7)
+```
+
+```
+&gt; [1] 10
+```
+
+]
+
+]
+
+---
+
+# Ejercicios
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+
+* 📝 **Ejercicio 2**: modifica el código inferior para definir una función llamada `funcion_producto`, de forma que dados dos elementos, devuelve su producto.
+ 
+
+```r
+# Definimos función
+nombre &lt;- function(x, y) {
+  
+  # Multiplicamos
+  producto &lt;- # código de la multiplicación
+  
+  # ¿Qué devolvemos?
+  return()
+}
+
+# Aplicamos la función
+producto(3, -7)
+```
+
+]
+
+.panel[.panel-name[Solución ej. 2]
+
+
+```r
+# Definimos función
+funcion_producto &lt;- function(x, y) {
+  
+  # Multiplicamos
+  producto &lt;- x * y
+  
+  # Devolvemos la salida
+  return(producto)
+}
+
+# Aplicamos la función
+funcion_producto(3, -7)
+```
+
+```
+&gt; [1] -21
+```
+
+]
+
+]
+
+
+---
+
+# Ejercicios
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+
+* 📝 **Ejercicio 3**: modifica el código inferior para definir una función llamada `funcion_producto`, de forma que dados dos elementos, devuelve su producto, pero que por defecto calcule el cuadrado (es decir, por defecto un solo argumento, y el resultado sea el número por sí mismo)
+ 
+
+```r
+# Definimos función
+nombre &lt;- function(x, y) {
+  
+  # Multiplicamos
+  producto &lt;- # código de la multiplicación
+  
+  # ¿Qué devolvemos?
+  return()
+}
+
+# Aplicamos la función solo con un argumento
+producto(3)
+
+# Aplicamos la función con dos argumentos
+producto(3, -7)
+```
+
+]
+
+.panel[.panel-name[Solución ej. 3]
+
+
+```r
+funcion_producto &lt;- function(x, y = x) {
+  
+  producto &lt;- x * y
+  return(producto)
+}
+```
+
+
+```r
+funcion_producto(3) # por defecto x = 3, y = 3
+```
+
+```
+&gt; [1] 9
+```
+
+```r
+funcion_producto(3, -7)
+```
+
+```
+&gt; [1] -21
+```
+
+]
+
+]
+
+
+---
+
+# Ejercicios
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+
+* 📝 **Ejercicio 4**:  define una función llamada `igualdad_nombres` que, dados dos nombres, nos diga si son iguales o no. Hazlo considerando importantes las mayúsculas, y sin que importen las mayúsculas. Echa un vistazo al paquete `{stringr}`.
+ 
+
+* 📝 **Ejercicio 5**:  define una función llamada `pares` que, dados dos números, nos diga si la suma de ambos es par o no.
+ 
+
+* 📝 **Ejercicio 6**: define una función llamada `pasar_a_celsius` que, dada una temperatura en Fahrenheit, la convierta a grados Celsius. Aplica la función a la columna Temp del conjunto airquality, e incorpórala al fichero en una nueva columna Temp_Celsius.
+
+]
+
+.panel[.panel-name[Solución ej. 4a]
+
+
+
+```r
+# Distinguiendo mayúsculas
+igualdad_nombres &lt;- function(persona_1, persona_2) {
+  
+  return(persona_1 == persona_2)
+}
+```
+
+
+```r
+igualdad_nombres("Javi", "javi")
+```
+
+```
+&gt; [1] FALSE
+```
+
+```r
+igualdad_nombres("Javi", "Lucía")
+```
+
+```
+&gt; [1] FALSE
+```
+
+]
+
+.panel[.panel-name[Solución ej. 4b]
+
+
+```r
+# Sin importar mayúsculas
+igualdad_nombres &lt;- function(persona_1, persona_2) {
+  
+  return(toupper(persona_1) == toupper(persona_2))
+}
+```
+
+
+```r
+igualdad_nombres("Javi", "javi")
+```
+
+```
+&gt; [1] TRUE
+```
+
+```r
+igualdad_nombres("Javi", "Lucía")
+```
+
+```
+&gt; [1] FALSE
+```
+
+]
+
+.panel[.panel-name[Solución ej. 5]
+
+
+```r
+pares &lt;- function(x, y) {
+  
+  suma &lt;- x + y
+  par &lt;- suma %% 2 == 0
+  
+  return(par)
+}
+```
+
+
+```r
+pares(1, 3) # suma 4 (par)
+```
+
+```
+&gt; [1] TRUE
+```
+
+```r
+pares(2, 7) # suma 9 (impar)
+```
+
+```
+&gt; [1] FALSE
+```
+
+]
+
+.panel[.panel-name[Solución ej. 6]
+
+
+```r
+pasar_a_celsius &lt;- function(x) {
+  x_celsius &lt;- (x - 32) * (5 / 9)
+  return(x_celsius)
+}
+```
+
+
+```r
+pasar_a_celsius(80)
+```
+
+```
+&gt; [1] 26.66667
+```
+
+```r
+data.frame(airquality,
+           "Temp_Celsius" = pasar_a_celsius(airquality$Temp))
+```
+
+```
+&gt;     Ozone Solar.R Wind Temp Month Day Temp_Celsius
+&gt; 1      41     190  7.4   67     5   1     19.44444
+&gt; 2      36     118  8.0   72     5   2     22.22222
+&gt; 3      12     149 12.6   74     5   3     23.33333
+&gt; 4      18     313 11.5   62     5   4     16.66667
+&gt; 5      NA      NA 14.3   56     5   5     13.33333
+&gt; 6      28      NA 14.9   66     5   6     18.88889
+&gt; 7      23     299  8.6   65     5   7     18.33333
+&gt; 8      19      99 13.8   59     5   8     15.00000
+&gt; 9       8      19 20.1   61     5   9     16.11111
+&gt; 10     NA     194  8.6   69     5  10     20.55556
+&gt; 11      7      NA  6.9   74     5  11     23.33333
+&gt; 12     16     256  9.7   69     5  12     20.55556
+&gt; 13     11     290  9.2   66     5  13     18.88889
+&gt; 14     14     274 10.9   68     5  14     20.00000
+&gt; 15     18      65 13.2   58     5  15     14.44444
+&gt; 16     14     334 11.5   64     5  16     17.77778
+&gt; 17     34     307 12.0   66     5  17     18.88889
+&gt; 18      6      78 18.4   57     5  18     13.88889
+&gt; 19     30     322 11.5   68     5  19     20.00000
+&gt; 20     11      44  9.7   62     5  20     16.66667
+&gt; 21      1       8  9.7   59     5  21     15.00000
+&gt; 22     11     320 16.6   73     5  22     22.77778
+&gt; 23      4      25  9.7   61     5  23     16.11111
+&gt; 24     32      92 12.0   61     5  24     16.11111
+&gt; 25     NA      66 16.6   57     5  25     13.88889
+&gt; 26     NA     266 14.9   58     5  26     14.44444
+&gt; 27     NA      NA  8.0   57     5  27     13.88889
+&gt; 28     23      13 12.0   67     5  28     19.44444
+&gt; 29     45     252 14.9   81     5  29     27.22222
+&gt; 30    115     223  5.7   79     5  30     26.11111
+&gt; 31     37     279  7.4   76     5  31     24.44444
+&gt; 32     NA     286  8.6   78     6   1     25.55556
+&gt; 33     NA     287  9.7   74     6   2     23.33333
+&gt; 34     NA     242 16.1   67     6   3     19.44444
+&gt; 35     NA     186  9.2   84     6   4     28.88889
+&gt; 36     NA     220  8.6   85     6   5     29.44444
+&gt; 37     NA     264 14.3   79     6   6     26.11111
+&gt; 38     29     127  9.7   82     6   7     27.77778
+&gt; 39     NA     273  6.9   87     6   8     30.55556
+&gt; 40     71     291 13.8   90     6   9     32.22222
+&gt; 41     39     323 11.5   87     6  10     30.55556
+&gt; 42     NA     259 10.9   93     6  11     33.88889
+&gt; 43     NA     250  9.2   92     6  12     33.33333
+&gt; 44     23     148  8.0   82     6  13     27.77778
+&gt; 45     NA     332 13.8   80     6  14     26.66667
+&gt; 46     NA     322 11.5   79     6  15     26.11111
+&gt; 47     21     191 14.9   77     6  16     25.00000
+&gt; 48     37     284 20.7   72     6  17     22.22222
+&gt; 49     20      37  9.2   65     6  18     18.33333
+&gt; 50     12     120 11.5   73     6  19     22.77778
+&gt; 51     13     137 10.3   76     6  20     24.44444
+&gt; 52     NA     150  6.3   77     6  21     25.00000
+&gt; 53     NA      59  1.7   76     6  22     24.44444
+&gt; 54     NA      91  4.6   76     6  23     24.44444
+&gt; 55     NA     250  6.3   76     6  24     24.44444
+&gt; 56     NA     135  8.0   75     6  25     23.88889
+&gt; 57     NA     127  8.0   78     6  26     25.55556
+&gt; 58     NA      47 10.3   73     6  27     22.77778
+&gt; 59     NA      98 11.5   80     6  28     26.66667
+&gt; 60     NA      31 14.9   77     6  29     25.00000
+&gt; 61     NA     138  8.0   83     6  30     28.33333
+&gt; 62    135     269  4.1   84     7   1     28.88889
+&gt; 63     49     248  9.2   85     7   2     29.44444
+&gt; 64     32     236  9.2   81     7   3     27.22222
+&gt; 65     NA     101 10.9   84     7   4     28.88889
+&gt; 66     64     175  4.6   83     7   5     28.33333
+&gt; 67     40     314 10.9   83     7   6     28.33333
+&gt; 68     77     276  5.1   88     7   7     31.11111
+&gt; 69     97     267  6.3   92     7   8     33.33333
+&gt; 70     97     272  5.7   92     7   9     33.33333
+&gt; 71     85     175  7.4   89     7  10     31.66667
+&gt; 72     NA     139  8.6   82     7  11     27.77778
+&gt; 73     10     264 14.3   73     7  12     22.77778
+&gt; 74     27     175 14.9   81     7  13     27.22222
+&gt; 75     NA     291 14.9   91     7  14     32.77778
+&gt; 76      7      48 14.3   80     7  15     26.66667
+&gt; 77     48     260  6.9   81     7  16     27.22222
+&gt; 78     35     274 10.3   82     7  17     27.77778
+&gt; 79     61     285  6.3   84     7  18     28.88889
+&gt; 80     79     187  5.1   87     7  19     30.55556
+&gt; 81     63     220 11.5   85     7  20     29.44444
+&gt; 82     16       7  6.9   74     7  21     23.33333
+&gt; 83     NA     258  9.7   81     7  22     27.22222
+&gt; 84     NA     295 11.5   82     7  23     27.77778
+&gt; 85     80     294  8.6   86     7  24     30.00000
+&gt; 86    108     223  8.0   85     7  25     29.44444
+&gt; 87     20      81  8.6   82     7  26     27.77778
+&gt; 88     52      82 12.0   86     7  27     30.00000
+&gt; 89     82     213  7.4   88     7  28     31.11111
+&gt; 90     50     275  7.4   86     7  29     30.00000
+&gt; 91     64     253  7.4   83     7  30     28.33333
+&gt; 92     59     254  9.2   81     7  31     27.22222
+&gt; 93     39      83  6.9   81     8   1     27.22222
+&gt; 94      9      24 13.8   81     8   2     27.22222
+&gt; 95     16      77  7.4   82     8   3     27.77778
+&gt; 96     78      NA  6.9   86     8   4     30.00000
+&gt; 97     35      NA  7.4   85     8   5     29.44444
+&gt; 98     66      NA  4.6   87     8   6     30.55556
+&gt; 99    122     255  4.0   89     8   7     31.66667
+&gt; 100    89     229 10.3   90     8   8     32.22222
+&gt; 101   110     207  8.0   90     8   9     32.22222
+&gt; 102    NA     222  8.6   92     8  10     33.33333
+&gt; 103    NA     137 11.5   86     8  11     30.00000
+&gt; 104    44     192 11.5   86     8  12     30.00000
+&gt; 105    28     273 11.5   82     8  13     27.77778
+&gt; 106    65     157  9.7   80     8  14     26.66667
+&gt; 107    NA      64 11.5   79     8  15     26.11111
+&gt; 108    22      71 10.3   77     8  16     25.00000
+&gt; 109    59      51  6.3   79     8  17     26.11111
+&gt; 110    23     115  7.4   76     8  18     24.44444
+&gt; 111    31     244 10.9   78     8  19     25.55556
+&gt; 112    44     190 10.3   78     8  20     25.55556
+&gt; 113    21     259 15.5   77     8  21     25.00000
+&gt; 114     9      36 14.3   72     8  22     22.22222
+&gt; 115    NA     255 12.6   75     8  23     23.88889
+&gt; 116    45     212  9.7   79     8  24     26.11111
+&gt; 117   168     238  3.4   81     8  25     27.22222
+&gt; 118    73     215  8.0   86     8  26     30.00000
+&gt; 119    NA     153  5.7   88     8  27     31.11111
+&gt; 120    76     203  9.7   97     8  28     36.11111
+&gt; 121   118     225  2.3   94     8  29     34.44444
+&gt; 122    84     237  6.3   96     8  30     35.55556
+&gt; 123    85     188  6.3   94     8  31     34.44444
+&gt; 124    96     167  6.9   91     9   1     32.77778
+&gt; 125    78     197  5.1   92     9   2     33.33333
+&gt; 126    73     183  2.8   93     9   3     33.88889
+&gt; 127    91     189  4.6   93     9   4     33.88889
+&gt; 128    47      95  7.4   87     9   5     30.55556
+&gt; 129    32      92 15.5   84     9   6     28.88889
+&gt; 130    20     252 10.9   80     9   7     26.66667
+&gt; 131    23     220 10.3   78     9   8     25.55556
+&gt; 132    21     230 10.9   75     9   9     23.88889
+&gt; 133    24     259  9.7   73     9  10     22.77778
+&gt; 134    44     236 14.9   81     9  11     27.22222
+&gt; 135    21     259 15.5   76     9  12     24.44444
+&gt; 136    28     238  6.3   77     9  13     25.00000
+&gt; 137     9      24 10.9   71     9  14     21.66667
+&gt; 138    13     112 11.5   71     9  15     21.66667
+&gt; 139    46     237  6.9   78     9  16     25.55556
+&gt; 140    18     224 13.8   67     9  17     19.44444
+&gt; 141    13      27 10.3   76     9  18     24.44444
+&gt; 142    24     238 10.3   68     9  19     20.00000
+&gt; 143    16     201  8.0   82     9  20     27.77778
+&gt; 144    13     238 12.6   64     9  21     17.77778
+&gt; 145    23      14  9.2   71     9  22     21.66667
+&gt; 146    36     139 10.3   81     9  23     27.22222
+&gt; 147     7      49 10.3   69     9  24     20.55556
+&gt; 148    14      20 16.6   63     9  25     17.22222
+&gt; 149    30     193  6.9   70     9  26     21.11111
+&gt; 150    NA     145 13.2   77     9  27     25.00000
+&gt; 151    14     191 14.3   75     9  28     23.88889
+&gt; 152    18     131  8.0   76     9  29     24.44444
+&gt; 153    20     223 11.5   68     9  30     20.00000
+```
+
+
+]
+]
+
+---
+
+
+# Ejercicios
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+
+* 📝 **Ejercicio 7**: define una lista de 4 elementos de tipos distintos y accede al segundo de ellos (yo incluiré uno que sea un data.frame para que veas que en una lista cabe de todo).
+ 
+* 📝 **Ejercicio 8**: accede a los elementos que ocupan los lugares 1 y 4 de la lista definida anteriormente.
+ 
+* 📝 **Ejercicio 9**: define una lista de 4 elementos que contenga, en una sola variable, tu nombre, apellido, edad y si estás soltero/a.
+
+* 📝 **Ejercicio 10**: carga el dataset `starwars` del paquete `{dplyr}` y accede a la segunda película que aparece en `starwars$films` (para cada personaje). Determina cuales no no salen en más de una película.
+
+]
+
+.panel[.panel-name[Solución ej. 7]
+
+
+```r
+# Ejemplo: lista con texto, numérico, lógico y un data.frame
+lista_ejemplo &lt;- list("nombre" = "Javier", "cp" = 28019,
+                      "soltero" = TRUE,
+                      "notas" = data.frame("mates" = c(7.5, 8, 9),
+                                           "lengua" = c(10, 5, 6)))
+lista_ejemplo
+```
+
+```
+&gt; $nombre
+&gt; [1] "Javier"
+&gt; 
+&gt; $cp
+&gt; [1] 28019
+&gt; 
+&gt; $soltero
+&gt; [1] TRUE
+&gt; 
+&gt; $notas
+&gt;   mates lengua
+&gt; 1   7.5     10
+&gt; 2   8.0      5
+&gt; 3   9.0      6
+```
+
+]
+
+.panel[.panel-name[Solución ej. 8]
+
+
+```r
+# Accedemos al 1 y al 4
+lista_ejemplo[c(1, 4)]
+```
+
+```
+&gt; $nombre
+&gt; [1] "Javier"
+&gt; 
+&gt; $notas
+&gt;   mates lengua
+&gt; 1   7.5     10
+&gt; 2   8.0      5
+&gt; 3   9.0      6
+```
+
+```r
+# Accedemos por nombre
+lista_ejemplo$nombre
+```
+
+```
+&gt; [1] "Javier"
+```
+
+```r
+lista_ejemplo$notas
+```
+
+```
+&gt;   mates lengua
+&gt; 1   7.5     10
+&gt; 2   8.0      5
+&gt; 3   9.0      6
+```
+
+```r
+lista_ejemplo[c("nombre", "notas")]
+```
+
+```
+&gt; $nombre
+&gt; [1] "Javier"
+&gt; 
+&gt; $notas
+&gt;   mates lengua
+&gt; 1   7.5     10
+&gt; 2   8.0      5
+&gt; 3   9.0      6
+```
+
+
+
+]
+
+.panel[.panel-name[Solución ej. 9]
+
+
+```r
+# Creamos lista: con lubridate calculamos la diferencia de años desde la fecha de nuestro nacimiento hasta hoy (sea cuando sea hoy)
+lista_personal &lt;- list("nombre" = "Javier",
+                       "apellidos" = "Álvarez Liébana",
+                       "edad" = 32,
+                       "soltero" = TRUE)
+lista_personal
+```
+
+```
+&gt; $nombre
+&gt; [1] "Javier"
+&gt; 
+&gt; $apellidos
+&gt; [1] "Álvarez Liébana"
+&gt; 
+&gt; $edad
+&gt; [1] 32
+&gt; 
+&gt; $soltero
+&gt; [1] TRUE
+```
+
+]
+
+.panel[.panel-name[Solución ej. 10]
+
+
+```r
 library(dplyr)
-starwars
+
+# accedemos a la segunda película que aparece
+# en cada personaje
+segunda_peli &lt;- map(starwars$films, 2)
+
+# ¿Cuáles no salen en más de una película?
+map_lgl(segunda_peli, is.null)
 ```
 
-🔎 Mira antes &lt;https://github.com/dadosdelaplace/teaching/blob/main/bioestad/scripts/segundo_rmarkdown.Rmd&gt; para ver algunas opciones extras que puedes usar para personalizar.
-
----
-
-name: clase5-caso-II
-
-# .orange[CASO PRACTICO]: análisis socioeconómico (gapminder)
-
-Instala el paquete `{gapminder}` y usa el conjunto `gapminder` contenido en él mismo (dataset con datos económicos de distintos países). Deberás **.bg-purple_light[entregar completado]** el archivo `.Rmd` que tienes disponible en ... **.bg-purple_light[antes de las 16:00 del 5 de octubre]**, siguiendo las instrucciones contenidas en el mismo.
-
-
-```r
-install.packages("gapminder")
-library(gapminder)
-gapminder
+```
+&gt;  [1] FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE FALSE FALSE FALSE
+&gt; [13] FALSE FALSE  TRUE FALSE FALSE  TRUE FALSE FALSE FALSE  TRUE  TRUE FALSE
+&gt; [25]  TRUE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE  TRUE FALSE  TRUE  TRUE
+&gt; [37]  TRUE FALSE  TRUE  TRUE FALSE  TRUE  TRUE FALSE  TRUE  TRUE  TRUE FALSE
+&gt; [49] FALSE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE  TRUE  TRUE  TRUE FALSE
+&gt; [61] FALSE  TRUE  TRUE FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+&gt; [73] FALSE  TRUE  TRUE FALSE  TRUE  TRUE FALSE FALSE  TRUE  TRUE  TRUE  TRUE
+&gt; [85]  TRUE  TRUE FALSE
 ```
 
-🔎 Mira antes &lt;https://github.com/dadosdelaplace/teaching/blob/main/bioestad/scripts/segundo_rmarkdown.Rmd&gt; para ver algunas opciones extras que puedes usar para personalizar.
+]
+
+]
 
 ---
 
-a
+class: inverse center middle
+name: bloque-6
+
+# BLOQUE VI: importar/exportar. Tidydata
+
+&amp;nbsp;
+
+### [Importar/exportar datos](#importar-exportar)
+
+### [Tidydata](#tidydata)
 
 ---
 
-# .orange[RECURSOS] y .green[BIBLIOGRAFÍA]
+class: inverse center middle
+name: bloque-7
+
+# BLOQUE VII: ordenando y resumiendo datos (tidyverse)
 
 &amp;nbsp;
 
 
-#### 📚 **.bg-purple_light[Artículos o libros]** científicos que han sido sometidos a revisión por pares.
+---
+
+class: inverse center middle
+name: bloque-8
+
+# BLOQUE VIII: visualizando datos
 
 &amp;nbsp;
 
-#### 🔗 **.bg-green_light[Recursos online]** recomendados
-
-&amp;nbsp;
-
-#### 💻 Recursos para la **.bg-orange[programación en R]**
-
----
-
-# Bibliografía general
-
-📚 **«Statistical tests, P values, confidence intervals, and power: a guide to misinterpretations»**. Greenland et al. (2016) &lt;https://github.com/dadosdelaplace/teaching/blob/main/bioestad/biblio/p-value_Greenland_etal_2016.pdf&gt;
-
-💻 **Tidy Data Tutor**: para visualizar la mecánica interna de `{tidyverse}`. &lt;https://tidydatatutor.com/&gt;
-
-🔗 Web con recursos para la **introducción a la estadística y Machine Learning en R** &lt;https://artofstat.com/&gt;
-
-💻 **Manual introductorio de R** (Javier Álvarez Liébana): &lt;https://dadosdelaplace.github.io/courses-intro-R/&gt;
-
-
----
-
-# Bibliografía general
-
-📚 **«The reproducibility of research and the misinterpretation of p-values»**. Colquhoun (2017) &lt;https://github.com/dadosdelaplace/teaching/blob/main/bioestad/biblio/p-values_Colquhoun_2017.pdf&gt;
-
-
-📚 **«An Introduction to Multivariate Statistical Analysis»**. Anderson (1958) &lt;https://github.com/dadosdelaplace/teaching/blob/main/bioestad/biblio/introduction_mva_anderson_2003.pdf&gt;
-
-📚 **«A New Measure of Rank Correlation»**. Kendall (1938) &lt;https://github.com/dadosdelaplace/teaching/blob/main/bioestad/biblio/correlation_kendall_1938.pdf&gt;
-
-📚 **«The generalised product moment distribution in samples from a normal multivariate population»**. Wishart (1928) &lt;https://github.com/dadosdelaplace/teaching/blob/main/bioestad/biblio/multivariate_normal_wishart_1928.pdf&gt;
-
-📚 **«On lines and planes of closest fit to systems of points in space»**. Pearson (1901) &lt;https://github.com/dadosdelaplace/teaching/blob/main/bioestad/biblio/fit_pearson_1901.pdf&gt;
-
-
----
-
-# Recursos dataviz
-
-### Dataviz
-
-📚 **«Gramática de las gráficas: pistas para mejorar las representaciones de datos»**. Sevilla (2005) &lt;http://academica-e.unavarra.es/bitstream/handle/2454/15785/Gram%C3%A1tica.pdf&gt;
-
-📚 **«Quantitative Graphics in Statistics: A Brief History»**. Beniger and Robyn (1978) &lt;https://github.com/dadosdelaplace/teaching/blob/main/bdba-pca-clustering-2022/biblio/graphics_beniger_robin_1978.pdf&gt;
- 
- 
-💻 **«Analizando datos, visualizando información, contando historias»** (curso de dataviz en R). Álvarez-Liébana y Valverde-Castilla (2022) &lt;https://dadosdelaplace.github.io/curso-dataviz-ECI-2022&gt;
-
-📚 **«40 years of boxplots»**. Wickham and Stryjewski (2011) &lt;https://github.com/dadosdelaplace/teaching/blob/main/bdba-pca-clustering-2022/biblio/boxplot_Wickham_Stryjewski_2011.pdf&gt;
- 
- 
-
-
----
-
-# Bibliografía componentes principales
-
-💻 **Componentes principales** en `{tidymodels}`. &lt;https://www.tmwr.org/dimensionality.html#beans&gt;
-
-
-📚 **«Principal Component Analysis»**. Jolliffe (2002) &lt;https://github.com/dadosdelaplace/teaching/blob/main/bdba-pca-clustering-2022/biblio/pca_jolliffe_2002.pdf&gt;
-
-📚 **«Principal Component Analysis»**. Hervé and Lynne (2010) &lt;http://staff.ustc.edu.cn/~zwp/teach/MVA/abdi-awPCA2010.pdf&gt;
-
-📚 **«Principal Component Analysis: a review and recent developments»**. Jolliffe and Cadima (2016) &lt;https://royalsocietypublishing.org/doi/10.1098/rsta.2015.0202&gt;
-
-🔗 **«The Mathematics Behind Principal Component Analysis»**. Dubey (2018).  &lt;https://towardsdatascience.com/the-mathematics-behind-principal-component-analysis-fff2d7f4b643&gt;
-
-
-🔗 **«A One-Stop Shop for Principal Component Analysis»**. Brems (2017). &lt;https://towardsdatascience.com/a-one-stop-shop-for-principal-component-analysis-5582fb7e0a9c&gt;
-
-📚 **«On the number of principal components: a test of dimensionality based on measurements of similarity between matrices»**. Dray (2008) &lt;https://github.com/dadosdelaplace/teaching/blob/main/bdba-pca-clustering-2022/biblio/numer_pca_dray_2008.pdf&gt;
-
-
----
-
-# Bibliografía análisis clúster
-
-📚 **«Multiclass classification of dry beans using computer vision and machine learning techniques»**. Koklu y Ozkan (2020) &lt;https://github.com/dadosdelaplace/teaching/blob/main/bdba-pca-clustering-2022/biblio/multiclass_classif_koklu_ozlan_2020.pdf&gt;
-
-💻 **«Clustering y heatmaps: aprendizaje no supervisado»**. Amat (2017). &lt;https://rpubs.com/Joaquin_AR/310338&gt;
-
-💻 **«K-means clustering with tidy data principles»** &lt;https://www.tidymodels.org/learn/statistics/k-means/&gt;
-
-🔗 **«ISLR tidymodels Labs»** &lt;https://emilhvitfeldt.github.io/ISLR-tidymodels-labs/unsupervised-learning.html#kmeans-clustering&gt;
-
-
-📚 **«Algorithm AS 136: a K-Means Clustering Algorithm»**. Hartigan y Wong (1979) &lt;http://www.jstor.org/stable/2346830&gt;
-
-🔗 **«Machine Learning for Social Scientists»**. Cimentada (2020) &lt;https://cimentadaj.github.io/ml_socsci/unsupervised-methods.html&gt;
 
 ---
     </textarea>

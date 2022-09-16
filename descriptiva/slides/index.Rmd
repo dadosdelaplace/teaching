@@ -1,6 +1,6 @@
 ---
-title: "Descriptiva y exploración de datos"
-subtitle: "Grado en Estadística Aplicada"
+title: "Introducción a R"
+subtitle: "Descripción y exploración de datos"
 author:
   - "Javier Álvarez Liébana (Fac. Estudios Estadísticos - UCM)"
 date: "Última actualización: `r format(lubridate::today(), format = '%d-%m-%Y')`"
@@ -15,7 +15,6 @@ output:
       ratio: 16:9
       countIncrementalSlides: true
 ---
-
 
 ```{r settings, include = FALSE, warning = FALSE}
 knitr::opts_chunk$set(fig.retina = 3, out.width = "100%",
@@ -101,82 +100,6 @@ $$\\[2in]$$
 
 ---
 
-# .orange[MATERIAL] de las clases
-
-
-.pull-left[
-
-- **.bg-purple_light[Diapositivas]** del curso:
-<https://dadosdelaplace.github.io/teaching/bioestad/slides>
-
-- **.bg-red_light[Evaluación]** de la asignatura
-<https://github.com/dadosdelaplace/teaching/tree/main/bioestad/eval>
-
-- **.bg-yellow[Scripts]** de la asignatura
-<https://github.com/dadosdelaplace/teaching/tree/main/bioestad/scripts>
-
-- **.bg-orange[Bibliografía]**: <https://github.com/dadosdelaplace/teaching/tree/main/bioestad/biblio>
-
-&nbsp;
-
-- **.bg-green_light[Manual introductorio de R]**: <https://dadosdelaplace.github.io/courses-intro-R/>
-
-]
-
----
-
-# Me presento: la turra
-
-.pull-left[
-
-```{r echo = FALSE,  out.width = "80%", fig.align = "left"}
-knitr::include_graphics("./img/me.jpeg")
-``` 
-
-]
-
-.pull-right[
-
-* **.bg-purple_light[Javier Álvarez Liébana]**, nacido en 1989 en Carabanchel Bajo (Madrid)
-
-* Licenciado (UCM) en **Matemáticas** (Erasmus en Bologna mediante). **Máster (UCM) en Ingeniería Matemática** (2013-2014)
-
-
-* **.bg-orange[Doctorado en estadística]** por la Universidad de Granada
-
-
-* Encargado de la **visualización y análisis de datos covid** de la Consejería de Salud del **Principado de Asturias**
-
-]
-
-
-Intentando eso de la **.bg-yellow[divulgación]** por **Twitter** (@dadosdelaplace) e **Instagram** (@javieralvarezliebana)
-
----
-
-name: objetivos
-
-# .orange[OBJETIVOS] de las diapositivas
-
-
-El **.bg-purple_light[propósito]** de estas diapositiva será triple
-
-- **.bg-orange[Quitarnos el miedo]** a programar: a programar se aprende programando, no hace falta ser Julian Assange para ello
-
---
-
-- Aprender a **.bg-orange[abstraer ideas]** para implementarlas en un lenguaje de programación, así como adquirir una base para el **.bg-orange[preprocesamiento, análisis y visualización de datos]**.
-
---
-
-- Amén de no tener miedo a hacerlo, encontrarle la **.bg-orange[utilidad]** y entender las facilidades que nos ofrece `R` frente a otras opciones como Excel o SPSS.
-
-
-&nbsp;
-
-📚 Estas **diapositivas** han sido elaboradas con el propio `R` haciendo uso de los paquetes `{xaringan}`, `{xaringanExtra}` y `{xaringanthemer}`.
-
----
 
 # .orange[CASOS REALES] de uso de R
 
@@ -225,33 +148,45 @@ Es una de las razones por las que son capaces de realizar brillantes análisis d
 
 class: inverse center middle
 
-# LECCIONES
+# BLOQUES
 
 &nbsp;
 
-#### [LECCIÓN 1](#clase-1)
+.pull-left[
 
-#### [LECCIÓN 2](#clase-2)
+#### [Bloque I: introducción a R desde cero](#bloque-1)
 
-#### [LECCIÓN 3](#clase-3)
+#### [Bloque II: vectores y matrices](#bloque-2)
 
-#### [LECCIÓN 4](#clase-4)
+#### [Bloque III: conjuntos de datos](#bloque-3)
 
-#### [LECCIÓN 5](#clase-5)
+#### [Bloque IV: comunicando resultados](#bloque-4)
+
+]
+
+.pull-right[
+
+#### [Bloque V: funciones y listas](#bloque-5)
+
+#### [Bloque VI: importar/exportar. Tidydata](#bloque-6)
+
+#### [Bloque VII: ordenando y resumiendo datos (tidyverse)](#bloque-7)
+
+#### [Bloque VIII: visualizando datos](#bloque-7)
+
+]
 
 ---
 
 
 class: inverse center middle
-name: clase-1
+name: bloque-1
 
-# LECCIÓN 1: introducción a R desde cero.
+# Bloque I: introducción a R desde cero
 
 &nbsp;
 
 ### [Instalación](#instalacion)
-
-### [¿Qué es R?](#que-es-R)
 
 ### [Primeros pasos](#primeros-pasos)
 
@@ -518,83 +453,6 @@ library(ggplot2)
 
 class: center middle
 
-# ¿Por qué .orange[NO] usar Excel?
-
-![](./img/meme_barco.jpg)
-
----
-
-# ¿Por qué .orange[NO] usar Excel?
-
-Excel es una **.bg-purple_light[hoja de cálculo]**, ni más ni menos, y el propio **Microsoft desaconseja su uso** para el análisis de datos. El Excel es una herramienta maravillosa para ser usada como una sencilla hoja de cálculo (llevar cuentas de tu familia, declaración de Renta, planificar viajes, etc).
-
-&nbsp;
-
-**.bg-red_light[NO ESTÁ DISEÑADO]** para ser una base de datos, y muchos menos pensado para generar un entorno flexible para el análisis estadístico:
-
-* **.bg-red_light[Software de pago]**
-
-* **.bg-red_light[Software cerrado]**: solo podemos hacer lo que Excel ha creído que interesante que podamos hacer.
-
-* **.bg-red_light[Alto consumo de memoria]**.
-
-* **.bg-red_light[No es universal]**: no solo es de pago sino que además, dependiendo de la versión que tengas de Excel, tendrá un formato distinto para datos como fechas, teniendo incluso extensiones distintas.
-
----
-
-# .orange[Incel] vs excel
-
-```{r echo = FALSE, out.width = '75%', fig.align = "center"}
-knitr::include_graphics("./img/incel.jpg")
-```
-
----
-
-
-
-# .red[EPIC FAILS] en Excel
-
-Problemas de **.red[versiones]**
-
-
-```{r echo = FALSE,  out.width = "37%", fig.align = "left"}
-knitr::include_graphics("./img/excel_genes.jpg")
-``` 
-
-
-📚 Ver **.bg-green_light[bibliografía]** en <https://github.com/dadosdelaplace/teaching/tree/main/bioestad/biblio>
-
-
----
-
-# .red[EPIC FAILS] en Excel
-
-Problemas de **.red[memoria]**
-
-```{r echo = FALSE,  out.width = "50%", fig.align = "left"}
-knitr::include_graphics("./img/excel_uk.jpg")
-``` 
-
-
-📚 Ver **.bg-green_light[bibliografía]** en <https://github.com/dadosdelaplace/teaching/tree/main/bioestad/biblio>
-
-
----
-
-# .red[EPIC FAILS] en Excel
-
-Problemas de **.red[codificación]**
-
-```{r echo = FALSE,  out.width = "50%", fig.align = "left"}
-knitr::include_graphics("./img/excel_edades.jpg")
-``` 
-
-📚 Ver **.bg-green_light[bibliografía]** en <https://github.com/dadosdelaplace/teaching/tree/main/bioestad/biblio>
-
----
-
-name: primeros-pasos
-
 # Primeros pasos en R: .orange[CALCULADORA]
 
 Empecemos por lo sencillo: **.bg-purple-light[¿cómo usar R como una calculadora?]** Si escribimos `2 + 1` en la consola y pulsamos ENTER, la consola nos mostrará el resultado de la suma.
@@ -643,43 +501,6 @@ abs(x) #<<
 
 ---
 
-# .red[Errores]
-
-Durante tu aprendizaje va a ser **muy habitual** que las cosas no salgan a la primera, apareciendo en consola **.bg-purple_light[mensajes de error]** en un **.bg-red_light[color rojo]**. No te asustes: lo peor que puede pasar es que tengas que reiniciar `R`).
-
-&nbsp;
-
-* Mensajes de **.bg-red_light[ERROR]**: irán precedidos de la frase **.bg-yellow[«Error in…»]**, y serán aquellos fallos que **impidan la ejecución del código** 
-
-```{r error = TRUE}
-"a" + 1 # intentando sumar 1 a un texto
-```
-
-&nbsp;
-
-**.bg-green_light[CONSEJO]**: lee siempre los mensajes de error para aprender de ellos (ya que suelen dar pistas de cómo resolverlos).
-
----
-
-# .red[Errores]
-
-Durante tu aprendizaje va a ser **muy habitual** que las cosas no salgan a la primera, apareciendo en consola **.bg-purple_light[mensajes de error]** en un **.bg-red_light[color rojo]**. No te asustes: lo peor que puede pasar es que tengas que reiniciar `R`).
-
-&nbsp;
- 
-* Mensajes de **.bg-orange[WARNING]**: irán precedidos de la frase **.bg-yellow[«Warning in…»]**, y son los fallos más delicados ya que son posibles incoherencias pero sin que tu código deje de ejecutarse.
-
-```{r warning = TRUE}
-sqrt(-1) # raiz cuadrada de número negativo
-```
-
-&nbsp;
-
-**¿Ha ejecutado la orden?** Sí, pero te advierte de que el resultado de la operación es un `NaN`, **Not A Number**, un valor que no existe (al menos dentro de los números reales).
-
-
----
-
 # ¿Dónde programamos? .orange[SCRIPTS]
 
 Un **.bg-purple_light[script]** será el documento en el que programamos, nuestro equivalente a un archivo .doc, pero aquí será un archivo con extensión `.R`, donde **escribiremos las órdenes**. Para **.bg-purple_light[abrir nuestro primero script]**, haz click en el menú superior en `File << New File << R Script`.
@@ -704,7 +525,6 @@ knitr::include_graphics("./img/inicio_rstudio_5.jpg")
 
 ---
 
-# .orange[EJECUTAR] nuestros scripts
 
 Ahora tenemos una **cuarta ventana**: la ventana donde **escribiremos nuestros códigos**
 
@@ -801,22 +621,79 @@ e
 
 ---
 
-class: inverse center middle
-name: clase-2
+# Primeros ejercicios
 
-# LECCIÓN 2: primeros datos en R
+
+.panelset[
+.panel[.panel-name[Ejercicios extra]
+
+
+* 📝 **Ejercicio 4**: asigna un valor positivo a `x` y calcula su raíz cuadrada; asigna otro negativo y calcula su valor absoluto con la función `abs()`.
+
+
+* 📝 **Ejercicio 5**: usando la variable `x` ya definida, completa/modifica el código inferior para guardar en una nueva variable `z` el resultado guardado en `x` menos 5.
+
+```{r eval = FALSE}
+z <- ? - ? # completa el código
+z
+```
+
+* 📝 **Ejercicio 6**: usando las variables `x` e `y` ya definidas, calcula el máximo de ambas (función `max()`), y guárdalo en una nueva variable `t`.
+
+]
+
+.panel[.panel-name[Solución ej. 4]
+
+```{r}
+# Raíz cuadrada
+x <- 73 # por ejemplo
+sqrt(x)
+
+# Valor absoluto
+y <- -19 # por ejemplo
+abs(y)
+```
+]
+
+.panel[.panel-name[Solución ej. 5]
+
+```{r}
+z <- x - 5
+z
+```
+]
+
+.panel[.panel-name[Solución ej. 6]
+
+```{r}
+t <- max(x, y)
+t
+```
+
+]
+]
+
+
+---
+
+class: inverse center middle
+name: bloque-2
+
+# Bloque II: vectores y matrices
 
 &nbsp;
 
-### [Variables individuales: numéricas y caracteres](#variables)
+### [Variables y vectores](#variables)
 
-### [Primer paquete y primera función](#primer-paquete)
+### [Ejercicios vectores](#ejercicios2)
 
-### [Vectores: numéricos y de caracteres](#vectores)
+### [Operaciones con vectores](#operaciones-vectores)
 
-### [Variables lógicas y de tipo fecha](#logicas)
+### [Ejercicios de vectores](#ejercicios-vectores)
 
-### [Ejercicios](#ejercicios2)
+### [Matrices](#matrices)
+
+### [Ejercicios de matrices](#ejercicios-matrices)
 
 ---
 
@@ -877,24 +754,6 @@ class(a) #<<
 typeof(a) #<<
 ```
 
-
----
-
-# Variables .orange[NUMÉRICAS]
-
-Como ya hemos visto, con los datos numéricos podemos realizar todas las **.bg-purple_light[operaciones aritméticas]** que se nos ocurriría hacer en una **calculadora** como sumar (`+`), restar (`-`), multiplicar (`+`), dividir (`/`), raíz cuadrada (`sqrt()`), valor absoluto (`abs()`), elevar al cuadrado (`^2`), elevar al cubo (`^3`), etc.
-
-
-
-```{r}
-a <- 5
-a^3 # Elevar al cubo
-```
-
-```{r}
-b <- -43
-abs(b) # valor absoluto
-```
 
 ---
 
@@ -978,7 +837,7 @@ library(glue) # solo la 1ª vez install.packages("glue")
 Con dicho paquete podemos **.bg-purple_light[usar variables dentro de cadenas]** de texto. Por ejemplo, la frase «la edad es de ... años», donde la edad concreta la tenemos guardada en una variable.
 
 ```{r}
-edad <- 32
+edad <- 33
 glue("La edad es de {edad} años") #<<
 ```
 
@@ -1003,7 +862,7 @@ Hasta ahora solo hemos operado con el contenido de las **celdas**, pero cuando t
 La forma más sencilla es con el comando `c()` (c de concatenar), y basta con introducir sus **elementos entre paréntesis y separados por comas** (por ejemplo, la edad de 4 personas).
 
 ```{r}
-edades <- c(32, 27, 60, 61) #<<
+edades <- c(33, 27, 60, 61) #<<
 edades
 ```
 
@@ -1404,28 +1263,6 @@ wday(fecha, week_start = 1) # Día de la semana
 
 ]
 
-
----
-
-# Datos de tipo .orange[FECHA]
-
-
-También podemos **.bg-purple_light[realizar comparaciones]**
-
-```{r}
-fecha_actual <- today()
-fecha_actual > ymd(20170131) # Actual vs 2017-01-31
-fecha_actual > ymd(21000131) # Actual vs 2100-01-31
-```
- 
---
-
-Con la función `leap_year()` podremos saber si la fecha **.bg-purple_light[corresponde a un año bisiesto]**
-
-```{r}
-leap_year(as_date(ymd(20190131)))
-```
-
 ---
 
 # Datos de tipo .orange[FECHA]
@@ -1476,7 +1313,7 @@ name: ejercicios2
 
 ```{r}
 # variable numérica
-edad <- 32
+edad <- 33
 edad
 
 # variable de tipo texto
@@ -1610,18 +1447,64 @@ cumple + months(1) + weeks(1)
 
 ---
 
+# Ejercicios extras
 
-# LECCIÓN 3: operaciones con vectores
+.panelset[
+.panel[.panel-name[Ejercicios extra]
 
-&nbsp;
 
-### [Operaciones con vectores](#operaciones-vectores)
+* 📝 **Ejercicio 10**: construye con `glue()` una frase que diga «Hola, me llamo … y tengo … años».
 
-### [Ejercicios vectores](#ejercicios-vectores)
+* 📝 **Ejercicio 11**: modifica el código inferior para crear un vector de nombre `vector_num` que contenga los números 1, 5 y -7.
 
-### [Matrices](#matrices)
+```{r eval = FALSE}
+# Vector de números
+vector_num <- c(1)
+vector_num
+```
 
-### [Ejercicios matrices](#ejercicios-matrices)
+* 📝 **Ejercicio 12**:  extrae el mes, año y día de la semana de tu cumpleaños
+
+]
+
+.panel[.panel-name[Solución ej. 10]
+
+```{r}
+nombre <- "Javi"
+edad <- 33
+glue("Hola, me llamo {nombre} y tengo {edad} años")
+```
+]
+
+.panel[.panel-name[Solución ej. 11]
+
+```{r}
+# Vector de números
+vector_num <- c(1, 5, -7)
+vector_num
+
+# longitud
+length(vector_num)
+```
+
+]
+
+.panel[.panel-name[Solución ej. 12]
+
+```{r}
+library(lubridate)
+cumple <- as_date("1989-09-10")
+month(cumple)
+day(cumple)
+year(cumple)
+wday(cumple, week_start = 1, label = TRUE)
+```
+
+]
+
+
+]
+
 
 ---
 
@@ -1676,41 +1559,6 @@ x + y #<<
 
  
 ---
-
-# .green[OPERACIONES] .orange[ARITMÉTICAS]
- 
-
-Dado que la operación (por ejemplo, una suma) se realiza elemento a elemento, ¿qué sucederá si **.bg-purple_light[sumamos dos vectores de distinta longitud]**?
-
---
-
-Por ejemplo, definamos `z` con los 4 primeros impares, e intentemos hacer la suma `x + z`.
-
-```{r}
-z <- c(1, 3, 5, 7)
-x + z
-```
-
---
-
-.pull-left[
-
-
-```{r echo = FALSE,  out.width = "99%", fig.align = "left"}
-knitr::include_graphics("./img/recycle.jpg")
-``` 
-
-
-]
-
-.pull-right[
-
-`R` intenta molestarte lo menos posible, así que lo que hace es **.bg-purple_light[reciclar elementos]**: si tiene un vector de 4 elementos y le intentas sumar uno de 3 elementos, lo que hará será reciclar elementos del vector con menor longitud: hará `1 + 2`, `3 + 4`, `5 + 6` pero… `7 + 2` (vuelve al primero).
-
-]
-
----
-
 
 # .green[OPERACIONES] .orange[ARITMÉTICAS]
 
@@ -1919,7 +1767,7 @@ is.nan(x)
 Otra operación muy habitual es la **.bg-purple_light[extraer un subconjunto del mismo]**. La forma más sencilla es **usar el operador de selección** `[i]` para **acceder al elemento i-ésimo**
 
 ```{r}
-edades <- c(20, 30, 32, NA, 61)
+edades <- c(20, 30, 33, NA, 61)
 
 # accedemos a la edad de la tercera persona en la lista
 edades[3] #<<
@@ -1957,6 +1805,15 @@ y[length(y)]
 ```
 
 ---
+
+
+# Valores .orange[UNICOS]
+
+Con la función `unique()` podemos también extraer los **.bg-purple_light[valores únicos de una variable]**
+
+---
+
+
 
 # .orange[FILTRAR] elementos
 
@@ -2078,7 +1935,7 @@ Con la función `names()` podemos, no solo **.bg-purple_light[consultar los nomb
 Una acción también habitual al trabajar con datos es saber **.bg-purple_light[ordenarlos]**: de menor a mayor edad, datos más recientes vs antiguos, etc. Para ello tenemos la función `sort()`, que podemos usar directamente para ordenar de **menor a mayor**.
 
 ```{r}
-edades <- c(81, 7, 25, 41, 65, 20, 32, 23, 77)
+edades <- c(81, 7, 25, 41, 65, 20, 33, 23, 77)
 
 # orden de joven a mayor
 sort(edades) #<<
@@ -2284,17 +2141,6 @@ quantile(x)
 
 name: matrices
 
-# LECCIÓN 4: matrices
-
-&nbsp;
-
-### [Matrices](#matrices)
-
-### [Operaciones con matrices](#operaciones-matrices)
-
-### [Ejercicios matrices](#ejercicios-matrices)
-
-
 # De la .orange[celda] a la .green[tabla]
  
 
@@ -2457,8 +2303,6 @@ matrix(1:15, ncol = 5) # Matriz con el vector 1:15
 ```
 
 ---
-
-name: operaciones-matrices
 
 # .green[OPERACIONES] con .orange[MATRICES]
 
@@ -2734,16 +2578,86 @@ apply(x, MARGIN = 2, FUN = sum)
 
 ---
 
+# Ejercicios extras (matrices y vectores)
 
-# LECCIÓN 5: primeros datos estructurados
+.panelset[
+.panel[.panel-name[Ejercicios extra]
+
+* 📝 **Ejercicio 1**: define un vector `y` que contenga los 5 primeros pares, y otro `x` con los 5 primeros impares. Haz la suma de `x` (ejercicio 1 anterior) e `y`.
+ 
+* 📝 **Ejercicio 2**: encuentra del vector `x <- c(-1, 0, -2, 5, 3, 7)` el lugar (el índice) que ocupa su mínimo y su máximo.
+ 
+
+* 📝 **Ejercicio 3**: define el vector `c(-1, 0, 4, 5, -2)`, calcula la raíz cuadrada del vector y determina que lugares son de tipo `NaN`.
+
+* 📝 **Ejercicio 4**:  el siguiente código define una matriz de dimensiones `4 x 3` y calcula la suma por columnas. Modifica el código para que realice la suma por filas.
+ 
+```{r eval = FALSE}
+matriz <- matrix(1:12, nrow = 4)
+apply(matriz, MARGIN = 2, FUN = "sum")
+```
+
+]
+
+.panel[.panel-name[Solución ej. 1]
+
+```{r}
+y <- c(0, 2, 4, 6, 8)
+x <- y + 1 # forma más rápida de (1, 3, 5, 7, 9)
+x + y
+```
+
+]
+
+.panel[.panel-name[Solución ej. 2]
+
+```{r}
+x <- c(-1, 0, -2, 5, 3, 7)
+which.max(x)
+which.min(y)
+```
+
+]
+
+.panel[.panel-name[Solución ej. 3]
+
+```{r}
+x <- c(-1, 0, 4, 5, -2)
+sqrt(x)
+is.nan(sqrt(x))
+```
+
+]
+
+.panel[.panel-name[Solución ej. 4]
+
+```{r}
+matriz <- matrix(1:12, nrow = 4)
+apply(matriz, MARGIN = 1, FUN = "sum")
+```
+
+]
+
+]
+
+---
+
+name: bloque-3
+
+# Bloque III: conjuntos de datos y estructuras de control
 
 &nbsp;
 
-### [data.frame](#data.frame)
+### [Conjuntos de datos: data.frame y tibble](#data.frame)
 
-### [tibble](#tibble)
+### [Ejercicios data.frame y tibble](#ejercicios-tibble)
 
-### [Ejercicios](#ejercicios-tibble)
+### [Estructuras condicionales: if-else](#estructuras-condicionales)
+
+### [Bucles: for, while](#bucles)
+
+### [Ejercicios if-else y bucles](#ejercicios-4)
+
 
 ---
 
@@ -3441,12 +3355,666 @@ dim(gapminder)
 
 ---
 
-class: inverse center middle
-name: clase-5
+name: estructuras-condicionales
 
-# LECCIÓN 6: rmarkdown y casos prácticos
+# Estructuras de control: .orange[IF-ELSE]
+
+
+Una **.bg-purple_light[expresión de control]** será un conjunto de órdenes que nos permiten **.bg-purple_light[decidir el camino]** por el que queremos que avance nuestro código:
+
+* ¿Qué hacemos si sucede A?
+
+* ¿Y si sucede B?
+
+* ¿Tengo que programar X veces lo mismo si quiere que se repita?
 
 &nbsp;
+
+Si has programado en algún otro lenguaje, estarás familiarizado/a con **.bg-purple_light[estructuras condicionales]** como un `if (blabla) {...} else {...}` (que los usaremos a veces) o **.bg-purple_light[bucles]** `for/while` (que intentaremos evitarlos lo máximo posible).
+
+---
+
+# Estructuras de control: .orange[IF]
+
+Una de las estructuras de control más famosas de cualquier lenguaje de programación es la **.bg-purple_light[estructura condicional]** `if`
+
+> SI las condiciones impuestas se cumplen (TRUE), ejecuta las órdenes que tengamos dentro de la misma.
+
+Por ejemplo, la estructura `if (x == 1) { código A }` lo que hará será **.bg-purple_light[ejecutar el código entre llaves]** pero **.bg-orange[SI Y SOLO SI]** la **.bg-purple_light[condición es cierta]** (en este caso, solo si `x` es igual 1). En **caso contrario, no hace nada**.
+
+--
+
+Definamos por ejemplo una variable sencilla, las edades de 8 personas y comprobemos cuales son menores de edad.
+
+```{r}
+edades <- c(14, 17, 24, 56, 31, 20, 87, 73)
+edades < 18
+```
+
+---
+
+# Estructuras de control: .orange[IF]
+
+
+Recuerda que con las funciones `any()` y `all()` podemos saber si **.bg-purple_light[todos o alguno de los elementos]** de un vector cumplen una condición.
+
+```{r}
+any(edades < 18) # existe algun menor de edad
+```
+
+--
+
+Con dichos elementos vamos a construir nuestra primera estructura condicional: queremos que, **.bg-purple_light[SI existe algún menor de edad, nos imprima un mensaje]**.
+
+```{r}
+if (any(edades < 18)) { 
+  
+  print("existe alguna persona mayor de edad")
+  
+}
+```
+
+---
+
+# Estructuras de control: .orange[IF]
+
+```{r eval = FALSE}
+if (any(edades < 18)) { 
+  
+  print("existe alguna persona mayor de edad")
+  
+}
+```
+
+
+En caso de que **.bg-purple_light[no se cumplan las condiciones]** dentro del `if()` (FALSE), no sucederá nada. 
+
+
+```{r}
+if (all(edades >= 18)) { 
+  
+  print("todas las personas son mayores de edad")
+  
+}
+```
+
+Fíjate que en este caso **no hemos obtenido ningún mensaje** porque la condición `all(edades >= 18)` no es cierta (no son todos mayores de 18 años), así que **no ha ejecutado el código**.
+
+---
+
+# Estructuras de control: .orange[IF-ELSE]
+
+La estructura `if (condicion) { }` puede ser combinada con un `else { }`: cuando la **.bg-purple_light[condición no se cumpla]** (como en el último ejemplo), se **.bg-purple_light[ejecutará el código alternativo]** que haya dentro del `else { }`, permitiéndonos decidir que sucede cuando SÍ se cumple y cuando NO se cumple.
+
+--
+
+Por ejemplo, la estructura `if (x == 1) { código A } else { código B }` ejecutará A si `x` es 1 y B en cualquier otro caso.
+
+```{r}
+if (all(edades >= 18)) { 
+  
+  print("todas las personas son mayores de edad")
+  
+} else { #<<
+  
+  print("existe alguna persona menor de edad")
+}
+```
+
+---
+
+# Estructuras de control: .orange[IF-ELSE]
+
+Dicha estructura `if - else` puede **.bg-purple_light[anidarse]**: imagina que queremos realizar una acción si todos fuesen mayores de edad; en caso contrario, pero si todos los menores tienen 16 años o más, realizar otra acción; en caso contrario, otra acción
+
+```{r}
+if (all(edades >= 18)) { 
+  
+  print("todas las personas son mayores de edad")
+  
+} else if (all(edades >= 16)) {
+  
+  print("Existe alguna persona menor de edad pero todos con 16 años o más")
+  
+} else { print("Existe alguna persona menor de 16 años") }
+```
+
+**.bg-green_light[CONSEJO]**: puedes **colapsar las estructuras de control** pulsando en la flecha que aparece a la izquierda de ellas en tu script.
+
+
+---
+
+# Estructuras de control: .orange[IFELSE()]
+
+
+Esta estructura condicional puede ser **.bg-purple_light[vectorizada]**: reunir en una sola fila un número elevado de estructuras de comparación con la función `ifelse()`, cuyos argumentos de entrada serán
+
+* la condición a evaluar
+* lo que sucede cuando se cumple
+* lo que sucede cuando no se cumple
+
+Con el ejemplo de las edades, vamos a dejar el dato ausente si son menores de edad, y si son mayores de edad se queda como está.
+
+```{r}
+# NA si no cumple la condición, la edad si se cumple.
+ifelse(edades >= 18, edades, NA) #<<
+```
+
+---
+
+# Estructuras de control: .orange[IFELSE()]
+
+
+Todas estas estructuras **.bg-purple_light[no solo sirven para datos numéricos]**. Vamos a definir un vector de nombres con algunos ausentes, y vamos a sustituir los ausentes por el texto `"nombre_desconocido"` (los que no sean ausentes, es decir los que `is.na()` devuelva FALSE, se quedan como están).
+
+```{r}
+nombres <- c("Juan", "María", NA, NA, "Lucía",
+             "Carmen", "Javier", NA, "Carlos", 
+             NA, "Gregorio", "Paloma")
+
+# Si tiene ausente --> "nombre_desconocido"
+# Si no tiene ausente --> nombres originales
+nombres <-
+  ifelse(is.na(nombres), "nombre_desconocido", nombres)
+nombres
+```
+
+---
+
+name: bucles
+
+# Estructuras de control: .orange[BUCLES]
+
+Aunque la mayoría de veces son sustituibles por otras expresiones más legibles y eficientes, es importante que conozcamos otra archiconocida expresion de control: **.bg-purple_light[los bucles]**.
+
+* `for { }`: permite **.bg-purple_light[repetir el mismo código]** un **.bg-orange[número fijo y conocido]** de veces (normalmente en función de un índice).
+
+* `while { }`: permite **.bg-purple_light[repetir el mismo código]** un **.bg-orange[número indeterminado de veces]**, hasta que una **condición** dada se deje de cumplir.
+
+---
+
+# Estructuras de control: .orange[BUCLES FOR]
+
+Un **.bg-purple_light[bucle for]** es una estructura que nos permite **.bg-purple_light[repetir]** un conjunto de órdenes un **.bg-orange[número finito y conocido]** de veces: dado un **conjunto de índices**, el bucle irá recorriendo cada uno de ellos.
+
+Vamos a definir un vector `x`. Si quisiéramos el primer elemento al cuadrado escribiríamos `x[1]^2`; si quisiéramos el segundo elemento al cuadrado `x[2]^2`; si lo quisiéramos hacer en general, para el elemento i-ésimo, `x[i]^2`. Lo que haremos dentro del `for (indices) { órdenes }` es indicarle que valores irá tomando `i` (**.bg-purple_light[vector de índices]**).
+
+```{r}
+x <- c(0, -7, 1, 4)
+for (i in 1:4) { #<<
+  
+  print(x[i]^2) # órdenes
+  
+}
+```
+
+---
+
+# Estructuras de control: .orange[BUCLES FOR]
+
+```{r eval = FALSE}
+for (i in 1:4) { #<<
+  print(x[i]^2) # órdenes
+}
+```
+
+Lo que tenemos dentro de los paréntesis `for ()` no es más que la **.bg-purple_light[secuencia de números]** que hemos aprendido a construir. Si quisiéramos que haga lo mismo pero excluyendo por ejemplo el segundo elemento bastaría con definir los índices a recorrer como `c(1, 3, 4)`.
+
+```{r}
+for (i in c(1, 3, 4)) {
+  
+  print(x[i]^2) # que lo imprima
+  
+}
+```
+
+---
+
+# Estructuras de control: .orange[BUCLES FOR]
+
+Podemos definir también una variable `y <- rep(0, 4)` (un **vector «vacío»** lleno de ceros), y hacer que el **.bg-purple_light[elemento i-ésimo del vector]** se defina como `x[i]^2`
+
+```{r}
+y <- rep(0, 4)
+for (i in 1:4) {
+  
+  y[i] <- x[i]^2
+  
+}
+y
+```
+
+--
+
+Lo anterior es equivalente a esto
+
+```{r}
+y <- x^2
+y
+```
+
+---
+
+# .orange[BUCLES] suelen ser .red[INEFICIENTES]
+
+
+Haciendo uso del paquete `microbenchmark` podemos comprobar como los **.bg-purple_light[bucles son menos eficientes]** (de ahí que la mayoría de veces los intentemos evitar si existe otra alternativa)
+
+```{r}
+library(microbenchmark)
+x <- 1:100
+microbenchmark(x^2, 
+               for (i in 1:100) { y[i] <- x[i]^2 },
+               times = 1000)
+```
+
+---
+ 
+# Estructuras de control: .orange[BUCLES FOR]
+
+
+Veamos otro ejemplo **.bg-purple_light[combinando vectores numéricos y de caracteres]**: vamos a definir de nuevo un vector de edades y nombres, y vamos a recorrer cada uno imprimiento un mensaje por pantalla.
+
+```{r}
+nombres <- c("Javi", "Laura", "Carlos", "Lucía", "Mar")
+edades <- c(33, 51, 18, 43, 29)
+
+# Recorremos cada uno de los 5 elementos e imprimimos un
+# mensaje que depende de ese índice i
+for (i in 1:5) { 
+  
+  print(glue("{nombres[i]} tiene {edades[i]} años")) 
+  
+}
+```
+
+---
+
+# Estructuras de control: .orange[BUCLES FOR]
+
+Fíjate que **.bg-purple_light[si no nos queremos preocupar de si añadimos otra persona]**, podemos hacer que el bucle empiece en 1 y termine en el **.bg-purple_light[último lugar]** (sea el que sea), usando `length()`.
+
+```{r}
+for (i in 1:length(nombres)) { 
+  
+  print(glue("{nombres[i]} tiene {edades[i]} años")) 
+  
+}
+```
+
+---
+
+# Estructuras de control: .orange[BUCLES FOR]
+
+Aunque normalmente el conjunto que recorre el bucle suelen ser índices numéricos, podemos **.bg-purple_light[recorrer cualquier tipo de objeto]**, por ejemplo días e la semana
+
+```{r}
+library(stringr)
+dias_semana <- c("lunes", "martes", "miércoles", "jueves",
+                 "viernes", "sábado", "domingo")
+
+for (dias in dias_semana) { # dias recorre los días de la semana
+  
+  print(str_to_upper(dias)) # Imprimimos en mayúsculas el día
+}
+```
+
+---
+
+# Estructuras de control: .orange[BUCLES FOR]
+
+Un último ejemplo: vamos a recorrer nuestro conjunto de datos `swiss` del paquete `{datasets}` y vamos a **pasar a dato ausente** todos los valores de fertilidad superiores a 80. Para ello recorreremos cada fila para después ejecutar un `if`.
+
+```{r}
+for (i in 1:nrow(swiss)) {
+  
+  # si cumple la condición dicha fila, ponemos ausente.
+  if (swiss$Fertility[i] > 80) { 
+    
+    swiss$Fertility[i] <- NA
+    
+  }
+}
+```
+
+--
+
+Esto sería exactamente equivalente al `ifelse()` vectorizado que vimos en el tema anterior
+
+```{r}
+data("swiss") # lo cargamos de 0
+swiss$Fertility <- ifelse(swiss$Fertility > 80, NA, swiss$Fertility)
+```
+
+
+---
+
+# Estructuras de control: .orange[BUCLES WHILE]
+
+Otra manera de diseñar un bucle es con la estructura `while { }`, que ejecutará el bucle un **.bg-purple_light[número de veces a priori  desconocido]**, lo hará hasta que la **.bg-purple_light[condición impuesta deje de ser cierta]**. Por ejemplo, vamos a inicializar una variable `ciclos <- 1`, y en cada paso aumentaremos una unidad, y no saldremos del bucle hasta que `ciclos > 4`
+
+```{r}
+ciclos <- 1
+
+# Mientras el número de ciclos sea inferior 4, imprime
+while(ciclos <= 4) {
+  
+  print(paste("Todavía no, vamos por el ciclo ", ciclos)) # Pegamos la frase al número de ciclo por el que vayamos con paste
+  ciclos <- ciclos + 1
+  
+}
+```
+
+
+---
+  
+# Estructuras de control: .orange[BUCLES WHILE]
+
+
+¿Y qué sucede cuando la **.bg-purple_light[condición nunca llega a ser FALSE]**? Compruébalo tú mismo/a.
+
+```{r eval = FALSE}
+while (1 > 0) { # Nunca va a dejar de ser cierto
+  
+  print("Presiona ESC para salir del bucle")
+  
+}
+```
+
+&nbsp;
+
+**.bg-red_light[CUIDADO]**: un bucle `while { }` puede ser muy peligroso sino se controla bien que el bucle acaba en algún momento.
+
+---
+
+# Estructuras de control: .orange[BUCLES WHILE]
+
+Tenemos dos comandos reservados para poder **.bg-purple_light[abortar un bucle o avanzar forzosamente]**:
+
+* `break`: os habilita para **.bg-purple_light[parar un bucle]** aunque no haya llegado al final de su conjunto de índices a recorrer (o se siga cumpliendo la condición).
+
+```{r}
+for(i in 1:10) {
+  if (i == 3) {
+    
+    break # si i es 3, el bucle frena aquí
+    
+  }
+  print(i)
+}
+```
+
+---
+
+# Estructuras de control: .orange[BUCLES WHILE]
+
+Tenemos dos comandos reservados para poder **.bg-purple_light[abortar un bucle o avanzar forzosamente]**:
+
+* `next`: **.bg-purple_light[obliga al bucle a avanzar]** a la siguiente iteracción, abortando la iteración actual en la que se encuentra. 
+
+```{r}
+for(i in 1:5) {
+  if (i == 3) {
+    
+    next # si i es 3, pasará a la siguiente
+    
+  }
+  print(i)
+}
+```
+
+---
+
+# Estructuras de control: .orange[BUCLES REPEAT]
+
+Aunque es una opción muy poco usada, existe una estructura de control llamada `repeat { }` que nos ejecuta un **.bg-purple_light[bucle de forma infinita hasta que le ordenemos parar]** con un break.
+
+```{r}
+conteo <- 0
+repeat { 
+  
+  conteo <- conteo + 1
+  if (conteo >= 100) { break }
+  
+}
+conteo
+```
+
+
+---
+
+name: ejercicios-4
+
+
+# Ejercicios
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+
+* 📝 **Ejercicio 1**: modifica el código inferior para imprimir un mensaje por pantalla si todos los datos del conjunto `airquality` son de meses que no sean enero.
+
+```{r eval = FALSE}
+# install.packages("dataset") # solo la primera vez
+library(datasets) # paquete con los datos
+mes <- airquality$Month
+
+if (mes == 2) {
+  
+  print("Ningún dato es del mes de enero")
+  
+}
+```
+
+]
+
+.panel[.panel-name[Solución ej. 1]
+
+* 📝 **Ejercicio 1**: modifica el código inferior para imprimir un mensaje por pantalla si todos los datos del conjunto `airquality` son de meses que no sean enero.
+
+```{r}
+# install.packages("dataset") # solo la primera vez
+library(datasets) # paquete con los datos
+mes <- airquality$Month
+
+if (all(mes != 1)) {
+  
+  print("Ningún dato es del mes de enero")
+  
+}
+```
+
+]
+
+]
+
+
+---
+
+# Ejercicios
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+* 📝 **Ejercicio 2**: modifica el código inferior para guardar en una variable llamada `temperatura_alta` un valor `TRUE` si alguno de los registros tiene una temperatura mayor a 90 (están en Farenheit) y un `FALSE` en caso contrario.
+ 
+```{r eval = FALSE}
+temperatura <- airquality$Temp
+
+if (temperatura == 100) {
+  
+  print("Alguno de los registros tiene temperatura superior a 90 Farenheit")
+  
+}
+```
+
+]
+
+.panel[.panel-name[Solución ej. 2]
+
+* 📝 **Ejercicio 2**: modifica el código inferior para guardar en una variable llamada `temperatura_alta` un valor `TRUE` si alguno de los registros tiene una temperatura mayor a 90 (están en Farenheit) y un `FALSE` en caso contrario.
+ 
+```{r eval = FALSE}
+
+# Opción 1
+temperatura <- airquality$Temp
+temperatura_alta <- FALSE
+if (any(temperatura > 90)) {
+  
+   temperatura_alta <- TRUE
+  
+}
+
+# Opción 2
+temperatura_alta <- any(airquality$Temp > 90)
+```
+
+
+]
+
+]
+
+---
+
+
+# Ejercicios
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+* 📝 **Ejercicio 3**: modifica el código inferior para diseñar un bucle `for` de 5 iteraciones que recorra los 5 primeros impares y les sume uno.
+
+```{r eval = FALSE}
+for (i in 1:5) {
+  
+  print(i)
+}
+```
+
+* 📝 **Ejercicio 4**: modifica el código inferior para diseñar un bucle `while` que parta con una variable `conteo <- 1` y pare cuando llegue a 6.
+
+```{r eval = FALSE}
+conteo <- 1
+while (conteo == 2) {
+  
+  print(conteo)
+}
+```
+
+]
+
+.panel[.panel-name[Solución ej. 3]
+
+* 📝 **Ejercicio 3**: modifica el código inferior para diseñar un bucle `for` de 5 iteraciones que recorra los 5 primeros impares y les sume uno.
+
+```{r}
+for (i in c(1, 3, 5, 7, 9)) {
+  
+  print(i + 1)
+}
+```
+
+]
+
+.panel[.panel-name[Solución ej. 4]
+
+* 📝 **Ejercicio 4**: modifica el código inferior para diseñar un bucle `while` que parta con una variable `conteo <- 1` y pare cuando llegue a 6.
+
+```{r}
+conteo <- 1
+while (conteo < 6) {
+  
+  print(conteo)
+  conteo <- conteo + 1
+  
+}
+```
+
+]
+
+]
+
+---
+
+# Ejercicios
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+* 📝 **Ejercicio 5**: diseña un bucle `for` de 200 iteraciones que, empezando en un valor inicial de 100 (euros), te sume 3€ si el número actual de la iteración es par, y te reste 5€ si es impar (investiga la función `%%`).
+
+* 📝 **Ejercicio 6**: diseña el anterior bucle pero guardando el dinero de cada iteración en alguna variable
+ 
+
+* 📝 **Ejercicio 7**: diseña el bucle del ejercicio 5 pero parando cuando no nos quede dinero.
+
+
+]
+
+.panel[.panel-name[Sol. ej. 5]
+
+Un número par será todo aquel número que al dividir entre 2, la división es exacta, es decir, que su resto es nulo. Para calcular ese resto usaremos la función `%%`.
+
+
+```{r}
+# dinero inicial
+dinero <- 100
+
+for (i in 1:200) {
+  dinero <- ifelse(dinero %% 2 == 0, dinero + 3, dinero  - 5)
+}
+dinero
+```
+
+]
+
+.panel[.panel-name[Sol. ej. 6]
+
+```{r}
+# vector inicial de importes
+dinero <- rep(0, 201)
+dinero[1] <- 100 # dinero inicial
+
+# Bucle for
+for (i in 2:201) {
+  
+  # si dinero[i - 1] es par o  impar
+  dinero[i] <- ifelse(dinero[i - 1] %% 2 == 0, dinero[i - 1] + 3,
+                      dinero[i - 1]  - 5)
+  
+}
+dinero
+```
+
+]
+
+.panel[.panel-name[Sol. ej. 7]
+
+```{r}
+dinero <- 100 # dinero inicial
+
+# Bucle while
+while (dinero > 0) {
+  
+  dinero <- ifelse(dinero %% 2 == 0, dinero + 3, dinero - 5)
+  
+}
+dinero
+```
+
+]
+
+
+]
+
+
+---
+
+
+class: inverse center middle
+name: bloque-4
+
+# Bloque IV: comunicando resultados
 
 ### [informes/apuntes: rmarkdown](#rmd)
 
@@ -3893,104 +4461,938 @@ knitr::include_graphics("./img/variables_html.jpg")
 
 ---
 
-# .orange[RECURSOS] y .green[BIBLIOGRAFÍA]
+class: inverse center middle
+name: bloque-5
+
+# BLOQUE V: funciones y listas
+
+&nbsp;
+
+### [Listas](#listas)
+
+### [Creando nuestras propias funciones](#funciones)
+
+### [Ejercicios](#ejercicios-6)
+
+---
+
+name: listas
+
+# Último tipo de variable: .orange[LISTAS]
+
+Veamos un pequeño resumen de los datos que ya conocemos:
+
+* **.bg-purple_light[vectores]**: colección de elementos de igual tipo. Pueden ser números, caracteres o valores lógicos, entre otros.
+
+* **.bg-purple_light[matrices]**: colección BIDIMENSIONAL de elementos de igual tipo e igual longitud.
+
+* **.bg-purple_light[data.frame / tibble]**: colección BIDIMENSIONAL de elementos de igual longitud pero de cualquier tipo, lo más parecido a lo que conocemos como una tabla en Excel.
+
+&nbsp;
+
+--
+
+Con todos estos ingredientes estamos preparados/as para ver el que probablemente sea el tipo de dato más importante en R: las **.bg-purple_light[listas]**: **.bg-purple_light[colecciones de variables de diferente tipo]** (ya lo teníamos con `data.frame` y `tibble`) pero además también de **.bg-purple_light[diferente longitud]**, con estructuras totalmente heterógeneas (incluso una lista puede tener dentro a su vez otra lista).
+
+---
+
+# Último tipo de variable: .orange[LISTAS]
+
+
+Vamos a crear **.bg-purple_light[nuestra primera lista]** con `list()` con tres elementos: el nombre de nuestros padres/madres, nuestro lugar de nacimiento y edades de nuestros hermanos.
+
+```{r}
+variable_1 <- c("Paloma", "Gregorio")
+variable_2 <- "Madrid"
+variable_3 <- c(25, 30, 26)
+
+lista <- list("progenitores" = variable_1, "lugar_nacimiento" = variable_2,
+              "edades_hermanos" = variable_3)
+lista
+```
+
+---
+
+# Último tipo de variable: .orange[LISTAS]
+
+```{r}
+length(lista)
+```
+
+Si observas el objeto que hemos definido como lista, su longitud del es de 3 ya que tenemos **.bg-purple_light[guardados tres elementos]**: vector de caracteres (de longitud 2), caracter (vector de longitud 1), vector de números (de longitud 3)
+
+--
+
+Tenemos guardados elementos de **.bg-purple_light[distinto tipo]** (algo que ya podíamos hacer) pero, además, de **.bg-purple_light[longitudes dispares]**.
+
+```{r}
+dim(lista) # devolverá NULL al no tener dos dimensiones
+class(lista) # de tipo lista
+```
+
+---
+
+# Último tipo de variable: .orange[LISTAS]
+
+Si los juntásemos con un `tibble()`, al tener distinta longitud, obtendríamos un **.bg-red_light[error]**.
+
+```{r error = TRUE}
+library(tibble)
+tibble("progenitores" = variable_1,
+       "lugar_nacimiento" = variable_2,
+       "edades_hermanos" = variable_3)
+```
+
+---
+
+
+# Último tipo de variable: .orange[LISTAS]
+
+.pull-left[
+
+* **.bg-purple_light[Acceder por índice]**: con el operador `[[i]]` accedemos al **elemento i-ésimo** de la lista.
+
+```{r}
+lista[[1]]
+```
+
+]
+
+.pull-right[
+* **.bg-purple_light[Acceder por nombre]**: con el operador `$nombre_elemento` accedemos por su nombre.
+
+```{r}
+lista$progenitores
+```
+
+]
+
+--
+
+En contraposición, el **.bg-purple_light[corchete simple]** nos permite acceder a **.bg-purple_light[varios elementos]** a la vez
+
+```{r}
+# Varios elementos
+lista[1:2]
+```
+
+---
+
+# Último tipo de variable: .orange[LISTAS]
+
+Las listas nos dan tanta flexibilidad que es el formato natural para guardar **.bg-purple_light[datos que no están estructurados]**, como pueden ser los datos almacenados de una persona.
+
+
+```{r}
+library(lubridate)
+nacimiento <- as_date("1989-09-10")
+
+notas <- data.frame("biología" = c(5, 7), "física" = c(4, 5),
+                    "matemáticas" = c(8, 9.5))
+row.names(notas) <- c("primer_parcial", "segundo_parcial")
+
+tlf <- c("914719567", "617920765", "716505013")
+
+padres <- c("Juan", "Julia")
+
+# Guardamos TODO en una lista (con nombres de cada elemento)
+datos <- list("nacimiento" = nacimiento, "notas_insti" = notas,
+              "teléfonos" = tlf, "nombre_padres" = padres)
+datos
+```
+
+
+
+---
+
+# Último tipo de variable: .orange[LISTAS]
+
+Hemos creado una lista algo más compleja de 4 elementos, a los cuales podemos acceder por índice o por nombre.
+
+```{r}
+datos[[1]]
+datos$nacimiento
+```
+
+```{r}
+datos$notas_insti
+```
+
+---
+
+# Último tipo de variable: .orange[LISTAS]
+
+
+También podemos hacer **.bg-purple_light[listas con otras listas dentro]**, de forma que para acceder a cada nivel deberemos usar el operador `[[]]`.
+
+```{r}
+lista_de_listas <- list("lista_1" = datos[3:4], "lista_2" = datos[1:2])
+
+names(lista_de_listas) # Nombres de los elementos del primer nivel
+names(lista_de_listas[[1]]) # Nombres de los elementos guardados en el primer elemento, que es a su vez una lista
+
+lista_de_listas[[1]][[1]] # Elemento 1 de la lista guardada como elemento 1 de la lista superior
+```
+
+¡Nos permiten guardar **.bg-purple_light[datos n-dimensionales]**!.
+
+---
+
+# .green[OPERACIONES] con .orange[LISTAS]
+
+Una lista **.bg-purple_light[no se puede vectorizar]** de forma inmediata, por lo cualquier operación aritmética aplicada a una lista dará **.bg-red_light[error]**
+
+```{r error = TRUE}
+datos <- list("a" = 1:5, "b" = 10:20)
+datos / 2
+```
+
+--
+
+
+Para ello una de las opciones es hacer uso de la familia `lapply()`
+
+```{r}
+lapply(datos, FUN = function(x) { x / 2})
+```
+
+La salida de `lapply()` por defecto siempre es una **.bg-purple_light[lista de igual longitud]**.
+
+---
+
+# .green[OPERACIONES] con .orange[LISTAS]
+
+.pull-left[
+
+Una opción más flexible y versatil es hacer uso del paquete `{purrr}` del entorno `{tidyverse}`.
+
+```{r}
+# install.packages("purrr")
+library(purrr)
+```
+
+Dicho paquete pretende imitar la **.bg-purple_light[programación funcional]** de otros lenguajes como Scala o la **estrategia map-reduce de Hadoop** (de Google).
+
+]
+
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "110%", fig.align = "left"}
+knitr::include_graphics("./img/purrr.png")
+``` 
+
+]
+
+
+---
+
+
+# .green[OPERACIONES] con .orange[LISTAS]
+
+Con `map()` podemos **.bg-purple_light[«mapear» cada lista]** y aplicar la función elemento a elemento (si fuese el caso).
+
+.pull-left[
+
+```{r}
+library(purrr)
+x <- rep(list(1:2), 3)
+x
+```
+
+]
+
+.pull-right[
+
+```{r}
+# purrr
+map(x, sqrt) 
+```
+
+]
+
+**.bg-green_light[IMPORTANTE]**: en vectores disponemos de una vectorización por defecto porque `R` realiza operaciones elemento a elemento.
+
+---
+
+# .green[OPERACIONES] con .orange[LISTAS]
+
+```{r}
+x <- list(rnorm(n = 1e3, mean = 0, sd = 1), rnorm(n = 1e3, mean = 2, sd = 1))
+map(x, mean)
+```
+
+```{r}
+x <- rep(list(rnorm(n = 1e3, mean = 0, sd = 1)), 1000)
+microbenchmark(map(x, .f = function(x) { mean(x^2) }), lapply(x, FUN = function(x) { mean(x^2) }), times = 1e3)
+```
+
+
+---
+
+name: funciones
+
+# Creando .orange[FUNCIONES]
+
+No solo podemos usar **.bg-purple_light[funciones predeterminadas]** que vienen ya cargadas en paquetes, además podemos **.bg-purple_light[crear nuestras propias funciones]** para **automatizar tareas**.
+
+¿Cómo **.bg-purple_light[crear nuestra propia función]**? Veamos su **.bg-orange[esquema básico]**:
+
+--
+
+.pull-left[
+
+* **.bg-purple_light[Nombre]**, por ejemplo `name_fun` (sin espacios ni caracteres extraños).
+
+* Al nombre le **.bg-purple_light[asignamos la palabra reservada]** `function()`.
+
+* Definir **.bg-purple_light[argumentos de entrada]** (dentro de `function()`).
+
+* **.bg-purple_light[Cuerpo]** de la función dentro de `{ }`.
+
+* Finalizamos la función con los **.bg-purple_light[argumentos de salida]** con `return()`.
+
+]
+
+.pull-right[
+
+```{r}
+# No ejecutar --> esquema conceptual
+name_fun <- function(arg1, arg2, ...) {
+  
+  # Código que queramos ejecutar
+  código
+  
+  # Salida
+  return(var_salida)
+}
+```
+
+]
+
+
+---
+
+# Creando .orange[FUNCIONES]
+
+
+.pull-left[
+
+* `arg1, arg2, ...`: serán los **.bg-purple_light[argumentos de entrada]**, los argumentos que toma la función para ejecutar el código que tiene dentro
+
+* `código`: líneas de código que queramos que **.bg-purple_light[ejecute la función]**. 
+
+* `return(var_salida)`: dentro del comando `return()` se introducirán los **.bg-purple_light[argumentos de salida]**.
+
+]
+
+.pull-right[
+
+```{r}
+# No ejecutar --> esquema conceptual
+name_fun <- function(arg1, arg2, ...) {
+  
+  # Código que queramos ejecutar
+  código
+  
+  # Salida
+  return(var_salida)
+}
+```
+
+]
+
+&nbsp;
+
+**.bg-red_light[IMPORTANTE]**: todas las variables que definamos dentro de la función son **.bg-purple_light[variables locales: solo existirán dentro de la función]** salvo que especifiquemos lo contrario.
+
+---
+
+# Creando .orange[FUNCIONES]
+
+Veamos un ejemplo muy simple de función para **.bg-purple_light[calcular el área de un rectángulo]**.
+
+--
+
+Dado que el área de un rectángulo se calcula como el **producto de sus lados**, necesitaremos precisamente eso, sus lados: esos serán los **.bg-purple_light[argumentos de entrada]** y el **.bg-purple_light[valor a devolver]** será justo su **.bg-purple_light[área]**, calculada como $lado_1 * lado_2$.
+
+--
+
+```{r}
+# Definición del nombre de función y argumentos de entrada
+calcular_area <- function(lado_1, lado_2) {
+  
+  area <- lado_1 * lado_2
+  
+  return(area)
+  
+}
+```
+
+---
+
+# Creando .orange[FUNCIONES]
+
+
+También podemos hacer una definición directa, sin almacenar variables por el camino
+
+```{r}
+# Definición del nombre de función y argumentos de entrada
+calcular_area <- function(lado_1, lado_2) {
+  
+  return(lado_1 * lado_2)
+  
+}
+```
+
+--
+
+**.bg-purple_light[¿Cómo aplicar la función?]**
+
+```{r}
+calcular_area(5, 3) # área de un rectángulo 5 x 3 
+calcular_area(1, 5) # área de un rectángulo 1 x 5
+```
+
+---
+
+# Argumentos .orange[POR DEFECTO]
+
+Imagina ahora que nos damos cuenta que el 90% de las veces usamos dicha función para **.bg-purple_light[calcular el área de un cuadrado]** (es decir, solo necesitamos un lado). Para ello, podemos definir **.bg-purple_light[argumentos por defecto]** en la función: tomarán dicho valor salvo que le asignemos otro.
+
+¿Por qué no asignar `lado_2 = lado_1` por defecto, para ahorrar líneas de código y tiempo?
+
+--
+
+```{r}
+# Definición del nombre de función y
+# argumentos de entrada por defecto lado_2 = lado_1
+calcular_area <- function(lado_1, lado_2 = lado_1) {
+  
+  # Cuerpo de la función
+  area <- lado_1 * lado_2
+  
+  # Resultado que devolvemos
+  return(area)
+  
+}
+```
+
+---
+
+# Argumentos .orange[POR DEFECTO]
+
+
+```{r}
+calcular_area <- function(lado_1, lado_2 = lado_1) {
+  
+  # Cuerpo de la función
+  area <- lado_1 * lado_2
+  
+  # Resultado que devolvemos
+  return(area)
+  
+}
+```
+
+
+Ahora **.bg-purple_light[por defecto]** el segundo lado será igual al primero (si se lo añadimos usará ambos).
+
+
+```{r}
+calcular_area(lado_1 = 5) # cuadrado
+calcular_area(lado_1 = 5, lado_2 = 7) # rectángulo
+```
+
+---
+ 
+# .orange[SALIDA MÚLTIPLE]
+
+Compliquemos un poco la función y añadamos en la salida los valores de cada lado, etiquetados como `lado_1` y `lado_2`, **.bg-purple_light[empaquetando la salida en una lista]**.
+
+```{r}
+# Definición del nombre de función y argumentos de entrada
+calcular_area <- function(lado_1, lado_2 = lado_1) {
+  
+  # Cuerpo de la función
+  area <- lado_1 * lado_2
+  
+  # Resultado
+  return(list("area" = area, "lado_1" = lado_1, "lado_2" = lado_2))
+  
+}
+```
+
+Veamos que nos devuelve ahora
+
+
+---
+
+# .orange[SALIDA MÚLTIPLE]
+
+
+```{r}
+salida <- calcular_area(5, 3)
+salida
+salida["area"]
+salida["lado_1"]
+```
+
+---
+
+# .orange[SALIDA MÚLTIPLE]
+
+Antes nos daba igual el orden de los argumentos pero ahora **.bg-purple_light[el orden de los argumentos de entrada importa]**, ya que en la salida incluimos `lado_1` y `lado_2`. 
+
+--
+
+&nbsp;
+
+**.bg-green_light[CONSEJO]**: es altamente recomendable hacer la llamada a la función **.bg-purple_light[indicando explícitamente los argumentos]** para mejorar la **legibilidad e interpretabilidad**.
+
+```{r}
+# Equivalente a calcular_area(5, 3)
+calcular_area(lado_1 = 5, lado_2 = 3)
+```
+
+---
+
+# Creando .orange[FUNCIONES]
+
+Parece una tontería lo que hemos hecho pero hemos cruzado una frontera importante: hemos pasado de **.bg-purple_light[consumir conocimiento]** (código de otros paquetes, elaborado por otros/as), a **.bg-green_light[generar conocimiento]**, creando nuestras propias funciones.
+
+&nbsp;
+
+En este caso no ganaremos el Nobel por nuestro aporte, pero en un futuro… Si la Unión Europea lo ganó, hay opciones :)
+
+---
+
+# Variables .orange[LOCALES VS GLOBALES]
+
+Un aspecto importante sobre el que reflexionar con las funciones: ¿qué sucede si **.bg-purple_light[nombramos a una variable dentro]** de una función a la que se nos ha **.bg-purple_light[olvidado asignar]** un valor dentro de la misma?
+
+--
+
+Debemos ser cautos al usar funciones en `R`, ya que debido a la **.bg-purple_light[«regla lexicográfica»]**, si una variable no se define dentro de la función, `R` **.bg-purple_light[buscará dicha variable en el entorno]** de variables.
+
+```{r}
+x <- 1
+funcion_ejemplo <- function() {
+    
+  print(x) # No devuelve nada, solo realiza la acción 
+}
+funcion_ejemplo()
+```
+
+---
+
+# Variables .orange[LOCALES VS GLOBALES]
+
+Si una variable  **.bg-purple_light[ya está definida fuera de la función (entorno global)]**, y además es usada dentro de cambiando su valor, el valor **.bg-purple_light[solo cambia dentro]** pero no en el entorno global.
+
+```{r}
+x <- 1
+funcion_ejemplo <- function() {
+    
+  x <- 2
+  print(x) # lo que vale dentro
+}
+```
+
+```{r}
+# lo que vale dentro
+funcion_ejemplo() #<<
+# lo que vale fuera
+print(x) #<<
+```
+
+---
+
+# Variables .orange[LOCALES VS GLOBALES]
+
+
+Si queremos que además de cambiar localmente lo haga **.bg-purple_light[globalmente]** deberemos usar la **.bg-purple_light[doble asignación]** (`<<-`).
+
+.pull-left[
+
+```{r}
+x <- 1
+y <- 2
+funcion_ejemplo <- function() {
+  
+  # no cambia globalmente, solo localmente
+  x <- 3 
+  
+  # cambia globalmente
+  y <<- 0 #<<
+  
+  print(x)
+  print(y)
+}
+```
+
+]
+
+.pull-right[
+
+```{r}
+funcion_ejemplo() # lo que vale dentro
+x # lo que vale fuera
+y # lo que vale fuera
+```
+
+]
+
+---
+
+name: ejercicios-6
+
+# Ejercicios
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+* 📝 **Ejercicio 1**: modifica el código inferior para definir una función llamada `funcion_suma`, de forma que dados dos elementos, devuelve su suma.
+
+
+```{r eval = FALSE}
+# Definimos función
+nombre <- function(x, y) {
+  
+  # Sumamos
+  suma <- # código a ejecutar
+  
+  # ¿Qué devolvemos?
+  return()
+}
+# Aplicamos la función
+suma(3, 7)
+```
+ 
+]
+
+.panel[.panel-name[Solución ej. 1]
+
+```{r}
+# Definimos función
+funcion_suma <- function(x, y) {
+  
+  # Sumamos
+  suma <- x + y
+  
+  # Devolvemos la salida
+  return(suma)
+}
+
+# Aplicamos la función
+funcion_suma(3, 7)
+```
+
+]
+
+]
+
+---
+
+# Ejercicios
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+
+* 📝 **Ejercicio 2**: modifica el código inferior para definir una función llamada `funcion_producto`, de forma que dados dos elementos, devuelve su producto.
+ 
+```{r eval = FALSE}
+# Definimos función
+nombre <- function(x, y) {
+  
+  # Multiplicamos
+  producto <- # código de la multiplicación
+  
+  # ¿Qué devolvemos?
+  return()
+}
+
+# Aplicamos la función
+producto(3, -7)
+```
+
+]
+
+.panel[.panel-name[Solución ej. 2]
+
+```{r}
+# Definimos función
+funcion_producto <- function(x, y) {
+  
+  # Multiplicamos
+  producto <- x * y
+  
+  # Devolvemos la salida
+  return(producto)
+}
+
+# Aplicamos la función
+funcion_producto(3, -7)
+```
+
+]
+
+]
+
+
+---
+
+# Ejercicios
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+
+* 📝 **Ejercicio 3**: modifica el código inferior para definir una función llamada `funcion_producto`, de forma que dados dos elementos, devuelve su producto, pero que por defecto calcule el cuadrado (es decir, por defecto un solo argumento, y el resultado sea el número por sí mismo)
+ 
+```{r eval = FALSE}
+# Definimos función
+nombre <- function(x, y) {
+  
+  # Multiplicamos
+  producto <- # código de la multiplicación
+  
+  # ¿Qué devolvemos?
+  return()
+}
+
+# Aplicamos la función solo con un argumento
+producto(3)
+
+# Aplicamos la función con dos argumentos
+producto(3, -7)
+```
+
+]
+
+.panel[.panel-name[Solución ej. 3]
+
+```{r}
+funcion_producto <- function(x, y = x) {
+  
+  producto <- x * y
+  return(producto)
+}
+```
+
+```{r}
+funcion_producto(3) # por defecto x = 3, y = 3
+funcion_producto(3, -7)
+```
+
+]
+
+]
+
+
+---
+
+# Ejercicios
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+
+* 📝 **Ejercicio 4**:  define una función llamada `igualdad_nombres` que, dados dos nombres, nos diga si son iguales o no. Hazlo considerando importantes las mayúsculas, y sin que importen las mayúsculas. Echa un vistazo al paquete `{stringr}`.
+ 
+
+* 📝 **Ejercicio 5**:  define una función llamada `pares` que, dados dos números, nos diga si la suma de ambos es par o no.
+ 
+
+* 📝 **Ejercicio 6**: define una función llamada `pasar_a_celsius` que, dada una temperatura en Fahrenheit, la convierta a grados Celsius. Aplica la función a la columna Temp del conjunto airquality, e incorpórala al fichero en una nueva columna Temp_Celsius.
+
+]
+
+.panel[.panel-name[Solución ej. 4a]
+
+
+```{r}
+# Distinguiendo mayúsculas
+igualdad_nombres <- function(persona_1, persona_2) {
+  
+  return(persona_1 == persona_2)
+}
+```
+
+```{r}
+igualdad_nombres("Javi", "javi")
+igualdad_nombres("Javi", "Lucía")
+```
+
+]
+
+.panel[.panel-name[Solución ej. 4b]
+
+```{r}
+# Sin importar mayúsculas
+igualdad_nombres <- function(persona_1, persona_2) {
+  
+  return(toupper(persona_1) == toupper(persona_2))
+}
+```
+
+```{r}
+igualdad_nombres("Javi", "javi")
+igualdad_nombres("Javi", "Lucía")
+``` 
+
+]
+
+.panel[.panel-name[Solución ej. 5]
+
+```{r}
+pares <- function(x, y) {
+  
+  suma <- x + y
+  par <- suma %% 2 == 0
+  
+  return(par)
+}
+```
+
+```{r}
+pares(1, 3) # suma 4 (par)
+pares(2, 7) # suma 9 (impar)
+```
+
+]
+
+.panel[.panel-name[Solución ej. 6]
+
+```{r}
+pasar_a_celsius <- function(x) {
+  x_celsius <- (x - 32) * (5 / 9)
+  return(x_celsius)
+}
+```
+
+```{r}
+pasar_a_celsius(80)
+data.frame(airquality,
+           "Temp_Celsius" = pasar_a_celsius(airquality$Temp))
+```
+
+
+]
+]
+
+---
+
+
+# Ejercicios
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+
+* 📝 **Ejercicio 7**: define una lista de 4 elementos de tipos distintos y accede al segundo de ellos (yo incluiré uno que sea un data.frame para que veas que en una lista cabe de todo).
+ 
+* 📝 **Ejercicio 8**: accede a los elementos que ocupan los lugares 1 y 4 de la lista definida anteriormente.
+ 
+* 📝 **Ejercicio 9**: define una lista de 4 elementos que contenga, en una sola variable, tu nombre, apellido, edad y si estás soltero/a.
+
+* 📝 **Ejercicio 10**: carga el dataset `starwars` del paquete `{dplyr}` y accede a la segunda película que aparece en `starwars$films` (para cada personaje). Determina cuales no no salen en más de una película.
+
+]
+
+.panel[.panel-name[Solución ej. 7]
+
+```{r}
+# Ejemplo: lista con texto, numérico, lógico y un data.frame
+lista_ejemplo <- list("nombre" = "Javier", "cp" = 28019,
+                      "soltero" = TRUE,
+                      "notas" = data.frame("mates" = c(7.5, 8, 9),
+                                           "lengua" = c(10, 5, 6)))
+lista_ejemplo
+```
+
+]
+
+.panel[.panel-name[Solución ej. 8]
+
+```{r}
+# Accedemos al 1 y al 4
+lista_ejemplo[c(1, 4)]
+
+# Accedemos por nombre
+lista_ejemplo$nombre
+lista_ejemplo$notas
+
+lista_ejemplo[c("nombre", "notas")]
+```
+
+
+
+]
+
+.panel[.panel-name[Solución ej. 9]
+
+```{r}
+# Creamos lista: con lubridate calculamos la diferencia de años desde la fecha de nuestro nacimiento hasta hoy (sea cuando sea hoy)
+lista_personal <- list("nombre" = "Javier",
+                       "apellidos" = "Álvarez Liébana",
+                       "edad" = 32,
+                       "soltero" = TRUE)
+lista_personal
+
+```
+
+]
+
+.panel[.panel-name[Solución ej. 10]
+
+```{r}
+library(dplyr)
+
+# accedemos a la segunda película que aparece
+# en cada personaje
+segunda_peli <- map(starwars$films, 2)
+
+# ¿Cuáles no salen en más de una película?
+map_lgl(segunda_peli, is.null)
+```
+
+]
+
+]
+
+---
+
+class: inverse center middle
+name: bloque-6
+
+# BLOQUE VI: importar/exportar. Tidydata
+
+&nbsp;
+
+### [Importar/exportar datos](#importar-exportar)
+
+### [Tidydata](#tidydata)
+
+---
+
+class: inverse center middle
+name: bloque-7
+
+# BLOQUE VII: ordenando y resumiendo datos (tidyverse)
 
 &nbsp;
 
 
-#### 📚 **.bg-purple_light[Artículos o libros]** científicos que han sido sometidos a revisión por pares.
+---
+
+class: inverse center middle
+name: bloque-8
+
+# BLOQUE VIII: visualizando datos
 
 &nbsp;
 
-#### 🔗 **.bg-green_light[Recursos online]** recomendados
-
-&nbsp;
-
-#### 💻 Recursos para la **.bg-orange[programación en R]**
-
----
-
-# Bibliografía general
-
-📚 **«Statistical tests, P values, confidence intervals, and power: a guide to misinterpretations»**. Greenland et al. (2016) <https://github.com/dadosdelaplace/teaching/blob/main/bioestad/biblio/p-value_Greenland_etal_2016.pdf>
-
-💻 **Tidy Data Tutor**: para visualizar la mecánica interna de `{tidyverse}`. <https://tidydatatutor.com/>
-
-🔗 Web con recursos para la **introducción a la estadística y Machine Learning en R** <https://artofstat.com/>
-
-💻 **Manual introductorio de R** (Javier Álvarez Liébana): <https://dadosdelaplace.github.io/courses-intro-R/>
-
-
----
-
-# Bibliografía general
-
-📚 **«The reproducibility of research and the misinterpretation of p-values»**. Colquhoun (2017) <https://github.com/dadosdelaplace/teaching/blob/main/bioestad/biblio/p-values_Colquhoun_2017.pdf>
-
-
-📚 **«An Introduction to Multivariate Statistical Analysis»**. Anderson (1958) <https://github.com/dadosdelaplace/teaching/blob/main/bioestad/biblio/introduction_mva_anderson_2003.pdf>
-
-📚 **«A New Measure of Rank Correlation»**. Kendall (1938) <https://github.com/dadosdelaplace/teaching/blob/main/bioestad/biblio/correlation_kendall_1938.pdf>
-
-📚 **«The generalised product moment distribution in samples from a normal multivariate population»**. Wishart (1928) <https://github.com/dadosdelaplace/teaching/blob/main/bioestad/biblio/multivariate_normal_wishart_1928.pdf>
-
-📚 **«On lines and planes of closest fit to systems of points in space»**. Pearson (1901) <https://github.com/dadosdelaplace/teaching/blob/main/bioestad/biblio/fit_pearson_1901.pdf>
-
-
----
-
-# Recursos dataviz
-
-### Dataviz
-
-📚 **«Gramática de las gráficas: pistas para mejorar las representaciones de datos»**. Sevilla (2005) <http://academica-e.unavarra.es/bitstream/handle/2454/15785/Gram%C3%A1tica.pdf>
-
-📚 **«Quantitative Graphics in Statistics: A Brief History»**. Beniger and Robyn (1978) <https://github.com/dadosdelaplace/teaching/blob/main/bdba-pca-clustering-2022/biblio/graphics_beniger_robin_1978.pdf>
- 
- 
-💻 **«Analizando datos, visualizando información, contando historias»** (curso de dataviz en R). Álvarez-Liébana y Valverde-Castilla (2022) <https://dadosdelaplace.github.io/curso-dataviz-ECI-2022>
-
-📚 **«40 years of boxplots»**. Wickham and Stryjewski (2011) <https://github.com/dadosdelaplace/teaching/blob/main/bdba-pca-clustering-2022/biblio/boxplot_Wickham_Stryjewski_2011.pdf>
- 
- 
-
-
----
-
-# Bibliografía componentes principales
-
-💻 **Componentes principales** en `{tidymodels}`. <https://www.tmwr.org/dimensionality.html#beans>
-
-
-📚 **«Principal Component Analysis»**. Jolliffe (2002) <https://github.com/dadosdelaplace/teaching/blob/main/bdba-pca-clustering-2022/biblio/pca_jolliffe_2002.pdf>
-
-📚 **«Principal Component Analysis»**. Hervé and Lynne (2010) <http://staff.ustc.edu.cn/~zwp/teach/MVA/abdi-awPCA2010.pdf>
-
-📚 **«Principal Component Analysis: a review and recent developments»**. Jolliffe and Cadima (2016) <https://royalsocietypublishing.org/doi/10.1098/rsta.2015.0202>
-
-🔗 **«The Mathematics Behind Principal Component Analysis»**. Dubey (2018).  <https://towardsdatascience.com/the-mathematics-behind-principal-component-analysis-fff2d7f4b643>
-
-
-🔗 **«A One-Stop Shop for Principal Component Analysis»**. Brems (2017). <https://towardsdatascience.com/a-one-stop-shop-for-principal-component-analysis-5582fb7e0a9c>
-
-📚 **«On the number of principal components: a test of dimensionality based on measurements of similarity between matrices»**. Dray (2008) <https://github.com/dadosdelaplace/teaching/blob/main/bdba-pca-clustering-2022/biblio/numer_pca_dray_2008.pdf>
-
-
----
-
-# Bibliografía análisis clúster
-
-📚 **«Multiclass classification of dry beans using computer vision and machine learning techniques»**. Koklu y Ozkan (2020) <https://github.com/dadosdelaplace/teaching/blob/main/bdba-pca-clustering-2022/biblio/multiclass_classif_koklu_ozlan_2020.pdf>
-
-💻 **«Clustering y heatmaps: aprendizaje no supervisado»**. Amat (2017). <https://rpubs.com/Joaquin_AR/310338>
-
-💻 **«K-means clustering with tidy data principles»** <https://www.tidymodels.org/learn/statistics/k-means/>
-
-🔗 **«ISLR tidymodels Labs»** <https://emilhvitfeldt.github.io/ISLR-tidymodels-labs/unsupervised-learning.html#kmeans-clustering>
-
-
-📚 **«Algorithm AS 136: a K-Means Clustering Algorithm»**. Hartigan y Wong (1979) <http://www.jstor.org/stable/2346830>
-
-🔗 **«Machine Learning for Social Scientists»**. Cimentada (2020) <https://cimentadaj.github.io/ml_socsci/unsupervised-methods.html>
 
 ---
