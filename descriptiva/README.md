@@ -1,4 +1,4 @@
-Material docente para el bloque «Técnicas de Análisis Multivariante»
+Material docente de la asignatura «Software para Gestión de Bases de Datos» (R en bioestadística, Máster de Bioestadística)
 ======
 
 [![License:
@@ -12,33 +12,21 @@ GPLv3](https://img.shields.io/badge/license-GPLv3-blue.svg)](https://www.gnu.org
 
 <div align="left">
 
-<a href="https://twitter.com/dadosdelaplace"><img border="0" alt="Twitter" src="https://assets.dryicons.com/uploads/icon/svg/8385/c23f7ffc-ca8d-4246-8978-ce9f6d5bcc99.svg" width="30" height="30"></a>
-  <a href="https://instagram.com/javieralvarezliebana"><img border="0" alt="Instagram" src="https://logodownload.org/wp-content/uploads/2017/04/instagram-logo-3.png" width="30" height="30"></a>
-  <a href="https://t.me/dadosdelaplace"><img border="0" alt="Telegram" src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Telegram_2019_Logo.svg/1024px-Telegram_2019_Logo.svg.png" width="30" height="30"></a>
-  <a href="https://cartasdelaplace.com"><img border="0" alt="Newsletter" src="https://assets.dryicons.com/uploads/icon/svg/8007/c804652c-fae4-43d7-b539-187d6a408254.svg" width="30" height="30"></a>     
-  
-<h1 style="font-weight:normal" align="left">
-  &nbsp;Material del Máster de Big Data y Business Analytics y Máster de Big Data y Data Science  (curso académico 2021-2022)
+<a href="https://www.buymeacoffee.com/dadosdelaplace" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
 
-</h1>
-
-</div>
-<div align="left">
-            
-<img width="1195" alt="image" src="https://user-images.githubusercontent.com/26646492/168315387-b7fc71d2-f6d8-47f7-a551-178d12588763.png">
+<img width="450" alt="image" src="https://user-images.githubusercontent.com/26646492/190828763-4d863ca5-67b7-4d8f-8e1b-9a84f175309c.png">
+<img width="470" alt="image" src="https://user-images.githubusercontent.com/26646492/188280216-17bc08b0-fbed-46f1-a042-3fa60f528d8c.png">
 
             
-* **Diapositivas** (https://dadosdelaplace.github.io/teaching/bdba-pca-clustering-2022/#1)
-           
-* **Código diapositivas** (https://github.com/dadosdelaplace/teaching/blob/main/bdba-pca-clustering-2022/index.Rmd)
+* **Diapositivas** (https://drive.google.com/drive/folders/1qsABfIyYxoSTERwVCSe6gOJxZcSvjEV1?usp=sharing)
+
+* **Diapositivas R** (https://dadosdelaplace.github.io/teaching/descriptiva/slides)
+
+* **Hojas de ejercicios y entregas** (https://drive.google.com/drive/folders/1R3edVN3GPNaY6WLXd1VBgEl2ses_wBty?usp=sharing)
+
+* **Código diapositivas R** (https://github.com/dadosdelaplace/teaching/tree/main/descriptiva/slides)
                         
-* **Scripts del curso**: https://github.com/dadosdelaplace/teaching/tree/main/bdba-pca-clustering-2022/scripts
+* **Manual introductorio de R**: (https://dadosdelaplace.github.io/courses-intro-R/)
 
-* **Evaluaciones**: https://github.com/dadosdelaplace/teaching/tree/main/bdba-pca-clustering-2022/eval
-
-* **Bibliografía**: https://github.com/dadosdelaplace/teaching/tree/main/bdba-pca-clustering-2022/biblio
-
-* **Manual de R**: https://dadosdelaplace.github.io/courses-intro-R/
-
-* **Curso de dataviz en R**: https://dadosdelaplace.github.io/curso-dataviz-ECI-2022
+* **Curso de dataviz en R**: (https://dadosdelaplace.github.io/curso-dataviz-ECI-2022)
             
