@@ -4,7 +4,6 @@
     <title>Introducción a R</title>
     <meta charset="utf-8" />
     <meta name="author" content="Javier Álvarez Liébana (Fac. Estudios Estadísticos - UCM)" />
-    <script src="index_files/header-attrs-2.11/header-attrs.js"></script>
     <link href="index_files/tile-view-0.2.6/tile-view.css" rel="stylesheet" />
     <script src="index_files/tile-view-0.2.6/tile-view.js"></script>
     <link href="index_files/animate.css-3.7.2/animate.xaringan.css" rel="stylesheet" />
@@ -25,7 +24,7 @@ class: center, middle, inverse, title-slide
 # Introducción a R
 ## Descripción y exploración de datos
 ### Javier Álvarez Liébana (Fac. Estudios Estadísticos - UCM)
-### Última actualización: 16-09-2022
+### Última actualización: 17-09-2022
 
 ---
 
@@ -52,47 +51,30 @@ class: inverse center middle
 
 ---
 
-
-# .orange[CASOS REALES] de uso de R
+# .orange[MATERIAL] de las clases
 
 
 .pull-left[
 
-&lt;img src="./img/covid_isciii.jpg" width="97%" style="display: block; margin: auto auto auto 0;" /&gt;
+- **.bg-purple_light[Diapositivas]** del curso:
+&lt;https://drive.google.com/drive/folders/1qsABfIyYxoSTERwVCSe6gOJxZcSvjEV1?usp=sharing&gt;
+
+- **.bg-red_light[Ejercicios y entregas]** de la asignatura
+&lt;https://drive.google.com/drive/folders/1R3edVN3GPNaY6WLXd1VBgEl2ses_wBty?usp=sharing&gt;
+
+- **.bg-yellow[Diapositivas de R]**
+&lt;https://dadosdelaplace.github.io/teaching/descriptiva/slides&gt;
+
+- **.bg-orange[Código diapositivas]**: &lt;https://github.com/dadosdelaplace/teaching/tree/main/descriptiva/slides&gt;
+
+
+&amp;nbsp;
+
+- **.bg-green_light[Manual introductorio de R]**: &lt;https://dadosdelaplace.github.io/courses-intro-R/&gt;
 
 ]
-
-.pull-right[
-
-&lt;img src="./img/momo_isciii.jpg" width="97%" style="display: block; margin: auto auto auto 0;" /&gt;
-
-
-]
-
-Las webs del Instituto de Salud Carlos III &lt;https://cnecovid.isciii.es/covid19/&gt; y &lt;https://momo.isciii.es/panel_momo/&gt; están hechas con `R` (con `{shiny}` y `{plotly}` )
 
 ---
-
-# .orange[CASOS REALES] de uso de R
-
-.pull-left[
-
-&lt;img src="./img/elpais_R.jpg" width="99%" style="display: block; margin: auto auto auto 0;" /&gt;
-
-]
-
-.pull-right[
-
-El **.bg-purple_light[equipo de datos]** (Borja Andrino, Kiko Llaneras y Daniele Grasso) trabaja con `R` para elaborar sus análisis, desde los datos electorales hasta el cambio climático.
-
-Es una de las razones por las que son capaces de realizar brillantes análisis de grandes volúmenes de datos de forma rápida y ágil: la **.bg-purple_light[automatización de procesos]** que nos permite programar en `R` puede ser fundamental para analizar datos que hasta entonces no podíamos.
-
-]
-
-
----
-
-class: inverse center middle
 
 # BLOQUES
 
@@ -1487,7 +1469,7 @@ hoy
 ```
 
 ```
-&gt; [1] "2022-09-16"
+&gt; [1] "2022-09-17"
 ```
 
 --
@@ -1500,7 +1482,7 @@ También podemos obtener el **.bg-purple_light[«hoy y ahora»]** con la funció
 ```
 
 ```
-&gt; [1] "2022-09-16 16:26:48 CEST"
+&gt; [1] "2022-09-17 01:11:38 CEST"
 ```
  
 ---
@@ -1845,7 +1827,7 @@ hoy - cumple
 ```
 
 ```
-&gt; Time difference of 12059 days
+&gt; Time difference of 12060 days
 ```
 
 ]
@@ -1960,8 +1942,8 @@ wday(cumple, week_start = 1, label = TRUE)
 ```
 
 ```
-&gt; [1] do\\.
-&gt; Levels: lu\\. &lt; ma\\. &lt; mi\\. &lt; ju\\. &lt; vi\\. &lt; sá\\. &lt; do\\.
+&gt; [1] dom
+&gt; Levels: lun &lt; mar &lt; mié &lt; jue &lt; vie &lt; sáb &lt; dom
 ```
 
 ]
@@ -2700,9 +2682,9 @@ x &lt;- rnorm(1e3) # 1000 elementos aleatorias
 
 ```
 &gt; Unit: microseconds
-&gt;         expr  min   lq    mean median    uq   max neval
-&gt;      sort(x) 55.0 60.3 69.7276   62.6 67.35 186.7  1000
-&gt;  x[order(x)] 37.4 41.8 49.2337   44.7 48.30 166.7  1000
+&gt;         expr    min     lq      mean  median       uq      max neval cld
+&gt;      sort(x) 44.715 60.469 116.62548 85.6275 101.1535 24044.49  1000   b
+&gt;  x[order(x)] 31.053 41.884  59.35986 59.1745  66.9055   615.85  1000  a
 ```
 
 --
@@ -4511,7 +4493,7 @@ tabla_tb
 ```
 
 ```
-&gt; # A tibble: 50 x 3
+&gt; # A tibble: 50 × 3
 &gt;        x y     logica
 &gt;    &lt;int&gt; &lt;chr&gt; &lt;lgl&gt; 
 &gt;  1     1 a     TRUE  
@@ -4524,7 +4506,8 @@ tabla_tb
 &gt;  8     8 c     FALSE 
 &gt;  9     9 d     TRUE  
 &gt; 10    10 e     FALSE 
-&gt; # ... with 40 more rows
+&gt; # … with 40 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 
@@ -4541,7 +4524,7 @@ Puedes **imprimir las filas y columnas** que quieras con `print()`
 ```
 
 ```
-&gt; # A tibble: 50 x 3
+&gt; # A tibble: 50 × 3
 &gt;        x y     logica
 &gt;    &lt;int&gt; &lt;chr&gt; &lt;lgl&gt; 
 &gt;  1     1 a     TRUE  
@@ -4556,7 +4539,8 @@ Puedes **imprimir las filas y columnas** que quieras con `print()`
 &gt; 10    10 e     FALSE 
 &gt; 11    11 a     TRUE  
 &gt; 12    12 b     FALSE 
-&gt; # ... with 38 more rows
+&gt; # … with 38 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 ---
@@ -4583,7 +4567,7 @@ tibble("x1" = 1:3, "x2" = 4:6, "y" = x1 * x2)
 ```
 
 ```
-&gt; # A tibble: 3 x 3
+&gt; # A tibble: 3 × 3
 &gt;      x1    x2     y
 &gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;
 &gt; 1     1     4     4
@@ -4669,7 +4653,7 @@ tibble(":)" = "emoticono",
 ```
 
 ```
-&gt; # A tibble: 1 x 3
+&gt; # A tibble: 1 × 3
 &gt;   `:)`      ` `       `2000`
 &gt;   &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt; 
 &gt; 1 emoticono en blanco número
@@ -4691,7 +4675,7 @@ as_tibble(USArrests)
 ```
 
 ```
-&gt; # A tibble: 50 x 4
+&gt; # A tibble: 50 × 4
 &gt;    Murder Assault UrbanPop  Rape
 &gt;     &lt;dbl&gt;   &lt;int&gt;    &lt;int&gt; &lt;dbl&gt;
 &gt;  1   13.2     236       58  21.2
@@ -4704,7 +4688,8 @@ as_tibble(USArrests)
 &gt;  8    5.9     238       72  15.8
 &gt;  9   15.4     335       80  31.9
 &gt; 10   17.4     211       60  25.8
-&gt; # ... with 40 more rows
+&gt; # … with 40 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 Puedes consultar **más funcionalidades** de dichos datos en &lt;https://tibble.tidyverse.org/&gt;
@@ -4723,9 +4708,9 @@ glimpse(tabla_tb)
 ```
 &gt; Rows: 50
 &gt; Columns: 3
-&gt; $ x      &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, ~
-&gt; $ y      &lt;chr&gt; "a", "b", "c", "d", "e", "a", "b", "c", "d", "e", "a", "b", "c"~
-&gt; $ logica &lt;lgl&gt; TRUE, FALSE, TRUE, FALSE, TRUE, FALSE, TRUE, FALSE, TRUE, FALSE~
+&gt; $ x      &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, …
+&gt; $ y      &lt;chr&gt; "a", "b", "c", "d", "e", "a", "b", "c", "d", "e", "a", "b", "c"…
+&gt; $ logica &lt;lgl&gt; TRUE, FALSE, TRUE, FALSE, TRUE, FALSE, TRUE, FALSE, TRUE, FALSE…
 ```
 
 ---
@@ -4744,7 +4729,7 @@ datos
 ```
 
 ```
-&gt; # A tibble: 2 x 2
+&gt; # A tibble: 2 × 2
 &gt;   colA   colB
 &gt;   &lt;chr&gt; &lt;dbl&gt;
 &gt; 1 a         1
@@ -4857,7 +4842,7 @@ filtro_fila
 ```
 
 ```
-&gt; # A tibble: 31 x 6
+&gt; # A tibble: 31 × 6
 &gt;    Ozone Solar.R  Wind  Temp Month   Day
 &gt;    &lt;int&gt;   &lt;int&gt; &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;
 &gt;  1    39      83   6.9    81     8     1
@@ -4870,7 +4855,8 @@ filtro_fila
 &gt;  8    89     229  10.3    90     8     8
 &gt;  9   110     207   8      90     8     9
 &gt; 10    NA     222   8.6    92     8    10
-&gt; # ... with 21 more rows
+&gt; # … with 21 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 ]
 
@@ -4909,7 +4895,7 @@ subset(airquality, subset = !(Month %in% c(7, 8)))
 ```
 
 ```
-&gt; # A tibble: 91 x 6
+&gt; # A tibble: 91 × 6
 &gt;    Ozone Solar.R  Wind  Temp Month   Day
 &gt;    &lt;int&gt;   &lt;int&gt; &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;
 &gt;  1    41     190   7.4    67     5     1
@@ -4922,7 +4908,8 @@ subset(airquality, subset = !(Month %in% c(7, 8)))
 &gt;  8    19      99  13.8    59     5     8
 &gt;  9     8      19  20.1    61     5     9
 &gt; 10    NA     194   8.6    69     5    10
-&gt; # ... with 81 more rows
+&gt; # … with 81 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 ]
@@ -4937,7 +4924,7 @@ filtro_col
 ```
 
 ```
-&gt; # A tibble: 153 x 2
+&gt; # A tibble: 153 × 2
 &gt;    Ozone  Temp
 &gt;    &lt;int&gt; &lt;int&gt;
 &gt;  1    41    67
@@ -4950,7 +4937,8 @@ filtro_col
 &gt;  8    19    59
 &gt;  9     8    61
 &gt; 10    NA    69
-&gt; # ... with 143 more rows
+&gt; # … with 143 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 ]
@@ -4964,7 +4952,7 @@ datos
 ```
 
 ```
-&gt; # A tibble: 31 x 2
+&gt; # A tibble: 31 × 2
 &gt;     Temp  Wind
 &gt;    &lt;int&gt; &lt;dbl&gt;
 &gt;  1    81   6.9
@@ -4977,7 +4965,8 @@ datos
 &gt;  8    90  10.3
 &gt;  9    90   8  
 &gt; 10    92   8.6
-&gt; # ... with 21 more rows
+&gt; # … with 21 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 ```r
@@ -4989,8 +4978,8 @@ glimpse(datos)
 ```
 &gt; Rows: 31
 &gt; Columns: 2
-&gt; $ temperatura &lt;int&gt; 81, 81, 82, 86, 85, 87, 89, 90, 90, 92, 86, 86, 82, 80, 79~
-&gt; $ viento      &lt;dbl&gt; 6.9, 13.8, 7.4, 6.9, 7.4, 4.6, 4.0, 10.3, 8.0, 8.6, 11.5, ~
+&gt; $ temperatura &lt;int&gt; 81, 81, 82, 86, 85, 87, 89, 90, 90, 92, 86, 86, 82, 80, 79…
+&gt; $ viento      &lt;dbl&gt; 6.9, 13.8, 7.4, 6.9, 7.4, 4.6, 4.0, 10.3, 8.0, 8.6, 11.5, …
 ```
 
 ]
@@ -5005,7 +4994,7 @@ nuevos_datos
 ```
 
 ```
-&gt; # A tibble: 153 x 7
+&gt; # A tibble: 153 × 7
 &gt;    Ozone Solar.R  Wind  Temp Month   Day fecha     
 &gt;    &lt;int&gt;   &lt;int&gt; &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;date&gt;    
 &gt;  1    41     190   7.4    67     5     1 1973-05-01
@@ -5018,7 +5007,8 @@ nuevos_datos
 &gt;  8    19      99  13.8    59     5     8 1973-05-08
 &gt;  9     8      19  20.1    61     5     9 1973-05-09
 &gt; 10    NA     194   8.6    69     5    10 1973-05-10
-&gt; # ... with 143 more rows
+&gt; # … with 143 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 ]
@@ -5050,7 +5040,7 @@ tibble("a" = 1:4, "b" = 11:14, "c" = a * b)
 ```
 
 ```
-&gt; # A tibble: 4 x 3
+&gt; # A tibble: 4 × 3
 &gt;       a     b     c
 &gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;
 &gt; 1     1    11    11
@@ -5451,12 +5441,12 @@ microbenchmark(x^2,
 
 ```
 &gt; Unit: nanoseconds
-&gt;                                     expr     min      lq      mean  median
-&gt;                                      x^2     200     400    1256.7    1000
-&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 1993200 2149050 2571813.0 2319900
-&gt;       uq     max neval
-&gt;     1600   21600  1000
-&gt;  2661150 9041900  1000
+&gt;                                     expr     min      lq        mean    median
+&gt;                                      x^2     415     581    1713.571    1762.5
+&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 2008269 2337182 3081431.559 2763122.0
+&gt;         uq      max neval cld
+&gt;     2388.5    12242  1000  a 
+&gt;  3378139.5 20256618  1000   b
 ```
 
 ---
@@ -6572,10 +6562,11 @@ tibble("progenitores" = variable_1,
 ```
 
 ```
-&gt; Error: Tibble columns must have compatible sizes.
-&gt; * Size 2: Existing data.
-&gt; * Size 3: Column `edades_hermanos`.
-&gt; i Only values of size one are recycled.
+&gt; Error:
+&gt; ! Tibble columns must have compatible sizes.
+&gt; • Size 2: Existing data.
+&gt; • Size 3: Column `edades_hermanos`.
+&gt; ℹ Only values of size one are recycled.
 ```
 
 ---
@@ -6870,10 +6861,10 @@ map(x, mean)
 
 ```
 &gt; [[1]]
-&gt; [1] -0.002029138
+&gt; [1] 0.02869777
 &gt; 
 &gt; [[2]]
-&gt; [1] 1.989492
+&gt; [1] 1.968514
 ```
 
 
@@ -6884,12 +6875,12 @@ microbenchmark(map(x, .f = function(x) { mean(x^2) }), lapply(x, FUN = function(
 
 ```
 &gt; Unit: milliseconds
-&gt;                                            expr    min      lq    mean  median
-&gt;      map(x, .f = function(x) {     mean(x^2) }) 5.3931 6.75735 8.45496 7.86925
-&gt;  lapply(x, FUN = function(x) {     mean(x^2) }) 5.2583 6.61050 8.10508 7.69610
-&gt;      uq     max neval
-&gt;  9.2406 93.4493  1000
-&gt;  8.9553 92.7849  1000
+&gt;                                            expr      min       lq     mean
+&gt;      map(x, .f = function(x) {     mean(x^2) }) 5.679932 7.052981 9.310342
+&gt;  lapply(x, FUN = function(x) {     mean(x^2) }) 5.487265 6.759385 9.767897
+&gt;    median       uq       max neval cld
+&gt;  8.155130 10.61621  25.29546  1000   a
+&gt;  8.004065 10.93888 231.19563  1000   a
 ```
 
 

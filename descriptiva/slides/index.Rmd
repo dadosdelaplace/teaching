@@ -100,53 +100,30 @@ $$\\[2in]$$
 
 ---
 
-
-# .orange[CASOS REALES] de uso de R
+# .orange[MATERIAL] de las clases
 
 
 .pull-left[
 
-```{r echo = FALSE,  out.width = "97%", fig.align = "left"}
-knitr::include_graphics("./img/covid_isciii.jpg")
-``` 
+- **.bg-purple_light[Diapositivas]** del curso:
+<https://drive.google.com/drive/folders/1qsABfIyYxoSTERwVCSe6gOJxZcSvjEV1?usp=sharing>
+
+- **.bg-red_light[Ejercicios y entregas]** de la asignatura
+<https://drive.google.com/drive/folders/1R3edVN3GPNaY6WLXd1VBgEl2ses_wBty?usp=sharing>
+
+- **.bg-yellow[Diapositivas de R]**
+<https://dadosdelaplace.github.io/teaching/descriptiva/slides>
+
+- **.bg-orange[Código diapositivas]**: <https://github.com/dadosdelaplace/teaching/tree/main/descriptiva/slides>
+
+
+&nbsp;
+
+- **.bg-green_light[Manual introductorio de R]**: <https://dadosdelaplace.github.io/courses-intro-R/>
 
 ]
-
-.pull-right[
-
-```{r echo = FALSE,  out.width = "97%", fig.align = "left"}
-knitr::include_graphics("./img/momo_isciii.jpg")
-``` 
-
-
-]
-
-Las webs del Instituto de Salud Carlos III <https://cnecovid.isciii.es/covid19/> y <https://momo.isciii.es/panel_momo/> están hechas con `R` (con `{shiny}` y `{plotly}` )
 
 ---
-
-# .orange[CASOS REALES] de uso de R
-
-.pull-left[
-
-```{r echo = FALSE,  out.width = "99%", fig.align = "left"}
-knitr::include_graphics("./img/elpais_R.jpg")
-``` 
-
-]
-
-.pull-right[
-
-El **.bg-purple_light[equipo de datos]** (Borja Andrino, Kiko Llaneras y Daniele Grasso) trabaja con `R` para elaborar sus análisis, desde los datos electorales hasta el cambio climático.
-
-Es una de las razones por las que son capaces de realizar brillantes análisis de grandes volúmenes de datos de forma rápida y ágil: la **.bg-purple_light[automatización de procesos]** que nos permite programar en `R` puede ser fundamental para analizar datos que hasta entonces no podíamos.
-
-]
-
-
----
-
-class: inverse center middle
 
 # BLOQUES
 
