@@ -38,8 +38,15 @@ Este repositorio contiene el **material docente** (tanto transparencias como có
   <summary>Curso académico <b>2022-2023</b> (CLICK PARA ABRIR)</strong></summary>
   
 <!-- toc -->
+
+* **Grado en Estadística Aplicada** (Facultad de Estudios Estadísticos, Universidad Complutense de Madrid)
+  - **Descripción y exploración de datos** --> <https://github.com/dadosdelaplace/teaching/tree/main/descriptiva>
+
 * **Máster de Bioestadística** (Facultad de Estudios Estadísticos, Universidad Complutense de Madrid)
   - **Software para Gestión de Bases de Datos** (R en biostats) --> <https://github.com/dadosdelaplace/teaching/tree/main/bioestad>
+
+* **Máster en Minería de Datos e Inteligencia de Negocio** (Facultad de Estudios Estadísticos, Universidad Complutense de Madrid)
+  - **Minería de datos** --> ...
   
 * Máster propio (NTIC) **«Big Data y Business Analytics»** (Facultad de Estudios Estadísticos, Universidad Complutense de Madrid)
   - **Técnicas de análisis multivariantes** (presencial) --> <https://dadosdelaplace.github.io/teaching/bdba-pca-clustering-2022>
