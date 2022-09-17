@@ -114,7 +114,7 @@ $$\\[2in]$$
 - **.bg-yellow[Diapositivas de R]**
 <https://dadosdelaplace.github.io/teaching/descriptiva/slides>
 
-- **.bg-orange[Código diapositivas]**: <https://github.com/dadosdelaplace/teaching/tree/main/descriptiva/slides>
+- **.bg-orange[Entregas de R]**: <https://github.com/dadosdelaplace/teaching/tree/main/descriptiva/eval>
 
 
 &nbsp;
@@ -137,7 +137,7 @@ $$\\[2in]$$
 
 #### [Bloque III: conjuntos de datos](#bloque-3)
 
-#### [Bloque IV: comunicando resultados](#bloque-4)
+#### [Bloque IV: comunicando resultados (Rmarkdown)](#bloque-4)
 
 ]
 
@@ -427,8 +427,6 @@ library(ggplot2)
 ```
 
 ---
-
-class: center middle
 
 # Primeros pasos en R: .orange[CALCULADORA]
 

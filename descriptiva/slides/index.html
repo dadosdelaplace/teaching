@@ -65,7 +65,7 @@ class: inverse center middle
 - **.bg-yellow[Diapositivas de R]**
 &lt;https://dadosdelaplace.github.io/teaching/descriptiva/slides&gt;
 
-- **.bg-orange[Código diapositivas]**: &lt;https://github.com/dadosdelaplace/teaching/tree/main/descriptiva/slides&gt;
+- **.bg-orange[Entregas de R]**: &lt;https://github.com/dadosdelaplace/teaching/tree/main/descriptiva/eval&gt;
 
 
 &amp;nbsp;
@@ -88,7 +88,7 @@ class: inverse center middle
 
 #### [Bloque III: conjuntos de datos](#bloque-3)
 
-#### [Bloque IV: comunicando resultados](#bloque-4)
+#### [Bloque IV: comunicando resultados (Rmarkdown)](#bloque-4)
 
 ]
 
@@ -374,8 +374,6 @@ library(ggplot2)
 ```
 
 ---
-
-class: center middle
 
 # Primeros pasos en R: .orange[CALCULADORA]
 
@@ -1482,7 +1480,7 @@ También podemos obtener el **.bg-purple_light[«hoy y ahora»]** con la funció
 ```
 
 ```
-&gt; [1] "2022-09-17 01:11:38 CEST"
+&gt; [1] "2022-09-17 15:17:57 CEST"
 ```
  
 ---
@@ -2682,9 +2680,9 @@ x &lt;- rnorm(1e3) # 1000 elementos aleatorias
 
 ```
 &gt; Unit: microseconds
-&gt;         expr    min     lq      mean  median       uq      max neval cld
-&gt;      sort(x) 44.715 60.469 116.62548 85.6275 101.1535 24044.49  1000   b
-&gt;  x[order(x)] 31.053 41.884  59.35986 59.1745  66.9055   615.85  1000  a
+&gt;         expr    min      lq     mean median      uq     max neval cld
+&gt;      sort(x) 42.538 46.0955 60.70000 51.389 64.1355 227.725  1000   b
+&gt;  x[order(x)] 29.407 32.4910 42.82261 37.109 44.6880 190.111  1000  a
 ```
 
 --
@@ -5442,11 +5440,11 @@ microbenchmark(x^2,
 ```
 &gt; Unit: nanoseconds
 &gt;                                     expr     min      lq        mean    median
-&gt;                                      x^2     415     581    1713.571    1762.5
-&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 2008269 2337182 3081431.559 2763122.0
-&gt;         uq      max neval cld
-&gt;     2388.5    12242  1000  a 
-&gt;  3378139.5 20256618  1000   b
+&gt;                                      x^2     342     437    1123.328    1045.5
+&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 1663308 1760144 2062407.503 1860955.5
+&gt;       uq      max neval cld
+&gt;     1515    18888  1000  a 
+&gt;  2134824 14404011  1000   b
 ```
 
 ---
@@ -6861,10 +6859,10 @@ map(x, mean)
 
 ```
 &gt; [[1]]
-&gt; [1] 0.02869777
+&gt; [1] 0.022081
 &gt; 
 &gt; [[2]]
-&gt; [1] 1.968514
+&gt; [1] 2.012001
 ```
 
 
@@ -6876,11 +6874,11 @@ microbenchmark(map(x, .f = function(x) { mean(x^2) }), lapply(x, FUN = function(
 ```
 &gt; Unit: milliseconds
 &gt;                                            expr      min       lq     mean
-&gt;      map(x, .f = function(x) {     mean(x^2) }) 5.679932 7.052981 9.310342
-&gt;  lapply(x, FUN = function(x) {     mean(x^2) }) 5.487265 6.759385 9.767897
-&gt;    median       uq       max neval cld
-&gt;  8.155130 10.61621  25.29546  1000   a
-&gt;  8.004065 10.93888 231.19563  1000   a
+&gt;      map(x, .f = function(x) {     mean(x^2) }) 5.443403 6.671125 8.748847
+&gt;  lapply(x, FUN = function(x) {     mean(x^2) }) 5.131696 6.456057 8.819819
+&gt;    median       uq      max neval cld
+&gt;  7.687849 9.309380 155.4689  1000   a
+&gt;  7.527804 8.896994 197.3503  1000   a
 ```
 
 
