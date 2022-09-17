@@ -1,4 +1,4 @@
-Material docente de la asignatura «Software para Gestión de Bases de Datos» (R en bioestadística, Máster de Bioestadística)
+Material docente de la asignatura «Descripción y exploración de datos» (Grado en Estadística Aplicada)
 ======
 
 [![License:
