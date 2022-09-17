@@ -1,0 +1,60 @@
+---
+title: "Probando Probando"
+author: "Señor X"
+date: "`r format(Sys.Date(), '%d de %B de %Y')`"
+output:
+  html_document:
+    toc: true
+    toc_depth: 2
+    number_sections: true
+---
+
+<style>
+#TOC {
+  color: #708090;
+  font-family: Calibri;
+  font-size: 16px; 
+  border-color: #708090;
+}
+#header {
+  color: #F08080;
+  font-family: Calibri;
+  font-size: 20px;
+}
+body {
+  font-family: Calibri;
+}
+pre {
+  color: #708090;
+  background-color: #AEEADA;
+}
+h1.title {
+  color: #F08080;
+  font-family: Calibri;
+  font-size: 20px;
+}
+h4.author {
+  color: #708090;
+  font-family: Calibri;
+  background-color: #F5F5F5;
+}
+h4.date {
+  color: #708090;  
+  font-family: Calibri;
+}
+</style>
+
+# Segundo informe {#seccion-1}
+
+Este _material_ ha sido diseñado como complemento y recursos de apoyo del  **Máster de Bioestadística** de la [Universidad Complutense de Madrid](https://www.ucm.es/eci//cursoecic02-pre).
+
+## Subsección
+
+```{r}
+x <- 1
+``` 
+
+
+```{r echo = FALSE, fig.align = 'center', fig.cap = 'Ejemplo de imagen', out.width = '40%'}
+knitr::include_graphics("https://static.wikia.nocookie.net/skapokonpedia/images/9/98/Ralph-Wiggum-ralph-wiggum-39630776-1000-1000.png/revision/latest?cb=20180419154906&path-prefix=es")
+```

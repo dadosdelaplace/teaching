@@ -1,0 +1,260 @@
+---
+title: "Entrega I de R"
+description: |
+  Primeros pasos en R (deadline: 14:00 del 28 de septiembre)
+author:
+  - name: C. Tangana (DNI 0000000-A)
+    affiliation: Universidad Complutense de Madrid
+    affiliation_url: 
+date: "`r Sys.Date()`"
+output:
+    distill::distill_article:
+        highlight: kate
+        colorlinks: true
+        code_folding: false
+        toc: true            
+        toc_depth: 3     
+---
+
+```{r setup, include = FALSE}
+# Ajuste comunes de los chunk
+knitr::opts_chunk$set(fig.width = 9, fig.asp = 1, out.width = "100%",
+                      message = FALSE, warning = FALSE,
+                      echo = TRUE, res = 400)
+```
+
+# Instrucciones (leer antes de empezar)
+
+* Modifica dentro del documento `.Rmd` tus datos personales (nombre y DNI) ubicados en la cabecera del archivo.
+
+* Asegúrate, **ANTES de seguir editando** el documento, que el archivo `.Rmd` se teje correctamente (botón Knit) y se genera el `.html` correspondiente.
+
+* Los chunks (cajas de código) creados están o vacíos o incompletos, de ahí que la mayoría tengan la opción `eval = FALSE`. Una vez que edites lo que consideres debes ir cambiando cada chunck a `eval = TRUE` para que se ejecuten.
+
+* Recuerda que puedes ejecutar chunk a chunk con el botón _play_ o ejecutar todos los chunk hasta uno dado (con el botón a la izquierda del anterior).
+
+
+## Paquetes necesarios
+
+Necesitaremos los siguientes paquetes:
+
+```{r paquetes}
+rm(list = ls()) # Borramos variables de environment
+
+# descomentar si es la primera vez (y requieren instalación)
+# install.packages("glue")
+# install.packages("dplyr")
+library(glue)
+library(dplyr)
+```
+
+
+# Caso práctico: análisis de Star Wars
+
+## Carga de datos
+
+El archivo de datos a usar lo cargaremos del paquete`{dplyr}`. En él tenemos diferentes variables de los **personajes de Star Wars**, con características de su pelo, piel, altura, nombre, etc.
+
+
+```{r}
+starwars
+```
+
+Dado que aún no sabemos trabajar con tablas enteras (fíjate como accedo a las variables con `nombre_tabla$nombre_variable`), a lo largo de la práctica trabajaremos con 4 variables que dejaremos ya guardadas:
+
+* `name`: nombre de los personajes
+* `height`: estatura de los personajes
+* `mass`: peso de los personajes
+* `eye_color`: color de ojos de los personajes
+
+
+
+```{r}
+nombre <- starwars$name
+estatura <- starwars$height
+peso <- starwars$mass
+color_ojos <- starwars$eye_color
+```
+
+A partir de este momento solo nos fijaremos en estas cuatro variables:
+
+```{r}
+nombre
+estatura
+peso
+color_ojos
+```
+
+
+## Ejercicio 1:
+
+> Determina qué tipo de variable es cada una (cuali/cuanti, discreta/continua, nominal/ordinal) y justifica la respuesta.
+
+[Responde aquí debajo como texto normal]
+
+
+## Ejercicio 2:
+
+> Determina la dimensión de nuestros datos calculando la longitud de las variables. ¿Cuántos personajes hay incluidos en la base de datos?
+
+
+```{r eval = FALSE}
+# Completa el código y cambia a eval = TRUE 
+
+```
+
+[Responde aquí debajo como texto normal lo que consideres]
+
+## Ejercicio 3:
+
+> Determina las modalidades de aquellas variables que sean cualitativas
+
+```{r eval = FALSE}
+# Completa el código y cambia a eval = TRUE 
+unique(...)
+```
+
+[Responde aquí debajo como texto normal lo que consideres]
+
+## Ejercicio 4:
+
+> ¿Existen valores ausentes en la variable de color ojos? En caso de que existan, ¿de cuántos personajes desconocemos su color de ojos?
+
+
+```{r eval = FALSE}
+# Completa el código y cambia a eval = TRUE 
+any(... == ...)
+sum(... == ...)
+```
+
+[Responde aquí debajo como texto normal lo que consideres]
+
+
+## Ejercicio 5:
+
+> ¿Existen valores ausentes en las variable de peso y estatura? En caso de que existan, ¿de cuántos personajes desconocemos su estatura (tienen que salirte 6 personajes)? ¿De cuántos su peso (tienen que salirte 28 personajes)? ¿De cuántos su peso y estatura a la vez (tiene que salirte 6 personajes)?
+
+
+```{r eval = FALSE}
+# Completa el código y cambia a eval = TRUE 
+is.na(...)
+sum(...)
+```
+
+[Responde aquí debajo como texto normal lo que consideres]
+
+## Ejercicio 6:
+
+> Extrae de la variable de nombres de aquellos que tienen ausente tanto el peso como la esatura como el color de ojos
+
+```{r eval = FALSE}
+# Completa el código y cambia a eval = TRUE 
+nombre[...]
+```
+
+[Responde aquí debajo como texto normal lo que consideres]
+
+
+## Ejercicio 7:
+
+> Determina el rango (mínimo y máximo) de aquellas variables que sean cuantitativas. Recuerda que si hay datos ausentes (y no se eliminan antes), el máximo y mínimo devuelto será también ausente.
+
+```{r eval = FALSE}
+# Completa el código y cambia a eval = TRUE 
+
+```
+
+[Responde aquí debajo como texto normal lo que consideres]
+
+
+## Ejercicio 8:
+
+
+> Calcula la media de las variables, en aquellos casos en los que sea posible. Justifica aquellos casos en los que no se puede calcular.  Recuerda que a lo mejor hay datos ausentes.
+
+```{r eval = FALSE}
+# Completa el código y cambia a eval = TRUE 
+
+```
+
+[Responde aquí debajo como texto normal lo que consideres]
+
+
+> Calcula una medida de dispersión de las variables, en aquellos casos en los que sea posible. Justifica aquellos casos en los que no se puede calcular, y detalla qué medida de dispersión estás calculando.
+
+```{r eval = FALSE}
+# Completa el código y cambia a eval = TRUE 
+
+```
+
+[Responde aquí debajo como texto normal lo que consideres]
+
+
+> Entre todas las variables de las que podemos conocer su dispersión, determina cuál es más homogénea. Justifica tu respuesta.
+
+```{r eval = FALSE}
+# Completa el código y cambia a eval = TRUE 
+
+```
+
+[Responde aquí debajo como texto normal lo que consideres]
+
+
+## Ejercicio 9:
+
+> Ordena los nombres de los personajes en función de su peso, de menos a más pesados.
+
+```{r eval = FALSE}
+# Completa el código y cambia a eval = TRUE 
+nombre[...]
+```
+
+[Responde aquí debajo como texto normal lo que consideres]
+
+
+> Calcula la mediana de las variables, en aquellos casos en los que sea posible. Justifica aquellos casos en los que no se puede calcular.  Recuerda que a lo mejor hay datos ausentes. Interpreta el valor obtenido
+
+
+```{r eval = FALSE}
+# Completa el código y cambia a eval = TRUE 
+median(...)
+```
+
+[Responde aquí debajo como texto normal lo que consideres]
+
+> Responde a las siguientes preguntas. ¿Cuál es la estatura máxima del 60% de personajes más bajitos? ¿Cuál es el peso mínimo del 30% de personajes más altos? ¿Cuál es el % de personajes que miden más de 191 cm? ¿Cuál es el % de personajes que pesan menos de 55.6kg?
+
+
+```{r eval = FALSE}
+# Completa el código y cambia a eval = TRUE 
+quantile(...)
+```
+
+[Responde aquí debajo como texto normal lo que consideres]
+
+
+## Ejercicio 10:
+
+> ¿Cuál es la moda de la variable color de ojos? Justifica tu respuesta
+
+```{r eval = FALSE}
+# Completa el código y cambia a eval = TRUE 
+
+```
+
+[Responde aquí debajo como texto normal lo que consideres]
+
+## Extra:
+
+> Debajo tienes extraída la variable especie. Construye una nueva variable (llamada por ejemplo "nombre_especie"= que nos construya, para cada personaje, el nombre del personaje seguido de guion y su especie. Por ejemplo, `"Luke Skywalker - Human"`.
+
+```{r eval = FALSE}
+# Completa el código y cambia a eval = TRUE 
+especie <- starwars$species
+
+library(glue)
+nombre_especie <- ...
+```
+
+[Responde aquí debajo como texto normal lo que consideres]
+
