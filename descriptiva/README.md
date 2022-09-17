@@ -22,6 +22,10 @@ GPLv3](https://img.shields.io/badge/license-GPLv3-blue.svg)](https://www.gnu.org
 
 * **Diapositivas R** (https://dadosdelaplace.github.io/teaching/descriptiva/slides)
 
+* **Entregas en R** (https://github.com/dadosdelaplace/teaching/tree/main/descriptiva/eval)
+
+* **Scripts en R** (https://github.com/dadosdelaplace/teaching/tree/main/descriptiva/scripts)
+
 * **Hojas de ejercicios y entregas** (https://drive.google.com/drive/folders/1R3edVN3GPNaY6WLXd1VBgEl2ses_wBty?usp=sharing)
 
 * **Código diapositivas R** (https://github.com/dadosdelaplace/teaching/tree/main/descriptiva/slides)
