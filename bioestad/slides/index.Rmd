@@ -2931,6 +2931,23 @@ apply(matriz, MARGIN = 1, FUN = "sum")
 
 ]
 
+---
+
+class: inverse center middle
+name: clase-4
+
+# CLASE 4: primeros datos
+
+&nbsp;
+
+### [data.frame](#data.frame)
+
+### [tibble](#tibble)
+
+### [Ejercicios datasets](#ejercicios-tibble)
+
+### [Rmarkdown](#rmd)
+
 
 ---
 
@@ -3625,13 +3642,454 @@ dim(gapminder)
 
 ]
 
+---
+
+name: rmd
+
+# .orange[COMUNICANDO] resultados: archivos .green[.Rmd] 
+
+
+Una de las principales **.bg-purple_light[fortalezas]** de `R` es la facilidad para generar informes, libros, webs, **.bg-purple_light[apuntes y hasta diapositivas]** (este material por ejemplo).
+
+&nbsp;
+
+Para ello instalaremos antes el paquete `{rmarkdown}` que nos permitirá generar documentos `.Rmd`
+
+```{r eval = FALSE}
+install.packages("rmarkdown")
+```
+
+---
+
+# .orange[COMUNICANDO] resultados: archivos .green[.Rmd] 
+
+¿Cuál son las **ventajas** de generarlos desde **.bg-purple_light[rmarkdown]**?
+
+--
+
+* Al hacerlo desde `RStudio`, puedes generar un informe o una presentación **.bg-purple_light[sin salirte del entorno]** de programación en el que estás trabajando
+
+--
+
+* Podrás analizar los datos, resumirlos y a la vez **.bg-purple_light[comunicarlos]**. 
+
+--
+
+* Permite **.bg-purple_light[integrar fácilmente código]** `R`, de forma que no solo podremos integrar las salidas de nuestro trabajo sino también el código con el que lo hemos generado.
+
+---
+
+# ¿Qué es .orange[RMARKDOWN]? 
+
+
+Una herramienta que nos permite crear de forma sencilla **documentos combinando**:
+
+--
+
+* **.bg-purple_light[Markdown]**: creado en 2004 por John Gruber, y de uso libre, es un «lenguaje» que nos permite crear contenido de una manera sencilla de escribir, y que en todo momento mantenga un diseño legible, con algunas de las ventajas de un HTML (si acostumbras a escribir en wordpress o blogs, seguramente hayas escrito de esta forma).
+
+--
+
+* **.bg-green_light[Matemáticas (latex)]**: herramienta (lenguaje en realidad) para escribir notación matemática como $x^2$ o $\sqrt{2}$ (si escribes notación similar en editores de texto, seguramente sin saberlo estés usando ya latex).
+
+--
+
+* **.bg-purple_light[Código]** y salidas de `R`: podremos no solo mostrar el paso final sino el código que has ido realizando, con **cajitas de código** como las del manual.
+
+--
+
+* **.bg-green_light[Imágenes y tablas]**.
+
+--
+
+* **.bg-purple_light[Estilos]** (css, js, etc).
+
+---
+
+# Creando nuestro .orange[PRIMER INFORME] 
+
+.pull-left[
+
+```{r echo = FALSE,  out.width = "80%", fig.align = "left", fig.cap = "Creando el primer fichero .rmd"}
+knitr::include_graphics("./img/file_rmarkdown.jpg")
+``` 
+
+
+]
+
+.pull-right[
+
+Vamos a crear el **.bg-purple_light[primer fichero]** con extensión `.Rmd` (la extensión de los archivos R Markdown).
+
+&nbsp;
+
+Haz click en el botón `File << New File << R Markdown`.
+
+]
+
+---
+
+# Creando nuestro .orange[PRIMER INFORME] 
+
+.pull-left[
+
+```{r echo = FALSE,  out.width = "80%", fig.align = "left", fig.cap = "Creando el primer fichero .rmd"}
+knitr::include_graphics("./img/new_rmd.jpg")
+``` 
+
+
+]
+
+.pull-right[
+
+Tras hacerlo, nos aparecerán **.bg-purple_light[varias opciones]**de formatos de salida:
+
+* archivo `.pdf`
+
+* archivo `.html` (**.bg-purple_light[recomendable]**): documento dinámico, permite la interacción con el usuario, como una «página web»)
+
+* archivo `.doc` (nada recomendable)
+
+De momento dejaremos marcado el **.bg-purple_light[formato HTML que viene por defecto]**, y escribiremos el título de nuestro documento. Tras ello tendremos nuestro archivo `.Rmd` (ya no es un script `.R` como los que hemos abierto hasta ahora)
+
+]
+
+---
+
+
+# Creando nuestro .orange[PRIMER INFORME] 
+
+Un fichero `.Rmd` se divide básicamente en **.bg-purple_light[tres partes]**
+
+1. **.bg-purple_light[Cabecera]**: la parte que tienes al inicio entre `---`.
+
+2.  **.bg-purple_light[Texto]**: que podremos formatear y mejorar con **negritas** (escrito como `**negritas**`, con doble astérisco al inicio y final), _cursivas_ (`_cursivas_`, con barra baja al inicio y final) o destacar nombres de funciones o variables de `R` (con ``R`). Recuerda que puedes añadir además ecuaciones como $x^2$ (he escrito `$x^2$`, la ecuación entre dólares).
+
+3. **.bg-purple_light[Código R]**.
+
+---
+
+# .orange[PRIMER INFORME]: .green[CABECERA]
+
+
+La cabecera están en formato `YAML`, y contiene los **.bg-purple_light[metadatos del documento]**: título, autor, fecha, estilos (si los tuviésemos), etc. Para probar, vamos a cambiar la cabecera que nos ha generado por defecto de la siguiente forma:
+
+```{r eval = FALSE}
+---
+title: "Probando Probando"
+author: "Señor/a X"
+date: "11/7/2014"
+output: html_document
+---
+```
+
+Tras tunear nuestra cabecera borraremos todo lo que viene después para **.bg-purple_light[empezar desde cero]**.
+
+```{r echo = FALSE,  out.width = "27%", fig.align = "left", fig.cap = "Fichero .Rmd vacío, solo con la cabecera"}
+knitr::include_graphics("./img/rmd_vacio.jpg")
+``` 
+
+---
+
+# .orange[PRIMER INFORME]: .green[TEXTO]
+
+Solo hay una cosa **.bg-purple_light[importante]** a tener en cuenta en este entorno: salvo que indiquemos lo contrario, **.bg-purple_light[TODO lo que vamos a escribir en el documento es texto]**. No código R. Texto plano que podremos mejorar un poco con algun detalle, pero texto.
+
+Vamos a empezar nuestro documento escribiendo por ejemplo la siguiente frase
+
+
+```{r eval = FALSE}
+Este material ha sido diseñado por el profesor Javier Álvarez Liébana,
+docente en la Universidad Complutense de Madrid
+```
+
+---
+
+# .orange[PRIMER INFORME]: .green[TEXTO]
+
+
+.pull-left[
+
+```{r echo = FALSE,  out.width = "99%", fig.align = "left", fig.cap = "Primer informe html"}
+knitr::include_graphics("./img/html_con_texto.jpg")
+``` 
+
+]
+
+.pull-right[
+
+Una vez que hemos escrito el texto vamos a **.bg-purple_light[guardar el archivo .Rmd]** haciendo click en el botón `Guardar` (yo he llamado al archivo `primer_rmarkdown.Rmd`). Tras guardar el documento, **.bg-purple_light[«tejeremos» nuestro documento]** haciendo click en el botón `Knit`.
+
+Al «tejer» se nos habrá generado (seguramente en una ventana al margen) un archivo .html, que podemos incluso **.bg-purple_light[abrir en nuestro navegador]**. Hemos creado nuestro primer informe, obviamente vacío de momento. 
+
+
+]
+
+
+
+---
+
+# .orange[PRIMER INFORME]: .green[TEXTO]
+
+
+.pull-left[
+
+```{r echo = FALSE,  out.width = "99%", fig.align = "left", fig.cap = "Tuneando nuestro primer informe html"}
+knitr::include_graphics("./img/rmd_con_formato.jpg")
+``` 
+
+]
+
+.pull-right[
+
+Vamos a **.bg-purple_light[mejorar]** un poco el texto haciendo lo siguiente:
+
+* Vamos a añadir **.bg-purple_light[negrita]** al nombre (poniendo `**` al inicio y al final).
+
+* Vamos añadir _cursiva_ a la palabra `material` (poniendo `_` al inicio y al final).
+
+*  Vamos añadir un enlace `https://www.ucm.es`, asociándolo al nombre de la Universidad. Para ello el título lo ponemos entre corchetes y justo detrás el enlace entre paréntesis `[«Universidad Complutense de Madrid»](https://www.ucm.es)`
+
+]
+
+---
+
+
+# .orange[PRIMER INFORME]: .green[CHUNKS] de R
+
+Para añadir **.bg-purple_light[código R]** debemos crear nuestras **.bg-purple_light[cajas de código]** llamadas **.bg-orange[chunks]**: altos en el camino en nuestro texto markdown donde podremos incluir **código**. Para incluir uno deberá de ir encabezado de la siguiente forma.
+
+```{r echo = FALSE,  out.width = "90%", fig.align = "left", fig.cap = "Encabezado/final del chunk"}
+knitr::include_graphics("./img/chunk_1.jpg")
+``` 
+
+---
+
+# .orange[PRIMER INFORME]: .green[CHUNKS] de R
+
+
+Dentro de dicha **.bg-purple_light[cajita]** (que tiene ahora **otro color** en el documento) escribiremos **.bg-purple_light[código R]**, como lo veníamos haciendo hasta ahora. Vamos por ejemplo a **.bg-purple_light[definir dos variables]** y su suma de la siguiente manera, escribiendo dicho código en nuestro `.Rmd` (dentro de ese chunk)
+
+.pull-left[
+
+```{r}
+# Código R
+x <- 1
+y <- 2
+x + y
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "99%", fig.align = "left", fig.cap = "Primer chunk con código"}
+knitr::include_graphics("./img/rmd_3.jpg")
+``` 
+
+]
+
+---
+
+# .orange[PRIMER INFORME]: .green[CHUNKS] de R
+
+.pull-left[
+
+```{r}
+# Código R
+x <- 1
+y <- 2
+x + y
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "70%", fig.align = "left", fig.cap = "Primer chunk con código"}
+knitr::include_graphics("./img/rmd_3.jpg")
+``` 
+
+]
+
+Como ves dentro de esos _chunks_ puedes **.bg-purple_light[comentar código]** con `#` (ahora veremos que hace `#` fuera de esas cajas de código). Tras hacerlo tejemos de nuevo y obtenemos ahora un documento que tiene una caja de código y su salida.
+
+```{r echo = FALSE,  out.width = "40%", fig.align = "left", fig.cap = "Salida del html con el primer chunk"}
+knitr::include_graphics("./img/html_rmd_3.jpg")
+``` 
+
+
+
+---
+
+# .orange[PRIMER INFORME]: .green[CHUNKS] de R
+
+
+Somos capaces de **.bg-purple_light[escribir en un mismo documento texto]** con cierto formato, **.bg-purple_light[código R y la salida]** del resultado, permitiéndonos generar informes (ya veremos como incluir gráficas). De hecho, lo más práctico para **.bg-purple_light[tomar apuntes de R]** es ir anotando en un archivo `.Rmd`.
+
+Los chunks pueden tener un **.bg-purple_light[nombre o etiqueta]**, de forma que podamos referenciarlos de nuevo para no repetir código.
+
+```{r echo = FALSE,  out.width = "40%", fig.align = "left", fig.cap = "Etiquetando un chunk y reciclándolo"}
+knitr::include_graphics("./img/chunk_repe_tag.jpg")
+``` 
+
+
+
+---
+
+# .orange[PRIMER INFORME]: .green[ORGANIZANDO]
+
+Con todo incluido en el documento podemos **.bg-purple_light[dividirlo en secciones y subsecciones]**. Para ello usaremos la sintaxis de markdown, poniendo **.bg-purple_light[almohadillas]**: una `#` para secciones, `##` para subsecciones, `###` para subsubsecciones, etc. Por ejemplo, vamos a
+
+* Hacer una sección principal que sea `# Primer informe`
+* Tras ello añadiremos la parte de texto.
+* Creamos una subsección que se titule `## Chunks de código` donde incluiremos los dos chunks que tenemos hasta ahora.
+
+
+.pull-left[
+
+```{r echo = FALSE,  out.width = "80%", fig.align = "right", fig.cap = "Secciones en el rmd"}
+knitr::include_graphics("./img/secciones_rmd.jpg")
+``` 
+
+
+]
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "80%", fig.align = "left", fig.cap = "Secciones en el html"}
+knitr::include_graphics("./img/secciones_html.jpg")
+``` 
+
+
+]
+
+---
+
+
+# .orange[PRIMER INFORME]: .green[ORGANIZANDO]
+
+Además podemos incluir tras el título (y entre llaves `{}`) **.bg-purple_light[etiquetas]** (con `{#etiqueta}`) para luego **.bg-purple_light[referenciar dichas secciones]** en el documento.
+
+.pull-left[
+
+```{r echo = FALSE,  out.width = "75%", fig.align = "left", fig.cap = "Referencias a secciones y subsecciones"}
+knitr::include_graphics("./img/ref_rmd.jpg")
+``` 
+
+]
+
+.pull-right[
+
+También podemos organizar nuestro código **.bg-purple_light[creando listas]**, usando `*` como ítems.
+
+```{r echo = FALSE,  out.width = "85%", fig.align = "left", fig.cap = "Creando listas con ítems"}
+knitr::include_graphics("./img/items_rmd.jpg")
+``` 
+
+]
+
+---
+
+# .orange[PRIMER INFORME]: .green[PERSONALIZAR]
+
+En cada chunk aparece una **.bg-purple_light[botón de play]**: pulsándolo podemos tener la **ejecución y salida** de cada chunk en nuestro `.Rmd`, sin tener que esperar a «tejer» (con Knit) todo el documento para ver lo que vamos ejecutando.
+
+
+.pull-left[
+
+```{r echo = FALSE,  out.width = "99%", fig.align = "left", fig.cap = "Pulsando al botón play"}
+knitr::include_graphics("./img/play_chunk.jpg")
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "99%", fig.align = "left", fig.cap = "Chunk ejecutado in-line"}
+knitr::include_graphics("./img/chunk_ejecutado.jpg")
+```
+
+]
+
+---
+
+# .orange[PRIMER INFORME]: .green[PERSONALIZAR]
+
+
+Además podemos **.bg-purple_light[incluir código R dentro de la línea de texto]** (en lugar de mostrar el texto x ejecuta el código R mostrando la variable).
+
+
+
+.pull-left[
+
+```{r echo = FALSE,  out.width = "99%", fig.align = "left", fig.cap = "Código R inline"}
+knitr::include_graphics("./img/codigo_inline_rmd.jpg")
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "99%", fig.align = "left", fig.cap = "Salida del código in-line"}
+knitr::include_graphics("./img/codigo_inline_html.jpg")
+```
+
+]
+
+---
+
+# .orange[PRIMER INFORME]: .green[PERSONALIZAR]
+
+
+Los chunk podemos **.bg-purple_light[personalizar su salida]** con algunas opciones, pasándolos como argumentos dentro de las llaves ({r etiqueta, ...}).
+
+* `include = FALSE`: **.bg-green_light[ejecuta código]** pero **.bg-red_light[no se muestra (ni resultados)]** en la salida.
+
+* `echo = FALSE`: **.bg-green_light[ejecuta código]** y se **.bg-green_light[muestra resultado]** pero **.bg-red_light[no el código]** en la salida.
+
+* `eval = FALSE`: se **.bg-green_light[muestra el código]** pero **.bg-red_light[no se ejecuta]** en la salida final.
+
+* `message = FALSE`: se **.bg-green_light[ejecuta el código]** pero **.bg-red_light[no se muestran mensajes]** de salida que tendríamos en consola.
+
+* `warning = FALSE`: **.bg-green_light[ejecuta código]** pero **.bg-red_light[no se muestran warning]**.
+
+* `error = TRUE`: se **.bg-green_light[ejecuta el código]** pero permite ejecutar el código **.bg-green_light[con errores]** mostrando los mensajes de error.
+ 
+--
+
+Estas opciones podemos aplicarlas chunk a chunk o fijar los parámetros de forma global con `knitr::opts_chunk$set()` (dentro de un chunk), pasándole como argumentos dichas opciones (por ejemplo, `knitr::opts_chunk$set(echo = FALSE)`).
+
+---
+
+# .orange[PRIMER INFORME]: .green[VARIABLES/ECUACIONES]
+
+Por último en este primer documento vamos a añadir una subsección `## Variables y ecuaciones` donde añadiremos un chunk asignando la suma `x + y` a una variable `z`, escribiendo antes en texto el nombre de la variable y la **.bg-purple_light[fórmula]** ($z = x + y$ entre dólares).
+
+
+.pull-left[
+
+```{r echo = FALSE,  out.width = "90%", fig.align = "left", fig.cap = "Añadiendo variables en el .rmd"}
+knitr::include_graphics("./img/variables_rmd.jpg")
+``` 
+
+]
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "110%", fig.align = "left", fig.cap = "Añadiendo variables en el .rmd"}
+knitr::include_graphics("./img/variables_html.jpg")
+``` 
+
+]
+
 
 ---
 
 class: inverse center middle
-name: clase-4
+name: clase-5
 
-# CLASE 4: ESTRUCTURAS DE CONTROL. RMD
+# CLASE 5: ESTRUCTURAS DE CONTROL.
 
 &nbsp;
 
@@ -3641,7 +4099,7 @@ name: clase-4
 
 ### [Replicate. Sample](#replicate)
 
-### [Ejercicios](#ejercicios-4)
+### [Ejercicios](#ejercicios-5)
 
 
 ---
@@ -4282,7 +4740,7 @@ Un estimador (muestral) $T$ de un parámetro poblacional se dice **.bg-purple_li
 
 ---
 
-name: ejercicios-4
+name: ejercicios-5
 
 # Ejercicios
 
@@ -4550,472 +5008,19 @@ medias
 class: inverse center middle
 name: clase-6
 
-
----
-
-class: inverse center middle
-name: clase-5
-
-# CLASE 5: COMUNICANDO RESULTADOS. ENTREGA I
+# CLASE 6: ENTREGA I
 
 &nbsp;
 
-### [informes/apuntes: rmarkdown](#rmd)
+### [Caso práctico: starwars](#clase6-caso-I)
 
-### [Caso práctico: starwars](#clase5-caso-I)
-
-### [Caso práctico: gapminder](#clase5-caso-II)
+### [Caso práctico: gapminder](#clase6-caso-II)
 
 ---
-
-name: rmd
-
-# .orange[COMUNICANDO] resultados: archivos .green[.Rmd] 
-
-
-Una de las principales **.bg-purple_light[fortalezas]** de `R` es la facilidad para generar informes, libros, webs, **.bg-purple_light[apuntes y hasta diapositivas]** (este material por ejemplo).
-
-&nbsp;
-
-Para ello instalaremos antes el paquete `{rmarkdown}` que nos permitirá generar documentos `.Rmd`
-
-```{r eval = FALSE}
-install.packages("rmarkdown")
-```
-
----
-
-# .orange[COMUNICANDO] resultados: archivos .green[.Rmd] 
-
-¿Cuál son las **ventajas** de generarlos desde **.bg-purple_light[rmarkdown]**?
-
---
-
-* Al hacerlo desde `RStudio`, puedes generar un informe o una presentación **.bg-purple_light[sin salirte del entorno]** de programación en el que estás trabajando
-
---
-
-* Podrás analizar los datos, resumirlos y a la vez **.bg-purple_light[comunicarlos]**. 
-
---
-
-* Permite **.bg-purple_light[integrar fácilmente código]** `R`, de forma que no solo podremos integrar las salidas de nuestro trabajo sino también el código con el que lo hemos generado.
-
----
-
-# ¿Qué es .orange[RMARKDOWN]? 
-
-
-Una herramienta que nos permite crear de forma sencilla **documentos combinando**:
-
---
-
-* **.bg-purple_light[Markdown]**: creado en 2004 por John Gruber, y de uso libre, es un «lenguaje» que nos permite crear contenido de una manera sencilla de escribir, y que en todo momento mantenga un diseño legible, con algunas de las ventajas de un HTML (si acostumbras a escribir en wordpress o blogs, seguramente hayas escrito de esta forma).
-
---
-
-* **.bg-green_light[Matemáticas (latex)]**: herramienta (lenguaje en realidad) para escribir notación matemática como $x^2$ o $\sqrt{2}$ (si escribes notación similar en editores de texto, seguramente sin saberlo estés usando ya latex).
-
---
-
-* **.bg-purple_light[Código]** y salidas de `R`: podremos no solo mostrar el paso final sino el código que has ido realizando, con **cajitas de código** como las del manual.
-
---
-
-* **.bg-green_light[Imágenes y tablas]**.
-
---
-
-* **.bg-purple_light[Estilos]** (css, js, etc).
-
----
-
-# Creando nuestro .orange[PRIMER INFORME] 
-
-.pull-left[
-
-```{r echo = FALSE,  out.width = "80%", fig.align = "left", fig.cap = "Creando el primer fichero .rmd"}
-knitr::include_graphics("./img/file_rmarkdown.jpg")
-``` 
-
-
-]
-
-.pull-right[
-
-Vamos a crear el **.bg-purple_light[primer fichero]** con extensión `.Rmd` (la extensión de los archivos R Markdown).
-
-&nbsp;
-
-Haz click en el botón `File << New File << R Markdown`.
-
-]
-
----
-
-# Creando nuestro .orange[PRIMER INFORME] 
-
-.pull-left[
-
-```{r echo = FALSE,  out.width = "80%", fig.align = "left", fig.cap = "Creando el primer fichero .rmd"}
-knitr::include_graphics("./img/new_rmd.jpg")
-``` 
-
-
-]
-
-.pull-right[
-
-Tras hacerlo, nos aparecerán **.bg-purple_light[varias opciones]**de formatos de salida:
-
-* archivo `.pdf`
-
-* archivo `.html` (**.bg-purple_light[recomendable]**): documento dinámico, permite la interacción con el usuario, como una «página web»)
-
-* archivo `.doc` (nada recomendable)
-
-De momento dejaremos marcado el **.bg-purple_light[formato HTML que viene por defecto]**, y escribiremos el título de nuestro documento. Tras ello tendremos nuestro archivo `.Rmd` (ya no es un script `.R` como los que hemos abierto hasta ahora)
-
-]
-
----
-
-
-# Creando nuestro .orange[PRIMER INFORME] 
-
-Un fichero `.Rmd` se divide básicamente en **.bg-purple_light[tres partes]**
-
-1. **.bg-purple_light[Cabecera]**: la parte que tienes al inicio entre `---`.
-
-2.  **.bg-purple_light[Texto]**: que podremos formatear y mejorar con **negritas** (escrito como `**negritas**`, con doble astérisco al inicio y final), _cursivas_ (`_cursivas_`, con barra baja al inicio y final) o destacar nombres de funciones o variables de `R` (con ``R`). Recuerda que puedes añadir además ecuaciones como $x^2$ (he escrito `$x^2$`, la ecuación entre dólares).
-
-3. **.bg-purple_light[Código R]**.
-
----
-
-# .orange[PRIMER INFORME]: .green[CABECERA]
-
-
-La cabecera están en formato `YAML`, y contiene los **.bg-purple_light[metadatos del documento]**: título, autor, fecha, estilos (si los tuviésemos), etc. Para probar, vamos a cambiar la cabecera que nos ha generado por defecto de la siguiente forma:
-
-```{r eval = FALSE}
----
-title: "Probando Probando"
-author: "Señor/a X"
-date: "11/7/2014"
-output: html_document
----
-```
-
-Tras tunear nuestra cabecera borraremos todo lo que viene después para **.bg-purple_light[empezar desde cero]**.
-
-```{r echo = FALSE,  out.width = "27%", fig.align = "left", fig.cap = "Fichero .Rmd vacío, solo con la cabecera"}
-knitr::include_graphics("./img/rmd_vacio.jpg")
-``` 
-
----
-
-# .orange[PRIMER INFORME]: .green[TEXTO]
-
-Solo hay una cosa **.bg-purple_light[importante]** a tener en cuenta en este entorno: salvo que indiquemos lo contrario, **.bg-purple_light[TODO lo que vamos a escribir en el documento es texto]**. No código R. Texto plano que podremos mejorar un poco con algun detalle, pero texto.
-
-Vamos a empezar nuestro documento escribiendo por ejemplo la siguiente frase
-
-
-```{r eval = FALSE}
-Este material ha sido diseñado por el profesor Javier Álvarez Liébana,
-docente en la Universidad Complutense de Madrid
-```
-
----
-
-# .orange[PRIMER INFORME]: .green[TEXTO]
-
-
-.pull-left[
-
-```{r echo = FALSE,  out.width = "99%", fig.align = "left", fig.cap = "Primer informe html"}
-knitr::include_graphics("./img/html_con_texto.jpg")
-``` 
-
-]
-
-.pull-right[
-
-Una vez que hemos escrito el texto vamos a **.bg-purple_light[guardar el archivo .Rmd]** haciendo click en el botón `Guardar` (yo he llamado al archivo `primer_rmarkdown.Rmd`). Tras guardar el documento, **.bg-purple_light[«tejeremos» nuestro documento]** haciendo click en el botón `Knit`.
-
-Al «tejer» se nos habrá generado (seguramente en una ventana al margen) un archivo .html, que podemos incluso **.bg-purple_light[abrir en nuestro navegador]**. Hemos creado nuestro primer informe, obviamente vacío de momento. 
-
-
-]
-
-
-
----
-
-# .orange[PRIMER INFORME]: .green[TEXTO]
-
-
-.pull-left[
-
-```{r echo = FALSE,  out.width = "99%", fig.align = "left", fig.cap = "Tuneando nuestro primer informe html"}
-knitr::include_graphics("./img/rmd_con_formato.jpg")
-``` 
-
-]
-
-.pull-right[
-
-Vamos a **.bg-purple_light[mejorar]** un poco el texto haciendo lo siguiente:
-
-* Vamos a añadir **.bg-purple_light[negrita]** al nombre (poniendo `**` al inicio y al final).
-
-* Vamos añadir _cursiva_ a la palabra `material` (poniendo `_` al inicio y al final).
-
-*  Vamos añadir un enlace `https://www.ucm.es`, asociándolo al nombre de la Universidad. Para ello el título lo ponemos entre corchetes y justo detrás el enlace entre paréntesis `[«Universidad Complutense de Madrid»](https://www.ucm.es)`
-
-]
-
----
-
-
-# .orange[PRIMER INFORME]: .green[CHUNKS] de R
-
-Para añadir **.bg-purple_light[código R]** debemos crear nuestras **.bg-purple_light[cajas de código]** llamadas **.bg-orange[chunks]**: altos en el camino en nuestro texto markdown donde podremos incluir **código**. Para incluir uno deberá de ir encabezado de la siguiente forma.
-
-```{r echo = FALSE,  out.width = "90%", fig.align = "left", fig.cap = "Encabezado/final del chunk"}
-knitr::include_graphics("./img/chunk_1.jpg")
-``` 
-
----
-
-# .orange[PRIMER INFORME]: .green[CHUNKS] de R
-
-
-Dentro de dicha **.bg-purple_light[cajita]** (que tiene ahora **otro color** en el documento) escribiremos **.bg-purple_light[código R]**, como lo veníamos haciendo hasta ahora. Vamos por ejemplo a **.bg-purple_light[definir dos variables]** y su suma de la siguiente manera, escribiendo dicho código en nuestro `.Rmd` (dentro de ese chunk)
-
-.pull-left[
-
-```{r}
-# Código R
-x <- 1
-y <- 2
-x + y
-```
-
-]
-
-.pull-right[
-
-```{r echo = FALSE,  out.width = "99%", fig.align = "left", fig.cap = "Primer chunk con código"}
-knitr::include_graphics("./img/rmd_3.jpg")
-``` 
-
-]
-
----
-
-# .orange[PRIMER INFORME]: .green[CHUNKS] de R
-
-.pull-left[
-
-```{r}
-# Código R
-x <- 1
-y <- 2
-x + y
-```
-
-]
-
-.pull-right[
-
-```{r echo = FALSE,  out.width = "70%", fig.align = "left", fig.cap = "Primer chunk con código"}
-knitr::include_graphics("./img/rmd_3.jpg")
-``` 
-
-]
-
-Como ves dentro de esos _chunks_ puedes **.bg-purple_light[comentar código]** con `#` (ahora veremos que hace `#` fuera de esas cajas de código). Tras hacerlo tejemos de nuevo y obtenemos ahora un documento que tiene una caja de código y su salida.
-
-```{r echo = FALSE,  out.width = "40%", fig.align = "left", fig.cap = "Salida del html con el primer chunk"}
-knitr::include_graphics("./img/html_rmd_3.jpg")
-``` 
-
-
-
----
-
-# .orange[PRIMER INFORME]: .green[CHUNKS] de R
-
-
-Somos capaces de **.bg-purple_light[escribir en un mismo documento texto]** con cierto formato, **.bg-purple_light[código R y la salida]** del resultado, permitiéndonos generar informes (ya veremos como incluir gráficas). De hecho, lo más práctico para **.bg-purple_light[tomar apuntes de R]** es ir anotando en un archivo `.Rmd`.
-
-Los chunks pueden tener un **.bg-purple_light[nombre o etiqueta]**, de forma que podamos referenciarlos de nuevo para no repetir código.
-
-```{r echo = FALSE,  out.width = "40%", fig.align = "left", fig.cap = "Etiquetando un chunk y reciclándolo"}
-knitr::include_graphics("./img/chunk_repe_tag.jpg")
-``` 
-
-
-
----
-
-# .orange[PRIMER INFORME]: .green[ORGANIZANDO]
-
-Con todo incluido en el documento podemos **.bg-purple_light[dividirlo en secciones y subsecciones]**. Para ello usaremos la sintaxis de markdown, poniendo **.bg-purple_light[almohadillas]**: una `#` para secciones, `##` para subsecciones, `###` para subsubsecciones, etc. Por ejemplo, vamos a
-
-* Hacer una sección principal que sea `# Primer informe`
-* Tras ello añadiremos la parte de texto.
-* Creamos una subsección que se titule `## Chunks de código` donde incluiremos los dos chunks que tenemos hasta ahora.
-
-
-.pull-left[
-
-```{r echo = FALSE,  out.width = "80%", fig.align = "right", fig.cap = "Secciones en el rmd"}
-knitr::include_graphics("./img/secciones_rmd.jpg")
-``` 
-
-
-]
-
-.pull-right[
-
-```{r echo = FALSE,  out.width = "80%", fig.align = "left", fig.cap = "Secciones en el html"}
-knitr::include_graphics("./img/secciones_html.jpg")
-``` 
-
-
-]
-
----
-
-
-# .orange[PRIMER INFORME]: .green[ORGANIZANDO]
-
-Además podemos incluir tras el título (y entre llaves `{}`) **.bg-purple_light[etiquetas]** (con `{#etiqueta}`) para luego **.bg-purple_light[referenciar dichas secciones]** en el documento.
-
-.pull-left[
-
-```{r echo = FALSE,  out.width = "75%", fig.align = "left", fig.cap = "Referencias a secciones y subsecciones"}
-knitr::include_graphics("./img/ref_rmd.jpg")
-``` 
-
-]
-
-.pull-right[
-
-También podemos organizar nuestro código **.bg-purple_light[creando listas]**, usando `*` como ítems.
-
-```{r echo = FALSE,  out.width = "85%", fig.align = "left", fig.cap = "Creando listas con ítems"}
-knitr::include_graphics("./img/items_rmd.jpg")
-``` 
-
-]
-
----
-
-# .orange[PRIMER INFORME]: .green[PERSONALIZAR]
-
-En cada chunk aparece una **.bg-purple_light[botón de play]**: pulsándolo podemos tener la **ejecución y salida** de cada chunk en nuestro `.Rmd`, sin tener que esperar a «tejer» (con Knit) todo el documento para ver lo que vamos ejecutando.
-
-
-.pull-left[
-
-```{r echo = FALSE,  out.width = "99%", fig.align = "left", fig.cap = "Pulsando al botón play"}
-knitr::include_graphics("./img/play_chunk.jpg")
-```
-
-]
-
-.pull-right[
-
-```{r echo = FALSE,  out.width = "99%", fig.align = "left", fig.cap = "Chunk ejecutado in-line"}
-knitr::include_graphics("./img/chunk_ejecutado.jpg")
-```
-
-]
-
----
-
-# .orange[PRIMER INFORME]: .green[PERSONALIZAR]
-
-
-Además podemos **.bg-purple_light[incluir código R dentro de la línea de texto]** (en lugar de mostrar el texto x ejecuta el código R mostrando la variable).
-
-
-
-.pull-left[
-
-```{r echo = FALSE,  out.width = "99%", fig.align = "left", fig.cap = "Código R inline"}
-knitr::include_graphics("./img/codigo_inline_rmd.jpg")
-```
-
-]
-
-.pull-right[
-
-```{r echo = FALSE,  out.width = "99%", fig.align = "left", fig.cap = "Salida del código in-line"}
-knitr::include_graphics("./img/codigo_inline_html.jpg")
-```
-
-]
-
----
-
-# .orange[PRIMER INFORME]: .green[PERSONALIZAR]
-
-
-Los chunk podemos **.bg-purple_light[personalizar su salida]** con algunas opciones, pasándolos como argumentos dentro de las llaves ({r etiqueta, ...}).
-
-* `include = FALSE`: **.bg-green_light[ejecuta código]** pero **.bg-red_light[no se muestra (ni resultados)]** en la salida.
-
-* `echo = FALSE`: **.bg-green_light[ejecuta código]** y se **.bg-green_light[muestra resultado]** pero **.bg-red_light[no el código]** en la salida.
-
-* `eval = FALSE`: se **.bg-green_light[muestra el código]** pero **.bg-red_light[no se ejecuta]** en la salida final.
-
-* `message = FALSE`: se **.bg-green_light[ejecuta el código]** pero **.bg-red_light[no se muestran mensajes]** de salida que tendríamos en consola.
-
-* `warning = FALSE`: **.bg-green_light[ejecuta código]** pero **.bg-red_light[no se muestran warning]**.
-
-* `error = TRUE`: se **.bg-green_light[ejecuta el código]** pero permite ejecutar el código **.bg-green_light[con errores]** mostrando los mensajes de error.
- 
---
-
-Estas opciones podemos aplicarlas chunk a chunk o fijar los parámetros de forma global con `knitr::opts_chunk$set()` (dentro de un chunk), pasándole como argumentos dichas opciones (por ejemplo, `knitr::opts_chunk$set(echo = FALSE)`).
-
----
-
-# .orange[PRIMER INFORME]: .green[VARIABLES/ECUACIONES]
-
-Por último en este primer documento vamos a añadir una subsección `## Variables y ecuaciones` donde añadiremos un chunk asignando la suma `x + y` a una variable `z`, escribiendo antes en texto el nombre de la variable y la **.bg-purple_light[fórmula]** ($z = x + y$ entre dólares).
-
-
-.pull-left[
-
-```{r echo = FALSE,  out.width = "90%", fig.align = "left", fig.cap = "Añadiendo variables en el .rmd"}
-knitr::include_graphics("./img/variables_rmd.jpg")
-``` 
-
-]
-
-.pull-right[
-
-```{r echo = FALSE,  out.width = "110%", fig.align = "left", fig.cap = "Añadiendo variables en el .rmd"}
-knitr::include_graphics("./img/variables_html.jpg")
-``` 
-
-]
-
-
----
-
-
-name: clase5-caso-I
 
 # .orange[CASO PRÁCTICO]: análisis de Star Wars
 
-Instala el paquete `{dplyr}` y usa el conjunto `starwars` contenido en él mismo (dataset con los personajes de las películas de la saga Star Wars). Deberás **.bg-purple_light[entregar completado]** el archivo `.Rmd` que tienes disponible en <https://github.com/dadosdelaplace/teaching/tree/main/bioestad/eval> **.bg-purple_light[antes de las 23:59 del 27 de septiembre]**, siguiendo las instrucciones contenidas en el mismo.
+Instala el paquete `{dplyr}` y usa el conjunto `starwars` contenido en él mismo (dataset con los personajes de las películas de la saga Star Wars). Deberás **.bg-purple_light[entregar completado]** el archivo `.Rmd` que tienes disponible en <https://github.com/dadosdelaplace/teaching/tree/main/bioestad/eval> **.bg-purple_light[antes de las 23:59 del 29 de septiembre]**, siguiendo las instrucciones contenidas en el mismo.
 
 
 ```{r eval = FALSE}
@@ -5028,11 +5033,11 @@ starwars
 
 ---
 
-name: clase5-caso-II
+name: clase6-caso-II
 
 # .orange[CASO PRÁCTICO]: análisis de gapminder
 
-Instala el paquete `{gapminder}` y usa el conjunto `gapminder` contenido en él mismo (dataset con datos económicos de distintos países). Deberás **.bg-purple_light[entregar completado]** el archivo `.Rmd` que tienes disponible en <https://github.com/dadosdelaplace/teaching/tree/main/bioestad/eval> **.bg-purple_light[antes de las 23:59 del 27 de septiembre]**, siguiendo las instrucciones contenidas en el mismo.
+Instala el paquete `{gapminder}` y usa el conjunto `gapminder` contenido en él mismo (dataset con datos económicos de distintos países). Deberás **.bg-purple_light[entregar completado]** el archivo `.Rmd` que tienes disponible en <https://github.com/dadosdelaplace/teaching/tree/main/bioestad/eval> **.bg-purple_light[antes de las 23:59 del 29 de septiembre]**, siguiendo las instrucciones contenidas en el mismo.
 
 ```{r eval = FALSE}
 install.packages("gapminder")
@@ -5051,21 +5056,19 @@ class: inverse center middle
 
 &nbsp;
 
-#### [CLASE 6](#clase-6)
-
 #### [CLASE 7](#clase-7)
 
 #### [CLASE 8](#clase-8)
 
-#### [ENTREGA II](#clase8-caso-I)
+#### [ENTREGA II (clase 9)](#clase-9)
 
 
 ---
 
 class: inverse center middle
-name: clase-6
+name: clase-7
 
-# CLASE 6: funciones y listas
+# CLASE 7: funciones y listas
 
 &nbsp;
 
@@ -5073,7 +5076,7 @@ name: clase-6
 
 ### [Creando nuestras propias funciones](#funciones)
 
-### [Ejercicios](#ejercicios-6)
+### [Ejercicios](#ejercicios-7)
 
 ---
 
@@ -5729,7 +5732,7 @@ Vamos a practicar un poco las funciones.
 
 ---
 
-name: ejercicios-6
+name: ejercicios-7
 
 # Ejercicios
 
@@ -6051,7 +6054,7 @@ map_lgl(segunda_peli, is.null)
 class: inverse center middle
 name: clase-7
 
-# CLASE 7: IMPORTAR/EXPORTAR. TIDYDATA
+# CLASE 8: IMPORTAR/EXPORTAR. TIDYDATA
 
 &nbsp;
 
@@ -6079,31 +6082,21 @@ name: tidydata
 
 
 class: inverse center middle
-name: clase-8
-
-# CLASE 8: ENTREGA II
-
-&nbsp;
-
-
-### [Caso I: datos electorales (tidydata)](#clase8-caso-I)
-
-### [Caso II: starwars (continuación)](#clase8-caso-II)
-
-### [Caso III: análisis de los datos covid del ISCIII](#clase8-caso-III)
-
----
-
-
-class: inverse center middle
 name: clase-9
 
-# CLASE 9: tidyverse
+# CLASE 9: ENTREGA II
 
 &nbsp;
 
 
+### [Caso I: datos electorales (tidydata)](#clase9-caso-I)
+
+### [Caso II: starwars (continuación)](#clase9-caso-II)
+
+### [Caso III: análisis de los datos covid del ISCIII](#clase9-caso-III)
+
 ---
+
 
 class: inverse center middle
 name: clase-10
