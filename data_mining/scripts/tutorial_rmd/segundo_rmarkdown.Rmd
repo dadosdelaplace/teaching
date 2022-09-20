@@ -1,0 +1,84 @@
+---
+title: "Rmarkdown for dummies"
+description: |
+  (tutorial para aprender)
+author:
+  - name: Javier Álvarez Liébana
+    url: https://ucm.com
+    affiliation: Universidad Complutense de Madrid
+    affiliation_url: https://ucm.com
+date: "`r Sys.Date()`"
+output:
+    distill::distill_article:
+        highlight: kate
+        colorlinks: true
+        code_folding: false
+        toc: true            
+        toc_depth: 3
+---
+
+```{r ajustes, include = FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+```
+
+
+# R Markdown {#intro} 
+
+El formato de escritura [Rmarkdown](https://rmarkdown.rstudio.com/), del paquete `rmarkdown`, nos permite:
+
+* Escribir en `markdown`: lenguaje marcado que nos permite mezclar texto plano, algunos estilos como la **negrita** y la _cursiva_, `variables`.
+* F�rmulas latex en línea como la media muestral $\overline{x} = \sum_{i=1}^{n} x_i f_i$, pero también entornos de ecuaciones
+
+$$\overline{x} = \frac{\displaystyle \sum_{i=1}^{n} x_i}{n}$$
+
+* Código `R`.
+
+## Chunks {#chunks}
+
+Cada archivo `.Rmd` contiene una cabecera (en formato `YAML`) para dar estilo y formato al documento, entre los separadores `---`. El código `R` lo meteremos en lo que llamaremos _chunks_: cajas de c�digo que al renderizar nuestro documento se ejecutarán. 
+
+```{r nombre-chunk}
+# ejemplo de código: todo lo que haya aquí dentro es código R
+a <- 1
+a + 3
+```
+
+También podemos ejecutarlo en l�nea pudiendo poner variables en el texto (`a + 3 =` `r a + 3`). En los _chunks_ de código podemos ponerles un nombre para luego mencionarlos \ref{my_chunk} y tendremos varias opciones:
+
+* `include`: si está en `FALSE`, el código de dentro se ejecuta pero no es muestra en el informe (lo ejecutado sigue en memoria y puede ser usado más tarde).
+
+```{r nombre-chunk2, include = FALSE}
+a <- 1
+a + 3
+```
+
+* `echo`: si está en `FALSE` oculta el código pero no los resultados. Si está en `TRUE` muestra ambas.
+
+```{r nombre-chunk3, echo = TRUE}
+a <- 1
+a + 3
+```
+
+* `message`: si está en `FALSE` oculta los mensajes generados por el código.
+
+* `warning`: si está en `FALSE` oculta los warnings generados por `R`.
+
+```{r nombre-chunk4, warning = TRUE, echo = TRUE}
+# con warning = TRUE
+sqrt(-1)
+```
+
+```{r nombre-chunk5, warning = FALSE, echo = TRUE}
+# con warning = FALSE
+sqrt(-1)
+```
+
+* `fig.cap`: añade un caption a las imágenes generadas
+
+```{r nombre-chunk6, echo = TRUE, fig.cap = "Ejemplo de gráfica"}
+library(tidyverse)
+datos <- tibble("x" = rnorm(1e2), "y" = rnorm(1e2))
+ggplot(datos) + geom_point(aes(x = x, y = y), size = 3)
+```
+
+[Documentación oficial](https://rmarkdown.rstudio.com/)
