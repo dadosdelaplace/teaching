@@ -184,21 +184,26 @@ El **.bg-purple_light[propósito]** de esta asignatura será cuadruple
 # .orange[EVALUACIÓN] de la asignatura
 
 
-El **.bg-purple_light[propósito]** de esta asignatura será triple
+La **.bg-purple_light[evaluación]** del curso se hará mediante entregas:
 
-- **.bg-orange[Quitarnos el miedo]** a programar: a programar se aprende programando, no hace falta ser Julian Assange.
+* El **.bg-orange[40% de la nota]** final corresponderá a pequeñas **.bg-green_light[prácticas individuales]** (entre 2 y 4 prácticas) que se empezarán en clase y se completarán en casa (se deberán entregar ambos archivos).
 
---
+* El otro **.bg-orange[40% de la nota]** vendrá determinado por la entrega de **.bg-green_light[1-2 prácticas grupales]** (mínimo 3, máximo 5 personas). Se podrá solicitar a cualquier persona del grupo que explique el trabajo realizado en una tutoría individual.
 
-- Aprender las **.bg-orange[técnicas básicas de depuración y exploración]** datos, aprendiendo a implementarlas en un software estadístico.
+*  El otro **.bg-orange[20% de la nota]** se asignará en función de un **.bg-green_light[datathon final]** que se realizará de forma grupal (mínimo 2, máximo 4 personas).
 
---
+---
 
-- Aprender las **.bg-orange[técnicas básicas de minería de datos]**, centrándonos en las técnicas de **.bg-orange[aprendizaje supervisado]**.
+# .orange[EVALUACIÓN] de la asignatura
 
-&nbsp;
 
-📚 Estas **diapositivas** han sido elaboradas con el propio `R` haciendo uso de los paquetes `{xaringan}`, `{xaringanExtra}` y `{xaringanthemer}`.
+* Para poder promediar nota es **.bg-red_light[obligatorio]** entregar **.bg-purple_light[todas las entregas individuales]** con una **.bg-green_light[nota superior al 3]** sobre 10, amén de participar en **.bg-purple_light[al menos una entrega grupal]**.
+
+* Además la nota media de las entregas **.bg-red_light[individuales no podrá ser un 50% inferior]** a la media de notas grupales.
+
+
+* En caso de **.bg-red_light[no cumplir dichos requisitos]**, y/o haya faltado a más de un tercio de las clases, tendrá que presentarse a un examen final, cuya
+nota será el 100% de la nota del curso.
 
 ---
 
