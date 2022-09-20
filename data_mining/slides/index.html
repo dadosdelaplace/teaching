@@ -24,7 +24,7 @@ class: center, middle, inverse, title-slide
 # Técnicas de minería de datos
 ## Máster en Minería de Datos e Inteligencia de Negocio
 ### Javier Álvarez Liébana (Fac. Estudios Estadísticos - UCM)
-### Última actualización: 20-09-2022
+### Última actualización: 21-09-2022
 
 ---
 
@@ -133,21 +133,26 @@ El **.bg-purple_light[propósito]** de esta asignatura será cuadruple
 # .orange[EVALUACIÓN] de la asignatura
 
 
-El **.bg-purple_light[propósito]** de esta asignatura será triple
+La **.bg-purple_light[evaluación]** del curso se hará mediante entregas:
 
-- **.bg-orange[Quitarnos el miedo]** a programar: a programar se aprende programando, no hace falta ser Julian Assange.
+* El **.bg-orange[40% de la nota]** final corresponderá a pequeñas **.bg-green_light[prácticas individuales]** (entre 2 y 4 prácticas) que se empezarán en clase y se completarán en casa (se deberán entregar ambos archivos).
 
---
+* El otro **.bg-orange[40% de la nota]** vendrá determinado por la entrega de **.bg-green_light[1-2 prácticas grupales]** (mínimo 3, máximo 5 personas). Se podrá solicitar a cualquier persona del grupo que explique el trabajo realizado en una tutoría individual.
 
-- Aprender las **.bg-orange[técnicas básicas de depuración y exploración]** datos, aprendiendo a implementarlas en un software estadístico.
+*  El otro **.bg-orange[20% de la nota]** se asignará en función de un **.bg-green_light[datathon final]** que se realizará de forma grupal (mínimo 2, máximo 4 personas).
 
---
+---
 
-- Aprender las **.bg-orange[técnicas básicas de minería de datos]**, centrándonos en las técnicas de **.bg-orange[aprendizaje supervisado]**.
+# .orange[EVALUACIÓN] de la asignatura
 
-&amp;nbsp;
 
-📚 Estas **diapositivas** han sido elaboradas con el propio `R` haciendo uso de los paquetes `{xaringan}`, `{xaringanExtra}` y `{xaringanthemer}`.
+* Para poder promediar nota es **.bg-red_light[obligatorio]** entregar **.bg-purple_light[todas las entregas individuales]** con una **.bg-green_light[nota superior al 3]** sobre 10, amén de participar en **.bg-purple_light[al menos una entrega grupal]**.
+
+* Además la nota media de las entregas **.bg-red_light[individuales no podrá ser un 50% inferior]** a la media de notas grupales.
+
+
+* En caso de **.bg-red_light[no cumplir dichos requisitos]**, y/o haya faltado a más de un tercio de las clases, tendrá que presentarse a un examen final, cuya
+nota será el 100% de la nota del curso.
 
 ---
 
@@ -1706,7 +1711,7 @@ hoy
 ```
 
 ```
-&gt; [1] "2022-09-20"
+&gt; [1] "2022-09-21"
 ```
 
 --
@@ -1719,7 +1724,7 @@ También podemos obtener el **.bg-purple_light[«hoy y ahora»]** con la funció
 ```
 
 ```
-&gt; [1] "2022-09-20 23:26:00 CEST"
+&gt; [1] "2022-09-21 00:17:40 CEST"
 ```
  
 ---
@@ -2103,7 +2108,7 @@ hoy - cumple
 ```
 
 ```
-&gt; Time difference of 12063 days
+&gt; Time difference of 12064 days
 ```
 
 ]
@@ -3024,9 +3029,9 @@ x &lt;- rnorm(1e3) # 1000 elementos aleatorias
 
 ```
 &gt; Unit: microseconds
-&gt;         expr    min     lq     mean  median      uq     max neval cld
-&gt;      sort(x) 41.945 44.964 51.39941 46.7410 52.3320 255.575  1000   b
-&gt;  x[order(x)] 29.069 31.370 35.62929 32.8305 36.0705 194.521  1000  a
+&gt;         expr    min      lq     mean  median      uq     max neval cld
+&gt;      sort(x) 42.649 45.5175 55.74486 48.0975 57.0295 183.022  1000   b
+&gt;  x[order(x)] 29.617 31.6710 38.40704 32.9810 37.8625 175.498  1000  a
 ```
 
 --
