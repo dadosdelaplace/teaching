@@ -1,4 +1,4 @@
-Material docente de la asignatura «Software para Gestión de Bases de Datos» (R en bioestadística, Máster de Bioestadística)
+Material docente de la asignatura «Técnicas de minería de datos» (Máster de Minería de Datos e Inteligencia de Negocio)
 ======
 
 [![License:
@@ -19,15 +19,15 @@ GPLv3](https://img.shields.io/badge/license-GPLv3-blue.svg)](https://www.gnu.org
 <img width="470" alt="image" src="https://user-images.githubusercontent.com/26646492/188280216-17bc08b0-fbed-46f1-a042-3fa60f528d8c.png">
 
             
-* **Diapositivas** (https://dadosdelaplace.github.io/teaching/bioestad/slides)
+* **Diapositivas** (https://dadosdelaplace.github.io/teaching/data_mining/slides)
     
-* **Evaluación** (https://github.com/dadosdelaplace/teaching/tree/main/bioestad/eval)
+* **Evaluación** (https://github.com/dadosdelaplace/teaching/tree/main/data_mining/eval)
 
-* **Código diapositivas** (https://github.com/dadosdelaplace/teaching/tree/main/bioestad/slides)
+* **Código diapositivas** (https://github.com/dadosdelaplace/teaching/tree/main/data_mining/slides)
                         
-* **Scripts del curso**: (https://github.com/dadosdelaplace/teaching/tree/main/bioestad/scripts)
+* **Scripts del curso**: (https://github.com/dadosdelaplace/teaching/tree/main/data_mining/scripts)
 
-* **Bibliografía**: (https://github.com/dadosdelaplace/teaching/tree/main/bioestad/biblio)
+* **Bibliografía**: (https://github.com/dadosdelaplace/teaching/tree/main/data_mining/biblio)
 
 * **Manual introductorio de R**: (https://dadosdelaplace.github.io/courses-intro-R/)
 
