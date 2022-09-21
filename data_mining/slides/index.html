@@ -156,6 +156,59 @@ nota será el 100% de la nota del curso.
 
 ---
 
+# .orange[CONTENIDOS] de la asignatura
+
+
+- Las **.bg-purple_light[primeras clases]** las dedicaremos a una **.bg-orange[introducción de la programación]** en R (ya que necesitaremos algunas nociones básicas para poder funcionar) así como **.bg-orange[algunos conceptos básicos de estadística]** (medidas de centralización, dispersión, sesgo/varianza, supervisado vs no supervisado, metolodogía SEMMA, etc).
+
+--
+
+- Metodologías de **.bg-purple_light[aprendizaje supervisado]**:
+  - Algoritmo de los **.bg-orange[k-vecinos (knn)]**: clasificaremos elementos en función de la moda/media de los elementos más cercanos.
+  
+  --
+  
+  - **.bg-orange[Árboles de decisión]**: clasificaremos elementos en función de la moda/media de una partición final (hoja) tras segmentar nuestro espacio de variables (reglas de decisión).
+  
+  --
+  
+  - **.bg-orange[Regresión lineal]**: realizaremos una predicción (variable continua) teniendo como inputs una colección de variables continuas, asumiendo una relación lineal.
+  
+  --
+  
+  - **.bg-orange[Regresión penalizada]**: ¿todas las variables son importantes? ¿Podemos penalizar incluir información superflua?
+  
+  --
+  
+  - **.bg-orange[Regresión logística]**: realizaremos una predicción continua de la probabilidad de que una variable cualitativa tome cada una de las categorías (probabilidad de estar sano o enfermo, por ejemplo).
+  
+  --
+  
+  - **.bg-orange[GLM]**: generalizaremos los modelos lineales vistos hasta ahora (logística y reg. lineal).
+
+---
+
+# .orange[EJEMPLOS] reales de alumnos
+
+
+
+✈️ **.bg-purple_light[Clasificación de vuelos]**: usando, entre otras, variables de tráfico de aereo, tipología de vuelo, variables meteorológicas, se consiguió clasificar el retraso (o no) de 4 millones de vuelos (TFM de Almudena María Moreno Maderuelo)
+
+--
+
+📰 **.bg-purple_light[Clasificación de Fake News]**: usando técnicas de minería de datos aplicadas a textos (minería de textos), se propuso clasificar noticias en verdaderas o falsas, analizando la frecuencia y sentimientos de las palabras analizadas, así como la relación entre las palabras (TFM de Iván Guarionex de Frías Chireno)
+
+--
+
+🩺 **.bg-purple_light[Predicción de diabetes]**: haciendo uso de diferente variables médicas y de hábitos de salud sacados de la encuesta de salud pública de EE.UU., se pretende predecir la aparición o no de diabetes en personas adultos, y determinar posibles factores de riesgo (TFM de María Martínez Ramudo).
+
+--
+
+🗳 **.bg-purple_light[Predicción de encuestas electorales]**: usando el promedio de diferentes encuestas, y considerando diferentes variables sociológicos (como el sesgo de las casas encuestadores), conseguir una predicción del % de voto de cada partido promediando por tamaño de muestra y ventana temporal (TFM de Enric Palau Payeras)
+
+---
+
+
 class: inverse center middle
 
 # CLASES
@@ -1724,7 +1777,7 @@ También podemos obtener el **.bg-purple_light[«hoy y ahora»]** con la funció
 ```
 
 ```
-&gt; [1] "2022-09-21 00:17:40 CEST"
+&gt; [1] "2022-09-21 15:54:26 CEST"
 ```
  
 ---
@@ -3029,9 +3082,9 @@ x &lt;- rnorm(1e3) # 1000 elementos aleatorias
 
 ```
 &gt; Unit: microseconds
-&gt;         expr    min      lq     mean  median      uq     max neval cld
-&gt;      sort(x) 42.649 45.5175 55.74486 48.0975 57.0295 183.022  1000   b
-&gt;  x[order(x)] 29.617 31.6710 38.40704 32.9810 37.8625 175.498  1000  a
+&gt;         expr    min      lq     mean median      uq      max neval cld
+&gt;      sort(x) 40.898 43.9305 52.16976 47.350 53.5645  178.248  1000   b
+&gt;  x[order(x)] 28.588 30.9030 38.36898 33.712 37.1730 1403.977  1000  a
 ```
 
 --
