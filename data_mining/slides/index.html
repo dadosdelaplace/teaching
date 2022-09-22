@@ -24,7 +24,7 @@ class: center, middle, inverse, title-slide
 # Técnicas de minería de datos
 ## Máster en Minería de Datos e Inteligencia de Negocio
 ### Javier Álvarez Liébana (Fac. Estudios Estadísticos - UCM)
-### Última actualización: 21-09-2022
+### Última actualización: 22-09-2022
 
 ---
 
@@ -166,23 +166,13 @@ nota será el 100% de la nota del curso.
 - Metodologías de **.bg-purple_light[aprendizaje supervisado]**:
   - Algoritmo de los **.bg-orange[k-vecinos (knn)]**: clasificaremos elementos en función de la moda/media de los elementos más cercanos.
   
-  --
-  
   - **.bg-orange[Árboles de decisión]**: clasificaremos elementos en función de la moda/media de una partición final (hoja) tras segmentar nuestro espacio de variables (reglas de decisión).
-  
-  --
   
   - **.bg-orange[Regresión lineal]**: realizaremos una predicción (variable continua) teniendo como inputs una colección de variables continuas, asumiendo una relación lineal.
   
-  --
-  
   - **.bg-orange[Regresión penalizada]**: ¿todas las variables son importantes? ¿Podemos penalizar incluir información superflua?
   
-  --
-  
   - **.bg-orange[Regresión logística]**: realizaremos una predicción continua de la probabilidad de que una variable cualitativa tome cada una de las categorías (probabilidad de estar sano o enfermo, por ejemplo).
-  
-  --
   
   - **.bg-orange[GLM]**: generalizaremos los modelos lineales vistos hasta ahora (logística y reg. lineal).
 
@@ -1335,6 +1325,256 @@ rep(0, 7) # vector de 7 ceros
 
 ---
 
+# .green[OPERACIONES] .orange[ARITMÉTICAS]
+ 
+Dado que un **.bg-purple_light[número es un vector]** de longitud 1, toda **.bg-orange[operación aritmética]** (suma, resta, multiplicación, etc) que podamos hacer con un número la vamos a poder a hacer con un vector de números.
+
+--
+
+Si hacemos por ejemplo la operación `2 * x`, siendo `x` un vector, lo que sucederá es que la operación se realizará en **.bg-purple_light[CADA ELEMENTO]** del vector (una sola línea de código paro realizar operaciones en 10, 20, 1000 o 100000 elementos).
+
+
+```r
+# Multiplicamos por 2 a CADA ELEMENTO del vector
+x &lt;- c(2, 4, 6)
+*2 * x
+```
+
+```
+&gt; [1]  4  8 12
+```
+
+--
+
+&amp;nbsp;
+
+**.bg-green_light[IMPORTANTE]**: el **.bg-purple_light[resultado]** de una operación aritmética sobre un vector será **.bg-orange[otro vector]**.
+
+---
+
+# .green[OPERACIONES] .orange[ARITMÉTICAS]
+ 
+ 
+De la misma manera podemos **.bg-purple_light[sumar o restar una constante]** al vector
+
+
+```r
+# Sumamos 3 a CADA ELEMENTO DEL VECTOR
+x + 3
+```
+
+```
+&gt; [1] 5 7 9
+```
+
+--
+
+Los vectores también pueden **.bg-purple_light[interactuar entre ellos]**, así que podemos definir sumas de vectores, como `x + y`
+
+
+```r
+y &lt;- c(1, 3, 5)
+
+# suma de vectores 
+*x + y
+```
+
+```
+&gt; [1]  3  7 11
+```
+
+--
+
+**.bg-green_light[IMPORTANTE]**: salvo que especifiquemos lo contrario, toda operación aritmética que hagas a un vector será **.bg-purple_light[elemento a elemento]**.
+
+ 
+---
+
+
+# .green[OPERACIONES] con .orange[AUSENTES]
+
+Imagina que tenemos un vector de temperaturas pero varios de los días el aparato de medición no funcionaba, por lo que tenemos un **.bg-purple_light[dato ausente]** marcado como `NA`.
+
+
+```r
+x &lt;- c(21, NA, 13, NA, NA, 25, 36, 17, 19, 5)
+sum(x)
+```
+
+```
+&gt; [1] NA
+```
+
+--
+
+Dado que hay días que no tenemos disponibles, la suma tampoco la podemos conocer.  Para evitar que nos impida hacer ciertas operaciones, en muchas funciones de `R` podemos añadir el **argumento** `na.rm = TRUE`: primero elimina ausentes, y luego ejecuta la función.
+
+
+```r
+# eliminando datos ausentes antes de aplicar la función
+*sum(x, na.rm = TRUE)
+```
+
+```
+&gt; [1] 136
+```
+
+```r
+mean(x, na.rm = TRUE)
+```
+
+```
+&gt; [1] 19.42857
+```
+
+
+---
+
+# .green[OPERACIONES] con .orange[AUSENTES]
+
+Para **comprobar** si tenemos un **dato ausente**  podemos hacer uso de la función `is.na()`
+
+
+```r
+is.na(x)
+```
+
+```
+&gt;  [1] FALSE  TRUE FALSE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE
+```
+
+--
+
+También puede aparecernos un **.bg-purple_light[resultado no permitido]**, marcado como `NaN` (not a number): no es un dato ausente, es un dato resultado de una **operación no permitida**.
+
+
+```r
+x &lt;- c(1, NA, 3, 4, 6, 7, sqrt(-1), NA)
+x
+```
+
+```
+&gt; [1]   1  NA   3   4   6   7 NaN  NA
+```
+
+```r
+is.nan(x)
+```
+
+```
+&gt; [1] FALSE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE
+```
+
+
+---
+
+# .orange[SELECCIONAR] elementos
+
+Otra operación muy habitual es la **.bg-purple_light[extraer un subconjunto del mismo]**. La forma más sencilla es **usar el operador de selección** `[i]` para **acceder al elemento i-ésimo**
+
+
+```r
+edades &lt;- c(20, 30, 33, NA, 61)
+
+# accedemos a la edad de la tercera persona en la lista
+*edades[3]
+```
+
+```
+&gt; [1] 33
+```
+
+```r
+# accedemos a la edad de la cuarta persona
+edades[4]
+```
+
+```
+&gt; [1] NA
+```
+
+---
+
+# .orange[SELECCIONAR] elementos
+
+Un número no es más que un vector de longitud uno, así que esta operación también la podemos aplicar usando un **.bg-purple_light[vector de índices a seleccionar]**
+
+
+```r
+# Tercer y cuarto elemento
+*edades[c(3, 4)]
+```
+
+```
+&gt; [1] 33 NA
+```
+
+--
+
+Esta lógica para acceder a elementos también sirve para **vectores de caracteres**.
+
+
+```r
+y &lt;- c("hola", "qué", "tal", "todo", "ok", "?")
+y[1:2]
+```
+
+```
+&gt; [1] "hola" "qué"
+```
+
+--
+
+**.bg-green_light[TIP]**: para **.bg-purple_light[acceder al último elemento]** podemos pasarle como índice la longitud del vector 
+
+
+```r
+y[length(y)] 
+```
+
+```
+&gt; [1] "?"
+```
+
+---
+
+# .green[OPERACIONES] .orange[ARITMÉTICAS]
+ 
+
+Dado que la operación (por ejemplo, una suma) se realiza elemento a elemento, ¿qué sucederá si **.bg-purple_light[sumamos dos vectores de distinta longitud]**?
+
+--
+
+Por ejemplo, definamos `z` con los 4 primeros impares, e intentemos hacer la suma `x + z`.
+
+
+```r
+z &lt;- c(1, 3, 5, 7)
+x + z
+```
+
+```
+&gt; [1]   2  NA   8  11   7  10 NaN  NA
+```
+
+--
+
+.pull-left[
+
+
+&lt;img src="./img/recycle.jpg" width="99%" style="display: block; margin: auto auto auto 0;" /&gt;
+
+
+]
+
+.pull-right[
+
+`R` intenta molestarte lo menos posible, así que lo que hace es **.bg-purple_light[reciclar elementos]**: si tiene un vector de 4 elementos y le intentas sumar uno de 3 elementos, lo que hará será reciclar elementos del vector con menor longitud: hará `1 + 2`, `3 + 4`, `5 + 6` pero… `7 + 2` (vuelve al primero).
+
+]
+
+---
+
 # Vectores: .orange[CARACTERES]
 
 Un vector es una **.bg-purple_light[concatenación de elementos del mismo tipo]**, pero no tienen porque ser necesariamente números. Vamos a crear una frase de ejemplo, con 4 elementos.
@@ -1413,6 +1653,7 @@ glue("La edad es de {edad} años")
 &gt; La edad es de 11 años
 &gt; La edad es de 12 años
 ```
+
 
 ---
 
@@ -1764,7 +2005,7 @@ hoy
 ```
 
 ```
-&gt; [1] "2022-09-21"
+&gt; [1] "2022-09-22"
 ```
 
 --
@@ -1777,7 +2018,7 @@ También podemos obtener el **.bg-purple_light[«hoy y ahora»]** con la funció
 ```
 
 ```
-&gt; [1] "2022-09-21 15:54:26 CEST"
+&gt; [1] "2022-09-22 12:28:13 CEST"
 ```
  
 ---
@@ -2161,7 +2402,7 @@ hoy - cumple
 ```
 
 ```
-&gt; Time difference of 12064 days
+&gt; Time difference of 12065 days
 ```
 
 ]
@@ -2318,108 +2559,6 @@ name:intro-estadística
 
 name: operaciones-vectores
 
-# .green[OPERACIONES] .orange[ARITMÉTICAS]
- 
-Dado que un **.bg-purple_light[número es un vector]** de longitud 1, toda **.bg-orange[operación aritmética]** (suma, resta, multiplicación, etc) que podamos hacer con un número la vamos a poder a hacer con un vector de números.
-
---
-
-Si hacemos por ejemplo la operación `2 * x`, siendo `x` un vector, lo que sucederá es que la operación se realizará en **.bg-purple_light[CADA ELEMENTO]** del vector (una sola línea de código paro realizar operaciones en 10, 20, 1000 o 100000 elementos).
-
-
-```r
-# Multiplicamos por 2 a CADA ELEMENTO del vector
-x &lt;- c(2, 4, 6)
-*2 * x
-```
-
-```
-&gt; [1]  4  8 12
-```
-
---
-
-&amp;nbsp;
-
-**.bg-green_light[IMPORTANTE]**: el **.bg-purple_light[resultado]** de una operación aritmética sobre un vector será **.bg-orange[otro vector]**.
-
----
-
-# .green[OPERACIONES] .orange[ARITMÉTICAS]
- 
- 
-De la misma manera podemos **.bg-purple_light[sumar o restar una constante]** al vector
-
-
-```r
-# Sumamos 3 a CADA ELEMENTO DEL VECTOR
-x + 3
-```
-
-```
-&gt; [1] 5 7 9
-```
-
---
-
-Los vectores también pueden **.bg-purple_light[interactuar entre ellos]**, así que podemos definir sumas de vectores, como `x + y`
-
-
-```r
-y &lt;- c(1, 3, 5)
-
-# suma de vectores 
-*x + y
-```
-
-```
-&gt; [1]  3  7 11
-```
-
---
-
-**.bg-green_light[IMPORTANTE]**: salvo que especifiquemos lo contrario, toda operación aritmética que hagas a un vector será **.bg-purple_light[elemento a elemento]**.
-
- 
----
-
-# .green[OPERACIONES] .orange[ARITMÉTICAS]
- 
-
-Dado que la operación (por ejemplo, una suma) se realiza elemento a elemento, ¿qué sucederá si **.bg-purple_light[sumamos dos vectores de distinta longitud]**?
-
---
-
-Por ejemplo, definamos `z` con los 4 primeros impares, e intentemos hacer la suma `x + z`.
-
-
-```r
-z &lt;- c(1, 3, 5, 7)
-x + z
-```
-
-```
-&gt; [1]  3  7 11  9
-```
-
---
-
-.pull-left[
-
-
-&lt;img src="./img/recycle.jpg" width="99%" style="display: block; margin: auto auto auto 0;" /&gt;
-
-
-]
-
-.pull-right[
-
-`R` intenta molestarte lo menos posible, así que lo que hace es **.bg-purple_light[reciclar elementos]**: si tiene un vector de 4 elementos y le intentas sumar uno de 3 elementos, lo que hará será reciclar elementos del vector con menor longitud: hará `1 + 2`, `3 + 4`, `5 + 6` pero… `7 + 2` (vuelve al primero).
-
-]
-
----
-
 
 # .green[OPERACIONES] .orange[ARITMÉTICAS]
 
@@ -2437,7 +2576,7 @@ x
 ```
 
 ```
-&gt; [1] 2 4 6
+&gt; [1] 15 20 31 27 15 29
 ```
 
 ```r
@@ -2445,7 +2584,7 @@ sum(x &lt; 3)
 ```
 
 ```
-&gt; [1] 1
+&gt; [1] 0
 ```
 
 ---
@@ -2651,153 +2790,6 @@ quantile(y, probs = c(0.2, 0.3, 0.7, 0.9))
 
 ---
 
-# .green[OPERACIONES] con .orange[AUSENTES]
-
-Imagina que tenemos un vector de temperaturas pero varios de los días el aparato de medición no funcionaba, por lo que tenemos un **.bg-purple_light[dato ausente]** marcado como `NA`.
-
-
-```r
-x &lt;- c(21, NA, 13, NA, NA, 25, 36, 17, 19, 5)
-sum(x)
-```
-
-```
-&gt; [1] NA
-```
-
---
-
-Dado que hay días que no tenemos disponibles, la suma tampoco la podemos conocer.  Para evitar que nos impida hacer ciertas operaciones, en muchas funciones de `R` podemos añadir el **argumento** `na.rm = TRUE`: primero elimina ausentes, y luego ejecuta la función.
-
-
-```r
-# eliminando datos ausentes antes de aplicar la función
-*sum(x, na.rm = TRUE)
-```
-
-```
-&gt; [1] 136
-```
-
-```r
-mean(x, na.rm = TRUE)
-```
-
-```
-&gt; [1] 19.42857
-```
-
-
----
-
-# .green[OPERACIONES] con .orange[AUSENTES]
-
-Para **comprobar** si tenemos un **dato ausente**  podemos hacer uso de la función `is.na()`
-
-
-```r
-is.na(x)
-```
-
-```
-&gt;  [1] FALSE  TRUE FALSE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE
-```
-
---
-
-También puede aparecernos un **.bg-purple_light[resultado no permitido]**, marcado como `NaN` (not a number): no es un dato ausente, es un dato resultado de una **operación no permitida**.
-
-
-```r
-x &lt;- c(1, NA, 3, 4, 6, 7, sqrt(-1), NA)
-x
-```
-
-```
-&gt; [1]   1  NA   3   4   6   7 NaN  NA
-```
-
-```r
-is.nan(x)
-```
-
-```
-&gt; [1] FALSE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE
-```
-
-
----
-
-# .orange[SELECCIONAR] elementos
-
-Otra operación muy habitual es la **.bg-purple_light[extraer un subconjunto del mismo]**. La forma más sencilla es **usar el operador de selección** `[i]` para **acceder al elemento i-ésimo**
-
-
-```r
-edades &lt;- c(20, 30, 33, NA, 61)
-
-# accedemos a la edad de la tercera persona en la lista
-*edades[3]
-```
-
-```
-&gt; [1] 33
-```
-
-```r
-# accedemos a la edad de la cuarta persona
-edades[4]
-```
-
-```
-&gt; [1] NA
-```
-
----
-
-# .orange[SELECCIONAR] elementos
-
-Un número no es más que un vector de longitud uno, así que esta operación también la podemos aplicar usando un **.bg-purple_light[vector de índices a seleccionar]**
-
-
-```r
-# Tercer y cuarto elemento
-*edades[c(3, 4)]
-```
-
-```
-&gt; [1] 33 NA
-```
-
---
-
-Esta lógica para acceder a elementos también sirve para **vectores de caracteres**.
-
-
-```r
-y &lt;- c("hola", "qué", "tal", "todo", "ok", "?")
-y[1:2]
-```
-
-```
-&gt; [1] "hola" "qué"
-```
-
---
-
-**.bg-green_light[TIP]**: para **.bg-purple_light[acceder al último elemento]** podemos pasarle como índice la longitud del vector 
-
-
-```r
-y[length(y)] 
-```
-
-```
-&gt; [1] "?"
-```
-
----
-
 
 # Valores .orange[UNICOS]
 
@@ -2820,7 +2812,7 @@ y
 ```
 
 ```
-&gt; [1] "hola" "qué"  "tal"  "todo" "ok"   "?"
+&gt;  [1]  1  2  5  5 10 10 10 13 15 20 25
 ```
 
 ```r
@@ -2828,7 +2820,7 @@ y[-2]
 ```
 
 ```
-&gt; [1] "hola" "tal"  "todo" "ok"   "?"
+&gt;  [1]  1  5  5 10 10 10 13 15 20 25
 ```
 
 ---
@@ -3082,26 +3074,9 @@ x &lt;- rnorm(1e3) # 1000 elementos aleatorias
 
 ```
 &gt; Unit: microseconds
-&gt;         expr    min      lq     mean median      uq      max neval cld
-&gt;      sort(x) 40.898 43.9305 52.16976 47.350 53.5645  178.248  1000   b
-&gt;  x[order(x)] 28.588 30.9030 38.36898 33.712 37.1730 1403.977  1000  a
-```
-
---
-
-# .orange[DIFERENCIA] de conjuntos
- 
-Por último, una función muy útil para ver las **.bg-purple_light[diferencias entre dos conjuntos]** es `setdiff()`, una función que nos devuelve los elementos distintos entre dos conjuntos.
-
-
-```r
-y &lt;- 1:10
-z &lt;- c(1, 3, 7, 10)
-setdiff(y, z)
-```
-
-```
-&gt; [1] 2 4 5 6 8 9
+&gt;         expr    min      lq     mean  median      uq     max neval cld
+&gt;      sort(x) 44.079 50.2165 65.49462 54.2240 72.3320 228.332  1000   b
+&gt;  x[order(x)] 30.345 35.0090 45.42156 38.0935 50.1085 159.693  1000  a
 ```
 
 
@@ -3547,39 +3522,6 @@ rbind(datos_matriz, c(27, 620125780, 28051))
 &gt; [6,]     87 914727164 25073
 &gt; [7,]     73        NA 17140
 &gt; [8,]     27 620125780 28051
-```
-
----
-
-# .orange[MATRICES]: transpuesta
-
-También podemos «darle vuelta» (**.bg-purple_light[matriz transpuesta]**) con `t()`.
-
-
-```r
-datos_matriz
-```
-
-```
-&gt;      edades       tlf    cp
-&gt; [1,]     14        NA 33007
-&gt; [2,]     24 683839390 28019
-&gt; [3,]     56 621539732 37005
-&gt; [4,]     31 618211286 18003
-&gt; [5,]     20        NA 33091
-&gt; [6,]     87 914727164 25073
-&gt; [7,]     73        NA 17140
-```
-
-```r
-*t(datos_matriz)
-```
-
-```
-&gt;         [,1]      [,2]      [,3]      [,4]  [,5]      [,6]  [,7]
-&gt; edades    14        24        56        31    20        87    73
-&gt; tlf       NA 683839390 621539732 618211286    NA 914727164    NA
-&gt; cp     33007     28019     37005     18003 33091     25073 17140
 ```
 
 ---
@@ -4120,6 +4062,7 @@ apply(x, MARGIN = 2, FUN = sum)
 ]
 
 
+
 ---
 
 # Ejercicios extras (matrices y vectores)
@@ -4219,6 +4162,7 @@ apply(matriz, MARGIN = 1, FUN = "sum")
 
 ]
 
+---
 
 name: data.frame
 
@@ -5495,6 +5439,14 @@ dim(gapminder)
 ]
 
 ]
+
+---
+
+class: inverse center middle
+name: clase-3
+
+# CLASE 3: tidydata. Rmd. Funciones.
+
 
 ---
 
