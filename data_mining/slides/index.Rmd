@@ -259,7 +259,8 @@ class: inverse center middle
 
 #### [CLASE 1: INTRODUCCIÓN A R](#clase-1)
 
-#### [CLASE 2: PRIMEROS DATOS](#clase-2)
+#### [CLASE 2: PRIMEROS DATOS. PRIMEROS CONCEPTOS](#clase-2)
+
 
 ---
 
@@ -1964,23 +1965,16 @@ name: clase-2
 
 &nbsp;
 
-### [Intro estadística](#intro-estadistica)
-
 ### [Operaciones con vectores](#operaciones-vectores)
 
 ### [Matrices](#matrices)
-
-### [Ejercicios matrices](#ejercicios-matrices)
 
 ### [data.frame y tibble](#data.frame)
 
 ### [Ejercicios datasets](#ejercicios-tibble)
 
----
+### [Intro estadística](#intro-estadistica)
 
-name:intro-estadística
-
-# Introducción a la .orange[ESTADÍSTICA]
 
 
 ---
@@ -3654,10 +3648,193 @@ dim(gapminder)
 
 ---
 
+name: intro-estadistica
+
+# Introducción a la .orange[ESTADÍSTICA]
+
+```{r echo = FALSE,  out.width = "50%", fig.align = "center"}
+knitr::include_graphics("./img/tellme.jpg")
+``` 
+
+
+---
+
+# Introducción a la .orange[ESTADÍSTICA]
+
+.pull-left[
+
+**.bg-purple_light[¿Qué es la estadística?]** Según la RAE...
+
+* **.bg-purple_light[Estudio de los datos]** cuantitativos de la población, de los recursos naturales e industriales, del tráfico o de cualquier otra manifestación de las sociedades
+
+* **.bg-purple_light[Rama de la matemática]** que utiliza grandes conjuntos de datos numéricos para obtener inferencias basadas en el cálculo de probabilidades.
+
+]
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "90%", fig.align = "center"}
+knitr::include_graphics("./img/perez_reverte.jpg")
+``` 
+
+]
+
+---
+
+# Introducción a la .orange[ESTADÍSTICA]
+
+.pull-left[
+
+**.bg-purple_light[¿Qué es la estadística?]** Según la RAE...
+
+* **.bg-purple_light[Estudio de los datos]** cuantitativos de la población, de los recursos naturales e industriales, del tráfico o de cualquier otra manifestación de las sociedades
+
+* **.bg-purple_light[Rama de la matemática]** que utiliza grandes conjuntos de datos numéricos para obtener inferencias basadas en el cálculo de probabilidades.
+
+]
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "51%", fig.align = "center"}
+knitr::include_graphics("./img/perez_reverte.jpg")
+``` 
+
+]
+
+
+> «La estadística está caracterizada por una información acerca de un colectivo o universo, lo que constituye su objeto material; un modo propio de razonamiento, el método estadístico, lo que constituye su objeto formal y unas previsiones de cara al futuro, lo que implica un ambiente de incertidumbre» (Cabriá, 1994). 
+
+---
+
+# Introducción a la .orange[ESTADÍSTICA]
+
+.pull-left[
+
+La **.bg-purple_light[estadística]** como ciencia nació como una **.bg-purple_light[ciencia del Estado]**, de hecho nuestra palabra actual viene de dos palabras previas
+
+* del término (neo)latino «statisticum collegium»: consejo de Estado.
+* del alemán **.bg-purple_light[«statistik»]** (ciencia del Estado), término introducido por G. Achenwall.
+
+&nbsp;
+
+En su origen fue una desarrollada como una mera **.bg-purple_light[herramienta para la administración eficiente]** de la sociedad.
+
+]
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "95%", fig.align = "left"}
+knitr::include_graphics("./img/biblia.jpg")
+``` 
+
+]
+
+---
+
+# Introducción a la .orange[ESTADÍSTICA]
+
+.pull-left[
+
+Los **.bg-purple_light[primeros usos]** documentados son de hecho para elaborar **.bg-purple_light[censos y de uso militar]** en Mesopotamia, China y Egipto, con el objetivo de tener un **.bg-purple_light[recuento y organización de recursos]**
+
+* Cobrar **impuestos**
+* Repartir **tierras**
+* Reclutar **soldados**
+
+&nbsp;
+
+Según Tucídides, conceptos como la **.bg-purple_light[moda]** ya existían en el siglo V a.C.: para asaltar la muralla de Platea, se usaba la estadística para el recuento de ladrillos de la muralla y aproximar su altura.
+
+]
+
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "95%", fig.align = "left"}
+knitr::include_graphics("./img/census.jpg")
+``` 
+
+]
+
+
+---
+
+# Introducción a la .orange[ESTADÍSTICA]
+
+El **.bg-purple_light[objetivo principal]** de la estadística, ayudada por la probabilidad, es **.bg-purple_light[analizar datos y fenómenos]** cuyo mecanismo subyacente suele ser un experimento aleatorio.
+
+--
+
+### Experimento .green[ALEATORIO]
+
+Un experimento se puede clasificar principalmente en
+
+* **.bg-purple_light[Determinista]**: con las mismas condiciones iniciales, se obtiene el mismo resultado. Por ejemplo, el movimiento parabólico de un proyectil sin rozamiento.
+
+* **.bg-purple_light[Aleatorio]**: con las mismas condiciones iniciales, se pueden obtener resultados diferentes. Por ejemplo, el tiempo entre clientes que entran en un establecimiento.
+
+---
+
+# Introducción a la .orange[ESTADÍSTICA]
+
+
+Un error muy habitual es interpretar lo «aleatorio» como **.bg-purple_light[equiprobable]**: un suceso aleatorio **.bg-red_light[NO IMPLICA]** que todas sus opciones tengan la misma probabilidad de suceder.
+
+* **.bg-purple_light[Aleatorio]**: el resultado individual inmediato no se puede asegurar con total certeza (tenemos **.bg-orange[incertidumbre]**)
+
+* **.bg-purple_light[Sucesos equiprobables]**: colección de sucesos de una variable aleatoria cuya probabilidad de suceder es la misma para todos ellos.
+
+--
+
+**.bg-green_light[RECUERDA]**: un **dado trucado** sigue siendo aleatorio, igual de aleatorio que un dado sin trucar. No hay algo más o menos aleatorio, solo **.bg-purple_light[diferentes distribuciones de probabilidad]** que modelizan los sucesos.
+
+---
+
+# .green[POBLACIÓN] vs .orange[MUESTRA]
+
+.pull-left[
+
+**.bg-green_light[POBLACIÓN]**
+
+Una población será el conjunto total o **.bg-purple_light[colectivo de individuos factibles de estudiar]**, o de posibles elementos/eventos de los podríamos tener observaciones (por ejemplo, 47 millones de españoles). 
+
+Es nuestro **.bg-purple_light[universo teórico]**, y nuestro objetivo será conocer algunas de las propiedades de esa población.
+
+&nbsp;
+
+**.bg-green_light[INDIVIDUO]**
+
+Cada uno de los elementos o eventos de la población.
+
+]
+
+.pull-right[
+
+**.bg-orange[MUESTRA (SAMPLE)]**
+
+Dado que la **.bg-red_light[población suele ser inaccesible]** en su totalidad (no podemos medir a TODA la población), debemos realizar una **.bg-purple_light[selección]** de un conjunto de individuos
+
+Dicho subconjunto será siempre de **.bg-purple_light[tamaño finito n]**, de forma que la muestra sea de alguna manera **.bg-purple_light[«representativa»]** de la población (bien a lo largo de los individuos, bien a lo largo del tiempo). Un estudio estadístico realizado sobre la totalidad de una población se denomina censo. 
+
+
+]
+
+---
+
+# .green[POBLACIÓN] vs .orange[MUESTRA]
+
+
+```{r echo = FALSE,  out.width = "55%", fig.align = "center"}
+knitr::include_graphics("./img/poblacion_muestra.jpg")
+``` 
+
+
+---
+
 class: inverse center middle
 name: clase-3
 
-# CLASE 3: tidydata. Rmd. Funciones.
+# CLASE 3: Funciones. 
 
 
 ---
