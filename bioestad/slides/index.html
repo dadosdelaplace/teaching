@@ -1726,7 +1726,7 @@ También podemos obtener el **.bg-purple_light[«hoy y ahora»]** con la funció
 ```
 
 ```
-&gt; [1] "2022-09-26 14:09:09 CEST"
+&gt; [1] "2022-09-26 14:14:17 CEST"
 ```
  
 ---
@@ -3024,9 +3024,9 @@ x &lt;- rnorm(1e3) # 1000 elementos aleatorias
 
 ```
 &gt; Unit: microseconds
-&gt;         expr    min     lq     mean median      uq     max neval cld
-&gt;      sort(x) 42.853 46.487 54.53250 49.923 54.5755 231.486  1000   b
-&gt;  x[order(x)] 29.811 32.291 37.48293 35.204 38.3335 109.612  1000  a
+&gt;         expr    min     lq     mean median     uq     max neval cld
+&gt;      sort(x) 42.764 46.335 69.01815 55.362 78.184 370.646  1000   b
+&gt;  x[order(x)] 30.070 32.552 47.62664 38.507 55.253 180.330  1000  a
 ```
 
 --
@@ -6274,12 +6274,12 @@ microbenchmark(x^2,
 
 ```
 &gt; Unit: nanoseconds
-&gt;                                     expr     min      lq        mean  median
-&gt;                                      x^2     365     473    1601.001    1188
-&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 1713047 1948837 2884193.027 2140243
-&gt;       uq      max neval cld
-&gt;     2309    37450  1000  a 
-&gt;  2612150 77512666  1000   b
+&gt;                                     expr     min      lq        mean    median
+&gt;                                      x^2     394     508    1340.994     902.5
+&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 1909155 2138852 2528236.850 2308326.5
+&gt;         uq      max neval cld
+&gt;     2043.5    10019  1000  a 
+&gt;  2648467.5 13651825  1000   b
 ```
 
 ---
@@ -6592,7 +6592,7 @@ sample(x = 0:1, size = 30, replace = TRUE)
 ```
 
 ```
-&gt;  [1] 0 0 0 0 0 0 0 0 1 0 1 1 0 0 1 1 0 0 1 1 1 0 0 0 1 1 0 0 0 1
+&gt;  [1] 0 1 1 1 1 1 0 1 0 1 0 0 0 0 1 0 1 1 1 1 1 1 0 0 1 1 1 1 1 1
 ```
 
 ---
@@ -6620,7 +6620,7 @@ sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
 ```
 
 ```
-&gt;  [1] "cara" "cara" "cruz" "cruz" "cara" "cara" "cruz" "cruz" "cruz" "cruz"
+&gt;  [1] "cara" "cruz" "cruz" "cara" "cruz" "cara" "cruz" "cara" "cruz" "cara"
 ```
 
 ---
@@ -7194,7 +7194,7 @@ name: clase-6
 
 # .orange[CASO PRÁCTICO]: análisis de Star Wars
 
-Instala el paquete `{dplyr}` y usa el conjunto `starwars` contenido en él mismo (dataset con los personajes de las películas de la saga Star Wars). Deberás **.bg-purple_light[entregar completado]** el archivo `.Rmd` que tienes disponible en &lt;https://github.com/dadosdelaplace/teaching/tree/main/bioestad/eval&gt; **.bg-purple_light[antes de las 23:59 del 27 de septiembre]**, siguiendo las instrucciones contenidas en el mismo.
+Instala el paquete `{dplyr}` y usa el conjunto `starwars` contenido en él mismo (dataset con los personajes de las películas de la saga Star Wars). Deberás **.bg-purple_light[entregar completado]** el archivo `.Rmd` que tienes disponible en &lt;https://github.com/dadosdelaplace/teaching/tree/main/bioestad/eval&gt; **.bg-purple_light[antes de las 23:59 del 29 de septiembre]**, siguiendo las instrucciones contenidas en el mismo.
 
 
 
@@ -7212,7 +7212,7 @@ name: clase6-caso-II
 
 # .orange[CASO PRÁCTICO]: análisis de gapminder
 
-Instala el paquete `{gapminder}` y usa el conjunto `gapminder` contenido en él mismo (dataset con datos económicos de distintos países). Deberás **.bg-purple_light[entregar completado]** el archivo `.Rmd` que tienes disponible en &lt;https://github.com/dadosdelaplace/teaching/tree/main/bioestad/eval&gt; **.bg-purple_light[antes de las 23:59 del 27 de septiembre]**, siguiendo las instrucciones contenidas en el mismo.
+Instala el paquete `{gapminder}` y usa el conjunto `gapminder` contenido en él mismo (dataset con datos económicos de distintos países). Deberás **.bg-purple_light[entregar completado]** el archivo `.Rmd` que tienes disponible en &lt;https://github.com/dadosdelaplace/teaching/tree/main/bioestad/eval&gt; **.bg-purple_light[antes de las 23:59 del 29 de septiembre]**, siguiendo las instrucciones contenidas en el mismo.
 
 
 ```r
@@ -7608,12 +7608,12 @@ microbenchmark(sqrt(x), for (i in 1:1000) { y[i] &lt;- sqrt(x[i]) }, times = 1e3
 
 ```
 &gt; Unit: microseconds
-&gt;                                          expr      min       lq        mean
-&gt;                                       sqrt(x)    2.254    2.804    3.709983
-&gt;  for (i in 1:1000) {     y[i] &lt;- sqrt(x[i]) } 1728.183 1890.194 2235.947934
+&gt;                                          expr      min        lq        mean
+&gt;                                       sqrt(x)    2.390    2.9505    4.053388
+&gt;  for (i in 1:1000) {     y[i] &lt;- sqrt(x[i]) } 1847.315 1958.4515 2278.924975
 &gt;     median       uq       max neval cld
-&gt;     3.2685    3.800    29.474  1000  a 
-&gt;  2028.9975 2310.751 15359.502  1000   b
+&gt;     3.6585    4.199    26.399  1000  a 
+&gt;  2076.4520 2357.533 11803.727  1000   b
 ```
 
 
@@ -7697,11 +7697,11 @@ microbenchmark(map(x, .f = function(x) { mean(x^2) }), lapply(x, FUN = function(
 ```
 &gt; Unit: milliseconds
 &gt;                                            expr      min       lq     mean
-&gt;      map(x, .f = function(x) {     mean(x^2) }) 5.454343 6.201969 8.277484
-&gt;  lapply(x, FUN = function(x) {     mean(x^2) }) 5.284731 6.033712 8.180990
-&gt;    median       uq      max neval cld
-&gt;  7.181385 7.890333 169.7563  1000   a
-&gt;  7.045108 7.787091  43.3406  1000   a
+&gt;      map(x, .f = function(x) {     mean(x^2) }) 5.352723 6.328077 8.536631
+&gt;  lapply(x, FUN = function(x) {     mean(x^2) }) 5.297683 6.277282 8.464447
+&gt;    median       uq       max neval cld
+&gt;  7.260383 8.278403 179.14476  1000   a
+&gt;  7.231899 8.136898  44.52762  1000   a
 ```
 
 
