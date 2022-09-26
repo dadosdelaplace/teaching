@@ -1758,10 +1758,6 @@ name: clase-3
 
 ### [Ejercicios matrices](#ejercicios-matrices)
 
-### [data.frame y tibble](#data.frame)
-
-### [Ejercicios datasets](#ejercicios-tibble)
-
 ---
 
 name: operaciones-vectores
@@ -4897,7 +4893,7 @@ while (conteo < 6) {
 .panelset[
 .panel[.panel-name[Ejercicios]
 
-* 📝 **Ejercicio 5**: diseña un bucle `for` de 200 iteraciones que, empezando en un valor inicial de 100 (euros), te sume 3€ si el número actual de la iteración es par, y te reste 5€ si es impar (investiga la función `%%`).
+* 📝 **Ejercicio 5**: diseña un bucle `for` de 200 iteraciones que, empezando en un valor inicial de 100 (euros), te sume 3€ (actualizando el valor) si el número actual de la iteración es par, y te reste 5€ si es impar (investiga la función `%%`).
 
 * 📝 **Ejercicio 6**: diseña el anterior bucle pero guardando el dinero de cada iteración en alguna variable
  
@@ -4920,7 +4916,9 @@ Un número par será todo aquel número que al dividir entre 2, la división es 
 dinero <- 100
 
 for (i in 1:200) {
-  dinero <- ifelse(dinero %% 2 == 0, dinero + 3, dinero  - 5)
+  
+  dinero <- ifelse(i %% 2 == 0, dinero + 3, dinero  - 5)
+  
 }
 dinero
 ```
@@ -4937,8 +4935,8 @@ dinero[1] <- 100 # dinero inicial
 # Bucle for
 for (i in 2:201) {
   
-  # si dinero[i - 1] es par o  impar
-  dinero[i] <- ifelse(dinero[i - 1] %% 2 == 0, dinero[i - 1] + 3,
+  # si i es par o  impar
+  dinero[i] <- ifelse(i %% 2 == 0, dinero[i - 1] + 3,
                       dinero[i - 1]  - 5)
   
 }
@@ -4955,7 +4953,7 @@ dinero <- 100 # dinero inicial
 # Bucle while
 while (dinero > 0) {
   
-  dinero <- ifelse(dinero %% 2 == 0, dinero + 3, dinero - 5)
+  dinero <- ifelse(i %% 2 == 0, dinero + 3, dinero - 5)
   
 }
 dinero
@@ -4966,7 +4964,7 @@ dinero
 .panel[.panel-name[Sol. ej. 8]
 
 
-* 📝 **Ejercicio 8**: haciendo uso de `sample()`, simula la tirada de 100 dados (cada uno de 6 caras), pero de forma que el dado esté trucado, y calcula la media de las tiradas.
+* 📝 **Ejercicio 8**: haciendo uso de `sample()`, simula la tirada de 100 dados (cada uno de 6 caras), pero de forma que el dado esté trucado (decide tú cómo), y calcula la media de las tiradas.
 
 ```{r}
 # dado sin trucar
@@ -5008,9 +5006,11 @@ medias
 class: inverse center middle
 name: clase-6
 
-# CLASE 6: ENTREGA I
+# CLASE 6: TIDYDATA. ENTREGA I
 
 &nbsp;
+
+### [Tidydata: datos limpios](#tidydata)
 
 ### [Caso práctico: starwars](#clase6-caso-I)
 
@@ -6052,15 +6052,19 @@ map_lgl(segunda_peli, is.null)
 ---
 
 class: inverse center middle
-name: clase-7
+name: clase-8
 
-# CLASE 8: IMPORTAR/EXPORTAR. TIDYDATA
+# CLASE 8: IMPORTAR/EXPORTAR. ENTREGA II
 
 &nbsp;
 
 ### [Importar/exportar datos](#importar-exportar)
 
-### [Tidydata](#tidydata)
+### [Caso I: datos electorales (tidydata)](#clase8-caso-I)
+
+### [Caso II: starwars (continuación)](#clase8-caso-II)
+
+### [Caso III: análisis de los datos covid del ISCIII](#clase8-caso-III)
 
 
 ---
@@ -6069,14 +6073,6 @@ name: importar-exportar
 
 #  .orange[IMPORTANDO] datos
 
----
-
-
-name: tidydata
-
-#  .orange[LIMPIANDO] datos
-
-
 
 ---
 
@@ -6084,24 +6080,7 @@ name: tidydata
 class: inverse center middle
 name: clase-9
 
-# CLASE 9: ENTREGA II
-
-&nbsp;
-
-
-### [Caso I: datos electorales (tidydata)](#clase9-caso-I)
-
-### [Caso II: starwars (continuación)](#clase9-caso-II)
-
-### [Caso III: análisis de los datos covid del ISCIII](#clase9-caso-III)
-
----
-
-
-class: inverse center middle
-name: clase-10
-
-# CLASE 10: tidyverse
+# CLASE 9: tidyverse
 
 &nbsp;
 

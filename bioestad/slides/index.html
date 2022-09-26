@@ -1726,7 +1726,7 @@ También podemos obtener el **.bg-purple_light[«hoy y ahora»]** con la funció
 ```
 
 ```
-&gt; [1] "2022-09-26 14:14:17 CEST"
+&gt; [1] "2022-09-26 19:56:27 CEST"
 ```
  
 ---
@@ -2251,10 +2251,6 @@ name: clase-3
 ### [Matrices](#matrices)
 
 ### [Ejercicios matrices](#ejercicios-matrices)
-
-### [data.frame y tibble](#data.frame)
-
-### [Ejercicios datasets](#ejercicios-tibble)
 
 ---
 
@@ -3024,9 +3020,9 @@ x &lt;- rnorm(1e3) # 1000 elementos aleatorias
 
 ```
 &gt; Unit: microseconds
-&gt;         expr    min     lq     mean median     uq     max neval cld
-&gt;      sort(x) 42.764 46.335 69.01815 55.362 78.184 370.646  1000   b
-&gt;  x[order(x)] 30.070 32.552 47.62664 38.507 55.253 180.330  1000  a
+&gt;         expr    min      lq     mean median      uq     max neval cld
+&gt;      sort(x) 43.845 48.9870 61.83178 55.028 62.1900 247.304  1000   b
+&gt;  x[order(x)] 30.696 34.8525 42.79342 38.779 42.7085 175.829  1000  a
 ```
 
 --
@@ -6274,12 +6270,12 @@ microbenchmark(x^2,
 
 ```
 &gt; Unit: nanoseconds
-&gt;                                     expr     min      lq        mean    median
-&gt;                                      x^2     394     508    1340.994     902.5
-&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 1909155 2138852 2528236.850 2308326.5
-&gt;         uq      max neval cld
-&gt;     2043.5    10019  1000  a 
-&gt;  2648467.5 13651825  1000   b
+&gt;                                     expr     min      lq      mean  median
+&gt;                                      x^2     339     439    1048.1    1029
+&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 1657735 1767348 2067981.5 1873590
+&gt;       uq      max neval cld
+&gt;     1472    18587  1000  a 
+&gt;  2141000 15597522  1000   b
 ```
 
 ---
@@ -6557,7 +6553,7 @@ sample(x = 0:1, size = 2)
 ```
 
 ```
-&gt; [1] 0 1
+&gt; [1] 1 0
 ```
 
 **.bg-red_light[IMPORTANTE]**: si no indicamos nada en el vector de probabilidades `prob`, asume que son equiprobables (en este caso, `\(1/2\)` para cada cara).
@@ -6592,7 +6588,7 @@ sample(x = 0:1, size = 30, replace = TRUE)
 ```
 
 ```
-&gt;  [1] 0 1 1 1 1 1 0 1 0 1 0 0 0 0 1 0 1 1 1 1 1 1 0 0 1 1 1 1 1 1
+&gt;  [1] 0 0 1 1 1 1 0 0 1 0 0 1 1 0 1 1 1 1 0 1 1 0 0 0 1 0 1 0 0 1
 ```
 
 ---
@@ -6607,7 +6603,7 @@ sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
 ```
 
 ```
-&gt;  [1] "cruz" "cara" "cruz" "cara" "cruz" "cara" "cara" "cruz" "cara" "cruz"
+&gt;  [1] "cruz" "cara" "cara" "cara" "cruz" "cruz" "cara" "cruz" "cruz" "cruz"
 ```
 
 --
@@ -6620,7 +6616,7 @@ sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
 ```
 
 ```
-&gt;  [1] "cara" "cruz" "cruz" "cara" "cruz" "cara" "cruz" "cara" "cruz" "cara"
+&gt;  [1] "cruz" "cruz" "cruz" "cruz" "cruz" "cruz" "cara" "cruz" "cara" "cara"
 ```
 
 ---
@@ -7003,7 +6999,7 @@ while (conteo &lt; 6) {
 .panelset[
 .panel[.panel-name[Ejercicios]
 
-* 📝 **Ejercicio 5**: diseña un bucle `for` de 200 iteraciones que, empezando en un valor inicial de 100 (euros), te sume 3€ si el número actual de la iteración es par, y te reste 5€ si es impar (investiga la función `%%`).
+* 📝 **Ejercicio 5**: diseña un bucle `for` de 200 iteraciones que, empezando en un valor inicial de 100 (euros), te sume 3€ (actualizando el valor) si el número actual de la iteración es par, y te reste 5€ si es impar (investiga la función `%%`).
 
 * 📝 **Ejercicio 6**: diseña el anterior bucle pero guardando el dinero de cada iteración en alguna variable
  
@@ -7027,7 +7023,9 @@ Un número par será todo aquel número que al dividir entre 2, la división es 
 dinero &lt;- 100
 
 for (i in 1:200) {
-  dinero &lt;- ifelse(dinero %% 2 == 0, dinero + 3, dinero  - 5)
+  
+  dinero &lt;- ifelse(i %% 2 == 0, dinero + 3, dinero  - 5)
+  
 }
 dinero
 ```
@@ -7049,8 +7047,8 @@ dinero[1] &lt;- 100 # dinero inicial
 # Bucle for
 for (i in 2:201) {
   
-  # si dinero[i - 1] es par o  impar
-  dinero[i] &lt;- ifelse(dinero[i - 1] %% 2 == 0, dinero[i - 1] + 3,
+  # si i es par o  impar
+  dinero[i] &lt;- ifelse(i %% 2 == 0, dinero[i - 1] + 3,
                       dinero[i - 1]  - 5)
   
 }
@@ -7085,7 +7083,7 @@ dinero &lt;- 100 # dinero inicial
 # Bucle while
 while (dinero &gt; 0) {
   
-  dinero &lt;- ifelse(dinero %% 2 == 0, dinero + 3, dinero - 5)
+  dinero &lt;- ifelse(i %% 2 == 0, dinero + 3, dinero - 5)
   
 }
 dinero
@@ -7100,7 +7098,7 @@ dinero
 .panel[.panel-name[Sol. ej. 8]
 
 
-* 📝 **Ejercicio 8**: haciendo uso de `sample()`, simula la tirada de 100 dados (cada uno de 6 caras), pero de forma que el dado esté trucado, y calcula la media de las tiradas.
+* 📝 **Ejercicio 8**: haciendo uso de `sample()`, simula la tirada de 100 dados (cada uno de 6 caras), pero de forma que el dado esté trucado (decide tú cómo), y calcula la media de las tiradas.
 
 
 ```r
@@ -7182,9 +7180,11 @@ medias
 class: inverse center middle
 name: clase-6
 
-# CLASE 6: ENTREGA I
+# CLASE 6: TIDYDATA. ENTREGA I
 
 &amp;nbsp;
+
+### [Tidydata: datos limpios](#tidydata)
 
 ### [Caso práctico: starwars](#clase6-caso-I)
 
@@ -7608,12 +7608,12 @@ microbenchmark(sqrt(x), for (i in 1:1000) { y[i] &lt;- sqrt(x[i]) }, times = 1e3
 
 ```
 &gt; Unit: microseconds
-&gt;                                          expr      min        lq        mean
-&gt;                                       sqrt(x)    2.390    2.9505    4.053388
-&gt;  for (i in 1:1000) {     y[i] &lt;- sqrt(x[i]) } 1847.315 1958.4515 2278.924975
-&gt;     median       uq       max neval cld
-&gt;     3.6585    4.199    26.399  1000  a 
-&gt;  2076.4520 2357.533 11803.727  1000   b
+&gt;                                          expr      min       lq        mean
+&gt;                                       sqrt(x)    2.236    2.740    3.815479
+&gt;  for (i in 1:1000) {     y[i] &lt;- sqrt(x[i]) } 1721.171 1836.448 2114.467344
+&gt;    median       uq      max neval cld
+&gt;     3.214    3.694    36.72  1000  a 
+&gt;  1930.402 2169.883 15259.40  1000   b
 ```
 
 
@@ -7697,11 +7697,11 @@ microbenchmark(map(x, .f = function(x) { mean(x^2) }), lapply(x, FUN = function(
 ```
 &gt; Unit: milliseconds
 &gt;                                            expr      min       lq     mean
-&gt;      map(x, .f = function(x) {     mean(x^2) }) 5.352723 6.328077 8.536631
-&gt;  lapply(x, FUN = function(x) {     mean(x^2) }) 5.297683 6.277282 8.464447
+&gt;      map(x, .f = function(x) {     mean(x^2) }) 5.435344 6.040463 8.009342
+&gt;  lapply(x, FUN = function(x) {     mean(x^2) }) 5.226323 5.926049 7.942847
 &gt;    median       uq       max neval cld
-&gt;  7.260383 8.278403 179.14476  1000   a
-&gt;  7.231899 8.136898  44.52762  1000   a
+&gt;  6.971737 7.719814 175.86199  1000   a
+&gt;  6.865768 7.661309  49.52038  1000   a
 ```
 
 
@@ -8857,15 +8857,19 @@ map_lgl(segunda_peli, is.null)
 ---
 
 class: inverse center middle
-name: clase-7
+name: clase-8
 
-# CLASE 8: IMPORTAR/EXPORTAR. TIDYDATA
+# CLASE 8: IMPORTAR/EXPORTAR. ENTREGA II
 
 &amp;nbsp;
 
 ### [Importar/exportar datos](#importar-exportar)
 
-### [Tidydata](#tidydata)
+### [Caso I: datos electorales (tidydata)](#clase8-caso-I)
+
+### [Caso II: starwars (continuación)](#clase8-caso-II)
+
+### [Caso III: análisis de los datos covid del ISCIII](#clase8-caso-III)
 
 
 ---
@@ -8874,14 +8878,6 @@ name: importar-exportar
 
 #  .orange[IMPORTANDO] datos
 
----
-
-
-name: tidydata
-
-#  .orange[LIMPIANDO] datos
-
-
 
 ---
 
@@ -8889,24 +8885,7 @@ name: tidydata
 class: inverse center middle
 name: clase-9
 
-# CLASE 9: ENTREGA II
-
-&amp;nbsp;
-
-
-### [Caso I: datos electorales (tidydata)](#clase9-caso-I)
-
-### [Caso II: starwars (continuación)](#clase9-caso-II)
-
-### [Caso III: análisis de los datos covid del ISCIII](#clase9-caso-III)
-
----
-
-
-class: inverse center middle
-name: clase-10
-
-# CLASE 10: tidyverse
+# CLASE 9: tidyverse
 
 &amp;nbsp;
 
