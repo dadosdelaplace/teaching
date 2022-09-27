@@ -241,12 +241,13 @@ class: inverse center middle
 
 #### [CLASE 5](#clase-5)
 
+#### [CLASE 6](#clase-6)
+
 #### [ENTREGA I](#clase5-caso-I)
 
 ]
 
 .pull-right[
-#### [CLASE 6](#clase-6)
 
 #### [CLASE 7](#clase-7)
 
