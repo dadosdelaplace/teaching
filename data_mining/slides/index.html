@@ -24,7 +24,7 @@ class: center, middle, inverse, title-slide
 # Técnicas de minería de datos
 ## Máster en Minería de Datos e Inteligencia de Negocio
 ### Javier Álvarez Liébana (Fac. Estudios Estadísticos - UCM)
-### Última actualización: 22-09-2022
+### Última actualización: 27-09-2022
 
 ---
 
@@ -210,6 +210,7 @@ class: inverse center middle
 
 #### [CLASE 2: PRIMEROS DATOS. PRIMEROS CONCEPTOS](#clase-2)
 
+#### [CLASE 3: INTRO A LA METODOLOGÍA SEMMA. ESTRUCTURAS DE CONTROL Y FUNCIONES. RMD](#clase-3)
 
 ---
 
@@ -2006,7 +2007,7 @@ hoy
 ```
 
 ```
-&gt; [1] "2022-09-22"
+&gt; [1] "2022-09-27"
 ```
 
 --
@@ -2019,7 +2020,7 @@ También podemos obtener el **.bg-purple_light[«hoy y ahora»]** con la funció
 ```
 
 ```
-&gt; [1] "2022-09-22 15:16:56 CEST"
+&gt; [1] "2022-09-27 18:13:59 CEST"
 ```
  
 ---
@@ -2403,7 +2404,7 @@ hoy - cumple
 ```
 
 ```
-&gt; Time difference of 12065 days
+&gt; Time difference of 12070 days
 ```
 
 ]
@@ -3068,9 +3069,9 @@ x &lt;- rnorm(1e3) # 1000 elementos aleatorias
 
 ```
 &gt; Unit: microseconds
-&gt;         expr    min      lq     mean median      uq     max neval cld
-&gt;      sort(x) 43.521 46.5165 56.99562 51.499 58.9685 193.155  1000   b
-&gt;  x[order(x)] 30.003 32.2550 38.37482 35.255 39.7345 119.796  1000  a
+&gt;         expr    min      lq     mean  median      uq     max neval cld
+&gt;      sort(x) 44.959 50.7225 59.11910 53.6260 60.6505 189.917  1000   b
+&gt;  x[order(x)] 30.525 36.3920 41.39096 37.8705 42.5550 121.522  1000  a
 ```
 
 
@@ -5604,14 +5605,399 @@ Dicho subconjunto será siempre de **.bg-purple_light[tamaño finito n]**, de fo
 
 &lt;img src="./img/poblacion_muestra.jpg" width="55%" style="display: block; margin: auto;" /&gt;
 
+---
+
+# .green[CARACTERES] y .orange[MODALIDADES]
+
+
+.pull-left[
+
+* **.bg-purple_light[Caracteres (variables)]**: cada una de las **características o cualidades** que se podrían medir o analizar para cada individuo de la población (y de los que disponemos el valor para cada individuo de la muestra).
+
+* **.bg-purple_light[Modalidades]**: conjunto de los **diferentes valores** que puede adoptar una característica o variable.
+
+
+]
+
+.pull-right[
+
+Un **.bg-purple_light[ejemplo]** (población de alumnos de UCM)
+
+* **.bg-orange[Caracteres o variables]**:
+  - sexo
+  - edad
+  - carrera
+  - estatura
+
+* **.bg-orange[Modalidades]**:
+  - sexo: hombre/mujer.
+  - edad: 18, 19, 20, 21, 22, ..., 98, 99, 100
+  - carrera: mates, filología, historia, etc.
+  - estatura: intervalo [130cm, 200cm].
+  
+* **.bg-orange[Muestra]**: conjunto de 300 estudiantes seleccionados al azar.
+]
+
+---
+
+# .orange[TIPOS] de variables
+
+Imagina las siguientes variables:
+
+* ¿Tienes hermanos?
+* Resultado de la tirada de un dado
+* Color de zapatillas
+* Nivel de estudios
+* Número de hermanos
+* Número de pelos en la cabeza
+* Resultado de un dado dividido entre 10
+* Temperatura ºC
+* Género
+* Estatura o peso
+* Religión
+
+
+**.bg-purple_light[¿CUÁL ES LA DIFERENCIA ENTRE ELLAS?]**
+
+---
+
+
+# .orange[TIPOS] de variables
+
+.pull-left[
+
+Imagina las siguientes variables:
+
+* ¿Tienes hermanos?
+* Resultado de la tirada de un dado
+* Color de zapatillas
+* Nivel de estudios
+* Número de hermanos
+* Número de pelos en la cabeza
+* Resultado de un dado dividido entre 10
+* Temperatura ºC
+* Género
+* Estatura o peso
+* Religión
+
+
+**.bg-purple_light[¿CUÁL ES LA DIFERENCIA ENTRE ELLAS?]**
+
+]
+
+.pull-right[
+
+* **.bg-purple_light[Cualitativas]**: representan **.bg-orange[cualidades o categorías]** no cuantificables numéricamente (sexo, estado civil, etc).
+
+  - **.bg-purple_light[Ordinales]**: admiten **jerarquía** (suspenso-aprobado-notable).
+  - **.bg-purple_light[Nominales]**: no tienen asociada una jerarquía (sexo, religión, color, etc).
+
+
+* **.bg-purple_light[Cuantitativas]**: característica **.bg-orange[cuantificable numéricamente]**.
+
+  - **.bg-purple_light[Discretas]**: se pueden contar y enumerar (aunque sean infinitos) (nº granos de arena, nº hermanos, etc).
+  - **.bg-purple_light[Continuas]**: además de tomar infinitos valores, entre dos valores cualesquiera hay a su vez infinitas opciones (estatura, peso, etc).
+
+
+]
+
+---
+
+# .orange[DISCRETA] vs .green[CONTINUAS]
+
+&lt;img src="./img/discreta_continua.jpg" width="76%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Resumiendo información: .orange[MOMENTOS]
+
+En estadística los **.bg-purple_light[momentos]** serán parámetros calculados a partir de los datos que, mediante una fórmula, **.bg-purple_light[resumen numéricamente]** algunas características de nuestros datos:
+
+--
+
+* Medidas de **.bg-purple_light[centralización]**: en torno a qué valores se **concentran** los datos.
+
+--
+
+* Medidas de **.bg-purple_light[dispersión]**: cuantifican la **dispersión respecto al centro**.
+
+--
+
+* Medidas de **.bg-purple_light[posición/localización]**: cómo se **localizan** los datos, valores que nos permiten segmentar nuestros datos en conjuntos de partes iguales (mismo % de datos, los famosos percentiles).
+
+--
+
+* Medidas de **.bg-purple_light[forma]**: nos complementan la caracterización de la distribución, por ejemplo, indicándonos la **dirección** en la que se desvían los datos.
+
+
+---
+
+# Medidas de .orange[CENTRALIZACIÓN]
+
+Las **.bg-purple_light[medidas de centralización]** nos informan de los valores en torno a los que se **concentra** nuestra variable, un **.bg-purple_light[«representante»]** de nuestra variable.
+
+--
+
+* **.bg-purple_light[Media]** (aritmética, sin ponderar): definida como la suma de valores, dividida entre el tamaño muestral. **.bg-red_light[Solo para cuantitativas]**
+
+--
+
+* **.bg-purple_light[Mediana]**: si ordenamos los datos de menor a mayor, el valor central (por debajo el 50%, por encima el 50%). **.bg-red_light[Solo si existe jerarquía de orden]**.
+
+--
+
+* **.bg-purple_light[Moda]**: el **valor o valores más repetidos** de nuestra variable, lo más frecuente. **.bg-red_light[Amodal]**: todos se repiten por igual -&gt; no hay moda.
+
+
+---
+
+# .orange[MEDIA] aritmética
+
+.pull-left[
+
+Dada una muestra, la **.bg-purple_light[media (aritmética) muestral]** `\(\overline{x}\)` se define como la suma de todos los valores dividida por el tamaño muestral.
+
+`$$\overline{x} = \frac{1}{N} \sum_{i=1}^{N} x_i$$`
+
+También se puede definir como el **.bg-purple_light[valor «más cercano» a todos los datos]** a la vez, minimizando las distancias (al cuadrado) de los datos a dicho valor.
+
+]
+
+.pull-right[
+
+&lt;div class="figure" style="text-align: left"&gt;
+&lt;img src="./img/media.jpg" alt="Extraída de instagram.com/javieralvarezliebana" width="89%" /&gt;
+&lt;p class="caption"&gt;Extraída de instagram.com/javieralvarezliebana&lt;/p&gt;
+&lt;/div&gt;
+
+
+]
+
+
+---
+
+# .orange[ROBUSTEZ] de la media
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/robustez.jpg" alt="Extraída de instagram.com/javieralvarezliebana" width="43%" /&gt;
+&lt;p class="caption"&gt;Extraída de instagram.com/javieralvarezliebana&lt;/p&gt;
+&lt;/div&gt;
+
+---
+
+
+# .orange[MEDIANA]
+
+
+.pull-left[
+
+Dada una muestra, la **.bg-purple_light[mediana muestral]** se define como el valor que es mayor o igual que al menos el 50%, y menor igual que al menos el 50% de los datos
+
+`$$Me_{x} = \displaystyle \arg \min_{x_i} \left\lbrace F_i &gt; 0.5 \right\rbrace$$`
+
+En caso de `\(F_i = 0.5\)` en variables discretas, realizaremos la media de `\(x_i\)` y `\(x_{i+1}\)`.
+
+]
+
+.pull-right[
+
+&lt;div class="figure" style="text-align: left"&gt;
+&lt;img src="./img/mediana.jpg" alt="Extraída de instagram.com/javieralvarezliebana" width="89%" /&gt;
+&lt;p class="caption"&gt;Extraída de instagram.com/javieralvarezliebana&lt;/p&gt;
+&lt;/div&gt;
+
+
+]
+
+
+---
+
+# .orange[MODA]
+
+
+.pull-left[
+
+Dada una muestra, la **.bg-purple_light[moda muestral]** se define como el valor o valores más repetidos (en caso de que existan)
+
+`$$Mo_{x} = \displaystyle \arg \max_{x_i} f_i$$`
+
+Podríamos tener distribuciones **unimodales**, **bimodales**, **trimodales**...incluso **amodales**
+
+]
+
+.pull-right[
+
+&lt;div class="figure" style="text-align: left"&gt;
+&lt;img src="./img/moda.jpg" alt="Extraída de instagram.com/javieralvarezliebana" width="89%" /&gt;
+&lt;p class="caption"&gt;Extraída de instagram.com/javieralvarezliebana&lt;/p&gt;
+&lt;/div&gt;
+
+
+]
+
+---
+
+# .orange[ROBUSTEZ]
+
+**.bg-green_light[¿Cuál es cuál?]**
+
+&lt;img src="./img/ine_salarios.jpg" width="70%" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+# Medidas de .orange[DISPERSIÓN]
+
+&lt;img src="./img/iker.jpg" width="45%" style="display: block; margin: auto;" /&gt;
+
+--
+
+El cambio climático, un problema de dispersión
+
+---
+
+# Medidas de .orange[DISPERSIÓN]
+
+&lt;img src="./img/fenom_extremos.jpg" width="70%" style="display: block; margin: auto;" /&gt;
+
+El cambio climático, un **.bg-purple_light[problema de dispersión]**
+
+---
+
+# Medidas de .orange[DISPERSIÓN]
+
+.pull-left[
+
+Una primera idea podría ser **.bg-purple_light[medir la distancia de cada dato al centro]**, es decir, restar cada dato de la media, y después realizar su promedio.
+
+`$$\frac{1}{N} \sum_{i=1}^{N} \left(x_i - \overline{x} \right)$$`
+
+**.bg-red_light[¿Problema?]**
+
+]
+
+.pull-right[
+
+&lt;img src="./img/distancia_var.jpg" width="99%" style="display: block; margin: auto;" /&gt;
+
+]
+
+--
+
+&amp;nbsp;
+
+Imagina que tenemos `\(X = \left\lbrace -5, -3, -1, 0, 1, 3, 5 \right\rbrace\)`: la media es 0, y el promedio de las distancias a la media también ya que se **.bg-red_light[cancelan los signos]**.
+
+**.bg-green_light[¿Solución?]**
+
+---
+
+# Medidas de .orange[DISPERSIÓN]
+
+En matemáticas suele ser **desaconsejable usar el valor absoluto** (dado que es una función no derivable), así que lo que haremos será calcula el **.bg-purple_light[promedio de las distancias al cuadrado]**
+
+
+`$$s_{x}^{2} = \frac{1}{N} \sum_{i=1}^{N} \left(x_i - \overline{x} \right)^2 = \overline{x^2} - \overline{x}^2$$`
+
+--
+
+Esta medida de dispersión es lo que conocemos como **.bg-purple_light[VARIANZA muestral]**.
+
+--
+
+**.bg-red_light[CUIDADO]**: tanto `R` como el resto de software nos devolverán la cuasivarianza `\(S_{x}^{2}\)` (promedio entre `\(N-1\)`, no entre `\(N\)`), ya que es el **estimador insesgado** de la varianza poblacional `\(\sigma_{x}^2\)`: asumimos que los estimadores casi nunca coincidirán con su valor teórico pero si repetimos el experimento un número suficiente de veces, su promedio si tenderá a él.
+
+`$${\rm E} [\overline{x}] = \mu, \quad {\rm E} [S_{x}^{}] = \sigma_{x}^{2}$$`
+
+
+
+---
+
+# Medidas de .orange[DISPERSIÓN]
+
+
+**.bg-red_light[¿Problema?]**
+
+--
+
+&lt;img src="./img/albert_rivera.jpg" width="70%" style="display: block; margin: auto;" /&gt;
+
+Necesitamos una medida de dispersión en las **unidades de los datos**.
+
+---
+
+# Medidas de .orange[DISPERSIÓN]
+
+
+Para tener una **.bg-purple_light[medida de dispersión en las unidades]** de los datos calcularemos la **.bg-purple_light[desviación típica]**, como la raíz cuadrada de la varianza
+
+
+`$$s_{x} = \sqrt{s_{x}^{2}} = \sqrt{\frac{1}{N} \sum_{i=1}^{N} \left(x_i - \overline{x} \right)^2} = \sqrt{\overline{x^2} - \overline{x}^2}$$`
+--
+
+Imaginemos entonces que tenemos dos conjuntos de datos: estaturas (de 165 a 175 cm) y diámetros de núcleos de células (de 3 a 7 micrómetros). Si obtenemos una  desviación típica de 1 cm y 1.5 micrómetros, **.bg-purple_light[¿cuál es más dispersa?]**
+
+--
+
+&amp;nbsp;
+
+¿**.bg-red_light[NO podemos comparar]** varianzas y desviaciones típicas? 
+
+---
+
+# Medidas de .orange[DISPERSIÓN]
+
+
+&lt;img src="./img/sorry.jpg" width="80%" style="display: block; margin: auto;" /&gt;
+
+
+**.bg-red_light[NO podemos comparar]** ni varianzas ni desviaciones típicas: dependen de la magnitud y unidades de los datos.
+
+---
+
+# Medidas de .orange[DISPERSIÓN]
+
+Para tener una **.bg-purple_light[medida de dispersión adimensional]** que podamos comparar en distintos conjuntos de datos calcularemos el **.bg-purple_light[coeficiente de variación]**, como la desv. típica entre el valor absoluto de la media
+
+
+`$$CV_{x} = \frac{s_{x}}{\left| \overline{x} \right|}$$`
+
+---
+
+# Medidas de .orange[LOCALIZACIÓN/POSICIÓN]
+
+
+Las **.bg-purple_light[medidas de posición]** nos **localizan** los datos: son **.bg-purple_light[valores que nos dividen]** un conjunto ordenado en un número de tramos con el mismo tamaño muestral.
+
+--
+
+* **.bg-purple_light[Percentil]**: valores `\(P_{\alpha}\)` del conjunto ordenado que dejan por debajo, al menos, el `\(\alpha  \%\)` de datos y el `\((100-\alpha) \%\)` por encima.   
+
+--
+
+* **.bg-purple_light[Decil]**: valores `\(D_{\alpha}\)` del conjunto ordenado que dividen los datos en 10 partes iguales, que dejan por debajo, al menos, el `\(10*\alpha  \%\)` de datos y el `\((100-10*\alpha) \%\)` por encima.   
+
+--
+
+* **.bg-purple_light[Cuartil]**: valores `\(C_{\alpha}\)` o `\(q_{\alpha}\)` del conjunto ordenado que dividen los datos en 4 partes iguales, que dejan por debajo, al menos, el `\(25*\alpha  \%\)` de datos y el `\((100-25*\alpha) \%\)` por encima.   
+
+--
+
+Ejemplo: la mediana es el percentil `\(P_{50}\)`, el decil `\(D_{5}\)` y el cuartil `\(C_{2}\)` o `\(q_2\)`.
 
 ---
 
 class: inverse center middle
 name: clase-3
 
-# CLASE 3: Funciones. 
+# CLASE 3: introducción a SEMMA. Estructuras de control y funciones. Rmd.
 
+---
+
+class: inverse center middle
+name: clase-4
+
+# CLASE 4:
 
 ---
 
