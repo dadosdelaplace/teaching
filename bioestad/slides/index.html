@@ -174,35 +174,78 @@ class: inverse center middle
 
 .pull-left[
 
-#### [CLASE 1](#clase-1)
+#### [CLASE 1: intro a R](#clase-1)
 
-#### [CLASE 2](#clase-2)
+#### [CLASE 2: variables y vectores](#clase-2)
 
-#### [CLASE 3](#clase-3)
+#### [CLASE 3: vectores y matrices](#clase-3)
 
-#### [CLASE 4](#clase-4)
+#### [CLASE 4: primeros datos](#clase-4)
 
-#### [CLASE 5](#clase-5)
-
-#### [CLASE 6](#clase-6)
-
-#### [ENTREGA I](#entrega-I)
+#### [CLASE 5: estructuras de control](#clase-5)
 
 ]
 
 .pull-right[
 
-#### [CLASE 7](#clase-7)
+#### [CLASE 6: tidydata](#clase-6)
 
-#### [CLASE 8](#clase-8)
+#### [ENTREGA I (clase 6)](#entrega-I)
 
-#### [ENTREGA II](#clase8-caso-I)
+#### [CLASE 7: listas y funciones](#clase-7)
 
+#### [CLASE 8: importar/exportar datos](#clase-8)
+
+#### [ENTREGA II (clase 8)](#entrega-II)
 
 ]
 
 ---
 
+class: inverse center middle
+
+# CLASES
+
+&amp;nbsp;
+
+.pull-left[
+
+#### [CLASE 9: introducción a dplyr (tidyverse)](#clase-9)
+
+#### [CLASE 10: profundizando en dplyr](#clase-10)
+
+#### [CLASE 11: resumiendo datos con dplyr](#clase-11)
+
+#### [CLASE 12: factores (forcats) y textos (stringr)](#clase-12)
+
+
+#### [CLASE 13: cruzando tablas](#clase-13)
+
+#### [Entrega III (clase 13)](#entrega-III)
+
+#### [CLASE 14: introducción al dataviz)](#clase-14)
+
+]
+
+.pull-right[
+
+#### [CLASE 15: profundizando en ggplot](#clase-15)
+
+#### [CLASE 16: ...](#...)
+
+#### [CLASE 17: ...](#...)
+
+#### [CLASE 18: ...](#...)
+
+#### [CLASE 19: ...](#...)
+
+#### [CLASE 20: ...](#...)
+
+#### [CLASE 21: ...](#...)
+
+]
+
+---
 
 class: inverse center middle
 name: clase-1
@@ -1727,7 +1770,7 @@ También podemos obtener el **.bg-purple_light[«hoy y ahora»]** con la funció
 ```
 
 ```
-&gt; [1] "2022-09-28 00:32:44 CEST"
+&gt; [1] "2022-09-28 00:45:46 CEST"
 ```
  
 ---
@@ -3021,9 +3064,9 @@ x &lt;- rnorm(1e3) # 1000 elementos aleatorias
 
 ```
 &gt; Unit: microseconds
-&gt;         expr    min      lq     mean median      uq     max neval cld
-&gt;      sort(x) 44.045 48.1305 60.73146 52.044 63.5805 181.157  1000   b
-&gt;  x[order(x)] 30.452 33.7035 42.18987 37.003 42.3090 123.998  1000  a
+&gt;         expr    min     lq     mean  median      uq     max neval cld
+&gt;      sort(x) 42.761 48.305 59.34940 51.5335 60.7705 229.695  1000   b
+&gt;  x[order(x)] 29.606 33.410 40.20411 36.4055 40.7890 159.831  1000  a
 ```
 
 --
@@ -6271,12 +6314,12 @@ microbenchmark(x^2,
 
 ```
 &gt; Unit: nanoseconds
-&gt;                                     expr     min      lq        mean    median
-&gt;                                      x^2     368     490    1436.096    1198.5
-&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 1782298 2060018 2427226.148 2248449.5
-&gt;       uq      max neval cld
-&gt;     2060    31642  1000  a 
-&gt;  2539498 13201134  1000   b
+&gt;                                     expr     min        lq        mean
+&gt;                                      x^2     379     501.5    1392.581
+&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 1868712 2013191.5 2402081.032
+&gt;     median        uq      max neval cld
+&gt;     1282.5    2031.5    14826  1000  a 
+&gt;  2114474.5 2355197.5 33492013  1000   b
 ```
 
 ---
@@ -6589,7 +6632,7 @@ sample(x = 0:1, size = 30, replace = TRUE)
 ```
 
 ```
-&gt;  [1] 0 1 0 1 0 1 0 0 0 1 1 0 0 1 1 0 0 1 0 1 1 0 1 0 0 1 1 1 1 0
+&gt;  [1] 0 0 1 0 1 0 0 0 1 1 1 0 1 0 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0
 ```
 
 ---
@@ -6604,7 +6647,7 @@ sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
 ```
 
 ```
-&gt;  [1] "cruz" "cruz" "cruz" "cruz" "cruz" "cara" "cruz" "cara" "cruz" "cara"
+&gt;  [1] "cruz" "cruz" "cruz" "cruz" "cara" "cruz" "cara" "cara" "cruz" "cruz"
 ```
 
 --
@@ -6617,7 +6660,7 @@ sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
 ```
 
 ```
-&gt;  [1] "cara" "cara" "cruz" "cara" "cara" "cruz" "cara" "cara" "cruz" "cara"
+&gt;  [1] "cara" "cara" "cara" "cara" "cruz" "cara" "cara" "cruz" "cruz" "cruz"
 ```
 
 ---
@@ -8531,12 +8574,12 @@ microbenchmark(sqrt(x), for (i in 1:1000) { y[i] &lt;- sqrt(x[i]) }, times = 1e3
 
 ```
 &gt; Unit: microseconds
-&gt;                                          expr      min        lq       mean
-&gt;                                       sqrt(x)    2.350    2.9825    4.18017
-&gt;  for (i in 1:1000) {     y[i] &lt;- sqrt(x[i]) } 1818.792 2123.9215 2581.82715
+&gt;                                          expr      min       lq        mean
+&gt;                                       sqrt(x)    2.286    2.833    3.948421
+&gt;  for (i in 1:1000) {     y[i] &lt;- sqrt(x[i]) } 1815.591 1983.597 2355.450667
 &gt;     median        uq       max neval cld
-&gt;     3.8255    4.4535    22.972  1000  a 
-&gt;  2338.1580 2713.2625 11996.997  1000   b
+&gt;     3.5725    4.1705    30.393  1000  a 
+&gt;  2090.5090 2395.0920 13013.640  1000   b
 ```
 
 
@@ -8620,11 +8663,11 @@ microbenchmark(map(x, .f = function(x) { mean(x^2) }), lapply(x, FUN = function(
 ```
 &gt; Unit: milliseconds
 &gt;                                            expr      min       lq     mean
-&gt;      map(x, .f = function(x) {     mean(x^2) }) 5.575835 6.436981 8.737301
-&gt;  lapply(x, FUN = function(x) {     mean(x^2) }) 5.519246 6.226565 8.024970
-&gt;    median       uq       max neval cld
-&gt;  7.458061 8.040993 187.20825  1000   b
-&gt;  7.294085 7.838921  44.97661  1000  a
+&gt;      map(x, .f = function(x) {     mean(x^2) }) 5.555335 6.593343 9.189665
+&gt;  lapply(x, FUN = function(x) {     mean(x^2) }) 5.400584 6.410287 8.446664
+&gt;    median       uq      max neval cld
+&gt;  7.544225 8.727467 177.0910  1000   b
+&gt;  7.384970 8.367050  51.6797  1000  a
 ```
 
 

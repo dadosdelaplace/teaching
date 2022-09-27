@@ -231,35 +231,78 @@ class: inverse center middle
 
 .pull-left[
 
-#### [CLASE 1](#clase-1)
+#### [CLASE 1: intro a R](#clase-1)
 
-#### [CLASE 2](#clase-2)
+#### [CLASE 2: variables y vectores](#clase-2)
 
-#### [CLASE 3](#clase-3)
+#### [CLASE 3: vectores y matrices](#clase-3)
 
-#### [CLASE 4](#clase-4)
+#### [CLASE 4: primeros datos](#clase-4)
 
-#### [CLASE 5](#clase-5)
-
-#### [CLASE 6](#clase-6)
-
-#### [ENTREGA I](#entrega-I)
+#### [CLASE 5: estructuras de control](#clase-5)
 
 ]
 
 .pull-right[
 
-#### [CLASE 7](#clase-7)
+#### [CLASE 6: tidydata](#clase-6)
 
-#### [CLASE 8](#clase-8)
+#### [ENTREGA I (clase 6)](#entrega-I)
 
-#### [ENTREGA II](#clase8-caso-I)
+#### [CLASE 7: listas y funciones](#clase-7)
 
+#### [CLASE 8: importar/exportar datos](#clase-8)
+
+#### [ENTREGA II (clase 8)](#entrega-II)
 
 ]
 
 ---
 
+class: inverse center middle
+
+# CLASES
+
+&nbsp;
+
+.pull-left[
+
+#### [CLASE 9: introducción a dplyr (tidyverse)](#clase-9)
+
+#### [CLASE 10: profundizando en dplyr](#clase-10)
+
+#### [CLASE 11: resumiendo datos con dplyr](#clase-11)
+
+#### [CLASE 12: factores (forcats) y textos (stringr)](#clase-12)
+
+
+#### [CLASE 13: cruzando tablas](#clase-13)
+
+#### [Entrega III (clase 13)](#entrega-III)
+
+#### [CLASE 14: introducción al dataviz)](#clase-14)
+
+]
+
+.pull-right[
+
+#### [CLASE 15: profundizando en ggplot](#clase-15)
+
+#### [CLASE 16: ...](#...)
+
+#### [CLASE 17: ...](#...)
+
+#### [CLASE 18: ...](#...)
+
+#### [CLASE 19: ...](#...)
+
+#### [CLASE 20: ...](#...)
+
+#### [CLASE 21: ...](#...)
+
+]
+
+---
 
 class: inverse center middle
 name: clase-1
