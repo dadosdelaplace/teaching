@@ -24,7 +24,7 @@ class: center, middle, inverse, title-slide
 # GESTIÓN DE BASES DE DATOS
 ## Máster en Bioestadística
 ### Javier Álvarez Liébana (Fac. Estudios Estadísticos - UCM)
-### Última actualización: 27-09-2022
+### Última actualización: 28-09-2022
 
 ---
 
@@ -186,7 +186,7 @@ class: inverse center middle
 
 #### [CLASE 6](#clase-6)
 
-#### [ENTREGA I](#clase5-caso-I)
+#### [ENTREGA I](#entrega-I)
 
 ]
 
@@ -1714,7 +1714,7 @@ hoy
 ```
 
 ```
-&gt; [1] "2022-09-27"
+&gt; [1] "2022-09-28"
 ```
 
 --
@@ -1727,7 +1727,7 @@ También podemos obtener el **.bg-purple_light[«hoy y ahora»]** con la funció
 ```
 
 ```
-&gt; [1] "2022-09-27 20:07:00 CEST"
+&gt; [1] "2022-09-28 00:32:44 CEST"
 ```
  
 ---
@@ -2111,7 +2111,7 @@ hoy - cumple
 ```
 
 ```
-&gt; Time difference of 12070 days
+&gt; Time difference of 12071 days
 ```
 
 ]
@@ -3021,9 +3021,9 @@ x &lt;- rnorm(1e3) # 1000 elementos aleatorias
 
 ```
 &gt; Unit: microseconds
-&gt;         expr    min     lq     mean median      uq     max neval cld
-&gt;      sort(x) 44.776 55.325 78.13125 66.634 94.5945 256.714  1000   b
-&gt;  x[order(x)] 31.265 37.476 51.40966 43.610 61.4400 263.022  1000  a
+&gt;         expr    min      lq     mean median      uq     max neval cld
+&gt;      sort(x) 44.045 48.1305 60.73146 52.044 63.5805 181.157  1000   b
+&gt;  x[order(x)] 30.452 33.7035 42.18987 37.003 42.3090 123.998  1000  a
 ```
 
 --
@@ -6271,12 +6271,12 @@ microbenchmark(x^2,
 
 ```
 &gt; Unit: nanoseconds
-&gt;                                     expr     min        lq        mean  median
-&gt;                                      x^2     360     482.5    1422.995    1197
-&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 1786319 2047196.0 2618429.762 2356516
-&gt;         uq      max neval cld
-&gt;     1985.5    20531  1000  a 
-&gt;  2810799.5 29179192  1000   b
+&gt;                                     expr     min      lq        mean    median
+&gt;                                      x^2     368     490    1436.096    1198.5
+&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 1782298 2060018 2427226.148 2248449.5
+&gt;       uq      max neval cld
+&gt;     2060    31642  1000  a 
+&gt;  2539498 13201134  1000   b
 ```
 
 ---
@@ -6589,7 +6589,7 @@ sample(x = 0:1, size = 30, replace = TRUE)
 ```
 
 ```
-&gt;  [1] 0 0 0 0 1 0 1 0 0 1 1 0 1 1 1 0 1 1 0 1 0 0 0 1 0 0 1 1 0 0
+&gt;  [1] 0 1 0 1 0 1 0 0 0 1 1 0 0 1 1 0 0 1 0 1 1 0 1 0 0 1 1 1 1 0
 ```
 
 ---
@@ -6604,7 +6604,7 @@ sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
 ```
 
 ```
-&gt;  [1] "cara" "cruz" "cruz" "cara" "cara" "cruz" "cruz" "cara" "cruz" "cara"
+&gt;  [1] "cruz" "cruz" "cruz" "cruz" "cruz" "cara" "cruz" "cara" "cruz" "cara"
 ```
 
 --
@@ -6617,7 +6617,7 @@ sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
 ```
 
 ```
-&gt;  [1] "cara" "cruz" "cruz" "cruz" "cruz" "cara" "cara" "cruz" "cara" "cara"
+&gt;  [1] "cara" "cara" "cruz" "cara" "cara" "cruz" "cara" "cara" "cruz" "cara"
 ```
 
 ---
@@ -7187,9 +7187,7 @@ name: clase-6
 
 ### [Tidydata: datos limpios](#tidydata)
 
-### [Caso práctico: starwars](#clase6-caso-I)
-
-### [Caso práctico: gapminder](#clase6-caso-II)
+### [Entrega I](#entrega-I)
 
 ---
 
@@ -7344,16 +7342,776 @@ datos |&gt;
 
 # Datos .orange[SUCIOS]: messy data
 
+Por ejemplo, vamos a cargar la tabla `table4a` del paquete `{tidyr}` (que ya lo tenemos cargado del entorno `{tidyverse}`).
+
+
+
+
+```r
+table4a
+```
+
+```
+&gt; # A tibble: 3 × 3
+&gt;   country     `1999` `2000`
+&gt; * &lt;chr&gt;        &lt;int&gt;  &lt;int&gt;
+&gt; 1 Afghanistan    745   2666
+&gt; 2 Brazil       37737  80488
+&gt; 3 China       212258 213766
+```
+
+**.bg-purple_light[¿Qué falla?]**
 
 ---
 
-# Datos a lo .orange[ANCHO] vs .green[LARGO]
+
+# Datos .orange[SUCIOS]: messy data
+
+.pull-left[
+
+
+
+
+```r
+table4a
+```
+
+```
+&gt; # A tibble: 3 × 3
+&gt;   country     `1999` `2000`
+&gt; * &lt;chr&gt;        &lt;int&gt;  &lt;int&gt;
+&gt; 1 Afghanistan    745   2666
+&gt; 2 Brazil       37737  80488
+&gt; 3 China       212258 213766
+```
+
+**.bg-purple_light[¿Qué falla?]**
+
+]
+
+.pull-right[
+
+
+❎ Cada **.bg-green_light[variable en una columna]**.
+
+❎ Cada **.bg-orange[observación/individuo en una fila]** diferente.
+
+❎ Cada **.bg-green_light[celda con un único valor]**.
+
+]
+
+Aunque la columna `$country` representa una variable, las otras columnas no: **.bg-purple_light[ambas son la misma variable]**, solo que medida en años distintos (que debería ser a su vez otra variable), de forma que **.bg-purple_light[cada fila está representando dos observaciones]** (1999, 2000).
+
+
+---
+
+# Datos .orange[SUCIOS]: messy data
+
+
+.pull-left[
+
+Lo que haremos será incluir una nueva columna llamada (por ejemplo) `year` que nos marque el año y otra llamada `cases` que nos diga el valor de la variable de interés en cada uno de esos años.
+
+]
+
+.pull-right[
+
+&lt;img src="./img/table4a.jpg" width="65%" style="display: block; margin: auto;" /&gt;
+
+
+]
+
+--
+
+Con la función `pivot_longer()` pivotaremos la tabla para pasarla a **formato long**:
+
+
+```r
+table4a %&gt;%
+* pivot_longer(cols = c("1999", "2000"), names_to = "year", values_to = "cases")
+```
+
+```
+&gt; # A tibble: 6 × 3
+&gt;   country     year   cases
+&gt;   &lt;chr&gt;       &lt;chr&gt;  &lt;int&gt;
+&gt; 1 Afghanistan 1999     745
+&gt; 2 Afghanistan 2000    2666
+&gt; 3 Brazil      1999   37737
+&gt; 4 Brazil      2000   80488
+&gt; 5 China       1999  212258
+&gt; 6 China       2000  213766
+```
+
+---
+
+# Datos .orange[SUCIOS]: messy data
+
+.pull-left[
+
+
+```r
+table4a %&gt;%
+  pivot_longer(cols = c("1999", "2000"),
+               names_to = "year", 
+*              values_to = "cases")
+```
+
+```
+&gt; # A tibble: 6 × 3
+&gt;   country     year   cases
+&gt;   &lt;chr&gt;       &lt;chr&gt;  &lt;int&gt;
+&gt; 1 Afghanistan 1999     745
+&gt; 2 Afghanistan 2000    2666
+&gt; 3 Brazil      1999   37737
+&gt; 4 Brazil      2000   80488
+&gt; 5 China       1999  212258
+&gt; 6 China       2000  213766
+```
+
+]
+
+.pull-right[
+
+&lt;img src="./img/table4a_2.png" width="99%" style="display: block; margin: auto;" /&gt;
+
+
+]
+
+
+* `cols`: el **.bg-purple_light[nombre de las columnas a pivotar]** (con comillas por ser números y no caracteres).
+* `names_to`: el **.bg-purple_light[nombre de la nueva columna]** a la mandamos los **.bg-purple_light[nombres]** de las columnas.
+* `values_to`: el **.bg-purple_light[nombre de la nueva columna]** a la que vamos a mandar los **.bg-purple_light[datos]**.
+
+
+---
+
+# Datos .orange[SUCIOS]: messy data
+
+Echa un vistazo a la tabla `{table4b}`
+
+
+```r
+table4b
+```
+
+```
+&gt; # A tibble: 3 × 3
+&gt;   country         `1999`     `2000`
+&gt; * &lt;chr&gt;            &lt;int&gt;      &lt;int&gt;
+&gt; 1 Afghanistan   19987071   20595360
+&gt; 2 Brazil       172006362  174504898
+&gt; 3 China       1272915272 1280428583
+```
+
+**.bg-purple_light[TODO TUYO]**: ¿es tidy o messy? ¿Cómo convertirla a tidy data en caso de que no lo sea ya?
+
+
+---
+
+# Datos .orange[SUCIOS]: messy data
+
+Echa un vistazo a la tabla `{relig_income}`
+
+
+```r
+relig_income
+```
+
+```
+&gt; # A tibble: 18 × 11
+&gt;    religion      `&lt;$10k` $10-2…¹ $20-3…² $30-4…³ $40-5…⁴ $50-7…⁵ $75-1…⁶ $100-…⁷
+&gt;    &lt;chr&gt;           &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+&gt;  1 Agnostic           27      34      60      81      76     137     122     109
+&gt;  2 Atheist            12      27      37      52      35      70      73      59
+&gt;  3 Buddhist           27      21      30      34      33      58      62      39
+&gt;  4 Catholic          418     617     732     670     638    1116     949     792
+&gt;  5 Don’t know/r…      15      14      15      11      10      35      21      17
+&gt;  6 Evangelical …     575     869    1064     982     881    1486     949     723
+&gt;  7 Hindu               1       9       7       9      11      34      47      48
+&gt;  8 Historically…     228     244     236     238     197     223     131      81
+&gt;  9 Jehovah's Wi…      20      27      24      24      21      30      15      11
+&gt; 10 Jewish             19      19      25      25      30      95      69      87
+&gt; 11 Mainline Prot     289     495     619     655     651    1107     939     753
+&gt; 12 Mormon             29      40      48      51      56     112      85      49
+&gt; 13 Muslim              6       7       9      10       9      23      16       8
+&gt; 14 Orthodox           13      17      23      32      32      47      38      42
+&gt; 15 Other Christ…       9       7      11      13      13      14      18      14
+&gt; 16 Other Faiths       20      33      40      46      49      63      46      40
+&gt; 17 Other World …       5       2       3       4       2       7       3       4
+&gt; 18 Unaffiliated      217     299     374     365     341     528     407     321
+&gt; # … with 2 more variables: `&gt;150k` &lt;dbl&gt;, `Don't know/refused` &lt;dbl&gt;, and
+&gt; #   abbreviated variable names ¹​`$10-20k`, ²​`$20-30k`, ³​`$30-40k`, ⁴​`$40-50k`,
+&gt; #   ⁵​`$50-75k`, ⁶​`$75-100k`, ⁷​`$100-150k`
+&gt; # ℹ Use `colnames()` to see all variable names
+```
+
+**.bg-purple_light[TODO TUYO]**: ¿es tidy o messy? ¿Cómo convertirla a tidy data en caso de que no lo sea ya?
+
+---
+
+# Datos .orange[SUCIOS]: messy data
+
+Veamos un segundo tipo de dato sucio: vamos a cargar la tabla `table2` del paquete `{tidyr}` (que ya lo tenemos cargado del entorno `{tidyverse}`). **.bg-purple_light[¿Qué falla?]**
+
+
+
+```r
+table2
+```
+
+```
+&gt; # A tibble: 12 × 4
+&gt;    country      year type            count
+&gt;    &lt;chr&gt;       &lt;int&gt; &lt;chr&gt;           &lt;int&gt;
+&gt;  1 Afghanistan  1999 cases             745
+&gt;  2 Afghanistan  1999 population   19987071
+&gt;  3 Afghanistan  2000 cases            2666
+&gt;  4 Afghanistan  2000 population   20595360
+&gt;  5 Brazil       1999 cases           37737
+&gt;  6 Brazil       1999 population  172006362
+&gt;  7 Brazil       2000 cases           80488
+&gt;  8 Brazil       2000 population  174504898
+&gt;  9 China        1999 cases          212258
+&gt; 10 China        1999 population 1272915272
+&gt; 11 China        2000 cases          213766
+&gt; 12 China        2000 population 1280428583
+```
+
+
+---
+
+# Datos .orange[SUCIOS]: messy data
+
+.pull-left[
+
+
+
+```r
+head(table2)
+```
+
+```
+&gt; # A tibble: 6 × 4
+&gt;   country      year type           count
+&gt;   &lt;chr&gt;       &lt;int&gt; &lt;chr&gt;          &lt;int&gt;
+&gt; 1 Afghanistan  1999 cases            745
+&gt; 2 Afghanistan  1999 population  19987071
+&gt; 3 Afghanistan  2000 cases           2666
+&gt; 4 Afghanistan  2000 population  20595360
+&gt; 5 Brazil       1999 cases          37737
+&gt; 6 Brazil       1999 population 172006362
+```
+
+]
+
+.pull-right[
+
+
+&lt;img src="./img/table2.jpg" width="69%" style="display: block; margin: auto;" /&gt;
+]
+
+
+❎ Cada **.bg-orange[observación/individuo en una fila]** diferente.
+
+
+Fíjate en las cuatro primeras filas: los registros con el mismo año deberían ser el mismo, es la misma información, **.bg-purple_light[debería estar en la misma fila]**, pero está dividada en dos. 
+
+---
+
+
+# Datos .orange[SUCIOS]: messy data
+
+Lo que haremos será lo opuesto a antes: con `pivot_wider()` «ampliaremos» la **.bg-purple_light[tabla a lo ancho]**, con menos filas pero con más columnas.
+
+
+```r
+table2 %&gt;%
+* pivot_wider(names_from = type, values_from = count)
+```
+
+```
+&gt; # A tibble: 6 × 4
+&gt;   country      year  cases population
+&gt;   &lt;chr&gt;       &lt;int&gt;  &lt;int&gt;      &lt;int&gt;
+&gt; 1 Afghanistan  1999    745   19987071
+&gt; 2 Afghanistan  2000   2666   20595360
+&gt; 3 Brazil       1999  37737  172006362
+&gt; 4 Brazil       2000  80488  174504898
+&gt; 5 China        1999 212258 1272915272
+&gt; 6 China        2000 213766 1280428583
+```
+
+* `names_from`: el **.bg-purple_light[nombre de la columna original]** de la que vamos a sacar las **.bg-purple_light[nuevas columnas]** que vamos a crear (`cases` y `population`).
+* `values_from`: el **.bg-purple_light[nombre de la columna orignal]** de la que vamos a sacar los **.bg-purple_light[datos]**.
+
+
+---
+
+# Datos .orange[SUCIOS]: messy data
+
+
+Por último veamos un tercer tipo de dato sucio: vamos a cargar la tabla `table3` del paquete `{tidyr}` (que ya lo tenemos cargado del entorno `{tidyverse}`). **.bg-purple_light[¿Qué falla?]**
+
+
+
+```r
+table3
+```
+
+```
+&gt; # A tibble: 6 × 3
+&gt;   country      year rate             
+&gt; * &lt;chr&gt;       &lt;int&gt; &lt;chr&gt;            
+&gt; 1 Afghanistan  1999 745/19987071     
+&gt; 2 Afghanistan  2000 2666/20595360    
+&gt; 3 Brazil       1999 37737/172006362  
+&gt; 4 Brazil       2000 80488/174504898  
+&gt; 5 China        1999 212258/1272915272
+&gt; 6 China        2000 213766/1280428583
+```
+
+--
+
+❎ Cada **.bg-green_light[celda con un único valor]**.
+
+
+---
+
+# Datos .orange[SUCIOS]: messy data
+
+
+.pull-left[
+
+Lo que haremos será hacer uso de la función `separate()` para mandar **.bg-purple_light[cada valor a una columna diferente]**.
+
+
+```r
+table3 %&gt;%
+* separate(rate, into = c("cases", "pop"))
+```
+
+```
+&gt; # A tibble: 6 × 4
+&gt;   country      year cases  pop       
+&gt;   &lt;chr&gt;       &lt;int&gt; &lt;chr&gt;  &lt;chr&gt;     
+&gt; 1 Afghanistan  1999 745    19987071  
+&gt; 2 Afghanistan  2000 2666   20595360  
+&gt; 3 Brazil       1999 37737  172006362 
+&gt; 4 Brazil       2000 80488  174504898 
+&gt; 5 China        1999 212258 1272915272
+&gt; 6 China        2000 213766 1280428583
+```
+
+* `into`: **.bg-purple_light[nombre de nuevas columnas]** donde separaremos valores.
+]
+
+.pull-right[
+
+&lt;img src="./img/seperate.jpg" width="99%" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+
+# Datos .orange[SUCIOS]: messy data
+
+
+Por defecto lo que hace es **.bg-purple_light[localizar como separador cualquier caracter que no sea alfa-numérico]**. Si queremos un caracter concreto para dividir podemos indicárselo explícitamente. Si usas un separador que no está en los datos te devolverá dichas columnas vacías ya que no ha podido dividirlas.
+
+
+
+```r
+table3 %&gt;% separate(rate, into = c("cases", "population"), sep = ".")
+```
+
+```
+&gt; Warning: Expected 2 pieces. Additional pieces discarded in 6 rows [1, 2, 3, 4,
+&gt; 5, 6].
+```
+
+```
+&gt; # A tibble: 6 × 4
+&gt;   country      year cases population
+&gt;   &lt;chr&gt;       &lt;int&gt; &lt;chr&gt; &lt;chr&gt;     
+&gt; 1 Afghanistan  1999 ""    ""        
+&gt; 2 Afghanistan  2000 ""    ""        
+&gt; 3 Brazil       1999 ""    ""        
+&gt; 4 Brazil       2000 ""    ""        
+&gt; 5 China        1999 ""    ""        
+&gt; 6 China        2000 ""    ""
+```
+
+---
+
+# Datos .orange[SUCIOS]: messy data
+
+De la misma manera que podemos separar columnas también podemos **.bg-purple_light[unir columnas]**. Para ello vamos a usar la tabla `table5` del ya mencionado paquete.
+
+
+```r
+table5
+```
+
+```
+&gt; # A tibble: 6 × 4
+&gt;   country     century year  rate             
+&gt; * &lt;chr&gt;       &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;            
+&gt; 1 Afghanistan 19      99    745/19987071     
+&gt; 2 Afghanistan 20      00    2666/20595360    
+&gt; 3 Brazil      19      99    37737/172006362  
+&gt; 4 Brazil      20      00    80488/174504898  
+&gt; 5 China       19      99    212258/1272915272
+&gt; 6 China       20      00    213766/1280428583
+```
+
+---
+
+# Datos .orange[SUCIOS]: messy data
+
+.pull-left[
+
+Con la función `unite()` vamos a **.bg-purple_light[unir]** el siglo (en `century`) y el año (en `year`), y al inicio le indicaremos como se llamará la nueva variable `year_ok`
+
+
+```r
+table5 %&gt;%
+  unite(col = year_ok,
+        century, year, sep = "")
+```
+
+```
+&gt; # A tibble: 6 × 3
+&gt;   country     year_ok rate             
+&gt;   &lt;chr&gt;       &lt;chr&gt;   &lt;chr&gt;            
+&gt; 1 Afghanistan 1999    745/19987071     
+&gt; 2 Afghanistan 2000    2666/20595360    
+&gt; 3 Brazil      1999    37737/172006362  
+&gt; 4 Brazil      2000    80488/174504898  
+&gt; 5 China       1999    212258/1272915272
+&gt; 6 China       2000    213766/1280428583
+```
+
+]
+
+.pull-right[
+
+&lt;img src="./img/unite.jpg" width="99%" style="display: block; margin: auto;" /&gt;
+
+]
+
+
+---
+
+# Eliminando .orange[AUSENTES]
+
+El paquete `{tidyr}` también dispone de algunas herramientas útiles para **.bg-purple_light[quitar ausentes]**
+
+
+```r
+datos &lt;- tibble(x = c(1, 2, NA), y = c("a", NA, "b"))
+datos
+```
+
+```
+&gt; # A tibble: 3 × 2
+&gt;       x y    
+&gt;   &lt;dbl&gt; &lt;chr&gt;
+&gt; 1     1 a    
+&gt; 2     2 &lt;NA&gt; 
+&gt; 3    NA b
+```
+
+---
+
+# Eliminando .orange[AUSENTES]
+
+
+Con `drop_na()` podemos indicarle que nos **.bg-purple_light[elimine las filas con algún ausente]** en alguna de las variables (o especificarle la variable concreta).
+
+
+.pull-left[
+
+
+```r
+datos %&gt;% drop_na()
+```
+
+```
+&gt; # A tibble: 1 × 2
+&gt;       x y    
+&gt;   &lt;dbl&gt; &lt;chr&gt;
+&gt; 1     1 a
+```
+
+]
+
+
+.pull-right[
+
+
+```r
+datos %&gt;% drop_na(x)
+```
+
+```
+&gt; # A tibble: 2 × 2
+&gt;       x y    
+&gt;   &lt;dbl&gt; &lt;chr&gt;
+&gt; 1     1 a    
+&gt; 2     2 &lt;NA&gt;
+```
+
+]
+
+---
+
+# Eliminando .orange[AUSENTES]
+
+A veces no querremos eliminarlos sino **.bg-purple_light[imputar por el valor previo/siguiente]**  con `fill()`
+
+.pull-left[
+
+
+```r
+datos %&gt;% fill(x)
+```
+
+```
+&gt; # A tibble: 3 × 2
+&gt;       x y    
+&gt;   &lt;dbl&gt; &lt;chr&gt;
+&gt; 1     1 a    
+&gt; 2     2 &lt;NA&gt; 
+&gt; 3     2 b
+```
+
+```r
+datos %&gt;% fill(x, .direction = c("up"))
+```
+
+```
+&gt; # A tibble: 3 × 2
+&gt;       x y    
+&gt;   &lt;dbl&gt; &lt;chr&gt;
+&gt; 1     1 a    
+&gt; 2     2 &lt;NA&gt; 
+&gt; 3    NA b
+```
+
+]
+
+.pull-right[
+
+
+```r
+datos %&gt;% fill(y)
+```
+
+```
+&gt; # A tibble: 3 × 2
+&gt;       x y    
+&gt;   &lt;dbl&gt; &lt;chr&gt;
+&gt; 1     1 a    
+&gt; 2     2 a    
+&gt; 3    NA b
+```
+
+```r
+datos %&gt;% fill(y, .direction = c("up"))
+```
+
+```
+&gt; # A tibble: 3 × 2
+&gt;       x y    
+&gt;   &lt;dbl&gt; &lt;chr&gt;
+&gt; 1     1 a    
+&gt; 2     2 b    
+&gt; 3    NA b
+```
+
+]
+
+
+---
+
+# Eliminando .orange[AUSENTES]
+
+Los **.bg-purple_light[ausentes]** también pueden ser **.bg-purple_light[eliminados al pivotar]** con `values_drop_na`.
+
+
+
+```r
+stocks &lt;-
+  tibble(qtr = 1:4,
+         "2015" = c(1.88, 0.59, 0.35, NA),
+         "2016" = c(NA, 0.92, 0.17, 2.66))
+stocks
+```
+
+```
+&gt; # A tibble: 4 × 3
+&gt;     qtr `2015` `2016`
+&gt;   &lt;int&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+&gt; 1     1   1.88  NA   
+&gt; 2     2   0.59   0.92
+&gt; 3     3   0.35   0.17
+&gt; 4     4  NA      2.66
+```
+
+---
+
+# Eliminando .orange[AUSENTES]
+
+Los **.bg-purple_light[ausentes]** también pueden ser **.bg-purple_light[eliminados al pivotar]** con `values_drop_na`.
+
+
+```r
+stocks %&gt;%
+  pivot_longer(cols = c("2015", "2016"), names_to = "year",
+               values_to = "return", values_drop_na = TRUE)
+```
+
+```
+&gt; # A tibble: 6 × 3
+&gt;     qtr year  return
+&gt;   &lt;int&gt; &lt;chr&gt;  &lt;dbl&gt;
+&gt; 1     1 2015    1.88
+&gt; 2     2 2015    0.59
+&gt; 3     2 2016    0.92
+&gt; 4     3 2015    0.35
+&gt; 5     3 2016    0.17
+&gt; 6     4 2016    2.66
+```
+
+---
+
+# Reemplazando .orange[AUSENTES]
+
+Otras veces querremos **.bg-purple_light[imputar los ausentes por un valor fijo]**, algo que podemos hacer con `replace_na()`
+
+.pull-left[
+
+
+```r
+datos
+```
+
+```
+&gt; # A tibble: 3 × 2
+&gt;       x y    
+&gt;   &lt;dbl&gt; &lt;chr&gt;
+&gt; 1     1 a    
+&gt; 2     2 &lt;NA&gt; 
+&gt; 3    NA b
+```
+
+]
+
+.pull-right[
+
+
+```r
+datos %&gt;%
+  replace_na(list(x = -1,
+                  y = "unknown"))
+```
+
+```
+&gt; # A tibble: 3 × 2
+&gt;       x y      
+&gt;   &lt;dbl&gt; &lt;chr&gt;  
+&gt; 1     1 a      
+&gt; 2     2 unknown
+&gt; 3    -1 b
+```
+
+]
+
+---
+
+
+# Completando .orange[AUSENTES]
+
+Por último, también podemos **.bg-purple_light[crear todas las combinaciones posibles de variables]** (para completar datos ausentes que se hayan podido eliminar).
+
+
+
+```r
+stocks &lt;- tibble(year = c(2015, 2015, 2015, 2015, 2016, 2016, 2016),
+                 qtr = c(1, 2, 3, 4, 2, 3, 4),
+                 return = c(1.88, 0.59, 0.35, NA, 0.92, 0.17, 2.66))
+```
+
+.pull-left[
+
+
+```r
+stocks
+```
+
+```
+&gt; # A tibble: 7 × 3
+&gt;    year   qtr return
+&gt;   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
+&gt; 1  2015     1   1.88
+&gt; 2  2015     2   0.59
+&gt; 3  2015     3   0.35
+&gt; 4  2015     4  NA   
+&gt; 5  2016     2   0.92
+&gt; 6  2016     3   0.17
+&gt; 7  2016     4   2.66
+```
+
+]
+
+.pull-right[
+
+
+```r
+stocks %&gt;% complete(year, qtr)
+```
+
+```
+&gt; # A tibble: 8 × 3
+&gt;    year   qtr return
+&gt;   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
+&gt; 1  2015     1   1.88
+&gt; 2  2015     2   0.59
+&gt; 3  2015     3   0.35
+&gt; 4  2015     4  NA   
+&gt; 5  2016     1  NA   
+&gt; 6  2016     2   0.92
+&gt; 7  2016     3   0.17
+&gt; 8  2016     4   2.66
+```
+
+]
+
+---
+
+name: entrega-I
+
+# .orange[CASO PRÁCTICO 1]: datos de la OMS
+
+Instala el paquete `{tidyr}` y usa el conjunto `who` contenido en él mismo (dataset sobre casos de tuberculosis). Deberás **.bg-purple_light[entregar completado]** el archivo `.Rmd` que tienes disponible en &lt;https://github.com/dadosdelaplace/teaching/tree/main/bioestad/eval&gt; **.bg-purple_light[antes de las 23:59 del 29 de septiembre]**, siguiendo las instrucciones contenidas en el mismo.
+
+
+```r
+install.packages("tidyr")
+library(tidyr)
+who
+```
+
+&amp;nbsp;
+
+🔎 Mira antes &lt;https://github.com/dadosdelaplace/teaching/blob/main/bioestad/scripts/segundo_rmarkdown.Rmd&gt; para ver algunas opciones extras que puedes usar para personalizar.
 
 
 ---
 
 
-# .orange[CASO PRÁCTICO]: análisis de Star Wars
+# .orange[CASO PRÁCTICO 2]: análisis de Star Wars
 
 Instala el paquete `{dplyr}` y usa el conjunto `starwars` contenido en él mismo (dataset con los personajes de las películas de la saga Star Wars). Deberás **.bg-purple_light[entregar completado]** el archivo `.Rmd` que tienes disponible en &lt;https://github.com/dadosdelaplace/teaching/tree/main/bioestad/eval&gt; **.bg-purple_light[antes de las 23:59 del 29 de septiembre]**, siguiendo las instrucciones contenidas en el mismo.
 
@@ -7365,13 +8123,13 @@ library(dplyr)
 starwars
 ```
 
+&amp;nbsp;
+
 🔎 Mira antes &lt;https://github.com/dadosdelaplace/teaching/blob/main/bioestad/scripts/segundo_rmarkdown.Rmd&gt; para ver algunas opciones extras que puedes usar para personalizar.
 
 ---
 
-name: clase6-caso-II
-
-# .orange[CASO PRÁCTICO]: análisis de gapminder
+# .orange[CASO PRÁCTICO 3]: análisis de gapminder
 
 Instala el paquete `{gapminder}` y usa el conjunto `gapminder` contenido en él mismo (dataset con datos económicos de distintos países). Deberás **.bg-purple_light[entregar completado]** el archivo `.Rmd` que tienes disponible en &lt;https://github.com/dadosdelaplace/teaching/tree/main/bioestad/eval&gt; **.bg-purple_light[antes de las 23:59 del 29 de septiembre]**, siguiendo las instrucciones contenidas en el mismo.
 
@@ -7381,6 +8139,10 @@ install.packages("gapminder")
 library(gapminder)
 gapminder
 ```
+
+
+&amp;nbsp;
+
 
 🔎 Mira antes &lt;https://github.com/dadosdelaplace/teaching/blob/main/bioestad/scripts/segundo_rmarkdown.Rmd&gt; para ver algunas opciones extras que puedes usar para personalizar.
 
@@ -7769,12 +8531,12 @@ microbenchmark(sqrt(x), for (i in 1:1000) { y[i] &lt;- sqrt(x[i]) }, times = 1e3
 
 ```
 &gt; Unit: microseconds
-&gt;                                          expr      min       lq        mean
-&gt;                                       sqrt(x)    2.342    3.103    5.591525
-&gt;  for (i in 1:1000) {     y[i] &lt;- sqrt(x[i]) } 1851.782 2200.259 2961.537620
-&gt;    median       uq       max neval cld
-&gt;     4.113    5.510    66.501  1000  a 
-&gt;  2559.707 3245.222 28314.670  1000   b
+&gt;                                          expr      min        lq       mean
+&gt;                                       sqrt(x)    2.350    2.9825    4.18017
+&gt;  for (i in 1:1000) {     y[i] &lt;- sqrt(x[i]) } 1818.792 2123.9215 2581.82715
+&gt;     median        uq       max neval cld
+&gt;     3.8255    4.4535    22.972  1000  a 
+&gt;  2338.1580 2713.2625 11996.997  1000   b
 ```
 
 
@@ -7858,11 +8620,11 @@ microbenchmark(map(x, .f = function(x) { mean(x^2) }), lapply(x, FUN = function(
 ```
 &gt; Unit: milliseconds
 &gt;                                            expr      min       lq     mean
-&gt;      map(x, .f = function(x) {     mean(x^2) }) 5.779748 6.853581 9.171556
-&gt;  lapply(x, FUN = function(x) {     mean(x^2) }) 5.674023 6.619473 9.045678
+&gt;      map(x, .f = function(x) {     mean(x^2) }) 5.575835 6.436981 8.737301
+&gt;  lapply(x, FUN = function(x) {     mean(x^2) }) 5.519246 6.226565 8.024970
 &gt;    median       uq       max neval cld
-&gt;  7.774244 8.707048 182.69333  1000   a
-&gt;  7.620667 8.573849  83.61895  1000   a
+&gt;  7.458061 8.040993 187.20825  1000   b
+&gt;  7.294085 7.838921  44.97661  1000  a
 ```
 
 

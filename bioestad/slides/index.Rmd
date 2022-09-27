@@ -243,7 +243,7 @@ class: inverse center middle
 
 #### [CLASE 6](#clase-6)
 
-#### [ENTREGA I](#clase5-caso-I)
+#### [ENTREGA I](#entrega-I)
 
 ]
 
@@ -5013,9 +5013,7 @@ name: clase-6
 
 ### [Tidydata: datos limpios](#tidydata)
 
-### [Caso práctico: starwars](#clase6-caso-I)
-
-### [Caso práctico: gapminder](#clase6-caso-II)
+### [Entrega I](#entrega-I)
 
 ---
 
@@ -5176,11 +5174,445 @@ knitr::include_graphics("./img/tuberia.jpg")
 
 # Datos .orange[SUCIOS]: messy data
 
+Por ejemplo, vamos a cargar la tabla `table4a` del paquete `{tidyr}` (que ya lo tenemos cargado del entorno `{tidyverse}`).
+
+```{r echo = FALSE}
+library(tidyverse)
+```
+
+```{r}
+table4a
+```
+
+**.bg-purple_light[¿Qué falla?]**
 
 ---
 
 
-# .orange[CASO PRÁCTICO]: análisis de Star Wars
+# Datos .orange[SUCIOS]: messy data
+
+.pull-left[
+
+```{r echo = FALSE}
+library(tidyverse)
+```
+
+```{r}
+table4a
+```
+
+**.bg-purple_light[¿Qué falla?]**
+
+]
+
+.pull-right[
+
+
+❎ Cada **.bg-green_light[variable en una columna]**.
+
+❎ Cada **.bg-orange[observación/individuo en una fila]** diferente.
+
+❎ Cada **.bg-green_light[celda con un único valor]**.
+
+]
+
+Aunque la columna `$country` representa una variable, las otras columnas no: **.bg-purple_light[ambas son la misma variable]**, solo que medida en años distintos (que debería ser a su vez otra variable), de forma que **.bg-purple_light[cada fila está representando dos observaciones]** (1999, 2000).
+
+
+---
+
+# Datos .orange[SUCIOS]: messy data
+
+
+.pull-left[
+
+Lo que haremos será incluir una nueva columna llamada (por ejemplo) `year` que nos marque el año y otra llamada `cases` que nos diga el valor de la variable de interés en cada uno de esos años.
+
+]
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "65%", fig.align = "center"}
+knitr::include_graphics("./img/table4a.jpg")
+``` 
+
+
+]
+
+--
+
+Con la función `pivot_longer()` pivotaremos la tabla para pasarla a **formato long**:
+
+```{r}
+table4a %>%
+  pivot_longer(cols = c("1999", "2000"), names_to = "year", values_to = "cases") #<<
+```
+
+---
+
+# Datos .orange[SUCIOS]: messy data
+
+.pull-left[
+
+```{r}
+table4a %>%
+  pivot_longer(cols = c("1999", "2000"),
+               names_to = "year", 
+               values_to = "cases") #<<
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "99%", fig.align = "center"}
+knitr::include_graphics("./img/table4a_2.png")
+``` 
+
+
+]
+
+
+* `cols`: el **.bg-purple_light[nombre de las columnas a pivotar]** (con comillas por ser números y no caracteres).
+* `names_to`: el **.bg-purple_light[nombre de la nueva columna]** a la mandamos los **.bg-purple_light[nombres]** de las columnas.
+* `values_to`: el **.bg-purple_light[nombre de la nueva columna]** a la que vamos a mandar los **.bg-purple_light[datos]**.
+
+
+---
+
+# Datos .orange[SUCIOS]: messy data
+
+Echa un vistazo a la tabla `{table4b}`
+
+```{r}
+table4b
+```
+
+**.bg-purple_light[TODO TUYO]**: ¿es tidy o messy? ¿Cómo convertirla a tidy data en caso de que no lo sea ya?
+
+
+---
+
+# Datos .orange[SUCIOS]: messy data
+
+Echa un vistazo a la tabla `{relig_income}`
+
+```{r}
+relig_income
+```
+
+**.bg-purple_light[TODO TUYO]**: ¿es tidy o messy? ¿Cómo convertirla a tidy data en caso de que no lo sea ya?
+
+---
+
+# Datos .orange[SUCIOS]: messy data
+
+Veamos un segundo tipo de dato sucio: vamos a cargar la tabla `table2` del paquete `{tidyr}` (que ya lo tenemos cargado del entorno `{tidyverse}`). **.bg-purple_light[¿Qué falla?]**
+
+
+```{r}
+table2
+```
+
+
+---
+
+# Datos .orange[SUCIOS]: messy data
+
+.pull-left[
+
+
+```{r}
+head(table2)
+```
+
+]
+
+.pull-right[
+
+
+```{r echo = FALSE,  out.width = "69%", fig.align = "center"}
+knitr::include_graphics("./img/table2.jpg")
+``` 
+]
+
+
+❎ Cada **.bg-orange[observación/individuo en una fila]** diferente.
+
+
+Fíjate en las cuatro primeras filas: los registros con el mismo año deberían ser el mismo, es la misma información, **.bg-purple_light[debería estar en la misma fila]**, pero está dividada en dos. 
+
+---
+
+
+# Datos .orange[SUCIOS]: messy data
+
+Lo que haremos será lo opuesto a antes: con `pivot_wider()` «ampliaremos» la **.bg-purple_light[tabla a lo ancho]**, con menos filas pero con más columnas.
+
+```{r}
+table2 %>%
+  pivot_wider(names_from = type, values_from = count) #<<
+```
+
+* `names_from`: el **.bg-purple_light[nombre de la columna original]** de la que vamos a sacar las **.bg-purple_light[nuevas columnas]** que vamos a crear (`cases` y `population`).
+* `values_from`: el **.bg-purple_light[nombre de la columna orignal]** de la que vamos a sacar los **.bg-purple_light[datos]**.
+
+
+---
+
+# Datos .orange[SUCIOS]: messy data
+
+
+Por último veamos un tercer tipo de dato sucio: vamos a cargar la tabla `table3` del paquete `{tidyr}` (que ya lo tenemos cargado del entorno `{tidyverse}`). **.bg-purple_light[¿Qué falla?]**
+
+
+```{r}
+table3
+```
+
+--
+
+❎ Cada **.bg-green_light[celda con un único valor]**.
+
+
+---
+
+# Datos .orange[SUCIOS]: messy data
+
+
+.pull-left[
+
+Lo que haremos será hacer uso de la función `separate()` para mandar **.bg-purple_light[cada valor a una columna diferente]**.
+
+```{r}
+table3 %>%
+  separate(rate, into = c("cases", "pop")) #<<
+```
+
+* `into`: **.bg-purple_light[nombre de nuevas columnas]** donde separaremos valores.
+]
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "99%", fig.align = "center"}
+knitr::include_graphics("./img/seperate.jpg")
+``` 
+
+]
+
+---
+
+# Datos .orange[SUCIOS]: messy data
+
+
+Por defecto lo que hace es **.bg-purple_light[localizar como separador cualquier caracter que no sea alfa-numérico]**. Si queremos un caracter concreto para dividir podemos indicárselo explícitamente. Si usas un separador que no está en los datos te devolverá dichas columnas vacías ya que no ha podido dividirlas.
+
+
+```{r warning = TRUE}
+table3 %>% separate(rate, into = c("cases", "population"), sep = ".")
+```
+
+---
+
+# Datos .orange[SUCIOS]: messy data
+
+De la misma manera que podemos separar columnas también podemos **.bg-purple_light[unir columnas]**. Para ello vamos a usar la tabla `table5` del ya mencionado paquete.
+
+```{r}
+table5
+```
+
+---
+
+# Datos .orange[SUCIOS]: messy data
+
+.pull-left[
+
+Con la función `unite()` vamos a **.bg-purple_light[unir]** el siglo (en `century`) y el año (en `year`), y al inicio le indicaremos como se llamará la nueva variable `year_ok`
+
+```{r}
+table5 %>%
+  unite(col = year_ok,
+        century, year, sep = "")
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "99%", fig.align = "center"}
+knitr::include_graphics("./img/unite.jpg")
+``` 
+
+]
+
+
+---
+
+# Eliminando .orange[AUSENTES]
+
+El paquete `{tidyr}` también dispone de algunas herramientas útiles para **.bg-purple_light[quitar ausentes]**
+
+```{r}
+datos <- tibble(x = c(1, 2, NA), y = c("a", NA, "b"))
+datos
+```
+
+---
+
+# Eliminando .orange[AUSENTES]
+
+
+Con `drop_na()` podemos indicarle que nos **.bg-purple_light[elimine las filas con algún ausente]** en alguna de las variables (o especificarle la variable concreta).
+
+
+.pull-left[
+
+```{r}
+datos %>% drop_na()
+```
+
+]
+
+
+.pull-right[
+
+```{r}
+datos %>% drop_na(x)
+```
+
+]
+
+---
+
+# Eliminando .orange[AUSENTES]
+
+A veces no querremos eliminarlos sino **.bg-purple_light[imputar por el valor previo/siguiente]**  con `fill()`
+
+.pull-left[
+
+```{r}
+datos %>% fill(x)
+datos %>% fill(x, .direction = c("up"))
+```
+
+]
+
+.pull-right[
+
+```{r}
+datos %>% fill(y)
+datos %>% fill(y, .direction = c("up"))
+```
+
+]
+
+
+---
+
+# Eliminando .orange[AUSENTES]
+
+Los **.bg-purple_light[ausentes]** también pueden ser **.bg-purple_light[eliminados al pivotar]** con `values_drop_na`.
+
+
+```{r}
+stocks <-
+  tibble(qtr = 1:4,
+         "2015" = c(1.88, 0.59, 0.35, NA),
+         "2016" = c(NA, 0.92, 0.17, 2.66))
+stocks
+```
+
+---
+
+# Eliminando .orange[AUSENTES]
+
+Los **.bg-purple_light[ausentes]** también pueden ser **.bg-purple_light[eliminados al pivotar]** con `values_drop_na`.
+
+```{r}
+stocks %>%
+  pivot_longer(cols = c("2015", "2016"), names_to = "year",
+               values_to = "return", values_drop_na = TRUE)
+```
+
+---
+
+# Reemplazando .orange[AUSENTES]
+
+Otras veces querremos **.bg-purple_light[imputar los ausentes por un valor fijo]**, algo que podemos hacer con `replace_na()`
+
+.pull-left[
+
+```{r}
+datos
+```
+
+]
+
+.pull-right[
+
+```{r}
+
+datos %>%
+  replace_na(list(x = -1,
+                  y = "unknown"))
+```
+
+]
+
+---
+
+
+# Completando .orange[AUSENTES]
+
+Por último, también podemos **.bg-purple_light[crear todas las combinaciones posibles de variables]** (para completar datos ausentes que se hayan podido eliminar).
+
+
+```{r}
+stocks <- tibble(year = c(2015, 2015, 2015, 2015, 2016, 2016, 2016),
+                 qtr = c(1, 2, 3, 4, 2, 3, 4),
+                 return = c(1.88, 0.59, 0.35, NA, 0.92, 0.17, 2.66))
+```
+
+.pull-left[
+
+```{r}
+stocks
+```
+
+]
+
+.pull-right[
+
+```{r}
+stocks %>% complete(year, qtr)
+```
+
+]
+
+---
+
+name: entrega-I
+
+# .orange[CASO PRÁCTICO 1]: datos de la OMS
+
+Instala el paquete `{tidyr}` y usa el conjunto `who` contenido en él mismo (dataset sobre casos de tuberculosis). Deberás **.bg-purple_light[entregar completado]** el archivo `.Rmd` que tienes disponible en <https://github.com/dadosdelaplace/teaching/tree/main/bioestad/eval> **.bg-purple_light[antes de las 23:59 del 29 de septiembre]**, siguiendo las instrucciones contenidas en el mismo.
+
+```{r eval = FALSE}
+install.packages("tidyr")
+library(tidyr)
+who
+```
+
+&nbsp;
+
+🔎 Mira antes <https://github.com/dadosdelaplace/teaching/blob/main/bioestad/scripts/segundo_rmarkdown.Rmd> para ver algunas opciones extras que puedes usar para personalizar.
+
+
+---
+
+
+# .orange[CASO PRÁCTICO 2]: análisis de Star Wars
 
 Instala el paquete `{dplyr}` y usa el conjunto `starwars` contenido en él mismo (dataset con los personajes de las películas de la saga Star Wars). Deberás **.bg-purple_light[entregar completado]** el archivo `.Rmd` que tienes disponible en <https://github.com/dadosdelaplace/teaching/tree/main/bioestad/eval> **.bg-purple_light[antes de las 23:59 del 29 de septiembre]**, siguiendo las instrucciones contenidas en el mismo.
 
@@ -5191,13 +5623,13 @@ library(dplyr)
 starwars
 ```
 
+&nbsp;
+
 🔎 Mira antes <https://github.com/dadosdelaplace/teaching/blob/main/bioestad/scripts/segundo_rmarkdown.Rmd> para ver algunas opciones extras que puedes usar para personalizar.
 
 ---
 
-name: clase6-caso-II
-
-# .orange[CASO PRÁCTICO]: análisis de gapminder
+# .orange[CASO PRÁCTICO 3]: análisis de gapminder
 
 Instala el paquete `{gapminder}` y usa el conjunto `gapminder` contenido en él mismo (dataset con datos económicos de distintos países). Deberás **.bg-purple_light[entregar completado]** el archivo `.Rmd` que tienes disponible en <https://github.com/dadosdelaplace/teaching/tree/main/bioestad/eval> **.bg-purple_light[antes de las 23:59 del 29 de septiembre]**, siguiendo las instrucciones contenidas en el mismo.
 
@@ -5206,6 +5638,10 @@ install.packages("gapminder")
 library(gapminder)
 gapminder
 ```
+
+
+&nbsp;
+
 
 🔎 Mira antes <https://github.com/dadosdelaplace/teaching/blob/main/bioestad/scripts/segundo_rmarkdown.Rmd> para ver algunas opciones extras que puedes usar para personalizar.
 
