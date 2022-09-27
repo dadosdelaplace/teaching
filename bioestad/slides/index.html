@@ -24,7 +24,7 @@ class: center, middle, inverse, title-slide
 # GESTIÓN DE BASES DE DATOS
 ## Máster en Bioestadística
 ### Javier Álvarez Liébana (Fac. Estudios Estadísticos - UCM)
-### Última actualización: 26-09-2022
+### Última actualización: 27-09-2022
 
 ---
 
@@ -184,12 +184,13 @@ class: inverse center middle
 
 #### [CLASE 5](#clase-5)
 
+#### [CLASE 6](#clase-6)
+
 #### [ENTREGA I](#clase5-caso-I)
 
 ]
 
 .pull-right[
-#### [CLASE 6](#clase-6)
 
 #### [CLASE 7](#clase-7)
 
@@ -1713,7 +1714,7 @@ hoy
 ```
 
 ```
-&gt; [1] "2022-09-26"
+&gt; [1] "2022-09-27"
 ```
 
 --
@@ -1726,7 +1727,7 @@ También podemos obtener el **.bg-purple_light[«hoy y ahora»]** con la funció
 ```
 
 ```
-&gt; [1] "2022-09-26 19:56:27 CEST"
+&gt; [1] "2022-09-27 20:07:00 CEST"
 ```
  
 ---
@@ -2110,7 +2111,7 @@ hoy - cumple
 ```
 
 ```
-&gt; Time difference of 12069 days
+&gt; Time difference of 12070 days
 ```
 
 ]
@@ -3020,9 +3021,9 @@ x &lt;- rnorm(1e3) # 1000 elementos aleatorias
 
 ```
 &gt; Unit: microseconds
-&gt;         expr    min      lq     mean median      uq     max neval cld
-&gt;      sort(x) 43.845 48.9870 61.83178 55.028 62.1900 247.304  1000   b
-&gt;  x[order(x)] 30.696 34.8525 42.79342 38.779 42.7085 175.829  1000  a
+&gt;         expr    min     lq     mean median      uq     max neval cld
+&gt;      sort(x) 44.776 55.325 78.13125 66.634 94.5945 256.714  1000   b
+&gt;  x[order(x)] 31.265 37.476 51.40966 43.610 61.4400 263.022  1000  a
 ```
 
 --
@@ -6270,12 +6271,12 @@ microbenchmark(x^2,
 
 ```
 &gt; Unit: nanoseconds
-&gt;                                     expr     min      lq      mean  median
-&gt;                                      x^2     339     439    1048.1    1029
-&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 1657735 1767348 2067981.5 1873590
-&gt;       uq      max neval cld
-&gt;     1472    18587  1000  a 
-&gt;  2141000 15597522  1000   b
+&gt;                                     expr     min        lq        mean  median
+&gt;                                      x^2     360     482.5    1422.995    1197
+&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 1786319 2047196.0 2618429.762 2356516
+&gt;         uq      max neval cld
+&gt;     1985.5    20531  1000  a 
+&gt;  2810799.5 29179192  1000   b
 ```
 
 ---
@@ -6588,7 +6589,7 @@ sample(x = 0:1, size = 30, replace = TRUE)
 ```
 
 ```
-&gt;  [1] 0 0 1 1 1 1 0 0 1 0 0 1 1 0 1 1 1 1 0 1 1 0 0 0 1 0 1 0 0 1
+&gt;  [1] 0 0 0 0 1 0 1 0 0 1 1 0 1 1 1 0 1 1 0 1 0 0 0 1 0 0 1 1 0 0
 ```
 
 ---
@@ -6603,7 +6604,7 @@ sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
 ```
 
 ```
-&gt;  [1] "cruz" "cara" "cara" "cara" "cruz" "cruz" "cara" "cruz" "cruz" "cruz"
+&gt;  [1] "cara" "cruz" "cruz" "cara" "cara" "cruz" "cruz" "cara" "cruz" "cara"
 ```
 
 --
@@ -6616,7 +6617,7 @@ sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
 ```
 
 ```
-&gt;  [1] "cruz" "cruz" "cruz" "cruz" "cruz" "cruz" "cara" "cruz" "cara" "cara"
+&gt;  [1] "cara" "cruz" "cruz" "cruz" "cruz" "cara" "cara" "cruz" "cara" "cara"
 ```
 
 ---
@@ -7192,6 +7193,166 @@ name: clase-6
 
 ---
 
+name: tidydata
+
+# Datos limpios: .orange[TIDY DATA]
+
+.pull-left[
+
+&lt;img src="./img/tidyverrse_universe.jpg" width="99%" style="display: block; margin: auto;" /&gt;
+
+]
+
+.pull-right[
+&lt;img src="./img/flow_tidyverse.jpg" width="99%" style="display: block; margin: auto;" /&gt;
+]
+
+Universo de **.bg-purple_light[paquetes tidyverse]**: un conjunto de paquetes para un flujo de **trabajo eficiente, coherente y lexicográficamente** sencillo de entender.
+
+---
+
+# Datos limpios: .orange[TIDY DATA]
+
+&gt; Tidy datasets are all alike, but every messy dataset is messy in its own way (Hadley Wickham, Chief Scientist en RStudio)
+
+Hasta ahora solo le hemos dado importancia al «qué» pero no al **.bg-purple_light[«cómo» manejamos los datos]**. La organización de nuestros datos es fundamental para que su **.bg-purple_light[preparación y explotación]** sea lo más eficiente posible.
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/tidy_flow.jpg" alt="Flujo deseable de datos según Hadley Wickham, extraída de https://r4ds.had.co.nz/wrangle-intro.html" width="60%" /&gt;
+&lt;p class="caption"&gt;Flujo deseable de datos según Hadley Wickham, extraída de https://r4ds.had.co.nz/wrangle-intro.html&lt;/p&gt;
+&lt;/div&gt;
+
+
+---
+
+# Datos limpios: .orange[TIDY DATA]
+
+El concepto **.bg-purple_light[tidy data]** fue introducido por **Hadley Wickham** (Wickham, 2014) como el primer paso de un flujo de trabajo eficiente. Para ello haremos uso del paquete `{tidyr}` (dentro de `{tidyverse}`) que nos proporciona herramientas eficientes y sencillaspara su manejo.
+
+--
+
+&amp;nbsp;
+
+Los **.bg-purple_light[conjuntos tidy u ordenados]** tienen tres objetivos
+
+* **.bg-orange[Estandarización]** en su estructura para una depuración y análisis eficiente.
+* **.bg-orange[Sencillez]** en su manipulación.
+* Listos para ser **.bg-orange[modelizados y visualizados]**.
+
+&amp;nbsp;
+
+📚 Ver Wickham (2014) en **.bg-green_light[bibliografía]** en &lt;https://github.com/dadosdelaplace/teaching/tree/main/bioestad/biblio&gt;
+
+---
+
+# Datos limpios: .orange[TIDY DATA]
+
+
+
+.pull-left[
+
+Los **.bg-purple_light[datos ordenados o tidy data]** deben cumplir:
+
+1. Cada **.bg-green_light[variable en una columna]**.
+
+2. Cada **.bg-orange[observación/individuo en una fila]** diferente.
+
+3. Cada **.bg-green_light[celda con un único valor]**.
+
+4. Cada **.bg-orange[conjunto en un tibble]** (tabla).
+
+5. Si usamos múltiples tablas a la vez debemos tener una **.bg-green_light[columna común para poder cruzarlas]**.
+
+]
+
+.pull-right[
+
+&lt;img src="./img/tidy_def.jpg" width="85%" style="display: block; margin: auto;" /&gt;
+
+&amp;nbsp;
+
+&lt;img src="./img/tidyr_1.jpg" width="50%" style="display: block; margin: auto;" /&gt;
+
+
+]
+
+
+---
+
+# Tubería .orange[PIPE]
+
+En este entorno de trabajo tendremos un **.bg-purple_light[operador clave]**: el **.bg-purple_light[operador pipeline]** `%&gt;%` (podemos usar el atajo con `ctrl+shift+M` o `command+shift+M`). Dicho operador lo debemos interpretar como una **.bg-purple_light[tubería]** que va pasando por los datos y los va transformando.
+
+--
+
+Por ejemplo, si tuviésemos tres funciones `first()`, `second()` y `third()`, la opción más inmediata sería anidar las tres funciones tal que `third(second(first(x)))`, algo que dificulta la lectura posterior del código
+
+--
+
+Con `%&gt;%` podremos escribir (y leer) la concetanción de acciones como una **.bg-purple_light[tubería de izquierda a derecha]**:
+
+
+```r
+first(x) %&gt;% second(x) %&gt;% third(x)
+```
+
+--
+
+Dicho operador viene del paquete `{magrittr}`. Para **evitar esta dependencia** (cuantos menos paquetes tengamos que cargar, mejor), desde la versión 4.1.0 de R, disponemos de un pipeline nativo de R, el **operador** `|&gt;` (disponible además fuera del entorno tidyverse).
+
+---
+
+# Tubería .orange[PIPE]
+
+.pull-left[
+
+
+```r
+datos %&gt;%
+  limpio(...) %&gt;%
+  selecciono(...) %&gt;%
+  filtro(...) %&gt;%
+  ordeno(...) %&gt;%
+  agrupo(...) %&gt;%
+  cuento(...) %&gt;%
+  resumo(...) %&gt;% 
+  pinto(...)
+```
+
+
+```r
+datos |&gt;
+  limpio(...) |&gt;
+  selecciono(...) |&gt;
+  filtro(...) |&gt;
+  ordeno(...) |&gt;
+  agrupo(...) |&gt;
+  cuento(...) |&gt;
+  resumo(...) |&gt;
+  pinto(...)
+```
+
+]
+
+.pull-right[
+
+&lt;img src="./img/tuberia.jpg" width="90%" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+
+# Datos .orange[SUCIOS]: messy data
+
+
+---
+
+# Datos a lo .orange[ANCHO] vs .green[LARGO]
+
+
+---
+
+
 # .orange[CASO PRÁCTICO]: análisis de Star Wars
 
 Instala el paquete `{dplyr}` y usa el conjunto `starwars` contenido en él mismo (dataset con los personajes de las películas de la saga Star Wars). Deberás **.bg-purple_light[entregar completado]** el archivo `.Rmd` que tienes disponible en &lt;https://github.com/dadosdelaplace/teaching/tree/main/bioestad/eval&gt; **.bg-purple_light[antes de las 23:59 del 29 de septiembre]**, siguiendo las instrucciones contenidas en el mismo.
@@ -7609,11 +7770,11 @@ microbenchmark(sqrt(x), for (i in 1:1000) { y[i] &lt;- sqrt(x[i]) }, times = 1e3
 ```
 &gt; Unit: microseconds
 &gt;                                          expr      min       lq        mean
-&gt;                                       sqrt(x)    2.236    2.740    3.815479
-&gt;  for (i in 1:1000) {     y[i] &lt;- sqrt(x[i]) } 1721.171 1836.448 2114.467344
-&gt;    median       uq      max neval cld
-&gt;     3.214    3.694    36.72  1000  a 
-&gt;  1930.402 2169.883 15259.40  1000   b
+&gt;                                       sqrt(x)    2.342    3.103    5.591525
+&gt;  for (i in 1:1000) {     y[i] &lt;- sqrt(x[i]) } 1851.782 2200.259 2961.537620
+&gt;    median       uq       max neval cld
+&gt;     4.113    5.510    66.501  1000  a 
+&gt;  2559.707 3245.222 28314.670  1000   b
 ```
 
 
@@ -7697,11 +7858,11 @@ microbenchmark(map(x, .f = function(x) { mean(x^2) }), lapply(x, FUN = function(
 ```
 &gt; Unit: milliseconds
 &gt;                                            expr      min       lq     mean
-&gt;      map(x, .f = function(x) {     mean(x^2) }) 5.435344 6.040463 8.009342
-&gt;  lapply(x, FUN = function(x) {     mean(x^2) }) 5.226323 5.926049 7.942847
+&gt;      map(x, .f = function(x) {     mean(x^2) }) 5.779748 6.853581 9.171556
+&gt;  lapply(x, FUN = function(x) {     mean(x^2) }) 5.674023 6.619473 9.045678
 &gt;    median       uq       max neval cld
-&gt;  6.971737 7.719814 175.86199  1000   a
-&gt;  6.865768 7.661309  49.52038  1000   a
+&gt;  7.774244 8.707048 182.69333  1000   a
+&gt;  7.620667 8.573849  83.61895  1000   a
 ```
 
 

@@ -5019,6 +5019,167 @@ name: clase-6
 
 ---
 
+name: tidydata
+
+# Datos limpios: .orange[TIDY DATA]
+
+.pull-left[
+
+```{r echo = FALSE,  out.width = "99%", fig.align = "center"}
+knitr::include_graphics("./img/tidyverrse_universe.jpg")
+``` 
+
+]
+
+.pull-right[
+```{r echo = FALSE,  out.width = "99%", fig.align = "center"}
+knitr::include_graphics("./img/flow_tidyverse.jpg")
+``` 
+]
+
+Universo de **.bg-purple_light[paquetes tidyverse]**: un conjunto de paquetes para un flujo de **trabajo eficiente, coherente y lexicográficamente** sencillo de entender.
+
+---
+
+# Datos limpios: .orange[TIDY DATA]
+
+> Tidy datasets are all alike, but every messy dataset is messy in its own way (Hadley Wickham, Chief Scientist en RStudio)
+
+Hasta ahora solo le hemos dado importancia al «qué» pero no al **.bg-purple_light[«cómo» manejamos los datos]**. La organización de nuestros datos es fundamental para que su **.bg-purple_light[preparación y explotación]** sea lo más eficiente posible.
+
+```{r echo = FALSE,  out.width = "60%", fig.align = "center", fig.cap = "Flujo deseable de datos según Hadley Wickham, extraída de https://r4ds.had.co.nz/wrangle-intro.html"}
+knitr::include_graphics("./img/tidy_flow.jpg")
+``` 
+
+
+---
+
+# Datos limpios: .orange[TIDY DATA]
+
+El concepto **.bg-purple_light[tidy data]** fue introducido por **Hadley Wickham** (Wickham, 2014) como el primer paso de un flujo de trabajo eficiente. Para ello haremos uso del paquete `{tidyr}` (dentro de `{tidyverse}`) que nos proporciona herramientas eficientes y sencillaspara su manejo.
+
+--
+
+&nbsp;
+
+Los **.bg-purple_light[conjuntos tidy u ordenados]** tienen tres objetivos
+
+* **.bg-orange[Estandarización]** en su estructura para una depuración y análisis eficiente.
+* **.bg-orange[Sencillez]** en su manipulación.
+* Listos para ser **.bg-orange[modelizados y visualizados]**.
+
+&nbsp;
+
+📚 Ver Wickham (2014) en **.bg-green_light[bibliografía]** en <https://github.com/dadosdelaplace/teaching/tree/main/bioestad/biblio>
+
+---
+
+# Datos limpios: .orange[TIDY DATA]
+
+
+
+.pull-left[
+
+Los **.bg-purple_light[datos ordenados o tidy data]** deben cumplir:
+
+1. Cada **.bg-green_light[variable en una columna]**.
+
+2. Cada **.bg-orange[observación/individuo en una fila]** diferente.
+
+3. Cada **.bg-green_light[celda con un único valor]**.
+
+4. Cada **.bg-orange[conjunto en un tibble]** (tabla).
+
+5. Si usamos múltiples tablas a la vez debemos tener una **.bg-green_light[columna común para poder cruzarlas]**.
+
+]
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "85%", fig.align = "center"}
+knitr::include_graphics("./img/tidy_def.jpg")
+``` 
+
+&nbsp;
+
+```{r echo = FALSE,  out.width = "50%", fig.align = "center"}
+knitr::include_graphics("./img/tidyr_1.jpg")
+``` 
+
+
+]
+
+
+---
+
+# Tubería .orange[PIPE]
+
+En este entorno de trabajo tendremos un **.bg-purple_light[operador clave]**: el **.bg-purple_light[operador pipeline]** `%>%` (podemos usar el atajo con `ctrl+shift+M` o `command+shift+M`). Dicho operador lo debemos interpretar como una **.bg-purple_light[tubería]** que va pasando por los datos y los va transformando.
+
+--
+
+Por ejemplo, si tuviésemos tres funciones `first()`, `second()` y `third()`, la opción más inmediata sería anidar las tres funciones tal que `third(second(first(x)))`, algo que dificulta la lectura posterior del código
+
+--
+
+Con `%>%` podremos escribir (y leer) la concetanción de acciones como una **.bg-purple_light[tubería de izquierda a derecha]**:
+
+```{r eval = FALSE}
+first(x) %>% second(x) %>% third(x)
+```
+
+--
+
+Dicho operador viene del paquete `{magrittr}`. Para **evitar esta dependencia** (cuantos menos paquetes tengamos que cargar, mejor), desde la versión 4.1.0 de R, disponemos de un pipeline nativo de R, el **operador** `|>` (disponible además fuera del entorno tidyverse).
+
+---
+
+# Tubería .orange[PIPE]
+
+.pull-left[
+
+```{r eval = FALSE}
+datos %>%
+  limpio(...) %>%
+  selecciono(...) %>%
+  filtro(...) %>%
+  ordeno(...) %>%
+  agrupo(...) %>%
+  cuento(...) %>%
+  resumo(...) %>% 
+  pinto(...)
+```
+
+```{r eval = FALSE}
+datos |>
+  limpio(...) |>
+  selecciono(...) |>
+  filtro(...) |>
+  ordeno(...) |>
+  agrupo(...) |>
+  cuento(...) |>
+  resumo(...) |>
+  pinto(...)
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "90%", fig.align = "center"}
+knitr::include_graphics("./img/tuberia.jpg")
+``` 
+
+]
+
+---
+
+# Datos .orange[SUCIOS]: messy data
+
+
+---
+
+
 # .orange[CASO PRÁCTICO]: análisis de Star Wars
 
 Instala el paquete `{dplyr}` y usa el conjunto `starwars` contenido en él mismo (dataset con los personajes de las películas de la saga Star Wars). Deberás **.bg-purple_light[entregar completado]** el archivo `.Rmd` que tienes disponible en <https://github.com/dadosdelaplace/teaching/tree/main/bioestad/eval> **.bg-purple_light[antes de las 23:59 del 29 de septiembre]**, siguiendo las instrucciones contenidas en el mismo.
