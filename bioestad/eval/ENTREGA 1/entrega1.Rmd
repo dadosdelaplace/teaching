@@ -1,0 +1,389 @@
+---
+title: "Entrega I"
+description: |
+  Primeros pasos en R (deadline: 23:59 del 29 de septiembre)
+author:
+  - name: C. Tangana (DNI 0000000-A)
+    affiliation: Universidad Complutense de Madrid
+    affiliation_url: 
+date: "`r Sys.Date()`"
+output:
+    distill::distill_article:
+        highlight: kate
+        colorlinks: true
+        code_folding: false
+        toc: true            
+        toc_depth: 3     
+---
+
+```{r setup, include = FALSE}
+# Ajuste comunes de los chunk
+knitr::opts_chunk$set(fig.width = 9, fig.asp = 1, out.width = "100%",
+                      message = FALSE, warning = FALSE,
+                      echo = TRUE, res = 400)
+```
+
+# Instrucciones (leer antes de empezar)
+
+* Modifica dentro del documento `.Rmd` tus datos personales (nombre y DNI) ubicados en la cabecera del archivo.
+
+* Asegúrate, **ANTES de seguir editando** el documento, que el archivo `.Rmd` se teje correctamente (botón Knit) y se genera el `.html` correspondiente.
+
+* Los chunks (cajas de código) creados están o vacíos o incompletos, de ahí que la mayoría tengan la opción `eval = FALSE`. Una vez que edites lo que consideres debes ir cambiando cada chunck a `eval = TRUE` para que se ejecuten.
+
+* Recuerda que puedes ejecutar chunk a chunk con el botón _play_ o ejecutar todos los chunk hasta uno dado (con el botón a la izquierda del anterior).
+
+# Caso práctico I: datos de la OMS
+## Paquetes necesarios
+
+Necesitaremos los siguientes paquetes:
+
+```{r paquetes}
+# Borramos variables del environment
+rm(list = ls())
+library(glue)
+library(gapminder)
+library(tidyverse)
+```
+
+
+
+
+## Carga de datos
+
+El archivo de datos a usar lo cargaremos del paquete`{tidyr}` dentro de `{tidyverse}`
+
+```{r}
+who
+```
+
+En él tenemos un caso bastante real de lo que nos podemos encontrar con **datos reales**. En el archivo tenemos datos relacionados con casos de tuberculosis **desagregados por año, país, edad, género y el tipo**. Los datos son del año 2014 y fueron recopilados por la OMS. Fuente: <http://www.who.int/tb/country/data/download/en/>.
+
+
+* `country`, `iso2`, `iso3`: país (en nombre, en código con dos letras y en código con tres letras).
+
+* `year`: año
+
+* El resto de nombres de columnas siguen el siguiente patrón:
+  - Las 3 primeras letras nos dicen si son casos nuevos o antiguos.
+  - Las dos siguientes letras nos dicen el tipo: `rel` para casos de recaída, `ep` para casos de tuberculosis extrapulmonar, `sn` para casos de tuberculosis pulmonar que podrían no haber sido diagnosticados con un frotis positivo (smear negative), `sp` para casos de tuberculosis pulmonar diagnosticados con un frotis positivo (smear positive).
+
+  - La sexta letra nos dice el sexo del paciente.
+  - El resto de números nos dan el tramo etario (por ejemplo, `...4554` se refiere al tramo de 45 a 54 años)
+
+Echa un vistazo a los datos.
+
+
+## Ejercicio 1:
+
+> Detalla todos los problemas que veas en los datos y que acciones habría que realizar (sin hacerlas aún) para convertir la tabla en tidydata
+
+[Detalla aquí lo que consideres]
+
+## Ejercicio 2:
+
+
+> Tras analizar la tabla, construye partir de ella una nueva con los mismos datos (no borres nada) pero recolocados de tal forma que sea tidydata (pista: el nombre de columnas en tidyverse se puede usar como usamos los índices 1:n) 
+
+```{r eval = FALSE}
+# Completa el código y cambia a eval = TRUE 
+who1 <- who %>% pivot_...(...)
+who1
+```
+
+## Ejercicio 3:
+
+> Repite el ejercicio anterior pero eliminando las filas que tengan casos ausentes.
+
+```{r eval = FALSE}
+# Completa el código y cambia a eval = TRUE 
+who1 <- who %>% pivot_...(...)
+who1
+```
+
+## Ejercicio 4:
+
+
+> Aún no hemos visto tidyverse pero echa un vistazo a la ayuda de `count()` y aplica dicha función para contar con la tabla del ejercicio anterior cuantos registros tienes de cada tipo (agrupando todos los países y todos los años)
+
+```{r eval = FALSE}
+# Completa el código y cambia a eval = TRUE 
+who1 %>% count(...)
+```
+
+## Ejercicio 5:
+
+> Observando la salida anterior, ¿deberíamos de cambiar algo de la variable que nos indica la tipología? ¿Hay coherencia en todas ellas?
+
+[Detalla aquí lo que consideres]
+
+## Ejercicio 6:
+
+Con la tabla del ejercicio 3 ejecuta este código
+
+```{r eval = FALSE}
+# Completa el código y cambia a eval = TRUE 
+who2 <- [tabla_ej3] %>% 
+  mutate(key = str_replace(key, "newrel", "new_rel"))
+who2
+```
+
+> ¿Qué crees que hemos hecho?
+
+[Detalla aquí lo que consideres]
+
+## Ejercicio 7:
+
+> Construye nuevas columnas `"new"`, `"type"` y `"sexage"`, que nos separe el código de la tipología en cada una de sus partes (y se guarde en columnas nuevas)
+
+```{r eval = FALSE}
+# Completa el código y cambia a eval = TRUE 
+who3 <- who2 %>% ...
+who3
+```
+
+## Ejercicio 8:
+
+> Con la tabla anterior, separa correctamente el sexo de la edad creando dos variables `"sex"` y `"age"`
+
+```{r eval = FALSE}
+# Completa el código y cambia a eval = TRUE 
+who4 <- who3 %>% ...
+who4
+```
+
+## Extra:
+
+> Aunque es de tidyverse que aún no sabemos, haciendo uso de `select()`, mirando la chuleta de `{dplyr}`, ¿sabrías como eliminar dos de las 3 columnas redundantes de país?
+
+```{r eval = FALSE}
+# Completa el código y cambia a eval = TRUE
+who5 <- who4 %>% ...
+who5
+```
+
+# Caso práctico II: análisis de Star Wars
+
+## Carga de datos
+
+El archivo de datos a usar lo cargaremos del paquete`{dplyr}` dentro de `{tidyverse}`
+
+```{r}
+starwars
+```
+
+En él tenemos diferentes variables de los **personajes de Star Wars**, con características de su pelo, piel, altura, nombre, etc.
+
+## Ejercicio 1:
+
+
+> Haciendo uso de una función del paquete `{dplyr}` (que aparece en las diapositivas) obtén un resumen por columnas de los datos
+
+```{r eval = FALSE}
+# Completa el código y cambia a eval = TRUE 
+
+```
+
+## Ejercicio 2:
+
+
+> Determina la dimensión de nuestros datos. ¿Cuántos personajes hay incluidos en la base de datos? ¿Cuántas variables tenemos de cada personaje? ¿Qué variables son de tipo texto? ¿Qué variables hay de tipo numéricas?
+
+```{r eval = FALSE}
+# Completa el código y cambia a eval = TRUE 
+
+```
+
+
+## Ejercicio 3:
+
+
+> Extrae en un vector el nombre de las variables
+
+```{r eval = FALSE}
+# Completa el código y cambia a eval = TRUE 
+
+```
+
+## Ejercicio 4:
+
+
+> Completa el código inferior y cambia el nombre a las variables traduciendo los nombres a castellano (sin tildes ni caracteres extraños)
+
+```{r eval = FALSE}
+# Completa el código y cambia a eval = TRUE 
+names(starwars) <- ...
+```
+
+
+## Ejercicio 5:
+
+
+> Completa el código inferior y quédate solo con las variables que sean de tipo numéricas o de tipo texto. Guarda dicha selección en el conjunto nuevo_starwars
+
+```{r eval = FALSE}
+# Completa el código y cambia a eval = TRUE 
+nuevo_starwars <- subset(starwars, subset = ..., select = ...)
+```
+
+
+## Ejercicio 6:
+
+
+> Completa el código inferior y quédate solo con las variables que sean de tipo numéricas o de tipo texto, y además filtra solo aquellos personajes que no tenga ausentes ni en peso ni en estatura. Guarda dicha selección en el conjunto nuevo_starwars2
+
+```{r eval = FALSE}
+# Completa el código y cambia a eval = TRUE 
+nuevo_starwars2 <- subset(starwars, subset = ..., select = ...)
+```
+
+## Ejercicio 7:
+
+
+> Del conjunto nuevo_starwars2, completa el código inferior y cambia la variable del nombre de forma que todos estén en minúscula (echa un vistazo a las funciones toupper() y tolower())
+
+```{r eval = FALSE}
+# Completa el código y cambia a eval = TRUE 
+nuevo_starwars2$... <- ...
+```
+
+
+## Ejercicio 8:
+
+
+> Calcula la media de la variable estatura así como su (cuasi) desviación típica. Repite el proceso con la variable peso. ¿Cuál es la variable menos dispersa? (reminder: NO se pueden comparar desviaciones típicas, debes calcular el conocido como CV o coeficiente de variación). Calcula además la mediana de cada uno de ellos.
+
+```{r eval = FALSE}
+# Completa el código y cambia a eval = TRUE 
+```
+
+## Ejercicio 9:
+
+
+> Haciendo uso de sort(), ordena las edades de mayor a menor. Haciendo uso de order(), guarda en nombres_ordenados los nombres de los personajes ordenados por edad de menor a mayor.
+
+```{r eval = FALSE}
+# Completa el código y cambia a eval = TRUE 
+sort(nuevo_starwars2, ...)
+
+nombres_ordenados <- nuevo_starwars2$...[...]
+nombres_ordenados
+```
+
+## Ejercicio 10:
+
+
+> Añade una nueva variable llamada estatura_metros que sea la estatura en metros (la original está en cm). Haciendo uso de esa nueva variable, añade ota variable llamada IMC, calculada como el peso dividido entre el cuadrado de la estatura (en metros).
+
+```{r eval = FALSE}
+# Completa el código y cambia a eval = TRUE 
+nuevo_starwars2$estatura_metros <- ...
+nuevo_starwars2$IMC <- ...
+nuevo_starwars2
+```
+
+
+# Caso práctico III: análisis de gapminder
+
+## Carga de datos
+
+El archivo de datos a usar lo cargaremos del paquete`{gapminder}` 
+
+```{r}
+gapminder
+```
+
+En él tenemos diferentes **variables de económicas de distintos países en distintos años**.
+
+## Ejercicio 1:
+
+
+> Haciendo uso de una función del paquete `{dplyr}` (que aparece en las diapositivas) obtén un resumen por columnas de los datos
+
+```{r eval = FALSE}
+# Completa el código y cambia a eval = TRUE 
+
+```
+
+## Ejercicio 2:
+
+
+> Determina la dimensión de nuestros datos. ¿Cuántos registros tenemos? ¿Cuántas variables tenemos? ¿Cuántos países diferentes tenemos? (cuidado: aquí ya no tenemos un registro por país)
+
+```{r eval = FALSE}
+# Completa el código y cambia a eval = TRUE 
+
+```
+
+
+## Ejercicio 3:
+
+> Completa el código inferior y añade una nueva variable de texto llamada `id` que, para cada registro, una `pais-continente-año` (por ejemplo, "Afghanistan-Asia-1952").
+
+```{r eval = FALSE}
+# Completa el código y cambia a eval = TRUE 
+library(glue)
+gapminder$id <- glue(...)
+```
+
+## Ejercicio 4:
+
+> Tras la creación del id del ejercicio anterior, guarda en `gapminder_filtro` una nueva tabla en la que se eliminen la variable de nombre del país y contienente, y filtra solo registros del siglo XXI (años 2022 y 2007)
+
+```{r eval = FALSE}
+# Completa el código y cambia a eval = TRUE 
+gapminder_filtro <- ...
+```
+
+
+## Ejercicio 5:
+
+> Del conjunto `gapminder` original, crea dos subconjuntos de datos, `gapminder_1952` y `gapminder_2007`, uno filtrando solo el año 1952 y otro el año 2007. Tras ello crea un tercer conjunto de datos, `gapminder_dif`, con las mismas columnas que los otros dos conjuntos pero en el que la columna `lifeExp` sea la diferencia de la esperanza de vida de 2007 menos la de 1952. ¿Existe algún país que haya empeorado su esperanza de vida?
+
+```{r eval = FALSE}
+# Completa el código y cambia a eval = TRUE 
+gapminder_1952 <- ...
+gapminder_2007 <- ...
+gapminder_dif <- ...
+```
+
+
+## Ejercicio 6:
+
+> Calcula la media para cada continente de la esperanza de vida en 2007. Haz lo mismo para 1952.
+
+```{r eval = FALSE}
+# Completa el código y cambia a eval = TRUE 
+
+```
+
+
+## Ejercicio 7:
+
+> Calcula la media para cada continente de la población en 2007. Haz lo mismo para 1952.
+
+
+```{r eval = FALSE}
+# Completa el código y cambia a eval = TRUE 
+
+```
+
+
+## Ejercicio 8:
+
+> Determina el número de países que en 2007 temnían más de 40 millones de habitantes.
+
+```{r eval = FALSE}
+# Completa el código y cambia a eval = TRUE 
+
+```
+
+## Ejercicio 9:
+
+> Suponiendo que todas las fechas fuesen del 1 de enero del año contenido en la variable `year`, crea una nueva variable de tipo fecha en formato `dd-mm-yyyy`. Crea otra variable para calcular los días que han pasado hasta la fecha actual.
+
+
+```{r eval = FALSE}
+# Completa el código y cambia a eval = TRUE 
+
+```
