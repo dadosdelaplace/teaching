@@ -221,12 +221,8 @@ nota será el 100% de la nota del curso.
   
   - **.bg-orange[Regresión lineal]**: realizaremos una predicción (variable continua) teniendo como inputs una colección de variables continuas, asumiendo una relación lineal.
   
-  - **.bg-orange[Regresión penalizada]**: ¿todas las variables son importantes? ¿Podemos penalizar incluir información superflua?
+  - **.bg-orange[Regresión logística y GLM]**: realizaremos una predicción continua de la probabilidad de que una variable cualitativa tome cada una de las categorías (probabilidad de estar sano o enfermo, por ejemplo).
   
-  - **.bg-orange[Regresión logística]**: realizaremos una predicción continua de la probabilidad de que una variable cualitativa tome cada una de las categorías (probabilidad de estar sano o enfermo, por ejemplo).
-  
-  - **.bg-orange[GLM]**: generalizaremos los modelos lineales vistos hasta ahora (logística y reg. lineal).
-
 ---
 
 # .orange[EJEMPLOS] reales de alumnos
@@ -261,7 +257,7 @@ class: inverse center middle
 
 #### [CLASE 2: PRIMEROS DATOS. PRIMEROS CONCEPTOS](#clase-2)
 
-#### [CLASE 3: INTRO A LA METODOLOGÍA SEMMA. ESTRUCTURAS DE CONTROL Y FUNCIONES. RMD](#clase-3)
+#### [CLASE 3: INTRO A LA METODOLOGÍA SEMMA. TIDYDATA](#clase-3)
 
 ---
 
@@ -2143,9 +2139,16 @@ quantile(y, probs = c(0.2, 0.3, 0.7, 0.9))
 ---
 
 
-# Valores .orange[UNICOS]
+# Valores .orange[ÚNICOS]
 
 Con la función `unique()` podemos también extraer los **.bg-purple_light[valores únicos de una variable]**
+
+```{r}
+colores <- c("azul", "azul", "verde", "amarillo",
+             "azul", "rojo", "rojo", "azul", "rojo",
+             "verde", "morado")
+unique(colores) #<<
+```
 
 ---
 
@@ -2394,7 +2397,7 @@ x
 .panel[.panel-name[Ejercicios]
 
  
-* 📝 **Ejercicio 5**:  encuentra del vector `x` del ejerciio 1 los elementos mayores (estrictos) que 1 y menores (estrictos) que 7. Encuentra una forma de averiguar si todos los elementos son o no positivos.
+* 📝 **Ejercicio 5**:  encuentra del vector `x` del ejercicio 1 los elementos mayores (estrictos) que 1 y menores (estrictos) que 7. Encuentra una forma de averiguar si todos los elementos son o no positivos.
  
  
 * 📝 **Ejercicio 6**: define el vector `x <- c(-1, 0, -2, 5, 3, 7)` y obtén los elementos que ocupan una posición impar.
@@ -3288,7 +3291,7 @@ subset(USArrests, subset = UrbanPop > 70, select = c("Murder"))
 
 .panel[.panel-name[Caso práctico]
 
-* 📝 **Ejercicio**: filtra aquellos estados cuyo porcentaje de población urbana sea inferior al 70% y donde las agresiones sean superiores a 250 por cada 100 000 habitantes, seleccionando solo las variables.
+* 📝 **Ejercicio**: filtra aquellos estados cuyo porcentaje de población urbana sea inferior al 70% y donde las agresiones sean superiores a 250 por cada 100 000 habitantes, seleccionando solo las variables `Murder` y `Rape`
 
 ]
 
@@ -3649,7 +3652,14 @@ dim(gapminder)
 
 ---
 
+class: inverse center middle
 name: intro-estadistica
+
+# Introducción a la ESTADÍSTICA
+
+---
+
+
 
 # Introducción a la .orange[ESTADÍSTICA]
 
@@ -4201,30 +4211,1286 @@ $$CV_{x} = \frac{s_{x}}{\left| \overline{x} \right|}$$
 # Medidas de .orange[LOCALIZACIÓN/POSICIÓN]
 
 
-Las **.bg-purple_light[medidas de posición]** nos **localizan** los datos: son **.bg-purple_light[valores que nos dividen]** un conjunto ordenado en un número de tramos con el mismo tamaño muestral.
-
---
+Las **.bg-purple_light[medidas de posición]** nos **localizan** los datos: son **.bg-purple_light[valores que nos dividen]** un conjunto ordenado en un número de tramos con el mismo tamaño muestral. Ejemplo: la mediana es el percentil $P_{50}$, el decil $D_{5}$ y el cuartil $C_{2}$ o $q_2$.
 
 * **.bg-purple_light[Percentil]**: valores $P_{\alpha}$ del conjunto ordenado que dejan por debajo, al menos, el $\alpha  \%$ de datos y el $(100-\alpha) \%$ por encima.   
 
---
 
 * **.bg-purple_light[Decil]**: valores $D_{\alpha}$ del conjunto ordenado que dividen los datos en 10 partes iguales, que dejan por debajo, al menos, el $10*\alpha  \%$ de datos y el $(100-10*\alpha) \%$ por encima.   
 
---
 
 * **.bg-purple_light[Cuartil]**: valores $C_{\alpha}$ o $q_{\alpha}$ del conjunto ordenado que dividen los datos en 4 partes iguales, que dejan por debajo, al menos, el $25*\alpha  \%$ de datos y el $(100-25*\alpha) \%$ por encima.   
-
---
-
-Ejemplo: la mediana es el percentil $P_{50}$, el decil $D_{5}$ y el cuartil $C_{2}$ o $q_2$.
 
 ---
 
 class: inverse center middle
 name: clase-3
 
-# CLASE 3: introducción a SEMMA. Estructuras de control y funciones. Rmd.
+# CLASE 3: Tidydata. SEMMA.
+
+&nbsp;
+
+
+### [Tidydata](#tidydata)
+
+### [Caso práctico: datos de la OMS](#oms)
+
+### [Introducción al aprendizaje estadístico](#learning)
+
+### [Introducción a minería: metodología SEMMA](#data-mining)
+
+
+---
+
+name: tidydata
+
+# Datos limpios: .orange[TIDY DATA]
+
+.pull-left[
+
+```{r echo = FALSE,  out.width = "99%", fig.align = "center"}
+knitr::include_graphics("./img/tidyverrse_universe.jpg")
+``` 
+
+]
+
+.pull-right[
+```{r echo = FALSE,  out.width = "99%", fig.align = "center"}
+knitr::include_graphics("./img/flow_tidyverse.jpg")
+``` 
+]
+
+Universo de **.bg-purple_light[paquetes tidyverse]**: un conjunto de paquetes para un flujo de **trabajo eficiente, coherente y lexicográficamente** sencillo de entender.
+
+---
+
+# Datos limpios: .orange[TIDY DATA]
+
+> Tidy datasets are all alike, but every messy dataset is messy in its own way (Hadley Wickham, Chief Scientist en RStudio)
+
+Hasta ahora solo le hemos dado importancia al «qué» pero no al **.bg-purple_light[«cómo» manejamos los datos]**. La organización de nuestros datos es fundamental para que su **.bg-purple_light[preparación y explotación]** sea lo más eficiente posible.
+
+```{r echo = FALSE,  out.width = "60%", fig.align = "center", fig.cap = "Flujo deseable de datos según Hadley Wickham, extraída de https://r4ds.had.co.nz/wrangle-intro.html"}
+knitr::include_graphics("./img/tidy_flow.jpg")
+``` 
+
+
+---
+
+# Datos limpios: .orange[TIDY DATA]
+
+El concepto **.bg-purple_light[tidy data]** fue introducido por **Hadley Wickham** (Wickham, 2014) como el primer paso de un flujo de trabajo eficiente. Para ello haremos uso del paquete `{tidyr}` (dentro de `{tidyverse}`) que nos proporciona herramientas eficientes y sencillaspara su manejo.
+
+&nbsp;
+
+Los **.bg-purple_light[conjuntos tidy u ordenados]** tienen tres objetivos
+
+* **.bg-orange[Estandarización]** en su estructura para una depuración y análisis eficiente.
+* **.bg-orange[Sencillez]** en su manipulación.
+* Listos para ser **.bg-orange[modelizados y visualizados]**.
+
+&nbsp;
+
+📚 Ver Wickham (2014) en **.bg-green_light[bibliografía]** en <https://github.com/dadosdelaplace/teaching/tree/main/bioestad/biblio>
+
+---
+
+# Datos limpios: .orange[TIDY DATA]
+
+
+
+.pull-left[
+
+Los **.bg-purple_light[datos ordenados o tidy data]** deben cumplir:
+
+1. Cada **.bg-green_light[variable en una columna]**.
+
+2. Cada **.bg-orange[observación/individuo en una fila]** diferente.
+
+3. Cada **.bg-green_light[celda con un único valor]**.
+
+4. Cada **.bg-orange[conjunto en un tibble]** (tabla).
+
+5. Si usamos múltiples tablas a la vez debemos tener una **.bg-green_light[columna común para poder cruzarlas]**.
+
+]
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "85%", fig.align = "center"}
+knitr::include_graphics("./img/tidy_def.jpg")
+``` 
+
+&nbsp;
+
+```{r echo = FALSE,  out.width = "53%", fig.align = "center"}
+knitr::include_graphics("./img/tidyr_1.jpg")
+``` 
+
+
+]
+
+
+---
+
+# Tubería .orange[PIPE]
+
+En este entorno de trabajo tendremos un **.bg-purple_light[operador clave]**: el **.bg-purple_light[operador pipeline]** `%>%` (podemos usar el atajo con `ctrl+shift+M` o `command+shift+M`). Dicho operador lo debemos interpretar como una **.bg-purple_light[tubería]** que va pasando por los datos y los va transformando.
+
+
+Por ejemplo, si tuviésemos tres funciones `first()`, `second()` y `third()`, la opción más inmediata sería anidar las tres funciones tal que `third(second(first(x)))`, algo que dificulta la lectura posterior del código
+
+--
+
+Con `%>%` podremos escribir (y leer) la concetanción de acciones como una **.bg-purple_light[tubería de izquierda a derecha]**:
+
+```{r eval = FALSE}
+first(x) %>% second(x) %>% third(x)
+```
+
+--
+
+Dicho operador viene del paquete `{magrittr}`. Para **evitar esta dependencia** (cuantos menos paquetes tengamos que cargar, mejor), desde la versión 4.1.0 de R, disponemos de un pipeline nativo de R, el **operador** `|>` (disponible además fuera del entorno tidyverse).
+
+---
+
+# Tubería .orange[PIPE]
+
+.pull-left[
+
+```{r eval = FALSE}
+datos %>%
+  limpio(...) %>%
+  selecciono(...) %>%
+  filtro(...) %>%
+  ordeno(...) %>%
+  agrupo(...) %>%
+  cuento(...) %>%
+  resumo(...) %>% 
+  pinto(...)
+```
+
+```{r eval = FALSE}
+datos |>
+  limpio(...) |>
+  selecciono(...) |>
+  filtro(...) |>
+  ordeno(...) |>
+  agrupo(...) |>
+  cuento(...) |>
+  resumo(...) |>
+  pinto(...)
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "90%", fig.align = "center"}
+knitr::include_graphics("./img/tuberia.jpg")
+``` 
+
+]
+
+---
+
+# Datos .orange[SUCIOS]: messy data
+
+Por ejemplo, vamos a cargar la tabla `table4a` del paquete `{tidyr}` (que ya lo tenemos cargado del entorno `{tidyverse}`).
+
+```{r echo = FALSE}
+library(tidyverse)
+```
+
+```{r}
+table4a
+```
+
+**.bg-purple_light[¿Qué falla?]**
+
+---
+
+
+# Datos .orange[SUCIOS]: messy data
+
+.pull-left[
+
+```{r echo = FALSE}
+library(tidyverse)
+```
+
+```{r}
+table4a
+```
+
+**.bg-purple_light[¿Qué falla?]**
+
+]
+
+.pull-right[
+
+
+❎ Cada **.bg-green_light[variable en una columna]**.
+
+❎ Cada **.bg-orange[observación/individuo en una fila]** diferente.
+
+❎ Cada **.bg-green_light[celda con un único valor]**.
+
+]
+
+Aunque la columna `$country` representa una variable, las otras columnas no: **.bg-purple_light[ambas son la misma variable]**, solo que medida en años distintos (que debería ser a su vez otra variable), de forma que **.bg-purple_light[cada fila está representando dos observaciones]** (1999, 2000). Tenemos datos en los nombres de las columnas.
+
+
+---
+
+# Datos .orange[SUCIOS]: messy data
+
+
+.pull-left[
+
+Lo que haremos será incluir una nueva columna llamada (por ejemplo) `year` que nos marque el año y otra llamada `cases` que nos diga el valor de la variable de interés en cada uno de esos años.
+
+]
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "65%", fig.align = "center"}
+knitr::include_graphics("./img/table4a.jpg")
+``` 
+
+
+]
+
+--
+
+Con la función `pivot_longer()` pivotaremos la tabla para pasarla a **formato long**:
+
+```{r}
+table4a %>%
+  pivot_longer(cols = c("1999", "2000"), names_to = "year", values_to = "cases") #<<
+```
+
+---
+
+# Datos .orange[SUCIOS]: messy data
+
+.pull-left[
+
+```{r eval = FALSE}
+table4a %>%
+  pivot_longer(cols = c("1999", "2000"),
+               names_to = "year", 
+               values_to = "cases") #<<
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "110%", fig.align = "center"}
+knitr::include_graphics("./img/table4a_2.png")
+``` 
+
+
+]
+
+
+* `cols`: el **.bg-purple_light[nombre de las columnas a pivotar]** (con comillas por ser números y no caracteres).
+* `names_to`: el **.bg-purple_light[nombre de la nueva columna]** a la mandamos los **.bg-purple_light[nombres]** de las columnas.
+* `values_to`: el **.bg-purple_light[nombre de la nueva columna]** a la que vamos a mandar los **.bg-purple_light[datos]**.
+
+
+---
+
+# Datos .orange[SUCIOS]: messy data
+
+Echa un vistazo a la tabla `{table4b}`
+
+```{r}
+table4b
+```
+
+**.bg-purple_light[TODO TUYO]**: ¿es tidy o messy? ¿Cómo convertirla a tidy data en caso de que no lo sea ya?
+
+
+---
+
+# Datos .orange[SUCIOS]: messy data
+
+Echa un vistazo a la tabla `{relig_income}`
+
+```{r}
+relig_income
+```
+
+**.bg-purple_light[TODO TUYO]**: ¿es tidy o messy? ¿Cómo convertirla a tidy data en caso de que no lo sea ya?
+
+---
+
+# Datos .orange[SUCIOS]: messy data
+
+Veamos un segundo tipo de dato sucio: vamos a cargar la tabla `table2` del paquete `{tidyr}` (que ya lo tenemos cargado del entorno `{tidyverse}`). **.bg-purple_light[¿Qué falla?]**
+
+
+```{r}
+table2
+```
+
+
+---
+
+# Datos .orange[SUCIOS]: messy data
+
+.pull-left[
+
+
+```{r}
+head(table2)
+```
+
+]
+
+.pull-right[
+
+
+```{r echo = FALSE,  out.width = "69%", fig.align = "center"}
+knitr::include_graphics("./img/table2.jpg")
+``` 
+]
+
+
+❎ Cada **.bg-orange[observación/individuo en una fila]** diferente.
+
+
+Fíjate en las cuatro primeras filas: los registros con el mismo año deberían ser el mismo, es la misma información, **.bg-purple_light[debería estar en la misma fila]**, pero está dividada en dos. 
+
+---
+
+
+# Datos .orange[SUCIOS]: messy data
+
+Lo que haremos será lo opuesto a antes: con `pivot_wider()` «ampliaremos» la **.bg-purple_light[tabla a lo ancho]**, con menos filas pero con más columnas.
+
+```{r}
+table2 %>%
+  pivot_wider(names_from = type, values_from = count) #<<
+```
+
+* `names_from`: el **.bg-purple_light[nombre de la columna original]** de la que vamos a sacar las **.bg-purple_light[nuevas columnas]** que vamos a crear (`cases` y `population`).
+* `values_from`: el **.bg-purple_light[nombre de la columna orignal]** de la que vamos a sacar los **.bg-purple_light[datos]**.
+
+
+---
+
+# Datos .orange[SUCIOS]: messy data
+
+
+Por último veamos un tercer tipo de dato sucio: vamos a cargar la tabla `table3` del paquete `{tidyr}` (que ya lo tenemos cargado del entorno `{tidyverse}`). **.bg-purple_light[¿Qué falla?]**
+
+
+```{r}
+table3
+```
+
+--
+
+❎ Cada **.bg-green_light[celda con un único valor]**.
+
+
+---
+
+# Datos .orange[SUCIOS]: messy data
+
+Lo que haremos será usar `separate()` para mandar **.bg-purple_light[cada valor a una columna diferente]**.
+
+```{r}
+table3 %>% separate(rate, into = c("cases", "pop")) #<<
+```
+
+* `into`: **.bg-purple_light[nombre de nuevas columnas]** donde separaremos valores.
+
+
+```{r echo = FALSE,  out.width = "40%", fig.align = "center"}
+knitr::include_graphics("./img/seperate.jpg")
+``` 
+
+
+---
+
+# Datos .orange[SUCIOS]: messy data
+
+
+Por defecto lo que hace es **.bg-purple_light[localizar como separador cualquier caracter que no sea alfa-numérico]**. Si queremos un caracter concreto para dividir podemos indicárselo explícitamente. Si usas un separador que no está en los datos te devolverá dichas columnas vacías ya que no ha podido dividirlas.
+
+
+```{r warning = TRUE}
+table3 %>% separate(rate, into = c("cases", "population"), sep = ".")
+```
+
+---
+
+# Datos .orange[SUCIOS]: messy data
+
+De la misma manera que podemos separar columnas también podemos **.bg-purple_light[unir columnas]**. Para ello vamos a usar la tabla `table5` del ya mencionado paquete.
+
+```{r}
+table5
+```
+
+---
+
+# Datos .orange[SUCIOS]: messy data
+
+.pull-left[
+
+Con la función `unite()` vamos a **.bg-purple_light[unir]** el siglo (en `century`) y el año (en `year`), y al inicio le indicaremos como se llamará la nueva variable `year_ok`
+
+```{r}
+table5 %>%
+  unite(col = year_ok,
+        century, year, sep = "")
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "99%", fig.align = "center"}
+knitr::include_graphics("./img/unite.jpg")
+``` 
+
+]
+
+
+---
+
+# Eliminando .orange[AUSENTES]
+
+El paquete `{tidyr}` también dispone de algunas herramientas útiles para **.bg-purple_light[quitar ausentes]**
+
+```{r}
+datos <- tibble(x = c(1, 2, NA), y = c("a", NA, "b"))
+datos
+```
+
+---
+
+# Eliminando .orange[AUSENTES]
+
+
+Con `drop_na()` podemos indicarle que nos **.bg-purple_light[elimine las filas con algún ausente]** en alguna de las variables (o especificarle la variable concreta).
+
+
+.pull-left[
+
+```{r}
+datos %>% drop_na()
+```
+
+]
+
+
+.pull-right[
+
+```{r}
+datos %>% drop_na(x)
+```
+
+]
+
+---
+
+# Eliminando .orange[AUSENTES]
+
+A veces no querremos eliminarlos sino **.bg-purple_light[imputar por el valor previo/siguiente]**  con `fill()`
+
+.pull-left[
+
+```{r}
+datos %>% fill(x)
+datos %>% fill(x, .direction = c("up"))
+```
+
+]
+
+.pull-right[
+
+```{r}
+datos %>% fill(y)
+datos %>% fill(y, .direction = c("up"))
+```
+
+]
+
+
+---
+
+# Eliminando .orange[AUSENTES]
+
+Los **.bg-purple_light[ausentes]** también pueden ser **.bg-purple_light[eliminados al pivotar]** con `values_drop_na`.
+
+
+```{r}
+stocks <-
+  tibble(qtr = 1:4,
+         "2015" = c(1.88, 0.59, 0.35, NA),
+         "2016" = c(NA, 0.92, 0.17, 2.66))
+stocks
+```
+
+---
+
+# Eliminando .orange[AUSENTES]
+
+Los **.bg-purple_light[ausentes]** también pueden ser **.bg-purple_light[eliminados al pivotar]** con `values_drop_na`.
+
+```{r}
+stocks %>%
+  pivot_longer(cols = c("2015", "2016"), names_to = "year",
+               values_to = "return", values_drop_na = TRUE)
+```
+
+---
+
+# Reemplazando .orange[AUSENTES]
+
+Otras veces querremos **.bg-purple_light[imputar los ausentes por un valor fijo]**, algo que podemos hacer con `replace_na()`
+
+.pull-left[
+
+```{r}
+datos
+```
+
+]
+
+.pull-right[
+
+```{r}
+
+datos %>%
+  replace_na(list(x = -1,
+                  y = "unknown"))
+```
+
+]
+
+---
+
+
+# Completando .orange[AUSENTES]
+
+Por último, también podemos **.bg-purple_light[crear todas las combinaciones posibles de variables]** (para completar datos ausentes que se hayan podido eliminar).
+
+
+```{r}
+stocks <- tibble(year = c(2015, 2015, 2015, 2015, 2016, 2016, 2016),
+                 qtr = c(1, 2, 3, 4, 2, 3, 4),
+                 return = c(1.88, 0.59, 0.35, NA, 0.92, 0.17, 2.66))
+```
+
+.pull-left[
+
+```{r}
+stocks
+```
+
+]
+
+.pull-right[
+
+```{r}
+stocks %>% complete(year, qtr)
+```
+
+]
+
+---
+
+name: oms
+
+# .orange[CASO PRÁCTICO]: datos de la OMS
+
+Instala el paquete `{tidyr}` y usa el conjunto `who` contenido en él mismo (sobre casos de tuberculosis). Lee la ayuda `? who` para detalles de los datos. Convierte a tidydata.
+
+```{r}
+# install.packages("tidyr")
+library(tidyr)
+who
+```
+
+---
+
+name: learning
+
+```{r echo = FALSE,  out.width = "80%", fig.align = "center"}
+knitr::include_graphics("./img/ml_maths.jpg")
+``` 
+
+
+---
+
+# .orange[CIENCIA DE DATOS]
+
+
+De lo general a la particular, **.bg-purple_light[¿qué es la ciencia de datos]** ¿Qué incluye?
+
+La conocida como Data Science (Ciencia de Datos) es un campo muy extenso en el que, según algunos autores, se podría incluir (o intersecar con) campos como la **Minería de Datos**, el **Machine Learning** o el **Big Data**
+
+
+```{r echo = FALSE,  out.width = "40%", fig.align = "center"}
+knitr::include_graphics("./img/stats_IA.jpg")
+``` 
+
+📚 Ver definiciones en **.bg-green_light[Fernández-Casal et al. (2021)]** en <https://rubenfcasal.github.io/aprendizaje_estadistico>
+
+---
+
+# .orange[APRENDIZAJE] estadístico
+
+Uno de los conceptos clave es la idea de **.bg-purple_light[aprendizaje estadístico]**: formularemos modelos que buscan **.bg-purple_light[aprender]** de los datos (teniendo en cuenta la incertidumbre subyacente), mejorando los resultados si **.bg-purple_light[aumentamos la calidad de la información]** (!= aumentar su tamaño).
+
+&nbsp;
+
+En ese aprendizaje normalmente realizaremos una **.bg-purple_light[partición preliminar de los datos]**:
+
+--
+
+- **.bg-purple_light[Entrenamiento]**: conjunto del que modelo **.bg-orange[aprenderá para su construcción]** (por ej., 70%).
+
+--
+
+- **.bg-purple_light[Validación]**: conjunto que usaremos para **.bg-orange[evaluar nuestras decisiones]** (el modelo no ha podido aprender de él) y poder afinar los hiperparámetros (por ej., 20%).
+
+--
+
+- **.bg-purple_light[Test]**: conjunto final que nos proporcionará una **.bg-orange[evaluación insesgada]** (por ej., 10%).
+
+📚 Ver explicación detallada en <https://mlu-explain.github.io/train-test-validation/>
+
+---
+
+
+# .orange[APRENDIZAJE] estadístico
+
+.pull-left[
+
+Veamos un ejemplo: imagina que queremos construir un método que nos permita **.bg-purple_light[clasificar]** si un animal es un **.bg-purple_light[gato o perro]** en función de dos variables: **suavidad** y **peso**. En concreto el aprendizaje será **.bg-purple_light[supervisado]** (sé a priori en mi dataset cuál es gato o perro).
+
+]
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "85%", fig.align = "left"}
+knitr::include_graphics("./img/dogs_cats.jpg")
+``` 
+
+]
+
+📚 Ver explicación en <https://mlu-explain.github.io/train-test-validation/>
+
+
+---
+
+# .orange[APRENDIZAJE] estadístico
+
+
+```{r echo = FALSE,  out.width = "45%", fig.align = "center"}
+knitr::include_graphics("./img/train_valid_test.jpg")
+``` 
+
+.pull-left[
+
+
+- **.bg-orange[Conjunto train]**: datos que el **modelo conocerá** para **.bg-purple_light[aprender patrones]**, siendo lo más representativo de mi conjunto global (para evitar la propagación de sesgos)
+
+]
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "55%", fig.align = "center"}
+knitr::include_graphics("./img/train_dataset.jpg")
+``` 
+
+]
+
+---
+
+# .orange[APRENDIZAJE] estadístico
+
+.pull-left[
+
+El aprendizaje no solo dependerá de los datos, también de **.bg-purple_light[nuestras decisiones]**: cada decisión es un sesgo que acumulamos.
+
+* un clasificador tonto (**.bg-green_light[dummy]**) que diga que todos son la moda (gatos)
+* usar solo la variable suavidad
+* usar solo la variable peso
+* un clasificador que use ambas variables
+
+**.bg-purple_light[¿Cuál elegir?]** Y si tuviéramos más variables, ¿con cuántas?
+
+&nbsp;
+
+**.bg-green_light[Clasificador dummy]**: asigna la moda (cuali)/media (cuanti) o bien un valor al azar, sin asumir patrón alguno en los datos.
+
+]
+
+.pull-right[
+
+
+.pull-left[
+
+```{r echo = FALSE,  out.width = "125%", fig.align = "center"}
+knitr::include_graphics("./img/model_1.jpg")
+``` 
+
+```{r echo = FALSE,  out.width = "125%", fig.align = "center"}
+knitr::include_graphics("./img/model_3.jpg")
+``` 
+
+]
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "135%", fig.align = "center"}
+knitr::include_graphics("./img/model_2.jpg")
+``` 
+
+```{r echo = FALSE,  out.width = "145%", fig.align = "center"}
+knitr::include_graphics("./img/model_4.jpg")
+``` 
+
+]
+
+]
+
+---
+
+# .orange[APRENDIZAJE] estadístico
+
+
+```{r echo = FALSE,  out.width = "45%", fig.align = "center"}
+knitr::include_graphics("./img/train_valid_test.jpg")
+``` 
+
+
+.pull-left[
+
+
+- **.bg-orange[Conjunto validation]**: datos que el modelo **no ha conocido** para aprender pero que usaremos para **.bg-purple_light[afinar y calibrar nuestras decisiones]**, de forma que sea **.bg-purple_light[independiente del entrenamiento]**
+
+]
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "99%", fig.align = "center"}
+knitr::include_graphics("./img/validation_dataset.jpg")
+``` 
+
+]
+
+---
+
+# .orange[APRENDIZAJE] estadístico
+
+
+```{r echo = FALSE,  out.width = "45%", fig.align = "center"}
+knitr::include_graphics("./img/train_valid_test.jpg")
+``` 
+
+
+.pull-left[
+
+
+- **.bg-orange[Conjunto test]**: datos que el **modelo no ha conocido**
+
+❎ ni para aprender
+
+❎ ni para afinar hiperparámetros/decisiones
+
+Es un modelo que SOLO será usado para una **.bg-purple_light[evaluación final]** (insesgada): **.bg-red_light[NUNCA se usará en el proceso]**, solo cuando ya se ha terminado (simulando un cliente final).
+
+]
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "99%", fig.align = "center"}
+knitr::include_graphics("./img/test_dataset.jpg")
+``` 
+
+]
+
+
+---
+
+# .orange[APRENDIZAJE] estadístico
+
+
+.pull-left[
+
+
+Si te fijas en este ejemplo, la **.bg-purple_light[métrica (tasa de bien clasificados)]** es superior en el conjunto de test que en el conjunto de validación. **.bg-red_light[¿Es malo? ¿Extraño?]**
+
+]
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "97%", fig.align = "center"}
+knitr::include_graphics("./img/test_vs_validation.jpg")
+``` 
+
+]
+
+--
+
+No, no es ni malo ni extraño. Es más, es un síntoma de que el conjunto de test no está sesgado a ninguna otra de las particiones
+
+**.bg-green_light[RECUERDA]**: el éxito del conjunto test **.bg-purple_light[NO es algo a optimizar]**, es simplemente una **.bg-purple_light[estimación de cómo funcionará]** nuestro modelo en datos reales.
+
+
+---
+
+# Sobreajuste. .green[SESGO] vs .orange[VARIANZA]
+
+En el campo del aprendizaje estadístico (y por tanto en la minería de datos) será recurrente un término a evitar: **.bg-purple_light[sobrejauste]**.
+
+```{r echo = FALSE,  out.width = "80%", fig.align = "center"}
+knitr::include_graphics("./img/bustamante.jpg")
+``` 
+
+---
+
+# Sobreajuste. .green[SESGO] vs .orange[VARIANZA]
+
+En el campo del aprendizaje estadístico (y por tanto en la minería de datos) será recurrente un término a evitar: **.bg-purple_light[sobrejauste]**.
+
+
+&nbsp;
+
+📚 Ver bibliografía en 
+
+* «The bias-variance tradeoff»: <https://mlu-explain.github.io/bias-variance/>
+
+* «Understanding the bias-variance tradeoff»:  <https://towardsdatascience.com/understanding-the-bias-variance-tradeoff-165e6942b229>
+
+* «Bias–variance tradeoff»: <https://daviddalpiaz.github.io/r4sl/biasvariance-tradeoff.html>
+
+* «Understanding the Bias-Variance Tradeoff»: <https://scott.fortmann-roe.com/docs/BiasVariance.html>
+
+
+
+---
+
+# Sobreajuste. .green[SESGO] vs .orange[VARIANZA]
+
+Imagina que tenemos los siguientes ingredientes
+
+* **.bg-purple_light[Modelo real]** $f(X)$ donde $X$ serán los datos, con $\hat{f}(X)$ las estimaciones.
+
+--
+
+* **.bg-purple_light[Output real]** que llamaremos $Y$
+
+--
+
+* **.bg-purple_light[Output estimada]** que llamaremos $\hat{Y}$, definido como $\hat{Y} = \hat{f}(X)$
+
+--
+
+* **.bg-purple_light[Error]** tras aplicar el modelo que llamaremos $E(x, f)$, y que podríamos definir como la **.bg-purple_light[media de las equivocaciones al cuadrado]**
+
+--
+
+$$Error := E(x, f) := {\rm E} \left[ \left(realidad - estimado\right)^2 \right] = {\rm E} \left[ \left(Y - \hat{Y}\right)^2 \right] = {\rm E}\left[\left(Y - \hat{f}(X)\right)^2  \right]$$
+
+&nbsp;
+
+--
+
+¿Cómo podemos **.bg-purple_light[descomponer el error]**?
+
+---
+
+
+# Sobreajuste. .green[SESGO] vs .orange[VARIANZA]
+
+
+* **Paso 1**: añadir y restar ${\rm E} \left[ \hat{Y} \right]$ dentro del paréntesis.
+
+$$E(x, f) := {\rm E}\left[\left(Y - \hat{f}(X)\right)^2  \right] = {\rm E}\left[\left(\left(Y - {\rm E} \left[ \hat{Y} \right] \right) + \left( {\rm E} \left[ \hat{Y} \right] - \hat{f}(X)\right)^2 \right)  \right] $$
+
+--
+
+* **Paso 2**: resolver $(a-c+c-b)^2 = ((a-c)+(c-b))^2 = (a-c)^2 + (c-b)^2 - 2*(a-c)(c-b)$ 
+
+$$E(x, f) := \left(Y - {\rm E} \left[ \hat{Y} \right] \right)^2  + {\rm E}\left[ \left( {\rm E} \left[ \hat{Y} \right] - \hat{f}(X)\right)^2 \right] + 2 {\rm E} \left[\left(Y - {\rm E} \left[ \hat{Y} \right] \right) \left( {\rm E} \left[ \hat{Y} \right] - \hat{f}(X)\right) \right] $$
+--
+
+* **Paso 3**: identificar términos
+
+$$E(x, f) := {\rm E}\left[\left(Y - \hat{f}(X)\right)^2  \right] = sesgo^2 + varianza + ruido$$
+
+---
+
+
+# Sobreajuste. .green[SESGO] vs .orange[VARIANZA]
+
+
+* **.bg-red_light[Sesgo (bias)]** será igual a $\left(Y - {\rm E} \left[ \hat{Y} \right] \right)^2$ (diferencia - media - entre la predicción media del modelo y el valor correcto a predecir).
+
+* **.bg-green_light[Varianza (variance)]** será igual a ${\rm E}\left[ \left( {\rm E} \left[ \hat{Y} \right] - \hat{f}(X)\right)^2 \right]$ (la  dispersión/variación entre las predicción individuales y la predicción media).
+
+* **Ruido**: error aleatorio **irreducible** (depende de la variabilidad de los datos) de media nula.
+
+--
+
+&nbsp;
+
+El **.bg-red_light[sesgo]** será por tanto lo que nos **.bg-red_light[equivocamos/desviamos de forma sistemática]** y la **.bg-green_light[varianza]** del modelo será la **.bg-green_light[dispersión entre las predicciones]** de un valor, como si repitieramos el modelo con distintas muestras aleatorias obtenidas de la misma población. 
+
+---
+
+# Sobreajuste. .green[SESGO] vs .orange[VARIANZA]
+
+```{r echo = FALSE,  out.width = "40%", fig.align = "center", fig.cap = "Extraída de https://scott.fortmann-roe.com/docs/BiasVariance.html"}
+knitr::include_graphics("./img/bias_variance.jpg")
+``` 
+
+---
+
+# Sobreajuste. .green[SESGO] vs .orange[VARIANZA]
+
+
+
+.pull-left[
+
+* **.bg-red_light[Bajoajuste (underfitting)]**: modelos **muy simples** proporcionan un **.bg-red_light[sesgo muy grande]**, y poca varianza ya que la predicción siempre será muy parecida (errores altos en train).
+
+* **.bg-green_light[Sobreajuste (overfitting)]**: modelos **muy complicados**  proporcionan un **.bg-green_light[sesgo bajo]** pero al ser tan complejas proporcionarán una **.bg-green_light[mayor varianza]** para cada intento (errores altos en test).
+
+]
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "99%", fig.align = "center", fig.cap = "Extraída de https://mlu-explain.github.io/bias-variance/"}
+knitr::include_graphics("./img/bias_varianc_tradeoff.jpg")
+``` 
+
+Lo deseable será encontrar ese **.bg-purple_light[punto óptimo de equilibrio]** en el que el error será mínimo.
+
+]
+
+---
+
+# Sobreajuste. .green[SESGO] vs .orange[VARIANZA]
+
+.pull-left[
+
+```{r echo = FALSE,  out.width = "99%", fig.align = "center", fig.cap = "Extraída de https://mlu-explain.github.io/bias-variance/"}
+knitr::include_graphics("./img/train_test_underfitting.jpg")
+``` 
+
+]
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "99%", fig.align = "center", fig.cap = "Extraída de https://mlu-explain.github.io/bias-variance/"}
+knitr::include_graphics("./img/simple_model.jpg")
+``` 
+
+]
+
+---
+
+# Sobreajuste. .green[SESGO] vs .orange[VARIANZA]
+
+.pull-left[
+
+```{r echo = FALSE,  out.width = "99%", fig.align = "center", fig.cap = "Extraída de https://mlu-explain.github.io/bias-variance/"}
+knitr::include_graphics("./img/train_test_overfitting.jpg")
+``` 
+
+]
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "99%", fig.align = "center", fig.cap = "Extraída de https://mlu-explain.github.io/bias-variance/"}
+knitr::include_graphics("./img/complex_model.jpg")
+``` 
+
+]
+
+
+---
+
+# Sobreajuste. .green[SESGO] vs .orange[VARIANZA]
+
+```{r echo = FALSE,  out.width = "60%", fig.align = "center", fig.cap = "Extraída de https://365datascience.com/tutorials/machine-learning-tutorials/overfitting-underfitting/"}
+knitr::include_graphics("./img/overfitting.jpg")
+``` 
+
+Un **.bg-purple_light[modelo muy simple no captura los patrones]** subyancetes en los datos mientras que un **.bg-purple_light[modelo muy complejo solo memoriza]**, no aprende.
+
+
+---
+
+# Sobreajuste. .green[SESGO] vs .orange[VARIANZA]
+
+```{r echo = FALSE,  out.width = "45%", fig.align = "center"}
+knitr::include_graphics("./img/meme_overfitting.jpg")
+``` 
+
+---
+
+# .green[SUPERVISADO] vs .orange[NO SUPERVISADO]
+
+```{r echo = FALSE,  out.width = "47%", fig.align = "center"}
+knitr::include_graphics("./img/non_supervised.jpg")
+``` 
+
+
+---
+
+# .green[SUPERVISADO] vs .orange[NO SUPERVISADO]
+
+
+.pull-left[
+
+* **.bg-purple_light[Aprendizaje supervisado]**: tendremos dos tipos de variables, la **.bg-orange[variable dependiente (output/target)]** que se quiere predecir/clasificar (con su valor conocido en el conjunto de entrenamiento) y las **.bg-orange[variables independientes (inputs)]** o variables explicativas, que contienen la información disponible.
+
+&nbsp;
+
+Todo lo que veremos en esta asignatura entra dentro de la idea de **aprendizaje supervisado**
+
+]
+
+
+.pull-right[
+
+
+```{r echo = FALSE,  out.width = "110%", fig.align = "center", fig.cap = "Extraída de https://realpython.com/knn-python/basics-of-machine-learning"}
+knitr::include_graphics("./img/esquema_supervised.jpg")
+``` 
+
+
+]
+
+---
+
+# .green[SUPERVISADO] vs .orange[NO SUPERVISADO]
+
+
+.pull-left[
+
+
+* **.bg-purple_light[Aprendizaje no supervisado]**: no existe la distinción entre target y variables explicativas ya que **.bg-orange[no tenemos etiquetados los datos]**, no sabemos a priori la respuesta correcta. El aprendizaje no supervisado buscará **.bg-orange[similitudes/diferencias]**.
+
+]
+
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "110%", fig.align = "center", fig.cap = "Extraída de https://realpython.com/knn-python/basics-of-machine-learning"}
+knitr::include_graphics("./img/esquema_nonsupervised.jpg")
+``` 
+
+
+]
+
+
+---
+
+
+hastie
+
+---
+
+name: data-mining
+
+# .orange[DATA MINING]: ¿qué es?
+
+No hay una definición única o formal pero podemos ayudarnos de las definiciones dadas por algunos de los máximos gigantes tecnológicos.
+
+--
+
+Según **.bg-purple_light[IBM]**...
+
+> La minería de datos es una forma innovadora de obtener información comercial valiosa mediante el análisis de los datos contenidos en la base de datos de la empresa (IBM)
+
+--
+
+&nbsp;
+
+Según **.bg-purple_light[Microsoft]**...
+
+> La minería de datos es el proceso de detectar información procesable de grandes conjuntos de datos para deducir los patrones y tendencias que existen. Normalmente,
+estos patrones no se pueden detectar mediante la exploración tradicional de los datos
+porque las relaciones son demasiado complejas o hay demasiados datos (Microsoft)
+
+---
+
+# .orange[DATA MINING]: ¿qué es?
+
+.pull-left[
+
+La minería de datos tiene como objetivo  **.bg-purple_light[descubrir patrones]** de forma automática o semiautomática, patrones que a simple vista (o con estadística básica) no podemos aflorar, bien por contar con **.bg-orange[grandes conjuntos de datos]**, bien por existir **.bg-green_light[relaciones muy complejas]**.
+
+&nbsp;
+
+No solo comprende la exploración y el modelado, sino también la **.bg-purple_light[evaluación]** y la **.bg-purple_light[transformación de la información]** para su uso posterior.
+
+]
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "90%", fig.align = "left", fig.cap = "Extraída de https://www.masterdatascienceucm.com"}
+knitr::include_graphics("./img/proceso-mineria-de-datos.png.webp")
+``` 
+
+
+El **gran tamaño muestral** suele hacer inviable la aplicación de técnicas de inferencia clásica (problemas de potencia).
+
+]
+
+---
+
+# .orange[DATA MINING]: ejemplos de uso
+
+
+* **.bg-purple_light[Clasificación de vuelos]**: usando, entre otras, variables de tráfico de aereo, tipología de vuelo, variables meteorológicas, las aerolíneas pueden calcular la probabilidad de retraso en un vuelo.
+
+* **.bg-purple_light[Marketing y ventas]**: conocer el perfil de público objetivo para enfocar campañas personalizadas, en función de patrones en su comportamiento, y predecir futuras bajas.
+
+* **.bg-purple_light[Minería de textos]**: extracción de patrones en textos para clasificar, por ejemplo, noticias (detección de Fake News).
+
+* **.bg-purple_light[Supermercados]**: pueden analizar el conjunto de compras masivas que hacen sus clientes, para identificar asociaciones de productos o las ofertas que mejor han funcionado.
+
+* **.bg-purple_light[Predicción de enfermedades]**: haciendo uso de diferente variables médicas y de hábitos de salud se puede predecir la probabilidad de aparición de ciertas enfermedades, así como encontrar factores explicativos que nos puedan ayudar a su prevención.
+
+
+---
+
+
+
+# SEMMA
+
+En minería de datos tendremos habitualmente una variable con un rol especial
+
+
+ In a typical scenario, we have
+an outcome measurement, usually quantitative (such as a stock price) or
+categorical (such as heart attack/no heart attack), that we wish to predict
+based on a set of features (such as diet and clinical measurements). We
+have a training set of data, in which we observe the outcome and feature
+
+measurements for a set of objects (such as people). Using this data we build
+a prediction model, or learner, which will enable us to predict the outcome
+for new unseen objects. A good learner is one that accurately predicts such
+an outcome.
+The examples above describe what is called the supervised learning problem. It is called “supervised” because of the presence of the outcome variable to guide the learning process. In the unsupervised learning problem,
+we observe only the features and have no measurements of the outcome.
+Our task is rather to describe how the data are organized or clustered.
+
+ejemplo mail libro hastie
+
+Example 1: Email Spam
+The data for this example consists of information from 4601 email messages, in a study to try to predict whether the email was junk email, or
+“spam.” The objective was to design an automatic spam detector that
+could filter out spam before clogging the users’ mailboxes. For all 4601
+email messages, the true outcome (email type) email or spam is available,
+along with the relative frequencies of 57 of the most commonly occurring
+words and punctuation marks in the email message. This is a supervised
+learning problem, with the outcome the class variable email/spam. It is also
+called a classification problem.
+Table 1.1 lists the words and characters showing the largest average
+difference between spam and email.
+Our learning method has to decide which features to use and how: for
+example, we might use a rule such as
+
+
+---
+
+# SEMMA 
+
+La metodología que se empleará en este proyecto será la metodología SEMMA. Es-
+ta metodología fue propuesta por el SAS Institute, el cual la define como el proceso de
+
+selección, exploración y modelado aplicado a cantidades significativas de datos almace-
+nados que permitan el descubrimiento de patrones como herramientas de apoyo para el
+
+negocio. Esta metodología está dividida en 5 fases detalladas a continuación:
+
+
+2.2. Metodología
+La metodología SEMMA fue propuesta por el SAS Institute con la finalidad de
+esquematizar el proceso de minería de datos (SAS Institute, 2018). El nombre es un
+acrónimo que recoge las iniciales de las siguientes cinco fases que propone esta técnica
+(ver también Hernández y Dueñas, 2019):
+
+* Sample (muestreo): extraer (si fuese necesario) un subconjunto representativo de nuestros datos con los que se realizará el estudio y, si fuese también necesario, extraer una
+muestra representativa con el fin de reducir la dimensión de los datos y optimizar el
+proceso de modelización.
+
+
+- Explore (Exploración). Segunda fase de la metodología en la que se realiza un estudio
+de los datos obtenidos a través de técnicas estadísticas, con el objetivo de entender
+mejor el problema, detectar datos anómalos o ausentes, así como de inconsistencias
+en la base de datos.
+- Modify (Transformación). Tercera etapa del proceso en la que se modifican y tratan
+los datos para solventar los problemas detectados en la etapa previa.
+
+6
+- Model (Modelización). Cuarta fase de la metodología SEMMA en la que se utilizan
+técnicas y herramientas estadísticas o de aprendizaje automático con la finalidad de
+descubrir similitudes en los datos y lograr una predicción/clasificación de la variable
+objetivo (si la hubiera).
+- Assess (Evaluación). Es la última etapa del proceso, en la que se debe valorar la
+calidad del resultado obtenido en la fase de modelaje, haciendo uso de
+metodologías de validación o de submuestras de validación o test, si fuese necesario.
+
+Fig. 4: diagrama de las etapas de la metodología SEMMA. Fuente: Blogdatlas
+
+A continuación se describen brevemente las técnicas utilizadas y los objetivos a
+conseguir en cada una de las etapas de la metodología SEMMA en el trabajo.
+2.2.1. Muestreo
+En esta primera etapa de la metodología SEMMA se ha realizado la extracción de los
+datos con los que se realizará la clasificación del retraso de los vuelos nacionales de
+EE.UU. Para ello, se ha extraído información de diversas fuentes y se ha monitorizado su
+obtención mediante la implementación de funciones de R, combinadas con diferentes
+API y técnicas de web scrapping haciendo uso de Python. En un primer lugar se
+obtuvieron 7 422 037 observaciones, pertenecientes a todos los vuelos nacionales en
+Estados Unidos en el año 2019 (ver detalles y fuente en la Sección 3), pero debido a la
+unión de diferentes fuentes de información y procesos de depuración, finalmente se
+mantuvieron en la tabla 4 408 503 observaciones. Dicha reducción de la dimensión se
+ha hecho imprescindible debido al alto volumen de datos y a la capacidad computacional
+de los sistemas utilizados (toda la información sobre las funciones utilizadas se puede
+consultar en el Anexo II). Como se indica además en futuras secciones, se han realizado
+diferentes muestreos estratificados a posteriori, con el objetivo de reducir la
+dimensionalidad del problema (y que pudiera ser abarcable con los medios informáticos
+disponibles).
+
+[aida]
+
+Existen distintas metodologías/esquemas dentro de la minería de datos. Destacan la
+metodología SEMMA (Sample-Explore-Modify-Model-Assess), desarrollada principalmente por
+la empresa de software SAS, y CRISP-DM (Cross Industry Standard Process for Data Mining),
+desarrollada, entre otros, por la empresa IBM. En este curso, nos centraremos en SEMMA:
+SAMPLE (muestrear): Si la base de datos es demasiado grande, será necesario tomar
+una muestra lo suficientemente grande para contener toda la información y lo
+suficientemente pequeña para poder ser procesada.
+EXPLORE (explorar): Es necesario explorar los datos para detectar relaciones,
+anomalias y tendencias.
+MODIFIY (modificar): Es recomendable modificar los datos creando, seleccionando y
+transformando variables para facilitar la modelización.
+MODEL (modelizar): Hallar el modelo que nos permita predecir la variable objetivo.
+ASSESS (evaluar): Comprobar la calidad de las predicciones y comparar los modelos
+obtenidos.
+No siempre intervienen todas las fases del proceso. Además, las fases pueden repetirse y el
+orden de las mismas puede modificarse.
+
+---
+
+name: sample
 
 ---
 

@@ -2142,6 +2142,13 @@ y[length(y)]
 
 Con la función `unique()` podemos también extraer los **.bg-purple_light[valores únicos de una variable]**
 
+```{r}
+colores <- c("azul", "azul", "verde", "amarillo",
+             "azul", "rojo", "rojo", "azul", "rojo",
+             "verde", "morado")
+unique(colores) #<<
+```
+
 ---
 
 
@@ -2401,7 +2408,7 @@ x
 .panel[.panel-name[Ejercicios]
 
  
-* 📝 **Ejercicio 5**:  encuentra del vector `x` del ejerciio 1 los elementos mayores (estrictos) que 1 y menores (estrictos) que 7. Encuentra una forma de averiguar si todos los elementos son o no positivos.
+* 📝 **Ejercicio 5**:  encuentra del vector `x` del ejercicio 1 los elementos mayores (estrictos) que 1 y menores (estrictos) que 7. Encuentra una forma de averiguar si todos los elementos son o no positivos.
  
  
 * 📝 **Ejercicio 6**: define el vector `x <- c(-1, 0, -2, 5, 3, 7)` y obtén los elementos que ocupan una posición impar.
@@ -5325,6 +5332,10 @@ knitr::include_graphics("./img/table4a_2.png")
 
 # Datos .orange[SUCIOS]: messy data
 
+
+.panelset[
+.panel[.panel-name[table4b]
+
 Echa un vistazo a la tabla `{table4b}`
 
 ```{r}
@@ -5333,10 +5344,29 @@ table4b
 
 **.bg-purple_light[TODO TUYO]**: ¿es tidy o messy? ¿Cómo convertirla a tidy data en caso de que no lo sea ya?
 
+]
+
+.panel[.panel-name[Solución]
+
+```{r}
+table4b %>% pivot_longer(cols = "1999":"2000",
+                         names_to = "year",
+                         values_to = "cases")
+```
+
+]
+
+]
+
+
 
 ---
 
 # Datos .orange[SUCIOS]: messy data
+
+.panelset[
+.panel[.panel-name[relig_income]
+
 
 Echa un vistazo a la tabla `{relig_income}`
 
@@ -5345,6 +5375,21 @@ relig_income
 ```
 
 **.bg-purple_light[TODO TUYO]**: ¿es tidy o messy? ¿Cómo convertirla a tidy data en caso de que no lo sea ya?
+
+]
+
+.panel[.panel-name[Solución]
+
+```{r}
+relig_income %>%
+  pivot_longer(cols = "<$10k":"Don't know/refused",
+               names_to = "income",
+               values_to = "people")
+```
+
+]
+]
+
 
 ---
 
@@ -5422,9 +5467,6 @@ table3
 
 # Datos .orange[SUCIOS]: messy data
 
-
-.pull-left[
-
 Lo que haremos será hacer uso de la función `separate()` para mandar **.bg-purple_light[cada valor a una columna diferente]**.
 
 ```{r}
@@ -5433,15 +5475,12 @@ table3 %>%
 ```
 
 * `into`: **.bg-purple_light[nombre de nuevas columnas]** donde separaremos valores.
-]
 
-.pull-right[
 
-```{r echo = FALSE,  out.width = "99%", fig.align = "center"}
+
+```{r echo = FALSE,  out.width = "50%", fig.align = "center"}
 knitr::include_graphics("./img/seperate.jpg")
 ``` 
-
-]
 
 ---
 
@@ -5639,7 +5678,7 @@ name: entrega-I
 
 # .orange[CASO PRÁCTICO 1]: datos de la OMS
 
-Instala el paquete `{tidyr}` y usa el conjunto `who` contenido en él mismo (dataset sobre casos de tuberculosis). Deberás **.bg-purple_light[entregar completado]** el archivo `.Rmd` que tienes disponible en <https://github.com/dadosdelaplace/teaching/tree/main/bioestad/eval> **.bg-purple_light[antes de las 23:59 del 29 de septiembre]**, siguiendo las instrucciones contenidas en el mismo.
+Instala el paquete `{tidyr}` y usa el conjunto `who` contenido en él mismo (dataset sobre casos de tuberculosis). Deberás **.bg-purple_light[entregar completado]** el archivo `.Rmd` que tienes disponible en <https://github.com/dadosdelaplace/teaching/tree/main/bioestad/eval> **.bg-purple_light[antes de las 23:59 del 1 de octubre]**, siguiendo las instrucciones contenidas en el mismo.
 
 ```{r eval = FALSE}
 install.packages("tidyr")
@@ -5655,9 +5694,31 @@ who
 ---
 
 
+# .orange[CASO PRÁCTICO 1]: datos de la OMS
+
+.panelset[
+.panel[.panel-name[Paso 1]
+
+]
+
+.panel[.panel-name[Paso 2]
+
+]
+
+.panel[.panel-name[Paso 4]
+
+]
+
+.panel[.panel-name[Paso 5]
+
+]
+]
+
+---
+
 # .orange[CASO PRÁCTICO 2]: análisis de Star Wars
 
-Instala el paquete `{dplyr}` y usa el conjunto `starwars` contenido en él mismo (dataset con los personajes de las películas de la saga Star Wars). Deberás **.bg-purple_light[entregar completado]** el archivo `.Rmd` que tienes disponible en <https://github.com/dadosdelaplace/teaching/tree/main/bioestad/eval> **.bg-purple_light[antes de las 23:59 del 29 de septiembre]**, siguiendo las instrucciones contenidas en el mismo.
+Instala el paquete `{dplyr}` y usa el conjunto `starwars` contenido en él mismo (dataset con los personajes de las películas de la saga Star Wars). Deberás **.bg-purple_light[entregar completado]** el archivo `.Rmd` que tienes disponible en <https://github.com/dadosdelaplace/teaching/tree/main/bioestad/eval> **.bg-purple_light[antes de las 23:59 del 1 de octubre]**, siguiendo las instrucciones contenidas en el mismo.
 
 
 ```{r eval = FALSE}
@@ -5674,7 +5735,7 @@ starwars
 
 # .orange[CASO PRÁCTICO 3]: análisis de gapminder
 
-Instala el paquete `{gapminder}` y usa el conjunto `gapminder` contenido en él mismo (dataset con datos económicos de distintos países). Deberás **.bg-purple_light[entregar completado]** el archivo `.Rmd` que tienes disponible en <https://github.com/dadosdelaplace/teaching/tree/main/bioestad/eval> **.bg-purple_light[antes de las 23:59 del 29 de septiembre]**, siguiendo las instrucciones contenidas en el mismo.
+Instala el paquete `{gapminder}` y usa el conjunto `gapminder` contenido en él mismo (dataset con datos económicos de distintos países). Deberás **.bg-purple_light[entregar completado]** el archivo `.Rmd` que tienes disponible en <https://github.com/dadosdelaplace/teaching/tree/main/bioestad/eval> **.bg-purple_light[antes de las 23:59 del 1 de octubre]**, siguiendo las instrucciones contenidas en el mismo.
 
 ```{r eval = FALSE}
 install.packages("gapminder")
