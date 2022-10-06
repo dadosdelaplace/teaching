@@ -24,7 +24,7 @@ class: center, middle, inverse, title-slide
 # GESTIÓN DE BASES DE DATOS
 ## Máster en Bioestadística
 ### Javier Álvarez Liébana (Fac. Estudios Estadísticos - UCM)
-### Última actualización: 04-10-2022
+### Última actualización: 06-10-2022
 
 ---
 
@@ -197,7 +197,7 @@ class: inverse center middle
 
 #### [CLASE 8: introducción a dplyr (tidyverse)](#clase-8)
 
-#### [CLASE 9: resúmenes estadísticos (tidyverse)](#clase-9)
+#### [CLASE 9: tidyverse. resúmenes estadísticos](#clase-9)
 
 #### [CLASE 10: importar/exportar y cruzando tablas](#clase-10)
 
@@ -1764,7 +1764,7 @@ hoy
 ```
 
 ```
-&gt; [1] "2022-10-04"
+&gt; [1] "2022-10-06"
 ```
 
 --
@@ -1777,7 +1777,7 @@ También podemos obtener el **.bg-purple_light[«hoy y ahora»]** con la funció
 ```
 
 ```
-&gt; [1] "2022-10-04 21:21:30 CEST"
+&gt; [1] "2022-10-06 14:51:50 CEST"
 ```
  
 ---
@@ -2161,7 +2161,7 @@ hoy - cumple
 ```
 
 ```
-&gt; Time difference of 12077 days
+&gt; Time difference of 12079 days
 ```
 
 ]
@@ -3083,9 +3083,9 @@ x &lt;- rnorm(1e3) # 1000 elementos aleatorias
 
 ```
 &gt; Unit: microseconds
-&gt;         expr    min      lq     mean  median      uq     max neval cld
-&gt;      sort(x) 44.199 53.4130 77.63648 67.2735 94.1140 572.816  1000   b
-&gt;  x[order(x)] 30.311 35.0065 51.10238 42.8735 60.8225 185.752  1000  a
+&gt;         expr    min     lq     mean  median       uq      max neval cld
+&gt;      sort(x) 44.117 51.083 90.90322 69.9795 101.1605 2551.981  1000   b
+&gt;  x[order(x)] 30.166 34.396 55.59094 44.5365  65.5645 1377.874  1000  a
 ```
 
 --
@@ -6333,12 +6333,12 @@ microbenchmark(x^2,
 
 ```
 &gt; Unit: nanoseconds
-&gt;                                     expr     min        lq        mean  median
-&gt;                                      x^2     385     506.5    1517.232    1089
-&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 1885065 2120163.0 2750107.036 2279235
-&gt;         uq      max neval cld
-&gt;     2199.5    15678  1000  a 
-&gt;  2797637.0 68420376  1000   b
+&gt;                                     expr     min      lq        mean  median
+&gt;                                      x^2     353     466    1273.005    1069
+&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 1776980 1950190 2515276.889 2121550
+&gt;       uq      max neval cld
+&gt;     1861    19257  1000  a 
+&gt;  2507222 33610656  1000   b
 ```
 
 ---
@@ -6616,7 +6616,7 @@ sample(x = 0:1, size = 2)
 ```
 
 ```
-&gt; [1] 1 0
+&gt; [1] 0 1
 ```
 
 **.bg-red_light[IMPORTANTE]**: si no indicamos nada en el vector de probabilidades `prob`, asume que son equiprobables (en este caso, `\(1/2\)` para cada cara).
@@ -6651,7 +6651,7 @@ sample(x = 0:1, size = 30, replace = TRUE)
 ```
 
 ```
-&gt;  [1] 1 0 0 1 0 1 1 1 0 1 0 1 0 1 1 0 1 1 0 0 1 1 1 0 0 1 0 0 0 1
+&gt;  [1] 1 0 0 0 0 1 1 1 0 0 0 1 0 0 0 1 0 1 1 0 0 1 0 1 1 0 1 0 0 1
 ```
 
 ---
@@ -6666,7 +6666,7 @@ sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
 ```
 
 ```
-&gt;  [1] "cruz" "cruz" "cara" "cara" "cara" "cara" "cruz" "cruz" "cruz" "cruz"
+&gt;  [1] "cruz" "cruz" "cara" "cara" "cara" "cruz" "cara" "cruz" "cara" "cara"
 ```
 
 --
@@ -6679,7 +6679,7 @@ sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
 ```
 
 ```
-&gt;  [1] "cara" "cara" "cara" "cara" "cara" "cruz" "cruz" "cara" "cruz" "cruz"
+&gt;  [1] "cara" "cara" "cara" "cara" "cara" "cruz" "cruz" "cruz" "cara" "cara"
 ```
 
 ---
@@ -8679,12 +8679,12 @@ microbenchmark(sqrt(x), for (i in 1:1000) { y[i] &lt;- sqrt(x[i]) }, times = 1e3
 
 ```
 &gt; Unit: microseconds
-&gt;                                          expr      min       lq        mean
-&gt;                                       sqrt(x)    2.306    2.796    3.778812
-&gt;  for (i in 1:1000) {     y[i] &lt;- sqrt(x[i]) } 1815.621 1986.336 2255.092352
+&gt;                                          expr      min        lq        mean
+&gt;                                       sqrt(x)    2.303    2.8185    3.694365
+&gt;  for (i in 1:1000) {     y[i] &lt;- sqrt(x[i]) } 1824.807 1956.5665 2190.043244
 &gt;     median        uq       max neval cld
-&gt;     3.3645    3.8965    37.059  1000  a 
-&gt;  2087.3035 2253.9095 13672.650  1000   b
+&gt;     3.3115    3.7765    29.621  1000  a 
+&gt;  2035.8535 2203.7095 12780.034  1000   b
 ```
 
 
@@ -8768,11 +8768,11 @@ microbenchmark(map(x, .f = function(x) { mean(x^2) }), lapply(x, FUN = function(
 ```
 &gt; Unit: milliseconds
 &gt;                                            expr      min       lq     mean
-&gt;      map(x, .f = function(x) {     mean(x^2) }) 5.766612 6.423634 8.706932
-&gt;  lapply(x, FUN = function(x) {     mean(x^2) }) 5.637185 6.275048 8.423629
-&gt;    median       uq      max neval cld
-&gt;  7.484953 8.299731  52.1249  1000   a
-&gt;  7.331015 8.117155 188.6160  1000   a
+&gt;      map(x, .f = function(x) {     mean(x^2) }) 5.563063 6.240080 8.233408
+&gt;  lapply(x, FUN = function(x) {     mean(x^2) }) 5.421904 6.102273 8.040004
+&gt;    median       uq       max neval cld
+&gt;  7.297357 7.918142  45.54003  1000   a
+&gt;  7.146676 7.675480 179.33539  1000   a
 ```
 
 
@@ -9938,9 +9938,7 @@ name: clase-8
 
 ### [Operaciones con filas](#filas)
 
-### [Operaciones con columnas](#columnas)
 
-### [Modificar columnas](#mutate)
 
 ---
 
@@ -11435,6 +11433,21 @@ Veamos un ejercicio extra para comprobar la **potencia y flexibilidad** de `{tid
 
 * 📝 **Ejercicio extra**: de los personajes que son humanos y miden más de 160 cm, elimina duplicados en color de ojos, elimina ausentes en peso, selecciona los 5 más altos, y orden de mayor a menor peso. Devuelve la tabla.
 
+
+---
+
+
+class: inverse center middle
+name: clase-9
+
+# CLASE 9: operaciones con columnas y resúmenes estadísticos (tidyverse)
+
+&amp;nbsp;
+
+### [Operaciones con columnas](#columnas)
+
+### [Modificar columnas](#mutate)
+
 ---
 
 name: columnas
@@ -12189,6 +12202,7 @@ Veamos un ejercicio extra para comprobar la **potencia y flexibilidad** de `{tid
 
 name: mutate
 
+
 # .orange[MODIFICAR] columnas: mutate()
 
 
@@ -12898,15 +12912,6 @@ survival::heart
 ```
 
 
----
-
-
-class: inverse center middle
-name: clase-9
-
-# CLASE 9: resúmenes estadísticos (tidyverse)
-
-&amp;nbsp;
 
 ---
 

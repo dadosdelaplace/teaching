@@ -254,7 +254,7 @@ class: inverse center middle
 
 #### [CLASE 8: introducción a dplyr (tidyverse)](#clase-8)
 
-#### [CLASE 9: resúmenes estadísticos (tidyverse)](#clase-9)
+#### [CLASE 9: tidyverse. resúmenes estadísticos](#clase-9)
 
 #### [CLASE 10: importar/exportar y cruzando tablas](#clase-10)
 
@@ -6771,9 +6771,7 @@ name: clase-8
 
 ### [Operaciones con filas](#filas)
 
-### [Operaciones con columnas](#columnas)
 
-### [Modificar columnas](#mutate)
 
 ---
 
@@ -7641,6 +7639,21 @@ Veamos un ejercicio extra para comprobar la **potencia y flexibilidad** de `{tid
 
 * 📝 **Ejercicio extra**: de los personajes que son humanos y miden más de 160 cm, elimina duplicados en color de ojos, elimina ausentes en peso, selecciona los 5 más altos, y orden de mayor a menor peso. Devuelve la tabla.
 
+
+---
+
+
+class: inverse center middle
+name: clase-9
+
+# CLASE 9: operaciones con columnas y resúmenes estadísticos (tidyverse)
+
+&nbsp;
+
+### [Operaciones con columnas](#columnas)
+
+### [Modificar columnas](#mutate)
+
 ---
 
 name: columnas
@@ -8007,6 +8020,7 @@ Veamos un ejercicio extra para comprobar la **potencia y flexibilidad** de `{tid
 
 name: mutate
 
+
 # .orange[MODIFICAR] columnas: mutate()
 
 
@@ -8269,15 +8283,6 @@ survival::heart
 ```
 
 
----
-
-
-class: inverse center middle
-name: clase-9
-
-# CLASE 9: resúmenes estadísticos (tidyverse)
-
-&nbsp;
 
 ---
 
