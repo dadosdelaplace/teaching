@@ -7911,9 +7911,9 @@ starwars %>%
 
 * 📝 **Ejercicio 2**: con los datos obtenidos del filtro anterior, selecciona solo las variables `name`, `height`, así como todas aquellas variables que CONTENGAN la palabra `color` en su nombre.
 
-* 📝 **Ejercicio 3**: con los datos obtenidos del ejercicio, traduce el nombre de las columnas a castellano
+* 📝 **Ejercicio 3**: con los datos obtenidos del ejercicio anterior, traduce el nombre de las columnas a castellano
 
-* 📝 **Ejercicio 4**: con los datos obtenidos del ejercicio, coloca la variable de color de pelo justo detrás de la variable de nombres.
+* 📝 **Ejercicio 4**: con los datos obtenidos del ejercicio anterior, coloca la variable de color de pelo justo detrás de la variable de nombres.
 
 * 📝 **Ejercicio 5**: con los datos obtenidos del ejercicio, comprueba cuántas modalidades únicas hay en la variable de color de pelo.
 
@@ -7975,10 +7975,13 @@ starwars %>%
 .panel[.panel-name[Sol. Ej. 5]
 
 ```{r}
-starwars %>% drop_na(height) %>% select(c(name, height, contains("color"))) %>%
+starwars %>%
+  drop_na(height) %>%
+  select(c(name, height, contains("color"))) %>%
   rename(nombre = name, altura = height, color_pelo = hair_color,
          color_piel = skin_color, color_ojos = eye_color) %>%
-  relocate(color_pelo, .after = nombre) %>% distinct(color_pelo)
+  relocate(color_pelo, .after = nombre) %>%
+  distinct(color_pelo)
 ```
 
 **IMPORTANTE**: recuerda que `distinct()` de mantener todas las columnas añadiendo `.keep_all = TRUE`.
@@ -7990,54 +7993,308 @@ starwars %>% drop_na(height) %>% select(c(name, height, contains("color"))) %>%
 
 ---
 
+# Ejercicio extra
+
+
+Veamos un ejercicio extra para comprobar la **potencia y flexibilidad** de `{tidyverse}`, pudiendo hacer muchas cosas en dos líneas de código.
+
+&nbsp;
+
+* 📝 **Ejercicio extra**: selecciona solo las variables `name` y aquellas que sean de tipo numérico y la variable `homeworld`, y selecciona solo los personajes que no sean humanos y que pesen entre 70 y 90 kg.  Tras ello elimina datos ausentes, y elimina duplicados con el mismo valor en `homeworld`. Tras ello, recoloca las variables para que el orden la primera columna sea `name` y la segunda `birth_year`. Para acabar, cambia el nombre  a castellano de las variables.
+
+
+---
+
 name: mutate
 
 # .orange[MODIFICAR] columnas: mutate()
 
 
+.pull-left[
+
+```{r eval = FALSE}
+datos %>%
+  modificar(nueva_var = ...)
+```
+
+]
+
+.pull-right[
+
+```{r eval = FALSE}
+starwars %>%
+  mutate(nueva_var = ...)
+```
+
+]
+
+--
+
+En muchas ocasiones querremos **.bg-purple_light[modificar o crear  variables]**. Para ello tenemos la función `mutate()`. Vamos a crear una **nueva variable** `height_m` con la altura en centímetros.
+
+```{r}
+# altura en metros
+starwars %>%
+  mutate(height_m = height / 100) #<<
+```
+
+---
+
+# .orange[MODIFICAR] columnas: mutate()
+
+
+```{r eval = FALSE}
+starwars %>% mutate(height_m = height / 100)
+```
+
+```{r mutate1, echo = FALSE,  out.width = "90%", fig.align = "center", fig.cap = "Flujo de https://tidydatatutor.com/"}
+knitr::include_graphics("./img/mutate1.jpg")
+``` 
+
+---
+
+# .orange[MODIFICAR] columnas: mutate()
+
+Otra opción es **.bg-purple_light[quedarnos solo con las modificadas]** (por ejemplo, para ver si hace lo que debe) con `transmute()`
+
+```{r}
+starwars %>%
+  transmute(height_m = height / 100) #<<
+```
+
+---
+
+
+# .orange[MODIFICAR] columnas: mutate()
+
+También se pueden aplicar **.bg-purple_light[funciones más complejas]** o incluso **.bg-purple_light[funciones propias]** creadas por nosotros mismos (y varias a la vez).
+
+```{r}
+calculo_IMC <- function(peso, estatura, unidades = "metros") {
+  
+  estatura <- ifelse(unidades == "metros", estatura, estatura / 100)
+  IMC <- peso / (estatura^2)
+  
+  return(IMC)
+}
+```
+
+---
+
+# .orange[MODIFICAR] columnas: mutate()
+
+También se pueden aplicar **.bg-purple_light[funciones más complejas]** o incluso **.bg-purple_light[funciones propias]** creadas por nosotros mismos (y varias a la vez).
+
+```{r}
+starwars %>%
+  mutate(IMC = calculo_IMC(mass, height, unidades = "centímetros"),
+         height_m = height / 100) %>%
+  relocate(IMC, height_m, .after = mass)
+```
+
+---
+
+# .orange[MODIFICAR] columnas: mutate()
+
+También podemos combinarlo con la función `if_else()`, una modificación dentro de `{tidyverse}` para hacer un `if-else` vectorizado, que nos puede ayudar a **.bg-purple_light[recategorizaciones sencillas]**.
+
+```{r}
+starwars %>%
+  mutate(human = if_else(species == "Human", "Human", "Not Human")) %>% 
+  relocate(human, .after = name)
+```
+
+
+---
+
+# .orange[RECATEGORIZAR]: case_when()
+
+Para **.bg-purple_light[recategorizaciones más complejas]** tenemos a nuestra disposición `case_when()`. Supongamos por ejemplo que queremos crear una **categoría en función de su altura**.
+
+* Si `height > 180` –> serán `"alto"`.
+* Si `height <= 180` y `height > 120` –> serán `"bajo"`
+* Si `height <= 120` y `height > 0` –> serán `"enano"`
+* Si no se cumple lo anterior –> serán `"ausente"`
+
+--
+
+```{r}
+starwars %>% mutate(height = case_when(height > 180 ~ "alto",
+                                       height > 120 ~ "bajo",
+                                       height > 0 ~ "enano",
+                                       TRUE ~ "ausente"))
+```
+
+
+---
+
+# Ejercicios (mutate)
+
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+
+* 📝 **Ejercicio 1**: crea tres nuevas columnas que nos digan el número de películas en las que han salido, el número de vehículos y el número d naves (pero haciendo uso de mutate()). 
+
+* 📝 **Ejercicio 2**: con las 3 columnas creadas, crea una nueva columna llamada `frequency` que nos ponga `almost_all` en personajes que salen en 5 o más películas, `many` en personajes que salen en más de 2 películas pero en menos de 5 y `some` en personajes que salen 1 o 2 películas.
+
+* 📝 **Ejercicio 3**: elimina registros con datos ausentes en la variable `birth_year` y filtra solo los 20 personajes más jóvenes.
+
+* 📝 **Ejercicio 4**: selecciona solo las variables numéricas y de tipo texto. Define una nueva variable llamada `under_18` que nos recategorice la variable `birth_year`: `TRUE` si es menor de edad y `FALSE` en caso contrario
+
+]
+
+.panel[.panel-name[Sol. Ej. 1]
+
+```{r}
+starwars_nueva <- 
+  starwars %>%
+  mutate(n_films = films %>% map_int(length),
+         n_vehicles = vehicles %>% map_int(length),
+         n_starships = starships %>% map_int(length))
+starwars_nueva
+```
+
+]
+
+.panel[.panel-name[Sol. Ej. 2]
+
+```{r}
+starwars_nueva <-
+  starwars_nueva %>%
+  mutate(frequency =
+           case_when(n_films >= 5 ~ "almost_all",
+                     n_films > 2 ~ "many",
+                     TRUE ~ "some"))
+starwars_nueva
+```
+
+]
+
+.panel[.panel-name[Sol. Ej. 3]
+
+```{r}
+starwars_nueva <-
+  starwars_nueva %>%
+  drop_na(birth_year) %>%
+  slice_min(n = 20, birth_year)
+starwars_nueva
+```
+
+]
+
+.panel[.panel-name[Sol. Ej. 4]
+
+```{r}
+starwars_nueva <-
+  starwars_nueva %>%
+  select(where(is.numeric) | where(is.character)) %>%
+  mutate(under_18 = birth_year < 18)
+starwars_nueva
+```
+
+
+]
+
+]
+
+
+---
+
+
+# Ejercicios (mutate)
+
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+* 📝 **Ejercicio 5**: de la base de datos original, determina el número de modalidades que toma la variable `species` (elimina antes registros con ausente en dicha variable). Después elimina duplicados por dicha variable, dejando el representante más bajito.
+
+* 📝 **Ejercicio 6**: sobre la base de datos original, crea una nueva columna llamada `auburn` (cobrizo/caoba) que nos diga `TRUE` si el color de pelo contiene dicha palabra y `FALSE` en caso contrario.
+
+* 📝 **Ejercicio 7**: sobre la base de datos original, filtra solo aquellos personajes de la familia `"Skywalker"` o `"Antilles"`, selecciona solo las columnas de `name` y `specie`, y renombra a castellano.
+
+
+]
+
+.panel[.panel-name[Sol. Ej. 5]
+
+```{r}
+starwars %>%
+  drop_na(species) %>%
+  distinct(species)
+
+starwars %>%
+  drop_na(species) %>%
+  arrange(height) %>%
+  distinct(species, .keep_all = TRUE)
+```
+
+]
+
+.panel[.panel-name[Sol. Ej. 6]
+
+```{r}
+starwars %>%
+  drop_na(hair_color) %>%
+  mutate(auburn = str_detect(hair_color, "auburn"))
+```
+
+]
+
+.panel[.panel-name[Sol. Ej. 6]
+
+```{r}
+starwars %>%
+  filter(str_detect(name, "Skywalker") |
+           str_detect(name, "Antilles")) %>%
+  select(name, species) %>%
+  rename(nombre = name, especie = species)
+```
+
+]
+]
+
+
+---
+
+# CASO PRÁCTICO
+
+* 📝 **Ejercicio extra**: en el paquete `{survival}`, la tabla `heart` contiene los mismos datos de la tabla `jasa` pero ya preprocesados. Haz uso de lo aprendido para pasar de `jasa` a `heart`
+
+
+```{r}
+survival::heart
+```
+
+
 ---
 
 
 class: inverse center middle
 name: clase-9
 
-# CLASE 9: IMPORTAR/EXPORTAR. ENTREGA II
+# CLASE 9: resúmenes estadísticos (tidyverse)
 
 &nbsp;
 
-### [Importar/exportar datos](#importar-exportar)
-
-### [Caso I: datos electorales (tidydata)](#clase8-caso-I)
-
-### [Caso II: starwars (continuación)](#clase8-caso-II)
-
-### [Caso III: análisis de los datos covid del ISCIII](#clase8-caso-III)
-
-
 ---
-
-name: importar-exportar
-
-#  .orange[IMPORTANDO] datos
-
-
----
-
 
 class: inverse center middle
-name: clase-9
+name: clase-10
 
-# CLASE 9: tidyverse
+# CLASE 10: importar/exportar y cruzando tablas
 
 &nbsp;
-
 
 ---
 
 class: inverse center middle
 name: clase-11
 
-# CLASE 11: tidyverse y generación de resúmenes
+# CLASE 11: factores y textos
+
 
 &nbsp;
 
@@ -8046,35 +8303,11 @@ name: clase-11
 class: inverse center middle
 name: clase-12
 
-# CLASE 12: cruce de tablas
-
-&nbsp;
-
+# CLASE 12: entrega II
 
 
 ---
 
-class: inverse center middle
-name: clase-13
-
-# CLASE 13: uso de factores con forcats
-
-&nbsp;
-
-
-
----
-
-class: inverse center middle
-name: clase-14
-
-# CLASE 14: introducción a ggplot
-
-&nbsp;
-
-
-
----
 
 # .orange[RECURSOS] y .green[BIBLIOGRAFÍA]
 

@@ -1777,7 +1777,7 @@ También podemos obtener el **.bg-purple_light[«hoy y ahora»]** con la funció
 ```
 
 ```
-&gt; [1] "2022-10-04 15:16:31 CEST"
+&gt; [1] "2022-10-04 21:21:30 CEST"
 ```
  
 ---
@@ -3084,8 +3084,8 @@ x &lt;- rnorm(1e3) # 1000 elementos aleatorias
 ```
 &gt; Unit: microseconds
 &gt;         expr    min      lq     mean  median      uq     max neval cld
-&gt;      sort(x) 42.390 47.7795 57.44244 52.5075 59.1570 267.221  1000   b
-&gt;  x[order(x)] 29.682 33.6490 40.08247 36.8855 41.0305 168.688  1000  a
+&gt;      sort(x) 44.199 53.4130 77.63648 67.2735 94.1140 572.816  1000   b
+&gt;  x[order(x)] 30.311 35.0065 51.10238 42.8735 60.8225 185.752  1000  a
 ```
 
 --
@@ -6333,12 +6333,12 @@ microbenchmark(x^2,
 
 ```
 &gt; Unit: nanoseconds
-&gt;                                     expr     min      lq        mean    median
-&gt;                                      x^2     356     466    1377.848    1098.5
-&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 1756401 1934090 2324081.460 2076663.0
-&gt;       uq      max neval cld
-&gt;     1979    21062  1000  a 
-&gt;  2454103 21903219  1000   b
+&gt;                                     expr     min        lq        mean  median
+&gt;                                      x^2     385     506.5    1517.232    1089
+&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 1885065 2120163.0 2750107.036 2279235
+&gt;         uq      max neval cld
+&gt;     2199.5    15678  1000  a 
+&gt;  2797637.0 68420376  1000   b
 ```
 
 ---
@@ -6616,7 +6616,7 @@ sample(x = 0:1, size = 2)
 ```
 
 ```
-&gt; [1] 0 1
+&gt; [1] 1 0
 ```
 
 **.bg-red_light[IMPORTANTE]**: si no indicamos nada en el vector de probabilidades `prob`, asume que son equiprobables (en este caso, `\(1/2\)` para cada cara).
@@ -6651,7 +6651,7 @@ sample(x = 0:1, size = 30, replace = TRUE)
 ```
 
 ```
-&gt;  [1] 0 0 0 0 0 0 0 1 1 1 1 0 1 1 0 0 1 0 1 0 1 0 1 1 0 1 0 1 0 0
+&gt;  [1] 1 0 0 1 0 1 1 1 0 1 0 1 0 1 1 0 1 1 0 0 1 1 1 0 0 1 0 0 0 1
 ```
 
 ---
@@ -6666,7 +6666,7 @@ sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
 ```
 
 ```
-&gt;  [1] "cruz" "cara" "cara" "cruz" "cara" "cara" "cruz" "cara" "cara" "cruz"
+&gt;  [1] "cruz" "cruz" "cara" "cara" "cara" "cara" "cruz" "cruz" "cruz" "cruz"
 ```
 
 --
@@ -6679,7 +6679,7 @@ sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
 ```
 
 ```
-&gt;  [1] "cara" "cruz" "cruz" "cara" "cara" "cara" "cara" "cara" "cara" "cara"
+&gt;  [1] "cara" "cara" "cara" "cara" "cara" "cruz" "cruz" "cara" "cruz" "cruz"
 ```
 
 ---
@@ -8679,12 +8679,12 @@ microbenchmark(sqrt(x), for (i in 1:1000) { y[i] &lt;- sqrt(x[i]) }, times = 1e3
 
 ```
 &gt; Unit: microseconds
-&gt;                                          expr      min        lq        mean
-&gt;                                       sqrt(x)    2.336    2.8575    3.779354
-&gt;  for (i in 1:1000) {     y[i] &lt;- sqrt(x[i]) } 1833.430 2013.5850 2336.920377
-&gt;    median       uq      max neval cld
-&gt;     3.468    4.013    29.92  1000  a 
-&gt;  2138.599 2432.542 13189.02  1000   b
+&gt;                                          expr      min       lq        mean
+&gt;                                       sqrt(x)    2.306    2.796    3.778812
+&gt;  for (i in 1:1000) {     y[i] &lt;- sqrt(x[i]) } 1815.621 1986.336 2255.092352
+&gt;     median        uq       max neval cld
+&gt;     3.3645    3.8965    37.059  1000  a 
+&gt;  2087.3035 2253.9095 13672.650  1000   b
 ```
 
 
@@ -8768,11 +8768,11 @@ microbenchmark(map(x, .f = function(x) { mean(x^2) }), lapply(x, FUN = function(
 ```
 &gt; Unit: milliseconds
 &gt;                                            expr      min       lq     mean
-&gt;      map(x, .f = function(x) {     mean(x^2) }) 5.623808 6.292272 8.482173
-&gt;  lapply(x, FUN = function(x) {     mean(x^2) }) 5.457257 6.205124 8.523199
-&gt;    median       uq       max neval cld
-&gt;  7.412742 7.954121  46.52672  1000   a
-&gt;  7.329721 7.935503 186.41373  1000   a
+&gt;      map(x, .f = function(x) {     mean(x^2) }) 5.766612 6.423634 8.706932
+&gt;  lapply(x, FUN = function(x) {     mean(x^2) }) 5.637185 6.275048 8.423629
+&gt;    median       uq      max neval cld
+&gt;  7.484953 8.299731  52.1249  1000   a
+&gt;  7.331015 8.117155 188.6160  1000   a
 ```
 
 
@@ -11996,9 +11996,9 @@ starwars %&gt;%
 
 * 📝 **Ejercicio 2**: con los datos obtenidos del filtro anterior, selecciona solo las variables `name`, `height`, así como todas aquellas variables que CONTENGAN la palabra `color` en su nombre.
 
-* 📝 **Ejercicio 3**: con los datos obtenidos del ejercicio, traduce el nombre de las columnas a castellano
+* 📝 **Ejercicio 3**: con los datos obtenidos del ejercicio anterior, traduce el nombre de las columnas a castellano
 
-* 📝 **Ejercicio 4**: con los datos obtenidos del ejercicio, coloca la variable de color de pelo justo detrás de la variable de nombres.
+* 📝 **Ejercicio 4**: con los datos obtenidos del ejercicio anterior, coloca la variable de color de pelo justo detrás de la variable de nombres.
 
 * 📝 **Ejercicio 5**: con los datos obtenidos del ejercicio, comprueba cuántas modalidades únicas hay en la variable de color de pelo.
 
@@ -12139,10 +12139,13 @@ starwars %&gt;%
 
 
 ```r
-starwars %&gt;% drop_na(height) %&gt;% select(c(name, height, contains("color"))) %&gt;%
+starwars %&gt;%
+  drop_na(height) %&gt;%
+  select(c(name, height, contains("color"))) %&gt;%
   rename(nombre = name, altura = height, color_pelo = hair_color,
          color_piel = skin_color, color_ojos = eye_color) %&gt;%
-  relocate(color_pelo, .after = nombre) %&gt;% distinct(color_pelo)
+  relocate(color_pelo, .after = nombre) %&gt;%
+  distinct(color_pelo)
 ```
 
 ```
@@ -12172,54 +12175,755 @@ starwars %&gt;% drop_na(height) %&gt;% select(c(name, height, contains("color"))
 
 ---
 
+# Ejercicio extra
+
+
+Veamos un ejercicio extra para comprobar la **potencia y flexibilidad** de `{tidyverse}`, pudiendo hacer muchas cosas en dos líneas de código.
+
+&amp;nbsp;
+
+* 📝 **Ejercicio extra**: selecciona solo las variables `name` y aquellas que sean de tipo numérico y la variable `homeworld`, y selecciona solo los personajes que no sean humanos y que pesen entre 70 y 90 kg.  Tras ello elimina datos ausentes, y elimina duplicados con el mismo valor en `homeworld`. Tras ello, recoloca las variables para que el orden la primera columna sea `name` y la segunda `birth_year`. Para acabar, cambia el nombre  a castellano de las variables.
+
+
+---
+
 name: mutate
 
 # .orange[MODIFICAR] columnas: mutate()
 
 
+.pull-left[
+
+
+```r
+datos %&gt;%
+  modificar(nueva_var = ...)
+```
+
+]
+
+.pull-right[
+
+
+```r
+starwars %&gt;%
+  mutate(nueva_var = ...)
+```
+
+]
+
+--
+
+En muchas ocasiones querremos **.bg-purple_light[modificar o crear  variables]**. Para ello tenemos la función `mutate()`. Vamos a crear una **nueva variable** `height_m` con la altura en centímetros.
+
+
+```r
+# altura en metros
+starwars %&gt;%
+* mutate(height_m = height / 100)
+```
+
+```
+&gt; # A tibble: 87 × 15
+&gt;    name        height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
+&gt;    &lt;chr&gt;        &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
+&gt;  1 Luke Skywa…    172    77 blond   fair    blue       19   male  mascu… Tatooi…
+&gt;  2 C-3PO          167    75 &lt;NA&gt;    gold    yellow    112   none  mascu… Tatooi…
+&gt;  3 R2-D2           96    32 &lt;NA&gt;    white,… red        33   none  mascu… Naboo  
+&gt;  4 Darth Vader    202   136 none    white   yellow     41.9 male  mascu… Tatooi…
+&gt;  5 Leia Organa    150    49 brown   light   brown      19   fema… femin… Aldera…
+&gt;  6 Owen Lars      178   120 brown,… light   blue       52   male  mascu… Tatooi…
+&gt;  7 Beru White…    165    75 brown   light   blue       47   fema… femin… Tatooi…
+&gt;  8 R5-D4           97    32 &lt;NA&gt;    white,… red        NA   none  mascu… Tatooi…
+&gt;  9 Biggs Dark…    183    84 black   light   brown      24   male  mascu… Tatooi…
+&gt; 10 Obi-Wan Ke…    182    77 auburn… fair    blue-g…    57   male  mascu… Stewjon
+&gt; # … with 77 more rows, 5 more variables: species &lt;chr&gt;, films &lt;list&gt;,
+&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, height_m &lt;dbl&gt;, and abbreviated variable
+&gt; #   names ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
+```
+
+---
+
+# .orange[MODIFICAR] columnas: mutate()
+
+
+
+```r
+starwars %&gt;% mutate(height_m = height / 100)
+```
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/mutate1.jpg" alt="Flujo de https://tidydatatutor.com/" width="90%" /&gt;
+&lt;p class="caption"&gt;Flujo de https://tidydatatutor.com/&lt;/p&gt;
+&lt;/div&gt;
+
+---
+
+# .orange[MODIFICAR] columnas: mutate()
+
+Otra opción es **.bg-purple_light[quedarnos solo con las modificadas]** (por ejemplo, para ver si hace lo que debe) con `transmute()`
+
+
+```r
+starwars %&gt;%
+* transmute(height_m = height / 100)
+```
+
+```
+&gt; # A tibble: 87 × 1
+&gt;    height_m
+&gt;       &lt;dbl&gt;
+&gt;  1     1.72
+&gt;  2     1.67
+&gt;  3     0.96
+&gt;  4     2.02
+&gt;  5     1.5 
+&gt;  6     1.78
+&gt;  7     1.65
+&gt;  8     0.97
+&gt;  9     1.83
+&gt; 10     1.82
+&gt; # … with 77 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
+```
+
+---
+
+
+# .orange[MODIFICAR] columnas: mutate()
+
+También se pueden aplicar **.bg-purple_light[funciones más complejas]** o incluso **.bg-purple_light[funciones propias]** creadas por nosotros mismos (y varias a la vez).
+
+
+```r
+calculo_IMC &lt;- function(peso, estatura, unidades = "metros") {
+  
+  estatura &lt;- ifelse(unidades == "metros", estatura, estatura / 100)
+  IMC &lt;- peso / (estatura^2)
+  
+  return(IMC)
+}
+```
+
+---
+
+# .orange[MODIFICAR] columnas: mutate()
+
+También se pueden aplicar **.bg-purple_light[funciones más complejas]** o incluso **.bg-purple_light[funciones propias]** creadas por nosotros mismos (y varias a la vez).
+
+
+```r
+starwars %&gt;%
+  mutate(IMC = calculo_IMC(mass, height, unidades = "centímetros"),
+         height_m = height / 100) %&gt;%
+  relocate(IMC, height_m, .after = mass)
+```
+
+```
+&gt; # A tibble: 87 × 16
+&gt;    name  height  mass   IMC heigh…¹ hair_…² skin_…³ eye_c…⁴ birth…⁵ sex   gender
+&gt;    &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
+&gt;  1 Luke…    172    77  26.0    1.72 blond   fair    blue       19   male  mascu…
+&gt;  2 C-3PO    167    75  25.4    1.67 &lt;NA&gt;    gold    yellow    112   none  mascu…
+&gt;  3 R2-D2     96    32  10.8    0.96 &lt;NA&gt;    white,… red        33   none  mascu…
+&gt;  4 Dart…    202   136  46.0    2.02 none    white   yellow     41.9 male  mascu…
+&gt;  5 Leia…    150    49  16.6    1.5  brown   light   brown      19   fema… femin…
+&gt;  6 Owen…    178   120  40.6    1.78 brown,… light   blue       52   male  mascu…
+&gt;  7 Beru…    165    75  25.4    1.65 brown   light   blue       47   fema… femin…
+&gt;  8 R5-D4     97    32  10.8    0.97 &lt;NA&gt;    white,… red        NA   none  mascu…
+&gt;  9 Bigg…    183    84  28.4    1.83 black   light   brown      24   male  mascu…
+&gt; 10 Obi-…    182    77  26.0    1.82 auburn… fair    blue-g…    57   male  mascu…
+&gt; # … with 77 more rows, 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,
+&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable
+&gt; #   names ¹​height_m, ²​hair_color, ³​skin_color, ⁴​eye_color, ⁵​birth_year
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
+```
+
+---
+
+# .orange[MODIFICAR] columnas: mutate()
+
+También podemos combinarlo con la función `if_else()`, una modificación dentro de `{tidyverse}` para hacer un `if-else` vectorizado, que nos puede ayudar a **.bg-purple_light[recategorizaciones sencillas]**.
+
+
+```r
+starwars %&gt;%
+  mutate(human = if_else(species == "Human", "Human", "Not Human")) %&gt;% 
+  relocate(human, .after = name)
+```
+
+```
+&gt; # A tibble: 87 × 15
+&gt;    name  human height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
+&gt;    &lt;chr&gt; &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
+&gt;  1 Luke… Human    172    77 blond   fair    blue       19   male  mascu… Tatooi…
+&gt;  2 C-3PO Not …    167    75 &lt;NA&gt;    gold    yellow    112   none  mascu… Tatooi…
+&gt;  3 R2-D2 Not …     96    32 &lt;NA&gt;    white,… red        33   none  mascu… Naboo  
+&gt;  4 Dart… Human    202   136 none    white   yellow     41.9 male  mascu… Tatooi…
+&gt;  5 Leia… Human    150    49 brown   light   brown      19   fema… femin… Aldera…
+&gt;  6 Owen… Human    178   120 brown,… light   blue       52   male  mascu… Tatooi…
+&gt;  7 Beru… Human    165    75 brown   light   blue       47   fema… femin… Tatooi…
+&gt;  8 R5-D4 Not …     97    32 &lt;NA&gt;    white,… red        NA   none  mascu… Tatooi…
+&gt;  9 Bigg… Human    183    84 black   light   brown      24   male  mascu… Tatooi…
+&gt; 10 Obi-… Human    182    77 auburn… fair    blue-g…    57   male  mascu… Stewjon
+&gt; # … with 77 more rows, 4 more variables: species &lt;chr&gt;, films &lt;list&gt;,
+&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names
+&gt; #   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
+```
+
+
+---
+
+# .orange[RECATEGORIZAR]: case_when()
+
+Para **.bg-purple_light[recategorizaciones más complejas]** tenemos a nuestra disposición `case_when()`. Supongamos por ejemplo que queremos crear una **categoría en función de su altura**.
+
+* Si `height &gt; 180` –&gt; serán `"alto"`.
+* Si `height &lt;= 180` y `height &gt; 120` –&gt; serán `"bajo"`
+* Si `height &lt;= 120` y `height &gt; 0` –&gt; serán `"enano"`
+* Si no se cumple lo anterior –&gt; serán `"ausente"`
+
+--
+
+
+```r
+starwars %&gt;% mutate(height = case_when(height &gt; 180 ~ "alto",
+                                       height &gt; 120 ~ "bajo",
+                                       height &gt; 0 ~ "enano",
+                                       TRUE ~ "ausente"))
+```
+
+```
+&gt; # A tibble: 87 × 14
+&gt;    name        height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
+&gt;    &lt;chr&gt;       &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
+&gt;  1 Luke Skywa… bajo      77 blond   fair    blue       19   male  mascu… Tatooi…
+&gt;  2 C-3PO       bajo      75 &lt;NA&gt;    gold    yellow    112   none  mascu… Tatooi…
+&gt;  3 R2-D2       enano     32 &lt;NA&gt;    white,… red        33   none  mascu… Naboo  
+&gt;  4 Darth Vader alto     136 none    white   yellow     41.9 male  mascu… Tatooi…
+&gt;  5 Leia Organa bajo      49 brown   light   brown      19   fema… femin… Aldera…
+&gt;  6 Owen Lars   bajo     120 brown,… light   blue       52   male  mascu… Tatooi…
+&gt;  7 Beru White… bajo      75 brown   light   blue       47   fema… femin… Tatooi…
+&gt;  8 R5-D4       enano     32 &lt;NA&gt;    white,… red        NA   none  mascu… Tatooi…
+&gt;  9 Biggs Dark… alto      84 black   light   brown      24   male  mascu… Tatooi…
+&gt; 10 Obi-Wan Ke… alto      77 auburn… fair    blue-g…    57   male  mascu… Stewjon
+&gt; # … with 77 more rows, 4 more variables: species &lt;chr&gt;, films &lt;list&gt;,
+&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names
+&gt; #   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
+```
+
+
+---
+
+# Ejercicios (mutate)
+
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+
+* 📝 **Ejercicio 1**: crea tres nuevas columnas que nos digan el número de películas en las que han salido, el número de vehículos y el número d naves (pero haciendo uso de mutate()). 
+
+* 📝 **Ejercicio 2**: con las 3 columnas creadas, crea una nueva columna llamada `frequency` que nos ponga `almost_all` en personajes que salen en 5 o más películas, `many` en personajes que salen en más de 2 películas pero en menos de 5 y `some` en personajes que salen 1 o 2 películas.
+
+* 📝 **Ejercicio 3**: elimina registros con datos ausentes en la variable `birth_year` y filtra solo los 20 personajes más jóvenes.
+
+* 📝 **Ejercicio 4**: selecciona solo las variables numéricas y de tipo texto. Define una nueva variable llamada `under_18` que nos recategorice la variable `birth_year`: `TRUE` si es menor de edad y `FALSE` en caso contrario
+
+]
+
+.panel[.panel-name[Sol. Ej. 1]
+
+
+```r
+starwars_nueva &lt;- 
+  starwars %&gt;%
+  mutate(n_films = films %&gt;% map_int(length),
+         n_vehicles = vehicles %&gt;% map_int(length),
+         n_starships = starships %&gt;% map_int(length))
+starwars_nueva
+```
+
+```
+&gt; # A tibble: 87 × 17
+&gt;    name        height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
+&gt;    &lt;chr&gt;        &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
+&gt;  1 Luke Skywa…    172    77 blond   fair    blue       19   male  mascu… Tatooi…
+&gt;  2 C-3PO          167    75 &lt;NA&gt;    gold    yellow    112   none  mascu… Tatooi…
+&gt;  3 R2-D2           96    32 &lt;NA&gt;    white,… red        33   none  mascu… Naboo  
+&gt;  4 Darth Vader    202   136 none    white   yellow     41.9 male  mascu… Tatooi…
+&gt;  5 Leia Organa    150    49 brown   light   brown      19   fema… femin… Aldera…
+&gt;  6 Owen Lars      178   120 brown,… light   blue       52   male  mascu… Tatooi…
+&gt;  7 Beru White…    165    75 brown   light   blue       47   fema… femin… Tatooi…
+&gt;  8 R5-D4           97    32 &lt;NA&gt;    white,… red        NA   none  mascu… Tatooi…
+&gt;  9 Biggs Dark…    183    84 black   light   brown      24   male  mascu… Tatooi…
+&gt; 10 Obi-Wan Ke…    182    77 auburn… fair    blue-g…    57   male  mascu… Stewjon
+&gt; # … with 77 more rows, 7 more variables: species &lt;chr&gt;, films &lt;list&gt;,
+&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, n_films &lt;int&gt;, n_vehicles &lt;int&gt;,
+&gt; #   n_starships &lt;int&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
+&gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
+```
+
+]
+
+.panel[.panel-name[Sol. Ej. 2]
+
+
+```r
+starwars_nueva &lt;-
+  starwars_nueva %&gt;%
+  mutate(frequency =
+           case_when(n_films &gt;= 5 ~ "almost_all",
+                     n_films &gt; 2 ~ "many",
+                     TRUE ~ "some"))
+starwars_nueva
+```
+
+```
+&gt; # A tibble: 87 × 18
+&gt;    name        height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
+&gt;    &lt;chr&gt;        &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
+&gt;  1 Luke Skywa…    172    77 blond   fair    blue       19   male  mascu… Tatooi…
+&gt;  2 C-3PO          167    75 &lt;NA&gt;    gold    yellow    112   none  mascu… Tatooi…
+&gt;  3 R2-D2           96    32 &lt;NA&gt;    white,… red        33   none  mascu… Naboo  
+&gt;  4 Darth Vader    202   136 none    white   yellow     41.9 male  mascu… Tatooi…
+&gt;  5 Leia Organa    150    49 brown   light   brown      19   fema… femin… Aldera…
+&gt;  6 Owen Lars      178   120 brown,… light   blue       52   male  mascu… Tatooi…
+&gt;  7 Beru White…    165    75 brown   light   blue       47   fema… femin… Tatooi…
+&gt;  8 R5-D4           97    32 &lt;NA&gt;    white,… red        NA   none  mascu… Tatooi…
+&gt;  9 Biggs Dark…    183    84 black   light   brown      24   male  mascu… Tatooi…
+&gt; 10 Obi-Wan Ke…    182    77 auburn… fair    blue-g…    57   male  mascu… Stewjon
+&gt; # … with 77 more rows, 8 more variables: species &lt;chr&gt;, films &lt;list&gt;,
+&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, n_films &lt;int&gt;, n_vehicles &lt;int&gt;,
+&gt; #   n_starships &lt;int&gt;, frequency &lt;chr&gt;, and abbreviated variable names
+&gt; #   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
+```
+
+]
+
+.panel[.panel-name[Sol. Ej. 3]
+
+
+```r
+starwars_nueva &lt;-
+  starwars_nueva %&gt;%
+  drop_na(birth_year) %&gt;%
+  slice_min(n = 20, birth_year)
+starwars_nueva
+```
+
+```
+&gt; # A tibble: 21 × 18
+&gt;    name        height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
+&gt;    &lt;chr&gt;        &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
+&gt;  1 Wicket Sys…     88  20   brown   brown   brown       8   male  mascu… Endor  
+&gt;  2 IG-88          200 140   none    metal   red        15   none  mascu… &lt;NA&gt;   
+&gt;  3 Luke Skywa…    172  77   blond   fair    blue       19   male  mascu… Tatooi…
+&gt;  4 Leia Organa    150  49   brown   light   brown      19   fema… femin… Aldera…
+&gt;  5 Wedge Anti…    170  77   brown   fair    hazel      21   male  mascu… Corell…
+&gt;  6 Plo Koon       188  80   none    orange  black      22   male  mascu… Dorin  
+&gt;  7 Biggs Dark…    183  84   black   light   brown      24   male  mascu… Tatooi…
+&gt;  8 Han Solo       180  80   brown   fair    brown      29   male  mascu… Corell…
+&gt;  9 Lando Calr…    177  79   black   dark    brown      31   male  mascu… Socorro
+&gt; 10 Boba Fett      183  78.2 black   fair    brown      31.5 male  mascu… Kamino 
+&gt; # … with 11 more rows, 8 more variables: species &lt;chr&gt;, films &lt;list&gt;,
+&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, n_films &lt;int&gt;, n_vehicles &lt;int&gt;,
+&gt; #   n_starships &lt;int&gt;, frequency &lt;chr&gt;, and abbreviated variable names
+&gt; #   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
+```
+
+]
+
+.panel[.panel-name[Sol. Ej. 4]
+
+
+```r
+starwars_nueva &lt;-
+  starwars_nueva %&gt;%
+  select(where(is.numeric) | where(is.character)) %&gt;%
+  mutate(under_18 = birth_year &lt; 18)
+starwars_nueva
+```
+
+```
+&gt; # A tibble: 21 × 16
+&gt;    height  mass birth_year n_films n_veh…¹ n_sta…² name  hair_…³ skin_…⁴ eye_c…⁵
+&gt;     &lt;int&gt; &lt;dbl&gt;      &lt;dbl&gt;   &lt;int&gt;   &lt;int&gt;   &lt;int&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;  
+&gt;  1     88  20          8         1       0       0 Wick… brown   brown   brown  
+&gt;  2    200 140         15         1       0       0 IG-88 none    metal   red    
+&gt;  3    172  77         19         5       2       2 Luke… blond   fair    blue   
+&gt;  4    150  49         19         5       1       0 Leia… brown   light   brown  
+&gt;  5    170  77         21         3       1       1 Wedg… brown   fair    hazel  
+&gt;  6    188  80         22         3       0       1 Plo … none    orange  black  
+&gt;  7    183  84         24         1       0       1 Bigg… black   light   brown  
+&gt;  8    180  80         29         4       0       2 Han … brown   fair    brown  
+&gt;  9    177  79         31         2       0       1 Land… black   dark    brown  
+&gt; 10    183  78.2       31.5       3       0       1 Boba… black   fair    brown  
+&gt; # … with 11 more rows, 6 more variables: sex &lt;chr&gt;, gender &lt;chr&gt;,
+&gt; #   homeworld &lt;chr&gt;, species &lt;chr&gt;, frequency &lt;chr&gt;, under_18 &lt;lgl&gt;, and
+&gt; #   abbreviated variable names ¹​n_vehicles, ²​n_starships, ³​hair_color,
+&gt; #   ⁴​skin_color, ⁵​eye_color
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
+```
+
+
+]
+
+]
+
+
+---
+
+
+# Ejercicios (mutate)
+
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+* 📝 **Ejercicio 5**: de la base de datos original, determina el número de modalidades que toma la variable `species` (elimina antes registros con ausente en dicha variable). Después elimina duplicados por dicha variable, dejando el representante más bajito.
+
+* 📝 **Ejercicio 6**: sobre la base de datos original, crea una nueva columna llamada `auburn` (cobrizo/caoba) que nos diga `TRUE` si el color de pelo contiene dicha palabra y `FALSE` en caso contrario.
+
+* 📝 **Ejercicio 7**: sobre la base de datos original, filtra solo aquellos personajes de la familia `"Skywalker"` o `"Antilles"`, selecciona solo las columnas de `name` y `specie`, y renombra a castellano.
+
+
+]
+
+.panel[.panel-name[Sol. Ej. 5]
+
+
+```r
+starwars %&gt;%
+  drop_na(species) %&gt;%
+  distinct(species)
+```
+
+```
+&gt; # A tibble: 37 × 1
+&gt;    species       
+&gt;    &lt;chr&gt;         
+&gt;  1 Human         
+&gt;  2 Droid         
+&gt;  3 Wookiee       
+&gt;  4 Rodian        
+&gt;  5 Hutt          
+&gt;  6 Yoda's species
+&gt;  7 Trandoshan    
+&gt;  8 Mon Calamari  
+&gt;  9 Ewok          
+&gt; 10 Sullustan     
+&gt; # … with 27 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
+```
+
+```r
+starwars %&gt;%
+  drop_na(species) %&gt;%
+  arrange(height) %&gt;%
+  distinct(species, .keep_all = TRUE)
+```
+
+```
+&gt; # A tibble: 37 × 14
+&gt;    name        height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
+&gt;    &lt;chr&gt;        &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
+&gt;  1 Yoda            66    17 white   green   brown       896 male  mascu… &lt;NA&gt;   
+&gt;  2 Ratts Tyer…     79    15 none    grey, … unknown      NA male  mascu… Aleen …
+&gt;  3 Wicket Sys…     88    20 brown   brown   brown         8 male  mascu… Endor  
+&gt;  4 Dud Bolt        94    45 none    blue, … yellow       NA male  mascu… Vulpter
+&gt;  5 R2-D2           96    32 &lt;NA&gt;    white,… red          33 none  mascu… Naboo  
+&gt;  6 Sebulba        112    40 none    grey, … orange       NA male  mascu… Malast…
+&gt;  7 Gasgano        122    NA none    white,… black        NA male  mascu… Troiken
+&gt;  8 Watto          137    NA black   blue, … yellow       NA male  mascu… Toydar…
+&gt;  9 Leia Organa    150    49 brown   light   brown        19 fema… femin… Aldera…
+&gt; 10 Nien Nunb      160    68 none    grey    black        NA male  mascu… Sullust
+&gt; # … with 27 more rows, 4 more variables: species &lt;chr&gt;, films &lt;list&gt;,
+&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names
+&gt; #   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
+```
+
+]
+
+.panel[.panel-name[Sol. Ej. 6]
+
+
+```r
+starwars %&gt;%
+  drop_na(hair_color) %&gt;%
+  mutate(auburn = str_detect(hair_color, "auburn"))
+```
+
+```
+&gt; # A tibble: 82 × 15
+&gt;    name        height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
+&gt;    &lt;chr&gt;        &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
+&gt;  1 Luke Skywa…    172    77 blond   fair    blue       19   male  mascu… Tatooi…
+&gt;  2 Darth Vader    202   136 none    white   yellow     41.9 male  mascu… Tatooi…
+&gt;  3 Leia Organa    150    49 brown   light   brown      19   fema… femin… Aldera…
+&gt;  4 Owen Lars      178   120 brown,… light   blue       52   male  mascu… Tatooi…
+&gt;  5 Beru White…    165    75 brown   light   blue       47   fema… femin… Tatooi…
+&gt;  6 Biggs Dark…    183    84 black   light   brown      24   male  mascu… Tatooi…
+&gt;  7 Obi-Wan Ke…    182    77 auburn… fair    blue-g…    57   male  mascu… Stewjon
+&gt;  8 Anakin Sky…    188    84 blond   fair    blue       41.9 male  mascu… Tatooi…
+&gt;  9 Wilhuff Ta…    180    NA auburn… fair    blue       64   male  mascu… Eriadu 
+&gt; 10 Chewbacca      228   112 brown   unknown blue      200   male  mascu… Kashyy…
+&gt; # … with 72 more rows, 5 more variables: species &lt;chr&gt;, films &lt;list&gt;,
+&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, auburn &lt;lgl&gt;, and abbreviated variable
+&gt; #   names ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
+```
+
+]
+
+.panel[.panel-name[Sol. Ej. 6]
+
+
+```r
+starwars %&gt;%
+  filter(str_detect(name, "Skywalker") |
+           str_detect(name, "Antilles")) %&gt;%
+  select(name, species) %&gt;%
+  rename(nombre = name, especie = species)
+```
+
+```
+&gt; # A tibble: 5 × 2
+&gt;   nombre           especie
+&gt;   &lt;chr&gt;            &lt;chr&gt;  
+&gt; 1 Luke Skywalker   Human  
+&gt; 2 Anakin Skywalker Human  
+&gt; 3 Wedge Antilles   Human  
+&gt; 4 Shmi Skywalker   Human  
+&gt; 5 Raymus Antilles  Human
+```
+
+]
+]
+
+
+---
+
+# CASO PRÁCTICO
+
+* 📝 **Ejercicio extra**: en el paquete `{survival}`, la tabla `heart` contiene los mismos datos de la tabla `jasa` pero ya preprocesados. Haz uso de lo aprendido para pasar de `jasa` a `heart`
+
+
+
+```r
+survival::heart
+```
+
+```
+&gt;     start   stop event          age        year surgery transplant  id
+&gt; 1     0.0   50.0     1 -17.15537303  0.12320329       0          0   1
+&gt; 2     0.0    6.0     1   3.83572895  0.25462012       0          0   2
+&gt; 3     0.0    1.0     0   6.29705681  0.26557153       0          0   3
+&gt; 4     1.0   16.0     1   6.29705681  0.26557153       0          1   3
+&gt; 5     0.0   36.0     0  -7.73716632  0.49007529       0          0   4
+&gt; 6    36.0   39.0     1  -7.73716632  0.49007529       0          1   4
+&gt; 7     0.0   18.0     1 -27.21423682  0.60780287       0          0   5
+&gt; 8     0.0    3.0     1   6.59548255  0.70088980       0          0   6
+&gt; 9     0.0   51.0     0   2.86926762  0.78028747       0          0   7
+&gt; 10   51.0  675.0     1   2.86926762  0.78028747       0          1   7
+&gt; 11    0.0   40.0     1  -2.65023956  0.83504449       0          0   8
+&gt; 12    0.0   85.0     1  -0.83778234  0.85694730       0          0   9
+&gt; 13    0.0   12.0     0  -5.49760438  0.86242300       0          0  10
+&gt; 14   12.0   58.0     1  -5.49760438  0.86242300       0          1  10
+&gt; 15    0.0   26.0     0  -0.01916496  0.87337440       0          0  11
+&gt; 16   26.0  153.0     1  -0.01916496  0.87337440       0          1  11
+&gt; 17    0.0    8.0     1   5.19370294  0.96372348       0          0  12
+&gt; 18    0.0   17.0     0   6.57357974  0.96919918       0          0  13
+&gt; 19   17.0   81.0     1   6.57357974  0.96919918       0          1  13
+&gt; 20    0.0   37.0     0   6.01232033  0.97193703       0          0  14
+&gt; 21   37.0 1387.0     1   6.01232033  0.97193703       0          1  14
+&gt; 22    0.0    1.0     1   5.81519507  0.99110198       1          0  15
+&gt; 23    0.0   28.0     0   1.44832307  1.07049966       0          0  16
+&gt; 24   28.0  308.0     1   1.44832307  1.07049966       0          1  16
+&gt; 25    0.0   36.0     1 -27.66872005  1.07597536       0          0  17
+&gt; 26    0.0   20.0     0   8.84873374  1.08692676       0          0  18
+&gt; 27   20.0   43.0     1   8.84873374  1.08692676       0          1  18
+&gt; 28    0.0   37.0     1  11.12388775  1.13347023       0          0  19
+&gt; 29    0.0   18.0     0   7.27994524  1.33059548       0          0  20
+&gt; 30   18.0   28.0     1   7.27994524  1.33059548       0          1  20
+&gt; 31    0.0    8.0     0  -4.65708419  1.33880903       0          0  21
+&gt; 32    8.0 1032.0     1  -4.65708419  1.33880903       0          1  21
+&gt; 33    0.0   12.0     0  -5.21560575  1.46201232       0          0  22
+&gt; 34   12.0   51.0     1  -5.21560575  1.46201232       0          1  22
+&gt; 35    0.0    3.0     0  10.35728953  1.52772074       0          0  23
+&gt; 36    3.0  733.0     1  10.35728953  1.52772074       0          1  23
+&gt; 37    0.0   83.0     0   3.80013689  1.56605065       0          0  24
+&gt; 38   83.0  219.0     1   3.80013689  1.56605065       0          1  24
+&gt; 39    0.0   25.0     0 -14.77618070  1.57426420       0          0  25
+&gt; 40   25.0 1800.0     0 -14.77618070  1.57426420       0          1  25
+&gt; 41    0.0 1401.0     0 -17.46475017  1.58247775       0          0  26
+&gt; 42    0.0  263.0     1 -39.21423682  1.59069131       0          0  27
+&gt; 43    0.0   71.0     0   6.02327173  1.68377823       0          0  28
+&gt; 44   71.0   72.0     1   6.02327173  1.68377823       0          1  28
+&gt; 45    0.0   35.0     1   2.43394935  1.78507871       0          0  29
+&gt; 46    0.0   16.0     0  -3.08829569  1.88364134       0          0  30
+&gt; 47   16.0  852.0     1  -3.08829569  1.88364134       0          1  30
+&gt; 48    0.0   16.0     1   6.88569473  1.89459274       0          0  31
+&gt; 49    0.0   17.0     0  16.40793977  1.91101985       0          0  32
+&gt; 50   17.0   77.0     1  16.40793977  1.91101985       0          1  32
+&gt; 51    0.0   51.0     0   0.90349076  2.15742642       0          0  33
+&gt; 52   51.0 1587.0     0   0.90349076  2.15742642       0          1  33
+&gt; 53    0.0   23.0     0  -7.44695414  2.19849418       0          0  34
+&gt; 54   23.0 1572.0     0  -7.44695414  2.19849418       0          1  34
+&gt; 55    0.0   12.0     1  -4.53388090  2.30800821       0          0  35
+&gt; 56    0.0   46.0     0   0.92539357  2.50787132       0          0  36
+&gt; 57   46.0  100.0     1   0.92539357  2.50787132       0          1  36
+&gt; 58    0.0   19.0     0  13.50034223  2.56536619       0          0  37
+&gt; 59   19.0   66.0     1  13.50034223  2.56536619       0          1  37
+&gt; 60    0.0    4.5     0  -6.52977413  2.59274470       0          0  38
+&gt; 61    4.5    5.0     1  -6.52977413  2.59274470       0          1  38
+&gt; 62    0.0    2.0     0   2.51882272  2.63381246       0          0  39
+&gt; 63    2.0   53.0     1   2.51882272  2.63381246       0          1  39
+&gt; 64    0.0   41.0     0   0.48186174  2.64750171       1          0  40
+&gt; 65   41.0 1408.0     0   0.48186174  2.64750171       1          1  40
+&gt; 66    0.0   58.0     0  -2.69678303  2.88295688       1          0  41
+&gt; 67   58.0 1322.0     0  -2.69678303  2.88295688       1          1  41
+&gt; 68    0.0    3.0     1 -11.55920602  2.88843258       0          0  42
+&gt; 69    0.0    2.0     1  -4.60780287  3.05817933       1          0  43
+&gt; 70    0.0   40.0     1  -5.42094456  3.16495551       1          0  44
+&gt; 71    0.0    1.0     0 -11.81656400  3.26351814       0          0  45
+&gt; 72    1.0   45.0     1 -11.81656400  3.26351814       0          1  45
+&gt; 73    0.0    2.0     0   0.61054073  3.27720739       1          0  46
+&gt; 74    2.0  996.0     1   0.61054073  3.27720739       1          1  46
+&gt; 75    0.0   21.0     0  -0.90075291  3.34017796       0          0  47
+&gt; 76   21.0   72.0     1  -0.90075291  3.34017796       0          1  47
+&gt; 77    0.0    9.0     1   8.03559206  3.34839151       0          0  48
+&gt; 78    0.0   36.0     0 -11.34565366  3.37577002       1          0  49
+&gt; 79   36.0 1142.0     0 -11.34565366  3.37577002       1          1  49
+&gt; 80    0.0   83.0     0  -2.11362081  3.37577002       1          0  50
+&gt; 81   83.0  980.0     1  -2.11362081  3.37577002       1          1  50
+&gt; 82    0.0   32.0     0   0.73374401  3.47707050       0          0  51
+&gt; 83   32.0  285.0     1   0.73374401  3.47707050       0          1  51
+&gt; 84    0.0  102.0     1  -6.75154004  3.56468172       0          0  52
+&gt; 85    0.0   41.0     0  -0.65708419  3.75085558       0          0  53
+&gt; 86   41.0  188.0     1  -0.65708419  3.75085558       0          1  53
+&gt; 87    0.0    3.0     1  -0.20807666  3.75085558       0          0  54
+&gt; 88    0.0   10.0     0   4.45448323  3.85489391       0          0  55
+&gt; 89   10.0   61.0     1   4.45448323  3.85489391       0          1  55
+&gt; 90    0.0   67.0     0  -9.25667351  3.92334018       0          0  56
+&gt; 91   67.0  942.0     0  -9.25667351  3.92334018       0          1  56
+&gt; 92    0.0  149.0     1  -6.73511294  3.95071869       0          0  57
+&gt; 93    0.0   21.0     0   0.01642710  3.97809719       1          0  58
+&gt; 94   21.0  343.0     1   0.01642710  3.97809719       1          1  58
+&gt; 95    0.0   78.0     0  -6.61738535  3.99452430       1          0  59
+&gt; 96   78.0  916.0     0  -6.61738535  3.99452430       1          1  59
+&gt; 97    0.0    3.0     0   1.05407255  4.13141684       0          0  60
+&gt; 98    3.0   68.0     1   1.05407255  4.13141684       0          1  60
+&gt; 99    0.0    2.0     1   4.56399726  4.17522245       0          0  61
+&gt; 100   0.0   69.0     1  -8.64613279  4.18891170       0          0  62
+&gt; 101   0.0   27.0     0 -15.34017796  4.19712526       0          0  63
+&gt; 102  27.0  842.0     0 -15.34017796  4.19712526       0          1  63
+&gt; 103   0.0   33.0     0   0.81587953  4.33675565       1          0  64
+&gt; 104  33.0  584.0     1   0.81587953  4.33675565       1          1  64
+&gt; 105   0.0   12.0     0   3.29363450  4.42984257       0          0  65
+&gt; 106  12.0   78.0     1   3.29363450  4.42984257       0          1  65
+&gt; 107   0.0   32.0     1   5.21286790  4.46817248       0          0  66
+&gt; 108   0.0   57.0     0 -28.44900753  4.47638604       0          0  67
+&gt; 109  57.0  285.0     1 -28.44900753  4.47638604       0          1  67
+&gt; 110   0.0    3.0     0  -2.75975359  4.51745380       0          0  68
+&gt; 111   3.0   68.0     1  -2.75975359  4.51745380       0          1  68
+&gt; 112   0.0   10.0     0  -0.01095140  4.66803559       0          0  69
+&gt; 113  10.0  670.0     0  -0.01095140  4.66803559       0          1  69
+&gt; 114   0.0    5.0     0   5.00205339  4.71184120       0          0  70
+&gt; 115   5.0   30.0     1   5.00205339  4.71184120       0          1  70
+&gt; 116   0.0   31.0     0  -0.59137577  4.80492813       0          0  71
+&gt; 117  31.0  620.0     0  -0.59137577  4.80492813       0          1  71
+&gt; 118   0.0    4.0     0 -21.27310062  4.87063655       0          0  72
+&gt; 119   4.0  596.0     0 -21.27310062  4.87063655       0          1  72
+&gt; 120   0.0   27.0     0   8.33127995  4.94729637       0          0  73
+&gt; 121  27.0   90.0     1   8.33127995  4.94729637       0          1  73
+&gt; 122   0.0    5.0     0 -18.83367556  4.96646133       0          0  74
+&gt; 123   5.0   17.0     1 -18.83367556  4.96646133       0          1  74
+&gt; 124   0.0    2.0     1   4.18069815  4.99657769       0          0  75
+&gt; 125   0.0   46.0     0   4.08487337  5.01026694       1          0  76
+&gt; 126  46.0  545.0     0   4.08487337  5.01026694       1          1  76
+&gt; 127   0.0   21.0     1  -6.88843258  5.01574264       0          0  77
+&gt; 128   0.0  210.0     0   0.70362765  5.09240246       0          0  78
+&gt; 129 210.0  515.0     0   0.70362765  5.09240246       0          1  78
+&gt; 130   0.0   67.0     0   5.78234086  5.16632444       0          0  79
+&gt; 131  67.0   96.0     1   5.78234086  5.16632444       0          1  79
+&gt; 132   0.0   26.0     0  -1.55509925  5.18275154       1          0  80
+&gt; 133  26.0  482.0     0  -1.55509925  5.18275154       1          1  80
+&gt; 134   0.0    6.0     0   4.89253936  5.28405202       0          0  81
+&gt; 135   6.0  445.0     0   4.89253936  5.28405202       0          1  81
+&gt; 136   0.0  428.0     0 -18.79808350  4.08487337       0          0  82
+&gt; 137   0.0   32.0     0   5.30869268  5.31690623       0          0  83
+&gt; 138  32.0   80.0     1   5.30869268  5.31690623       0          1  83
+&gt; 139   0.0   37.0     0  -5.28131417  5.33333333       0          0  84
+&gt; 140  37.0  334.0     1  -5.28131417  5.33333333       0          1  84
+&gt; 141   0.0    5.0     1  -0.01916496  5.35249829       0          0  85
+&gt; 142   0.0    8.0     0   0.91991786  5.41546886       0          0  86
+&gt; 143   8.0  397.0     0   0.91991786  5.41546886       0          1  86
+&gt; 144   0.0   60.0     0  -1.74674880  5.47022587       0          0  87
+&gt; 145  60.0  110.0     1  -1.74674880  5.47022587       0          1  87
+&gt; 146   0.0   31.0     0   6.36276523  5.48939083       0          0  88
+&gt; 147  31.0  370.0     0   6.36276523  5.48939083       0          1  88
+&gt; 148   0.0  139.0     0   3.04722793  5.51129363       0          0  89
+&gt; 149 139.0  207.0     1   3.04722793  5.51129363       0          1  89
+&gt; 150   0.0  160.0     0   4.03285421  5.51403149       1          0  90
+&gt; 151 160.0  186.0     1   4.03285421  5.51403149       1          1  90
+&gt; 152   0.0  340.0     1  -0.40520192  5.53319644       0          0  91
+&gt; 153   0.0  310.0     0  -3.01711157  5.57152635       0          0  92
+&gt; 154 310.0  340.0     0  -3.01711157  5.57152635       0          1  92
+&gt; 155   0.0   28.0     0  -0.24914442  5.77686516       0          0  93
+&gt; 156  28.0  265.0     0  -0.24914442  5.77686516       0          1  93
+&gt; 157   0.0    4.0     0  -4.15879535  5.95482546       1          0  94
+&gt; 158   4.0  165.0     1  -4.15879535  5.95482546       1          1  94
+&gt; 159   0.0    2.0     0  -7.71800137  5.97672827       0          0  95
+&gt; 160   2.0   16.0     1  -7.71800137  5.97672827       0          1  95
+&gt; 161   0.0   13.0     0 -21.34976044  6.00958248       0          0  96
+&gt; 162  13.0  180.0     0 -21.34976044  6.00958248       0          1  96
+&gt; 163   0.0   21.0     0 -24.38329911  6.14373717       0          0  97
+&gt; 164  21.0  131.0     0 -24.38329911  6.14373717       0          1  97
+&gt; 165   0.0   96.0     0 -19.37029432  6.20396988       0          0  98
+&gt; 166  96.0  109.0     0 -19.37029432  6.20396988       0          1  98
+&gt; 167   0.0   21.0     1   1.83436003  6.23408624       0          0  99
+&gt; 168   0.0   38.0     0 -12.93908282  6.39561944       1          0 100
+&gt; 169  38.0   39.0     0 -12.93908282  6.39561944       1          1 100
+&gt; 170   0.0   31.0     0   1.51676934  6.41752225       0          0 101
+&gt; 171   0.0   11.0     0  -7.60848734  6.47227926       0          0 102
+&gt; 172   0.0    6.0     1  -8.68446270 -0.04928131       0          0 103
+```
+
+
 ---
 
 
 class: inverse center middle
 name: clase-9
 
-# CLASE 9: IMPORTAR/EXPORTAR. ENTREGA II
+# CLASE 9: resúmenes estadísticos (tidyverse)
 
 &amp;nbsp;
 
-### [Importar/exportar datos](#importar-exportar)
-
-### [Caso I: datos electorales (tidydata)](#clase8-caso-I)
-
-### [Caso II: starwars (continuación)](#clase8-caso-II)
-
-### [Caso III: análisis de los datos covid del ISCIII](#clase8-caso-III)
-
-
 ---
-
-name: importar-exportar
-
-#  .orange[IMPORTANDO] datos
-
-
----
-
 
 class: inverse center middle
-name: clase-9
+name: clase-10
 
-# CLASE 9: tidyverse
+# CLASE 10: importar/exportar y cruzando tablas
 
 &amp;nbsp;
-
 
 ---
 
 class: inverse center middle
 name: clase-11
 
-# CLASE 11: tidyverse y generación de resúmenes
+# CLASE 11: factores y textos
+
 
 &amp;nbsp;
 
@@ -12228,35 +12932,11 @@ name: clase-11
 class: inverse center middle
 name: clase-12
 
-# CLASE 12: cruce de tablas
-
-&amp;nbsp;
-
+# CLASE 12: entrega II
 
 
 ---
 
-class: inverse center middle
-name: clase-13
-
-# CLASE 13: uso de factores con forcats
-
-&amp;nbsp;
-
-
-
----
-
-class: inverse center middle
-name: clase-14
-
-# CLASE 14: introducción a ggplot
-
-&amp;nbsp;
-
-
-
----
 
 # .orange[RECURSOS] y .green[BIBLIOGRAFÍA]
 
