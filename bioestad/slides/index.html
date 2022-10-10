@@ -1777,7 +1777,7 @@ También podemos obtener el **.bg-purple_light[«hoy y ahora»]** con la funció
 ```
 
 ```
-&gt; [1] "2022-10-10 16:01:59 CEST"
+&gt; [1] "2022-10-10 21:18:01 CEST"
 ```
  
 ---
@@ -3083,9 +3083,9 @@ x &lt;- rnorm(1e3) # 1000 elementos aleatorias
 
 ```
 &gt; Unit: microseconds
-&gt;         expr    min      lq     mean median      uq     max neval cld
-&gt;      sort(x) 42.867 45.1510 53.09113 49.061 55.4625 278.515  1000   b
-&gt;  x[order(x)] 29.596 31.7295 36.12939 34.333 38.2910 151.312  1000  a
+&gt;         expr    min      lq     mean  median     uq     max neval cld
+&gt;      sort(x) 43.161 46.9575 60.74802 50.8235 74.057 212.366  1000   b
+&gt;  x[order(x)] 29.001 32.5195 42.34718 36.3075 50.421 324.931  1000  a
 ```
 
 --
@@ -6333,12 +6333,12 @@ microbenchmark(x^2,
 
 ```
 &gt; Unit: nanoseconds
-&gt;                                     expr     min        lq        mean  median
-&gt;                                      x^2     351     442.5    1161.423     823
-&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 1653118 1793156.0 2137411.620 1926412
-&gt;         uq      max neval cld
-&gt;     1618.5    23182  1000  a 
-&gt;  2231103.5 18926710  1000   b
+&gt;                                     expr     min      lq        mean    median
+&gt;                                      x^2     354     461    1343.377    1158.5
+&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 1687072 1893092 2309783.978 2074557.0
+&gt;       uq      max neval cld
+&gt;     1870    28167  1000  a 
+&gt;  2498914 21195271  1000   b
 ```
 
 ---
@@ -6616,7 +6616,7 @@ sample(x = 0:1, size = 2)
 ```
 
 ```
-&gt; [1] 0 1
+&gt; [1] 1 0
 ```
 
 **.bg-red_light[IMPORTANTE]**: si no indicamos nada en el vector de probabilidades `prob`, asume que son equiprobables (en este caso, `\(1/2\)` para cada cara).
@@ -6651,7 +6651,7 @@ sample(x = 0:1, size = 30, replace = TRUE)
 ```
 
 ```
-&gt;  [1] 1 1 1 1 1 1 1 1 0 0 1 0 1 0 0 1 1 1 0 1 0 1 1 1 0 0 0 1 0 1
+&gt;  [1] 1 0 0 1 1 1 0 0 1 1 1 1 0 0 0 0 0 0 0 0 0 0 1 0 1 0 0 0 1 0
 ```
 
 ---
@@ -6666,7 +6666,7 @@ sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
 ```
 
 ```
-&gt;  [1] "cara" "cara" "cara" "cruz" "cara" "cara" "cara" "cruz" "cara" "cara"
+&gt;  [1] "cruz" "cara" "cruz" "cruz" "cruz" "cruz" "cara" "cruz" "cara" "cara"
 ```
 
 --
@@ -6679,7 +6679,7 @@ sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
 ```
 
 ```
-&gt;  [1] "cruz" "cruz" "cara" "cruz" "cara" "cara" "cara" "cara" "cara" "cruz"
+&gt;  [1] "cara" "cara" "cruz" "cara" "cruz" "cruz" "cara" "cara" "cara" "cruz"
 ```
 
 ---
@@ -8679,12 +8679,12 @@ microbenchmark(sqrt(x), for (i in 1:1000) { y[i] &lt;- sqrt(x[i]) }, times = 1e3
 
 ```
 &gt; Unit: microseconds
-&gt;                                          expr      min       lq        mean
-&gt;                                       sqrt(x)    2.231    2.763    3.559351
-&gt;  for (i in 1:1000) {     y[i] &lt;- sqrt(x[i]) } 1708.594 1830.193 2118.472589
+&gt;                                          expr      min        lq        mean
+&gt;                                       sqrt(x)    2.293    2.7555    3.810433
+&gt;  for (i in 1:1000) {     y[i] &lt;- sqrt(x[i]) } 1708.950 1810.9445 2098.411973
 &gt;     median        uq       max neval cld
-&gt;     3.1695    3.7125    21.571  1000  a 
-&gt;  1933.4025 2169.6020 13483.066  1000   b
+&gt;     3.2195    3.7225    27.075  1000  a 
+&gt;  1903.5175 2163.2175 11478.703  1000   b
 ```
 
 
@@ -8768,11 +8768,11 @@ microbenchmark(map(x, .f = function(x) { mean(x^2) }), lapply(x, FUN = function(
 ```
 &gt; Unit: milliseconds
 &gt;                                            expr      min       lq     mean
-&gt;      map(x, .f = function(x) {     mean(x^2) }) 5.309950 6.181544 8.054322
-&gt;  lapply(x, FUN = function(x) {     mean(x^2) }) 5.301872 6.049334 7.928318
+&gt;      map(x, .f = function(x) {     mean(x^2) }) 5.382724 6.044313 7.998656
+&gt;  lapply(x, FUN = function(x) {     mean(x^2) }) 5.213283 5.892544 7.884705
 &gt;    median       uq       max neval cld
-&gt;  7.079528 7.718248  40.87735  1000   a
-&gt;  7.012404 7.687182 175.99134  1000   a
+&gt;  6.981891 7.740682  49.43409  1000   a
+&gt;  6.848368 7.569455 179.94239  1000   a
 ```
 
 
@@ -12434,6 +12434,44 @@ starwars %&gt;% mutate(height = case_when(height &gt; 180 ~ "alto",
 &gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
+---
+
+# .orange[RECATEGORIZAR]: case_when()
+
+Las condiciones de `case_when()` pueden combinar varias variables, cómo por ejemplo:
+
+* Si pesan mucho o miden mucho --&gt; `"large"`
+* Si `species == "Droid"` --&gt; `"robot"`
+* En caso contrario --&gt; `"other"`
+
+
+```r
+starwars %&gt;%
+  mutate(type =
+           case_when(height &gt; 200 | mass &gt; 200 ~ "large",
+                     species == "Droid" ~ "robot",
+                     TRUE ~ "other"))
+```
+
+```
+&gt; # A tibble: 87 × 15
+&gt;    name        height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
+&gt;    &lt;chr&gt;        &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
+&gt;  1 Luke Skywa…    172    77 blond   fair    blue       19   male  mascu… Tatooi…
+&gt;  2 C-3PO          167    75 &lt;NA&gt;    gold    yellow    112   none  mascu… Tatooi…
+&gt;  3 R2-D2           96    32 &lt;NA&gt;    white,… red        33   none  mascu… Naboo  
+&gt;  4 Darth Vader    202   136 none    white   yellow     41.9 male  mascu… Tatooi…
+&gt;  5 Leia Organa    150    49 brown   light   brown      19   fema… femin… Aldera…
+&gt;  6 Owen Lars      178   120 brown,… light   blue       52   male  mascu… Tatooi…
+&gt;  7 Beru White…    165    75 brown   light   blue       47   fema… femin… Tatooi…
+&gt;  8 R5-D4           97    32 &lt;NA&gt;    white,… red        NA   none  mascu… Tatooi…
+&gt;  9 Biggs Dark…    183    84 black   light   brown      24   male  mascu… Tatooi…
+&gt; 10 Obi-Wan Ke…    182    77 auburn… fair    blue-g…    57   male  mascu… Stewjon
+&gt; # … with 77 more rows, 5 more variables: species &lt;chr&gt;, films &lt;list&gt;,
+&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, type &lt;chr&gt;, and abbreviated variable
+&gt; #   names ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
+```
 
 ---
 
@@ -13035,6 +13073,30 @@ starwars %&gt;%
 
 ---
 
+# .orange[CONTAR]: group_by() + count()
+
+Además dentro del `count()` podemos añadir `sort = TRUE`, que nos devolverá el conteo de frecuencias con los **.bg-purple_light[elementos más frecuentes primero]** (sin necesidad de añadir un `arrange()` a la tabla de conteo generada).
+
+
+```r
+starwars %&gt;%
+  count(sex, sort = TRUE) %&gt;% 
+  mutate(f = 100 * n/sum(n))
+```
+
+```
+&gt; # A tibble: 5 × 3
+&gt;   sex                n     f
+&gt;   &lt;chr&gt;          &lt;int&gt; &lt;dbl&gt;
+&gt; 1 male              60 69.0 
+&gt; 2 female            16 18.4 
+&gt; 3 none               6  6.90
+&gt; 4 &lt;NA&gt;               4  4.60
+&gt; 5 hermaphroditic     1  1.15
+```
+
+---
+
 
 # .orange[CONTAR]: group_by() + count()
 
@@ -13365,6 +13427,319 @@ notas %&gt;%
 &gt; 3     0      2         1  
 &gt; 4     0     10         5
 ```
+
+---
+
+# Ejercicios (count y summarise)
+
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+
+* 📝 **Ejercicio 1**: calcula cuántos personajes hay de cada especie de `starwars` haciendo uso de `group_by()` y `count()`
+
+* 📝 **Ejercicio 2**: determina el número de especies distintas.
+
+* 📝 **Ejercicio 3**: tras eliminar ausentes en las variables `mass` y `height`, añade una nueva variable que nos calcule el IMC de cada personaje, y determina el IMC medio de nuestros personajes desagregada por sexo (`sex`).
+
+* 📝 **Ejercicio 4**: obtén la edad mínima y máxima de cada sexo.
+
+]
+
+.panel[.panel-name[Sol Ej. 1]
+
+
+```r
+starwars %&gt;% 
+  group_by(species) %&gt;% 
+  count() %&gt;% 
+  ungroup()
+```
+
+```
+&gt; # A tibble: 38 × 2
+&gt;    species       n
+&gt;    &lt;chr&gt;     &lt;int&gt;
+&gt;  1 Aleena        1
+&gt;  2 Besalisk      1
+&gt;  3 Cerean        1
+&gt;  4 Chagrian      1
+&gt;  5 Clawdite      1
+&gt;  6 Droid         6
+&gt;  7 Dug           1
+&gt;  8 Ewok          1
+&gt;  9 Geonosian     1
+&gt; 10 Gungan        3
+&gt; # … with 28 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
+```
+
+```r
+# sin group
+starwars %&gt;%
+  count(species)
+```
+
+```
+&gt; # A tibble: 38 × 2
+&gt;    species       n
+&gt;    &lt;chr&gt;     &lt;int&gt;
+&gt;  1 Aleena        1
+&gt;  2 Besalisk      1
+&gt;  3 Cerean        1
+&gt;  4 Chagrian      1
+&gt;  5 Clawdite      1
+&gt;  6 Droid         6
+&gt;  7 Dug           1
+&gt;  8 Ewok          1
+&gt;  9 Geonosian     1
+&gt; 10 Gungan        3
+&gt; # … with 28 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
+```
+
+]
+
+.panel[.panel-name[Sol Ej. 2]
+
+
+```r
+starwars %&gt;%
+  summarise(unique_species = n_distinct(species))
+```
+
+```
+&gt; # A tibble: 1 × 1
+&gt;   unique_species
+&gt;            &lt;int&gt;
+&gt; 1             38
+```
+
+
+]
+
+
+.panel[.panel-name[Sol Ej. 3]
+
+
+```r
+starwars %&gt;%
+  drop_na(mass, height) %&gt;% 
+  mutate(IMC = mass / (height/100)^2) %&gt;%
+  group_by(sex) %&gt;% 
+  summarise(mean_IMC = mean(IMC)) %&gt;% 
+  ungroup()
+```
+
+```
+&gt; # A tibble: 5 × 2
+&gt;   sex            mean_IMC
+&gt;   &lt;chr&gt;             &lt;dbl&gt;
+&gt; 1 female             19.2
+&gt; 2 hermaphroditic    443. 
+&gt; 3 male               25.7
+&gt; 4 none               32.7
+&gt; 5 &lt;NA&gt;               15.1
+```
+
+]
+
+.panel[.panel-name[Sol Ej. 4]
+
+
+```r
+starwars %&gt;% 
+  drop_na(birth_year) %&gt;% 
+  group_by(sex) %&gt;% 
+  summarise(min_age = min(birth_year),
+            max_age = max(birth_year)) %&gt;% 
+  ungroup()
+```
+
+```
+&gt; # A tibble: 5 × 3
+&gt;   sex            min_age max_age
+&gt;   &lt;chr&gt;            &lt;dbl&gt;   &lt;dbl&gt;
+&gt; 1 female              19      72
+&gt; 2 hermaphroditic     600     600
+&gt; 3 male                 8     896
+&gt; 4 none                15     112
+&gt; 5 &lt;NA&gt;                62      62
+```
+
+]
+
+]
+
+---
+
+# Ejercicios (count y summarise)
+
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+* 📝 **Ejercicio 5**: obtén el personaje más viejo por cada sexo.
+
+* 📝 **Ejercicio 6**: obtén las frecuencias (absolutas) desagregadas por `sex` y `gender` y ordenados de mayor a menor aparición (investiga `? count`)
+
+* 📝 **Ejercicio 7**: determina la cantidad de personajes en cada década (echa un vistazo a `? round()`: ¿qué sucede si hacemos `round(número, -1)`?), primero sin desagregar y luego desagregado por sexo.
+
+* 📝 **Ejercicio 8**: calcula para las variables de tipo texto la longitud media de cada una de ellas (echa un vistazo a `nchar()`)
+
+]
+
+.panel[.panel-name[Sol Ej. 5]
+
+
+```r
+starwars %&gt;%
+  group_by(sex) %&gt;% 
+  slice_max(n = 1, birth_year) %&gt;% 
+  ungroup()
+```
+
+```
+&gt; # A tibble: 5 × 14
+&gt;   name         height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
+&gt;   &lt;chr&gt;         &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
+&gt; 1 Shmi Skywal…    163    NA black   fair    brown        72 fema… femin… Tatooi…
+&gt; 2 Jabba Desil…    175  1358 &lt;NA&gt;    green-… orange      600 herm… mascu… Nal Hu…
+&gt; 3 Yoda             66    17 white   green   brown       896 male  mascu… &lt;NA&gt;   
+&gt; 4 C-3PO           167    75 &lt;NA&gt;    gold    yellow      112 none  mascu… Tatooi…
+&gt; 5 Quarsh Pana…    183    NA black   dark    brown        62 &lt;NA&gt;  &lt;NA&gt;   Naboo  
+&gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
+&gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
+&gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `colnames()` to see all variable names
+```
+  
+]
+
+.panel[.panel-name[Sol Ej. 6a]
+
+
+```r
+# Con group
+starwars %&gt;%
+  group_by(sex, gender) %&gt;% 
+  count(sort = TRUE) %&gt;% 
+  ungroup()
+```
+
+```
+&gt; # A tibble: 6 × 3
+&gt;   sex            gender        n
+&gt;   &lt;chr&gt;          &lt;chr&gt;     &lt;int&gt;
+&gt; 1 male           masculine    60
+&gt; 2 female         feminine     16
+&gt; 3 none           masculine     5
+&gt; 4 &lt;NA&gt;           &lt;NA&gt;          4
+&gt; 5 hermaphroditic masculine     1
+&gt; 6 none           feminine      1
+```
+
+]
+
+.panel[.panel-name[Sol Ej. 6b]
+
+
+```r
+# Sin group
+starwars %&gt;%
+  count(sex, gender, sort = TRUE)
+```
+
+```
+&gt; # A tibble: 6 × 3
+&gt;   sex            gender        n
+&gt;   &lt;chr&gt;          &lt;chr&gt;     &lt;int&gt;
+&gt; 1 male           masculine    60
+&gt; 2 female         feminine     16
+&gt; 3 none           masculine     5
+&gt; 4 &lt;NA&gt;           &lt;NA&gt;          4
+&gt; 5 hermaphroditic masculine     1
+&gt; 6 none           feminine      1
+```
+
+]
+
+.panel[.panel-name[Sol Ej. 7]
+
+
+```r
+starwars %&gt;%
+  count(birth_decade = round(birth_year, -1))
+```
+
+```
+&gt; # A tibble: 15 × 2
+&gt;    birth_decade     n
+&gt;           &lt;dbl&gt; &lt;int&gt;
+&gt;  1           10     1
+&gt;  2           20     6
+&gt;  3           30     4
+&gt;  4           40     6
+&gt;  5           50     8
+&gt;  6           60     4
+&gt;  7           70     4
+&gt;  8           80     2
+&gt;  9           90     3
+&gt; 10          100     1
+&gt; 11          110     1
+&gt; 12          200     1
+&gt; 13          600     1
+&gt; 14          900     1
+&gt; 15           NA    44
+```
+
+```r
+starwars %&gt;%
+  group_by(sex) %&gt;%
+  count(birth_decade = round(birth_year, -1)) %&gt;%
+  ungroup()
+```
+
+```
+&gt; # A tibble: 26 × 3
+&gt;    sex            birth_decade     n
+&gt;    &lt;chr&gt;                 &lt;dbl&gt; &lt;int&gt;
+&gt;  1 female                   20     1
+&gt;  2 female                   40     1
+&gt;  3 female                   50     4
+&gt;  4 female                   60     1
+&gt;  5 female                   70     1
+&gt;  6 female                   NA     8
+&gt;  7 hermaphroditic          600     1
+&gt;  8 male                     10     1
+&gt;  9 male                     20     4
+&gt; 10 male                     30     3
+&gt; # … with 16 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
+```
+
+]
+
+.panel[.panel-name[Sol Ej. 8]
+
+
+```r
+starwars %&gt;%
+  summarise(across(where(is.character),
+                   function(x) { mean(nchar(x), na.rm = TRUE)}))
+```
+
+```
+&gt; # A tibble: 1 × 8
+&gt;    name hair_color skin_color eye_color   sex gender homeworld species
+&gt;   &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
+&gt; 1  10.3       4.84       5.97      5.10  4.51   8.80      7.14    6.17
+```
+
+]
+
+]
 
 ---
 

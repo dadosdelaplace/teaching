@@ -8144,6 +8144,23 @@ starwars %>% mutate(height = case_when(height > 180 ~ "alto",
                                        TRUE ~ "ausente"))
 ```
 
+---
+
+# .orange[RECATEGORIZAR]: case_when()
+
+Las condiciones de `case_when()` pueden combinar varias variables, cómo por ejemplo:
+
+* Si pesan mucho o miden mucho --> `"large"`
+* Si `species == "Droid"` --> `"robot"`
+* En caso contrario --> `"other"`
+
+```{r}
+starwars %>%
+  mutate(type =
+           case_when(height > 200 | mass > 200 ~ "large",
+                     species == "Droid" ~ "robot",
+                     TRUE ~ "other"))
+```
 
 ---
 
@@ -8354,6 +8371,18 @@ Lo anterior podemos combinarlo con lo que ya sabemos para **.bg-purple_light[añ
 ```{r}
 starwars %>%
   count(sex) %>% 
+  mutate(f = 100 * n/sum(n))
+```
+
+---
+
+# .orange[CONTAR]: group_by() + count()
+
+Además dentro del `count()` podemos añadir `sort = TRUE`, que nos devolverá el conteo de frecuencias con los **.bg-purple_light[elementos más frecuentes primero]** (sin necesidad de añadir un `arrange()` a la tabla de conteo generada).
+
+```{r}
+starwars %>%
+  count(sex, sort = TRUE) %>% 
   mutate(f = 100 * n/sum(n))
 ```
 
@@ -8599,6 +8628,156 @@ notas %>%
   rowwise() %>% #<<
   mutate(media_curso = mean(c(mates, lengua)))
 ```
+
+---
+
+# Ejercicios (count y summarise)
+
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+
+* 📝 **Ejercicio 1**: calcula cuántos personajes hay de cada especie de `starwars` haciendo uso de `group_by()` y `count()`
+
+* 📝 **Ejercicio 2**: determina el número de especies distintas.
+
+* 📝 **Ejercicio 3**: tras eliminar ausentes en las variables `mass` y `height`, añade una nueva variable que nos calcule el IMC de cada personaje, y determina el IMC medio de nuestros personajes desagregada por sexo (`sex`).
+
+* 📝 **Ejercicio 4**: obtén la edad mínima y máxima de cada sexo.
+
+]
+
+.panel[.panel-name[Sol Ej. 1]
+
+```{r}
+starwars %>% 
+  group_by(species) %>% 
+  count() %>% 
+  ungroup()
+
+# sin group
+starwars %>%
+  count(species)
+```
+
+]
+
+.panel[.panel-name[Sol Ej. 2]
+
+```{r}
+starwars %>%
+  summarise(unique_species = n_distinct(species))
+```
+
+
+]
+
+
+.panel[.panel-name[Sol Ej. 3]
+
+```{r}
+starwars %>%
+  drop_na(mass, height) %>% 
+  mutate(IMC = mass / (height/100)^2) %>%
+  group_by(sex) %>% 
+  summarise(mean_IMC = mean(IMC)) %>% 
+  ungroup()
+```
+
+]
+
+.panel[.panel-name[Sol Ej. 4]
+
+```{r}
+starwars %>% 
+  drop_na(birth_year) %>% 
+  group_by(sex) %>% 
+  summarise(min_age = min(birth_year),
+            max_age = max(birth_year)) %>% 
+  ungroup()
+```
+
+]
+
+]
+
+---
+
+# Ejercicios (count y summarise)
+
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+* 📝 **Ejercicio 5**: obtén el personaje más viejo por cada sexo.
+
+* 📝 **Ejercicio 6**: obtén las frecuencias (absolutas) desagregadas por `sex` y `gender` y ordenados de mayor a menor aparición (investiga `? count`)
+
+* 📝 **Ejercicio 7**: determina la cantidad de personajes en cada década (echa un vistazo a `? round()`: ¿qué sucede si hacemos `round(número, -1)`?), primero sin desagregar y luego desagregado por sexo.
+
+* 📝 **Ejercicio 8**: calcula para las variables de tipo texto la longitud media de cada una de ellas (echa un vistazo a `nchar()`)
+
+]
+
+.panel[.panel-name[Sol Ej. 5]
+
+```{r}
+starwars %>%
+  group_by(sex) %>% 
+  slice_max(n = 1, birth_year) %>% 
+  ungroup()
+```
+  
+]
+
+.panel[.panel-name[Sol Ej. 6a]
+
+```{r}
+# Con group
+starwars %>%
+  group_by(sex, gender) %>% 
+  count(sort = TRUE) %>% 
+  ungroup()
+```
+
+]
+
+.panel[.panel-name[Sol Ej. 6b]
+
+```{r}
+# Sin group
+starwars %>%
+  count(sex, gender, sort = TRUE)
+```
+
+]
+
+.panel[.panel-name[Sol Ej. 7]
+
+```{r}
+starwars %>%
+  count(birth_decade = round(birth_year, -1))
+
+starwars %>%
+  group_by(sex) %>%
+  count(birth_decade = round(birth_year, -1)) %>%
+  ungroup()
+```
+
+]
+
+.panel[.panel-name[Sol Ej. 8]
+
+```{r}
+starwars %>%
+  summarise(across(where(is.character),
+                   function(x) { mean(nchar(x), na.rm = TRUE)}))
+```
+
+]
+
+]
 
 ---
 
