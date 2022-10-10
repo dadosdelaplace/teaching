@@ -1777,7 +1777,7 @@ También podemos obtener el **.bg-purple_light[«hoy y ahora»]** con la funció
 ```
 
 ```
-&gt; [1] "2022-10-10 12:19:24 CEST"
+&gt; [1] "2022-10-10 16:01:59 CEST"
 ```
  
 ---
@@ -3084,8 +3084,8 @@ x &lt;- rnorm(1e3) # 1000 elementos aleatorias
 ```
 &gt; Unit: microseconds
 &gt;         expr    min      lq     mean median      uq     max neval cld
-&gt;      sort(x) 43.016 45.3920 51.86443 47.470 50.4335 186.957  1000   b
-&gt;  x[order(x)] 29.885 31.9245 35.53252 33.051 35.1065 139.806  1000  a
+&gt;      sort(x) 42.867 45.1510 53.09113 49.061 55.4625 278.515  1000   b
+&gt;  x[order(x)] 29.596 31.7295 36.12939 34.333 38.2910 151.312  1000  a
 ```
 
 --
@@ -6333,12 +6333,12 @@ microbenchmark(x^2,
 
 ```
 &gt; Unit: nanoseconds
-&gt;                                     expr     min      lq        mean  median
-&gt;                                      x^2     354     465    1262.828     915
-&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 1692419 1866028 2228493.248 1997654
+&gt;                                     expr     min        lq        mean  median
+&gt;                                      x^2     351     442.5    1161.423     823
+&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 1653118 1793156.0 2137411.620 1926412
 &gt;         uq      max neval cld
-&gt;     1844.5    20210  1000  a 
-&gt;  2376439.0 21210528  1000   b
+&gt;     1618.5    23182  1000  a 
+&gt;  2231103.5 18926710  1000   b
 ```
 
 ---
@@ -6616,7 +6616,7 @@ sample(x = 0:1, size = 2)
 ```
 
 ```
-&gt; [1] 1 0
+&gt; [1] 0 1
 ```
 
 **.bg-red_light[IMPORTANTE]**: si no indicamos nada en el vector de probabilidades `prob`, asume que son equiprobables (en este caso, `\(1/2\)` para cada cara).
@@ -6651,7 +6651,7 @@ sample(x = 0:1, size = 30, replace = TRUE)
 ```
 
 ```
-&gt;  [1] 1 1 1 0 0 1 0 0 0 1 0 0 1 0 0 0 0 0 0 1 0 0 1 0 1 0 1 0 0 1
+&gt;  [1] 1 1 1 1 1 1 1 1 0 0 1 0 1 0 0 1 1 1 0 1 0 1 1 1 0 0 0 1 0 1
 ```
 
 ---
@@ -6666,7 +6666,7 @@ sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
 ```
 
 ```
-&gt;  [1] "cara" "cruz" "cara" "cruz" "cara" "cara" "cara" "cara" "cara" "cruz"
+&gt;  [1] "cara" "cara" "cara" "cruz" "cara" "cara" "cara" "cruz" "cara" "cara"
 ```
 
 --
@@ -6679,7 +6679,7 @@ sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
 ```
 
 ```
-&gt;  [1] "cruz" "cruz" "cara" "cara" "cara" "cruz" "cara" "cruz" "cara" "cara"
+&gt;  [1] "cruz" "cruz" "cara" "cruz" "cara" "cara" "cara" "cara" "cara" "cruz"
 ```
 
 ---
@@ -8679,12 +8679,12 @@ microbenchmark(sqrt(x), for (i in 1:1000) { y[i] &lt;- sqrt(x[i]) }, times = 1e3
 
 ```
 &gt; Unit: microseconds
-&gt;                                          expr      min        lq        mean
-&gt;                                       sqrt(x)    2.458    3.0545    4.591981
-&gt;  for (i in 1:1000) {     y[i] &lt;- sqrt(x[i]) } 1931.053 2170.3080 2821.407567
-&gt;     median       uq       max neval cld
-&gt;     3.9545    4.700    20.723  1000  a 
-&gt;  2302.5430 2642.676 75800.343  1000   b
+&gt;                                          expr      min       lq        mean
+&gt;                                       sqrt(x)    2.231    2.763    3.559351
+&gt;  for (i in 1:1000) {     y[i] &lt;- sqrt(x[i]) } 1708.594 1830.193 2118.472589
+&gt;     median        uq       max neval cld
+&gt;     3.1695    3.7125    21.571  1000  a 
+&gt;  1933.4025 2169.6020 13483.066  1000   b
 ```
 
 
@@ -8768,11 +8768,11 @@ microbenchmark(map(x, .f = function(x) { mean(x^2) }), lapply(x, FUN = function(
 ```
 &gt; Unit: milliseconds
 &gt;                                            expr      min       lq     mean
-&gt;      map(x, .f = function(x) {     mean(x^2) }) 5.475186 6.212955 8.258662
-&gt;  lapply(x, FUN = function(x) {     mean(x^2) }) 5.163057 6.094283 8.165035
+&gt;      map(x, .f = function(x) {     mean(x^2) }) 5.309950 6.181544 8.054322
+&gt;  lapply(x, FUN = function(x) {     mean(x^2) }) 5.301872 6.049334 7.928318
 &gt;    median       uq       max neval cld
-&gt;  7.096030 7.886214  46.25971  1000   a
-&gt;  7.030539 7.833374 187.34669  1000   a
+&gt;  7.079528 7.718248  40.87735  1000   a
+&gt;  7.012404 7.687182 175.99134  1000   a
 ```
 
 
@@ -11448,6 +11448,11 @@ name: clase-9
 
 ### [Modificar columnas](#mutate)
 
+### [Agrupar + contar](#count)
+
+### [Resúmenes estadísticos](#summarise)
+
+
 ---
 
 name: columnas
@@ -12911,7 +12916,455 @@ survival::heart
 &gt; 172   0.0    6.0     1  -8.68446270 -0.04928131       0          0 103
 ```
 
+---
 
+name: count
+
+# .orange[CONTAR]: group_by() + count()
+
+Hasta ahora solo hemos transformado o consultado nuestra tabla pero no hemos aprendido a **.bg-purple_light[generar resúmenes estadísticos]**. Empecemos por lo sencillo: contar (frecuencias)
+
+.pull-left[
+
+
+```r
+datos %&gt;%
+  contar(var1, var2)
+```
+
+]
+
+.pull-right[
+
+
+```r
+starwars %&gt;%
+  count(var1, var2)
+```
+
+]
+
+--
+
+Cuando lo usamos en solitario, `count()` nos devolverá simplemente el **.bg-purple_light[número de registros]**
+
+
+```r
+starwars %&gt;% count()
+```
+
+```
+&gt; # A tibble: 1 × 1
+&gt;       n
+&gt;   &lt;int&gt;
+&gt; 1    87
+```
+
+---
+
+# .orange[CONTAR]: group_by() + count()
+
+Sin embargo, cuando lo usamos pasándole como **.bg-purple_light[argumento una o varias variables]**, `count()` nos cuenta lo que se conoce en estadística como **.bg-purple_light[frecuencias absolutas]**: el número de elementos pertenecientes a cada una de las **modalidades**. En nuestro caso, la variable `sex` tiene 4 modalidades: `female, hermaphroditic, male, none`.
+
+
+```r
+*starwars %&gt;% count(sex)
+```
+
+```
+&gt; # A tibble: 5 × 2
+&gt;   sex                n
+&gt;   &lt;chr&gt;          &lt;int&gt;
+&gt; 1 female            16
+&gt; 2 hermaphroditic     1
+&gt; 3 male              60
+&gt; 4 none               6
+&gt; 5 &lt;NA&gt;               4
+```
+
+---
+
+# .orange[CONTAR]: group_by() + count()
+
+
+Además si pasamos **.bg-purple_light[varias variables]** nos calcula una **.bg-purple_light[tabla de contigencia]** con las frecuencias absolutas n-dimensionales
+
+
+```r
+starwars %&gt;% count(sex, gender)
+```
+
+```
+&gt; # A tibble: 6 × 3
+&gt;   sex            gender        n
+&gt;   &lt;chr&gt;          &lt;chr&gt;     &lt;int&gt;
+&gt; 1 female         feminine     16
+&gt; 2 hermaphroditic masculine     1
+&gt; 3 male           masculine    60
+&gt; 4 none           feminine      1
+&gt; 5 none           masculine     5
+&gt; 6 &lt;NA&gt;           &lt;NA&gt;          4
+```
+
+---
+
+
+# .orange[CONTAR]: group_by() + count()
+
+Lo anterior podemos combinarlo con lo que ya sabemos para **.bg-purple_light[añadir variables]** a una tabla, de forma que podremos obtener no solo las frecuencias absolutas sino también las acumuladas o las relativas. Vamos a añadir por ejemplo una columna `f` que nos devuelve el conteo pero en % respecto al total de datos.
+
+--
+
+
+```r
+starwars %&gt;%
+  count(sex) %&gt;% 
+  mutate(f = 100 * n/sum(n))
+```
+
+```
+&gt; # A tibble: 5 × 3
+&gt;   sex                n     f
+&gt;   &lt;chr&gt;          &lt;int&gt; &lt;dbl&gt;
+&gt; 1 female            16 18.4 
+&gt; 2 hermaphroditic     1  1.15
+&gt; 3 male              60 69.0 
+&gt; 4 none               6  6.90
+&gt; 5 &lt;NA&gt;               4  4.60
+```
+
+---
+
+
+# .orange[CONTAR]: group_by() + count()
+
+
+Una de las funciones más potentes a combinar con `count()` es `group_by()`  que nos permitirá **.bg-purple_light[agrupar nuestros registros]**
+
+
+.pull-left[
+
+
+```r
+datos %&gt;%
+  agrupar(var_grupo1, var_grupo2) %&gt;% 
+  contar() %&gt;% 
+  desagrupar()
+```
+
+]
+
+.pull-right[
+
+
+```r
+starwars %&gt;%
+  group_by(var_grupo1, var_grupo2) %&gt;%
+  count() %&gt;% 
+  ungroup()
+```
+
+]
+
+--
+
+Cuando apliquemos `group_by()` es importante entender que **.bg-purple_light[NO MODIFICA los datos]**: nos crea una variable de grupo que **.bg-purple_light[modificará las acciones futuras]** que apliquemos, generando una especie de generar **múltiples subtablas**, y las operaciones aplicadas después se **.bg-purple_light[aplicarán a cada una por separado]**.
+
+---
+
+
+# .orange[CONTAR]: group_by() + count()
+
+.pull-left[
+
+Por ejemplo, imagina que queremos saber el **.bg-purple_light[número de registros por sexo]**: primero **.bg-purple_light[agruparemos]** por la variable `sex`, y después aplicaremos el **.bg-purple_light[conteo]** con `count()` (realiza la acción pedida en cada subtabla).
+
+
+```r
+starwars %&gt;%
+* group_by(sex) %&gt;%
+  count() %&gt;%
+* ungroup()
+```
+
+```
+&gt; # A tibble: 5 × 2
+&gt;   sex                n
+&gt;   &lt;chr&gt;          &lt;int&gt;
+&gt; 1 female            16
+&gt; 2 hermaphroditic     1
+&gt; 3 male              60
+&gt; 4 none               6
+&gt; 5 &lt;NA&gt;               4
+```
+
+**IMPORTANTE**: siempre que agrupes, acuérdate de desagrupar con `ungroup()`.
+
+]
+
+
+.pull-right[
+
+&lt;img src="./img/count_group_1.jpg" width="45%" style="display: block; margin: auto;" /&gt;
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/count_group_2.jpg" alt="Flujo de https://tidydatatutor.com/" width="95%" /&gt;
+&lt;p class="caption"&gt;Flujo de https://tidydatatutor.com/&lt;/p&gt;
+&lt;/div&gt;
+
+
+]
+
+---
+
+
+# .orange[CONTAR]: group_by() + count()
+
+.pull-left[
+
+Podemos **.bg-purple_light[agrupar por variables]**, por ejemplo vamos a agrupar por `sex` y `gender`, y después aplicaremos `count()` (realiza la acción en cada subtabla).
+
+
+```r
+starwars %&gt;%
+* group_by(sex, gender) %&gt;%
+  count() %&gt;%
+* ungroup()
+```
+
+```
+&gt; # A tibble: 6 × 3
+&gt;   sex            gender        n
+&gt;   &lt;chr&gt;          &lt;chr&gt;     &lt;int&gt;
+&gt; 1 female         feminine     16
+&gt; 2 hermaphroditic masculine     1
+&gt; 3 male           masculine    60
+&gt; 4 none           feminine      1
+&gt; 5 none           masculine     5
+&gt; 6 &lt;NA&gt;           &lt;NA&gt;          4
+```
+
+**IMPORTANTE**: siempre que agrupes, acuérdate de desagrupar con `ungroup()`.
+
+]
+
+.pull-right[
+
+&lt;img src="./img/group_1.jpg" width="150%" style="display: block; margin: auto;" /&gt;
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/group_count.jpg" alt="Flujo de https://tidydatatutor.com/" width="150%" /&gt;
+&lt;p class="caption"&gt;Flujo de https://tidydatatutor.com/&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+---
+
+name: summarise
+
+# .orange[RESUMIR]: summarise()
+
+La agrupación `group_by()` es una idea superpotente porque permite **.bg-purple_light[desagregar cualquier acción posterior]**, entre otras, la función `summarise()`, que nos permite **.bg-purple_light[resumir]**.
+
+.pull-left[
+
+
+```r
+datos %&gt;%
+  agrupar(var_grupo1, var_grupo2) %&gt;% 
+  resumir() %&gt;% 
+  desagrupar()
+```
+
+]
+
+.pull-right[
+
+
+```r
+starwars %&gt;%
+  group_by(var_grupo1, var_grupo2) %&gt;%
+  summarise() %&gt;% 
+  ungroup()
+```
+
+]
+
+--
+
+Un ejemplo: vamos a calcular la **.bg-purple_light[media de las alturas]**. Si lo hacemos sin `group_by()` se hará de todos los personajes.
+
+
+```r
+starwars %&gt;% drop_na(height) %&gt;%
+  summarise(media_altura = mean(height))
+```
+
+```
+&gt; # A tibble: 1 × 1
+&gt;   media_altura
+&gt;          &lt;dbl&gt;
+&gt; 1         174.
+```
+
+Dentro de `summarise()` podrás definir cada estadístico como el `nombre = ` seguido de la función a aplicar (que exista o tuya propia definida anteriormente).
+
+---
+
+# .orange[RESUMIR]: summarise()
+
+
+Si la misma acción la realizamos con un `group_by()` previo, la media de las alturas se **.bg-purple_light[calculará de manera desagregada]** (por sexos por ejemplo), de forma independiente en cada subtabla por grupo creada.
+
+.pull-left[
+
+
+```r
+starwars %&gt;% 
+  drop_na(height) %&gt;%
+  group_by(sex) %&gt;% 
+  summarise(media = mean(height)) %&gt;%
+  ungroup()
+```
+
+```
+&gt; # A tibble: 5 × 2
+&gt;   sex            media
+&gt;   &lt;chr&gt;          &lt;dbl&gt;
+&gt; 1 female          169.
+&gt; 2 hermaphroditic  175 
+&gt; 3 male            179.
+&gt; 4 none            131.
+&gt; 5 &lt;NA&gt;            181.
+```
+
+]
+
+.pull-right[
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/group_summarise.jpg" alt="Flujo de https://tidydatatutor.com/" width="140%" /&gt;
+&lt;p class="caption"&gt;Flujo de https://tidydatatutor.com/&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+
+---
+
+# .orange[RESUMIR]: summarise()
+
+Podemos **.bg-purple_light[resumir varias variables]** a la vez combinándolo con la función `across()`: primero indicamos las **.bg-purple_light[variables a recorrer]** (por ejemplo, `height:mass`), después la función a aplicar (en este caso, la media `mean()`), y por último argumentos extras si fuesen necesarios (por ejemplo, `na.rm = TRUE`)
+
+
+```r
+starwars %&gt;%
+* group_by(sex) %&gt;%
+* summarise(medias = across(height:mass, mean, na.rm = TRUE)) %&gt;%
+  ungroup()
+```
+
+```
+&gt; # A tibble: 5 × 2
+&gt;   sex            medias$height  $mass
+&gt;   &lt;chr&gt;                  &lt;dbl&gt;  &lt;dbl&gt;
+&gt; 1 female                  169.   54.7
+&gt; 2 hermaphroditic          175  1358  
+&gt; 3 male                    179.   81.0
+&gt; 4 none                    131.   69.8
+&gt; 5 &lt;NA&gt;                    181.   48
+```
+
+---
+
+# .orange[RESUMIR]: summarise()
+
+Además la función `across()` podemos combinarla con un viejo conocido, `where()`, para que **.bg-purple_light[resuma las variables de un tipo]**, por ejemplo `where(is.numeric)` selecciona solo las numéricas.
+
+
+```r
+starwars %&gt;%
+  drop_na(height, mass) %&gt;%
+  group_by(sex, gender) %&gt;%
+  summarise(across(where(is.numeric), mean, na.rm = TRUE)) %&gt;%
+  ungroup()
+```
+
+```
+&gt; # A tibble: 5 × 5
+&gt;   sex            gender    height   mass birth_year
+&gt;   &lt;chr&gt;          &lt;chr&gt;      &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt;
+&gt; 1 female         feminine    169.   54.7       43  
+&gt; 2 hermaphroditic masculine   175  1358        600  
+&gt; 3 male           masculine   178.   81.0       87.0
+&gt; 4 none           masculine   140    69.8       53.3
+&gt; 5 &lt;NA&gt;           &lt;NA&gt;        178    48        NaN
+```
+
+---
+
+# .orange[RESUMIR]: summarise()
+
+Algunas de las funciones más útiles dentro de `summarise()`:
+
+* `sum()`, `mean()`, `median()`
+* `min()`, `which.min()`, `max()`, `which.max()`
+* `n()` (número de registros), `n_distinct()` (número de registros únicos).
+
+
+```r
+starwars %&gt;%
+  summarise(valores_unicos = n_distinct(eye_color))
+```
+
+```
+&gt; # A tibble: 1 × 1
+&gt;   valores_unicos
+&gt;            &lt;int&gt;
+&gt; 1             15
+```
+
+---
+
+# Operaciones por filas: rowwise()
+
+Una opción muy útil usada antes de una operación también es `rowwise()`: toda operación que venga después se aplicará **.bg-purple_light[en cada fila por separado]**. Por ejemplo, vamos a definir un conjunto dummy de notas.
+
+
+```r
+notas &lt;- tibble("mates" = sample(0:10, size = 4, replace = TRUE),
+                "lengua" = sample(0:10, size = 4, replace = TRUE))
+```
+
+
+
+
+---
+
+# Operaciones por filas: rowwise()
+
+
+Si aplicamos la media directamente, en cada fila el valor `media_curso` es **.bg-purple_light[idéntico]** ya que nos ha hecho la media global: nos gustaría sacar una **.bg-purple_light[media por registro]** (por alumno). Para eso usaremos `rowwise()` antes del cálculo.
+
+
+```r
+# Aplicado por fila
+notas %&gt;% 
+* rowwise() %&gt;%
+  mutate(media_curso = mean(c(mates, lengua)))
+```
+
+```
+&gt; # A tibble: 4 × 3
+&gt; # Rowwise: 
+&gt;   mates lengua media_curso
+&gt;   &lt;int&gt;  &lt;int&gt;       &lt;dbl&gt;
+&gt; 1     5      9         7  
+&gt; 2     2      5         3.5
+&gt; 3     0      2         1  
+&gt; 4     0     10         5
+```
 
 ---
 

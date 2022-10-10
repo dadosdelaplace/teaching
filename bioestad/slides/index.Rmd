@@ -7654,9 +7654,9 @@ name: clase-9
 
 ### [Modificar columnas](#mutate)
 
-### [Agrupar + contar](#group)
+### [Agrupar + contar](#count)
 
-### [Resúmenes estadísticos](#summary)
+### [Resúmenes estadísticos](#summarise)
 
 
 ---
@@ -8287,7 +8287,318 @@ starwars %>%
 survival::heart
 ```
 
+---
 
+name: count
+
+# .orange[CONTAR]: group_by() + count()
+
+Hasta ahora solo hemos transformado o consultado nuestra tabla pero no hemos aprendido a **.bg-purple_light[generar resúmenes estadísticos]**. Empecemos por lo sencillo: contar (frecuencias)
+
+.pull-left[
+
+```{r eval = FALSE}
+datos %>%
+  contar(var1, var2)
+```
+
+]
+
+.pull-right[
+
+```{r eval = FALSE}
+starwars %>%
+  count(var1, var2)
+```
+
+]
+
+--
+
+Cuando lo usamos en solitario, `count()` nos devolverá simplemente el **.bg-purple_light[número de registros]**
+
+```{r}
+starwars %>% count()
+```
+
+---
+
+# .orange[CONTAR]: group_by() + count()
+
+Sin embargo, cuando lo usamos pasándole como **.bg-purple_light[argumento una o varias variables]**, `count()` nos cuenta lo que se conoce en estadística como **.bg-purple_light[frecuencias absolutas]**: el número de elementos pertenecientes a cada una de las **modalidades**. En nuestro caso, la variable `sex` tiene 4 modalidades: `female, hermaphroditic, male, none`.
+
+```{r}
+starwars %>% count(sex)#<<
+```
+
+---
+
+# .orange[CONTAR]: group_by() + count()
+
+
+Además si pasamos **.bg-purple_light[varias variables]** nos calcula una **.bg-purple_light[tabla de contigencia]** con las frecuencias absolutas n-dimensionales
+
+```{r}
+starwars %>% count(sex, gender)
+```
+
+---
+
+
+# .orange[CONTAR]: group_by() + count()
+
+Lo anterior podemos combinarlo con lo que ya sabemos para **.bg-purple_light[añadir variables]** a una tabla, de forma que podremos obtener no solo las frecuencias absolutas sino también las acumuladas o las relativas. Vamos a añadir por ejemplo una columna `f` que nos devuelve el conteo pero en % respecto al total de datos.
+
+--
+
+```{r}
+starwars %>%
+  count(sex) %>% 
+  mutate(f = 100 * n/sum(n))
+```
+
+---
+
+
+# .orange[CONTAR]: group_by() + count()
+
+
+Una de las funciones más potentes a combinar con `count()` es `group_by()`  que nos permitirá **.bg-purple_light[agrupar nuestros registros]**
+
+
+.pull-left[
+
+```{r eval = FALSE}
+datos %>%
+  agrupar(var_grupo1, var_grupo2) %>% 
+  contar() %>% 
+  desagrupar()
+```
+
+]
+
+.pull-right[
+
+```{r eval = FALSE}
+starwars %>%
+  group_by(var_grupo1, var_grupo2) %>%
+  count() %>% 
+  ungroup()
+```
+
+]
+
+--
+
+Cuando apliquemos `group_by()` es importante entender que **.bg-purple_light[NO MODIFICA los datos]**: nos crea una variable de grupo que **.bg-purple_light[modificará las acciones futuras]** que apliquemos, generando una especie de generar **múltiples subtablas**, y las operaciones aplicadas después se **.bg-purple_light[aplicarán a cada una por separado]**.
+
+---
+
+
+# .orange[CONTAR]: group_by() + count()
+
+.pull-left[
+
+Por ejemplo, imagina que queremos saber el **.bg-purple_light[número de registros por sexo]**: primero **.bg-purple_light[agruparemos]** por la variable `sex`, y después aplicaremos el **.bg-purple_light[conteo]** con `count()` (realiza la acción pedida en cada subtabla).
+
+```{r}
+starwars %>%
+  group_by(sex) %>% #<< 
+  count() %>%
+  ungroup() #<<
+```
+
+**IMPORTANTE**: siempre que agrupes, acuérdate de desagrupar con `ungroup()`.
+
+]
+
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "45%", fig.align = "center"}
+knitr::include_graphics("./img/count_group_1.jpg")
+``` 
+
+```{r echo = FALSE,  out.width = "95%", fig.align = "center", fig.cap = "Flujo de https://tidydatatutor.com/"}
+knitr::include_graphics("./img/count_group_2.jpg")
+``` 
+
+
+]
+
+---
+
+
+# .orange[CONTAR]: group_by() + count()
+
+.pull-left[
+
+Podemos **.bg-purple_light[agrupar por variables]**, por ejemplo vamos a agrupar por `sex` y `gender`, y después aplicaremos `count()` (realiza la acción en cada subtabla).
+
+```{r}
+starwars %>%
+  group_by(sex, gender) %>% #<< 
+  count() %>%
+  ungroup() #<<
+```
+
+**IMPORTANTE**: siempre que agrupes, acuérdate de desagrupar con `ungroup()`.
+
+]
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "150%", fig.align = "center"}
+knitr::include_graphics("./img/group_1.jpg")
+``` 
+
+```{r group-count, echo = FALSE,  out.width = "150%", fig.align = "center", fig.cap = "Flujo de https://tidydatatutor.com/"}
+knitr::include_graphics("./img/group_count.jpg")
+``` 
+
+]
+
+---
+
+name: summarise
+
+# .orange[RESUMIR]: summarise()
+
+La agrupación `group_by()` es una idea superpotente porque permite **.bg-purple_light[desagregar cualquier acción posterior]**, entre otras, la función `summarise()`, que nos permite **.bg-purple_light[resumir]**.
+
+.pull-left[
+
+```{r eval = FALSE}
+datos %>%
+  agrupar(var_grupo1, var_grupo2) %>% 
+  resumir() %>% 
+  desagrupar()
+```
+
+]
+
+.pull-right[
+
+```{r eval = FALSE}
+starwars %>%
+  group_by(var_grupo1, var_grupo2) %>%
+  summarise() %>% 
+  ungroup()
+```
+
+]
+
+--
+
+Un ejemplo: vamos a calcular la **.bg-purple_light[media de las alturas]**. Si lo hacemos sin `group_by()` se hará de todos los personajes.
+
+```{r}
+starwars %>% drop_na(height) %>%
+  summarise(media_altura = mean(height))
+```
+
+Dentro de `summarise()` podrás definir cada estadístico como el `nombre = ` seguido de la función a aplicar (que exista o tuya propia definida anteriormente).
+
+---
+
+# .orange[RESUMIR]: summarise()
+
+
+Si la misma acción la realizamos con un `group_by()` previo, la media de las alturas se **.bg-purple_light[calculará de manera desagregada]** (por sexos por ejemplo), de forma independiente en cada subtabla por grupo creada.
+
+.pull-left[
+
+```{r}
+starwars %>% 
+  drop_na(height) %>%
+  group_by(sex) %>% 
+  summarise(media = mean(height)) %>%
+  ungroup()
+```
+
+]
+
+.pull-right[
+
+```{r group-summa, echo = FALSE,  out.width = "140%", fig.align = "center", fig.cap = "Flujo de https://tidydatatutor.com/"}
+knitr::include_graphics("./img/group_summarise.jpg")
+``` 
+
+]
+
+
+---
+
+# .orange[RESUMIR]: summarise()
+
+Podemos **.bg-purple_light[resumir varias variables]** a la vez combinándolo con la función `across()`: primero indicamos las **.bg-purple_light[variables a recorrer]** (por ejemplo, `height:mass`), después la función a aplicar (en este caso, la media `mean()`), y por último argumentos extras si fuesen necesarios (por ejemplo, `na.rm = TRUE`)
+
+```{r}
+starwars %>%
+  group_by(sex) %>% #<<
+  summarise(medias = across(height:mass, mean, na.rm = TRUE)) %>% #<<
+  ungroup()
+```
+
+---
+
+# .orange[RESUMIR]: summarise()
+
+Además la función `across()` podemos combinarla con un viejo conocido, `where()`, para que **.bg-purple_light[resuma las variables de un tipo]**, por ejemplo `where(is.numeric)` selecciona solo las numéricas.
+
+```{r}
+starwars %>%
+  drop_na(height, mass) %>%
+  group_by(sex, gender) %>%
+  summarise(across(where(is.numeric), mean, na.rm = TRUE)) %>%
+  ungroup()
+```
+
+---
+
+# .orange[RESUMIR]: summarise()
+
+Algunas de las funciones más útiles dentro de `summarise()`:
+
+* `sum()`, `mean()`, `median()`
+* `min()`, `which.min()`, `max()`, `which.max()`
+* `n()` (número de registros), `n_distinct()` (número de registros únicos).
+
+```{r}
+starwars %>%
+  summarise(valores_unicos = n_distinct(eye_color))
+```
+
+---
+
+# Operaciones por filas: rowwise()
+
+Una opción muy útil usada antes de una operación también es `rowwise()`: toda operación que venga después se aplicará **.bg-purple_light[en cada fila por separado]**. Por ejemplo, vamos a definir un conjunto dummy de notas.
+
+```{r eval = FALSE}
+notas <- tibble("mates" = sample(0:10, size = 4, replace = TRUE),
+                "lengua" = sample(0:10, size = 4, replace = TRUE))
+```
+
+```{r echo = FALSE}
+notas <- tibble("mates" = sample(0:10, size = 4, replace = TRUE),
+                "lengua" = sample(0:10, size = 4, replace = TRUE))
+```
+
+
+---
+
+# Operaciones por filas: rowwise()
+
+
+Si aplicamos la media directamente, en cada fila el valor `media_curso` es **.bg-purple_light[idéntico]** ya que nos ha hecho la media global: nos gustaría sacar una **.bg-purple_light[media por registro]** (por alumno). Para eso usaremos `rowwise()` antes del cálculo.
+
+```{r}
+# Aplicado por fila
+notas %>% 
+  rowwise() %>% #<<
+  mutate(media_curso = mean(c(mates, lengua)))
+```
 
 ---
 
