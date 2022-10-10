@@ -7654,6 +7654,11 @@ name: clase-9
 
 ### [Modificar columnas](#mutate)
 
+### [Agrupar + contar](#group)
+
+### [Resúmenes estadísticos](#summary)
+
+
 ---
 
 name: columnas

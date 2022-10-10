@@ -24,7 +24,7 @@ class: center, middle, inverse, title-slide
 # GESTIÓN DE BASES DE DATOS
 ## Máster en Bioestadística
 ### Javier Álvarez Liébana (Fac. Estudios Estadísticos - UCM)
-### Última actualización: 06-10-2022
+### Última actualización: 10-10-2022
 
 ---
 
@@ -1764,7 +1764,7 @@ hoy
 ```
 
 ```
-&gt; [1] "2022-10-06"
+&gt; [1] "2022-10-10"
 ```
 
 --
@@ -1777,7 +1777,7 @@ También podemos obtener el **.bg-purple_light[«hoy y ahora»]** con la funció
 ```
 
 ```
-&gt; [1] "2022-10-06 14:51:50 CEST"
+&gt; [1] "2022-10-10 12:19:24 CEST"
 ```
  
 ---
@@ -2161,7 +2161,7 @@ hoy - cumple
 ```
 
 ```
-&gt; Time difference of 12079 days
+&gt; Time difference of 12083 days
 ```
 
 ]
@@ -3083,9 +3083,9 @@ x &lt;- rnorm(1e3) # 1000 elementos aleatorias
 
 ```
 &gt; Unit: microseconds
-&gt;         expr    min     lq     mean  median       uq      max neval cld
-&gt;      sort(x) 44.117 51.083 90.90322 69.9795 101.1605 2551.981  1000   b
-&gt;  x[order(x)] 30.166 34.396 55.59094 44.5365  65.5645 1377.874  1000  a
+&gt;         expr    min      lq     mean median      uq     max neval cld
+&gt;      sort(x) 43.016 45.3920 51.86443 47.470 50.4335 186.957  1000   b
+&gt;  x[order(x)] 29.885 31.9245 35.53252 33.051 35.1065 139.806  1000  a
 ```
 
 --
@@ -6334,11 +6334,11 @@ microbenchmark(x^2,
 ```
 &gt; Unit: nanoseconds
 &gt;                                     expr     min      lq        mean  median
-&gt;                                      x^2     353     466    1273.005    1069
-&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 1776980 1950190 2515276.889 2121550
-&gt;       uq      max neval cld
-&gt;     1861    19257  1000  a 
-&gt;  2507222 33610656  1000   b
+&gt;                                      x^2     354     465    1262.828     915
+&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 1692419 1866028 2228493.248 1997654
+&gt;         uq      max neval cld
+&gt;     1844.5    20210  1000  a 
+&gt;  2376439.0 21210528  1000   b
 ```
 
 ---
@@ -6616,7 +6616,7 @@ sample(x = 0:1, size = 2)
 ```
 
 ```
-&gt; [1] 0 1
+&gt; [1] 1 0
 ```
 
 **.bg-red_light[IMPORTANTE]**: si no indicamos nada en el vector de probabilidades `prob`, asume que son equiprobables (en este caso, `\(1/2\)` para cada cara).
@@ -6651,7 +6651,7 @@ sample(x = 0:1, size = 30, replace = TRUE)
 ```
 
 ```
-&gt;  [1] 1 0 0 0 0 1 1 1 0 0 0 1 0 0 0 1 0 1 1 0 0 1 0 1 1 0 1 0 0 1
+&gt;  [1] 1 1 1 0 0 1 0 0 0 1 0 0 1 0 0 0 0 0 0 1 0 0 1 0 1 0 1 0 0 1
 ```
 
 ---
@@ -6666,7 +6666,7 @@ sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
 ```
 
 ```
-&gt;  [1] "cruz" "cruz" "cara" "cara" "cara" "cruz" "cara" "cruz" "cara" "cara"
+&gt;  [1] "cara" "cruz" "cara" "cruz" "cara" "cara" "cara" "cara" "cara" "cruz"
 ```
 
 --
@@ -6679,7 +6679,7 @@ sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
 ```
 
 ```
-&gt;  [1] "cara" "cara" "cara" "cara" "cara" "cruz" "cruz" "cruz" "cara" "cara"
+&gt;  [1] "cruz" "cruz" "cara" "cara" "cara" "cruz" "cara" "cruz" "cara" "cara"
 ```
 
 ---
@@ -8680,11 +8680,11 @@ microbenchmark(sqrt(x), for (i in 1:1000) { y[i] &lt;- sqrt(x[i]) }, times = 1e3
 ```
 &gt; Unit: microseconds
 &gt;                                          expr      min        lq        mean
-&gt;                                       sqrt(x)    2.303    2.8185    3.694365
-&gt;  for (i in 1:1000) {     y[i] &lt;- sqrt(x[i]) } 1824.807 1956.5665 2190.043244
-&gt;     median        uq       max neval cld
-&gt;     3.3115    3.7765    29.621  1000  a 
-&gt;  2035.8535 2203.7095 12780.034  1000   b
+&gt;                                       sqrt(x)    2.458    3.0545    4.591981
+&gt;  for (i in 1:1000) {     y[i] &lt;- sqrt(x[i]) } 1931.053 2170.3080 2821.407567
+&gt;     median       uq       max neval cld
+&gt;     3.9545    4.700    20.723  1000  a 
+&gt;  2302.5430 2642.676 75800.343  1000   b
 ```
 
 
@@ -8768,11 +8768,11 @@ microbenchmark(map(x, .f = function(x) { mean(x^2) }), lapply(x, FUN = function(
 ```
 &gt; Unit: milliseconds
 &gt;                                            expr      min       lq     mean
-&gt;      map(x, .f = function(x) {     mean(x^2) }) 5.563063 6.240080 8.233408
-&gt;  lapply(x, FUN = function(x) {     mean(x^2) }) 5.421904 6.102273 8.040004
+&gt;      map(x, .f = function(x) {     mean(x^2) }) 5.475186 6.212955 8.258662
+&gt;  lapply(x, FUN = function(x) {     mean(x^2) }) 5.163057 6.094283 8.165035
 &gt;    median       uq       max neval cld
-&gt;  7.297357 7.918142  45.54003  1000   a
-&gt;  7.146676 7.675480 179.33539  1000   a
+&gt;  7.096030 7.886214  46.25971  1000   a
+&gt;  7.030539 7.833374 187.34669  1000   a
 ```
 
 
