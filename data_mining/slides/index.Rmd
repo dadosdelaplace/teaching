@@ -257,7 +257,9 @@ class: inverse center middle
 
 #### [CLASE 2: PRIMEROS DATOS. PRIMEROS CONCEPTOS](#clase-2)
 
-#### [CLASE 3: INTRO A LA METODOLOGÍA SEMMA. TIDYDATA](#clase-3)
+#### [CLASE 3: TIDYDATA](#clase-3)
+
+#### [CLASE 4: INTRO A LA MINERÍA (SEMMA)](#clase-4)
 
 ---
 
@@ -4226,7 +4228,7 @@ Las **.bg-purple_light[medidas de posición]** nos **localizan** los datos: son 
 class: inverse center middle
 name: clase-3
 
-# CLASE 3: Tidydata. SEMMA.
+# CLASE 3: Tidydata
 
 &nbsp;
 
@@ -4239,7 +4241,6 @@ name: clase-3
 
 ### [Caso práctico: datos de la OMS](#oms)
 
-### [Introducción al aprendizaje estadístico y minería: metodología SEMMA](#learning)
 
 ---
 
@@ -4933,13 +4934,7 @@ Los **.bg-purple_light[conjuntos tidy u ordenados]** tienen tres objetivos
 
 ---
 
-# Datos limpios: .orange[TIDY DATA]
-
-
-
-.pull-left[
-
-Los **.bg-purple_light[datos ordenados o tidy data]** deben cumplir:
+# Datos limpios: .orange[TIDY Dblob/main/data_mining/biblio/tidy_data_wickham_2014.pdfbg-purple_light[datos ordenados o tidy data]** deben cumplir:
 
 1. Cada **.bg-green_light[variable en una columna]**.
 
@@ -5901,6 +5896,24 @@ who
 
 ---
 
+class: inverse center middle
+name: clase-4
+
+# CLASE 4: introducción a la minería (SEMMA)
+
+&nbsp;
+
+### [Introducción al aprendizaje estadístico](#learning)
+
+### [Sesgo vs varianza](#sesgo-varianza)
+
+### [Introducción a la minería de datos (SEMMA)](#data-mining)
+
+### [Muestreo (sample)](#sample)
+
+
+---
+
 name: learning
 
 ```{r echo = FALSE,  out.width = "80%", fig.align = "center"}
@@ -5913,9 +5926,7 @@ knitr::include_graphics("./img/ml_maths.jpg")
 # .orange[CIENCIA DE DATOS]
 
 
-De lo general a la particular, **.bg-purple_light[¿qué es la ciencia de datos]** ¿Qué incluye?
-
-La conocida como Data Science (Ciencia de Datos) es un campo muy extenso en el que, según algunos autores, se podría incluir (o intersecar con) campos como la **Minería de Datos**, el **Machine Learning** o el **Big Data**
+**.bg-purple_light[¿Qué es la ciencia de datos]** ¿Qué incluye? La conocida como **.bg-purple_light[Data Science (Ciencia de Datos)]** es un campo muy extenso en el que, según algunos autores, se podría incluir (o intersecar con) campos como la **Minería de Datos**, el **Machine Learning** o el **Big Data**
 
 
 ```{r echo = FALSE,  out.width = "40%", fig.align = "center"}
@@ -5932,9 +5943,9 @@ Uno de los conceptos clave es la idea de **.bg-purple_light[aprendizaje estadís
 
 &nbsp;
 
-En ese aprendizaje normalmente realizaremos una **.bg-purple_light[partición preliminar de los datos]**:
-
 --
+
+En ese aprendizaje normalmente realizaremos una **.bg-purple_light[partición preliminar de los datos]**:
 
 - **.bg-purple_light[Entrenamiento]**: conjunto del que modelo **.bg-orange[aprenderá para su construcción]** (por ej., 70%).
 
@@ -5955,7 +5966,9 @@ En ese aprendizaje normalmente realizaremos una **.bg-purple_light[partición pr
 
 .pull-left[
 
-Veamos un ejemplo: imagina que queremos construir un método que nos permita **.bg-purple_light[clasificar]** si un animal es un **.bg-purple_light[gato o perro]** en función de dos variables: **suavidad** y **peso**. En concreto el aprendizaje será **.bg-purple_light[supervisado]** (sé a priori en mi dataset cuál es gato o perro).
+Veamos un ejemplo: imagina que queremos construir un método que nos permita **.bg-purple_light[clasificar]** si un animal es un **.bg-purple_light[gato o perro]** en función de dos variables: **suavidad** y **peso**.
+
+En concreto el aprendizaje será **.bg-purple_light[supervisado]** (sé a priori en mi dataset cuál es gato o perro, veremos más adelante qué es el aprendizaje supervisado y el no supervisado).
 
 ]
 
@@ -6020,11 +6033,11 @@ El aprendizaje no solo dependerá de los datos, también de **.bg-purple_light[n
 
 .pull-left[
 
-```{r echo = FALSE,  out.width = "125%", fig.align = "center"}
+```{r echo = FALSE,  out.width = "140%", fig.align = "center"}
 knitr::include_graphics("./img/model_1.jpg")
 ``` 
 
-```{r echo = FALSE,  out.width = "125%", fig.align = "center"}
+```{r echo = FALSE,  out.width = "140%", fig.align = "center"}
 knitr::include_graphics("./img/model_3.jpg")
 ``` 
 
@@ -6032,11 +6045,11 @@ knitr::include_graphics("./img/model_3.jpg")
 
 .pull-right[
 
-```{r echo = FALSE,  out.width = "135%", fig.align = "center"}
+```{r echo = FALSE,  out.width = "150%", fig.align = "center"}
 knitr::include_graphics("./img/model_2.jpg")
 ``` 
 
-```{r echo = FALSE,  out.width = "145%", fig.align = "center"}
+```{r echo = FALSE,  out.width = "150%", fig.align = "center"}
 knitr::include_graphics("./img/model_4.jpg")
 ``` 
 
@@ -6130,15 +6143,7 @@ No, no es ni malo ni extraño. Es más, es un síntoma de que el conjunto de tes
 
 ---
 
-# Sobreajuste. .green[SESGO] vs .orange[VARIANZA]
-
-En el campo del aprendizaje estadístico (y por tanto en la minería de datos) será recurrente un término a evitar: **.bg-purple_light[sobrejauste]**.
-
-```{r echo = FALSE,  out.width = "80%", fig.align = "center"}
-knitr::include_graphics("./img/bustamante.jpg")
-``` 
-
----
+name: sesgo-varianza
 
 # Sobreajuste. .green[SESGO] vs .orange[VARIANZA]
 
@@ -6157,7 +6162,17 @@ En el campo del aprendizaje estadístico (y por tanto en la minería de datos) s
 
 * «Understanding the Bias-Variance Tradeoff»: <https://scott.fortmann-roe.com/docs/BiasVariance.html>
 
+---
 
+
+# Sobreajuste. .green[SESGO] vs .orange[VARIANZA]
+
+
+En el campo del aprendizaje estadístico (y por tanto en la minería de datos) será recurrente un término a evitar: **.bg-purple_light[sobrejauste]**.
+
+```{r echo = FALSE,  out.width = "80%", fig.align = "center"}
+knitr::include_graphics("./img/bustamante.jpg")
+``` 
 
 ---
 
@@ -6169,7 +6184,7 @@ Imagina que tenemos los siguientes ingredientes
 
 --
 
-* **.bg-purple_light[Output real]** que llamaremos $Y = f(X) + \varepsilon$
+* **.bg-purple_light[Output real]** que llamaremos $Y = f(X) + \varepsilon$ ($\varepsilon$ será el **.bg-orange[ruido existente]**)
 
 --
 
@@ -6216,17 +6231,21 @@ $$E(x, f) := {\rm E}\left[\left(Y - \hat{f}(X)\right)^2  \right] = sesgo^2 + var
 # Sobreajuste. .green[SESGO] vs .orange[VARIANZA]
 
 
-* **.bg-red_light[Sesgo (bias)]** será igual a $\left(Y - {\rm E} \left[ \hat{Y} \right] \right)^2$ (diferencia - media - entre la predicción media del modelo y el valor correcto a predecir).
+* **.bg-red_light[Sesgo (bias)]** será igual a $\left(Y - {\rm E} \left[ \hat{Y} \right] \right)^2$ (diferencia media entre la predicción media del modelo y el valor correcto a predecir).
+
+--
 
 * **.bg-green_light[Varianza (variance)]** será igual a ${\rm E}\left[ \left( {\rm E} \left[ \hat{Y} \right] - \hat{f}(X)\right)^2 \right]$ (la  dispersión/variación entre las predicción individuales y la predicción media).
 
-* **Ruido**: error aleatorio **irreducible** $\varepsilon$ (la componente aleatoria del modelo no determinístico) de media nula.
+--
+
+* **.bg-orange[Ruido]**: error aleatorio **irreducible** $\varepsilon$ (la componente aleatoria del modelo no determinístico) de media nula.
 
 --
 
 &nbsp;
 
-El **.bg-red_light[sesgo]** será por tanto lo que nos **.bg-red_light[equivocamos/desviamos de forma sistemática]** y la **.bg-green_light[varianza]** del modelo será la **.bg-green_light[dispersión entre las predicciones]** de un valor, como si repitieramos el modelo con distintas muestras aleatorias obtenidas de la misma población. 
+El **.bg-red_light[sesgo]** será por tanto lo que nos **.bg-red_light[equivocamos/desviamos de forma sistemática]** y la **.bg-green_light[varianza]** del modelo será la **.bg-green_light[dispersión entre las predicciones]** de un mismo valor, como si repitieramos el modelo con distintas muestras aleatorias obtenidas de la misma población. 
 
 ---
 
@@ -6463,7 +6482,7 @@ El **gran tamaño muestral** suele hacer inviable la aplicación de técnicas de
 
 ---
 
-# SEMMA
+# Metodología .orange[SEMMA]
 
 Existen distintas metodologías/esquemas dentro de la minería de datos como la CRISP-DM (desarrollada por IBM) la
 **.bg-purple_light[metodología SEMMA]** (desarrollada por SAS), que usaremos parcialmente en esta asignatura. En esta metodología SEMMA no siempre intervienen todas las fases del proceso y, además, las fases pueden repetirse y el
@@ -6486,7 +6505,7 @@ knitr::include_graphics("./img/SEMMA.JPG")
 
 ---
 
-# SEMMA
+# Metodología .orange[SEMMA]
 
 En esta metodología SEMMA no siempre intervienen todas las fases del proceso y, además, las fases pueden repetirse y el
 orden de las mismas modificarse.
@@ -6508,7 +6527,7 @@ knitr::include_graphics("./img/SEMMA.JPG")
 
 ---
 
-# SEMMA
+# Metodología .orange[SEMMA]
 
 En esta metodología SEMMA no siempre intervienen todas las fases del proceso y, además, las fases pueden repetirse y el
 orden de las mismas modificarse.
@@ -6529,7 +6548,7 @@ knitr::include_graphics("./img/SEMMA.JPG")
 
 ---
 
-# SEMMA
+# Metodología .orange[SEMMA]
 
 
 En esta metodología SEMMA no siempre intervienen todas las fases del proceso y, además, las fases pueden repetirse y el
@@ -6551,7 +6570,7 @@ knitr::include_graphics("./img/SEMMA.JPG")
 
 ---
 
-# SEMMA
+# Metodología .orange[SEMMA]
 
 
 En esta metodología SEMMA no siempre intervienen todas las fases del proceso y, además, las fases pueden repetirse y el
@@ -6574,11 +6593,951 @@ knitr::include_graphics("./img/SEMMA.JPG")
 
 ---
 
+name: sample
+
+# Primera fase SEMMA: .orange[MUESTREO]
+
+Como hemos comentado, **.bg-purple_light[ANTES]** de las posibles particiones train-validación-test que necesitemos, si la base de datos es **.bg-purple_light[demasiado grande]**, será necesario tomar una **.bg-purple_light[submuestra]** (representativa) para poder ser procesada de forma eficiente.
+
+--
+
+.pull-left[
+
+* **.bg-purple_light[No aleatorio]** (por cuotas) en base a **.bg-orange[condiciones]** sobre los registros (`filter()`)
+
+* **.bg-purple_light[No aleatorio]** (intencional/discreccional) en base a **.bg-orange[posición]** (`slice`)
+
+* **.bg-purple_light[Aleatorio]** **.bg-orange[simple]**  (`slice_sample()`)
+
+* **.bg-purple_light[Aleatorio]** **.bg-orange[estratificado]** (`group_by()` + `slice_sample()`)
+
+]
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "99%", fig.align = "left"}
+knitr::include_graphics("./img/sample.jpg")
+``` 
+
+
+]
+
+📚 Ver otros tipos de muestreo <https://www.unir.net/ingenieria/revista/tipos-de-muestreo/>
+
+---
+
+# Introducción a .orange[TIDYVERSE]
+
+
+.pull-left[
+
+```{r echo = FALSE,  out.width = "89%", fig.align = "center"}
+knitr::include_graphics("./img/tidyverrse_universe.jpg")
+``` 
+
+También tenemos los paquetes `{purrr}` y `{lubridate}` para el manejo de **listas** y **fechas**, `{readxl}` para importar archivos **.xls y .xlsx**, `{haven}` para importar archivos **SPSS, Stata y SAS**, `{httr}` para importar **desde web** y `{rvest}` para **web scraping**.
+
+
+]
+
+.pull-right[
+
+* `{tibble}`: **.bg-purple_light[optimizando data.frame]**.
+
+* `{tidyr}`: **.bg-purple_light[limpiar datos]**.
+
+* `{readr}`: **.bg-purple_light[carga rápida]** de datos rectangulares (formatos .csv, .tsv, etc). 
+
+* `{dplyr}`: gramática para **.bg-purple_light[depuración de datos]** para facilitar su procesamiento.
+
+* `{stringr}`: manejo de **.bg-purple_light[textos]**. 
+
+* `{forcast}` manejo de **.bg-purple_light[cualitativas]**.
+
+* `{ggplot2}`: una gramática para la **.bg-purple_light[visualización de datos]**.
+
+* `{tidymodels}`: una gramática para la **.bg-purple_light[modelización y predicción]**.
+
+
+]
+
+
+Puedes ver su **documentación completa** en <https://www.tidyverse.org/>.
+
+
+
+---
+
+# Introducción a .orange[TIDYVERSE]
+
+
+```{r dplyr, echo = FALSE,  out.width = "60%", fig.align = "center", fig.cap = "Cheet sheet de las opciones del paquete dplyr"}
+knitr::include_graphics("./img/dplyr.png")
+``` 
+
+El paquete vamos a usar para **.bg-purple_light[depurar y muestrear los datos]** será el paquete `{dplyr}`, una gramática para la manipulación de datos.
+
+---
+
+# No aleatorio por condiciones: .orange[FILTER]
+
+El conocido como **.bg-purple_light[muestreo no aleatorio por cuotas]** se basa en seleccionar (filtrar) individuos (registros) concretos que cumplan condiciones concretas.
+
+.pull-left[
+
+```{r eval = FALSE}
+datos %>%
+  filtro(condicion)
+```
+
+]
+
+.pull-right[
+
+```{r eval = FALSE}
+starwars %>%
+  filter(condicion)
+```
+
+]
+
+
+--
+
+Comparadores habituales:
+
+* `==, !=` igual/distinto que
+* `>, <` mayor/menor que
+* `>=, <=` mayor/menor o igual que
+* `%in%` los valores pertenecen a un listado
+* `!is.na()` los valores no son ausentes (mejor usar `drop_na()`)
+* `between(variable, val1, val2)`: si los valores (normalmente continuos) están dentro de un rango.
+
+---
+
+# No aleatorio por condiciones: .orange[FILTER]
+
+.pull-left[
+
+```{r eval = FALSE}
+datos %>%
+  filtro(condicion)
+```
+
+]
+
+.pull-right[
+
+```{r eval = FALSE}
+starwars %>%
+  filter(condicion)
+```
+
+]
+
+&nbsp;
+
+```{r echo = FALSE,  out.width = "80%", fig.align = "center", fig.cap = "Tablas de verdad de operadores lógicos"}
+knitr::include_graphics("./img/tablas_verdad.jpg")
+``` 
+
+---
+
+# No aleatorio por condiciones: .orange[FILTER]
+
+Dicha función `filter()` también la usaremos cuando queramos **.bg-purple_light[depurar los datos]** en nuestra fase exploratoria.
+
+.pull-left[
+
+```{r eval = FALSE}
+datos %>%
+  filtro(condicion)
+```
+
+]
+
+.pull-right[
+
+```{r eval = FALSE}
+starwars %>%
+  filter(condicion)
+```
+
+]
+
+--
+
+Por ejemplo, vamos a **filtrar** aquellos personajes con **.bg-purple_light[ojos marrones]**.
+
+```{r}
+starwars %>%
+  filter(eye_color == "brown") #<<
+```
+
+---
+
+# .orange[VISUALIZAR] operaciones con datos
+
+
+En la web <https://tidydatatutor.com/> podemos visualizar el flujo de datos d las transformaciones que podemos hacer con `dplyr`
+
+```{r filter1, echo = FALSE,  out.width = "90%", fig.align = "center", fig.cap = "Flujo de https://tidydatatutor.com/"}
+knitr::include_graphics("./img/filter1.jpg")
+``` 
+
+]
+
+---
+
+# No aleatorio por condiciones: .orange[FILTER]
+
+
+De la misma manera podemos **filtrar** los personajes que **.bg-purple_light[no tienen ojos marrones]** (en realidad estamos eliminando filas de alguna manera).
+
+
+```{r}
+starwars %>% filter(eye_color != "brown")
+```
+
+---
+
+# No aleatorio por condiciones: .orange[FILTER]
+
+Al ser una variable discreta, sería bastante lógico comprobar si toma algún valor **.bg-purple_light[dentro de una lista permitida]**  (por ejemplo, personjes con ojos marrones o azules).
+
+
+```{r}
+starwars %>% filter(eye_color %in% c("brown", "blue"))
+```
+
+---
+
+# No aleatorio por condiciones: .orange[FILTER]
+
+Cuando es una variable continua el interés podría estar en comprobar si la variable toma valores **.bg-purple_light[dentro de un intervalo continuo]**.
+
+
+.pull-left[
+
+```{r eval = FALSE}
+starwars %>%
+  filter(between(height, 120, 160))
+```
+
+```{r echo = FALSE}
+# con estatura entre 120 y 160 cm
+starwars %>%
+  select(name, height, mass, eye_color) %>%
+  filter(between(height, 120, 160)) %>%
+  slice(1:5)
+```
+
+]
+
+.pull-right[
+
+```{r filter3, echo = FALSE,  out.width = "160%", fig.align = "center", fig.cap = "Flujo de https://tidydatatutor.com/"}
+knitr::include_graphics("./img/filter3.jpg")
+``` 
+
+]
+
+
+---
+
+
+# No aleatorio por condiciones: .orange[FILTER]
+
+
+Las condiciones también se pueden **.bg-purple_light[concatenar]**, pudiendo en pocas líneas realizar un filtro complejo. Por ejemplo, podemos filtrar los personajes con **.bg-purple_light[ojos marrones Y ADEMÁS NO humanos]**, o **.bg-purple_light[con más de 60 años]**.
+
+.pull-left[
+
+```{r eval = FALSE}
+starwars %>%
+  filter((eye_color == "brown" &
+            species != "Human") |
+           birth_year > 60)
+```
+
+]
+
+.pull-right[
+
+```{r filter5, echo = FALSE,  out.width = "100%", fig.align = "center", fig.cap = "Flujo de https://tidydatatutor.com/"}
+knitr::include_graphics("./img/filter5.jpg")
+``` 
+
+
+]
+
+---
+
+# Ejercicios (filter)
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+
+* 📝 **Ejercicio 1**: selecciona del conjunto de `starwars` solo los personajes que sean humanos (`species == "Human"`)
+
+* 📝 **Ejercicio 2**: selecciona del conjunto de `starwars` solo los personajes cuyo peso esté entre 65 y 90 kg.
+
+* 📝 **Ejercicio 3**: selecciona del conjunto de `starwars` los personajes con ojos marrones o rojos.
+
+* 📝 **Ejercicio 4**: selecciona del conjunto de `starwars` los personajes no humanos, hombres y que midan más de 170 cm, o los personajes con ojos marrones o rojos.
+
+* 📝 **Ejercicio 5**: selecciona aquellos personajes de `starwars` que hayan pilotado más de 2 naves.
+
+]
+
+.panel[.panel-name[Sol. Ej. 1]
+
+```{r}
+starwars %>%
+  filter(species == "Human")
+```
+
+]
+
+.panel[.panel-name[Sol. Ej. 2]
+
+```{r}
+starwars %>%
+  filter(between(mass, 65, 90))
+```
+
+]
+
+.panel[.panel-name[Sol. Ej. 3]
+
+```{r}
+starwars %>%
+  filter(eye_color %in% c("brown", "red"))
+```
+
+]
+
+.panel[.panel-name[Sol. Ej. 4]
+
+```{r}
+starwars %>%
+  filter((species != "Human" & sex == "Male" & height > 170) |
+           eye_color %in% c("brown", "red"))
+```
+
+]
+
+.panel[.panel-name[Sol. Ej. 5]
+
+```{r}
+library(purrr) # ya está en tidyverse per por si
+starwars$n_starships <- starwars$starships %>% map_int(length)
+starwars %>% filter(n_starships > 2)
+```
+
+```{r echo = FALSE}
+starwars <- dplyr::starwars
+```
+
+]
+
+]
+
+---
+
+# Ejercicio extra
+
+
+Veamos un ejercicio extra para comprobar la **potencia y flexibilidad** de `{tidyverse}`, pudiendo hacer muchas cosas en dos líneas de código.
+
+&nbsp;
+
+* 📝 **Ejercicio extra**: selecciona aquellos personajes de `starwars` que hayan salido en la película de la saga "El ataque de los clones" (en inglés, "Attack of the Clones"). Busca información de la función `str_detect()` del paquete `stringr`. Consejo: prueba antes las funciones que vayas a usar con algún vector de prueba para poder comprobar su funcionamiento.
+
+---
+
+
+# No aleatorio por posición: .orange[SLICE]
+
+El conocido como **.bg-purple_light[muestreo no aleatorio intencional o discreccional]** se basa en seleccionar (filtrar) individuos (registros) concretos por su posición, elementos «a dedo».
+
+.pull-left[
+
+```{r eval = FALSE}
+datos %>%
+  rebanada(posicion)
+```
+
+]
+
+.pull-right[
+
+```{r eval = FALSE}
+starwars %>%
+  slice(posicion)
+```
+
+]
+
+--
+
+Normalmente filtraremos registros por alguna condición pero a veces nos puede interesar, por ejemplo, sacar las primeras n filas. Para podemos crear **.bg-purple_light[rebanadas de los datos]**, seleccionando filas por su posición con `slice()`.
+
+```{r}
+starwars %>% slice(1) #<<
+```
+
+---
+
+# No aleatorio por posición: .orange[SLICE]
+
+.pull-left[
+
+```{r eval = FALSE}
+datos %>%
+  rebanada(posicion)
+```
+
+]
+
+.pull-right[
+
+```{r eval = FALSE}
+starwars %>%
+  slice(posicion)
+```
+
+]
+
+
+Recuerda que todo lo que podemos hacer con un número (vector de longitud 1) podemos hacerlo con un vector de índices, así que podemos **.bg-purple_light[extraer varias rebanadas]**, a la vez.
+
+```{r}
+# filas de la 1 a la 5
+starwars %>% slice(1:5)
+```
+
+---
+
+# No aleatorio por posición: .orange[SLICE]
+
+También podríamos usar una **.bg-purple_light[secuencia de índices]** a extraer.
+
+```{r}
+# filas 1, 2, 10, 13, 27
+starwars %>% slice(c(1, 2, 10, 13, 27))
+```
+
+
+---
+
+# No aleatorio por posición: .orange[SLICE]
+
+
+Disponemos además de opciones por defecto de operaciones habituales
+
+* `slice_head(n = ...)`: extraer las n **.bg-purple_light[primeras filas]**.
+
+
+```{r}
+# las 2 primeras filas
+starwars %>% slice_head(n = 2)
+```
+
+---
+
+
+# No aleatorio por posición: .orange[SLICE]
+
+* `slice_tail(n = ...)`: extraer las n **.bg-purple_light[últimas filas]**.
+
+```{r}
+# los 3 últimas filas
+starwars %>% slice_tail(n = 3) 
+```
+
+---
+
+# No aleatorio por posición: .orange[SLICE]
+
+
+* `slice_min(var, n = ...)` y `slice_max(var, n = ...)`: extrae las n filas con **.bg-purple_light[menor/mayor de una variable]** (si hay empate, mostrará todas salvo que `with_ties = FALSE`). 
+
+.pull-left[
+
+```{r eval = FALSE}
+# los 3 más bajitos
+starwars %>% slice_min(height, n = 3) 
+```
+
+```{r echo = FALSE}
+# los 3 más bajitos
+starwars %>% slice_min(height, n = 3) %>% select(name:hair_color)
+```
+
+]
+
+.pull-right[
+
+```{r eval = FALSE}
+# los 3 más pesados
+starwars %>% slice_max(mass, n = 3) 
+```
+
+```{r echo = FALSE}
+# los 3 más pesados
+starwars %>% slice_max(mass, n = 3) %>% select(name:hair_color)
+```
+
+]
+
+---
+
+# Ejercicios (slice)
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+
+* 📝 **Ejercicio 1**: selecciona solo los personajes que sean humanos y de ojos marrones.
+
+* 📝 **Ejercicio 2**: selecciona los 3 personajes más mayores.
+
+* 📝 **Ejercicio 3**: selecciona los 5 personajes más bajitos.
+
+
+
+]
+
+.panel[.panel-name[Sol. Ej. 1]
+
+```{r}
+# Podemos combinar varias acciones en pocas líneas
+starwars %>%
+  filter(eye_color == "brown",
+         species == "Human")
+```
+
+]
+
+.panel[.panel-name[Sol. Ej. 2]
+
+
+```{r}
+starwars %>%
+  slice_max(birth_year, n = 3)
+```
+
+]
+
+.panel[.panel-name[Sol. Ej. 3]
+
+
+
+```{r}
+starwars %>%
+  slice_min(height, n = 5)
+```
+]
+
+]
+
+---
+
+# Ejercicio extra
+
+
+Veamos un ejercicio extra para comprobar la **potencia y flexibilidad** de `{tidyverse}`, pudiendo hacer muchas cosas en dos líneas de código.
+
+&nbsp;
+
+* 📝 **Ejercicio extra**: de los personajes que son humanos y miden más de 160 cm, selecciona los 5 más altos, y orden de mayor a menor peso. Devuelve la tabla.
+
+
+---
+
+
+# Aleatorio simple: .orange[SLICE_SAMPLE]
+
+El conocido como **.bg-purple_light[muestreo aleatorio simple]** se basa en seleccionar individuos aleatoriamente, de forma que cada uno tenga las mismas probabilidades de ser seleccionado.
+
+.pull-left[
+
+```{r eval = FALSE}
+datos %>%
+  rebanada_aleatoria(n, probabilidades)
+```
+
+]
+
+.pull-right[
+
+```{r eval = FALSE}
+starwars %>%
+  slice_sample(n = ..., weight_by = ..., replace = ...)
+```
+
+]
+
+--
+
+Con`slice_sample(n = ...)` podemos extraer n **.bg-purple_light[registros aleatoriamente]** (a priori equiprobables).
+
+
+
+```{r}
+# 3 registros aleatorios
+starwars %>% slice_sample(n = 3)
+```
+
+---
+
+# Aleatorio simple: .orange[SLICE_SAMPLE]
+
+También podremos indicarle la **.bg-purple_light[proporción]** de datos a samplear (en lugar del número) y si queremos que sea con **.bg-purple_light[reemplazamiento]** (que se puedan repetir).
+
+```{r}
+# 5% de registros aleatorios
+starwars %>% slice_sample(prop = 0.05, replace = TRUE)
+```
+
+---
+
+# Aleatorio simple: .orange[SLICE_SAMPLE]
+
+En `slice_sample()` podemos pasar un **.bg-purple_light[vector de probabilidades]** (no equiprobable). Vamos a forzar que sea muy improbable sacar una fila que no sean las dos primeras
+
+```{r eval = FALSE}
+starwars %>% slice_sample(n = 2, weight_by = c(0.495, 0.495, rep(0.01/85, 85)))
+```
+
+```{r echo = FALSE}
+starwars %>% slice_sample(n = 2, weight_by = c(0.495, 0.495, rep(0.01/85, 85))) %>% select(name:gender)
+```
+
+```{r eval = FALSE}
+starwars %>% slice_sample(n = 2, weight_by = c(0.495, 0.495, rep(0.01/85, 85)))
+```
+
+```{r echo = FALSE}
+starwars %>% slice_sample(n = 2, weight_by = c(0.495, 0.495, rep(0.01/85, 85))) %>% select(name:gender)
+```
+
+---
+
+# Aleatorio .orange[ESTRATIFICADO]
+
+El conocido como **.bg-purple_light[muestreo aleatorio estratificado]** se basa en seleccionar (filtrar) individuos (registros) de forma que la seleccióna sea **.bg-purple_light[aleatoria PERO en diferentes estratos]**: crearemos grupos, de forma que **.bg-purple_light[muestreemos un porcentaje similar]** en cada estrato.
+
+--
+
+Para ello, antes del muestreo, usaremos una opción muy potente de tidyverse: con `group_by()` no modificaremos los datos sino **.bg-purple_light[modificaremos la acción posterior]**, realizándose en paralelo en cada grupo o estrato.
+
+.pull-left[
+
+```{r eval = FALSE}
+datos %>%
+  agrupar(var_grupo1, var_grupo2, ...) %>% 
+  rebanada_aleatoria(n, probabilidades) %>% 
+  desagrupar()
+```
+
+]
+
+.pull-right[
+
+```{r eval = FALSE}
+starwars %>%
+  group_by(var_grupo1, var_grupo2, ...) %>% 
+  slice_sample(n = ..., weight_by = ...) %>% 
+  ungroup()
+```
+
+]
+
+---
+
+# Aleatorio .orange[ESTRATIFICADO]
+
+Cuando apliquemos `group_by()` es importante entender que **.bg-purple_light[NO MODIFICA los datos]**: nos crea una variable de grupo que **.bg-purple_light[modificará las acciones futuras]** que apliquemos, generando una especie de generar **múltiples subtablas**, y las operaciones aplicadas después se **.bg-purple_light[aplicarán a cada una por separado]**.
+
+---
+
+# Aleatorio .orange[ESTRATIFICADO]
+
+.pull-left[
+
+Por ejemplo, imagina que queremos saber el **.bg-purple_light[número de registros por sexo]**: primero **.bg-purple_light[agruparemos]** por la variable `sex`, y después aplicaremos el **.bg-purple_light[conteo]** con `count()` (realiza la acción pedida en cada subtabla).
+
+```{r}
+starwars %>%
+  group_by(sex) %>% #<< 
+  count() %>%
+  ungroup() #<<
+```
+
+**IMPORTANTE**: siempre que agrupes, acuérdate de desagrupar con `ungroup()`.
+
+]
+
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "45%", fig.align = "center"}
+knitr::include_graphics("./img/count_group_1.jpg")
+``` 
+
+```{r echo = FALSE,  out.width = "95%", fig.align = "center", fig.cap = "Flujo de https://tidydatatutor.com/"}
+knitr::include_graphics("./img/count_group_2.jpg")
+``` 
+
+
+]
+
+---
+
+# Aleatorio .orange[ESTRATIFICADO]
+
+
+.pull-left[
+
+Podemos **.bg-purple_light[agrupar por variables]**, por ejemplo vamos a agrupar por `sex` y `gender`, y después aplicaremos `count()` (realiza la acción en cada subtabla).
+
+```{r}
+starwars %>%
+  group_by(sex, gender) %>% #<< 
+  count() %>%
+  ungroup() #<<
+```
+
+**IMPORTANTE**: siempre que agrupes, acuérdate de desagrupar con `ungroup()`.
+
+]
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "150%", fig.align = "center"}
+knitr::include_graphics("./img/group_1.jpg")
+``` 
+
+```{r group-count, echo = FALSE,  out.width = "150%", fig.align = "center", fig.cap = "Flujo de https://tidydatatutor.com/"}
+knitr::include_graphics("./img/group_count.jpg")
+``` 
+
+]
+
+---
+
+# Aleatorio .orange[ESTRATIFICADO]
+
+El **.bg-purple_light[muestreo aleatorio estratificado]** lo podremos realizar con un `slice_sample()` pero antes aplicando un `group_by()` para **.bg-purple_light[seleccionar por estratos]**. 
+
+¿Cómo **.bg-purple_light[muestrear el 50%]** pero tener la **.bg-purple_light[misma proporción de hombres que de mujeres]** que en los datos originales?
+
+--
+
+Para el ejemplo, filtraremos solo los hombres y mujeres (76 registros)
+
+```{r eval = FALSE}
+starwars %>% filter(sex %in% c("female", "male"))
+```
+
+---
+
+
+# Aleatorio .orange[ESTRATIFICADO]
+
+¿Cómo **.bg-purple_light[muestrear el 50%]** pero tener la **.bg-purple_light[misma proporción de hombres que de mujeres]** que en los datos originales?
+
+Fíjate que tenemos 38 filas (el 50% de los 76 registros, redondeando hacia abajo) pero...
+
+```{r}
+starwars %>%
+  filter(sex %in% c("female", "male")) %>% 
+  group_by(sex) %>%#<<
+  slice_sample(prop = 0.5) %>% 
+  ungroup()
+```
+
+
+---
+
+# Aleatorio .orange[ESTRATIFICADO]
+
+Fíjate que seguimos teniendo 38 filas (el 50% de los 76 registros, redondeando hacia abajo) pero...
+
+.pull-left[
+
+```{r}
+starwars %>%
+  filter(sex %in% c("female", "male")) %>% 
+  group_by(sex) %>%#<<
+  slice_sample(prop = 0.5) %>% 
+  ungroup() %>% 
+  count(sex)
+```
+
+]
+
+.pull-right[
+
+```{r}
+starwars %>%
+  filter(sex %in% c("female", "male")) %>% 
+  count(sex)
+```
+
+]
+
+...**.bg-purple_light[asegurando una proporción similar]** de hombres que de mujeres que en la muestra original
+
+---
+
+# .orange[CONTAR]: group_by() + count()
+
+Aunque lo veremos de nuevo en exploración y depuración, hemos visto ya como **.bg-purple_light[generar el resumen estadístico]** más sencillo: **.bg-purple_light[contar (frecuencias)]**
+
+.pull-left[
+
+```{r eval = FALSE}
+datos %>%
+  contar(var1, var2)
+```
+
+]
+
+.pull-right[
+
+```{r eval = FALSE}
+starwars %>%
+  count(var1, var2)
+```
+
+]
+
+--
+
+Cuando lo usamos en solitario, `count()` nos devolverá simplemente el **.bg-purple_light[número de registros]**
+
+```{r}
+starwars %>% count()
+```
+
+---
+
+# .orange[CONTAR]: group_by() + count()
+
+Sin embargo, cuando lo usamos pasándole como **.bg-purple_light[argumento una o varias variables]**, `count()` nos cuenta lo que se conoce en estadística como **.bg-purple_light[frecuencias absolutas]**: el número de elementos pertenecientes a cada una de las **modalidades**. En nuestro caso, la variable `sex` tiene 4 modalidades: `female, hermaphroditic, male, none`.
+
+```{r}
+starwars %>% count(sex)#<<
+```
+
+---
+
+# .orange[CONTAR]: group_by() + count()
+
+
+Además si pasamos **.bg-purple_light[varias variables]** nos calcula una **.bg-purple_light[tabla de contigencia]** con las frecuencias absolutas n-dimensionales
+
+```{r}
+starwars %>% count(sex, gender)
+```
+
+---
+
+
+# .orange[CONTAR]: group_by() + count()
+
+Además dentro del `count()` podemos añadir `sort = TRUE`, que nos devolverá el conteo de frecuencias con los **.bg-purple_light[elementos más frecuentes primero]** (sin necesidad de añadir un `arrange()` a la tabla de conteo generada).
+
+```{r}
+starwars %>%
+  count(sex, sort = TRUE)
+```
+
+---
+
+# Ejercicios (estratificado y group_by() + count())
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+
+* 📝 **Ejercicio 1**: calcula cuántos personajes hay de cada especie de `starwars` haciendo uso de `group_by()` y `count()`. Determina el número de especies distintas.
+
+* 📝 **Ejercicio 2**: tras eliminar ausentes en las variables `birth_year`, obtén la edad mínima y máxima de cada sexo.
+
+* 📝 **Ejercicio 3**: obtén el personaje más viejo por cada sexo.
+
+* 📝 **Ejercicio 4**:
+
+* 📝 **Ejercicio 5**:
+
+* 📝 **Ejercicio 6**:
+
+]
+
+.panel[.panel-name[Sol. Ej. 1]
+
+]
+
+.panel[.panel-name[Sol. Ej. 2]
+
+]
+
+.panel[.panel-name[Sol. Ej. 3]
+
+]
+
+.panel[.panel-name[Sol. Ej. 4]
+
+]
+
+.panel[.panel-name[Sol. Ej. 5]
+
+]
+
+.panel[.panel-name[Sol. Ej. 6]
+
+]
+
+]
+
+---
+
+# Ejercicio extra
+
+* 📝 **Ejercicio extra**:
+
+---
+
 class: inverse center middle
-name: clase-4
+name: clase-5
 
-# CLASE 4:
+# CLASE 5: depuración
 
+---
+
+# .orange[EXPLORACIÓN] y .green[MODIFICACIÓN]
+
+* Exploración:
+  - Resúmenes numérico
+  - Dependencia entre variables
+  - Visualización de datos
+  
+* Depuración:
+  - Comprobar codificación/rango
+  - Tratamiento de ausentes
+  - Análisis de outliers
+  - Selección de variables.
+
+* Modificación:
+  - Recategorizar (Dummy)
+  - Estandarizar (rango y media-varianza)
+  - Crear nuevas variables.
+  
 ---
 
 # .orange[RECURSOS] y .green[BIBLIOGRAFÍA]

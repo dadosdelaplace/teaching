@@ -8293,16 +8293,7 @@ starwars %>%
 ]
 
 
----
 
-# CASO PRÁCTICO
-
-* 📝 **Ejercicio extra**: en el paquete `{survival}`, la tabla `heart` contiene los mismos datos de la tabla `jasa` pero ya preprocesados. Haz uso de lo aprendido para pasar de `jasa` a `heart`
-
-
-```{r}
-survival::heart
-```
 
 ---
 
@@ -8788,7 +8779,34 @@ name: clase-10
 
 &nbsp;
 
+### [Caso práctico](#caso-practico)
+
+### [Importando datos](#importar)
+
+### [Exportando datos](#exportar)
+
 ---
+
+name: caso-practico
+
+# CASO PRÁCTICO I
+
+Antes de empezar, vamos a repasar conceptos
+
+* 📝 **Ejercicio extra**: en el paquete `{survival}`, la tabla `heart` contiene los mismos datos de la tabla `jasa` pero ya preprocesados. Haz uso de lo aprendido para pasar de `jasa` a `heart`
+
+
+```{r}
+survival::heart
+```
+
+---
+
+# CASO PRÁCTICO II
+
+---
+
+
 
 class: inverse center middle
 name: clase-11
