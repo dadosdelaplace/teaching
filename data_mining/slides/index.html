@@ -2018,7 +2018,7 @@ También podemos obtener el **.bg-purple_light[«hoy y ahora»]** con la funció
 ```
 
 ```
-&gt; [1] "2022-10-13 00:00:29 CEST"
+&gt; [1] "2022-10-13 15:26:30 CEST"
 ```
  
 ---
@@ -3079,9 +3079,9 @@ x &lt;- rnorm(1e3) # 1000 elementos aleatorias
 
 ```
 &gt; Unit: microseconds
-&gt;         expr    min     lq     mean  median      uq     max neval cld
-&gt;      sort(x) 43.157 47.484 61.46158 53.4335 65.0810 292.408  1000   b
-&gt;  x[order(x)] 30.065 32.935 41.22165 35.9230 42.6655 152.289  1000  a
+&gt;         expr    min     lq     mean  median     uq     max neval cld
+&gt;      sort(x) 42.272 52.046 76.94480 60.3810 89.472 1546.13  1000   b
+&gt;  x[order(x)] 29.108 36.145 56.69366 41.0945 60.987 2142.88  1000  a
 ```
 
 
@@ -6338,11 +6338,11 @@ microbenchmark(x^2,
 ```
 &gt; Unit: nanoseconds
 &gt;                                     expr     min      lq        mean    median
-&gt;                                      x^2     350     448    1266.057    1102.5
-&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 1660278 1865428 2227933.367 2004729.0
-&gt;         uq      max neval cld
-&gt;     1912.5    19862  1000  a 
-&gt;  2363671.0 19990090  1000   b
+&gt;                                      x^2     347     455    1157.866    1020.5
+&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 1704007 1848250 2168631.949 1978518.5
+&gt;       uq      max neval cld
+&gt;     1784     9319  1000  a 
+&gt;  2303330 20472782  1000   b
 ```
 
 ---
@@ -9809,9 +9809,9 @@ starwars %&gt;% slice_sample(n = 3)
 &gt; # A tibble: 3 × 14
 &gt;   name         height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
 &gt;   &lt;chr&gt;         &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
-&gt; 1 Arvel Crynyd     NA    NA brown   fair    brown        NA male  mascu… &lt;NA&gt;   
-&gt; 2 Lobot           175    79 none    light   blue         37 male  mascu… Bespin 
-&gt; 3 Jocasta Nu      167    NA white   fair    blue         NA fema… femin… Corusc…
+&gt; 1 Biggs Darkl…    183    84 black   light   brown        24 male  mascu… Tatooi…
+&gt; 2 Plo Koon        188    80 none    orange  black        22 male  mascu… Dorin  
+&gt; 3 Cordé           157    NA brown   light   brown        NA fema… femin… Naboo  
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
@@ -9834,10 +9834,10 @@ starwars %&gt;% slice_sample(prop = 0.05, replace = TRUE)
 &gt; # A tibble: 4 × 14
 &gt;   name         height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
 &gt;   &lt;chr&gt;         &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
-&gt; 1 Raymus Anti…    188    79 brown   light   brown        NA male  mascu… Aldera…
-&gt; 2 Rugor Nass      206    NA none    green   orange       NA male  mascu… Naboo  
-&gt; 3 Jango Fett      183    79 black   tan     brown        66 male  mascu… Concor…
-&gt; 4 Sebulba         112    40 none    grey, … orange       NA male  mascu… Malast…
+&gt; 1 Beru Whites…    165    75 brown   light   blue         47 fema… femin… Tatooi…
+&gt; 2 Arvel Crynyd     NA    NA brown   fair    brown        NA male  mascu… &lt;NA&gt;   
+&gt; 3 Gregar Typho    185    85 black   dark    brown        NA male  mascu… Naboo  
+&gt; 4 Obi-Wan Ken…    182    77 auburn… fair    blue-g…      57 male  mascu… Stewjon
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
@@ -9875,14 +9875,14 @@ starwars %&gt;% slice_sample(n = 2, weight_by = c(0.495, 0.495, rep(0.01/85, 85)
 &gt; # A tibble: 2 × 9
 &gt;   name           height  mass hair_color skin_color eye_c…¹ birth…² sex   gender
 &gt;   &lt;chr&gt;           &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
-&gt; 1 Taun We           213    NA none       grey       black        NA fema… femin…
+&gt; 1 C-3PO             167    75 &lt;NA&gt;       gold       yellow      112 none  mascu…
 &gt; 2 Luke Skywalker    172    77 blond      fair       blue         19 male  mascu…
 &gt; # … with abbreviated variable names ¹​eye_color, ²​birth_year
 ```
 
 ---
 
-# Aleatorio estratificado
+# Aleatorio .orange[ESTRATIFICADO]
 
 El conocido como **.bg-purple_light[muestreo aleatorio estratificado]** se basa en seleccionar (filtrar) individuos (registros) de forma que la seleccióna sea **.bg-purple_light[aleatoria PERO en diferentes estratos]**: crearemos grupos, de forma que **.bg-purple_light[muestreemos un porcentaje similar]** en cada estrato.
 
@@ -9916,13 +9916,13 @@ starwars %&gt;%
 
 ---
 
-# Aleatorio estratificado
+# Aleatorio .orange[ESTRATIFICADO]
 
 Cuando apliquemos `group_by()` es importante entender que **.bg-purple_light[NO MODIFICA los datos]**: nos crea una variable de grupo que **.bg-purple_light[modificará las acciones futuras]** que apliquemos, generando una especie de generar **múltiples subtablas**, y las operaciones aplicadas después se **.bg-purple_light[aplicarán a cada una por separado]**.
 
 ---
 
-# Aleatorio estratificado
+# Aleatorio .orange[ESTRATIFICADO]
 
 .pull-left[
 
@@ -9966,7 +9966,7 @@ starwars %&gt;%
 
 ---
 
-# Aleatorio estratificado
+# Aleatorio .orange[ESTRATIFICADO]
 
 
 .pull-left[
@@ -10010,7 +10010,7 @@ starwars %&gt;%
 
 ---
 
-# Aleatorio estratificado
+# Aleatorio .orange[ESTRATIFICADO]
 
 El **.bg-purple_light[muestreo aleatorio estratificado]** lo podremos realizar con un `slice_sample()` pero antes aplicando un `group_by()` para **.bg-purple_light[seleccionar por estratos]**. 
 
@@ -10028,7 +10028,7 @@ starwars %&gt;% filter(sex %in% c("female", "male"))
 ---
 
 
-# Aleatorio estratificado
+# Aleatorio .orange[ESTRATIFICADO]
 
 ¿Cómo **.bg-purple_light[muestrear el 50%]** pero tener la **.bg-purple_light[misma proporción de hombres que de mujeres]** que en los datos originales?
 
@@ -10047,16 +10047,16 @@ starwars %&gt;%
 &gt; # A tibble: 38 × 14
 &gt;    name        height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
 &gt;    &lt;chr&gt;        &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
-&gt;  1 Beru White…    165    75 brown   light   blue         47 fema… femin… Tatooi…
-&gt;  2 Jocasta Nu     167    NA white   fair    blue         NA fema… femin… Corusc…
-&gt;  3 Adi Gallia     184    50 none    dark    blue         NA fema… femin… Corusc…
-&gt;  4 Leia Organa    150    49 brown   light   brown        19 fema… femin… Aldera…
-&gt;  5 Shaak Ti       178    57 none    red, b… black        NA fema… femin… Shili  
-&gt;  6 Cordé          157    NA brown   light   brown        NA fema… femin… Naboo  
-&gt;  7 Zam Wesell     168    55 blonde  fair, … yellow       NA fema… femin… Zolan  
-&gt;  8 Rey             NA    NA brown   light   hazel        NA fema… femin… &lt;NA&gt;   
-&gt;  9 Bib Fortuna    180    NA none    pale    pink         NA male  mascu… Ryloth 
-&gt; 10 Finis Valo…    170    NA blond   fair    blue         91 male  mascu… Corusc…
+&gt;  1 Ayla Secura    178  55   none    blue    hazel        48 fema… femin… Ryloth 
+&gt;  2 Zam Wesell     168  55   blonde  fair, … yellow       NA fema… femin… Zolan  
+&gt;  3 Beru White…    165  75   brown   light   blue         47 fema… femin… Tatooi…
+&gt;  4 Shmi Skywa…    163  NA   black   fair    brown        72 fema… femin… Tatooi…
+&gt;  5 Padmé Amid…    165  45   brown   light   brown        46 fema… femin… Naboo  
+&gt;  6 Luminara U…    170  56.2 black   yellow  blue         58 fema… femin… Mirial 
+&gt;  7 Leia Organa    150  49   brown   light   brown        19 fema… femin… Aldera…
+&gt;  8 Mon Mothma     150  NA   auburn  fair    blue         48 fema… femin… Chandr…
+&gt;  9 Jek Tono P…    180 110   brown   fair    blue         NA male  mascu… Bestin…
+&gt; 10 Ki-Adi-Mun…    198  82   white   pale    yellow       92 male  mascu… Cerea  
 &gt; # … with 28 more rows, 4 more variables: species &lt;chr&gt;, films &lt;list&gt;,
 &gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names
 &gt; #   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
@@ -10066,7 +10066,7 @@ starwars %&gt;%
 
 ---
 
-# Aleatorio estratificado
+# Aleatorio .orange[ESTRATIFICADO]
 
 Fíjate que seguimos teniendo 38 filas (el 50% de los 76 registros, redondeando hacia abajo) pero...
 
@@ -10227,7 +10227,7 @@ starwars %&gt;%
 
 ---
 
-# Ejercicios (estratificado y group_by() + count())
+# Ejercicios (group_by() + count())
 
 .panelset[
 .panel[.panel-name[Ejercicios]
@@ -10235,39 +10235,242 @@ starwars %&gt;%
 
 * 📝 **Ejercicio 1**: calcula cuántos personajes hay de cada especie de `starwars` haciendo uso de `group_by()` y `count()`. Determina el número de especies distintas.
 
-* 📝 **Ejercicio 2**: tras eliminar ausentes en las variables `birth_year`, obtén la edad mínima y máxima de cada sexo.
+* 📝 **Ejercicio 2**: calcula cuántos personajes hay de cada sexo y género.
 
-* 📝 **Ejercicio 3**: obtén el personaje más viejo por cada sexo.
+* 📝 **Ejercicio 3**: tras eliminar ausentes en  `birth_year`, obtén la edad mínima y máxima por sexo.
 
-* 📝 **Ejercicio 4**:
+* 📝 **Ejercicio 4**: obtén el personaje más viejo por cada sexo.
 
-* 📝 **Ejercicio 5**:
+* 📝 **Ejercicio 5**: selecciona aleatoriamente el 60% de los registros de `starwars` pero manteniendo el reparto original entre humanos y no humanos (recuerda limpiar antes de ausentes, con `filter()` o `drop_na()`)
 
-* 📝 **Ejercicio 6**:
+* 📝 **Ejercicio 6**: selecciona aleatoriamente un personaje de cada sexo.
 
 ]
 
 .panel[.panel-name[Sol. Ej. 1]
 
+
+```r
+starwars %&gt;% 
+  group_by(species) %&gt;% 
+  count() %&gt;% 
+  ungroup()
+```
+
+```
+&gt; # A tibble: 38 × 2
+&gt;    species       n
+&gt;    &lt;chr&gt;     &lt;int&gt;
+&gt;  1 Aleena        1
+&gt;  2 Besalisk      1
+&gt;  3 Cerean        1
+&gt;  4 Chagrian      1
+&gt;  5 Clawdite      1
+&gt;  6 Droid         6
+&gt;  7 Dug           1
+&gt;  8 Ewok          1
+&gt;  9 Geonosian     1
+&gt; 10 Gungan        3
+&gt; # … with 28 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
+```
+
+
+```r
+starwars %&gt;% 
+  group_by(species) %&gt;% 
+  count() %&gt;% 
+  ungroup() %&gt;%
+  nrow()
+```
+
+```
+&gt; [1] 38
+```
+
+
 ]
 
 .panel[.panel-name[Sol. Ej. 2]
+
+
+
+```r
+starwars %&gt;%
+  count(sex, gender)
+```
+
+```
+&gt; # A tibble: 6 × 3
+&gt;   sex            gender        n
+&gt;   &lt;chr&gt;          &lt;chr&gt;     &lt;int&gt;
+&gt; 1 female         feminine     16
+&gt; 2 hermaphroditic masculine     1
+&gt; 3 male           masculine    60
+&gt; 4 none           feminine      1
+&gt; 5 none           masculine     5
+&gt; 6 &lt;NA&gt;           &lt;NA&gt;          4
+```
+
+
+```r
+starwars %&gt;%
+  group_by(sex, gender) %&gt;% 
+  count() %&gt;% 
+  ungroup()
+```
+
+```
+&gt; # A tibble: 6 × 3
+&gt;   sex            gender        n
+&gt;   &lt;chr&gt;          &lt;chr&gt;     &lt;int&gt;
+&gt; 1 female         feminine     16
+&gt; 2 hermaphroditic masculine     1
+&gt; 3 male           masculine    60
+&gt; 4 none           feminine      1
+&gt; 5 none           masculine     5
+&gt; 6 &lt;NA&gt;           &lt;NA&gt;          4
+```
 
 ]
 
 .panel[.panel-name[Sol. Ej. 3]
 
+
+```r
+starwars %&gt;% 
+  drop_na(birth_year) %&gt;% 
+  group_by(sex) %&gt;% 
+  slice_min(n = 1, birth_year) %&gt;% 
+  ungroup()
+```
+
+```
+&gt; # A tibble: 5 × 14
+&gt;   name         height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
+&gt;   &lt;chr&gt;         &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
+&gt; 1 Leia Organa     150    49 brown   light   brown        19 fema… femin… Aldera…
+&gt; 2 Jabba Desil…    175  1358 &lt;NA&gt;    green-… orange      600 herm… mascu… Nal Hu…
+&gt; 3 Wicket Syst…     88    20 brown   brown   brown         8 male  mascu… Endor  
+&gt; 4 IG-88           200   140 none    metal   red          15 none  mascu… &lt;NA&gt;   
+&gt; 5 Quarsh Pana…    183    NA black   dark    brown        62 &lt;NA&gt;  &lt;NA&gt;   Naboo  
+&gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
+&gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
+&gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `colnames()` to see all variable names
+```
+
+```r
+starwars %&gt;% 
+  drop_na(birth_year) %&gt;% 
+  group_by(sex) %&gt;% 
+  slice_max(n = 1, birth_year) %&gt;% 
+  ungroup()
+```
+
+```
+&gt; # A tibble: 5 × 14
+&gt;   name         height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
+&gt;   &lt;chr&gt;         &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
+&gt; 1 Shmi Skywal…    163    NA black   fair    brown        72 fema… femin… Tatooi…
+&gt; 2 Jabba Desil…    175  1358 &lt;NA&gt;    green-… orange      600 herm… mascu… Nal Hu…
+&gt; 3 Yoda             66    17 white   green   brown       896 male  mascu… &lt;NA&gt;   
+&gt; 4 C-3PO           167    75 &lt;NA&gt;    gold    yellow      112 none  mascu… Tatooi…
+&gt; 5 Quarsh Pana…    183    NA black   dark    brown        62 &lt;NA&gt;  &lt;NA&gt;   Naboo  
+&gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
+&gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
+&gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `colnames()` to see all variable names
+```
+
 ]
 
 .panel[.panel-name[Sol. Ej. 4]
+
+
+```r
+starwars %&gt;% 
+  group_by(sex) %&gt;% 
+  slice_max(n = 1, birth_year) %&gt;% 
+  ungroup()
+```
+
+```
+&gt; # A tibble: 5 × 14
+&gt;   name         height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
+&gt;   &lt;chr&gt;         &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
+&gt; 1 Shmi Skywal…    163    NA black   fair    brown        72 fema… femin… Tatooi…
+&gt; 2 Jabba Desil…    175  1358 &lt;NA&gt;    green-… orange      600 herm… mascu… Nal Hu…
+&gt; 3 Yoda             66    17 white   green   brown       896 male  mascu… &lt;NA&gt;   
+&gt; 4 C-3PO           167    75 &lt;NA&gt;    gold    yellow      112 none  mascu… Tatooi…
+&gt; 5 Quarsh Pana…    183    NA black   dark    brown        62 &lt;NA&gt;  &lt;NA&gt;   Naboo  
+&gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
+&gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
+&gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `colnames()` to see all variable names
+```
 
 ]
 
 .panel[.panel-name[Sol. Ej. 5]
 
+
+```r
+starwars %&gt;% 
+  drop_na(species) %&gt;% 
+  group_by(species == "Human") %&gt;% 
+  slice_sample(prop = 0.6) %&gt;% 
+  ungroup()
+```
+
+```
+&gt; # A tibble: 49 × 15
+&gt;    name        height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
+&gt;    &lt;chr&gt;        &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
+&gt;  1 R4-P17          96    NA none    silver… red, b…      NA none  femin… &lt;NA&gt;   
+&gt;  2 Mas Amedda     196    NA none    blue    blue         NA male  mascu… Champa…
+&gt;  3 IG-88          200   140 none    metal   red          15 none  mascu… &lt;NA&gt;   
+&gt;  4 Poggle the…    183    80 none    green   yellow       NA male  mascu… Geonos…
+&gt;  5 Nute Gunray    191    90 none    mottle… red          NA male  mascu… Cato N…
+&gt;  6 Rugor Nass     206    NA none    green   orange       NA male  mascu… Naboo  
+&gt;  7 Jar Jar Bi…    196    66 none    orange  orange       52 male  mascu… Naboo  
+&gt;  8 Bib Fortuna    180    NA none    pale    pink         NA male  mascu… Ryloth 
+&gt;  9 Sebulba        112    40 none    grey, … orange       NA male  mascu… Malast…
+&gt; 10 Watto          137    NA black   blue, … yellow       NA male  mascu… Toydar…
+&gt; # … with 39 more rows, 5 more variables: species &lt;chr&gt;, films &lt;list&gt;,
+&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, `species == "Human"` &lt;lgl&gt;, and
+&gt; #   abbreviated variable names ¹​hair_color, ²​skin_color, ³​eye_color,
+&gt; #   ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
+```
+
+
 ]
 
 .panel[.panel-name[Sol. Ej. 6]
+
+
+```r
+starwars %&gt;% 
+  group_by(sex) %&gt;% 
+  slice_sample(n = 1) %&gt;% 
+  ungroup()
+```
+
+```
+&gt; # A tibble: 5 × 14
+&gt;   name         height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
+&gt;   &lt;chr&gt;         &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
+&gt; 1 Shaak Ti        178    57 none    red, b… black        NA fema… femin… Shili  
+&gt; 2 Jabba Desil…    175  1358 &lt;NA&gt;    green-… orange      600 herm… mascu… Nal Hu…
+&gt; 3 Ben Quadina…    163    65 none    grey, … orange       NA male  mascu… Tund   
+&gt; 4 BB8              NA    NA none    none    black        NA none  mascu… &lt;NA&gt;   
+&gt; 5 Sly Moore       178    48 none    pale    white        NA &lt;NA&gt;  &lt;NA&gt;   Umbara 
+&gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
+&gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
+&gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `colnames()` to see all variable names
+```
 
 ]
 
@@ -10277,7 +10480,18 @@ starwars %&gt;%
 
 # Ejercicio extra
 
-* 📝 **Ejercicio extra**:
+* 📝 **Ejercicio extra**
+
+  - Carga la tabla `billboard` del paquete `{tidyr}`.
+  - Convierte el dataset a tidydata, ausentes incluidos (deberías obtener 5307 filas y 5 columnas).
+  - Extrae la lista de artistas distintos que aparecen en la tabla.
+  - Determina el artista que aparece más veces en la lista.
+  - Determina el arista y canción que ha estado más semanas en la lista.
+  - Realiza un muestreo extrayendo solo los registros de Enrique Iglesias y The Backstreet Boys.
+  - Realiza un muestreo extrayendo los 5 artistas cuya canción haya estado más veces en el top5.
+  - Realiza un muestreo aleatorio estratificado, extrayendo el 60% de los datos manteniendo la proporción de datos entre las distintas semanas.
+  
+  
 
 ---
 
@@ -10286,6 +10500,26 @@ name: clase-5
 
 # CLASE 5: depuración
 
+---
+
+# .orange[EXPLORACIÓN] y .green[MODIFICACIÓN]
+
+* Exploración:
+  - Resúmenes numérico
+  - Dependencia entre variables
+  - Visualización de datos
+  
+* Depuración:
+  - Comprobar codificación/rango
+  - Tratamiento de ausentes
+  - Análisis de outliers
+  - Selección de variables.
+
+* Modificación:
+  - Recategorizar (Dummy)
+  - Estandarizar (rango y media-varianza)
+  - Crear nuevas variables.
+  
 ---
 
 # .orange[RECURSOS] y .green[BIBLIOGRAFÍA]

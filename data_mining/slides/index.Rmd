@@ -7459,7 +7459,7 @@ starwars %>%
 
 ---
 
-# Ejercicios (estratificado y group_by() + count())
+# Ejercicios (group_by() + count())
 
 .panelset[
 .panel[.panel-name[Ejercicios]
@@ -7467,39 +7467,105 @@ starwars %>%
 
 * 📝 **Ejercicio 1**: calcula cuántos personajes hay de cada especie de `starwars` haciendo uso de `group_by()` y `count()`. Determina el número de especies distintas.
 
-* 📝 **Ejercicio 2**: tras eliminar ausentes en las variables `birth_year`, obtén la edad mínima y máxima de cada sexo.
+* 📝 **Ejercicio 2**: calcula cuántos personajes hay de cada sexo y género.
 
-* 📝 **Ejercicio 3**: obtén el personaje más viejo por cada sexo.
+* 📝 **Ejercicio 3**: tras eliminar ausentes en  `birth_year`, obtén la edad mínima y máxima por sexo.
 
-* 📝 **Ejercicio 4**:
+* 📝 **Ejercicio 4**: obtén el personaje más viejo por cada sexo.
 
-* 📝 **Ejercicio 5**:
+* 📝 **Ejercicio 5**: selecciona aleatoriamente el 60% de los registros de `starwars` pero manteniendo el reparto original entre humanos y no humanos (recuerda limpiar antes de ausentes, con `filter()` o `drop_na()`)
 
-* 📝 **Ejercicio 6**:
+* 📝 **Ejercicio 6**: selecciona aleatoriamente un personaje de cada sexo.
 
 ]
 
 .panel[.panel-name[Sol. Ej. 1]
 
+```{r}
+starwars %>% 
+  group_by(species) %>% 
+  count() %>% 
+  ungroup()
+```
+
+```{r}
+starwars %>% 
+  group_by(species) %>% 
+  count() %>% 
+  ungroup() %>%
+  nrow()
+```
+
+
 ]
 
 .panel[.panel-name[Sol. Ej. 2]
+
+
+```{r}
+starwars %>%
+  count(sex, gender)
+```
+
+```{r}
+starwars %>%
+  group_by(sex, gender) %>% 
+  count() %>% 
+  ungroup()
+```
 
 ]
 
 .panel[.panel-name[Sol. Ej. 3]
 
+```{r}
+starwars %>% 
+  drop_na(birth_year) %>% 
+  group_by(sex) %>% 
+  slice_min(n = 1, birth_year) %>% 
+  ungroup()
+
+starwars %>% 
+  drop_na(birth_year) %>% 
+  group_by(sex) %>% 
+  slice_max(n = 1, birth_year) %>% 
+  ungroup()
+```
+
 ]
 
 .panel[.panel-name[Sol. Ej. 4]
+
+```{r}
+starwars %>% 
+  group_by(sex) %>% 
+  slice_max(n = 1, birth_year) %>% 
+  ungroup()
+```
 
 ]
 
 .panel[.panel-name[Sol. Ej. 5]
 
+```{r}
+starwars %>% 
+  drop_na(species) %>% 
+  group_by(species == "Human") %>% 
+  slice_sample(prop = 0.6) %>% 
+  ungroup()
+```
+
+
 ]
 
 .panel[.panel-name[Sol. Ej. 6]
+
+```{r}
+starwars %>% 
+  group_by(sex) %>% 
+  slice_sample(n = 1) %>% 
+  ungroup()
+```
 
 ]
 
@@ -7509,7 +7575,18 @@ starwars %>%
 
 # Ejercicio extra
 
-* 📝 **Ejercicio extra**:
+* 📝 **Ejercicio extra**
+
+  - Carga la tabla `billboard` del paquete `{tidyr}`.
+  - Convierte el dataset a tidydata, ausentes incluidos (deberías obtener 5307 filas y 5 columnas).
+  - Extrae la lista de artistas distintos que aparecen en la tabla.
+  - Determina el artista que aparece más veces en la lista.
+  - Determina el arista y canción que ha estado más semanas en la lista.
+  - Realiza un muestreo extrayendo solo los registros de Enrique Iglesias y The Backstreet Boys.
+  - Realiza un muestreo extrayendo los 5 artistas cuya canción haya estado más veces en el top5.
+  - Realiza un muestreo aleatorio estratificado, extrayendo el 60% de los datos manteniendo la proporción de datos entre las distintas semanas.
+  
+  
 
 ---
 
