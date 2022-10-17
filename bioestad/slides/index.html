@@ -24,7 +24,7 @@ class: center, middle, inverse, title-slide
 # GESTIÓN DE BASES DE DATOS
 ## Máster en Bioestadística
 ### Javier Álvarez Liébana (Fac. Estudios Estadísticos - UCM)
-### Última actualización: 10-10-2022
+### Última actualización: 17-10-2022
 
 ---
 
@@ -199,9 +199,9 @@ class: inverse center middle
 
 #### [CLASE 9: tidyverse. resúmenes estadísticos](#clase-9)
 
-#### [CLASE 10: importar/exportar y cruzando tablas](#clase-10)
+#### [CLASE 10: repaso y factores](#clase-10)
 
-#### [CLASE 11: factores y textos](#clase-11)
+#### [CLASE 11: cruzando tablas, importar/exportar](#clase-11)
 
 #### [ENTREGA II (clase 12)](#entrega-II)
 
@@ -1764,7 +1764,7 @@ hoy
 ```
 
 ```
-&gt; [1] "2022-10-10"
+&gt; [1] "2022-10-17"
 ```
 
 --
@@ -1777,7 +1777,7 @@ También podemos obtener el **.bg-purple_light[«hoy y ahora»]** con la funció
 ```
 
 ```
-&gt; [1] "2022-10-10 21:18:01 CEST"
+&gt; [1] "2022-10-17 15:53:33 CEST"
 ```
  
 ---
@@ -2161,7 +2161,7 @@ hoy - cumple
 ```
 
 ```
-&gt; Time difference of 12083 days
+&gt; Time difference of 12090 days
 ```
 
 ]
@@ -3083,9 +3083,9 @@ x &lt;- rnorm(1e3) # 1000 elementos aleatorias
 
 ```
 &gt; Unit: microseconds
-&gt;         expr    min      lq     mean  median     uq     max neval cld
-&gt;      sort(x) 43.161 46.9575 60.74802 50.8235 74.057 212.366  1000   b
-&gt;  x[order(x)] 29.001 32.5195 42.34718 36.3075 50.421 324.931  1000  a
+&gt;         expr    min      lq     mean  median      uq     max neval cld
+&gt;      sort(x) 43.575 48.3850 58.06553 54.4545 62.2985 177.039  1000   b
+&gt;  x[order(x)] 30.554 33.6295 39.75625 37.1780 42.3740 124.557  1000  a
 ```
 
 --
@@ -6334,11 +6334,11 @@ microbenchmark(x^2,
 ```
 &gt; Unit: nanoseconds
 &gt;                                     expr     min      lq        mean    median
-&gt;                                      x^2     354     461    1343.377    1158.5
-&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 1687072 1893092 2309783.978 2074557.0
-&gt;       uq      max neval cld
-&gt;     1870    28167  1000  a 
-&gt;  2498914 21195271  1000   b
+&gt;                                      x^2     347     456    1208.923    1040.5
+&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 1657221 1846786 2179110.510 1999465.0
+&gt;         uq      max neval cld
+&gt;     1759.5    24845  1000  a 
+&gt;  2280885.0 16723519  1000   b
 ```
 
 ---
@@ -6616,7 +6616,7 @@ sample(x = 0:1, size = 2)
 ```
 
 ```
-&gt; [1] 1 0
+&gt; [1] 0 1
 ```
 
 **.bg-red_light[IMPORTANTE]**: si no indicamos nada en el vector de probabilidades `prob`, asume que son equiprobables (en este caso, `\(1/2\)` para cada cara).
@@ -6651,7 +6651,7 @@ sample(x = 0:1, size = 30, replace = TRUE)
 ```
 
 ```
-&gt;  [1] 1 0 0 1 1 1 0 0 1 1 1 1 0 0 0 0 0 0 0 0 0 0 1 0 1 0 0 0 1 0
+&gt;  [1] 0 0 1 0 0 0 0 0 0 0 1 1 0 1 0 0 0 1 1 1 1 1 1 0 1 0 1 0 1 1
 ```
 
 ---
@@ -6666,7 +6666,7 @@ sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
 ```
 
 ```
-&gt;  [1] "cruz" "cara" "cruz" "cruz" "cruz" "cruz" "cara" "cruz" "cara" "cara"
+&gt;  [1] "cara" "cara" "cruz" "cara" "cruz" "cara" "cruz" "cruz" "cruz" "cruz"
 ```
 
 --
@@ -6679,7 +6679,7 @@ sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
 ```
 
 ```
-&gt;  [1] "cara" "cara" "cruz" "cara" "cruz" "cruz" "cara" "cara" "cara" "cruz"
+&gt;  [1] "cara" "cruz" "cruz" "cruz" "cruz" "cara" "cara" "cruz" "cara" "cruz"
 ```
 
 ---
@@ -8679,12 +8679,12 @@ microbenchmark(sqrt(x), for (i in 1:1000) { y[i] &lt;- sqrt(x[i]) }, times = 1e3
 
 ```
 &gt; Unit: microseconds
-&gt;                                          expr      min        lq        mean
-&gt;                                       sqrt(x)    2.293    2.7555    3.810433
-&gt;  for (i in 1:1000) {     y[i] &lt;- sqrt(x[i]) } 1708.950 1810.9445 2098.411973
-&gt;     median        uq       max neval cld
-&gt;     3.2195    3.7225    27.075  1000  a 
-&gt;  1903.5175 2163.2175 11478.703  1000   b
+&gt;                                          expr      min       lq        mean
+&gt;                                       sqrt(x)    2.267    2.850    3.977572
+&gt;  for (i in 1:1000) {     y[i] &lt;- sqrt(x[i]) } 1720.147 1905.425 2224.908557
+&gt;     median        uq      max neval cld
+&gt;     3.4225    4.0695   30.819  1000  a 
+&gt;  2039.0805 2325.6110 8558.731  1000   b
 ```
 
 
@@ -8768,11 +8768,11 @@ microbenchmark(map(x, .f = function(x) { mean(x^2) }), lapply(x, FUN = function(
 ```
 &gt; Unit: milliseconds
 &gt;                                            expr      min       lq     mean
-&gt;      map(x, .f = function(x) {     mean(x^2) }) 5.382724 6.044313 7.998656
-&gt;  lapply(x, FUN = function(x) {     mean(x^2) }) 5.213283 5.892544 7.884705
-&gt;    median       uq       max neval cld
-&gt;  6.981891 7.740682  49.43409  1000   a
-&gt;  6.848368 7.569455 179.94239  1000   a
+&gt;      map(x, .f = function(x) {     mean(x^2) }) 5.486537 6.430957 8.408593
+&gt;  lapply(x, FUN = function(x) {     mean(x^2) }) 5.288952 6.281790 8.323097
+&gt;    median       uq      max neval cld
+&gt;  7.327011 8.148324  48.9397  1000   a
+&gt;  7.198838 7.958674 195.9592  1000   a
 ```
 
 
@@ -12766,193 +12766,7 @@ starwars %&gt;%
 ]
 
 
----
 
-# CASO PRÁCTICO
-
-* 📝 **Ejercicio extra**: en el paquete `{survival}`, la tabla `heart` contiene los mismos datos de la tabla `jasa` pero ya preprocesados. Haz uso de lo aprendido para pasar de `jasa` a `heart`
-
-
-
-```r
-survival::heart
-```
-
-```
-&gt;     start   stop event          age        year surgery transplant  id
-&gt; 1     0.0   50.0     1 -17.15537303  0.12320329       0          0   1
-&gt; 2     0.0    6.0     1   3.83572895  0.25462012       0          0   2
-&gt; 3     0.0    1.0     0   6.29705681  0.26557153       0          0   3
-&gt; 4     1.0   16.0     1   6.29705681  0.26557153       0          1   3
-&gt; 5     0.0   36.0     0  -7.73716632  0.49007529       0          0   4
-&gt; 6    36.0   39.0     1  -7.73716632  0.49007529       0          1   4
-&gt; 7     0.0   18.0     1 -27.21423682  0.60780287       0          0   5
-&gt; 8     0.0    3.0     1   6.59548255  0.70088980       0          0   6
-&gt; 9     0.0   51.0     0   2.86926762  0.78028747       0          0   7
-&gt; 10   51.0  675.0     1   2.86926762  0.78028747       0          1   7
-&gt; 11    0.0   40.0     1  -2.65023956  0.83504449       0          0   8
-&gt; 12    0.0   85.0     1  -0.83778234  0.85694730       0          0   9
-&gt; 13    0.0   12.0     0  -5.49760438  0.86242300       0          0  10
-&gt; 14   12.0   58.0     1  -5.49760438  0.86242300       0          1  10
-&gt; 15    0.0   26.0     0  -0.01916496  0.87337440       0          0  11
-&gt; 16   26.0  153.0     1  -0.01916496  0.87337440       0          1  11
-&gt; 17    0.0    8.0     1   5.19370294  0.96372348       0          0  12
-&gt; 18    0.0   17.0     0   6.57357974  0.96919918       0          0  13
-&gt; 19   17.0   81.0     1   6.57357974  0.96919918       0          1  13
-&gt; 20    0.0   37.0     0   6.01232033  0.97193703       0          0  14
-&gt; 21   37.0 1387.0     1   6.01232033  0.97193703       0          1  14
-&gt; 22    0.0    1.0     1   5.81519507  0.99110198       1          0  15
-&gt; 23    0.0   28.0     0   1.44832307  1.07049966       0          0  16
-&gt; 24   28.0  308.0     1   1.44832307  1.07049966       0          1  16
-&gt; 25    0.0   36.0     1 -27.66872005  1.07597536       0          0  17
-&gt; 26    0.0   20.0     0   8.84873374  1.08692676       0          0  18
-&gt; 27   20.0   43.0     1   8.84873374  1.08692676       0          1  18
-&gt; 28    0.0   37.0     1  11.12388775  1.13347023       0          0  19
-&gt; 29    0.0   18.0     0   7.27994524  1.33059548       0          0  20
-&gt; 30   18.0   28.0     1   7.27994524  1.33059548       0          1  20
-&gt; 31    0.0    8.0     0  -4.65708419  1.33880903       0          0  21
-&gt; 32    8.0 1032.0     1  -4.65708419  1.33880903       0          1  21
-&gt; 33    0.0   12.0     0  -5.21560575  1.46201232       0          0  22
-&gt; 34   12.0   51.0     1  -5.21560575  1.46201232       0          1  22
-&gt; 35    0.0    3.0     0  10.35728953  1.52772074       0          0  23
-&gt; 36    3.0  733.0     1  10.35728953  1.52772074       0          1  23
-&gt; 37    0.0   83.0     0   3.80013689  1.56605065       0          0  24
-&gt; 38   83.0  219.0     1   3.80013689  1.56605065       0          1  24
-&gt; 39    0.0   25.0     0 -14.77618070  1.57426420       0          0  25
-&gt; 40   25.0 1800.0     0 -14.77618070  1.57426420       0          1  25
-&gt; 41    0.0 1401.0     0 -17.46475017  1.58247775       0          0  26
-&gt; 42    0.0  263.0     1 -39.21423682  1.59069131       0          0  27
-&gt; 43    0.0   71.0     0   6.02327173  1.68377823       0          0  28
-&gt; 44   71.0   72.0     1   6.02327173  1.68377823       0          1  28
-&gt; 45    0.0   35.0     1   2.43394935  1.78507871       0          0  29
-&gt; 46    0.0   16.0     0  -3.08829569  1.88364134       0          0  30
-&gt; 47   16.0  852.0     1  -3.08829569  1.88364134       0          1  30
-&gt; 48    0.0   16.0     1   6.88569473  1.89459274       0          0  31
-&gt; 49    0.0   17.0     0  16.40793977  1.91101985       0          0  32
-&gt; 50   17.0   77.0     1  16.40793977  1.91101985       0          1  32
-&gt; 51    0.0   51.0     0   0.90349076  2.15742642       0          0  33
-&gt; 52   51.0 1587.0     0   0.90349076  2.15742642       0          1  33
-&gt; 53    0.0   23.0     0  -7.44695414  2.19849418       0          0  34
-&gt; 54   23.0 1572.0     0  -7.44695414  2.19849418       0          1  34
-&gt; 55    0.0   12.0     1  -4.53388090  2.30800821       0          0  35
-&gt; 56    0.0   46.0     0   0.92539357  2.50787132       0          0  36
-&gt; 57   46.0  100.0     1   0.92539357  2.50787132       0          1  36
-&gt; 58    0.0   19.0     0  13.50034223  2.56536619       0          0  37
-&gt; 59   19.0   66.0     1  13.50034223  2.56536619       0          1  37
-&gt; 60    0.0    4.5     0  -6.52977413  2.59274470       0          0  38
-&gt; 61    4.5    5.0     1  -6.52977413  2.59274470       0          1  38
-&gt; 62    0.0    2.0     0   2.51882272  2.63381246       0          0  39
-&gt; 63    2.0   53.0     1   2.51882272  2.63381246       0          1  39
-&gt; 64    0.0   41.0     0   0.48186174  2.64750171       1          0  40
-&gt; 65   41.0 1408.0     0   0.48186174  2.64750171       1          1  40
-&gt; 66    0.0   58.0     0  -2.69678303  2.88295688       1          0  41
-&gt; 67   58.0 1322.0     0  -2.69678303  2.88295688       1          1  41
-&gt; 68    0.0    3.0     1 -11.55920602  2.88843258       0          0  42
-&gt; 69    0.0    2.0     1  -4.60780287  3.05817933       1          0  43
-&gt; 70    0.0   40.0     1  -5.42094456  3.16495551       1          0  44
-&gt; 71    0.0    1.0     0 -11.81656400  3.26351814       0          0  45
-&gt; 72    1.0   45.0     1 -11.81656400  3.26351814       0          1  45
-&gt; 73    0.0    2.0     0   0.61054073  3.27720739       1          0  46
-&gt; 74    2.0  996.0     1   0.61054073  3.27720739       1          1  46
-&gt; 75    0.0   21.0     0  -0.90075291  3.34017796       0          0  47
-&gt; 76   21.0   72.0     1  -0.90075291  3.34017796       0          1  47
-&gt; 77    0.0    9.0     1   8.03559206  3.34839151       0          0  48
-&gt; 78    0.0   36.0     0 -11.34565366  3.37577002       1          0  49
-&gt; 79   36.0 1142.0     0 -11.34565366  3.37577002       1          1  49
-&gt; 80    0.0   83.0     0  -2.11362081  3.37577002       1          0  50
-&gt; 81   83.0  980.0     1  -2.11362081  3.37577002       1          1  50
-&gt; 82    0.0   32.0     0   0.73374401  3.47707050       0          0  51
-&gt; 83   32.0  285.0     1   0.73374401  3.47707050       0          1  51
-&gt; 84    0.0  102.0     1  -6.75154004  3.56468172       0          0  52
-&gt; 85    0.0   41.0     0  -0.65708419  3.75085558       0          0  53
-&gt; 86   41.0  188.0     1  -0.65708419  3.75085558       0          1  53
-&gt; 87    0.0    3.0     1  -0.20807666  3.75085558       0          0  54
-&gt; 88    0.0   10.0     0   4.45448323  3.85489391       0          0  55
-&gt; 89   10.0   61.0     1   4.45448323  3.85489391       0          1  55
-&gt; 90    0.0   67.0     0  -9.25667351  3.92334018       0          0  56
-&gt; 91   67.0  942.0     0  -9.25667351  3.92334018       0          1  56
-&gt; 92    0.0  149.0     1  -6.73511294  3.95071869       0          0  57
-&gt; 93    0.0   21.0     0   0.01642710  3.97809719       1          0  58
-&gt; 94   21.0  343.0     1   0.01642710  3.97809719       1          1  58
-&gt; 95    0.0   78.0     0  -6.61738535  3.99452430       1          0  59
-&gt; 96   78.0  916.0     0  -6.61738535  3.99452430       1          1  59
-&gt; 97    0.0    3.0     0   1.05407255  4.13141684       0          0  60
-&gt; 98    3.0   68.0     1   1.05407255  4.13141684       0          1  60
-&gt; 99    0.0    2.0     1   4.56399726  4.17522245       0          0  61
-&gt; 100   0.0   69.0     1  -8.64613279  4.18891170       0          0  62
-&gt; 101   0.0   27.0     0 -15.34017796  4.19712526       0          0  63
-&gt; 102  27.0  842.0     0 -15.34017796  4.19712526       0          1  63
-&gt; 103   0.0   33.0     0   0.81587953  4.33675565       1          0  64
-&gt; 104  33.0  584.0     1   0.81587953  4.33675565       1          1  64
-&gt; 105   0.0   12.0     0   3.29363450  4.42984257       0          0  65
-&gt; 106  12.0   78.0     1   3.29363450  4.42984257       0          1  65
-&gt; 107   0.0   32.0     1   5.21286790  4.46817248       0          0  66
-&gt; 108   0.0   57.0     0 -28.44900753  4.47638604       0          0  67
-&gt; 109  57.0  285.0     1 -28.44900753  4.47638604       0          1  67
-&gt; 110   0.0    3.0     0  -2.75975359  4.51745380       0          0  68
-&gt; 111   3.0   68.0     1  -2.75975359  4.51745380       0          1  68
-&gt; 112   0.0   10.0     0  -0.01095140  4.66803559       0          0  69
-&gt; 113  10.0  670.0     0  -0.01095140  4.66803559       0          1  69
-&gt; 114   0.0    5.0     0   5.00205339  4.71184120       0          0  70
-&gt; 115   5.0   30.0     1   5.00205339  4.71184120       0          1  70
-&gt; 116   0.0   31.0     0  -0.59137577  4.80492813       0          0  71
-&gt; 117  31.0  620.0     0  -0.59137577  4.80492813       0          1  71
-&gt; 118   0.0    4.0     0 -21.27310062  4.87063655       0          0  72
-&gt; 119   4.0  596.0     0 -21.27310062  4.87063655       0          1  72
-&gt; 120   0.0   27.0     0   8.33127995  4.94729637       0          0  73
-&gt; 121  27.0   90.0     1   8.33127995  4.94729637       0          1  73
-&gt; 122   0.0    5.0     0 -18.83367556  4.96646133       0          0  74
-&gt; 123   5.0   17.0     1 -18.83367556  4.96646133       0          1  74
-&gt; 124   0.0    2.0     1   4.18069815  4.99657769       0          0  75
-&gt; 125   0.0   46.0     0   4.08487337  5.01026694       1          0  76
-&gt; 126  46.0  545.0     0   4.08487337  5.01026694       1          1  76
-&gt; 127   0.0   21.0     1  -6.88843258  5.01574264       0          0  77
-&gt; 128   0.0  210.0     0   0.70362765  5.09240246       0          0  78
-&gt; 129 210.0  515.0     0   0.70362765  5.09240246       0          1  78
-&gt; 130   0.0   67.0     0   5.78234086  5.16632444       0          0  79
-&gt; 131  67.0   96.0     1   5.78234086  5.16632444       0          1  79
-&gt; 132   0.0   26.0     0  -1.55509925  5.18275154       1          0  80
-&gt; 133  26.0  482.0     0  -1.55509925  5.18275154       1          1  80
-&gt; 134   0.0    6.0     0   4.89253936  5.28405202       0          0  81
-&gt; 135   6.0  445.0     0   4.89253936  5.28405202       0          1  81
-&gt; 136   0.0  428.0     0 -18.79808350  4.08487337       0          0  82
-&gt; 137   0.0   32.0     0   5.30869268  5.31690623       0          0  83
-&gt; 138  32.0   80.0     1   5.30869268  5.31690623       0          1  83
-&gt; 139   0.0   37.0     0  -5.28131417  5.33333333       0          0  84
-&gt; 140  37.0  334.0     1  -5.28131417  5.33333333       0          1  84
-&gt; 141   0.0    5.0     1  -0.01916496  5.35249829       0          0  85
-&gt; 142   0.0    8.0     0   0.91991786  5.41546886       0          0  86
-&gt; 143   8.0  397.0     0   0.91991786  5.41546886       0          1  86
-&gt; 144   0.0   60.0     0  -1.74674880  5.47022587       0          0  87
-&gt; 145  60.0  110.0     1  -1.74674880  5.47022587       0          1  87
-&gt; 146   0.0   31.0     0   6.36276523  5.48939083       0          0  88
-&gt; 147  31.0  370.0     0   6.36276523  5.48939083       0          1  88
-&gt; 148   0.0  139.0     0   3.04722793  5.51129363       0          0  89
-&gt; 149 139.0  207.0     1   3.04722793  5.51129363       0          1  89
-&gt; 150   0.0  160.0     0   4.03285421  5.51403149       1          0  90
-&gt; 151 160.0  186.0     1   4.03285421  5.51403149       1          1  90
-&gt; 152   0.0  340.0     1  -0.40520192  5.53319644       0          0  91
-&gt; 153   0.0  310.0     0  -3.01711157  5.57152635       0          0  92
-&gt; 154 310.0  340.0     0  -3.01711157  5.57152635       0          1  92
-&gt; 155   0.0   28.0     0  -0.24914442  5.77686516       0          0  93
-&gt; 156  28.0  265.0     0  -0.24914442  5.77686516       0          1  93
-&gt; 157   0.0    4.0     0  -4.15879535  5.95482546       1          0  94
-&gt; 158   4.0  165.0     1  -4.15879535  5.95482546       1          1  94
-&gt; 159   0.0    2.0     0  -7.71800137  5.97672827       0          0  95
-&gt; 160   2.0   16.0     1  -7.71800137  5.97672827       0          1  95
-&gt; 161   0.0   13.0     0 -21.34976044  6.00958248       0          0  96
-&gt; 162  13.0  180.0     0 -21.34976044  6.00958248       0          1  96
-&gt; 163   0.0   21.0     0 -24.38329911  6.14373717       0          0  97
-&gt; 164  21.0  131.0     0 -24.38329911  6.14373717       0          1  97
-&gt; 165   0.0   96.0     0 -19.37029432  6.20396988       0          0  98
-&gt; 166  96.0  109.0     0 -19.37029432  6.20396988       0          1  98
-&gt; 167   0.0   21.0     1   1.83436003  6.23408624       0          0  99
-&gt; 168   0.0   38.0     0 -12.93908282  6.39561944       1          0 100
-&gt; 169  38.0   39.0     0 -12.93908282  6.39561944       1          1 100
-&gt; 170   0.0   31.0     0   1.51676934  6.41752225       0          0 101
-&gt; 171   0.0   11.0     0  -7.60848734  6.47227926       0          0 102
-&gt; 172   0.0    6.0     1  -8.68446270 -0.04928131       0          0 103
-```
 
 ---
 
@@ -13746,16 +13560,841 @@ starwars %&gt;%
 class: inverse center middle
 name: clase-10
 
-# CLASE 10: importar/exportar y cruzando tablas
+# CLASE 10: repaso y factores
 
 &amp;nbsp;
+
+### [Repaso](#repaso)
+
+### [Caso práctico I](#caso-practico-I)
+
+### [Caso práctico II](#caso-practico-II)
+
+### [Factores](#factores)
+
+
+---
+
+name: repaso
+
+# .orange[REPASO] tidyverse
+
+Vamos a hacer un repaso de lo aprendido hasta ahora en tidyverse
+
+&amp;nbsp;
+
+📝 **Ejercicio**: selecciona aquellos personajes de las familia `"Skywalker"` o `"Antilles"`.
+
+---
+
+# .orange[REPASO] tidyverse
+
+Vamos a hacer un repaso de lo aprendido hasta ahora en tidyverse
+
+
+&amp;nbsp;
+
+📝 **Ejercicio**: filtra los personajes humanos, limpia los ausentes en estatura y peso, selecciona aquellos personajes cuyo IMC esté entre 23 y 26. ¿Sale alguno en la película `"Attack of the Clones"`? ¿Cuántos?
+
+---
+
+# .orange[REPASO] tidyverse
+
+Vamos a hacer un repaso de lo aprendido hasta ahora en tidyverse
+
+
+&amp;nbsp;
+
+📝 **Ejercicio**: selecciona aleatoriamente el 50% de los datos, manteniendo el reparto (en proporciones) original entre humanos y no humanos (limpia antes de ausentes). Tras ello quedate solo con las variables nombre, la estatura, las que representen alguna característica de color y la variable films. Calcula la media de estaturas en humanos y no humanos. Por último calcula las frecuencias del color de ojos y humanos/no humanos.
+
+---
+
+name: caso-practico-I
+
+# CASO PRÁCTICO I: billboard
+
+* Carga la tabla `billboard` del paquete `{tidyr}`.
+
+--
+
+* Selecciona solo las primeras 52 semanas haciendo uso de `num_range()`
+
+--
+
+* Convierte el dataset a tidydata, ausentes incluidos (deberías obtener 16 484 filas y 5 columnas).
+
+--
+
+* Convierte el dataset a tidydata pero eliminando ausentes (deberías obtener 5280 filas y 5 columnas).
+
+--
+
+* La variable `week` procésala para que sea numérica
+
+---
+
+# CASO PRÁCTICO I: billboard
+
+* Asumiendo que cada cuatrimestre tiene 13 semanas, crea una nueva variable llamada `quarter` que nos codifique el cuatrimestre de cada registro. Crea otra variable con el mes en `month`
+
+--
+
+* Extrae la lista de artistas distintos que aparecen en la tabla (y cuántas veces aparece cada uno)
+
+--
+
+* Determina las canciones que más semanas aparecen en la lista de éxitos. Extrae las 10 que más semanas aparecen
+
+--
+
+* Extrae los 10 artistas cuya canción aparece más semanas (cuidado: un artista tiene varias canciones)
+
+--
+
+* Determina el artista con más canciones en la lista
+
+---
+
+# CASO PRÁCTICO I: billboard
+
+* Calcula el número de canciones distintas que aparecen en la lista
+
+--
+
+* Calcula la posición más alta en la que ha estado cada canción
+--
+
+* Calcula la posición más alta en la que ha estado un artista
+
+--
+
+* Calcula la primera semana que una canción entró en el top 100
+
+--
+
+* Obtén una tabla con el ranking medio de cada artista (contando solo el ranking más alto alcanzado por sus canciones), así como el número de canciones (distintas) que ha colocado en el top 100
+
+
+---
+
+# CASO PRÁCTICO I: billboard
+
+*  Realiza un muestreo extrayendo solo los registros de Enrique Iglesias y The Backstreet Boys.
+
+--
+
+* Obtén una tabla con el número de registros por quatrimestre (y su proporción respecto al total). Realiza un muestreo aleatorio estratificado, extrayendo el 50% de los datos pero manteniendo la proporción de datos entre los distintos cuatrimestres.
+
+  
+---
+
+name: caso-practico-II
+
+# CASO PRÁCTICO II: deberes
+
+
+* 📝 **Ejercicio extra**: en el paquete `{survival}`, la tabla `heart` contiene los mismos datos de la tabla `jasa` pero ya preprocesados. Haz uso de lo aprendido para pasar de `jasa` a `heart`
+
+
+
+```r
+survival::heart
+```
+
+```
+&gt;     start   stop event          age        year surgery transplant  id
+&gt; 1     0.0   50.0     1 -17.15537303  0.12320329       0          0   1
+&gt; 2     0.0    6.0     1   3.83572895  0.25462012       0          0   2
+&gt; 3     0.0    1.0     0   6.29705681  0.26557153       0          0   3
+&gt; 4     1.0   16.0     1   6.29705681  0.26557153       0          1   3
+&gt; 5     0.0   36.0     0  -7.73716632  0.49007529       0          0   4
+&gt; 6    36.0   39.0     1  -7.73716632  0.49007529       0          1   4
+&gt; 7     0.0   18.0     1 -27.21423682  0.60780287       0          0   5
+&gt; 8     0.0    3.0     1   6.59548255  0.70088980       0          0   6
+&gt; 9     0.0   51.0     0   2.86926762  0.78028747       0          0   7
+&gt; 10   51.0  675.0     1   2.86926762  0.78028747       0          1   7
+&gt; 11    0.0   40.0     1  -2.65023956  0.83504449       0          0   8
+&gt; 12    0.0   85.0     1  -0.83778234  0.85694730       0          0   9
+&gt; 13    0.0   12.0     0  -5.49760438  0.86242300       0          0  10
+&gt; 14   12.0   58.0     1  -5.49760438  0.86242300       0          1  10
+&gt; 15    0.0   26.0     0  -0.01916496  0.87337440       0          0  11
+&gt; 16   26.0  153.0     1  -0.01916496  0.87337440       0          1  11
+&gt; 17    0.0    8.0     1   5.19370294  0.96372348       0          0  12
+&gt; 18    0.0   17.0     0   6.57357974  0.96919918       0          0  13
+&gt; 19   17.0   81.0     1   6.57357974  0.96919918       0          1  13
+&gt; 20    0.0   37.0     0   6.01232033  0.97193703       0          0  14
+&gt; 21   37.0 1387.0     1   6.01232033  0.97193703       0          1  14
+&gt; 22    0.0    1.0     1   5.81519507  0.99110198       1          0  15
+&gt; 23    0.0   28.0     0   1.44832307  1.07049966       0          0  16
+&gt; 24   28.0  308.0     1   1.44832307  1.07049966       0          1  16
+&gt; 25    0.0   36.0     1 -27.66872005  1.07597536       0          0  17
+&gt; 26    0.0   20.0     0   8.84873374  1.08692676       0          0  18
+&gt; 27   20.0   43.0     1   8.84873374  1.08692676       0          1  18
+&gt; 28    0.0   37.0     1  11.12388775  1.13347023       0          0  19
+&gt; 29    0.0   18.0     0   7.27994524  1.33059548       0          0  20
+&gt; 30   18.0   28.0     1   7.27994524  1.33059548       0          1  20
+&gt; 31    0.0    8.0     0  -4.65708419  1.33880903       0          0  21
+&gt; 32    8.0 1032.0     1  -4.65708419  1.33880903       0          1  21
+&gt; 33    0.0   12.0     0  -5.21560575  1.46201232       0          0  22
+&gt; 34   12.0   51.0     1  -5.21560575  1.46201232       0          1  22
+&gt; 35    0.0    3.0     0  10.35728953  1.52772074       0          0  23
+&gt; 36    3.0  733.0     1  10.35728953  1.52772074       0          1  23
+&gt; 37    0.0   83.0     0   3.80013689  1.56605065       0          0  24
+&gt; 38   83.0  219.0     1   3.80013689  1.56605065       0          1  24
+&gt; 39    0.0   25.0     0 -14.77618070  1.57426420       0          0  25
+&gt; 40   25.0 1800.0     0 -14.77618070  1.57426420       0          1  25
+&gt; 41    0.0 1401.0     0 -17.46475017  1.58247775       0          0  26
+&gt; 42    0.0  263.0     1 -39.21423682  1.59069131       0          0  27
+&gt; 43    0.0   71.0     0   6.02327173  1.68377823       0          0  28
+&gt; 44   71.0   72.0     1   6.02327173  1.68377823       0          1  28
+&gt; 45    0.0   35.0     1   2.43394935  1.78507871       0          0  29
+&gt; 46    0.0   16.0     0  -3.08829569  1.88364134       0          0  30
+&gt; 47   16.0  852.0     1  -3.08829569  1.88364134       0          1  30
+&gt; 48    0.0   16.0     1   6.88569473  1.89459274       0          0  31
+&gt; 49    0.0   17.0     0  16.40793977  1.91101985       0          0  32
+&gt; 50   17.0   77.0     1  16.40793977  1.91101985       0          1  32
+&gt; 51    0.0   51.0     0   0.90349076  2.15742642       0          0  33
+&gt; 52   51.0 1587.0     0   0.90349076  2.15742642       0          1  33
+&gt; 53    0.0   23.0     0  -7.44695414  2.19849418       0          0  34
+&gt; 54   23.0 1572.0     0  -7.44695414  2.19849418       0          1  34
+&gt; 55    0.0   12.0     1  -4.53388090  2.30800821       0          0  35
+&gt; 56    0.0   46.0     0   0.92539357  2.50787132       0          0  36
+&gt; 57   46.0  100.0     1   0.92539357  2.50787132       0          1  36
+&gt; 58    0.0   19.0     0  13.50034223  2.56536619       0          0  37
+&gt; 59   19.0   66.0     1  13.50034223  2.56536619       0          1  37
+&gt; 60    0.0    4.5     0  -6.52977413  2.59274470       0          0  38
+&gt; 61    4.5    5.0     1  -6.52977413  2.59274470       0          1  38
+&gt; 62    0.0    2.0     0   2.51882272  2.63381246       0          0  39
+&gt; 63    2.0   53.0     1   2.51882272  2.63381246       0          1  39
+&gt; 64    0.0   41.0     0   0.48186174  2.64750171       1          0  40
+&gt; 65   41.0 1408.0     0   0.48186174  2.64750171       1          1  40
+&gt; 66    0.0   58.0     0  -2.69678303  2.88295688       1          0  41
+&gt; 67   58.0 1322.0     0  -2.69678303  2.88295688       1          1  41
+&gt; 68    0.0    3.0     1 -11.55920602  2.88843258       0          0  42
+&gt; 69    0.0    2.0     1  -4.60780287  3.05817933       1          0  43
+&gt; 70    0.0   40.0     1  -5.42094456  3.16495551       1          0  44
+&gt; 71    0.0    1.0     0 -11.81656400  3.26351814       0          0  45
+&gt; 72    1.0   45.0     1 -11.81656400  3.26351814       0          1  45
+&gt; 73    0.0    2.0     0   0.61054073  3.27720739       1          0  46
+&gt; 74    2.0  996.0     1   0.61054073  3.27720739       1          1  46
+&gt; 75    0.0   21.0     0  -0.90075291  3.34017796       0          0  47
+&gt; 76   21.0   72.0     1  -0.90075291  3.34017796       0          1  47
+&gt; 77    0.0    9.0     1   8.03559206  3.34839151       0          0  48
+&gt; 78    0.0   36.0     0 -11.34565366  3.37577002       1          0  49
+&gt; 79   36.0 1142.0     0 -11.34565366  3.37577002       1          1  49
+&gt; 80    0.0   83.0     0  -2.11362081  3.37577002       1          0  50
+&gt; 81   83.0  980.0     1  -2.11362081  3.37577002       1          1  50
+&gt; 82    0.0   32.0     0   0.73374401  3.47707050       0          0  51
+&gt; 83   32.0  285.0     1   0.73374401  3.47707050       0          1  51
+&gt; 84    0.0  102.0     1  -6.75154004  3.56468172       0          0  52
+&gt; 85    0.0   41.0     0  -0.65708419  3.75085558       0          0  53
+&gt; 86   41.0  188.0     1  -0.65708419  3.75085558       0          1  53
+&gt; 87    0.0    3.0     1  -0.20807666  3.75085558       0          0  54
+&gt; 88    0.0   10.0     0   4.45448323  3.85489391       0          0  55
+&gt; 89   10.0   61.0     1   4.45448323  3.85489391       0          1  55
+&gt; 90    0.0   67.0     0  -9.25667351  3.92334018       0          0  56
+&gt; 91   67.0  942.0     0  -9.25667351  3.92334018       0          1  56
+&gt; 92    0.0  149.0     1  -6.73511294  3.95071869       0          0  57
+&gt; 93    0.0   21.0     0   0.01642710  3.97809719       1          0  58
+&gt; 94   21.0  343.0     1   0.01642710  3.97809719       1          1  58
+&gt; 95    0.0   78.0     0  -6.61738535  3.99452430       1          0  59
+&gt; 96   78.0  916.0     0  -6.61738535  3.99452430       1          1  59
+&gt; 97    0.0    3.0     0   1.05407255  4.13141684       0          0  60
+&gt; 98    3.0   68.0     1   1.05407255  4.13141684       0          1  60
+&gt; 99    0.0    2.0     1   4.56399726  4.17522245       0          0  61
+&gt; 100   0.0   69.0     1  -8.64613279  4.18891170       0          0  62
+&gt; 101   0.0   27.0     0 -15.34017796  4.19712526       0          0  63
+&gt; 102  27.0  842.0     0 -15.34017796  4.19712526       0          1  63
+&gt; 103   0.0   33.0     0   0.81587953  4.33675565       1          0  64
+&gt; 104  33.0  584.0     1   0.81587953  4.33675565       1          1  64
+&gt; 105   0.0   12.0     0   3.29363450  4.42984257       0          0  65
+&gt; 106  12.0   78.0     1   3.29363450  4.42984257       0          1  65
+&gt; 107   0.0   32.0     1   5.21286790  4.46817248       0          0  66
+&gt; 108   0.0   57.0     0 -28.44900753  4.47638604       0          0  67
+&gt; 109  57.0  285.0     1 -28.44900753  4.47638604       0          1  67
+&gt; 110   0.0    3.0     0  -2.75975359  4.51745380       0          0  68
+&gt; 111   3.0   68.0     1  -2.75975359  4.51745380       0          1  68
+&gt; 112   0.0   10.0     0  -0.01095140  4.66803559       0          0  69
+&gt; 113  10.0  670.0     0  -0.01095140  4.66803559       0          1  69
+&gt; 114   0.0    5.0     0   5.00205339  4.71184120       0          0  70
+&gt; 115   5.0   30.0     1   5.00205339  4.71184120       0          1  70
+&gt; 116   0.0   31.0     0  -0.59137577  4.80492813       0          0  71
+&gt; 117  31.0  620.0     0  -0.59137577  4.80492813       0          1  71
+&gt; 118   0.0    4.0     0 -21.27310062  4.87063655       0          0  72
+&gt; 119   4.0  596.0     0 -21.27310062  4.87063655       0          1  72
+&gt; 120   0.0   27.0     0   8.33127995  4.94729637       0          0  73
+&gt; 121  27.0   90.0     1   8.33127995  4.94729637       0          1  73
+&gt; 122   0.0    5.0     0 -18.83367556  4.96646133       0          0  74
+&gt; 123   5.0   17.0     1 -18.83367556  4.96646133       0          1  74
+&gt; 124   0.0    2.0     1   4.18069815  4.99657769       0          0  75
+&gt; 125   0.0   46.0     0   4.08487337  5.01026694       1          0  76
+&gt; 126  46.0  545.0     0   4.08487337  5.01026694       1          1  76
+&gt; 127   0.0   21.0     1  -6.88843258  5.01574264       0          0  77
+&gt; 128   0.0  210.0     0   0.70362765  5.09240246       0          0  78
+&gt; 129 210.0  515.0     0   0.70362765  5.09240246       0          1  78
+&gt; 130   0.0   67.0     0   5.78234086  5.16632444       0          0  79
+&gt; 131  67.0   96.0     1   5.78234086  5.16632444       0          1  79
+&gt; 132   0.0   26.0     0  -1.55509925  5.18275154       1          0  80
+&gt; 133  26.0  482.0     0  -1.55509925  5.18275154       1          1  80
+&gt; 134   0.0    6.0     0   4.89253936  5.28405202       0          0  81
+&gt; 135   6.0  445.0     0   4.89253936  5.28405202       0          1  81
+&gt; 136   0.0  428.0     0 -18.79808350  4.08487337       0          0  82
+&gt; 137   0.0   32.0     0   5.30869268  5.31690623       0          0  83
+&gt; 138  32.0   80.0     1   5.30869268  5.31690623       0          1  83
+&gt; 139   0.0   37.0     0  -5.28131417  5.33333333       0          0  84
+&gt; 140  37.0  334.0     1  -5.28131417  5.33333333       0          1  84
+&gt; 141   0.0    5.0     1  -0.01916496  5.35249829       0          0  85
+&gt; 142   0.0    8.0     0   0.91991786  5.41546886       0          0  86
+&gt; 143   8.0  397.0     0   0.91991786  5.41546886       0          1  86
+&gt; 144   0.0   60.0     0  -1.74674880  5.47022587       0          0  87
+&gt; 145  60.0  110.0     1  -1.74674880  5.47022587       0          1  87
+&gt; 146   0.0   31.0     0   6.36276523  5.48939083       0          0  88
+&gt; 147  31.0  370.0     0   6.36276523  5.48939083       0          1  88
+&gt; 148   0.0  139.0     0   3.04722793  5.51129363       0          0  89
+&gt; 149 139.0  207.0     1   3.04722793  5.51129363       0          1  89
+&gt; 150   0.0  160.0     0   4.03285421  5.51403149       1          0  90
+&gt; 151 160.0  186.0     1   4.03285421  5.51403149       1          1  90
+&gt; 152   0.0  340.0     1  -0.40520192  5.53319644       0          0  91
+&gt; 153   0.0  310.0     0  -3.01711157  5.57152635       0          0  92
+&gt; 154 310.0  340.0     0  -3.01711157  5.57152635       0          1  92
+&gt; 155   0.0   28.0     0  -0.24914442  5.77686516       0          0  93
+&gt; 156  28.0  265.0     0  -0.24914442  5.77686516       0          1  93
+&gt; 157   0.0    4.0     0  -4.15879535  5.95482546       1          0  94
+&gt; 158   4.0  165.0     1  -4.15879535  5.95482546       1          1  94
+&gt; 159   0.0    2.0     0  -7.71800137  5.97672827       0          0  95
+&gt; 160   2.0   16.0     1  -7.71800137  5.97672827       0          1  95
+&gt; 161   0.0   13.0     0 -21.34976044  6.00958248       0          0  96
+&gt; 162  13.0  180.0     0 -21.34976044  6.00958248       0          1  96
+&gt; 163   0.0   21.0     0 -24.38329911  6.14373717       0          0  97
+&gt; 164  21.0  131.0     0 -24.38329911  6.14373717       0          1  97
+&gt; 165   0.0   96.0     0 -19.37029432  6.20396988       0          0  98
+&gt; 166  96.0  109.0     0 -19.37029432  6.20396988       0          1  98
+&gt; 167   0.0   21.0     1   1.83436003  6.23408624       0          0  99
+&gt; 168   0.0   38.0     0 -12.93908282  6.39561944       1          0 100
+&gt; 169  38.0   39.0     0 -12.93908282  6.39561944       1          1 100
+&gt; 170   0.0   31.0     0   1.51676934  6.41752225       0          0 101
+&gt; 171   0.0   11.0     0  -7.60848734  6.47227926       0          0 102
+&gt; 172   0.0    6.0     1  -8.68446270 -0.04928131       0          0 103
+```
+
+
+---
+
+name: factores
+
+# Variables cuali: .orange[FACTORES]
+
+
+En el caso de las **.bg-purple_light[variables cualitativas]**, llamaremos  **niveles o modalidades** a los **diferentes valores** que pueden tomar estos datos. Por ejemplo, en el caso de la variable `sex` del conjunto `starwars`, tenemos 4 niveles permitidos: `female`, `hermaphroditic`, `male` y `none` (amén de datos ausentes).
+
+
+```r
+starwars %&gt;% count(sex)
+```
+
+```
+&gt; # A tibble: 5 × 2
+&gt;   sex                n
+&gt;   &lt;chr&gt;          &lt;int&gt;
+&gt; 1 female            16
+&gt; 2 hermaphroditic     1
+&gt; 3 male              60
+&gt; 4 none               6
+&gt; 5 &lt;NA&gt;               4
+```
+
+
+
+---
+
+# Variables cuali: .orange[FACTORES]
+
+.pull-left[
+
+Como ya hemos comentado, este tipo de variables se conocen en `R` como **.bg-purple_light[factores]**. Y el paquete fundamental para tratarlos es `{forcats}` (del entorno `{tidyverse}`). 
+
+]
+
+.pull-right[
+
+&lt;img src="./img/factors.jpg" width="100%" style="display: block; margin: auto auto auto 0;" /&gt;
+
+]
+
+---
+
+# Variables cuali: .orange[FACTORES]
+
+
+Este paquete nos permite fijar los **.bg-purple_light[niveles]** (guardados internamente como `levels`) que toma una determinada variable categórica para que no puedan generarse equivocaciones, errores en la recolección y generación de datos. Además hace que su análisis sea menos costoso computacionalmente a la hora de hacer búsquedas y comparativas, dándoles un **.bg-purple_light[tratamiento diferente a las cadena de texto normales]**.
+
+--
+
+Veamos un ejempo sencillo definiendo una variable `estado` que tome los valores `"sano"`, `"leve"` y `"grave"` de la siguiente manera.
+
+
+```r
+estado &lt;-
+  c("leve", "grave", "sano", "sano", "leve", "sano", "sano", "grave",
+    "grave", "leve", "grave", "sano", "sano")
+estado
+```
+
+```
+&gt;  [1] "leve"  "grave" "sano"  "sano"  "leve"  "sano"  "sano"  "grave" "grave"
+&gt; [10] "leve"  "grave" "sano"  "sano"
+```
+
+La variable `estado` actualmente es de **.bg-purple_light[tipo texto]**, de tipo `chr`, algo que podemos comprobar con `class(estado)`.
+
+
+```r
+class(estado)
+```
+
+```
+&gt; [1] "character"
+```
+
+---
+
+# Variables cuali: .orange[FACTORES]
+
+
+Desde un punto de vista estadístico y computacional, para `R` esta variable ahora mismo sería equivalente una variable de nombres. Pero estadísticamente **.bg-purple_light[no es lo mismo una variable con nombres]** (que identifican muchas veces el registro) que una variable categórica como estado que **.bg-purple_light[solo puede tomar esos 3 niveles]**. ¿Cómo **.bg-purple_light[convertir a factor]**? Haciendo uso de la función `as_factor()` del paquete `{forcats}`.
+
+--
+
+
+```r
+library(tidyverse)
+estado_fct &lt;- tibble(paciente = 1:length(estado),
+                     estado = as_factor(estado))
+estado_fct
+```
+
+```
+&gt; # A tibble: 13 × 2
+&gt;    paciente estado
+&gt;       &lt;int&gt; &lt;fct&gt; 
+&gt;  1        1 leve  
+&gt;  2        2 grave 
+&gt;  3        3 sano  
+&gt;  4        4 sano  
+&gt;  5        5 leve  
+&gt;  6        6 sano  
+&gt;  7        7 sano  
+&gt;  8        8 grave 
+&gt;  9        9 grave 
+&gt; 10       10 leve  
+&gt; 11       11 grave 
+&gt; 12       12 sano  
+&gt; 13       13 sano
+```
+
+---
+
+# Variables cuali: .orange[FACTORES]
+
+
+No solo ha cambiado la clase de la variable sino que ahora, debajo del valor guardado, nos aparece la frase `Levels: grave leve sano`: son las **.bg-purple_light[modalidades o niveles]** de nuestra cualitativa. Imagina que ese día en el hospital no tuviésemos a **nadie en estado grave**: aunque ese día nuestra variable no tome dicho valor, el estado `grave` es un **.bg-purple_light[nivel permitido en la base de datos]**, así que aunque lo eliminemos, por ser un factor, el nivel permanece (no lo tenemos ahora pero es un nivel permitido).
+
+
+
+```r
+estado_fct %&gt;% 
+  filter(estado %in% c("sano", "leve")) %&gt;% 
+  pull(estado)
+```
+
+```
+&gt; [1] leve sano sano leve sano sano leve sano sano
+&gt; Levels: leve grave sano
+```
+
+---
+
+# Variables cuali: .orange[FACTORES]
+
+
+Con `factor()` podemos **.bg-purple_light[especificar explícitamente]** los nombres de las modalidades, incluso si son nominales u **.bg-purple_light[ordinales]**
+
+
+```r
+estado_fct &lt;-
+  tibble(paciente = 1:length(estado),
+         estado = factor(estado, ordered = TRUE))
+estado_fct %&gt;% pull(estado)
+```
+
+```
+&gt;  [1] leve  grave sano  sano  leve  sano  sano  grave grave leve  grave sano 
+&gt; [13] sano 
+&gt; Levels: grave &lt; leve &lt; sano
+```
+
+---
+
+# Variables cuali: .orange[FACTORES]
+
+
+Con  `levels = ...` podemos indicarle explícitamente el **.bg-purple_light[orden de las modalidades]**
+
+
+```r
+estado_fct &lt;-
+  tibble(paciente = 1:length(estado),
+         estado = factor(estado,
+                         levels = c("sano", "leve", "grave"),
+                         ordered = TRUE))
+estado_fct %&gt;% pull(estado)
+```
+
+```
+&gt;  [1] leve  grave sano  sano  leve  sano  sano  grave grave leve  grave sano 
+&gt; [13] sano 
+&gt; Levels: sano &lt; leve &lt; grave
+```
+
+
+
+---
+
+# Variables cuali: .orange[FACTORES]
+
+
+.pull-left[
+
+Si queremos indicarle que **.bg-purple_light[elimine un nivel no usado]** en ese momento (y que queremos excluir de la definición) podemos hacerlo con `fct_drop()`
+
+]
+
+
+.pull-right[
+
+&lt;img src="./img/drop_factor.jpg" width="100%" style="display: block; margin: auto auto auto 0;" /&gt;
+
+]
+
+
+```r
+estado_fct %&gt;% 
+  filter(estado %in% c("sano", "leve")) %&gt;% 
+  mutate(estado = fct_drop(estado)) %&gt;% 
+  pull(estado)
+```
+
+```
+&gt; [1] leve sano sano leve sano sano leve sano sano
+&gt; Levels: sano &lt; leve
+```
+
+---
+
+# Variables cuali: .orange[FACTORES]
+
+.pull-left[
+
+Al igual que podemos eliminar niveles podemos **.bg-purple_light[ampliar los niveles existentes]** (aunque no existan datos de ese nivel en ese momento) con `fct_expand()`
+
+
+]
+
+
+.pull-right[
+
+&lt;img src="./img/factor_expand.jpg" width="100%" style="display: block; margin: auto auto auto 0;" /&gt;
+
+]
+
+
+```r
+estado_fct %&gt;% 
+  mutate(estado = fct_expand(estado, c("UCI", "fallecido"))) %&gt;% 
+  pull(estado)
+```
+
+```
+&gt;  [1] leve  grave sano  sano  leve  sano  sano  grave grave leve  grave sano 
+&gt; [13] sano 
+&gt; Levels: sano &lt; leve &lt; grave &lt; UCI &lt; fallecido
+```
+
+---
+
+# Variables cuali: .orange[FACTORES]
+
+.pull-left[
+
+Además con `fct_explicit_na()` podemos **.bg-purple_light[asignar un nivel a los valores]** para que sea incluido dicho nivel en los análisis y visualizaciones.
+
+
+]
+
+
+.pull-right[
+
+&lt;img src="./img/factor_explicit.jpg" width="100%" style="display: block; margin: auto auto auto 0;" /&gt;
+
+]
+
+
+```r
+fct_explicit_na(factor(c("a", "b", NA)))
+```
+
+```
+&gt; [1] a         b         (Missing)
+&gt; Levels: a b (Missing)
+```
+
+---
+
+# Variables cuali: .orange[FACTORES]
+
+
+Incluso una vez definidos podemos **.bg-purple_light[reordenar los níveles]** con `fct_relevel()`
+
+
+
+```r
+estado_fct_expand &lt;- 
+  estado_fct %&gt;% 
+  mutate(estado = fct_expand(estado, c("UCI", "fallecido"))) %&gt;% 
+  pull(estado)
+
+estado_fct_expand %&gt;%
+  fct_relevel(c("fallecido", "leve", "sano",
+                "grave", "UCI"))
+```
+
+```
+&gt;  [1] leve  grave sano  sano  leve  sano  sano  grave grave leve  grave sano 
+&gt; [13] sano 
+&gt; Levels: fallecido &lt; leve &lt; sano &lt; grave &lt; UCI
+```
+
+
+---
+
+# Variables cuali: .orange[FACTORES]
+
+.pull-left[
+
+Esta forma de trabajar con variables cualitativas nos permite dar una **.bg-purple_light[definición teórica]** de nuestra base de datos, pudiendo incluso contar valores que aún no existen (pero que podrían), haciendo uso de `fct_count()`
+
+]
+
+
+.pull-right[
+
+&lt;img src="./img/fct_count.jpg" width="70%" style="display: block; margin: auto auto auto 0;" /&gt;
+
+]
+
+
+```r
+estado_fct %&gt;% 
+  mutate(estado = fct_expand(estado, c("UCI", "fallecido"))) %&gt;% 
+  pull(estado) %&gt;% 
+  fct_count()
+```
+
+```
+&gt; # A tibble: 5 × 2
+&gt;   f             n
+&gt;   &lt;fct&gt;     &lt;int&gt;
+&gt; 1 sano          6
+&gt; 2 leve          3
+&gt; 3 grave         4
+&gt; 4 UCI           0
+&gt; 5 fallecido     0
+```
+
+
+---
+
+# Variables cuali: .orange[FACTORES]
+
+
+Los níveles también podemos **.bg-purple_light[ordenarlos por frecuencia]** con `fct_infreq()`
+
+
+```r
+estado_fct %&gt;% 
+  mutate(estado = fct_infreq(estado)) %&gt;% 
+  pull(estado) %&gt;% 
+  fct_count()
+```
+
+```
+&gt; # A tibble: 3 × 2
+&gt;   f         n
+&gt;   &lt;fct&gt; &lt;int&gt;
+&gt; 1 sano      6
+&gt; 2 grave     4
+&gt; 3 leve      3
+```
+
+---
+
+# Variables cuali: .orange[FACTORES]
+
+
+A veces querremos **.bg-purple_light[agrupar niveles]**, por ejemplo, no permitiendo niveles que **.bg-purple_light[no sucedan un mínimo de veces]** con `fct_lump_min(.., min = ..)` (las observaciones que no lo cumplan irán a un **nivel genérico** llamado `Other`, aunque se puede cambiar con el argumento `other_level`). 
+
+.pull-left[
+
+
+
+```r
+estado_fct %&gt;% 
+  pull(estado) %&gt;% 
+  fct_lump_min(min = 4)
+```
+
+```
+&gt;  [1] Other grave sano  sano  Other sano  sano  grave grave Other grave sano 
+&gt; [13] sano 
+&gt; Levels: sano &lt; grave &lt; Other
+```
+
+]
+
+.pull-right[
+
+
+```r
+estado_fct %&gt;% 
+  pull(estado) %&gt;% 
+  fct_lump_min(min = 4,
+               other_level = "otros")
+```
+
+```
+&gt;  [1] otros grave sano  sano  otros sano  sano  grave grave otros grave sano 
+&gt; [13] sano 
+&gt; Levels: sano &lt; grave &lt; otros
+```
+
+]
+
+---
+
+# Variables cuali: .orange[FACTORES]
+
+
+Podemos hacer algo equivalente pero en función de su **.bg-purple_light[frecuencia relativa]** con `fct_lump_prop()`.
+
+
+
+```r
+estado_fct %&gt;% 
+  pull(estado) %&gt;% 
+  fct_lump_prop(prop = 0.4,
+                other_level = "otros")
+```
+
+```
+&gt;  [1] otros otros sano  sano  otros sano  sano  otros otros otros otros sano 
+&gt; [13] sano 
+&gt; Levels: sano &lt; otros
+```
+
+---
+
+
+# Variables cuali: .orange[FACTORES]
+
+Esto lo podemos aplicar a nuestros conjuntos de datos para **.bg-purple_light[recategorizar variables]** de forma muy rápida.
+
+
+```r
+starwars %&gt;% 
+  drop_na(species) %&gt;% 
+  mutate(species =
+           fct_lump_min(species, min = 3,
+                        other_level = "Otras")) %&gt;% 
+  count(species)
+```
+
+```
+&gt; # A tibble: 4 × 2
+&gt;   species     n
+&gt;   &lt;fct&gt;   &lt;int&gt;
+&gt; 1 Droid       6
+&gt; 2 Gungan      3
+&gt; 3 Human      35
+&gt; 4 Otras      39
+```
+
+---
+
+# Variables cuali: .orange[FACTORES]
+
+Con `fct_reorder()` podemos también indicar que queremos ordenar los factores en función de una función aplicada a otra variable.
+
+
+
+```r
+starwars_factor &lt;- 
+  starwars %&gt;% 
+  drop_na(height, species) %&gt;% 
+  mutate(species =
+           fct_lump_min(species, min = 3,
+                        other_level = "Otras"))
+```
+
+.pull-left[
+
+
+```r
+starwars_factor %&gt;% pull(species)
+```
+
+```
+&gt;  [1] Human  Droid  Droid  Human  Human  Human  Human  Droid  Human  Human 
+&gt; [11] Human  Human  Otras  Human  Otras  Otras  Human  Human  Otras  Human 
+&gt; [21] Human  Droid  Otras  Human  Human  Otras  Human  Otras  Otras  Human 
+&gt; [31] Otras  Human  Gungan Gungan Gungan Otras  Otras  Human  Otras  Otras 
+&gt; [41] Otras  Otras  Otras  Otras  Human  Otras  Otras  Otras  Otras  Otras 
+&gt; [51] Otras  Otras  Otras  Human  Human  Human  Otras  Otras  Otras  Human 
+&gt; [61] Human  Human  Human  Otras  Otras  Otras  Otras  Human  Otras  Droid 
+&gt; [71] Otras  Otras  Otras  Otras  Otras  Human  Otras  Human 
+&gt; Levels: Droid Gungan Human Otras
+```
+
+]
+
+.pull-right[
+
+
+```r
+starwars_factor %&gt;%
+  mutate(species = fct_reorder(species, height, mean)) %&gt;% 
+  pull(species)
+```
+
+```
+&gt;  [1] Human  Droid  Droid  Human  Human  Human  Human  Droid  Human  Human 
+&gt; [11] Human  Human  Otras  Human  Otras  Otras  Human  Human  Otras  Human 
+&gt; [21] Human  Droid  Otras  Human  Human  Otras  Human  Otras  Otras  Human 
+&gt; [31] Otras  Human  Gungan Gungan Gungan Otras  Otras  Human  Otras  Otras 
+&gt; [41] Otras  Otras  Otras  Otras  Human  Otras  Otras  Otras  Otras  Otras 
+&gt; [51] Otras  Otras  Otras  Human  Human  Human  Otras  Otras  Otras  Human 
+&gt; [61] Human  Human  Human  Otras  Otras  Otras  Otras  Human  Otras  Droid 
+&gt; [71] Otras  Otras  Otras  Otras  Otras  Human  Otras  Human 
+&gt; Levels: Droid Otras Human Gungan
+```
+
+]
 
 ---
 
 class: inverse center middle
 name: clase-11
 
-# CLASE 11: factores y textos
+# CLASE 11: cruzar tablas, importar/exportar
 
 
 &amp;nbsp;

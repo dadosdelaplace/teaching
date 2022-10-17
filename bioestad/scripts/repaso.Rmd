@@ -1,0 +1,230 @@
+---
+title: "Repaso de tidyverse"
+description: |
+  Ejercicios resueltos de repaso
+author:
+  - name: Javier Álvarez Liébana
+    affiliation: Universidad Complutense de Madrid
+date: "`r Sys.Date()`"
+output: distill::distill_article
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+# Billboard
+
+## Ejercicio 1
+
+> Carga la tabla `billboard` del paquete `{tidyr}`.
+
+```{r}
+library(tidyverse)
+```
+
+## Ejercicio 2
+
+> Selecciona solo las primeras 52 semanas haciendo uso de `num_range()`
+
+```{r}
+billboard <- tidyr::billboard
+billboard <-
+  billboard |>
+  select(!contains("wk"), num_range("wk", 1:52))
+billboard
+```
+
+
+
+## Ejercicio 3
+
+> Convierte el dataset a tidydata, ausentes incluidos (deberías obtener 16 484 filas y 5 columnas).
+
+```{r}
+billboard_tidy <- 
+  billboard |> 
+  pivot_longer(cols = wk1:wk52, names_to = "week",
+               values_to = "rank")
+billboard_tidy
+```
+
+> Convierte el dataset a tidydata pero eliminando ausentes (deberías obtener 5280 filas y 5 columnas).
+
+```{r}
+billboard_tidy <- 
+  billboard |> 
+  pivot_longer(cols = wk1:wk52, names_to = "week",
+               values_to = "rank") |> 
+  drop_na()
+billboard_tidy
+```
+## Ejercicio 4
+
+> La variable `week` procésala para que sea numérica
+
+```{r}
+billboard_tidy <-
+  billboard_tidy |>
+  mutate(week = as.numeric(str_remove_all(week, "wk")))
+billboard_tidy
+```
+
+## Ejercicio 5
+
+> Asumiendo que cada cuatrimestre tiene 13 semanas, crea una nueva variable llamada `quarter` que nos codifique el cuatrimestre de cada registro. Crea otra variable con el mes en `month`
+
+```{r}
+library(lubridate)
+billboard_tidy <-
+  billboard_tidy |>
+  mutate(quarter =
+           case_when(week <= 13 ~ 1, week <= 26 ~ 2,
+                     week <= 39 ~ 3, week <= 52 ~ 4),
+         month = month(date.entered))
+billboard_tidy
+```
+
+## Ejercicio 6
+
+> Extrae la lista de artistas distintos que aparecen en la tabla (y cuántas veces aparece cada uno)
+
+```{r}
+billboard_tidy |>
+  count(artist)
+```
+
+
+> Determina las canciones que más semanas aparecen en la lista de éxitos. Extrae las 10 que más semanas aparecen
+
+```{r}
+billboard_tidy |>
+  count(track) |> 
+  arrange(desc(n))
+
+billboard_tidy |>
+  count(track) |> 
+  arrange(desc(n)) |> 
+  slice_max(n = 10, n)
+```
+
+> Extrae los 10 artistas cuya canción aparece más semanas (cuidado: un artista tiene varias canciones)
+
+```{r}
+billboard_tidy |>
+  count(artist, track) |> 
+  slice_max(n = 10, n)
+```
+
+## Ejercicio 8
+
+> Determina el artista con más canciones en la lista
+
+```{r}
+billboard_tidy |>
+  distinct(track, .keep_all = TRUE) |> 
+  count(artist) |> 
+  arrange(desc(n))
+```
+## Ejercicio 9
+
+> Calcula el número de canciones distintas que aparecen en la lista
+
+```{r}
+billboard_tidy |>
+  distinct(track, .keep_all = TRUE) |> 
+  count()
+```
+
+> Calcula la posición más alta en la que ha estado cada canción
+
+```{r}
+billboard_tidy |> 
+  group_by(track) |> 
+  slice_min(rank, n = 1, with_ties = FALSE) |> 
+  ungroup()
+
+billboard_tidy |> 
+  group_by(track) |> 
+  summarise(max_rank = min(rank)) |> 
+  ungroup()
+```
+
+> Calcula la posición más alta en la que ha estado un artista
+
+```{r}
+billboard_tidy |> 
+  group_by(artist) |> 
+  slice_min(rank, n = 1, with_ties = FALSE) |> 
+  ungroup()
+
+billboard_tidy |> 
+  group_by(artist) |> 
+  summarise(max_rank = min(rank)) |> 
+  ungroup()
+```
+
+> Calcula la primera semana que una canción entró en el top 100
+
+```{r}
+billboard_tidy |> 
+  group_by(track) |> 
+  slice_min(week, n = 1) |> 
+  ungroup()
+```
+
+> Obtén una tabla con el ranking medio de cada artista (contando solo el ranking más alto alcanzado por sus canciones), así como el número de canciones (distintas) que ha colocado en el top 100
+
+```{r}
+billboard_tidy |> 
+  group_by(artist, track) |> 
+  slice_min(rank, n = 1, with_ties = FALSE) |> 
+  ungroup(track) |> 
+  summarise(mean_rank = mean(rank),
+            n_songs = n()) |> 
+  ungroup() |> 
+  arrange(mean_rank)
+
+# Comprobando que n_songs es correcto
+billboard_tidy |>
+  distinct(artist, track) |>
+  group_by(artist) |>
+  count() |>
+  arrange(desc(n)) |> 
+  ungroup()
+```
+
+
+
+
+## Ejercicio 10
+
+
+> Realiza un muestreo extrayendo solo los registros de Enrique Iglesias y The Backstreet Boys.
+
+```{r}
+billboard_tidy |> 
+  filter(str_detect(str_to_lower(artist), "backstreet") |
+           str_detect(str_to_lower(artist), "enrique iglesias"))
+```
+
+
+> Obtén una tabla con el número de registros por quatrimestre (y su proporción respecto al total). Realiza un muestreo aleatorio estratificado, extrayendo el 50% de los datos pero manteniendo la proporción de datos entre los distintos cuatrimestres.
+
+```{r}
+# COmprobamos proporción original
+billboard_tidy |>
+  count(quarter) |>
+  mutate(prop = 100*n/sum(n))
+
+# Muestreo estratificado
+billboard_tidy |>
+  group_by(quarter) |>
+  slice_sample(prop = 0.5) |> 
+  ungroup() |>
+  count(quarter) |>
+  mutate(prop = 100*n/sum(n))
+```
+
+

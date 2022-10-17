@@ -256,9 +256,9 @@ class: inverse center middle
 
 #### [CLASE 9: tidyverse. resúmenes estadísticos](#clase-9)
 
-#### [CLASE 10: importar/exportar y cruzando tablas](#clase-10)
+#### [CLASE 10: repaso y factores](#clase-10)
 
-#### [CLASE 11: factores y textos](#clase-11)
+#### [CLASE 11: cruzando tablas, importar/exportar](#clase-11)
 
 #### [ENTREGA II (clase 12)](#entrega-II)
 
@@ -8775,23 +8775,138 @@ starwars %>%
 class: inverse center middle
 name: clase-10
 
-# CLASE 10: importar/exportar y cruzando tablas
+# CLASE 10: repaso y factores
 
 &nbsp;
 
-### [Caso práctico](#caso-practico)
+### [Repaso](#repaso)
 
-### [Importando datos](#importar)
+### [Caso práctico I](#caso-practico-I)
 
-### [Exportando datos](#exportar)
+### [Caso práctico II](#caso-practico-II)
+
+### [Factores](#factores)
+
 
 ---
 
-name: caso-practico
+name: repaso
 
-# CASO PRÁCTICO I
+# .orange[REPASO] tidyverse
 
-Antes de empezar, vamos a repasar conceptos
+Vamos a hacer un repaso de lo aprendido hasta ahora en tidyverse
+
+&nbsp;
+
+📝 **Ejercicio**: selecciona aquellos personajes de las familia `"Skywalker"` o `"Antilles"`.
+
+---
+
+# .orange[REPASO] tidyverse
+
+Vamos a hacer un repaso de lo aprendido hasta ahora en tidyverse
+
+
+&nbsp;
+
+📝 **Ejercicio**: filtra los personajes humanos, limpia los ausentes en estatura y peso, selecciona aquellos personajes cuyo IMC esté entre 23 y 26. ¿Sale alguno en la película `"Attack of the Clones"`? ¿Cuántos?
+
+---
+
+# .orange[REPASO] tidyverse
+
+Vamos a hacer un repaso de lo aprendido hasta ahora en tidyverse
+
+
+&nbsp;
+
+📝 **Ejercicio**: selecciona aleatoriamente el 50% de los datos, manteniendo el reparto (en proporciones) original entre humanos y no humanos (limpia antes de ausentes). Tras ello quedate solo con las variables nombre, la estatura, las que representen alguna característica de color y la variable films. Calcula la media de estaturas en humanos y no humanos. Por último calcula las frecuencias del color de ojos y humanos/no humanos.
+
+---
+
+name: caso-practico-I
+
+# CASO PRÁCTICO I: billboard
+
+* Carga la tabla `billboard` del paquete `{tidyr}`.
+
+--
+
+* Selecciona solo las primeras 52 semanas haciendo uso de `num_range()`
+
+--
+
+* Convierte el dataset a tidydata, ausentes incluidos (deberías obtener 16 484 filas y 5 columnas).
+
+--
+
+* Convierte el dataset a tidydata pero eliminando ausentes (deberías obtener 5280 filas y 5 columnas).
+
+--
+
+* La variable `week` procésala para que sea numérica
+
+---
+
+# CASO PRÁCTICO I: billboard
+
+* Asumiendo que cada cuatrimestre tiene 13 semanas, crea una nueva variable llamada `quarter` que nos codifique el cuatrimestre de cada registro. Crea otra variable con el mes en `month`
+
+--
+
+* Extrae la lista de artistas distintos que aparecen en la tabla (y cuántas veces aparece cada uno)
+
+--
+
+* Determina las canciones que más semanas aparecen en la lista de éxitos. Extrae las 10 que más semanas aparecen
+
+--
+
+* Extrae los 10 artistas cuya canción aparece más semanas (cuidado: un artista tiene varias canciones)
+
+--
+
+* Determina el artista con más canciones en la lista
+
+---
+
+# CASO PRÁCTICO I: billboard
+
+* Calcula el número de canciones distintas que aparecen en la lista
+
+--
+
+* Calcula la posición más alta en la que ha estado cada canción
+--
+
+* Calcula la posición más alta en la que ha estado un artista
+
+--
+
+* Calcula la primera semana que una canción entró en el top 100
+
+--
+
+* Obtén una tabla con el ranking medio de cada artista (contando solo el ranking más alto alcanzado por sus canciones), así como el número de canciones (distintas) que ha colocado en el top 100
+
+
+---
+
+# CASO PRÁCTICO I: billboard
+
+*  Realiza un muestreo extrayendo solo los registros de Enrique Iglesias y The Backstreet Boys.
+
+--
+
+* Obtén una tabla con el número de registros por quatrimestre (y su proporción respecto al total). Realiza un muestreo aleatorio estratificado, extrayendo el 50% de los datos pero manteniendo la proporción de datos entre los distintos cuatrimestres.
+
+  
+---
+
+name: caso-practico-II
+
+# CASO PRÁCTICO II: deberes
+
 
 * 📝 **Ejercicio extra**: en el paquete `{survival}`, la tabla `heart` contiene los mismos datos de la tabla `jasa` pero ya preprocesados. Haz uso de lo aprendido para pasar de `jasa` a `heart`
 
@@ -8800,18 +8915,365 @@ Antes de empezar, vamos a repasar conceptos
 survival::heart
 ```
 
----
-
-# CASO PRÁCTICO II
 
 ---
 
+name: factores
 
+# Variables cuali: .orange[FACTORES]
+
+
+En el caso de las **.bg-purple_light[variables cualitativas]**, llamaremos  **niveles o modalidades** a los **diferentes valores** que pueden tomar estos datos. Por ejemplo, en el caso de la variable `sex` del conjunto `starwars`, tenemos 4 niveles permitidos: `female`, `hermaphroditic`, `male` y `none` (amén de datos ausentes).
+
+```{r}
+starwars %>% count(sex)
+```
+
+
+
+---
+
+# Variables cuali: .orange[FACTORES]
+
+.pull-left[
+
+Como ya hemos comentado, este tipo de variables se conocen en `R` como **.bg-purple_light[factores]**. Y el paquete fundamental para tratarlos es `{forcats}` (del entorno `{tidyverse}`). 
+
+]
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "100%", fig.align = "left"}
+knitr::include_graphics("./img/factors.jpg")
+``` 
+
+]
+
+---
+
+# Variables cuali: .orange[FACTORES]
+
+
+Este paquete nos permite fijar los **.bg-purple_light[niveles]** (guardados internamente como `levels`) que toma una determinada variable categórica para que no puedan generarse equivocaciones, errores en la recolección y generación de datos. Además hace que su análisis sea menos costoso computacionalmente a la hora de hacer búsquedas y comparativas, dándoles un **.bg-purple_light[tratamiento diferente a las cadena de texto normales]**.
+
+--
+
+Veamos un ejempo sencillo definiendo una variable `estado` que tome los valores `"sano"`, `"leve"` y `"grave"` de la siguiente manera.
+
+```{r}
+estado <-
+  c("leve", "grave", "sano", "sano", "leve", "sano", "sano", "grave",
+    "grave", "leve", "grave", "sano", "sano")
+estado
+```
+
+La variable `estado` actualmente es de **.bg-purple_light[tipo texto]**, de tipo `chr`, algo que podemos comprobar con `class(estado)`.
+
+```{r}
+class(estado)
+```
+
+---
+
+# Variables cuali: .orange[FACTORES]
+
+
+Desde un punto de vista estadístico y computacional, para `R` esta variable ahora mismo sería equivalente una variable de nombres. Pero estadísticamente **.bg-purple_light[no es lo mismo una variable con nombres]** (que identifican muchas veces el registro) que una variable categórica como estado que **.bg-purple_light[solo puede tomar esos 3 niveles]**. ¿Cómo **.bg-purple_light[convertir a factor]**? Haciendo uso de la función `as_factor()` del paquete `{forcats}`.
+
+--
+
+```{r}
+library(tidyverse)
+estado_fct <- tibble(paciente = 1:length(estado),
+                     estado = as_factor(estado))
+estado_fct
+```
+
+---
+
+# Variables cuali: .orange[FACTORES]
+
+
+No solo ha cambiado la clase de la variable sino que ahora, debajo del valor guardado, nos aparece la frase `Levels: grave leve sano`: son las **.bg-purple_light[modalidades o niveles]** de nuestra cualitativa. Imagina que ese día en el hospital no tuviésemos a **nadie en estado grave**: aunque ese día nuestra variable no tome dicho valor, el estado `grave` es un **.bg-purple_light[nivel permitido en la base de datos]**, así que aunque lo eliminemos, por ser un factor, el nivel permanece (no lo tenemos ahora pero es un nivel permitido).
+
+
+```{r}
+estado_fct %>% 
+  filter(estado %in% c("sano", "leve")) %>% 
+  pull(estado)
+```
+
+---
+
+# Variables cuali: .orange[FACTORES]
+
+
+Con `factor()` podemos **.bg-purple_light[especificar explícitamente]** los nombres de las modalidades, incluso si son nominales u **.bg-purple_light[ordinales]**
+
+```{r}
+estado_fct <-
+  tibble(paciente = 1:length(estado),
+         estado = factor(estado, ordered = TRUE))
+estado_fct %>% pull(estado)
+```
+
+---
+
+# Variables cuali: .orange[FACTORES]
+
+
+Con  `levels = ...` podemos indicarle explícitamente el **.bg-purple_light[orden de las modalidades]**
+
+```{r}
+estado_fct <-
+  tibble(paciente = 1:length(estado),
+         estado = factor(estado,
+                         levels = c("sano", "leve", "grave"),
+                         ordered = TRUE))
+estado_fct %>% pull(estado)
+```
+
+
+
+---
+
+# Variables cuali: .orange[FACTORES]
+
+
+.pull-left[
+
+Si queremos indicarle que **.bg-purple_light[elimine un nivel no usado]** en ese momento (y que queremos excluir de la definición) podemos hacerlo con `fct_drop()`
+
+]
+
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "100%", fig.align = "left"}
+knitr::include_graphics("./img/drop_factor.jpg")
+``` 
+
+]
+
+```{r}
+estado_fct %>% 
+  filter(estado %in% c("sano", "leve")) %>% 
+  mutate(estado = fct_drop(estado)) %>% 
+  pull(estado)
+```
+
+---
+
+# Variables cuali: .orange[FACTORES]
+
+.pull-left[
+
+Al igual que podemos eliminar niveles podemos **.bg-purple_light[ampliar los niveles existentes]** (aunque no existan datos de ese nivel en ese momento) con `fct_expand()`
+
+
+]
+
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "100%", fig.align = "left"}
+knitr::include_graphics("./img/factor_expand.jpg")
+``` 
+
+]
+
+```{r}
+estado_fct %>% 
+  mutate(estado = fct_expand(estado, c("UCI", "fallecido"))) %>% 
+  pull(estado)
+```
+
+---
+
+# Variables cuali: .orange[FACTORES]
+
+.pull-left[
+
+Además con `fct_explicit_na()` podemos **.bg-purple_light[asignar un nivel a los valores]** para que sea incluido dicho nivel en los análisis y visualizaciones.
+
+
+]
+
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "100%", fig.align = "left"}
+knitr::include_graphics("./img/factor_explicit.jpg")
+``` 
+
+]
+
+```{r}
+fct_explicit_na(factor(c("a", "b", NA)))
+```
+
+---
+
+# Variables cuali: .orange[FACTORES]
+
+
+Incluso una vez definidos podemos **.bg-purple_light[reordenar los níveles]** con `fct_relevel()`
+
+
+```{r}
+estado_fct_expand <- 
+  estado_fct %>% 
+  mutate(estado = fct_expand(estado, c("UCI", "fallecido"))) %>% 
+  pull(estado)
+
+estado_fct_expand %>%
+  fct_relevel(c("fallecido", "leve", "sano",
+                "grave", "UCI"))
+  
+```
+
+
+---
+
+# Variables cuali: .orange[FACTORES]
+
+.pull-left[
+
+Esta forma de trabajar con variables cualitativas nos permite dar una **.bg-purple_light[definición teórica]** de nuestra base de datos, pudiendo incluso contar valores que aún no existen (pero que podrían), haciendo uso de `fct_count()`
+
+]
+
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "70%", fig.align = "left"}
+knitr::include_graphics("./img/fct_count.jpg")
+``` 
+
+]
+
+```{r}
+estado_fct %>% 
+  mutate(estado = fct_expand(estado, c("UCI", "fallecido"))) %>% 
+  pull(estado) %>% 
+  fct_count()
+```
+
+
+---
+
+# Variables cuali: .orange[FACTORES]
+
+
+Los níveles también podemos **.bg-purple_light[ordenarlos por frecuencia]** con `fct_infreq()`
+
+```{r}
+estado_fct %>% 
+  mutate(estado = fct_infreq(estado)) %>% 
+  pull(estado) %>% 
+  fct_count()
+```
+
+---
+
+# Variables cuali: .orange[FACTORES]
+
+
+A veces querremos **.bg-purple_light[agrupar niveles]**, por ejemplo, no permitiendo niveles que **.bg-purple_light[no sucedan un mínimo de veces]** con `fct_lump_min(.., min = ..)` (las observaciones que no lo cumplan irán a un **nivel genérico** llamado `Other`, aunque se puede cambiar con el argumento `other_level`). 
+
+.pull-left[
+
+
+```{r}
+estado_fct %>% 
+  pull(estado) %>% 
+  fct_lump_min(min = 4)
+```
+
+]
+
+.pull-right[
+
+```{r}
+estado_fct %>% 
+  pull(estado) %>% 
+  fct_lump_min(min = 4,
+               other_level = "otros")
+```
+
+]
+
+---
+
+# Variables cuali: .orange[FACTORES]
+
+
+Podemos hacer algo equivalente pero en función de su **.bg-purple_light[frecuencia relativa]** con `fct_lump_prop()`.
+
+
+```{r}
+estado_fct %>% 
+  pull(estado) %>% 
+  fct_lump_prop(prop = 0.4,
+                other_level = "otros")
+```
+
+---
+
+
+# Variables cuali: .orange[FACTORES]
+
+Esto lo podemos aplicar a nuestros conjuntos de datos para **.bg-purple_light[recategorizar variables]** de forma muy rápida.
+
+```{r}
+starwars %>% 
+  drop_na(species) %>% 
+  mutate(species =
+           fct_lump_min(species, min = 3,
+                        other_level = "Otras")) %>% 
+  count(species)
+```
+
+---
+
+# Variables cuali: .orange[FACTORES]
+
+Con `fct_reorder()` podemos también indicar que queremos ordenar los factores en función de una función aplicada a otra variable.
+
+
+```{r}
+starwars_factor <- 
+  starwars %>% 
+  drop_na(height, species) %>% 
+  mutate(species =
+           fct_lump_min(species, min = 3,
+                        other_level = "Otras"))
+```
+
+.pull-left[
+
+```{r}
+starwars_factor %>% pull(species)
+```
+
+]
+
+.pull-right[
+
+```{r}
+starwars_factor %>%
+  mutate(species = fct_reorder(species, height, mean)) %>% 
+  pull(species)
+```
+
+]
+
+---
 
 class: inverse center middle
 name: clase-11
 
-# CLASE 11: factores y textos
+# CLASE 11: cruzar tablas, importar/exportar
 
 
 &nbsp;
