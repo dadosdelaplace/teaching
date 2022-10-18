@@ -3,7 +3,7 @@ title: "Fundamentos de ciencia de datos en R"
 subtitle: "Especialista Universitario en Ciencia de Datos aplicada a la actividad aseguradora"
 author:
   - "Javier Álvarez Liébana (Fac. Estudios Estadísticos - UCM)"
-date: "Última actualización: `r format(lubridate::today(), format = '%d-%m-%Y')`"
+date: "Última actualización: `r format(lubridate::now(), format = '%d-%m-%Y %H:%M:%S')`"
 output:
   xaringan::moon_reader:
     css: xaringan-themer.css

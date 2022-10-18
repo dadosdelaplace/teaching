@@ -28,7 +28,7 @@ class: center, middle, inverse, title-slide
 # Fundamentos de ciencia de datos en R
 ## Especialista Universitario en Ciencia de Datos aplicada a la actividad aseguradora
 ### Javier Álvarez Liébana (Fac. Estudios Estadísticos - UCM)
-### Última actualización: 18-10-2022
+### Última actualización: 18-10-2022 21:24:32
 
 ---
 
@@ -1524,7 +1524,7 @@ now()
 ```
 
 ```
-&gt; [1] "2022-10-18 21:11:36 CEST"
+&gt; [1] "2022-10-18 21:24:34 CEST"
 ```
  
 --
@@ -2616,9 +2616,9 @@ x &lt;- rnorm(1e3) # 1000 elementos aleatorias
 
 ```
 &gt; Unit: microseconds
-&gt;         expr    min     lq     mean  median      uq     max neval cld
-&gt;      sort(x) 42.452 45.411 54.03844 49.1260 56.9335 176.975  1000   b
-&gt;  x[order(x)] 29.426 31.778 36.98011 34.1675 38.7035 145.949  1000  a
+&gt;         expr    min     lq     mean  median     uq     max neval cld
+&gt;      sort(x) 42.374 45.398 58.71693 48.3370 60.414 237.755  1000   b
+&gt;  x[order(x)] 29.656 31.892 40.30800 33.7225 41.046 173.310  1000  a
 ```
 
 
@@ -3214,12 +3214,12 @@ microbenchmark(x^2,
 
 ```
 &gt; Unit: nanoseconds
-&gt;                                     expr     min        lq        mean  median
-&gt;                                      x^2     356     449.5    1214.939    1096
-&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 1713227 1842106.0 2108736.446 1953612
-&gt;       uq      max neval cld
-&gt;     1836    20587  1000  a 
-&gt;  2168014 13350559  1000   b
+&gt;                                     expr     min      lq        mean  median
+&gt;                                      x^2     356     455    1412.004    1403
+&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 1727098 1883576 2318853.325 2088414
+&gt;         uq      max neval cld
+&gt;     1992.5    20369  1000  a 
+&gt;  2495095.5 15326035  1000   b
 ```
 
 ---
