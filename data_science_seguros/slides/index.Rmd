@@ -177,6 +177,27 @@ El **.bg-purple_light[propósito]** de esta asignatura será triple
 
 ---
 
+# .orange[EVALUACIÓN] del bloque
+
+Las 3 sesiones que tendremos contarán un **.bg-purple_light[50% de la nota final]** de la asignatura. La evaluación será mediante 3 entregas:
+
+* **.bg-purple_light[Entrega I]**: contará un **.bg-orange[20% de la nota]** (sobre 100%)
+
+* **.bg-purple_light[Entrega II]**: contará un **.bg-orange[35% de la nota]** (sobre 100%)
+
+* **.bg-purple_light[Entrega III]**: contará un **.bg-orange[45% de la nota]** (sobre 100%)
+
+
+--
+
+Dos opciones a decidir: **.bg-purple_light[escalar]** los deadline (20 de noviembre - 11 de diciembre - 25 de diciembre, para tener una **retroalimentación** antes de las siguientes, o **.bg-purple_light[acumular]** deadline (todas el 25 de diciembre).
+
+&nbsp;
+
+Además después de cada sesión se planteará una **.bg-purple_light[pequeña entrega]** de ejercicios sencillos que serán **.bg-purple_light[voluntarios]**, con deadline de una semana (antes de la siguiente clase), y que quién quiera entregar recibirá una **.bg-orange[corrección de la misma]** (como si contase para nota).
+
+---
+
 class: inverse center middle
 
 # CLASES
@@ -209,7 +230,7 @@ name: clase-1
 
 ### [Tidy data](#tidydata)
 
-### [Entrega](#ejercicios-I)
+### [Entrega](#complementos-I)
 
 ---
 
@@ -3686,15 +3707,908 @@ stocks %>% complete(year, qtr)
 
 ---
 
-class: inverse center middle
+name: complementos-I
 
-# COMPLEMENTOS A MIRAR EN CASA
+class: inverse
+
+# COMPLEMENTOS
+
+#### [Estructuras de control: if-else y bucles](#estructuras-condicionales)
+
+#### [Replicate. Sample](#replicate)
 
 &nbsp;
 
+# EJERCICIOS Y ENTREGA
+
 #### [Presentar resultados: rmd](#rmd)
 
-#### [Ejercicios a entregar](#ejercicios-I)
+#### [Ejercicios extras](#ejercicios-I)
+
+#### [Entrega I (20%)](#entrega-I)
+
+---
+
+name: estructuras-condicionales
+
+# Estructuras de control: .orange[IF-ELSE]
+
+
+Una **.bg-purple_light[expresión de control]** será un conjunto de órdenes que nos permiten **.bg-purple_light[decidir el camino]** por el que queremos que avance nuestro código:
+
+* ¿Qué hacemos si sucede A?
+
+* ¿Y si sucede B?
+
+* ¿Tengo que programar X veces lo mismo si quiere que se repita?
+
+&nbsp;
+
+Si has programado en algún otro lenguaje, estarás familiarizado/a con **.bg-purple_light[estructuras condicionales]** como un `if (blabla) {...} else {...}` (que los usaremos a veces) o **.bg-purple_light[bucles]** `for/while` (que intentaremos evitarlos lo máximo posible).
+
+---
+
+# Estructuras de control: .orange[IF]
+
+Una de las estructuras de control más famosas de cualquier lenguaje de programación es la **.bg-purple_light[estructura condicional]** `if`
+
+> SI las condiciones impuestas se cumplen (TRUE), ejecuta las órdenes que tengamos dentro de la misma.
+
+Por ejemplo, la estructura `if (x == 1) { código A }` lo que hará será **.bg-purple_light[ejecutar el código entre llaves]** pero **.bg-orange[SI Y SOLO SI]** la **.bg-purple_light[condición es cierta]** (en este caso, solo si `x` es igual 1). En **caso contrario, no hace nada**.
+
+--
+
+Definamos por ejemplo una variable sencilla, las edades de 8 personas y comprobemos cuales son menores de edad.
+
+```{r}
+edades <- c(14, 17, 24, 56, 31, 20, 87, 73)
+edades < 18
+```
+
+---
+
+# Estructuras de control: .orange[IF]
+
+
+Recuerda que con las funciones `any()` y `all()` podemos saber si **.bg-purple_light[todos o alguno de los elementos]** de un vector cumplen una condición.
+
+```{r}
+any(edades < 18) # existe algun menor de edad
+```
+
+--
+
+Con dichos elementos vamos a construir nuestra primera estructura condicional: queremos que, **.bg-purple_light[SI existe algún menor de edad, nos imprima un mensaje]**.
+
+```{r}
+if (any(edades < 18)) { 
+  
+  print("existe alguna persona mayor de edad")
+  
+}
+```
+
+---
+
+# Estructuras de control: .orange[IF]
+
+```{r eval = FALSE}
+if (any(edades < 18)) { 
+  
+  print("existe alguna persona mayor de edad")
+  
+}
+```
+
+
+En caso de que **.bg-purple_light[no se cumplan las condiciones]** dentro del `if()` (FALSE), no sucederá nada. 
+
+
+```{r}
+if (all(edades >= 18)) { 
+  
+  print("todas las personas son mayores de edad")
+  
+}
+```
+
+Fíjate que en este caso **no hemos obtenido ningún mensaje** porque la condición `all(edades >= 18)` no es cierta (no son todos mayores de 18 años), así que **no ha ejecutado el código**.
+
+---
+
+# Estructuras de control: .orange[IF-ELSE]
+
+La estructura `if (condicion) { }` puede ser combinada con un `else { }`: cuando la **.bg-purple_light[condición no se cumpla]** (como en el último ejemplo), se **.bg-purple_light[ejecutará el código alternativo]** que haya dentro del `else { }`, permitiéndonos decidir que sucede cuando SÍ se cumple y cuando NO se cumple.
+
+--
+
+Por ejemplo, la estructura `if (x == 1) { código A } else { código B }` ejecutará A si `x` es 1 y B en cualquier otro caso.
+
+```{r}
+if (all(edades >= 18)) { 
+  
+  print("todas las personas son mayores de edad")
+  
+} else { #<<
+  
+  print("existe alguna persona menor de edad")
+}
+```
+
+---
+
+# Estructuras de control: .orange[IF-ELSE]
+
+Dicha estructura `if - else` puede **.bg-purple_light[anidarse]**: imagina que queremos realizar una acción si todos fuesen mayores de edad; en caso contrario, pero si todos los menores tienen 16 años o más, realizar otra acción; en caso contrario, otra acción
+
+```{r}
+if (all(edades >= 18)) { 
+  
+  print("todas las personas son mayores de edad")
+  
+} else if (all(edades >= 16)) {
+  
+  print("Existe alguna persona menor de edad pero todos con 16 años o más")
+  
+} else { print("Existe alguna persona menor de 16 años") }
+```
+
+**.bg-green_light[CONSEJO]**: puedes **colapsar las estructuras de control** pulsando en la flecha que aparece a la izquierda de ellas en tu script.
+
+
+---
+
+# Estructuras de control: .orange[IFELSE()]
+
+
+Esta estructura condicional puede ser **.bg-purple_light[vectorizada]**: reunir en una sola fila un número elevado de estructuras de comparación con la función `ifelse()`, cuyos argumentos de entrada serán
+
+* la condición a evaluar
+* lo que sucede cuando se cumple
+* lo que sucede cuando no se cumple
+
+Con el ejemplo de las edades, vamos a dejar el dato ausente si son menores de edad, y si son mayores de edad se queda como está.
+
+```{r}
+# NA si no cumple la condición, la edad si se cumple.
+ifelse(edades >= 18, edades, NA) #<<
+```
+
+---
+
+# Estructuras de control: .orange[IFELSE()]
+
+
+Todas estas estructuras **.bg-purple_light[no solo sirven para datos numéricos]**. Vamos a definir un vector de nombres con algunos ausentes, y vamos a sustituir los ausentes por el texto `"nombre_desconocido"` (los que no sean ausentes, es decir los que `is.na()` devuelva FALSE, se quedan como están).
+
+```{r}
+nombres <- c("Juan", "María", NA, NA, "Lucía",
+             "Carmen", "Javier", NA, "Carlos", 
+             NA, "Gregorio", "Paloma")
+
+# Si tiene ausente --> "nombre_desconocido"
+# Si no tiene ausente --> nombres originales
+nombres <-
+  ifelse(is.na(nombres), "nombre_desconocido", nombres)
+nombres
+```
+
+---
+
+name: bucles
+
+# Estructuras de control: .orange[BUCLES]
+
+Aunque la mayoría de veces son sustituibles por otras expresiones más legibles y eficientes, es importante que conozcamos otra archiconocida expresion de control: **.bg-purple_light[los bucles]**.
+
+* `for { }`: permite **.bg-purple_light[repetir el mismo código]** un **.bg-orange[número fijo y conocido]** de veces (normalmente en función de un índice).
+
+* `while { }`: permite **.bg-purple_light[repetir el mismo código]** un **.bg-orange[número indeterminado de veces]**, hasta que una **condición** dada se deje de cumplir.
+
+---
+
+# Estructuras de control: .orange[BUCLES FOR]
+
+Un **.bg-purple_light[bucle for]** es una estructura que nos permite **.bg-purple_light[repetir]** un conjunto de órdenes un **.bg-orange[número finito y conocido]** de veces: dado un **conjunto de índices**, el bucle irá recorriendo cada uno de ellos.
+
+Vamos a definir un vector `x`. Si quisiéramos el primer elemento al cuadrado escribiríamos `x[1]^2`; si quisiéramos el segundo elemento al cuadrado `x[2]^2`; si lo quisiéramos hacer en general, para el elemento i-ésimo, `x[i]^2`. Lo que haremos dentro del `for (indices) { órdenes }` es indicarle que valores irá tomando `i` (**.bg-purple_light[vector de índices]**).
+
+```{r}
+x <- c(0, -7, 1, 4)
+for (i in 1:4) { #<<
+  
+  print(x[i]^2) # órdenes
+  
+}
+```
+
+---
+
+# Estructuras de control: .orange[BUCLES FOR]
+
+```{r eval = FALSE}
+for (i in 1:4) { #<<
+  print(x[i]^2) # órdenes
+}
+```
+
+Lo que tenemos dentro de los paréntesis `for ()` no es más que la **.bg-purple_light[secuencia de números]** que hemos aprendido a construir. Si quisiéramos que haga lo mismo pero excluyendo por ejemplo el segundo elemento bastaría con definir los índices a recorrer como `c(1, 3, 4)`.
+
+```{r}
+for (i in c(1, 3, 4)) {
+  
+  print(x[i]^2) # que lo imprima
+  
+}
+```
+
+---
+
+# Estructuras de control: .orange[BUCLES FOR]
+
+Podemos definir también una variable `y <- rep(0, 4)` (un **vector «vacío»** lleno de ceros), y hacer que el **.bg-purple_light[elemento i-ésimo del vector]** se defina como `x[i]^2`
+
+```{r}
+y <- rep(0, 4)
+for (i in 1:4) {
+  
+  y[i] <- x[i]^2
+  
+}
+y
+```
+
+--
+
+Lo anterior es equivalente a esto
+
+```{r}
+y <- x^2
+y
+```
+
+---
+
+# .orange[BUCLES] suelen ser .red[INEFICIENTES]
+
+
+Haciendo uso del paquete `microbenchmark` podemos comprobar como los **.bg-purple_light[bucles son menos eficientes]** (de ahí que la mayoría de veces los intentemos evitar si existe otra alternativa)
+
+```{r}
+library(microbenchmark)
+x <- 1:100
+microbenchmark(x^2, 
+               for (i in 1:100) { y[i] <- x[i]^2 },
+               times = 1000)
+```
+
+---
+ 
+# Estructuras de control: .orange[BUCLES FOR]
+
+
+Veamos otro ejemplo **.bg-purple_light[combinando vectores numéricos y de caracteres]**: vamos a definir de nuevo un vector de edades y nombres, y vamos a recorrer cada uno imprimiento un mensaje por pantalla.
+
+```{r}
+nombres <- c("Javi", "Laura", "Carlos", "Lucía", "Mar")
+edades <- c(33, 51, 18, 43, 29)
+
+# Recorremos cada uno de los 5 elementos e imprimimos un
+# mensaje que depende de ese índice i
+for (i in 1:5) { 
+  
+  print(glue("{nombres[i]} tiene {edades[i]} años")) 
+  
+}
+```
+
+---
+
+# Estructuras de control: .orange[BUCLES FOR]
+
+Fíjate que **.bg-purple_light[si no nos queremos preocupar de si añadimos otra persona]**, podemos hacer que el bucle empiece en 1 y termine en el **.bg-purple_light[último lugar]** (sea el que sea), usando `length()`.
+
+```{r}
+for (i in 1:length(nombres)) { 
+  
+  print(glue("{nombres[i]} tiene {edades[i]} años")) 
+  
+}
+```
+
+---
+
+# Estructuras de control: .orange[BUCLES FOR]
+
+Aunque normalmente el conjunto que recorre el bucle suelen ser índices numéricos, podemos **.bg-purple_light[recorrer cualquier tipo de objeto]**, por ejemplo días e la semana
+
+```{r}
+library(stringr)
+dias_semana <- c("lunes", "martes", "miércoles", "jueves",
+                 "viernes", "sábado", "domingo")
+
+for (dias in dias_semana) { # dias recorre los días de la semana
+  
+  print(str_to_upper(dias)) # Imprimimos en mayúsculas el día
+}
+```
+
+---
+
+# Estructuras de control: .orange[BUCLES FOR]
+
+Un último ejemplo: vamos a recorrer nuestro conjunto de datos `swiss` del paquete `{datasets}` y vamos a **pasar a dato ausente** todos los valores de fertilidad superiores a 80. Para ello recorreremos cada fila para después ejecutar un `if`.
+
+```{r}
+for (i in 1:nrow(swiss)) {
+  
+  # si cumple la condición dicha fila, ponemos ausente.
+  if (swiss$Fertility[i] > 80) { 
+    
+    swiss$Fertility[i] <- NA
+    
+  }
+}
+```
+
+--
+
+Esto sería exactamente equivalente al `ifelse()` vectorizado que vimos en el tema anterior
+
+```{r}
+data("swiss") # lo cargamos de 0
+swiss$Fertility <- ifelse(swiss$Fertility > 80, NA, swiss$Fertility)
+```
+
+
+---
+
+# Estructuras de control: .orange[BUCLES WHILE]
+
+Otra manera de diseñar un bucle es con la estructura `while { }`, que ejecutará el bucle un **.bg-purple_light[número de veces a priori  desconocido]**, lo hará hasta que la **.bg-purple_light[condición impuesta deje de ser cierta]**. Por ejemplo, vamos a inicializar una variable `ciclos <- 1`, y en cada paso aumentaremos una unidad, y no saldremos del bucle hasta que `ciclos > 4`
+
+```{r}
+ciclos <- 1
+
+# Mientras el número de ciclos sea inferior 4, imprime
+while(ciclos <= 4) {
+  
+  print(paste("Todavía no, vamos por el ciclo ", ciclos)) # Pegamos la frase al número de ciclo por el que vayamos con paste
+  ciclos <- ciclos + 1
+  
+}
+```
+
+
+---
+  
+# Estructuras de control: .orange[BUCLES WHILE]
+
+
+¿Y qué sucede cuando la **.bg-purple_light[condición nunca llega a ser FALSE]**? Compruébalo tú mismo/a.
+
+```{r eval = FALSE}
+while (1 > 0) { # Nunca va a dejar de ser cierto
+  
+  print("Presiona ESC para salir del bucle")
+  
+}
+```
+
+&nbsp;
+
+**.bg-red_light[CUIDADO]**: un bucle `while { }` puede ser muy peligroso sino se controla bien que el bucle acaba en algún momento.
+
+---
+
+# Estructuras de control: .orange[BUCLES WHILE]
+
+Tenemos dos comandos reservados para poder **.bg-purple_light[abortar un bucle o avanzar forzosamente]**:
+
+* `break`: os habilita para **.bg-purple_light[parar un bucle]** aunque no haya llegado al final de su conjunto de índices a recorrer (o se siga cumpliendo la condición).
+
+```{r}
+for(i in 1:10) {
+  if (i == 3) {
+    
+    break # si i es 3, el bucle frena aquí
+    
+  }
+  print(i)
+}
+```
+
+---
+
+# Estructuras de control: .orange[BUCLES WHILE]
+
+Tenemos dos comandos reservados para poder **.bg-purple_light[abortar un bucle o avanzar forzosamente]**:
+
+* `next`: **.bg-purple_light[obliga al bucle a avanzar]** a la siguiente iteracción, abortando la iteración actual en la que se encuentra. 
+
+```{r}
+for(i in 1:5) {
+  if (i == 3) {
+    
+    next # si i es 3, pasará a la siguiente
+    
+  }
+  print(i)
+}
+```
+
+---
+
+
+# Replicando código: .orange[REPLICATE]
+
+Otra forma de **.bg-purple_light[repetir o replicar]** código, al margen de las estructuras de bucle ya vistas, es haciendo uso de `replicate()`, que de momento no lo haremos depender de un índice: simplemente **.bg-purple_light[repetira n veces]** el mismo código.
+
+```{r}
+x <- 1:3
+replicate(n = 3, x^2)
+```
+          
+---
+
+# Simulando muestras: .orange[SAMPLE]
+
+Es habitual que `replicate()` se use conjuntamente con la función `sample()` que nos permitirá **.bg-purple_light[generar muestras aleatorias]** indicando cuál es la **.bg-purple_light[función de probabilidad]** asociada] (generar **«tiradas de dados»** indicando cuál es la **probabilidad** de cada cara).
+
+* `x`: **.bg-purple_light[soporte]** (valores permitidos, caras del dado).
+* `size`: **.bg-purple_light[tamaño]** (número de tiradas)
+* `replace`: **.bg-purple_light[¿con reemplazamiento?]** (¿puede salir un elemento que ya ha salido?)
+* `prob`: **.bg-purple_light[vector de probabilidades]** (probabilidad de cada cara)
+
+--
+
+Por ejempo, vamos a simular **.bg-purple_light[2 tiradas de una moneda]**, indicando el soporte (0 y 1, cara y cruz), y `size = 2`
+
+```{r}
+sample(x = 0:1, size = 2)
+```
+
+**.bg-red_light[IMPORTANTE]**: si no indicamos nada en el vector de probabilidades `prob`, asume que son equiprobables (en este caso, $1/2$ para cada cara).
+
+
+---
+
+# Simulando muestras: .orange[SAMPLE]
+
+Fíjate que tampoco le hemos indicado nada en `replace`, ya que por defecto toma el valor `FALSE`. ¿Qué sucede si hubiésemos querido generar 10 tiradas de una moneda?
+
+```{r error = TRUE}
+sample(x = 0:1, size = 10)
+```
+
+--
+
+&nbsp;
+
+Dado que solo tenemos 2 posibles valores a elegir, y le hemos pedido 10 tiradas, al llegar a la segunda **.bg-purple_light[no tiene opciones de seguir eligiendo]**. Para poder generarlas deberemos asignar `replace = TRUE` (ahora podrán repetirse las caras).
+
+
+```{r}
+# 30 tiradas
+sample(x = 0:1, size = 30, replace = TRUE)
+```
+
+---
+
+# Simulando muestras: .orange[SAMPLE]
+
+El soporte no solo tiene porqué ser numérico, sino que podríamos definir un **.bg-purple_light[soporte de valores de texto]**, de forma que asignemos en los posibles valores directamente `"cara"` y `"cruz"`
+
+```{r}
+sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
+```
+
+--
+
+El comando `sample()` nos genera **.bg-purple_light[valores (pseudo) aleatorios]**, por lo que si volvemos a ejecutar la misma órden tendremos (seguramente) **.bg-red_light[valores diferentes]**.
+
+```{r}
+sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
+```
+
+---
+
+# Simulando muestras: .orange[SAMPLE]
+
+Si quisiéramos generar resultados que no dependiesen de la aleatoriedad de una muestra simulada (por ejemplo, para ver si un método es mejor que otro), tenemos la opción de **.bg-purple_light[fijar semilla]** (valor inicial usado para generar el mecanismo de pseudoaleatoriedad).
+
+```{r}
+set.seed(1234567)
+sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
+```
+
+
+```{r}
+set.seed(1234567)
+sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
+```
+
+```{r}
+set.seed(1234567)
+sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
+```
+
+---
+
+
+# Simulando muestras: .orange[SAMPLE]
+
+
+De esta manera podemos **.bg-purple_light[simular una gran cantidad de datos]** y ver cómo evoluciona por ejemplo la media muestral.
+
+> ¿Cómo hacer uso de un bucle para generar 1 tirada, 2 tiradas, 3 tiradas, ..., 25 tiradas (con `sample()`), y guardar la media de caras?
+
+--
+
+```{r}
+tiradas <- 1:25
+media <- rep(0, length(tiradas))
+
+for (i in tiradas) {
+  
+  tirada <- sample(x = c("cara", "cruz"), size = i, replace = TRUE)
+  media[i] <- sum(tirada == "cruz") / i
+
+}
+media
+```
+
+---
+
+
+# Simulando muestras: .orange[SAMPLE]
+
+
+Esto nos permite comprobar de primera mano algo muy importante a la hora de simular: nuestra muestra será (seguramente) distinta pero según  **.bg-purple_light[aumenta el tamaño muestral]**, los **.bg-purple_light[parámetros muestrales]** (media, por ejemplo) tenderán a los **.bg-purple_light[parámetros teóricos o poblacionales]** (la media si aumentamos el tamaño debería tender a $0.5$).
+
+
+```{r}
+tiradas <- c(1, 5, 10, 15, 25, 50, 100, 500, 1000, 5000,
+             10000, 25000, 50000, 100000, 200000, 500000)
+media <- rep(0, length(tiradas))
+
+for (i in 1:length(tiradas)) {
+  
+  tirada <- sample(x = c(0, 1), size = tiradas[i], 
+                   replace = TRUE)
+  media[i] <- mean(tirada)
+
+}
+media
+```
+
+
+Lo anterior se debe al **.bg-purple_light[TEOREMA CENTRAL DEL LÍMITE]**
+
+---
+
+# Simulando muestras: .orange[SAMPLE]
+
+Como has podido ver, aunque el parámetro poblacional tienda al muestral, rara vez será justo igual (dado que $n$ nunca podrá ser infinito en el ordenador). ¿Y si **.bg-purple_light[repetimos]** el experimento de $n$ tiradas $m$ veces? ¿Cuál será la media de las medias obtenidas?
+
+Para ello nos sirve `replicate()`. ¿Se te ocurre cómo, por ejemplo repitiendo $m = 1000$ veces $n=10000$ tiradas?
+
+
+--
+
+```{r}
+tiradas <- replicate(1000, sample(x = c(0, 1), size = 10000,
+                                 replace = TRUE))
+dim(tiradas)
+
+medias <- apply(tiradas, MARGIN = 2, FUN = mean)
+mean(medias)
+```
+
+
+---
+
+# Simulando muestras: .orange[SAMPLE]
+
+¿Y si lo hiciésemos con la **.bg-purple_light[varianza]**? Sabemos que la varianza (teórica) debe ser $\sigma^2  = 0.25$ (varianza de una binomial de parámetro $p$ es igual a $p^2$)
+
+.pull-left[
+
+```{r}
+tirada <- sample(x = c(0, 1), size = 100, replace = TRUE)
+mean(tirada^2) - mean(tirada)^2
+
+tirada <- sample(x = c(0, 1), size = 100, replace = TRUE)
+mean(tirada^2) - mean(tirada)^2
+```
+
+]
+
+.pull-right[
+
+```{r}
+tirada <- sample(x = c(0, 1), size = 100, replace = TRUE)
+mean(tirada^2) - mean(tirada)^2
+
+tirada <- sample(x = c(0, 1), size = 100, replace = TRUE)
+mean(tirada^2) - mean(tirada)^2
+```
+
+]
+
+Parece como si siempre se **quedase un poco por debajo**, de forma sistemática (con un sesgo), de forma que la media también quedará por debajo.
+
+--
+
+Un estimador (muestral) $T$ de un parámetro poblacional se dice **.bg-purple_light[ESTIMADOR INSESGADO]** si cumple que la media (esperanza) $E[T]$ es igual a dicho parámetro.
+
+
+---
+
+name: ejercicios-5
+
+# Ejercicios
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+
+* 📝 **Ejercicio 1**: modifica el código inferior para imprimir un mensaje por pantalla si todos los datos del conjunto `airquality` son de meses que no sean enero.
+
+```{r eval = FALSE}
+# install.packages("dataset") # solo la primera vez
+library(datasets) # paquete con los datos
+mes <- airquality$Month
+
+if (mes == 2) {
+  
+  print("Ningún dato es del mes de enero")
+  
+}
+```
+
+]
+
+.panel[.panel-name[Solución ej. 1]
+
+* 📝 **Ejercicio 1**: modifica el código inferior para imprimir un mensaje por pantalla si todos los datos del conjunto `airquality` son de meses que no sean enero.
+
+```{r}
+# install.packages("dataset") # solo la primera vez
+library(datasets) # paquete con los datos
+mes <- airquality$Month
+
+if (all(mes != 1)) {
+  
+  print("Ningún dato es del mes de enero")
+  
+}
+```
+
+]
+
+]
+
+
+---
+
+# Ejercicios
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+* 📝 **Ejercicio 2**: modifica el código inferior para guardar en una variable llamada `temperatura_alta` un valor `TRUE` si alguno de los registros tiene una temperatura mayor a 90 (están en Farenheit) y un `FALSE` en caso contrario.
+ 
+```{r eval = FALSE}
+temperatura <- airquality$Temp
+
+if (temperatura == 100) {
+  
+  print("Alguno de los registros tiene temperatura superior a 90 Farenheit")
+  
+}
+```
+
+]
+
+.panel[.panel-name[Solución ej. 2]
+
+* 📝 **Ejercicio 2**: modifica el código inferior para guardar en una variable llamada `temperatura_alta` un valor `TRUE` si alguno de los registros tiene una temperatura mayor a 90 (están en Farenheit) y un `FALSE` en caso contrario.
+ 
+```{r eval = FALSE}
+
+# Opción 1
+temperatura <- airquality$Temp
+temperatura_alta <- FALSE
+if (any(temperatura > 90)) {
+  
+   temperatura_alta <- TRUE
+  
+}
+
+# Opción 2
+temperatura_alta <- any(airquality$Temp > 90)
+```
+
+
+]
+
+]
+
+---
+
+
+# Ejercicios
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+* 📝 **Ejercicio 3**: modifica el código inferior para diseñar un bucle `for` de 5 iteraciones que recorra los 5 primeros impares y les sume uno.
+
+```{r eval = FALSE}
+for (i in 1:5) {
+  
+  print(i)
+}
+```
+
+* 📝 **Ejercicio 4**: modifica el código inferior para diseñar un bucle `while` que parta con una variable `conteo <- 1` y pare cuando llegue a 6.
+
+```{r eval = FALSE}
+conteo <- 1
+while (conteo == 2) {
+  
+  print(conteo)
+}
+```
+
+]
+
+.panel[.panel-name[Solución ej. 3]
+
+* 📝 **Ejercicio 3**: modifica el código inferior para diseñar un bucle `for` de 5 iteraciones que recorra los 5 primeros impares y les sume uno.
+
+```{r}
+for (i in c(1, 3, 5, 7, 9)) {
+  
+  print(i + 1)
+}
+```
+
+]
+
+.panel[.panel-name[Solución ej. 4]
+
+* 📝 **Ejercicio 4**: modifica el código inferior para diseñar un bucle `while` que parta con una variable `conteo <- 1` y pare cuando llegue a 6.
+
+```{r}
+conteo <- 1
+while (conteo < 6) {
+  
+  print(conteo)
+  conteo <- conteo + 1
+  
+}
+```
+
+]
+
+]
+
+---
+
+# Ejercicios
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+* 📝 **Ejercicio 5**: diseña un bucle `for` de 200 iteraciones que, empezando en un valor inicial de 100 (euros), te sume 3€ (actualizando el valor) si el número actual de la iteración es par, y te reste 5€ si es impar (investiga la función `%%`).
+
+* 📝 **Ejercicio 6**: diseña el anterior bucle pero guardando el dinero de cada iteración en alguna variable
+ 
+
+* 📝 **Ejercicio 7**: diseña el bucle del ejercicio 5 pero parando cuando no nos quede dinero.
+
+* 📝 **Ejercicio 8**: haciendo uso de `sample()`, simula la tirada de 100 dados (cada uno de 6 caras), pero de forma que el dado esté trucado, y calcula la media de las tiradas.
+
+* 📝 **Ejercicio 9**: repite el ejercicio anterior para 1,2,...,200 dados (haz uso de un `for()`), y guarda la media de las tiradas en cada caso.
+
+]
+
+.panel[.panel-name[Sol. ej. 5]
+
+Un número par será todo aquel número que al dividir entre 2, la división es exacta, es decir, que su resto es nulo. Para calcular ese resto usaremos la función `%%`.
+
+
+```{r}
+# dinero inicial
+dinero <- 100
+
+for (i in 1:200) {
+  
+  dinero <- ifelse(i %% 2 == 0, dinero + 3, dinero  - 5)
+  
+}
+dinero
+```
+
+]
+
+.panel[.panel-name[Sol. ej. 6]
+
+```{r}
+# vector inicial de importes
+dinero <- rep(0, 201)
+dinero[1] <- 100 # dinero inicial
+
+# Bucle for
+for (i in 2:201) {
+  
+  # si i es par o  impar
+  dinero[i] <- ifelse(i %% 2 == 0, dinero[i - 1] + 3,
+                      dinero[i - 1]  - 5)
+  
+}
+dinero
+```
+
+]
+
+.panel[.panel-name[Sol. ej. 7]
+
+```{r}
+dinero <- 100 # dinero inicial
+
+# Bucle while
+while (dinero > 0) {
+  
+  dinero <- ifelse(i %% 2 == 0, dinero + 3, dinero - 5)
+  
+}
+dinero
+```
+
+]
+
+.panel[.panel-name[Sol. ej. 8]
+
+
+* 📝 **Ejercicio 8**: haciendo uso de `sample()`, simula la tirada de 100 dados (cada uno de 6 caras), pero de forma que el dado esté trucado (decide tú cómo), y calcula la media de las tiradas.
+
+```{r}
+# dado sin trucar
+tiradas <- sample(x = 1:6, size = 100, replace = TRUE)
+mean(tiradas)
+
+# dado trucado (por ejemplo 1/2 la primera cara)
+tiradas <-
+  sample(x = 1:6, size = 100, replace = TRUE,
+         prob = c(1/2, 1/10, 1/10, 1/10, 1/10, 1/10))
+mean(tiradas)
+```
+
+]
+
+.panel[.panel-name[Sol. ej. 9]
+
+
+* 📝 **Ejercicio 9**: repite el ejercicio anterior para 1,2,...,200 dados (haz uso de un `for()`), y guarda la media de las tiradas en cada caso.
+
+```{r}
+medias <- rep(0, 200)
+for (i in 1:200) {
+  
+  medias[i] <-
+    mean(sample(x = 1:6, size = i, replace = TRUE))
+}
+medias
+```
+
+
+]
+
+]
+
 
 ---
 
@@ -4142,9 +5056,9 @@ knitr::include_graphics("./img/variables_html.jpg")
 
 name: ejercicios-I
 
-# Ejercicios a entregar (10%)
+# Ejercicios extras
 
-Deberás **.bg-purple_light[entregar completado]** un archivo `.R` (o bien el archivo `.Rmd` que tienes disponible en <https://github.com/dadosdelaplace/teaching/tree/main/data_science_seguros/eval>) con los ejercicios resueltos **.bg-purple_light[antes de las 17:59 del 25 de octubre]**.
+La entrega de dicho ejercicios tienen de deadline antes de la próxima clase y son **.bg-purple_light[voluntarios]** (no contará para la nota). A cambio el alumno que lo haga recibirá una corrección de la tarea (como si contase para nota), teniendo una retroalimentación.
 
 .panelset[
 .panel[.panel-name[Vectores y matrices: I]
@@ -4197,7 +5111,9 @@ apply(matriz, MARGIN = 2, FUN = "sum")
 
 ---
 
-# .orange[CASO PRÁCTICO 1]: OMS (15%)
+name: entrega-I
+
+# .orange[ENTREGA I]: OMS (20%)
 
 Instala el paquete `{tidyr}` y usa el conjunto `who` contenido en él mismo (dataset sobre casos de tuberculosis). Deberás **.bg-purple_light[entregar completado]** el archivo `.Rmd` que tienes disponible en <https://github.com/dadosdelaplace/teaching/tree/main/data-science_seguros/eval> **.bg-purple_light[antes de las 23:59 del 20 de noviembre]**, siguiendo las instrucciones contenidas en el mismo.
 
@@ -4209,7 +5125,7 @@ who
 
 &nbsp;
 
-🔎 Mira antes <https://github.com/dadosdelaplace/teaching/blob/main/data-science_seguros/scripts/segundo_rmarkdown.Rmd> para ver algunas opciones extras que puedes usar para personalizar.
+🔎 Mira antes <https://github.com/dadosdelaplace/teaching/tree/main/data_science_seguros/scripts> el ejemplo de entrega (con enunciados sin y con resolver) para realizarla correctamente (tras revisar las diapositivas de `.rmd`).
 
 
 

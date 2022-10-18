@@ -42,6 +42,8 @@ use_clipboard( # About clipboard
 # use_freezeframe() # restarting gifs
 # use_animate_all("fade") # animates
 use_panelset() # panels 
+
+use_search(show_icon = TRUE)
 ```
 
 ```{r xaringan-themer, include = FALSE, warning = FALSE}
