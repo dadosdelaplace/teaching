@@ -1,0 +1,133 @@
+---
+title: "Ejemplo de entrega"
+description: |
+  Primeros pasos en R (deadline: ...)
+author:
+  - name: C. Tangana (DNI 0000000-A)
+    affiliation: Universidad Complutense de Madrid
+    affiliation_url: 
+date: "`r Sys.Date()`"
+output:
+    distill::distill_article:
+        highlight: kate
+        colorlinks: true
+        code_folding: false
+        toc: true            
+        toc_depth: 3     
+---
+
+```{r setup, include = FALSE}
+# Ajuste comunes de los chunk
+knitr::opts_chunk$set(fig.width = 9, fig.asp = 1, out.width = "100%",
+                      message = FALSE, warning = FALSE,
+                      echo = TRUE, res = 400)
+```
+
+# Instrucciones (leer antes de empezar)
+
+* Modifica dentro del documento `.Rmd` tus datos personales (nombre y DNI) ubicados en la cabecera del archivo.
+
+* Asegúrate, **ANTES de seguir editando** el documento, que el archivo `.Rmd` se teje correctamente (botón Knit) y se genera el `.html` correspondiente.
+
+* Los chunks (cajas de código) creados están o vacíos o incompletos, de ahí que la mayoría tengan la opción `eval = FALSE`. Una vez que edites lo que consideres debes ir cambiando cada chunck a `eval = TRUE` para que se ejecuten.
+
+* Recuerda que puedes ejecutar chunk a chunk con el botón _play_ o ejecutar todos los chunk hasta uno dado (con el botón a la izquierda del anterior).
+
+# Caso práctico I: análisis de gapminder
+
+## Paquetes necesarios
+
+Necesitaremos los siguientes paquetes:
+
+```{r paquetes}
+# Borramos variables del environment
+rm(list = ls())
+library(glue)
+library(gapminder)
+library(tidyverse)
+```
+
+## Carga de datos
+
+El archivo de datos a usar lo cargaremos del paquete`{gapminder}` 
+
+```{r}
+gapminder
+```
+
+En él tenemos diferentes **variables de económicas de distintos países en distintos años**.
+
+## Ejercicio 1:
+
+
+> Haciendo uso de una función del paquete `{dplyr}` (que aparece en las diapositivas) obtén un resumen por columnas de los datos
+
+```{r eval = FALSE}
+# Completa el código y cambia a eval = TRUE 
+```
+
+## Ejercicio 2:
+
+
+> Determina la dimensión de nuestros datos. ¿Cuántos registros tenemos? ¿Cuántas variables tenemos? ¿Cuántos países diferentes tenemos? (cuidado: aquí ya no tenemos un registro por país)
+
+```{r eval = FALSE}
+# Completa el código y cambia a eval = TRUE 
+```
+
+
+## Ejercicio 3:
+
+> Completa el código inferior y añade una nueva variable de texto llamada `id` que, para cada registro, una `pais-continente-año` (por ejemplo, "Afghanistan-Asia-1952").
+
+```{r eval = FALSE}
+# Completa el código y cambia a eval = TRUE 
+library(glue)
+gapminder$id <- ...
+```
+
+
+## Ejercicio 4:
+
+> Tras la creación del id del ejercicio anterior, guarda en `gapminder_filtro` una nueva tabla en la que se eliminen la variable de nombre del país y contienente, y filtra solo registros del siglo XXI (años 2002 y 2007)
+
+```{r eval = FALSE}
+# Completa el código y cambia a eval = TRUE 
+gapminder_filtro <-
+  subset(gapminder, ...)  
+gapminder_filtro
+```
+
+
+## Ejercicio 5:
+
+> Del conjunto `gapminder` original, crea dos subconjuntos de datos, `gapminder_1952` y `gapminder_2007`, uno filtrando solo el año 1952 y otro el año 2007. Tras ello crea un tercer conjunto de datos, `gapminder_dif`, con las mismas columnas que los otros dos conjuntos pero en el que la columna `lifeExp` sea la diferencia de la esperanza de vida de 2007 menos la de 1952. ¿Existe algún país que haya empeorado su esperanza de vida?
+
+```{r eval = FALSE}
+# Completa el código y cambia a eval = TRUE 
+gapminder_1952 <- ...
+gapminder_2007 <- ...
+gapminder_dif <- ...
+```
+
+
+
+## Ejercicio 7:
+
+> Determina el número de países que en 2007 temnían más de 40 millones de habitantes.
+
+
+```{r eval = FALSE}
+# Completa el código y cambia a eval = TRUE 
+```
+
+## Ejercicio 8:
+
+> Suponiendo que todas las fechas fuesen del 1 de enero del año contenido en la variable `year`, crea una nueva variable de tipo fecha en formato `dd-mm-yyyy`. Crea otra variable para calcular los días que han pasado hasta la fecha actual.
+
+
+```{r eval = FALSE}
+# Completa el código y cambia a eval = TRUE 
+library(lubridate)
+```
+

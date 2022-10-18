@@ -1,0 +1,41 @@
+---
+title: "Probando Probando"
+author: "Señor/a X"
+date: "11/7/2014"
+output: html_document
+---
+
+# Primer informe {#seccion-1}
+
+Este _material_ ha sido diseñado por el profesor
+**Javier Álvarez Liébana**, docente en la [Universidad Complutense de Madrid](https://www.ucm.es).
+
+```{r chunk-1}
+x <- 1
+y <- 2
+x + y
+```
+
+## Chunks de código {#chunks}
+
+El código anterior con etiqueta `chunk-1` podemos reciclarlo usando dicha etiqueta entre comillas.
+
+
+```{r chunk-2}
+<<chunk-1>>
+```
+
+La operación anterior da como resultado `r x + y` (la suma de `r x` e `r y`).
+
+## Referencias a secciones y subsecciones
+
+Ahora podremos referirnos a la [Sección](#seccion-1) y [Subsección](#chunks) creadas.
+
+## Enumeración (ítems)
+
+* hola
+* qué
+* tal
+
+
+
