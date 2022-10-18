@@ -14,7 +14,7 @@ GPLv3](https://img.shields.io/badge/license-GPLv3-blue.svg)](https://www.gnu.org
 
 <a href="https://www.buymeacoffee.com/dadosdelaplace" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
 
-<img width="800" alt="image" src="https://user-images.githubusercontent.com/26646492/196523791-8f8365df-3494-44d0-8756-5785388659dc.png">
+<img width="650" alt="image" src="https://user-images.githubusercontent.com/26646492/196523791-8f8365df-3494-44d0-8756-5785388659dc.png">
 
             
 * **Diapositivas** (https://dadosdelaplace.github.io/teaching/data_science_seguros/slides)
