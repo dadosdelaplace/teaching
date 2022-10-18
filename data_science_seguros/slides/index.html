@@ -132,9 +132,9 @@ El **.bg-purple_light[propósito]** de esta asignatura será triple
 
 Las 3 sesiones que tendremos contarán un **.bg-purple_light[50% de la nota final]** de la asignatura. La evaluación será mediante 3 entregas:
 
-* **.bg-purple_light[Entrega I]**: contará un **.bg-orange[20% de la nota]** (sobre 100%)
+* **.bg-purple_light[Entrega I]**: contará un **.bg-orange[15% de la nota]** (sobre 100%)
 
-* **.bg-purple_light[Entrega II]**: contará un **.bg-orange[35% de la nota]** (sobre 100%)
+* **.bg-purple_light[Entrega II]**: contará un **.bg-orange[40% de la nota]** (sobre 100%)
 
 * **.bg-purple_light[Entrega III]**: contará un **.bg-orange[45% de la nota]** (sobre 100%)
 
@@ -177,11 +177,11 @@ name: clase-1
 
 ### [Vectores](#vectores)
 
-### [Datos tabulados: matrices, data.frame y tibble](#matrices)
+### [Ejercicios con vectores](#ejercicios-vectores)
 
-### [Tidy data](#tidydata)
+### [Operaciones con vectores](#operaciones-vectores)
 
-### [Entrega](#complementos-I)
+### [Ejercicios y entrega](#complementos-I)
 
 ---
 
@@ -1524,7 +1524,7 @@ now()
 ```
 
 ```
-&gt; [1] "2022-10-18 14:18:11 CEST"
+&gt; [1] "2022-10-18 21:11:36 CEST"
 ```
  
 --
@@ -1635,6 +1635,7 @@ fecha + seconds(2)
 
 ---
 
+name: ejercicios-vectores
 
 # Ejercicios
 
@@ -2615,14 +2616,15 @@ x &lt;- rnorm(1e3) # 1000 elementos aleatorias
 
 ```
 &gt; Unit: microseconds
-&gt;         expr    min      lq     mean  median      uq     max neval cld
-&gt;      sort(x) 43.327 48.8145 57.70205 52.5615 59.9020 307.056  1000   b
-&gt;  x[order(x)] 30.379 34.2005 41.02839 38.2435 42.2855 110.812  1000  a
+&gt;         expr    min     lq     mean  median      uq     max neval cld
+&gt;      sort(x) 42.452 45.411 54.03844 49.1260 56.9335 176.975  1000   b
+&gt;  x[order(x)] 29.426 31.778 36.98011 34.1675 38.7035 145.949  1000  a
 ```
 
 
 ---
 
+name: ejercicios-operaciones-vectores
 # Ejercicios de vectores
 
 
@@ -2869,6 +2871,1105 @@ quantile(x)
 ]
 
 ---
+
+name: complementos-I
+
+class: inverse
+
+# COMPLEMENTOS
+
+#### [Estructuras de control: if-else y bucles](#estructuras-condicionales)
+
+&amp;nbsp;
+
+# EJERCICIOS Y ENTREGA
+
+#### [Presentar resultados: rmd](#rmd)
+
+#### [Ejercicios extras](#ejercicios-I)
+
+#### [Entrega I (15%)](#entrega-I)
+
+---
+
+name: estructuras-condicionales
+
+# Estructuras de control: .orange[IF-ELSE]
+
+
+Una **.bg-purple_light[expresión de control]** será un conjunto de órdenes que nos permiten **.bg-purple_light[decidir el camino]** por el que queremos que avance nuestro código:
+
+* ¿Qué hacemos si sucede A?
+
+* ¿Y si sucede B?
+
+* ¿Tengo que programar X veces lo mismo si quiere que se repita?
+
+&amp;nbsp;
+
+Si has programado en algún otro lenguaje, estarás familiarizado/a con **.bg-purple_light[estructuras condicionales]** como un `if (blabla) {...} else {...}` (que los usaremos a veces) o **.bg-purple_light[bucles]** `for/while` (que intentaremos evitarlos lo máximo posible).
+
+---
+
+# Estructuras de control: .orange[IF]
+
+Una de las estructuras de control más famosas de cualquier lenguaje de programación es la **.bg-purple_light[estructura condicional]** `if`
+
+&gt; SI las condiciones impuestas se cumplen (TRUE), ejecuta las órdenes que tengamos dentro de la misma.
+
+Por ejemplo, la estructura `if (x == 1) { código A }` lo que hará será **.bg-purple_light[ejecutar el código entre llaves]** pero **.bg-orange[SI Y SOLO SI]** la **.bg-purple_light[condición es cierta]** (en este caso, solo si `x` es igual 1). En **caso contrario, no hace nada**.
+
+--
+
+Definamos por ejemplo una variable sencilla, las edades de 8 personas y comprobemos cuales son menores de edad.
+
+
+```r
+edades &lt;- c(14, 17, 24, 56, 31, 20, 87, 73)
+edades &lt; 18
+```
+
+```
+&gt; [1]  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE
+```
+
+---
+
+# Estructuras de control: .orange[IF]
+
+
+Recuerda que con las funciones `any()` y `all()` podemos saber si **.bg-purple_light[todos o alguno de los elementos]** de un vector cumplen una condición.
+
+
+```r
+any(edades &lt; 18) # existe algun menor de edad
+```
+
+```
+&gt; [1] TRUE
+```
+
+--
+
+Con dichos elementos vamos a construir nuestra primera estructura condicional: queremos que, **.bg-purple_light[SI existe algún menor de edad, nos imprima un mensaje]**.
+
+
+```r
+if (any(edades &lt; 18)) { 
+  
+  print("existe alguna persona mayor de edad")
+  
+}
+```
+
+```
+&gt; [1] "existe alguna persona mayor de edad"
+```
+
+---
+
+# Estructuras de control: .orange[IF]
+
+
+```r
+if (any(edades &lt; 18)) { 
+  
+  print("existe alguna persona mayor de edad")
+  
+}
+```
+
+
+En caso de que **.bg-purple_light[no se cumplan las condiciones]** dentro del `if()` (FALSE), no sucederá nada. 
+
+
+
+```r
+if (all(edades &gt;= 18)) { 
+  
+  print("todas las personas son mayores de edad")
+  
+}
+```
+
+Fíjate que en este caso **no hemos obtenido ningún mensaje** porque la condición `all(edades &gt;= 18)` no es cierta (no son todos mayores de 18 años), así que **no ha ejecutado el código**.
+
+---
+
+# Estructuras de control: .orange[IF-ELSE]
+
+La estructura `if (condicion) { }` puede ser combinada con un `else { }`: cuando la **.bg-purple_light[condición no se cumpla]** (como en el último ejemplo), se **.bg-purple_light[ejecutará el código alternativo]** que haya dentro del `else { }`, permitiéndonos decidir que sucede cuando SÍ se cumple y cuando NO se cumple.
+
+--
+
+Por ejemplo, la estructura `if (x == 1) { código A } else { código B }` ejecutará A si `x` es 1 y B en cualquier otro caso.
+
+
+```r
+if (all(edades &gt;= 18)) { 
+  
+  print("todas las personas son mayores de edad")
+  
+*} else {
+  
+  print("existe alguna persona menor de edad")
+}
+```
+
+```
+&gt; [1] "existe alguna persona menor de edad"
+```
+
+---
+
+# Estructuras de control: .orange[IF-ELSE]
+
+Dicha estructura `if - else` puede **.bg-purple_light[anidarse]**: imagina que queremos realizar una acción si todos fuesen mayores de edad; en caso contrario, pero si todos los menores tienen 16 años o más, realizar otra acción; en caso contrario, otra acción
+
+
+```r
+if (all(edades &gt;= 18)) { 
+  
+  print("todas las personas son mayores de edad")
+  
+} else if (all(edades &gt;= 16)) {
+  
+  print("Existe alguna persona menor de edad pero todos con 16 años o más")
+  
+} else { print("Existe alguna persona menor de 16 años") }
+```
+
+```
+&gt; [1] "Existe alguna persona menor de 16 años"
+```
+
+**.bg-green_light[CONSEJO]**: puedes **colapsar las estructuras de control** pulsando en la flecha que aparece a la izquierda de ellas en tu script.
+
+
+---
+
+# Estructuras de control: .orange[IFELSE()]
+
+
+Esta estructura condicional puede ser **.bg-purple_light[vectorizada]**: reunir en una sola fila un número elevado de estructuras de comparación con la función `ifelse()`, cuyos argumentos de entrada serán
+
+* la condición a evaluar
+* lo que sucede cuando se cumple
+* lo que sucede cuando no se cumple
+
+Con el ejemplo de las edades, vamos a dejar el dato ausente si son menores de edad, y si son mayores de edad se queda como está.
+
+
+```r
+# NA si no cumple la condición, la edad si se cumple.
+*ifelse(edades &gt;= 18, edades, NA)
+```
+
+```
+&gt; [1] NA NA 24 56 31 20 87 73
+```
+
+---
+
+# Estructuras de control: .orange[IFELSE()]
+
+
+Todas estas estructuras **.bg-purple_light[no solo sirven para datos numéricos]**. Vamos a definir un vector de nombres con algunos ausentes, y vamos a sustituir los ausentes por el texto `"nombre_desconocido"` (los que no sean ausentes, es decir los que `is.na()` devuelva FALSE, se quedan como están).
+
+
+```r
+nombres &lt;- c("Juan", "María", NA, NA, "Lucía",
+             "Carmen", "Javier", NA, "Carlos", 
+             NA, "Gregorio", "Paloma")
+
+# Si tiene ausente --&gt; "nombre_desconocido"
+# Si no tiene ausente --&gt; nombres originales
+nombres &lt;-
+  ifelse(is.na(nombres), "nombre_desconocido", nombres)
+nombres
+```
+
+```
+&gt;  [1] "Juan"               "María"              "nombre_desconocido"
+&gt;  [4] "nombre_desconocido" "Lucía"              "Carmen"            
+&gt;  [7] "Javier"             "nombre_desconocido" "Carlos"            
+&gt; [10] "nombre_desconocido" "Gregorio"           "Paloma"
+```
+
+---
+
+name: bucles
+
+# Estructuras de control: .orange[BUCLES]
+
+Aunque la mayoría de veces son sustituibles por otras expresiones más legibles y eficientes, es importante que conozcamos otra archiconocida expresion de control: **.bg-purple_light[los bucles]**.
+
+* `for { }`: permite **.bg-purple_light[repetir el mismo código]** un **.bg-orange[número fijo y conocido]** de veces (normalmente en función de un índice).
+
+* `while { }`: permite **.bg-purple_light[repetir el mismo código]** un **.bg-orange[número indeterminado de veces]**, hasta que una **condición** dada se deje de cumplir.
+
+---
+
+# Estructuras de control: .orange[BUCLES FOR]
+
+Un **.bg-purple_light[bucle for]** es una estructura que nos permite **.bg-purple_light[repetir]** un conjunto de órdenes un **.bg-orange[número finito y conocido]** de veces: dado un **conjunto de índices**, el bucle irá recorriendo cada uno de ellos.
+
+Vamos a definir un vector `x`. Si quisiéramos el primer elemento al cuadrado escribiríamos `x[1]^2`; si quisiéramos el segundo elemento al cuadrado `x[2]^2`; si lo quisiéramos hacer en general, para el elemento i-ésimo, `x[i]^2`. Lo que haremos dentro del `for (indices) { órdenes }` es indicarle que valores irá tomando `i` (**.bg-purple_light[vector de índices]**).
+
+
+```r
+x &lt;- c(0, -7, 1, 4)
+*for (i in 1:4) {
+  
+  print(x[i]^2) # órdenes
+  
+}
+```
+
+```
+&gt; [1] 0
+&gt; [1] 49
+&gt; [1] 1
+&gt; [1] 16
+```
+
+---
+
+# Estructuras de control: .orange[BUCLES FOR]
+
+
+```r
+*for (i in 1:4) {
+  print(x[i]^2) # órdenes
+}
+```
+
+Lo que tenemos dentro de los paréntesis `for ()` no es más que la **.bg-purple_light[secuencia de números]** que hemos aprendido a construir. Si quisiéramos que haga lo mismo pero excluyendo por ejemplo el segundo elemento bastaría con definir los índices a recorrer como `c(1, 3, 4)`.
+
+
+```r
+for (i in c(1, 3, 4)) {
+  
+  print(x[i]^2) # que lo imprima
+  
+}
+```
+
+```
+&gt; [1] 0
+&gt; [1] 1
+&gt; [1] 16
+```
+
+---
+
+# Estructuras de control: .orange[BUCLES FOR]
+
+Podemos definir también una variable `y &lt;- rep(0, 4)` (un **vector «vacío»** lleno de ceros), y hacer que el **.bg-purple_light[elemento i-ésimo del vector]** se defina como `x[i]^2`
+
+
+```r
+y &lt;- rep(0, 4)
+for (i in 1:4) {
+  
+  y[i] &lt;- x[i]^2
+  
+}
+y
+```
+
+```
+&gt; [1]  0 49  1 16
+```
+
+--
+
+Lo anterior es equivalente a esto
+
+
+```r
+y &lt;- x^2
+y
+```
+
+```
+&gt; [1]  0 49  1 16
+```
+
+---
+
+# .orange[BUCLES] suelen ser .red[INEFICIENTES]
+
+
+Haciendo uso del paquete `microbenchmark` podemos comprobar como los **.bg-purple_light[bucles son menos eficientes]** (de ahí que la mayoría de veces los intentemos evitar si existe otra alternativa)
+
+
+```r
+library(microbenchmark)
+x &lt;- 1:100
+microbenchmark(x^2, 
+               for (i in 1:100) { y[i] &lt;- x[i]^2 },
+               times = 1000)
+```
+
+```
+&gt; Unit: nanoseconds
+&gt;                                     expr     min        lq        mean  median
+&gt;                                      x^2     356     449.5    1214.939    1096
+&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 1713227 1842106.0 2108736.446 1953612
+&gt;       uq      max neval cld
+&gt;     1836    20587  1000  a 
+&gt;  2168014 13350559  1000   b
+```
+
+---
+ 
+# Estructuras de control: .orange[BUCLES FOR]
+
+
+Veamos otro ejemplo **.bg-purple_light[combinando vectores numéricos y de caracteres]**: vamos a definir de nuevo un vector de edades y nombres, y vamos a recorrer cada uno imprimiento un mensaje por pantalla.
+
+
+```r
+nombres &lt;- c("Javi", "Laura", "Carlos", "Lucía", "Mar")
+edades &lt;- c(33, 51, 18, 43, 29)
+
+# Recorremos cada uno de los 5 elementos e imprimimos un
+# mensaje que depende de ese índice i
+for (i in 1:5) { 
+  
+  print(glue("{nombres[i]} tiene {edades[i]} años")) 
+  
+}
+```
+
+```
+&gt; Javi tiene 33 años
+&gt; Laura tiene 51 años
+&gt; Carlos tiene 18 años
+&gt; Lucía tiene 43 años
+&gt; Mar tiene 29 años
+```
+
+---
+
+# Estructuras de control: .orange[BUCLES FOR]
+
+Fíjate que **.bg-purple_light[si no nos queremos preocupar de si añadimos otra persona]**, podemos hacer que el bucle empiece en 1 y termine en el **.bg-purple_light[último lugar]** (sea el que sea), usando `length()`.
+
+
+```r
+for (i in 1:length(nombres)) { 
+  
+  print(glue("{nombres[i]} tiene {edades[i]} años")) 
+  
+}
+```
+
+```
+&gt; Javi tiene 33 años
+&gt; Laura tiene 51 años
+&gt; Carlos tiene 18 años
+&gt; Lucía tiene 43 años
+&gt; Mar tiene 29 años
+```
+
+---
+
+# Estructuras de control: .orange[BUCLES FOR]
+
+Aunque normalmente el conjunto que recorre el bucle suelen ser índices numéricos, podemos **.bg-purple_light[recorrer cualquier tipo de objeto]**, por ejemplo días e la semana
+
+
+```r
+library(stringr)
+dias_semana &lt;- c("lunes", "martes", "miércoles", "jueves",
+                 "viernes", "sábado", "domingo")
+
+for (dias in dias_semana) { # dias recorre los días de la semana
+  
+  print(str_to_upper(dias)) # Imprimimos en mayúsculas el día
+}
+```
+
+```
+&gt; [1] "LUNES"
+&gt; [1] "MARTES"
+&gt; [1] "MIÉRCOLES"
+&gt; [1] "JUEVES"
+&gt; [1] "VIERNES"
+&gt; [1] "SÁBADO"
+&gt; [1] "DOMINGO"
+```
+
+---
+
+# Estructuras de control: .orange[BUCLES FOR]
+
+Un último ejemplo: vamos a recorrer nuestro conjunto de datos `swiss` del paquete `{datasets}` y vamos a **pasar a dato ausente** todos los valores de fertilidad superiores a 80. Para ello recorreremos cada fila para después ejecutar un `if`.
+
+
+```r
+for (i in 1:nrow(swiss)) {
+  
+  # si cumple la condición dicha fila, ponemos ausente.
+  if (swiss$Fertility[i] &gt; 80) { 
+    
+    swiss$Fertility[i] &lt;- NA
+    
+  }
+}
+```
+
+--
+
+Esto sería exactamente equivalente al `ifelse()` vectorizado que vimos en el tema anterior
+
+
+```r
+data("swiss") # lo cargamos de 0
+swiss$Fertility &lt;- ifelse(swiss$Fertility &gt; 80, NA, swiss$Fertility)
+```
+
+
+---
+
+# Estructuras de control: .orange[BUCLES WHILE]
+
+Otra manera de diseñar un bucle es con la estructura `while { }`, que ejecutará el bucle un **.bg-purple_light[número de veces a priori  desconocido]**, lo hará hasta que la **.bg-purple_light[condición impuesta deje de ser cierta]**. Por ejemplo, vamos a inicializar una variable `ciclos &lt;- 1`, y en cada paso aumentaremos una unidad, y no saldremos del bucle hasta que `ciclos &gt; 4`
+
+
+```r
+ciclos &lt;- 1
+
+# Mientras el número de ciclos sea inferior 4, imprime
+while(ciclos &lt;= 4) {
+  
+  print(paste("Todavía no, vamos por el ciclo ", ciclos)) # Pegamos la frase al número de ciclo por el que vayamos con paste
+  ciclos &lt;- ciclos + 1
+  
+}
+```
+
+```
+&gt; [1] "Todavía no, vamos por el ciclo  1"
+&gt; [1] "Todavía no, vamos por el ciclo  2"
+&gt; [1] "Todavía no, vamos por el ciclo  3"
+&gt; [1] "Todavía no, vamos por el ciclo  4"
+```
+
+
+---
+  
+# Estructuras de control: .orange[BUCLES WHILE]
+
+
+¿Y qué sucede cuando la **.bg-purple_light[condición nunca llega a ser FALSE]**? Compruébalo tú mismo/a.
+
+
+```r
+while (1 &gt; 0) { # Nunca va a dejar de ser cierto
+  
+  print("Presiona ESC para salir del bucle")
+  
+}
+```
+
+&amp;nbsp;
+
+**.bg-red_light[CUIDADO]**: un bucle `while { }` puede ser muy peligroso sino se controla bien que el bucle acaba en algún momento.
+
+---
+
+# Estructuras de control: .orange[BUCLES WHILE]
+
+Tenemos dos comandos reservados para poder **.bg-purple_light[abortar un bucle o avanzar forzosamente]**:
+
+* `break`: os habilita para **.bg-purple_light[parar un bucle]** aunque no haya llegado al final de su conjunto de índices a recorrer (o se siga cumpliendo la condición).
+
+
+```r
+for(i in 1:10) {
+  if (i == 3) {
+    
+    break # si i es 3, el bucle frena aquí
+    
+  }
+  print(i)
+}
+```
+
+```
+&gt; [1] 1
+&gt; [1] 2
+```
+
+---
+
+# Estructuras de control: .orange[BUCLES WHILE]
+
+Tenemos dos comandos reservados para poder **.bg-purple_light[abortar un bucle o avanzar forzosamente]**:
+
+* `next`: **.bg-purple_light[obliga al bucle a avanzar]** a la siguiente iteracción, abortando la iteración actual en la que se encuentra. 
+
+
+```r
+for(i in 1:5) {
+  if (i == 3) {
+    
+    next # si i es 3, pasará a la siguiente
+    
+  }
+  print(i)
+}
+```
+
+```
+&gt; [1] 1
+&gt; [1] 2
+&gt; [1] 4
+&gt; [1] 5
+```
+
+---
+
+name: rmd
+
+# .orange[COMUNICANDO] resultados: archivos .green[.Rmd] 
+
+
+Una de las principales **.bg-purple_light[fortalezas]** de `R` es la facilidad para generar informes, libros, webs, **.bg-purple_light[apuntes y hasta diapositivas]** (este material por ejemplo).
+
+&amp;nbsp;
+
+Para ello instalaremos antes el paquete `{rmarkdown}` que nos permitirá generar documentos `.Rmd`
+
+
+```r
+install.packages("rmarkdown")
+```
+
+---
+
+# .orange[COMUNICANDO] resultados: archivos .green[.Rmd] 
+
+¿Cuál son las **ventajas** de generarlos desde **.bg-purple_light[rmarkdown]**?
+
+--
+
+* Al hacerlo desde `RStudio`, puedes generar un informe o una presentación **.bg-purple_light[sin salirte del entorno]** de programación en el que estás trabajando
+
+--
+
+* Podrás analizar los datos, resumirlos y a la vez **.bg-purple_light[comunicarlos]**. 
+
+--
+
+* Permite **.bg-purple_light[integrar fácilmente código]** `R`, de forma que no solo podremos integrar las salidas de nuestro trabajo sino también el código con el que lo hemos generado.
+
+---
+
+# ¿Qué es .orange[RMARKDOWN]? 
+
+
+Una herramienta que nos permite crear de forma sencilla **documentos combinando**:
+
+--
+
+* **.bg-purple_light[Markdown]**: creado en 2004 por John Gruber, y de uso libre, es un «lenguaje» que nos permite crear contenido de una manera sencilla de escribir, y que en todo momento mantenga un diseño legible, con algunas de las ventajas de un HTML (si acostumbras a escribir en wordpress o blogs, seguramente hayas escrito de esta forma).
+
+--
+
+* **.bg-green_light[Matemáticas (latex)]**: herramienta (lenguaje en realidad) para escribir notación matemática como `\(x^2\)` o `\(\sqrt{2}\)` (si escribes notación similar en editores de texto, seguramente sin saberlo estés usando ya latex).
+
+--
+
+* **.bg-purple_light[Código]** y salidas de `R`: podremos no solo mostrar el paso final sino el código que has ido realizando, con **cajitas de código** como las del manual.
+
+--
+
+* **.bg-green_light[Imágenes y tablas]**.
+
+--
+
+* **.bg-purple_light[Estilos]** (css, js, etc).
+
+---
+
+# Creando nuestro .orange[PRIMER INFORME] 
+
+.pull-left[
+
+&lt;div class="figure" style="text-align: left"&gt;
+&lt;img src="./img/file_rmarkdown.jpg" alt="Creando el primer fichero .rmd" width="80%" /&gt;
+&lt;p class="caption"&gt;Creando el primer fichero .rmd&lt;/p&gt;
+&lt;/div&gt;
+
+
+]
+
+.pull-right[
+
+Vamos a crear el **.bg-purple_light[primer fichero]** con extensión `.Rmd` (la extensión de los archivos R Markdown).
+
+&amp;nbsp;
+
+Haz click en el botón `File &lt;&lt; New File &lt;&lt; R Markdown`.
+
+]
+
+---
+
+# Creando nuestro .orange[PRIMER INFORME] 
+
+.pull-left[
+
+&lt;div class="figure" style="text-align: left"&gt;
+&lt;img src="./img/new_rmd.jpg" alt="Creando el primer fichero .rmd" width="80%" /&gt;
+&lt;p class="caption"&gt;Creando el primer fichero .rmd&lt;/p&gt;
+&lt;/div&gt;
+
+
+]
+
+.pull-right[
+
+Tras hacerlo, nos aparecerán **.bg-purple_light[varias opciones]**de formatos de salida:
+
+* archivo `.pdf`
+
+* archivo `.html` (**.bg-purple_light[recomendable]**): documento dinámico, permite la interacción con el usuario, como una «página web»)
+
+* archivo `.doc` (nada recomendable)
+
+De momento dejaremos marcado el **.bg-purple_light[formato HTML que viene por defecto]**, y escribiremos el título de nuestro documento. Tras ello tendremos nuestro archivo `.Rmd` (ya no es un script `.R` como los que hemos abierto hasta ahora)
+
+]
+
+---
+
+
+# Creando nuestro .orange[PRIMER INFORME] 
+
+Un fichero `.Rmd` se divide básicamente en **.bg-purple_light[tres partes]**
+
+1. **.bg-purple_light[Cabecera]**: la parte que tienes al inicio entre `---`.
+
+2.  **.bg-purple_light[Texto]**: que podremos formatear y mejorar con **negritas** (escrito como `**negritas**`, con doble astérisco al inicio y final), _cursivas_ (`_cursivas_`, con barra baja al inicio y final) o destacar nombres de funciones o variables de `R` (con ``R`). Recuerda que puedes añadir además ecuaciones como `\(x^2\)` (he escrito `$x^2$`, la ecuación entre dólares).
+
+3. **.bg-purple_light[Código R]**.
+
+---
+
+# .orange[PRIMER INFORME]: .green[CABECERA]
+
+
+La cabecera están en formato `YAML`, y contiene los **.bg-purple_light[metadatos del documento]**: título, autor, fecha, estilos (si los tuviésemos), etc. Para probar, vamos a cambiar la cabecera que nos ha generado por defecto de la siguiente forma:
+
+
+```r
+---
+title: "Probando Probando"
+author: "Señor/a X"
+date: "11/7/2014"
+output: html_document
+---
+```
+
+Tras tunear nuestra cabecera borraremos todo lo que viene después para **.bg-purple_light[empezar desde cero]**.
+
+&lt;div class="figure" style="text-align: left"&gt;
+&lt;img src="./img/rmd_vacio.jpg" alt="Fichero .Rmd vacío, solo con la cabecera" width="27%" /&gt;
+&lt;p class="caption"&gt;Fichero .Rmd vacío, solo con la cabecera&lt;/p&gt;
+&lt;/div&gt;
+
+---
+
+# .orange[PRIMER INFORME]: .green[TEXTO]
+
+Solo hay una cosa **.bg-purple_light[importante]** a tener en cuenta en este entorno: salvo que indiquemos lo contrario, **.bg-purple_light[TODO lo que vamos a escribir en el documento es texto]**. No código R. Texto plano que podremos mejorar un poco con algun detalle, pero texto.
+
+Vamos a empezar nuestro documento escribiendo por ejemplo la siguiente frase
+
+
+
+```r
+Este material ha sido diseñado por el profesor Javier Álvarez Liébana,
+docente en la Universidad Complutense de Madrid
+```
+
+---
+
+# .orange[PRIMER INFORME]: .green[TEXTO]
+
+
+.pull-left[
+
+&lt;div class="figure" style="text-align: left"&gt;
+&lt;img src="./img/html_con_texto.jpg" alt="Primer informe html" width="99%" /&gt;
+&lt;p class="caption"&gt;Primer informe html&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+.pull-right[
+
+Una vez que hemos escrito el texto vamos a **.bg-purple_light[guardar el archivo .Rmd]** haciendo click en el botón `Guardar` (yo he llamado al archivo `primer_rmarkdown.Rmd`). Tras guardar el documento, **.bg-purple_light[«tejeremos» nuestro documento]** haciendo click en el botón `Knit`.
+
+Al «tejer» se nos habrá generado (seguramente en una ventana al margen) un archivo .html, que podemos incluso **.bg-purple_light[abrir en nuestro navegador]**. Hemos creado nuestro primer informe, obviamente vacío de momento. 
+
+
+]
+
+
+
+---
+
+# .orange[PRIMER INFORME]: .green[TEXTO]
+
+
+.pull-left[
+
+&lt;div class="figure" style="text-align: left"&gt;
+&lt;img src="./img/rmd_con_formato.jpg" alt="Tuneando nuestro primer informe html" width="99%" /&gt;
+&lt;p class="caption"&gt;Tuneando nuestro primer informe html&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+.pull-right[
+
+Vamos a **.bg-purple_light[mejorar]** un poco el texto haciendo lo siguiente:
+
+* Vamos a añadir **.bg-purple_light[negrita]** al nombre (poniendo `**` al inicio y al final).
+
+* Vamos añadir _cursiva_ a la palabra `material` (poniendo `_` al inicio y al final).
+
+*  Vamos añadir un enlace `https://www.ucm.es`, asociándolo al nombre de la Universidad. Para ello el título lo ponemos entre corchetes y justo detrás el enlace entre paréntesis `[«Universidad Complutense de Madrid»](https://www.ucm.es)`
+
+]
+
+---
+
+
+# .orange[PRIMER INFORME]: .green[CHUNKS] de R
+
+Para añadir **.bg-purple_light[código R]** debemos crear nuestras **.bg-purple_light[cajas de código]** llamadas **.bg-orange[chunks]**: altos en el camino en nuestro texto markdown donde podremos incluir **código**. Para incluir uno deberá de ir encabezado de la siguiente forma.
+
+&lt;div class="figure" style="text-align: left"&gt;
+&lt;img src="./img/chunk_1.jpg" alt="Encabezado/final del chunk" width="90%" /&gt;
+&lt;p class="caption"&gt;Encabezado/final del chunk&lt;/p&gt;
+&lt;/div&gt;
+
+---
+
+# .orange[PRIMER INFORME]: .green[CHUNKS] de R
+
+
+Dentro de dicha **.bg-purple_light[cajita]** (que tiene ahora **otro color** en el documento) escribiremos **.bg-purple_light[código R]**, como lo veníamos haciendo hasta ahora. Vamos por ejemplo a **.bg-purple_light[definir dos variables]** y su suma de la siguiente manera, escribiendo dicho código en nuestro `.Rmd` (dentro de ese chunk)
+
+.pull-left[
+
+
+```r
+# Código R
+x &lt;- 1
+y &lt;- 2
+x + y
+```
+
+```
+&gt; [1] 3
+```
+
+]
+
+.pull-right[
+
+&lt;div class="figure" style="text-align: left"&gt;
+&lt;img src="./img/rmd_3.jpg" alt="Primer chunk con código" width="99%" /&gt;
+&lt;p class="caption"&gt;Primer chunk con código&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+---
+
+# .orange[PRIMER INFORME]: .green[CHUNKS] de R
+
+.pull-left[
+
+
+```r
+# Código R
+x &lt;- 1
+y &lt;- 2
+x + y
+```
+
+```
+&gt; [1] 3
+```
+
+]
+
+.pull-right[
+
+&lt;div class="figure" style="text-align: left"&gt;
+&lt;img src="./img/rmd_3.jpg" alt="Primer chunk con código" width="70%" /&gt;
+&lt;p class="caption"&gt;Primer chunk con código&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+Como ves dentro de esos _chunks_ puedes **.bg-purple_light[comentar código]** con `#` (ahora veremos que hace `#` fuera de esas cajas de código). Tras hacerlo tejemos de nuevo y obtenemos ahora un documento que tiene una caja de código y su salida.
+
+&lt;div class="figure" style="text-align: left"&gt;
+&lt;img src="./img/html_rmd_3.jpg" alt="Salida del html con el primer chunk" width="40%" /&gt;
+&lt;p class="caption"&gt;Salida del html con el primer chunk&lt;/p&gt;
+&lt;/div&gt;
+
+
+
+---
+
+# .orange[PRIMER INFORME]: .green[CHUNKS] de R
+
+
+Somos capaces de **.bg-purple_light[escribir en un mismo documento texto]** con cierto formato, **.bg-purple_light[código R y la salida]** del resultado, permitiéndonos generar informes (ya veremos como incluir gráficas). De hecho, lo más práctico para **.bg-purple_light[tomar apuntes de R]** es ir anotando en un archivo `.Rmd`.
+
+Los chunks pueden tener un **.bg-purple_light[nombre o etiqueta]**, de forma que podamos referenciarlos de nuevo para no repetir código.
+
+&lt;div class="figure" style="text-align: left"&gt;
+&lt;img src="./img/chunk_repe_tag.jpg" alt="Etiquetando un chunk y reciclándolo" width="40%" /&gt;
+&lt;p class="caption"&gt;Etiquetando un chunk y reciclándolo&lt;/p&gt;
+&lt;/div&gt;
+
+
+
+---
+
+# .orange[PRIMER INFORME]: .green[ORGANIZANDO]
+
+Con todo incluido en el documento podemos **.bg-purple_light[dividirlo en secciones y subsecciones]**. Para ello usaremos la sintaxis de markdown, poniendo **.bg-purple_light[almohadillas]**: una `#` para secciones, `##` para subsecciones, `###` para subsubsecciones, etc. Por ejemplo, vamos a
+
+* Hacer una sección principal que sea `# Primer informe`
+* Tras ello añadiremos la parte de texto.
+* Creamos una subsección que se titule `## Chunks de código` donde incluiremos los dos chunks que tenemos hasta ahora.
+
+
+.pull-left[
+
+&lt;div class="figure" style="text-align: right"&gt;
+&lt;img src="./img/secciones_rmd.jpg" alt="Secciones en el rmd" width="80%" /&gt;
+&lt;p class="caption"&gt;Secciones en el rmd&lt;/p&gt;
+&lt;/div&gt;
+
+
+]
+
+.pull-right[
+
+&lt;div class="figure" style="text-align: left"&gt;
+&lt;img src="./img/secciones_html.jpg" alt="Secciones en el html" width="80%" /&gt;
+&lt;p class="caption"&gt;Secciones en el html&lt;/p&gt;
+&lt;/div&gt;
+
+
+]
+
+---
+
+
+# .orange[PRIMER INFORME]: .green[ORGANIZANDO]
+
+Además podemos incluir tras el título (y entre llaves `{}`) **.bg-purple_light[etiquetas]** (con `{#etiqueta}`) para luego **.bg-purple_light[referenciar dichas secciones]** en el documento.
+
+.pull-left[
+
+&lt;div class="figure" style="text-align: left"&gt;
+&lt;img src="./img/ref_rmd.jpg" alt="Referencias a secciones y subsecciones" width="75%" /&gt;
+&lt;p class="caption"&gt;Referencias a secciones y subsecciones&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+.pull-right[
+
+También podemos organizar nuestro código **.bg-purple_light[creando listas]**, usando `*` como ítems.
+
+&lt;div class="figure" style="text-align: left"&gt;
+&lt;img src="./img/items_rmd.jpg" alt="Creando listas con ítems" width="85%" /&gt;
+&lt;p class="caption"&gt;Creando listas con ítems&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+---
+
+# .orange[PRIMER INFORME]: .green[PERSONALIZAR]
+
+En cada chunk aparece una **.bg-purple_light[botón de play]**: pulsándolo podemos tener la **ejecución y salida** de cada chunk en nuestro `.Rmd`, sin tener que esperar a «tejer» (con Knit) todo el documento para ver lo que vamos ejecutando.
+
+
+.pull-left[
+
+&lt;div class="figure" style="text-align: left"&gt;
+&lt;img src="./img/play_chunk.jpg" alt="Pulsando al botón play" width="99%" /&gt;
+&lt;p class="caption"&gt;Pulsando al botón play&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+.pull-right[
+
+&lt;div class="figure" style="text-align: left"&gt;
+&lt;img src="./img/chunk_ejecutado.jpg" alt="Chunk ejecutado in-line" width="99%" /&gt;
+&lt;p class="caption"&gt;Chunk ejecutado in-line&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+---
+
+# .orange[PRIMER INFORME]: .green[PERSONALIZAR]
+
+
+Además podemos **.bg-purple_light[incluir código R dentro de la línea de texto]** (en lugar de mostrar el texto x ejecuta el código R mostrando la variable).
+
+
+
+.pull-left[
+
+&lt;div class="figure" style="text-align: left"&gt;
+&lt;img src="./img/codigo_inline_rmd.jpg" alt="Código R inline" width="99%" /&gt;
+&lt;p class="caption"&gt;Código R inline&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+.pull-right[
+
+&lt;div class="figure" style="text-align: left"&gt;
+&lt;img src="./img/codigo_inline_html.jpg" alt="Salida del código in-line" width="99%" /&gt;
+&lt;p class="caption"&gt;Salida del código in-line&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+---
+
+# .orange[PRIMER INFORME]: .green[PERSONALIZAR]
+
+
+Los chunk podemos **.bg-purple_light[personalizar su salida]** con algunas opciones, pasándolos como argumentos dentro de las llaves ({r etiqueta, ...}).
+
+* `include = FALSE`: **.bg-green_light[ejecuta código]** pero **.bg-red_light[no se muestra (ni resultados)]** en la salida.
+
+* `echo = FALSE`: **.bg-green_light[ejecuta código]** y se **.bg-green_light[muestra resultado]** pero **.bg-red_light[no el código]** en la salida.
+
+* `eval = FALSE`: se **.bg-green_light[muestra el código]** pero **.bg-red_light[no se ejecuta]** en la salida final.
+
+* `message = FALSE`: se **.bg-green_light[ejecuta el código]** pero **.bg-red_light[no se muestran mensajes]** de salida que tendríamos en consola.
+
+* `warning = FALSE`: **.bg-green_light[ejecuta código]** pero **.bg-red_light[no se muestran warning]**.
+
+* `error = TRUE`: se **.bg-green_light[ejecuta el código]** pero permite ejecutar el código **.bg-green_light[con errores]** mostrando los mensajes de error.
+ 
+--
+
+Estas opciones podemos aplicarlas chunk a chunk o fijar los parámetros de forma global con `knitr::opts_chunk$set()` (dentro de un chunk), pasándole como argumentos dichas opciones (por ejemplo, `knitr::opts_chunk$set(echo = FALSE)`).
+
+---
+
+# .orange[PRIMER INFORME]: .green[VARIABLES/ECUACIONES]
+
+Por último en este primer documento vamos a añadir una subsección `## Variables y ecuaciones` donde añadiremos un chunk asignando la suma `x + y` a una variable `z`, escribiendo antes en texto el nombre de la variable y la **.bg-purple_light[fórmula]** ($z = x + y$ entre dólares).
+
+
+.pull-left[
+
+&lt;div class="figure" style="text-align: left"&gt;
+&lt;img src="./img/variables_rmd.jpg" alt="Añadiendo variables en el .rmd" width="90%" /&gt;
+&lt;p class="caption"&gt;Añadiendo variables en el .rmd&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+.pull-right[
+
+&lt;div class="figure" style="text-align: left"&gt;
+&lt;img src="./img/variables_html.jpg" alt="Añadiendo variables en el .rmd" width="110%" /&gt;
+&lt;p class="caption"&gt;Añadiendo variables en el .rmd&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+
+---
+
+name: ejercicios-I
+
+# Ejercicios extras
+
+La entrega de dicho ejercicios tienen de deadline antes de la próxima clase y son **.bg-purple_light[voluntarios]** (no contará para la nota). A cambio el alumno que lo haga recibirá una corrección de la tarea (como si contase para nota), teniendo una retroalimentación.
+
+.panelset[
+.panel[.panel-name[Vectores y matrices: I]
+
+* 📝 **Ejercicio 1**: define un vector `y` que contenga los 5 primeros pares, y otro `x` con los 5 primeros impares. Haz la suma de `x` e `y`.
+ 
+* 📝 **Ejercicio 2**: encuentra del vector `x &lt;- c(-1, 0, -2, 5, 3, 7)` el lugar (el índice) que ocupa su mínimo y su máximo.
+ 
+* 📝 **Ejercicio 3**: haz uso de `x &lt;- rnorm(n = 1000, mean = 0, sd = 1)` para guardar en `x` datos generados por una normal de media 0 y desviación típica 1. Tras ello, ordena el vector `x` de menor a mayor y mayor a menor.
+
+]
+
+.panel[.panel-name[Vectores y matrices: II]
+
+* 📝 **Ejercicio 4**:  el siguiente código define una matriz de dimensiones `4 x 3` y calcula la suma por columnas. Modifica el código para que realice la suma por filas.
+ 
+
+```r
+matriz &lt;- matrix(1:12, nrow = 4)
+apply(matriz, MARGIN = 2, FUN = "sum")
+```
+
+* 📝 **Ejercicio 5**: tomando la matriz del ejercicio anterior, accede a la segunda variable. Accede al primer registro. Accede al valor de la tercera variable del segundo individuo.
+
+]
+
+]
+
+---
+
+name: entrega-I
+
+# .orange[ENTREGA I]
+pendiente de concretar
+
+&amp;nbsp;
+
+🔎 Mira antes &lt;https://github.com/dadosdelaplace/teaching/tree/main/data_science_seguros/scripts&gt; el ejemplo de entrega (con enunciados sin y con resolver) para realizarla correctamente (tras revisar las diapositivas de `.rmd`).
+
+
+---
+
+class: inverse center middle
+name: clase-2
+
+# CLASE 2: primeros datos
+
+&amp;nbsp;
+
+### [Datos tabulados: matrices, data.frame y tibble](#matrices)
+
+### [Tidy data](#tidydata)
+
+### [Ejercicios extras](#ejercicios-II)
+
+---
+
 
 name: matrices
 
@@ -5643,1739 +6744,13 @@ stocks %&gt;% complete(year, qtr)
 
 ---
 
-name: complementos-I
-
-class: inverse
-
-# COMPLEMENTOS
-
-#### [Estructuras de control: if-else y bucles](#estructuras-condicionales)
-
-#### [Replicate. Sample](#replicate)
-
-&amp;nbsp;
-
-# EJERCICIOS Y ENTREGA
-
-#### [Presentar resultados: rmd](#rmd)
-
-#### [Ejercicios extras](#ejercicios-I)
-
-#### [Entrega I (20%)](#entrega-I)
-
----
-
-name: estructuras-condicionales
-
-# Estructuras de control: .orange[IF-ELSE]
-
-
-Una **.bg-purple_light[expresión de control]** será un conjunto de órdenes que nos permiten **.bg-purple_light[decidir el camino]** por el que queremos que avance nuestro código:
-
-* ¿Qué hacemos si sucede A?
-
-* ¿Y si sucede B?
-
-* ¿Tengo que programar X veces lo mismo si quiere que se repita?
-
-&amp;nbsp;
-
-Si has programado en algún otro lenguaje, estarás familiarizado/a con **.bg-purple_light[estructuras condicionales]** como un `if (blabla) {...} else {...}` (que los usaremos a veces) o **.bg-purple_light[bucles]** `for/while` (que intentaremos evitarlos lo máximo posible).
-
----
-
-# Estructuras de control: .orange[IF]
-
-Una de las estructuras de control más famosas de cualquier lenguaje de programación es la **.bg-purple_light[estructura condicional]** `if`
-
-&gt; SI las condiciones impuestas se cumplen (TRUE), ejecuta las órdenes que tengamos dentro de la misma.
-
-Por ejemplo, la estructura `if (x == 1) { código A }` lo que hará será **.bg-purple_light[ejecutar el código entre llaves]** pero **.bg-orange[SI Y SOLO SI]** la **.bg-purple_light[condición es cierta]** (en este caso, solo si `x` es igual 1). En **caso contrario, no hace nada**.
-
---
-
-Definamos por ejemplo una variable sencilla, las edades de 8 personas y comprobemos cuales son menores de edad.
-
-
-```r
-edades &lt;- c(14, 17, 24, 56, 31, 20, 87, 73)
-edades &lt; 18
-```
-
-```
-&gt; [1]  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE
-```
-
----
-
-# Estructuras de control: .orange[IF]
-
-
-Recuerda que con las funciones `any()` y `all()` podemos saber si **.bg-purple_light[todos o alguno de los elementos]** de un vector cumplen una condición.
-
-
-```r
-any(edades &lt; 18) # existe algun menor de edad
-```
-
-```
-&gt; [1] TRUE
-```
-
---
-
-Con dichos elementos vamos a construir nuestra primera estructura condicional: queremos que, **.bg-purple_light[SI existe algún menor de edad, nos imprima un mensaje]**.
-
-
-```r
-if (any(edades &lt; 18)) { 
-  
-  print("existe alguna persona mayor de edad")
-  
-}
-```
-
-```
-&gt; [1] "existe alguna persona mayor de edad"
-```
-
----
-
-# Estructuras de control: .orange[IF]
-
-
-```r
-if (any(edades &lt; 18)) { 
-  
-  print("existe alguna persona mayor de edad")
-  
-}
-```
-
-
-En caso de que **.bg-purple_light[no se cumplan las condiciones]** dentro del `if()` (FALSE), no sucederá nada. 
-
-
-
-```r
-if (all(edades &gt;= 18)) { 
-  
-  print("todas las personas son mayores de edad")
-  
-}
-```
-
-Fíjate que en este caso **no hemos obtenido ningún mensaje** porque la condición `all(edades &gt;= 18)` no es cierta (no son todos mayores de 18 años), así que **no ha ejecutado el código**.
-
----
-
-# Estructuras de control: .orange[IF-ELSE]
-
-La estructura `if (condicion) { }` puede ser combinada con un `else { }`: cuando la **.bg-purple_light[condición no se cumpla]** (como en el último ejemplo), se **.bg-purple_light[ejecutará el código alternativo]** que haya dentro del `else { }`, permitiéndonos decidir que sucede cuando SÍ se cumple y cuando NO se cumple.
-
---
-
-Por ejemplo, la estructura `if (x == 1) { código A } else { código B }` ejecutará A si `x` es 1 y B en cualquier otro caso.
-
-
-```r
-if (all(edades &gt;= 18)) { 
-  
-  print("todas las personas son mayores de edad")
-  
-*} else {
-  
-  print("existe alguna persona menor de edad")
-}
-```
-
-```
-&gt; [1] "existe alguna persona menor de edad"
-```
-
----
-
-# Estructuras de control: .orange[IF-ELSE]
-
-Dicha estructura `if - else` puede **.bg-purple_light[anidarse]**: imagina que queremos realizar una acción si todos fuesen mayores de edad; en caso contrario, pero si todos los menores tienen 16 años o más, realizar otra acción; en caso contrario, otra acción
-
-
-```r
-if (all(edades &gt;= 18)) { 
-  
-  print("todas las personas son mayores de edad")
-  
-} else if (all(edades &gt;= 16)) {
-  
-  print("Existe alguna persona menor de edad pero todos con 16 años o más")
-  
-} else { print("Existe alguna persona menor de 16 años") }
-```
-
-```
-&gt; [1] "Existe alguna persona menor de 16 años"
-```
-
-**.bg-green_light[CONSEJO]**: puedes **colapsar las estructuras de control** pulsando en la flecha que aparece a la izquierda de ellas en tu script.
-
-
----
-
-# Estructuras de control: .orange[IFELSE()]
-
-
-Esta estructura condicional puede ser **.bg-purple_light[vectorizada]**: reunir en una sola fila un número elevado de estructuras de comparación con la función `ifelse()`, cuyos argumentos de entrada serán
-
-* la condición a evaluar
-* lo que sucede cuando se cumple
-* lo que sucede cuando no se cumple
-
-Con el ejemplo de las edades, vamos a dejar el dato ausente si son menores de edad, y si son mayores de edad se queda como está.
-
-
-```r
-# NA si no cumple la condición, la edad si se cumple.
-*ifelse(edades &gt;= 18, edades, NA)
-```
-
-```
-&gt; [1] NA NA 24 56 31 20 87 73
-```
-
----
-
-# Estructuras de control: .orange[IFELSE()]
-
-
-Todas estas estructuras **.bg-purple_light[no solo sirven para datos numéricos]**. Vamos a definir un vector de nombres con algunos ausentes, y vamos a sustituir los ausentes por el texto `"nombre_desconocido"` (los que no sean ausentes, es decir los que `is.na()` devuelva FALSE, se quedan como están).
-
-
-```r
-nombres &lt;- c("Juan", "María", NA, NA, "Lucía",
-             "Carmen", "Javier", NA, "Carlos", 
-             NA, "Gregorio", "Paloma")
-
-# Si tiene ausente --&gt; "nombre_desconocido"
-# Si no tiene ausente --&gt; nombres originales
-nombres &lt;-
-  ifelse(is.na(nombres), "nombre_desconocido", nombres)
-nombres
-```
-
-```
-&gt;  [1] "Juan"               "María"              "nombre_desconocido"
-&gt;  [4] "nombre_desconocido" "Lucía"              "Carmen"            
-&gt;  [7] "Javier"             "nombre_desconocido" "Carlos"            
-&gt; [10] "nombre_desconocido" "Gregorio"           "Paloma"
-```
-
----
-
-name: bucles
-
-# Estructuras de control: .orange[BUCLES]
-
-Aunque la mayoría de veces son sustituibles por otras expresiones más legibles y eficientes, es importante que conozcamos otra archiconocida expresion de control: **.bg-purple_light[los bucles]**.
-
-* `for { }`: permite **.bg-purple_light[repetir el mismo código]** un **.bg-orange[número fijo y conocido]** de veces (normalmente en función de un índice).
-
-* `while { }`: permite **.bg-purple_light[repetir el mismo código]** un **.bg-orange[número indeterminado de veces]**, hasta que una **condición** dada se deje de cumplir.
-
----
-
-# Estructuras de control: .orange[BUCLES FOR]
-
-Un **.bg-purple_light[bucle for]** es una estructura que nos permite **.bg-purple_light[repetir]** un conjunto de órdenes un **.bg-orange[número finito y conocido]** de veces: dado un **conjunto de índices**, el bucle irá recorriendo cada uno de ellos.
-
-Vamos a definir un vector `x`. Si quisiéramos el primer elemento al cuadrado escribiríamos `x[1]^2`; si quisiéramos el segundo elemento al cuadrado `x[2]^2`; si lo quisiéramos hacer en general, para el elemento i-ésimo, `x[i]^2`. Lo que haremos dentro del `for (indices) { órdenes }` es indicarle que valores irá tomando `i` (**.bg-purple_light[vector de índices]**).
-
-
-```r
-x &lt;- c(0, -7, 1, 4)
-*for (i in 1:4) {
-  
-  print(x[i]^2) # órdenes
-  
-}
-```
-
-```
-&gt; [1] 0
-&gt; [1] 49
-&gt; [1] 1
-&gt; [1] 16
-```
-
----
-
-# Estructuras de control: .orange[BUCLES FOR]
-
-
-```r
-*for (i in 1:4) {
-  print(x[i]^2) # órdenes
-}
-```
-
-Lo que tenemos dentro de los paréntesis `for ()` no es más que la **.bg-purple_light[secuencia de números]** que hemos aprendido a construir. Si quisiéramos que haga lo mismo pero excluyendo por ejemplo el segundo elemento bastaría con definir los índices a recorrer como `c(1, 3, 4)`.
-
-
-```r
-for (i in c(1, 3, 4)) {
-  
-  print(x[i]^2) # que lo imprima
-  
-}
-```
-
-```
-&gt; [1] 0
-&gt; [1] 1
-&gt; [1] 16
-```
-
----
-
-# Estructuras de control: .orange[BUCLES FOR]
-
-Podemos definir también una variable `y &lt;- rep(0, 4)` (un **vector «vacío»** lleno de ceros), y hacer que el **.bg-purple_light[elemento i-ésimo del vector]** se defina como `x[i]^2`
-
-
-```r
-y &lt;- rep(0, 4)
-for (i in 1:4) {
-  
-  y[i] &lt;- x[i]^2
-  
-}
-y
-```
-
-```
-&gt; [1]  0 49  1 16
-```
-
---
-
-Lo anterior es equivalente a esto
-
-
-```r
-y &lt;- x^2
-y
-```
-
-```
-&gt; [1]  0 49  1 16
-```
-
----
-
-# .orange[BUCLES] suelen ser .red[INEFICIENTES]
-
-
-Haciendo uso del paquete `microbenchmark` podemos comprobar como los **.bg-purple_light[bucles son menos eficientes]** (de ahí que la mayoría de veces los intentemos evitar si existe otra alternativa)
-
-
-```r
-library(microbenchmark)
-x &lt;- 1:100
-microbenchmark(x^2, 
-               for (i in 1:100) { y[i] &lt;- x[i]^2 },
-               times = 1000)
-```
-
-```
-&gt; Unit: nanoseconds
-&gt;                                     expr     min        lq        mean
-&gt;                                      x^2     356     485.5    1351.082
-&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 1747344 1900973.5 2212845.118
-&gt;     median      uq      max neval cld
-&gt;     1284.5    1938    22934  1000  a 
-&gt;  2022274.5 2268744 13038619  1000   b
-```
-
----
- 
-# Estructuras de control: .orange[BUCLES FOR]
-
-
-Veamos otro ejemplo **.bg-purple_light[combinando vectores numéricos y de caracteres]**: vamos a definir de nuevo un vector de edades y nombres, y vamos a recorrer cada uno imprimiento un mensaje por pantalla.
-
-
-```r
-nombres &lt;- c("Javi", "Laura", "Carlos", "Lucía", "Mar")
-edades &lt;- c(33, 51, 18, 43, 29)
-
-# Recorremos cada uno de los 5 elementos e imprimimos un
-# mensaje que depende de ese índice i
-for (i in 1:5) { 
-  
-  print(glue("{nombres[i]} tiene {edades[i]} años")) 
-  
-}
-```
-
-```
-&gt; Javi tiene 33 años
-&gt; Laura tiene 51 años
-&gt; Carlos tiene 18 años
-&gt; Lucía tiene 43 años
-&gt; Mar tiene 29 años
-```
-
----
-
-# Estructuras de control: .orange[BUCLES FOR]
-
-Fíjate que **.bg-purple_light[si no nos queremos preocupar de si añadimos otra persona]**, podemos hacer que el bucle empiece en 1 y termine en el **.bg-purple_light[último lugar]** (sea el que sea), usando `length()`.
-
-
-```r
-for (i in 1:length(nombres)) { 
-  
-  print(glue("{nombres[i]} tiene {edades[i]} años")) 
-  
-}
-```
-
-```
-&gt; Javi tiene 33 años
-&gt; Laura tiene 51 años
-&gt; Carlos tiene 18 años
-&gt; Lucía tiene 43 años
-&gt; Mar tiene 29 años
-```
-
----
-
-# Estructuras de control: .orange[BUCLES FOR]
-
-Aunque normalmente el conjunto que recorre el bucle suelen ser índices numéricos, podemos **.bg-purple_light[recorrer cualquier tipo de objeto]**, por ejemplo días e la semana
-
-
-```r
-library(stringr)
-dias_semana &lt;- c("lunes", "martes", "miércoles", "jueves",
-                 "viernes", "sábado", "domingo")
-
-for (dias in dias_semana) { # dias recorre los días de la semana
-  
-  print(str_to_upper(dias)) # Imprimimos en mayúsculas el día
-}
-```
-
-```
-&gt; [1] "LUNES"
-&gt; [1] "MARTES"
-&gt; [1] "MIÉRCOLES"
-&gt; [1] "JUEVES"
-&gt; [1] "VIERNES"
-&gt; [1] "SÁBADO"
-&gt; [1] "DOMINGO"
-```
-
----
-
-# Estructuras de control: .orange[BUCLES FOR]
-
-Un último ejemplo: vamos a recorrer nuestro conjunto de datos `swiss` del paquete `{datasets}` y vamos a **pasar a dato ausente** todos los valores de fertilidad superiores a 80. Para ello recorreremos cada fila para después ejecutar un `if`.
-
-
-```r
-for (i in 1:nrow(swiss)) {
-  
-  # si cumple la condición dicha fila, ponemos ausente.
-  if (swiss$Fertility[i] &gt; 80) { 
-    
-    swiss$Fertility[i] &lt;- NA
-    
-  }
-}
-```
-
---
-
-Esto sería exactamente equivalente al `ifelse()` vectorizado que vimos en el tema anterior
-
-
-```r
-data("swiss") # lo cargamos de 0
-swiss$Fertility &lt;- ifelse(swiss$Fertility &gt; 80, NA, swiss$Fertility)
-```
-
-
----
-
-# Estructuras de control: .orange[BUCLES WHILE]
-
-Otra manera de diseñar un bucle es con la estructura `while { }`, que ejecutará el bucle un **.bg-purple_light[número de veces a priori  desconocido]**, lo hará hasta que la **.bg-purple_light[condición impuesta deje de ser cierta]**. Por ejemplo, vamos a inicializar una variable `ciclos &lt;- 1`, y en cada paso aumentaremos una unidad, y no saldremos del bucle hasta que `ciclos &gt; 4`
-
-
-```r
-ciclos &lt;- 1
-
-# Mientras el número de ciclos sea inferior 4, imprime
-while(ciclos &lt;= 4) {
-  
-  print(paste("Todavía no, vamos por el ciclo ", ciclos)) # Pegamos la frase al número de ciclo por el que vayamos con paste
-  ciclos &lt;- ciclos + 1
-  
-}
-```
-
-```
-&gt; [1] "Todavía no, vamos por el ciclo  1"
-&gt; [1] "Todavía no, vamos por el ciclo  2"
-&gt; [1] "Todavía no, vamos por el ciclo  3"
-&gt; [1] "Todavía no, vamos por el ciclo  4"
-```
-
-
----
-  
-# Estructuras de control: .orange[BUCLES WHILE]
-
-
-¿Y qué sucede cuando la **.bg-purple_light[condición nunca llega a ser FALSE]**? Compruébalo tú mismo/a.
-
-
-```r
-while (1 &gt; 0) { # Nunca va a dejar de ser cierto
-  
-  print("Presiona ESC para salir del bucle")
-  
-}
-```
-
-&amp;nbsp;
-
-**.bg-red_light[CUIDADO]**: un bucle `while { }` puede ser muy peligroso sino se controla bien que el bucle acaba en algún momento.
-
----
-
-# Estructuras de control: .orange[BUCLES WHILE]
-
-Tenemos dos comandos reservados para poder **.bg-purple_light[abortar un bucle o avanzar forzosamente]**:
-
-* `break`: os habilita para **.bg-purple_light[parar un bucle]** aunque no haya llegado al final de su conjunto de índices a recorrer (o se siga cumpliendo la condición).
-
-
-```r
-for(i in 1:10) {
-  if (i == 3) {
-    
-    break # si i es 3, el bucle frena aquí
-    
-  }
-  print(i)
-}
-```
-
-```
-&gt; [1] 1
-&gt; [1] 2
-```
-
----
-
-# Estructuras de control: .orange[BUCLES WHILE]
-
-Tenemos dos comandos reservados para poder **.bg-purple_light[abortar un bucle o avanzar forzosamente]**:
-
-* `next`: **.bg-purple_light[obliga al bucle a avanzar]** a la siguiente iteracción, abortando la iteración actual en la que se encuentra. 
-
-
-```r
-for(i in 1:5) {
-  if (i == 3) {
-    
-    next # si i es 3, pasará a la siguiente
-    
-  }
-  print(i)
-}
-```
-
-```
-&gt; [1] 1
-&gt; [1] 2
-&gt; [1] 4
-&gt; [1] 5
-```
-
----
-
-
-# Replicando código: .orange[REPLICATE]
-
-Otra forma de **.bg-purple_light[repetir o replicar]** código, al margen de las estructuras de bucle ya vistas, es haciendo uso de `replicate()`, que de momento no lo haremos depender de un índice: simplemente **.bg-purple_light[repetira n veces]** el mismo código.
-
-
-```r
-x &lt;- 1:3
-replicate(n = 3, x^2)
-```
-
-```
-&gt;      [,1] [,2] [,3]
-&gt; [1,]    1    1    1
-&gt; [2,]    4    4    4
-&gt; [3,]    9    9    9
-```
-          
----
-
-# Simulando muestras: .orange[SAMPLE]
-
-Es habitual que `replicate()` se use conjuntamente con la función `sample()` que nos permitirá **.bg-purple_light[generar muestras aleatorias]** indicando cuál es la **.bg-purple_light[función de probabilidad]** asociada] (generar **«tiradas de dados»** indicando cuál es la **probabilidad** de cada cara).
-
-* `x`: **.bg-purple_light[soporte]** (valores permitidos, caras del dado).
-* `size`: **.bg-purple_light[tamaño]** (número de tiradas)
-* `replace`: **.bg-purple_light[¿con reemplazamiento?]** (¿puede salir un elemento que ya ha salido?)
-* `prob`: **.bg-purple_light[vector de probabilidades]** (probabilidad de cada cara)
-
---
-
-Por ejempo, vamos a simular **.bg-purple_light[2 tiradas de una moneda]**, indicando el soporte (0 y 1, cara y cruz), y `size = 2`
-
-
-```r
-sample(x = 0:1, size = 2)
-```
-
-```
-&gt; [1] 1 0
-```
-
-**.bg-red_light[IMPORTANTE]**: si no indicamos nada en el vector de probabilidades `prob`, asume que son equiprobables (en este caso, `\(1/2\)` para cada cara).
-
-
----
-
-# Simulando muestras: .orange[SAMPLE]
-
-Fíjate que tampoco le hemos indicado nada en `replace`, ya que por defecto toma el valor `FALSE`. ¿Qué sucede si hubiésemos querido generar 10 tiradas de una moneda?
-
-
-```r
-sample(x = 0:1, size = 10)
-```
-
-```
-&gt; Error in sample.int(length(x), size, replace, prob): cannot take a sample larger than the population when 'replace = FALSE'
-```
-
---
-
-&amp;nbsp;
-
-Dado que solo tenemos 2 posibles valores a elegir, y le hemos pedido 10 tiradas, al llegar a la segunda **.bg-purple_light[no tiene opciones de seguir eligiendo]**. Para poder generarlas deberemos asignar `replace = TRUE` (ahora podrán repetirse las caras).
-
-
-
-```r
-# 30 tiradas
-sample(x = 0:1, size = 30, replace = TRUE)
-```
-
-```
-&gt;  [1] 0 1 0 1 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 1 1 0 1 0 1 1 0 0 1 1
-```
-
----
-
-# Simulando muestras: .orange[SAMPLE]
-
-El soporte no solo tiene porqué ser numérico, sino que podríamos definir un **.bg-purple_light[soporte de valores de texto]**, de forma que asignemos en los posibles valores directamente `"cara"` y `"cruz"`
-
-
-```r
-sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
-```
-
-```
-&gt;  [1] "cara" "cruz" "cruz" "cruz" "cruz" "cara" "cruz" "cruz" "cruz" "cara"
-```
-
---
-
-El comando `sample()` nos genera **.bg-purple_light[valores (pseudo) aleatorios]**, por lo que si volvemos a ejecutar la misma órden tendremos (seguramente) **.bg-red_light[valores diferentes]**.
-
-
-```r
-sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
-```
-
-```
-&gt;  [1] "cara" "cruz" "cara" "cruz" "cara" "cara" "cruz" "cruz" "cruz" "cruz"
-```
-
----
-
-# Simulando muestras: .orange[SAMPLE]
-
-Si quisiéramos generar resultados que no dependiesen de la aleatoriedad de una muestra simulada (por ejemplo, para ver si un método es mejor que otro), tenemos la opción de **.bg-purple_light[fijar semilla]** (valor inicial usado para generar el mecanismo de pseudoaleatoriedad).
-
-
-```r
-set.seed(1234567)
-sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
-```
-
-```
-&gt;  [1] "cara" "cruz" "cruz" "cara" "cruz" "cara" "cara" "cara" "cruz" "cruz"
-```
-
-
-
-```r
-set.seed(1234567)
-sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
-```
-
-```
-&gt;  [1] "cara" "cruz" "cruz" "cara" "cruz" "cara" "cara" "cara" "cruz" "cruz"
-```
-
-
-```r
-set.seed(1234567)
-sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
-```
-
-```
-&gt;  [1] "cara" "cruz" "cruz" "cara" "cruz" "cara" "cara" "cara" "cruz" "cruz"
-```
-
----
-
-
-# Simulando muestras: .orange[SAMPLE]
-
-
-De esta manera podemos **.bg-purple_light[simular una gran cantidad de datos]** y ver cómo evoluciona por ejemplo la media muestral.
-
-&gt; ¿Cómo hacer uso de un bucle para generar 1 tirada, 2 tiradas, 3 tiradas, ..., 25 tiradas (con `sample()`), y guardar la media de caras?
-
---
-
-
-```r
-tiradas &lt;- 1:25
-media &lt;- rep(0, length(tiradas))
-
-for (i in tiradas) {
-  
-  tirada &lt;- sample(x = c("cara", "cruz"), size = i, replace = TRUE)
-  media[i] &lt;- sum(tirada == "cruz") / i
-
-}
-media
-```
-
-```
-&gt;  [1] 0.0000000 0.5000000 0.3333333 0.7500000 0.6000000 0.8333333 0.1428571
-&gt;  [8] 0.5000000 0.5555556 0.5000000 0.3636364 0.7500000 0.6153846 0.4285714
-&gt; [15] 0.5333333 0.3750000 0.4705882 0.4444444 0.4210526 0.4500000 0.5238095
-&gt; [22] 0.5000000 0.6086957 0.5833333 0.3600000
-```
-
----
-
-
-# Simulando muestras: .orange[SAMPLE]
-
-
-Esto nos permite comprobar de primera mano algo muy importante a la hora de simular: nuestra muestra será (seguramente) distinta pero según  **.bg-purple_light[aumenta el tamaño muestral]**, los **.bg-purple_light[parámetros muestrales]** (media, por ejemplo) tenderán a los **.bg-purple_light[parámetros teóricos o poblacionales]** (la media si aumentamos el tamaño debería tender a `\(0.5\)`).
-
-
-
-```r
-tiradas &lt;- c(1, 5, 10, 15, 25, 50, 100, 500, 1000, 5000,
-             10000, 25000, 50000, 100000, 200000, 500000)
-media &lt;- rep(0, length(tiradas))
-
-for (i in 1:length(tiradas)) {
-  
-  tirada &lt;- sample(x = c(0, 1), size = tiradas[i], 
-                   replace = TRUE)
-  media[i] &lt;- mean(tirada)
-
-}
-media
-```
-
-```
-&gt;  [1] 1.000000 0.200000 0.600000 0.600000 0.440000 0.500000 0.560000 0.490000
-&gt;  [9] 0.502000 0.496800 0.491800 0.499960 0.499400 0.499740 0.498540 0.498536
-```
-
-
-Lo anterior se debe al **.bg-purple_light[TEOREMA CENTRAL DEL LÍMITE]**
-
----
-
-# Simulando muestras: .orange[SAMPLE]
-
-Como has podido ver, aunque el parámetro poblacional tienda al muestral, rara vez será justo igual (dado que `\(n\)` nunca podrá ser infinito en el ordenador). ¿Y si **.bg-purple_light[repetimos]** el experimento de `\(n\)` tiradas `\(m\)` veces? ¿Cuál será la media de las medias obtenidas?
-
-Para ello nos sirve `replicate()`. ¿Se te ocurre cómo, por ejemplo repitiendo `\(m = 1000\)` veces `\(n=10000\)` tiradas?
-
-
---
-
-
-```r
-tiradas &lt;- replicate(1000, sample(x = c(0, 1), size = 10000,
-                                 replace = TRUE))
-dim(tiradas)
-```
-
-```
-&gt; [1] 10000  1000
-```
-
-```r
-medias &lt;- apply(tiradas, MARGIN = 2, FUN = mean)
-mean(medias)
-```
-
-```
-&gt; [1] 0.500114
-```
-
-
----
-
-# Simulando muestras: .orange[SAMPLE]
-
-¿Y si lo hiciésemos con la **.bg-purple_light[varianza]**? Sabemos que la varianza (teórica) debe ser `\(\sigma^2  = 0.25\)` (varianza de una binomial de parámetro `\(p\)` es igual a `\(p^2\)`)
-
-.pull-left[
-
-
-```r
-tirada &lt;- sample(x = c(0, 1), size = 100, replace = TRUE)
-mean(tirada^2) - mean(tirada)^2
-```
-
-```
-&gt; [1] 0.2451
-```
-
-```r
-tirada &lt;- sample(x = c(0, 1), size = 100, replace = TRUE)
-mean(tirada^2) - mean(tirada)^2
-```
-
-```
-&gt; [1] 0.2484
-```
-
-]
-
-.pull-right[
-
-
-```r
-tirada &lt;- sample(x = c(0, 1), size = 100, replace = TRUE)
-mean(tirada^2) - mean(tirada)^2
-```
-
-```
-&gt; [1] 0.2475
-```
-
-```r
-tirada &lt;- sample(x = c(0, 1), size = 100, replace = TRUE)
-mean(tirada^2) - mean(tirada)^2
-```
-
-```
-&gt; [1] 0.2496
-```
-
-]
-
-Parece como si siempre se **quedase un poco por debajo**, de forma sistemática (con un sesgo), de forma que la media también quedará por debajo.
-
---
-
-Un estimador (muestral) `\(T\)` de un parámetro poblacional se dice **.bg-purple_light[ESTIMADOR INSESGADO]** si cumple que la media (esperanza) `\(E[T]\)` es igual a dicho parámetro.
-
-
----
-
-name: ejercicios-5
-
-# Ejercicios
-
-.panelset[
-.panel[.panel-name[Ejercicios]
-
-
-* 📝 **Ejercicio 1**: modifica el código inferior para imprimir un mensaje por pantalla si todos los datos del conjunto `airquality` son de meses que no sean enero.
-
-
-```r
-# install.packages("dataset") # solo la primera vez
-library(datasets) # paquete con los datos
-mes &lt;- airquality$Month
-
-if (mes == 2) {
-  
-  print("Ningún dato es del mes de enero")
-  
-}
-```
-
-]
-
-.panel[.panel-name[Solución ej. 1]
-
-* 📝 **Ejercicio 1**: modifica el código inferior para imprimir un mensaje por pantalla si todos los datos del conjunto `airquality` son de meses que no sean enero.
-
-
-```r
-# install.packages("dataset") # solo la primera vez
-library(datasets) # paquete con los datos
-mes &lt;- airquality$Month
-
-if (all(mes != 1)) {
-  
-  print("Ningún dato es del mes de enero")
-  
-}
-```
-
-```
-&gt; [1] "Ningún dato es del mes de enero"
-```
-
-]
-
-]
-
-
----
-
-# Ejercicios
-
-.panelset[
-.panel[.panel-name[Ejercicios]
-
-* 📝 **Ejercicio 2**: modifica el código inferior para guardar en una variable llamada `temperatura_alta` un valor `TRUE` si alguno de los registros tiene una temperatura mayor a 90 (están en Farenheit) y un `FALSE` en caso contrario.
- 
-
-```r
-temperatura &lt;- airquality$Temp
-
-if (temperatura == 100) {
-  
-  print("Alguno de los registros tiene temperatura superior a 90 Farenheit")
-  
-}
-```
-
-]
-
-.panel[.panel-name[Solución ej. 2]
-
-* 📝 **Ejercicio 2**: modifica el código inferior para guardar en una variable llamada `temperatura_alta` un valor `TRUE` si alguno de los registros tiene una temperatura mayor a 90 (están en Farenheit) y un `FALSE` en caso contrario.
- 
-
-```r
-# Opción 1
-temperatura &lt;- airquality$Temp
-temperatura_alta &lt;- FALSE
-if (any(temperatura &gt; 90)) {
-  
-   temperatura_alta &lt;- TRUE
-  
-}
-
-# Opción 2
-temperatura_alta &lt;- any(airquality$Temp &gt; 90)
-```
-
-
-]
-
-]
-
----
-
-
-# Ejercicios
-
-.panelset[
-.panel[.panel-name[Ejercicios]
-
-* 📝 **Ejercicio 3**: modifica el código inferior para diseñar un bucle `for` de 5 iteraciones que recorra los 5 primeros impares y les sume uno.
-
-
-```r
-for (i in 1:5) {
-  
-  print(i)
-}
-```
-
-* 📝 **Ejercicio 4**: modifica el código inferior para diseñar un bucle `while` que parta con una variable `conteo &lt;- 1` y pare cuando llegue a 6.
-
-
-```r
-conteo &lt;- 1
-while (conteo == 2) {
-  
-  print(conteo)
-}
-```
-
-]
-
-.panel[.panel-name[Solución ej. 3]
-
-* 📝 **Ejercicio 3**: modifica el código inferior para diseñar un bucle `for` de 5 iteraciones que recorra los 5 primeros impares y les sume uno.
-
-
-```r
-for (i in c(1, 3, 5, 7, 9)) {
-  
-  print(i + 1)
-}
-```
-
-```
-&gt; [1] 2
-&gt; [1] 4
-&gt; [1] 6
-&gt; [1] 8
-&gt; [1] 10
-```
-
-]
-
-.panel[.panel-name[Solución ej. 4]
-
-* 📝 **Ejercicio 4**: modifica el código inferior para diseñar un bucle `while` que parta con una variable `conteo &lt;- 1` y pare cuando llegue a 6.
-
-
-```r
-conteo &lt;- 1
-while (conteo &lt; 6) {
-  
-  print(conteo)
-  conteo &lt;- conteo + 1
-  
-}
-```
-
-```
-&gt; [1] 1
-&gt; [1] 2
-&gt; [1] 3
-&gt; [1] 4
-&gt; [1] 5
-```
-
-]
-
-]
-
----
-
-# Ejercicios
-
-.panelset[
-.panel[.panel-name[Ejercicios]
-
-* 📝 **Ejercicio 5**: diseña un bucle `for` de 200 iteraciones que, empezando en un valor inicial de 100 (euros), te sume 3€ (actualizando el valor) si el número actual de la iteración es par, y te reste 5€ si es impar (investiga la función `%%`).
-
-* 📝 **Ejercicio 6**: diseña el anterior bucle pero guardando el dinero de cada iteración en alguna variable
- 
-
-* 📝 **Ejercicio 7**: diseña el bucle del ejercicio 5 pero parando cuando no nos quede dinero.
-
-* 📝 **Ejercicio 8**: haciendo uso de `sample()`, simula la tirada de 100 dados (cada uno de 6 caras), pero de forma que el dado esté trucado, y calcula la media de las tiradas.
-
-* 📝 **Ejercicio 9**: repite el ejercicio anterior para 1,2,...,200 dados (haz uso de un `for()`), y guarda la media de las tiradas en cada caso.
-
-]
-
-.panel[.panel-name[Sol. ej. 5]
-
-Un número par será todo aquel número que al dividir entre 2, la división es exacta, es decir, que su resto es nulo. Para calcular ese resto usaremos la función `%%`.
-
-
-
-```r
-# dinero inicial
-dinero &lt;- 100
-
-for (i in 1:200) {
-  
-  dinero &lt;- ifelse(i %% 2 == 0, dinero + 3, dinero  - 5)
-  
-}
-dinero
-```
-
-```
-&gt; [1] -100
-```
-
-]
-
-.panel[.panel-name[Sol. ej. 6]
-
-
-```r
-# vector inicial de importes
-dinero &lt;- rep(0, 201)
-dinero[1] &lt;- 100 # dinero inicial
-
-# Bucle for
-for (i in 2:201) {
-  
-  # si i es par o  impar
-  dinero[i] &lt;- ifelse(i %% 2 == 0, dinero[i - 1] + 3,
-                      dinero[i - 1]  - 5)
-  
-}
-dinero
-```
-
-```
-&gt;   [1]  100  103   98  101   96   99   94   97   92   95   90   93   88   91   86
-&gt;  [16]   89   84   87   82   85   80   83   78   81   76   79   74   77   72   75
-&gt;  [31]   70   73   68   71   66   69   64   67   62   65   60   63   58   61   56
-&gt;  [46]   59   54   57   52   55   50   53   48   51   46   49   44   47   42   45
-&gt;  [61]   40   43   38   41   36   39   34   37   32   35   30   33   28   31   26
-&gt;  [76]   29   24   27   22   25   20   23   18   21   16   19   14   17   12   15
-&gt;  [91]   10   13    8   11    6    9    4    7    2    5    0    3   -2    1   -4
-&gt; [106]   -1   -6   -3   -8   -5  -10   -7  -12   -9  -14  -11  -16  -13  -18  -15
-&gt; [121]  -20  -17  -22  -19  -24  -21  -26  -23  -28  -25  -30  -27  -32  -29  -34
-&gt; [136]  -31  -36  -33  -38  -35  -40  -37  -42  -39  -44  -41  -46  -43  -48  -45
-&gt; [151]  -50  -47  -52  -49  -54  -51  -56  -53  -58  -55  -60  -57  -62  -59  -64
-&gt; [166]  -61  -66  -63  -68  -65  -70  -67  -72  -69  -74  -71  -76  -73  -78  -75
-&gt; [181]  -80  -77  -82  -79  -84  -81  -86  -83  -88  -85  -90  -87  -92  -89  -94
-&gt; [196]  -91  -96  -93  -98  -95 -100
-```
-
-]
-
-.panel[.panel-name[Sol. ej. 7]
-
-
-```r
-dinero &lt;- 100 # dinero inicial
-
-# Bucle while
-while (dinero &gt; 0) {
-  
-  dinero &lt;- ifelse(i %% 2 == 0, dinero + 3, dinero - 5)
-  
-}
-dinero
-```
-
-```
-&gt; [1] 0
-```
-
-]
-
-.panel[.panel-name[Sol. ej. 8]
-
-
-* 📝 **Ejercicio 8**: haciendo uso de `sample()`, simula la tirada de 100 dados (cada uno de 6 caras), pero de forma que el dado esté trucado (decide tú cómo), y calcula la media de las tiradas.
-
-
-```r
-# dado sin trucar
-tiradas &lt;- sample(x = 1:6, size = 100, replace = TRUE)
-mean(tiradas)
-```
-
-```
-&gt; [1] 3.54
-```
-
-```r
-# dado trucado (por ejemplo 1/2 la primera cara)
-tiradas &lt;-
-  sample(x = 1:6, size = 100, replace = TRUE,
-         prob = c(1/2, 1/10, 1/10, 1/10, 1/10, 1/10))
-mean(tiradas)
-```
-
-```
-&gt; [1] 2.33
-```
-
-]
-
-.panel[.panel-name[Sol. ej. 9]
-
-
-* 📝 **Ejercicio 9**: repite el ejercicio anterior para 1,2,...,200 dados (haz uso de un `for()`), y guarda la media de las tiradas en cada caso.
-
-
-```r
-medias &lt;- rep(0, 200)
-for (i in 1:200) {
-  
-  medias[i] &lt;-
-    mean(sample(x = 1:6, size = i, replace = TRUE))
-}
-medias
-```
-
-```
-&gt;   [1] 3.000000 5.000000 4.000000 2.750000 2.800000 3.500000 4.428571 4.000000
-&gt;   [9] 3.888889 3.600000 3.272727 3.416667 3.538462 3.785714 3.800000 2.875000
-&gt;  [17] 3.117647 3.555556 3.684211 3.500000 3.095238 3.090909 2.652174 3.666667
-&gt;  [25] 3.240000 3.807692 3.703704 3.107143 3.689655 3.266667 3.612903 3.593750
-&gt;  [33] 3.575758 3.441176 3.257143 4.055556 3.783784 3.263158 3.717949 3.550000
-&gt;  [41] 3.243902 3.000000 4.023256 3.363636 3.466667 3.369565 3.787234 3.500000
-&gt;  [49] 3.612245 3.140000 3.607843 3.961538 3.245283 3.740741 3.727273 3.767857
-&gt;  [57] 2.982456 3.310345 3.898305 3.650000 3.098361 3.612903 3.730159 3.375000
-&gt;  [65] 3.723077 3.666667 3.522388 3.235294 3.449275 3.328571 3.619718 4.083333
-&gt;  [73] 3.424658 3.310811 3.373333 3.434211 3.532468 3.538462 3.518987 3.525000
-&gt;  [81] 3.716049 3.475610 3.530120 3.357143 3.705882 3.697674 3.804598 3.727273
-&gt;  [89] 3.089888 3.544444 3.549451 3.619565 3.462366 3.553191 3.515789 3.260417
-&gt;  [97] 3.402062 3.367347 3.565657 3.490000 3.623762 3.333333 3.398058 3.490385
-&gt; [105] 3.419048 3.547170 3.504673 3.435185 3.577982 3.390909 3.396396 3.625000
-&gt; [113] 3.283186 3.254386 3.695652 3.318966 3.401709 3.474576 3.285714 3.725000
-&gt; [121] 3.504132 3.754098 3.560976 3.653226 3.560000 3.658730 3.456693 3.476562
-&gt; [129] 3.279070 3.415385 3.519084 3.477273 3.451128 3.582090 3.362963 3.308824
-&gt; [137] 3.233577 3.623188 3.539568 3.492857 3.843972 3.366197 3.566434 3.583333
-&gt; [145] 3.682759 3.328767 3.476190 3.554054 3.651007 3.800000 3.562914 3.328947
-&gt; [153] 3.450980 3.487013 3.393548 3.352564 3.407643 3.613924 3.566038 3.506250
-&gt; [161] 3.670807 3.487654 3.374233 3.506098 3.636364 3.445783 3.473054 3.440476
-&gt; [169] 3.242604 3.711765 3.508772 3.558140 3.341040 3.264368 3.548571 3.761364
-&gt; [177] 3.491525 3.348315 3.329609 3.538889 3.464088 3.489011 3.754098 3.418478
-&gt; [185] 3.529730 3.510753 3.491979 3.436170 3.343915 3.505263 3.502618 3.453125
-&gt; [193] 3.611399 3.376289 3.558974 3.571429 3.492386 3.303030 3.472362 3.515000
-```
-
-
-]
-
-]
-
-
----
-
-name: rmd
-
-# .orange[COMUNICANDO] resultados: archivos .green[.Rmd] 
-
-
-Una de las principales **.bg-purple_light[fortalezas]** de `R` es la facilidad para generar informes, libros, webs, **.bg-purple_light[apuntes y hasta diapositivas]** (este material por ejemplo).
-
-&amp;nbsp;
-
-Para ello instalaremos antes el paquete `{rmarkdown}` que nos permitirá generar documentos `.Rmd`
-
-
-```r
-install.packages("rmarkdown")
-```
-
----
-
-# .orange[COMUNICANDO] resultados: archivos .green[.Rmd] 
-
-¿Cuál son las **ventajas** de generarlos desde **.bg-purple_light[rmarkdown]**?
-
---
-
-* Al hacerlo desde `RStudio`, puedes generar un informe o una presentación **.bg-purple_light[sin salirte del entorno]** de programación en el que estás trabajando
-
---
-
-* Podrás analizar los datos, resumirlos y a la vez **.bg-purple_light[comunicarlos]**. 
-
---
-
-* Permite **.bg-purple_light[integrar fácilmente código]** `R`, de forma que no solo podremos integrar las salidas de nuestro trabajo sino también el código con el que lo hemos generado.
-
----
-
-# ¿Qué es .orange[RMARKDOWN]? 
-
-
-Una herramienta que nos permite crear de forma sencilla **documentos combinando**:
-
---
-
-* **.bg-purple_light[Markdown]**: creado en 2004 por John Gruber, y de uso libre, es un «lenguaje» que nos permite crear contenido de una manera sencilla de escribir, y que en todo momento mantenga un diseño legible, con algunas de las ventajas de un HTML (si acostumbras a escribir en wordpress o blogs, seguramente hayas escrito de esta forma).
-
---
-
-* **.bg-green_light[Matemáticas (latex)]**: herramienta (lenguaje en realidad) para escribir notación matemática como `\(x^2\)` o `\(\sqrt{2}\)` (si escribes notación similar en editores de texto, seguramente sin saberlo estés usando ya latex).
-
---
-
-* **.bg-purple_light[Código]** y salidas de `R`: podremos no solo mostrar el paso final sino el código que has ido realizando, con **cajitas de código** como las del manual.
-
---
-
-* **.bg-green_light[Imágenes y tablas]**.
-
---
-
-* **.bg-purple_light[Estilos]** (css, js, etc).
-
----
-
-# Creando nuestro .orange[PRIMER INFORME] 
-
-.pull-left[
-
-&lt;div class="figure" style="text-align: left"&gt;
-&lt;img src="./img/file_rmarkdown.jpg" alt="Creando el primer fichero .rmd" width="80%" /&gt;
-&lt;p class="caption"&gt;Creando el primer fichero .rmd&lt;/p&gt;
-&lt;/div&gt;
-
-
-]
-
-.pull-right[
-
-Vamos a crear el **.bg-purple_light[primer fichero]** con extensión `.Rmd` (la extensión de los archivos R Markdown).
-
-&amp;nbsp;
-
-Haz click en el botón `File &lt;&lt; New File &lt;&lt; R Markdown`.
-
-]
-
----
-
-# Creando nuestro .orange[PRIMER INFORME] 
-
-.pull-left[
-
-&lt;div class="figure" style="text-align: left"&gt;
-&lt;img src="./img/new_rmd.jpg" alt="Creando el primer fichero .rmd" width="80%" /&gt;
-&lt;p class="caption"&gt;Creando el primer fichero .rmd&lt;/p&gt;
-&lt;/div&gt;
-
-
-]
-
-.pull-right[
-
-Tras hacerlo, nos aparecerán **.bg-purple_light[varias opciones]**de formatos de salida:
-
-* archivo `.pdf`
-
-* archivo `.html` (**.bg-purple_light[recomendable]**): documento dinámico, permite la interacción con el usuario, como una «página web»)
-
-* archivo `.doc` (nada recomendable)
-
-De momento dejaremos marcado el **.bg-purple_light[formato HTML que viene por defecto]**, y escribiremos el título de nuestro documento. Tras ello tendremos nuestro archivo `.Rmd` (ya no es un script `.R` como los que hemos abierto hasta ahora)
-
-]
-
----
-
-
-# Creando nuestro .orange[PRIMER INFORME] 
-
-Un fichero `.Rmd` se divide básicamente en **.bg-purple_light[tres partes]**
-
-1. **.bg-purple_light[Cabecera]**: la parte que tienes al inicio entre `---`.
-
-2.  **.bg-purple_light[Texto]**: que podremos formatear y mejorar con **negritas** (escrito como `**negritas**`, con doble astérisco al inicio y final), _cursivas_ (`_cursivas_`, con barra baja al inicio y final) o destacar nombres de funciones o variables de `R` (con ``R`). Recuerda que puedes añadir además ecuaciones como `\(x^2\)` (he escrito `$x^2$`, la ecuación entre dólares).
-
-3. **.bg-purple_light[Código R]**.
-
----
-
-# .orange[PRIMER INFORME]: .green[CABECERA]
-
-
-La cabecera están en formato `YAML`, y contiene los **.bg-purple_light[metadatos del documento]**: título, autor, fecha, estilos (si los tuviésemos), etc. Para probar, vamos a cambiar la cabecera que nos ha generado por defecto de la siguiente forma:
-
-
-```r
----
-title: "Probando Probando"
-author: "Señor/a X"
-date: "11/7/2014"
-output: html_document
----
-```
-
-Tras tunear nuestra cabecera borraremos todo lo que viene después para **.bg-purple_light[empezar desde cero]**.
-
-&lt;div class="figure" style="text-align: left"&gt;
-&lt;img src="./img/rmd_vacio.jpg" alt="Fichero .Rmd vacío, solo con la cabecera" width="27%" /&gt;
-&lt;p class="caption"&gt;Fichero .Rmd vacío, solo con la cabecera&lt;/p&gt;
-&lt;/div&gt;
-
----
-
-# .orange[PRIMER INFORME]: .green[TEXTO]
-
-Solo hay una cosa **.bg-purple_light[importante]** a tener en cuenta en este entorno: salvo que indiquemos lo contrario, **.bg-purple_light[TODO lo que vamos a escribir en el documento es texto]**. No código R. Texto plano que podremos mejorar un poco con algun detalle, pero texto.
-
-Vamos a empezar nuestro documento escribiendo por ejemplo la siguiente frase
-
-
-
-```r
-Este material ha sido diseñado por el profesor Javier Álvarez Liébana,
-docente en la Universidad Complutense de Madrid
-```
-
----
-
-# .orange[PRIMER INFORME]: .green[TEXTO]
-
-
-.pull-left[
-
-&lt;div class="figure" style="text-align: left"&gt;
-&lt;img src="./img/html_con_texto.jpg" alt="Primer informe html" width="99%" /&gt;
-&lt;p class="caption"&gt;Primer informe html&lt;/p&gt;
-&lt;/div&gt;
-
-]
-
-.pull-right[
-
-Una vez que hemos escrito el texto vamos a **.bg-purple_light[guardar el archivo .Rmd]** haciendo click en el botón `Guardar` (yo he llamado al archivo `primer_rmarkdown.Rmd`). Tras guardar el documento, **.bg-purple_light[«tejeremos» nuestro documento]** haciendo click en el botón `Knit`.
-
-Al «tejer» se nos habrá generado (seguramente en una ventana al margen) un archivo .html, que podemos incluso **.bg-purple_light[abrir en nuestro navegador]**. Hemos creado nuestro primer informe, obviamente vacío de momento. 
-
-
-]
-
-
-
----
-
-# .orange[PRIMER INFORME]: .green[TEXTO]
-
-
-.pull-left[
-
-&lt;div class="figure" style="text-align: left"&gt;
-&lt;img src="./img/rmd_con_formato.jpg" alt="Tuneando nuestro primer informe html" width="99%" /&gt;
-&lt;p class="caption"&gt;Tuneando nuestro primer informe html&lt;/p&gt;
-&lt;/div&gt;
-
-]
-
-.pull-right[
-
-Vamos a **.bg-purple_light[mejorar]** un poco el texto haciendo lo siguiente:
-
-* Vamos a añadir **.bg-purple_light[negrita]** al nombre (poniendo `**` al inicio y al final).
-
-* Vamos añadir _cursiva_ a la palabra `material` (poniendo `_` al inicio y al final).
-
-*  Vamos añadir un enlace `https://www.ucm.es`, asociándolo al nombre de la Universidad. Para ello el título lo ponemos entre corchetes y justo detrás el enlace entre paréntesis `[«Universidad Complutense de Madrid»](https://www.ucm.es)`
-
-]
-
----
-
-
-# .orange[PRIMER INFORME]: .green[CHUNKS] de R
-
-Para añadir **.bg-purple_light[código R]** debemos crear nuestras **.bg-purple_light[cajas de código]** llamadas **.bg-orange[chunks]**: altos en el camino en nuestro texto markdown donde podremos incluir **código**. Para incluir uno deberá de ir encabezado de la siguiente forma.
-
-&lt;div class="figure" style="text-align: left"&gt;
-&lt;img src="./img/chunk_1.jpg" alt="Encabezado/final del chunk" width="90%" /&gt;
-&lt;p class="caption"&gt;Encabezado/final del chunk&lt;/p&gt;
-&lt;/div&gt;
-
----
-
-# .orange[PRIMER INFORME]: .green[CHUNKS] de R
-
-
-Dentro de dicha **.bg-purple_light[cajita]** (que tiene ahora **otro color** en el documento) escribiremos **.bg-purple_light[código R]**, como lo veníamos haciendo hasta ahora. Vamos por ejemplo a **.bg-purple_light[definir dos variables]** y su suma de la siguiente manera, escribiendo dicho código en nuestro `.Rmd` (dentro de ese chunk)
-
-.pull-left[
-
-
-```r
-# Código R
-x &lt;- 1
-y &lt;- 2
-x + y
-```
-
-```
-&gt; [1] 3
-```
-
-]
-
-.pull-right[
-
-&lt;div class="figure" style="text-align: left"&gt;
-&lt;img src="./img/rmd_3.jpg" alt="Primer chunk con código" width="99%" /&gt;
-&lt;p class="caption"&gt;Primer chunk con código&lt;/p&gt;
-&lt;/div&gt;
-
-]
-
----
-
-# .orange[PRIMER INFORME]: .green[CHUNKS] de R
-
-.pull-left[
-
-
-```r
-# Código R
-x &lt;- 1
-y &lt;- 2
-x + y
-```
-
-```
-&gt; [1] 3
-```
-
-]
-
-.pull-right[
-
-&lt;div class="figure" style="text-align: left"&gt;
-&lt;img src="./img/rmd_3.jpg" alt="Primer chunk con código" width="70%" /&gt;
-&lt;p class="caption"&gt;Primer chunk con código&lt;/p&gt;
-&lt;/div&gt;
-
-]
-
-Como ves dentro de esos _chunks_ puedes **.bg-purple_light[comentar código]** con `#` (ahora veremos que hace `#` fuera de esas cajas de código). Tras hacerlo tejemos de nuevo y obtenemos ahora un documento que tiene una caja de código y su salida.
-
-&lt;div class="figure" style="text-align: left"&gt;
-&lt;img src="./img/html_rmd_3.jpg" alt="Salida del html con el primer chunk" width="40%" /&gt;
-&lt;p class="caption"&gt;Salida del html con el primer chunk&lt;/p&gt;
-&lt;/div&gt;
-
-
-
----
-
-# .orange[PRIMER INFORME]: .green[CHUNKS] de R
-
-
-Somos capaces de **.bg-purple_light[escribir en un mismo documento texto]** con cierto formato, **.bg-purple_light[código R y la salida]** del resultado, permitiéndonos generar informes (ya veremos como incluir gráficas). De hecho, lo más práctico para **.bg-purple_light[tomar apuntes de R]** es ir anotando en un archivo `.Rmd`.
-
-Los chunks pueden tener un **.bg-purple_light[nombre o etiqueta]**, de forma que podamos referenciarlos de nuevo para no repetir código.
-
-&lt;div class="figure" style="text-align: left"&gt;
-&lt;img src="./img/chunk_repe_tag.jpg" alt="Etiquetando un chunk y reciclándolo" width="40%" /&gt;
-&lt;p class="caption"&gt;Etiquetando un chunk y reciclándolo&lt;/p&gt;
-&lt;/div&gt;
-
-
-
----
-
-# .orange[PRIMER INFORME]: .green[ORGANIZANDO]
-
-Con todo incluido en el documento podemos **.bg-purple_light[dividirlo en secciones y subsecciones]**. Para ello usaremos la sintaxis de markdown, poniendo **.bg-purple_light[almohadillas]**: una `#` para secciones, `##` para subsecciones, `###` para subsubsecciones, etc. Por ejemplo, vamos a
-
-* Hacer una sección principal que sea `# Primer informe`
-* Tras ello añadiremos la parte de texto.
-* Creamos una subsección que se titule `## Chunks de código` donde incluiremos los dos chunks que tenemos hasta ahora.
-
-
-.pull-left[
-
-&lt;div class="figure" style="text-align: right"&gt;
-&lt;img src="./img/secciones_rmd.jpg" alt="Secciones en el rmd" width="80%" /&gt;
-&lt;p class="caption"&gt;Secciones en el rmd&lt;/p&gt;
-&lt;/div&gt;
-
-
-]
-
-.pull-right[
-
-&lt;div class="figure" style="text-align: left"&gt;
-&lt;img src="./img/secciones_html.jpg" alt="Secciones en el html" width="80%" /&gt;
-&lt;p class="caption"&gt;Secciones en el html&lt;/p&gt;
-&lt;/div&gt;
-
-
-]
-
----
-
-
-# .orange[PRIMER INFORME]: .green[ORGANIZANDO]
-
-Además podemos incluir tras el título (y entre llaves `{}`) **.bg-purple_light[etiquetas]** (con `{#etiqueta}`) para luego **.bg-purple_light[referenciar dichas secciones]** en el documento.
-
-.pull-left[
-
-&lt;div class="figure" style="text-align: left"&gt;
-&lt;img src="./img/ref_rmd.jpg" alt="Referencias a secciones y subsecciones" width="75%" /&gt;
-&lt;p class="caption"&gt;Referencias a secciones y subsecciones&lt;/p&gt;
-&lt;/div&gt;
-
-]
-
-.pull-right[
-
-También podemos organizar nuestro código **.bg-purple_light[creando listas]**, usando `*` como ítems.
-
-&lt;div class="figure" style="text-align: left"&gt;
-&lt;img src="./img/items_rmd.jpg" alt="Creando listas con ítems" width="85%" /&gt;
-&lt;p class="caption"&gt;Creando listas con ítems&lt;/p&gt;
-&lt;/div&gt;
-
-]
-
----
-
-# .orange[PRIMER INFORME]: .green[PERSONALIZAR]
-
-En cada chunk aparece una **.bg-purple_light[botón de play]**: pulsándolo podemos tener la **ejecución y salida** de cada chunk en nuestro `.Rmd`, sin tener que esperar a «tejer» (con Knit) todo el documento para ver lo que vamos ejecutando.
-
-
-.pull-left[
-
-&lt;div class="figure" style="text-align: left"&gt;
-&lt;img src="./img/play_chunk.jpg" alt="Pulsando al botón play" width="99%" /&gt;
-&lt;p class="caption"&gt;Pulsando al botón play&lt;/p&gt;
-&lt;/div&gt;
-
-]
-
-.pull-right[
-
-&lt;div class="figure" style="text-align: left"&gt;
-&lt;img src="./img/chunk_ejecutado.jpg" alt="Chunk ejecutado in-line" width="99%" /&gt;
-&lt;p class="caption"&gt;Chunk ejecutado in-line&lt;/p&gt;
-&lt;/div&gt;
-
-]
-
----
-
-# .orange[PRIMER INFORME]: .green[PERSONALIZAR]
-
-
-Además podemos **.bg-purple_light[incluir código R dentro de la línea de texto]** (en lugar de mostrar el texto x ejecuta el código R mostrando la variable).
-
-
-
-.pull-left[
-
-&lt;div class="figure" style="text-align: left"&gt;
-&lt;img src="./img/codigo_inline_rmd.jpg" alt="Código R inline" width="99%" /&gt;
-&lt;p class="caption"&gt;Código R inline&lt;/p&gt;
-&lt;/div&gt;
-
-]
-
-.pull-right[
-
-&lt;div class="figure" style="text-align: left"&gt;
-&lt;img src="./img/codigo_inline_html.jpg" alt="Salida del código in-line" width="99%" /&gt;
-&lt;p class="caption"&gt;Salida del código in-line&lt;/p&gt;
-&lt;/div&gt;
-
-]
-
----
-
-# .orange[PRIMER INFORME]: .green[PERSONALIZAR]
-
-
-Los chunk podemos **.bg-purple_light[personalizar su salida]** con algunas opciones, pasándolos como argumentos dentro de las llaves ({r etiqueta, ...}).
-
-* `include = FALSE`: **.bg-green_light[ejecuta código]** pero **.bg-red_light[no se muestra (ni resultados)]** en la salida.
-
-* `echo = FALSE`: **.bg-green_light[ejecuta código]** y se **.bg-green_light[muestra resultado]** pero **.bg-red_light[no el código]** en la salida.
-
-* `eval = FALSE`: se **.bg-green_light[muestra el código]** pero **.bg-red_light[no se ejecuta]** en la salida final.
-
-* `message = FALSE`: se **.bg-green_light[ejecuta el código]** pero **.bg-red_light[no se muestran mensajes]** de salida que tendríamos en consola.
-
-* `warning = FALSE`: **.bg-green_light[ejecuta código]** pero **.bg-red_light[no se muestran warning]**.
-
-* `error = TRUE`: se **.bg-green_light[ejecuta el código]** pero permite ejecutar el código **.bg-green_light[con errores]** mostrando los mensajes de error.
- 
---
-
-Estas opciones podemos aplicarlas chunk a chunk o fijar los parámetros de forma global con `knitr::opts_chunk$set()` (dentro de un chunk), pasándole como argumentos dichas opciones (por ejemplo, `knitr::opts_chunk$set(echo = FALSE)`).
-
----
-
-# .orange[PRIMER INFORME]: .green[VARIABLES/ECUACIONES]
-
-Por último en este primer documento vamos a añadir una subsección `## Variables y ecuaciones` donde añadiremos un chunk asignando la suma `x + y` a una variable `z`, escribiendo antes en texto el nombre de la variable y la **.bg-purple_light[fórmula]** ($z = x + y$ entre dólares).
-
-
-.pull-left[
-
-&lt;div class="figure" style="text-align: left"&gt;
-&lt;img src="./img/variables_rmd.jpg" alt="Añadiendo variables en el .rmd" width="90%" /&gt;
-&lt;p class="caption"&gt;Añadiendo variables en el .rmd&lt;/p&gt;
-&lt;/div&gt;
-
-]
-
-.pull-right[
-
-&lt;div class="figure" style="text-align: left"&gt;
-&lt;img src="./img/variables_html.jpg" alt="Añadiendo variables en el .rmd" width="110%" /&gt;
-&lt;p class="caption"&gt;Añadiendo variables en el .rmd&lt;/p&gt;
-&lt;/div&gt;
-
-]
-
-
----
-
-name: ejercicios-I
+name: ejercicios-II
 
 # Ejercicios extras
 
 La entrega de dicho ejercicios tienen de deadline antes de la próxima clase y son **.bg-purple_light[voluntarios]** (no contará para la nota). A cambio el alumno que lo haga recibirá una corrección de la tarea (como si contase para nota), teniendo una retroalimentación.
 
 .panelset[
-.panel[.panel-name[Vectores y matrices: I]
-
-* 📝 **Ejercicio 1**: define un vector `y` que contenga los 5 primeros pares, y otro `x` con los 5 primeros impares. Haz la suma de `x` e `y`.
- 
-* 📝 **Ejercicio 2**: encuentra del vector `x &lt;- c(-1, 0, -2, 5, 3, 7)` el lugar (el índice) que ocupa su mínimo y su máximo.
- 
-* 📝 **Ejercicio 3**: haz uso de `x &lt;- rnorm(n = 1000, mean = 0, sd = 1)` para guardar en `x` datos generados por una normal de media 0 y desviación típica 1. Tras ello, ordena el vector `x` de menor a mayor y mayor a menor.
-
-]
-
-.panel[.panel-name[Vectores y matrices: II]
-
-* 📝 **Ejercicio 4**:  el siguiente código define una matriz de dimensiones `4 x 3` y calcula la suma por columnas. Modifica el código para que realice la suma por filas.
- 
-
-```r
-matriz &lt;- matrix(1:12, nrow = 4)
-apply(matriz, MARGIN = 2, FUN = "sum")
-```
-
-* 📝 **Ejercicio 5**: tomando la matriz del ejercicio anterior, accede a la segunda variable. Accede al primer registro. Accede al valor de la tercera variable del segundo individuo.
-
-]
-
-
 .panel[.panel-name[Tibble]
 
 
@@ -7399,26 +6774,6 @@ apply(matriz, MARGIN = 2, FUN = "sum")
 ]
 
 ]
-
----
-
-name: entrega-I
-
-# .orange[ENTREGA I]: OMS (20%)
-
-Instala el paquete `{tidyr}` y usa el conjunto `who` contenido en él mismo (dataset sobre casos de tuberculosis). Deberás **.bg-purple_light[entregar completado]** el archivo `.Rmd` que tienes disponible en &lt;https://github.com/dadosdelaplace/teaching/tree/main/data-science_seguros/eval&gt; **.bg-purple_light[antes de las 23:59 del 20 de noviembre]**, siguiendo las instrucciones contenidas en el mismo.
-
-
-```r
-install.packages("tidyr")
-library(tidyr)
-who
-```
-
-&amp;nbsp;
-
-🔎 Mira antes &lt;https://github.com/dadosdelaplace/teaching/tree/main/data_science_seguros/scripts&gt; el ejemplo de entrega (con enunciados sin y con resolver) para realizarla correctamente (tras revisar las diapositivas de `.rmd`).
-
 
 
 ---
