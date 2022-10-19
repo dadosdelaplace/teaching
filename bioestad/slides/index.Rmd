@@ -245,12 +245,13 @@ class: inverse center middle
 
 #### [CLASE 6: tidydata](#clase-6)
 
-#### [ENTREGA I (clase 6)](#entrega-I)
+
 
 ]
 
 .pull-right[
 
+#### [ENTREGA I (clase 6)](#entrega-I)
 
 #### [CLASE 7: listas y funciones](#clase-7)
 
@@ -258,11 +259,9 @@ class: inverse center middle
 
 #### [CLASE 9: tidyverse. resúmenes estadísticos](#clase-9)
 
-#### [CLASE 10: repaso y factores](#clase-10)
+#### [CLASE 10: repaso](#clase-10)
 
-#### [CLASE 11: cruzando tablas, importar/exportar](#clase-11)
-
-#### [ENTREGA II (clase 12)](#entrega-II)
+#### [CLASE 11: factores, importar/exportar](#clase-11)
 
 ]
 
@@ -276,32 +275,25 @@ class: inverse center middle
 
 .pull-left[
 
-#### [CLASE 9: introducción a dplyr (tidyverse)](#clase-9)
 
-#### [CLASE 10: profundizando en dplyr](#clase-10)
+#### [CLASE 12: cruzando tablas e introducción al dataviz](#clase-13)
 
-#### [CLASE 11: resumiendo datos con dplyr](#clase-11)
+#### [ENTREGA II (clase 13)](#entrega-II)
 
-#### [CLASE 12: factores (forcats) y textos (stringr)](#clase-12)
+#### [CLASE 14: introducción a ggplot](#clase-14)
 
+#### [CLASE 15: profundizando en ggplot](#clase-15)
 
-#### [CLASE 13: cruzando tablas](#clase-13)
+#### [CLASE 16: ggplot fetén](#...)
 
-#### [Entrega III (clase 13)](#entrega-III)
-
-#### [CLASE 14: introducción al dataviz)](#clase-14)
+#### [ENTREGA III (clase 17)](#entrega-III)
 
 ]
 
 .pull-right[
 
-#### [CLASE 15: profundizando en ggplot](#clase-15)
 
-#### [CLASE 16: ...](#...)
-
-#### [CLASE 17: ...](#...)
-
-#### [CLASE 18: ...](#...)
+#### [CLASE 18: introducción a Stata](#...)
 
 #### [CLASE 19: ...](#...)
 
@@ -8787,8 +8779,6 @@ name: clase-10
 
 ### [Caso práctico II](#caso-practico-II)
 
-### [Factores](#factores)
-
 
 ---
 
@@ -8917,6 +8907,31 @@ name: caso-practico-II
 survival::heart
 ```
 
+
+---
+
+
+class: inverse center middle
+name: clase-11
+
+# CLASE 11: factores e importar/exportar
+
+
+&nbsp;
+
+### [Factores](#factores)
+
+### [RData](#rdata)
+
+### [Datos rectangulares](#rectangular-data)
+
+### [Datos en Excel](#excel-data)
+
+### [Datos desde Google Drive](#google-data)
+
+### [Datos SAS, STATA y SPSS](#sas-data)
+
+### [Datos desde API](#api-data)
 
 ---
 
@@ -9240,7 +9255,7 @@ starwars %>%
 
 # Variables cuali: .orange[FACTORES]
 
-Con `fct_reorder()` podemos también indicar que queremos ordenar los factores en función de una función aplicada a otra variable.
+Con `fct_reorder()` podemos también indicar que queremos **.bg-purple_light[ordenar los factores]** en función de una función aplicada a otra variable.
 
 
 ```{r}
@@ -9272,20 +9287,396 @@ starwars_factor %>%
 
 ---
 
-class: inverse center middle
-name: clase-11
+name: rdata
 
-# CLASE 11: cruzar tablas, importar/exportar
+# Importando datos: .orange[.RData/.rda]
+
+Hasta ahora solo hemos usado datos cargados ya en paquetes pero muchas veces necesitaremos **.bg-purple_light[importarlos desde fuera]**. El fichero más simple para importar en `R` (y que suele ocupar menos espacio en disco) son los archivos `.RData` y `.rda`: son **.bg-purple_light[extensiones nativas]** de R.
+
+--
+
+Para cargarlo simplemente necesitamos usar la función `load()` indicándole la **.bg-purple_light[ruta del archivo]** (sin espacios, ni caracteres extraños, ni tildes, ni etc)
+
+```{r}
+load("./datos/titanic.RData") #<<
+as_tibble(titanic)
+```
+
+---
+
+# Importando datos: .orange[.RData/.rda]
+
+Fíjate que esta carga **.bg-purple_light[no se asigna a ninguna variable]** ya que en `.RData` ya tenemos dicha variable. No tenemos guardado un archivo en un formato concreto, tenemos guardada la variable en sí (en este caso es un `data.frame` que se llama `titanic`, pero podría ser un vector, una lista, una matriz, etc)
+
+```{r}
+load("./datos/titanic.RData") #<<
+as_tibble(titanic)
+```
+
+---
+
+# Exportando datos: .orange[.RData/.rda]
+
+De la misma manera que podemos importar, podemos **.bg-purple_light[exportar]** en `.RData`. Esta opción es la más recomendada si las variables guardadas van a ser únicamente usadas en `R`: recuerda que esta extensión es nativa de `R` por lo que **.bg-purple_light[solo se podrá usar en `R`]**. Para ello nos basta con usar `save(objeto, file = ruta con extensión)`
+
+.pull-left[
+
+```{r}
+tabla <- tibble("a" = 1:4, "b" = 1:4)
+save(tabla,
+     file = "./datos/tabla_prueba.RData")
+```
+
+]
+
+.pull-right[
+
+```{r}
+load("./datos/tabla_prueba.RData")
+tabla
+```
+
+]
+
+---
+
+name: rectangular-data
+
+# Importando datos .orange[RECTANGULARES]
+
+El paquete `{readr}` dentro del entorno `{tidyverse}` contiene distintas funciones útiles para la carga de **.bg-purple_light[datos rectangulares]** (sin formatear).
+
+.pull-left[
+
+* `read_csv()`: archivos `.csv` cuyo separador sea la **.bg-purple_light[coma]** `,`
+* `read_csv2()`: archivos `.csv` cuyo separador sea el **.bg-purple_light[punto y coma]** `;`
+* `read_tsv()`: archivos cuyos valores estén separados por un **.bg-purple_light[tabulador]**.
+* `read_table()`: archivos cuyos valores estén separados por un **.bg-purple_light[espacio]**.
+* `read_delim()`: **función general** para leer archivos delimitados por caracteres.
+
+]
+
+.pull-right[
+
+```{r readr, echo = FALSE,  out.width = "110%", fig.align = "center", fig.cap = "Ver más en https://readr.tidyverse.org/"}
+knitr::include_graphics("https://github.com/rstudio/cheatsheets/raw/main/pngs/thumbnails/data-import-cheatsheet-thumbs.png")
+``` 
+
+]
+
+Todos necesitan como argumento la **.bg-purple_light[ruta del archivo]** (que podemos simplificar teniendo una carpeta de datos en nuestro proyecto), amén de otros argumentos opcionales (saltar o no cabecera, decimales son con punto o coma, etc)
 
 
-&nbsp;
+---
+
+# Importando datos .orange[RECTANGULARES]
+
+La principal ventaja de `{readr}` es que **.bg-purple_light[automatiza el formateo]** necesario para pasar de un archivo plano (sin formato) a un `tibble` (en filas y columnas, con formato).
+
+--
+
+En `read_csv()` necesitaremos pasar como argumento la ruta del archivo en `file`
+
+```{r}
+library(readr)
+chickens <- read_csv(file = "./datos/chickens.csv")
+chickens
+```
+
+---
+
+# Importando datos .orange[RECTANGULARES]
+
+El formato de las columnas normalmente lo hará `read_csv()` de forma automática, y podemos consultarlo con `spec()`
+
+```{r}
+spec(chickens)
+```
+
+---
+
+
+# Importando datos .orange[RECTANGULARES]
+
+Aunque lo haga normalmente bien de forma automática podemos **.bg-purple_light[especificar el formato explícitamente]** en `col_types = list()` (en formato lista, con `col_xxx()` para el formateo de cada tipo de variable, por ejemplo una la pondremos como factor).
+
+```{r}
+chickens <-
+  read_csv(file = "./datos/chickens.csv",
+           col_types = list(col_character(), col_factor(),
+                            col_double(), col_character()))
+chickens
+```
+
+---
+
+# Importando datos .orange[RECTANGULARES]
+
+Incluso podemos **.bg-purple_light[indicar que columnas que queremos]** (imagina que no quieres cargar todas, y quieres seleccionar ya en la carga para que no te ocupe en memoria), indicándoselo en `col_select = ...`.
+
+```{r}
+chickens <-
+  read_csv(file = "./datos/chickens.csv",
+           col_select = c(chicken, eggs_laid))
+chickens
+```
+
+---
+
+# Importando datos .orange[RECTANGULARES]
+
+Dentro de `col_select = ...` podemos **.bg-purple_light[usar sentencias tidyverse]** como `starts_with(...)`
+
+```{r}
+chickens <-
+  read_csv(file = "./datos/chickens.csv",
+           col_select = c(starts_with("c"), last_col()))
+chickens
+```
+
+---
+
+# Importando datos .orange[RECTANGULARES]
+
+También podemos **.bg-purple_light[decidir nosotros los nombres]** de las variables indicándoselo en `col_names = ...` (incluso si los decimales están codificados con punto o coma)
+
+```{r}
+chickens <-
+  read_csv(file = "./datos/chickens.csv",
+           col_names = c("var1", "var2", "var3", "var4"))
+chickens
+```
+
+
+---
+
+# Importando datos .orange[RECTANGULARES]
+
+¿Qué sucede cuando el separador no el correcto? Como puedes ver en la carga del siguiente `.txt`, nos interpreta todo como una sola columna, ya que no le hemos indicado donde separar
+
+```{r}
+datos_txt <- read_csv(file = "./datos/massey-rating.txt")
+as_tibble(datos_txt)
+```
+
+---
+
+# Importando datos .orange[RECTANGULARES]
+
+Para ello tenemos `read_csv2()` cuando el separador sea el **.bg-purple_light[punto y coma]**, `read_tsv()` cuando el separador sea un **.bg-purple_light[tabulador]**, `read_table()` cuando el separador sea un **.bg-purple_light[espacio]** y  `read_delim()` en general
+
+```{r}
+datos_txt <- read_table(file = "./datos/massey-rating.txt")
+as_tibble(datos_txt)
+```
+
+---
+
+# Exportando datos .orange[RECTANGULARES]
+
+Para **.bg-purple_light[exportar datos]** rectangulares las funciones serán similares pero con el prefijo `write_xxx()` y el formato adecuado.
+
+Por ejemplo, vamos a **.bg-purple_light[exportar a un .csv]** el dataset de starwars (seleccionando solo las columnas que no son lista)
+
+```{r}
+write_csv(starwars %>% select(name:species),
+          file = "./datos/starwars.csv")
+read_csv(file = "./datos/starwars.csv")
+```
+
+---
+
+# Importando datos .orange[DESDE WEB]
+
+
+Una de las principales ventajas de `R` es que podemos **.bg-purple_light[importar datos desde una web]**, sin necesidad de realizar la descarga manual del archivo. Y lo mejor es que se hará igual que hemos importado todo: en lugar de pasarle la ruta local de nuestro PC, le **.bg-purple_light[indicaremos el enlace (permalink)]**.
+
+
+```{r}
+momo_datos <-
+  read_csv(file = "https://momo.isciii.es/public/momo/data",
+           n_max = 500000)
+momo_datos
+```
+
+---
+
+# Importando datos .orange[DESDE WEB]
+
+
+Una de las principales ventajas de `R` es que podemos **.bg-purple_light[importar datos desde una web]**, sin necesidad de realizar la descarga manual del archivo. Y lo mejor es que se hará igual que hemos importado todo: en lugar de pasarle la ruta local de nuestro PC, le **.bg-purple_light[indicaremos el enlace (permalink)]**.
+
+
+```{r}
+discurso_2021 <-
+  read_delim(file = "https://raw.githubusercontent.com/lirondos/discursos-de-navidad/master/data/speeches/2021.txt", delim = "\t")
+discurso_2021
+```
+
+---
+
+name: excel-data
+
+# Importando datos: datos .orange[EXCEL]
+
+Otro de los paquetes fundamentales de importación será el paquete `{readxl}` para **.bg-purple_light[importar datos desde una Excel]** (y `{openxlsx}` para exportar, aunque se recomienda `.csv`)
+
+Tres funciones serán claves: `read_xls()` (especifica para extensión `.xls`), `read_xlsx()` (especifica para extensión `.xlsx`) y `read_excel()` (para ambas).
+
+
+```{r}
+library(readxl)
+deaths <-
+  read_xls(path = "./datos/deaths.xls",
+           skip = 4)
+deaths
+```
+
+---
+
+# Importando datos: datos .orange[EXCEL]
+
+Otro de los paquetes fundamentales de importación será el paquete `{readxl}` para **.bg-purple_light[importar datos desde una Excel]** (y `{openxlsx}` para exportar, aunque se recomienda `.csv`)
+
+Tres funciones serán claves: `read_xls()` (especifica para extensión `.xls`), `read_xlsx()` (especifica para extensión `.xlsx`) y `read_excel()` (para ambas).
+
+
+
+```{r}
+deaths <-
+  read_xlsx(path = "./datos/deaths.xlsx",
+            skip = 5,
+            col_names =
+              c("name", "profession",
+                "age", "kids",
+                "birth", "death"))
+deaths
+```
+
+
+---
+
+# Importando datos .orange[EXCEL]
+
+Si te fijas las **.bg-purple_light[fechas de Excel están mal formateadas]** (sorpresa) así que podemos hacer uso de `convertToDate()` del paquete `{openxlsx}` para convertirlo
+
+
+```{r}
+library(openxlsx)
+library(lubridate)
+deaths %>% mutate(birth = as_date(birth),
+                  death = convertToDate(death))
+```
+
+---
+
+# Importando datos: datos .orange[EXCEL]
+
+También podemos **.bg-purple_light[cargar un Excel con varias hojas]**, pero por defecto nos carga solo la primera hoja. Para indicarle la hoja (bien por su nombre bien por su número) usaremos el argumento `sheet = ...`
+
+
+```{r}
+mtcars <- read_xlsx(path = "./datos/datasets.xlsx",
+                      sheet = "mtcars")
+mtcars
+```
+---
+
+# Importando datos: datos .orange[EXCEL]
+
+Incluso podemos **.bg-purple_light[indicarle el rango de celdas]** del Excel que queremos caergar, haciendo uso del argumento `range = ...`
+
+
+```{r}
+iris <- read_xlsx(path = "./datos/datasets.xlsx",
+                  sheet = "iris",
+                  range = "C1:E4")
+iris
+```
+
+---
+
+name: google-data
+
+# Importando datos .orange[googlesheet]
+
+Otra opción disponible (sobre todo si trabajamos con otras personas que trabajan en Google Drive) es **.bg-purple_light[importar desde una hoja de cálculo Google Drive]**, haciendo uso de `read_sheet()` del paquete `{googlesheets4}` (os pedirá un permiso de tidyverse para interactuar con vuestro drive)
+
+```{r}
+library(googlesheets4)
+google_sheet <- read_sheet("https://docs.google.com/spreadsheets/d/1AxHm5qndAQXT77HUjbB7h4rbUVe48Doe1iNIxwk05L4/edit?usp=sharing")
+google_sheet
+```
+
+
+---
+
+# Importando .orange[SAS/SPSS/STATA]
+
+El paquete `{haven}` dentro de la órbita tidyverse nos permitirá importar archivos de los 3 software de pago de gestión y análisis de datos más importantes y usados: nos permite **.bg-purple_light[importar desde SAS, SPSS y Stata]**
+
+```{r}
+library(haven)
+# SAS
+iris_sas <- read_sas(data_file = "./datos/iris.sas7bdat")
+write_sas(iris_sas, path = "./datos/iris_exportado.sas7bdat")
+iris_sas
+```
+
+---
+
+# Importando .orange[SAS/SPSS/STATA]
+
+El paquete `{haven}` dentro de la órbita tidyverse nos permitirá importar archivos de los 3 software de pago de gestión y análisis de datos más importantes y usados: nos permite **.bg-purple_light[importar desde SAS, SPSS y Stata]**
+
+```{r}
+# SPSS
+iris_spss <- read_sav(file = "./datos/iris.sav")
+write_sav(iris_spss, path = "./datos/iris_exportado.sav")
+iris_spss
+```
+
+---
+
+name: sas-data
+# Importando .orange[SAS/SPSS/STATA]
+
+El paquete `{haven}` dentro de la órbita tidyverse nos permitirá importar archivos de los 3 software de pago de gestión y análisis de datos más importantes y usados: nos permite **.bg-purple_light[importar desde SAS, SPSS y Stata]**
+
+```{r}
+# Stata
+iris_stata <- read_dta(file = "./datos/iris.dta")
+write_dta(iris_stata, path = "./datos/iris_exportado.dta")
+iris_stata
+```
+
+
+---
+
+# Importando datos: desde .orange[API]
+
+* aemet
+* catastro
+* spotify
+* chess
+* Twitter
+* owidR
+
+
 
 ---
 
 class: inverse center middle
 name: clase-12
 
-# CLASE 12: entrega II
+# CLASE 12: cruzar tablas
+
+---
+
+class: inverse center middle
+name: clase-13
+
+# CLASE 13: entrega II
 
 
 ---

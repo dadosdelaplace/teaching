@@ -15,6 +15,10 @@
     <script>window.xaringanExtraClipboard(null, {"button":"Click para copiar código","success":"Código copiado","error":"Ctrl+C para copiar"})</script>
     <link href="index_files/panelset-0.2.6/panelset.css" rel="stylesheet" />
     <script src="index_files/panelset-0.2.6/panelset.js"></script>
+    <script src="index_files/mark.js-8.11.1/mark.min.js"></script>
+    <link href="index_files/xaringanExtra-search-0.0.1/search.css" rel="stylesheet" />
+    <script src="index_files/xaringanExtra-search-0.0.1/search.js"></script>
+    <script>window.addEventListener('load', function() { window.xeSearch = new RemarkSearch({"position":"bottom-left","caseSensitive":false,"showIcon":true,"autoSearch":true}) })</script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
   <body>
@@ -24,7 +28,7 @@ class: center, middle, inverse, title-slide
 # GESTIÓN DE BASES DE DATOS
 ## Máster en Bioestadística
 ### Javier Álvarez Liébana (Fac. Estudios Estadísticos - UCM)
-### Última actualización: 17-10-2022
+### Última actualización: 19-10-2022
 
 ---
 
@@ -186,12 +190,13 @@ class: inverse center middle
 
 #### [CLASE 6: tidydata](#clase-6)
 
-#### [ENTREGA I (clase 6)](#entrega-I)
+
 
 ]
 
 .pull-right[
 
+#### [ENTREGA I (clase 6)](#entrega-I)
 
 #### [CLASE 7: listas y funciones](#clase-7)
 
@@ -199,11 +204,9 @@ class: inverse center middle
 
 #### [CLASE 9: tidyverse. resúmenes estadísticos](#clase-9)
 
-#### [CLASE 10: repaso y factores](#clase-10)
+#### [CLASE 10: repaso](#clase-10)
 
-#### [CLASE 11: cruzando tablas, importar/exportar](#clase-11)
-
-#### [ENTREGA II (clase 12)](#entrega-II)
+#### [CLASE 11: factores, importar/exportar](#clase-11)
 
 ]
 
@@ -217,32 +220,25 @@ class: inverse center middle
 
 .pull-left[
 
-#### [CLASE 9: introducción a dplyr (tidyverse)](#clase-9)
 
-#### [CLASE 10: profundizando en dplyr](#clase-10)
+#### [CLASE 12: cruzando tablas e introducción al dataviz](#clase-13)
 
-#### [CLASE 11: resumiendo datos con dplyr](#clase-11)
+#### [ENTREGA II (clase 13)](#entrega-II)
 
-#### [CLASE 12: factores (forcats) y textos (stringr)](#clase-12)
+#### [CLASE 14: introducción a ggplot](#clase-14)
 
+#### [CLASE 15: profundizando en ggplot](#clase-15)
 
-#### [CLASE 13: cruzando tablas](#clase-13)
+#### [CLASE 16: ggplot fetén](#...)
 
-#### [Entrega III (clase 13)](#entrega-III)
-
-#### [CLASE 14: introducción al dataviz)](#clase-14)
+#### [ENTREGA III (clase 17)](#entrega-III)
 
 ]
 
 .pull-right[
 
-#### [CLASE 15: profundizando en ggplot](#clase-15)
 
-#### [CLASE 16: ...](#...)
-
-#### [CLASE 17: ...](#...)
-
-#### [CLASE 18: ...](#...)
+#### [CLASE 18: introducción a Stata](#...)
 
 #### [CLASE 19: ...](#...)
 
@@ -1764,7 +1760,7 @@ hoy
 ```
 
 ```
-&gt; [1] "2022-10-17"
+&gt; [1] "2022-10-19"
 ```
 
 --
@@ -1777,7 +1773,7 @@ También podemos obtener el **.bg-purple_light[«hoy y ahora»]** con la funció
 ```
 
 ```
-&gt; [1] "2022-10-17 15:53:33 CEST"
+&gt; [1] "2022-10-19 15:57:02 CEST"
 ```
  
 ---
@@ -2161,7 +2157,7 @@ hoy - cumple
 ```
 
 ```
-&gt; Time difference of 12090 days
+&gt; Time difference of 12092 days
 ```
 
 ]
@@ -3083,9 +3079,9 @@ x &lt;- rnorm(1e3) # 1000 elementos aleatorias
 
 ```
 &gt; Unit: microseconds
-&gt;         expr    min      lq     mean  median      uq     max neval cld
-&gt;      sort(x) 43.575 48.3850 58.06553 54.4545 62.2985 177.039  1000   b
-&gt;  x[order(x)] 30.554 33.6295 39.75625 37.1780 42.3740 124.557  1000  a
+&gt;         expr    min      lq     mean median      uq     max neval cld
+&gt;      sort(x) 45.242 52.5435 65.02197 57.822 66.9715 265.703  1000   b
+&gt;  x[order(x)] 31.015 36.4585 44.33122 39.769 45.9785 150.071  1000  a
 ```
 
 --
@@ -6334,11 +6330,11 @@ microbenchmark(x^2,
 ```
 &gt; Unit: nanoseconds
 &gt;                                     expr     min      lq        mean    median
-&gt;                                      x^2     347     456    1208.923    1040.5
-&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 1657221 1846786 2179110.510 1999465.0
-&gt;         uq      max neval cld
-&gt;     1759.5    24845  1000  a 
-&gt;  2280885.0 16723519  1000   b
+&gt;                                      x^2     348     469    1383.434     900.5
+&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 1679461 1905754 2374496.734 2137317.0
+&gt;       uq      max neval cld
+&gt;     1937    24311  1000  a 
+&gt;  2508383 13869351  1000   b
 ```
 
 ---
@@ -6616,7 +6612,7 @@ sample(x = 0:1, size = 2)
 ```
 
 ```
-&gt; [1] 0 1
+&gt; [1] 1 0
 ```
 
 **.bg-red_light[IMPORTANTE]**: si no indicamos nada en el vector de probabilidades `prob`, asume que son equiprobables (en este caso, `\(1/2\)` para cada cara).
@@ -6651,7 +6647,7 @@ sample(x = 0:1, size = 30, replace = TRUE)
 ```
 
 ```
-&gt;  [1] 0 0 1 0 0 0 0 0 0 0 1 1 0 1 0 0 0 1 1 1 1 1 1 0 1 0 1 0 1 1
+&gt;  [1] 1 1 1 0 1 0 1 0 1 0 0 0 1 1 0 0 0 0 0 0 1 0 1 0 0 0 1 1 0 0
 ```
 
 ---
@@ -6666,7 +6662,7 @@ sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
 ```
 
 ```
-&gt;  [1] "cara" "cara" "cruz" "cara" "cruz" "cara" "cruz" "cruz" "cruz" "cruz"
+&gt;  [1] "cruz" "cruz" "cruz" "cruz" "cara" "cara" "cara" "cruz" "cruz" "cara"
 ```
 
 --
@@ -6679,7 +6675,7 @@ sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
 ```
 
 ```
-&gt;  [1] "cara" "cruz" "cruz" "cruz" "cruz" "cara" "cara" "cruz" "cara" "cruz"
+&gt;  [1] "cara" "cara" "cruz" "cruz" "cruz" "cara" "cara" "cruz" "cara" "cruz"
 ```
 
 ---
@@ -8680,11 +8676,11 @@ microbenchmark(sqrt(x), for (i in 1:1000) { y[i] &lt;- sqrt(x[i]) }, times = 1e3
 ```
 &gt; Unit: microseconds
 &gt;                                          expr      min       lq        mean
-&gt;                                       sqrt(x)    2.267    2.850    3.977572
-&gt;  for (i in 1:1000) {     y[i] &lt;- sqrt(x[i]) } 1720.147 1905.425 2224.908557
-&gt;     median        uq      max neval cld
-&gt;     3.4225    4.0695   30.819  1000  a 
-&gt;  2039.0805 2325.6110 8558.731  1000   b
+&gt;                                       sqrt(x)    2.358    2.985    4.087976
+&gt;  for (i in 1:1000) {     y[i] &lt;- sqrt(x[i]) } 1734.051 2004.079 2675.315442
+&gt;    median      uq       max neval cld
+&gt;     3.598    4.25    28.762  1000  a 
+&gt;  2279.054 2792.55 34624.249  1000   b
 ```
 
 
@@ -8768,11 +8764,11 @@ microbenchmark(map(x, .f = function(x) { mean(x^2) }), lapply(x, FUN = function(
 ```
 &gt; Unit: milliseconds
 &gt;                                            expr      min       lq     mean
-&gt;      map(x, .f = function(x) {     mean(x^2) }) 5.486537 6.430957 8.408593
-&gt;  lapply(x, FUN = function(x) {     mean(x^2) }) 5.288952 6.281790 8.323097
-&gt;    median       uq      max neval cld
-&gt;  7.327011 8.148324  48.9397  1000   a
-&gt;  7.198838 7.958674 195.9592  1000   a
+&gt;      map(x, .f = function(x) {     mean(x^2) }) 5.699520 6.889858 9.216749
+&gt;  lapply(x, FUN = function(x) {     mean(x^2) }) 5.342943 6.759794 9.106092
+&gt;    median       uq       max neval cld
+&gt;  7.860894 9.011815  56.63832  1000   a
+&gt;  7.764812 8.828415 240.66022  1000   a
 ```
 
 
@@ -13570,8 +13566,6 @@ name: clase-10
 
 ### [Caso práctico II](#caso-practico-II)
 
-### [Factores](#factores)
-
 
 ---
 
@@ -13877,6 +13871,31 @@ survival::heart
 &gt; 172   0.0    6.0     1  -8.68446270 -0.04928131       0          0 103
 ```
 
+
+---
+
+
+class: inverse center middle
+name: clase-11
+
+# CLASE 11: factores e importar/exportar
+
+
+&amp;nbsp;
+
+### [Factores](#factores)
+
+### [RData](#rdata)
+
+### [Datos rectangulares](#rectangular-data)
+
+### [Datos en Excel](#excel-data)
+
+### [Datos desde Google Drive](#google-data)
+
+### [Datos SAS, STATA y SPSS](#sas-data)
+
+### [Datos desde API](#api-data)
 
 ---
 
@@ -14332,7 +14351,7 @@ starwars %&gt;%
 
 # Variables cuali: .orange[FACTORES]
 
-Con `fct_reorder()` podemos también indicar que queremos ordenar los factores en función de una función aplicada a otra variable.
+Con `fct_reorder()` podemos también indicar que queremos **.bg-purple_light[ordenar los factores]** en función de una función aplicada a otra variable.
 
 
 
@@ -14391,20 +14410,775 @@ starwars_factor %&gt;%
 
 ---
 
-class: inverse center middle
-name: clase-11
+name: rdata
 
-# CLASE 11: cruzar tablas, importar/exportar
+# Importando datos: .orange[.RData/.rda]
+
+Hasta ahora solo hemos usado datos cargados ya en paquetes pero muchas veces necesitaremos **.bg-purple_light[importarlos desde fuera]**. El fichero más simple para importar en `R` (y que suele ocupar menos espacio en disco) son los archivos `.RData` y `.rda`: son **.bg-purple_light[extensiones nativas]** de R.
+
+--
+
+Para cargarlo simplemente necesitamos usar la función `load()` indicándole la **.bg-purple_light[ruta del archivo]** (sin espacios, ni caracteres extraños, ni tildes, ni etc)
 
 
-&amp;nbsp;
+```r
+*load("./datos/titanic.RData")
+as_tibble(titanic)
+```
+
+```
+&gt; # A tibble: 891 × 12
+&gt;    PassengerId Survived Pclass Name   Sex     Age SibSp Parch Ticket  Fare Cabin
+&gt;          &lt;int&gt;    &lt;int&gt;  &lt;int&gt; &lt;fct&gt;  &lt;fct&gt; &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;fct&gt;  &lt;dbl&gt; &lt;fct&gt;
+&gt;  1           1        0      3 Braun… male     22     1     0 A/5 2…  7.25 ""   
+&gt;  2           2        1      1 Cumin… fema…    38     1     0 PC 17… 71.3  "C85"
+&gt;  3           3        1      3 Heikk… fema…    26     0     0 STON/…  7.92 ""   
+&gt;  4           4        1      1 Futre… fema…    35     1     0 113803 53.1  "C12…
+&gt;  5           5        0      3 Allen… male     35     0     0 373450  8.05 ""   
+&gt;  6           6        0      3 Moran… male     NA     0     0 330877  8.46 ""   
+&gt;  7           7        0      1 McCar… male     54     0     0 17463  51.9  "E46"
+&gt;  8           8        0      3 Palss… male      2     3     1 349909 21.1  ""   
+&gt;  9           9        1      3 Johns… fema…    27     0     2 347742 11.1  ""   
+&gt; 10          10        1      2 Nasse… fema…    14     1     0 237736 30.1  ""   
+&gt; # … with 881 more rows, and 1 more variable: Embarked &lt;fct&gt;
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
+```
+
+---
+
+# Importando datos: .orange[.RData/.rda]
+
+Fíjate que esta carga **.bg-purple_light[no se asigna a ninguna variable]** ya que en `.RData` ya tenemos dicha variable. No tenemos guardado un archivo en un formato concreto, tenemos guardada la variable en sí (en este caso es un `data.frame` que se llama `titanic`, pero podría ser un vector, una lista, una matriz, etc)
+
+
+```r
+*load("./datos/titanic.RData")
+as_tibble(titanic)
+```
+
+```
+&gt; # A tibble: 891 × 12
+&gt;    PassengerId Survived Pclass Name   Sex     Age SibSp Parch Ticket  Fare Cabin
+&gt;          &lt;int&gt;    &lt;int&gt;  &lt;int&gt; &lt;fct&gt;  &lt;fct&gt; &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;fct&gt;  &lt;dbl&gt; &lt;fct&gt;
+&gt;  1           1        0      3 Braun… male     22     1     0 A/5 2…  7.25 ""   
+&gt;  2           2        1      1 Cumin… fema…    38     1     0 PC 17… 71.3  "C85"
+&gt;  3           3        1      3 Heikk… fema…    26     0     0 STON/…  7.92 ""   
+&gt;  4           4        1      1 Futre… fema…    35     1     0 113803 53.1  "C12…
+&gt;  5           5        0      3 Allen… male     35     0     0 373450  8.05 ""   
+&gt;  6           6        0      3 Moran… male     NA     0     0 330877  8.46 ""   
+&gt;  7           7        0      1 McCar… male     54     0     0 17463  51.9  "E46"
+&gt;  8           8        0      3 Palss… male      2     3     1 349909 21.1  ""   
+&gt;  9           9        1      3 Johns… fema…    27     0     2 347742 11.1  ""   
+&gt; 10          10        1      2 Nasse… fema…    14     1     0 237736 30.1  ""   
+&gt; # … with 881 more rows, and 1 more variable: Embarked &lt;fct&gt;
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
+```
+
+---
+
+# Exportando datos: .orange[.RData/.rda]
+
+De la misma manera que podemos importar, podemos **.bg-purple_light[exportar]** en `.RData`. Esta opción es la más recomendada si las variables guardadas van a ser únicamente usadas en `R`: recuerda que esta extensión es nativa de `R` por lo que **.bg-purple_light[solo se podrá usar en `R`]**. Para ello nos basta con usar `save(objeto, file = ruta con extensión)`
+
+.pull-left[
+
+
+```r
+tabla &lt;- tibble("a" = 1:4, "b" = 1:4)
+save(tabla,
+     file = "./datos/tabla_prueba.RData")
+```
+
+]
+
+.pull-right[
+
+
+```r
+load("./datos/tabla_prueba.RData")
+tabla
+```
+
+```
+&gt; # A tibble: 4 × 2
+&gt;       a     b
+&gt;   &lt;int&gt; &lt;int&gt;
+&gt; 1     1     1
+&gt; 2     2     2
+&gt; 3     3     3
+&gt; 4     4     4
+```
+
+]
+
+---
+
+name: rectangular-data
+
+# Importando datos .orange[RECTANGULARES]
+
+El paquete `{readr}` dentro del entorno `{tidyverse}` contiene distintas funciones útiles para la carga de **.bg-purple_light[datos rectangulares]** (sin formatear).
+
+.pull-left[
+
+* `read_csv()`: archivos `.csv` cuyo separador sea la **.bg-purple_light[coma]** `,`
+* `read_csv2()`: archivos `.csv` cuyo separador sea el **.bg-purple_light[punto y coma]** `;`
+* `read_tsv()`: archivos cuyos valores estén separados por un **.bg-purple_light[tabulador]**.
+* `read_table()`: archivos cuyos valores estén separados por un **.bg-purple_light[espacio]**.
+* `read_delim()`: **función general** para leer archivos delimitados por caracteres.
+
+]
+
+.pull-right[
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="https://github.com/rstudio/cheatsheets/raw/main/pngs/thumbnails/data-import-cheatsheet-thumbs.png" alt="Ver más en https://readr.tidyverse.org/" width="110%" /&gt;
+&lt;p class="caption"&gt;Ver más en https://readr.tidyverse.org/&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+Todos necesitan como argumento la **.bg-purple_light[ruta del archivo]** (que podemos simplificar teniendo una carpeta de datos en nuestro proyecto), amén de otros argumentos opcionales (saltar o no cabecera, decimales son con punto o coma, etc)
+
+
+---
+
+# Importando datos .orange[RECTANGULARES]
+
+La principal ventaja de `{readr}` es que **.bg-purple_light[automatiza el formateo]** necesario para pasar de un archivo plano (sin formato) a un `tibble` (en filas y columnas, con formato).
+
+--
+
+En `read_csv()` necesitaremos pasar como argumento la ruta del archivo en `file`
+
+
+```r
+library(readr)
+chickens &lt;- read_csv(file = "./datos/chickens.csv")
+chickens
+```
+
+```
+&gt; # A tibble: 5 × 4
+&gt;   chicken                 sex     eggs_laid motto                               
+&gt;   &lt;chr&gt;                   &lt;chr&gt;       &lt;dbl&gt; &lt;chr&gt;                               
+&gt; 1 Foghorn Leghorn         rooster         0 That's a joke, ah say, that's a jok…
+&gt; 2 Chicken Little          hen             3 The sky is falling!                 
+&gt; 3 Ginger                  hen            12 Listen. We'll either die free chick…
+&gt; 4 Camilla the Chicken     hen             7 Bawk, buck, ba-gawk.                
+&gt; 5 Ernie The Giant Chicken rooster         0 Put Captain Solo in the cargo hold.
+```
+
+---
+
+# Importando datos .orange[RECTANGULARES]
+
+El formato de las columnas normalmente lo hará `read_csv()` de forma automática, y podemos consultarlo con `spec()`
+
+
+```r
+spec(chickens)
+```
+
+```
+&gt; cols(
+&gt;   chicken = col_character(),
+&gt;   sex = col_character(),
+&gt;   eggs_laid = col_double(),
+&gt;   motto = col_character()
+&gt; )
+```
+
+---
+
+
+# Importando datos .orange[RECTANGULARES]
+
+Aunque lo haga normalmente bien de forma automática podemos **.bg-purple_light[especificar el formato explícitamente]** en `col_types = list()` (en formato lista, con `col_xxx()` para el formateo de cada tipo de variable, por ejemplo una la pondremos como factor).
+
+
+```r
+chickens &lt;-
+  read_csv(file = "./datos/chickens.csv",
+           col_types = list(col_character(), col_factor(),
+                            col_double(), col_character()))
+chickens
+```
+
+```
+&gt; # A tibble: 5 × 4
+&gt;   chicken                 sex     eggs_laid motto                               
+&gt;   &lt;chr&gt;                   &lt;fct&gt;       &lt;dbl&gt; &lt;chr&gt;                               
+&gt; 1 Foghorn Leghorn         rooster         0 That's a joke, ah say, that's a jok…
+&gt; 2 Chicken Little          hen             3 The sky is falling!                 
+&gt; 3 Ginger                  hen            12 Listen. We'll either die free chick…
+&gt; 4 Camilla the Chicken     hen             7 Bawk, buck, ba-gawk.                
+&gt; 5 Ernie The Giant Chicken rooster         0 Put Captain Solo in the cargo hold.
+```
+
+---
+
+# Importando datos .orange[RECTANGULARES]
+
+Incluso podemos **.bg-purple_light[indicar que columnas que queremos]** (imagina que no quieres cargar todas, y quieres seleccionar ya en la carga para que no te ocupe en memoria), indicándoselo en `col_select = ...`.
+
+
+```r
+chickens &lt;-
+  read_csv(file = "./datos/chickens.csv",
+           col_select = c(chicken, eggs_laid))
+chickens
+```
+
+```
+&gt; # A tibble: 5 × 2
+&gt;   chicken                 eggs_laid
+&gt;   &lt;chr&gt;                       &lt;dbl&gt;
+&gt; 1 Foghorn Leghorn                 0
+&gt; 2 Chicken Little                  3
+&gt; 3 Ginger                         12
+&gt; 4 Camilla the Chicken             7
+&gt; 5 Ernie The Giant Chicken         0
+```
+
+---
+
+# Importando datos .orange[RECTANGULARES]
+
+Dentro de `col_select = ...` podemos **.bg-purple_light[usar sentencias tidyverse]** como `starts_with(...)`
+
+
+```r
+chickens &lt;-
+  read_csv(file = "./datos/chickens.csv",
+           col_select = c(starts_with("c"), last_col()))
+chickens
+```
+
+```
+&gt; # A tibble: 5 × 2
+&gt;   chicken                 motto                                                 
+&gt;   &lt;chr&gt;                   &lt;chr&gt;                                                 
+&gt; 1 Foghorn Leghorn         That's a joke, ah say, that's a joke, son.            
+&gt; 2 Chicken Little          The sky is falling!                                   
+&gt; 3 Ginger                  Listen. We'll either die free chickens or we die tryi…
+&gt; 4 Camilla the Chicken     Bawk, buck, ba-gawk.                                  
+&gt; 5 Ernie The Giant Chicken Put Captain Solo in the cargo hold.
+```
+
+---
+
+# Importando datos .orange[RECTANGULARES]
+
+También podemos **.bg-purple_light[decidir nosotros los nombres]** de las variables indicándoselo en `col_names = ...` (incluso si los decimales están codificados con punto o coma)
+
+
+```r
+chickens &lt;-
+  read_csv(file = "./datos/chickens.csv",
+           col_names = c("var1", "var2", "var3", "var4"))
+chickens
+```
+
+```
+&gt; # A tibble: 6 × 4
+&gt;   var1                    var2    var3      var4                                
+&gt;   &lt;chr&gt;                   &lt;chr&gt;   &lt;chr&gt;     &lt;chr&gt;                               
+&gt; 1 chicken                 sex     eggs_laid motto                               
+&gt; 2 Foghorn Leghorn         rooster 0         That's a joke, ah say, that's a jok…
+&gt; 3 Chicken Little          hen     3         The sky is falling!                 
+&gt; 4 Ginger                  hen     12        Listen. We'll either die free chick…
+&gt; 5 Camilla the Chicken     hen     7         Bawk, buck, ba-gawk.                
+&gt; 6 Ernie The Giant Chicken rooster 0         Put Captain Solo in the cargo hold.
+```
+
+
+---
+
+# Importando datos .orange[RECTANGULARES]
+
+¿Qué sucede cuando el separador no el correcto? Como puedes ver en la carga del siguiente `.txt`, nos interpreta todo como una sola columna, ya que no le hemos indicado donde separar
+
+
+```r
+datos_txt &lt;- read_csv(file = "./datos/massey-rating.txt")
+as_tibble(datos_txt)
+```
+
+```
+&gt; # A tibble: 10 × 1
+&gt;    `UCC PAY LAZ KPK  RT   COF BIH DII ENG ACU Rank Team            Conf`
+&gt;    &lt;chr&gt;                                                                
+&gt;  1 1   1   1   1   1     1   1   1   1   1    1 Ohio St          B10    
+&gt;  2 2   2   2   2   2     2   2   2   4   2    2 Oregon           P12    
+&gt;  3 3   4   3   4   3     4   3   4   2   3    3 Alabama          SEC    
+&gt;  4 4   3   4   3   4     3   5   3   3   4    4 TCU              B12    
+&gt;  5 6   6   6   5   5     7   6   5   6  11    5 Michigan St      B10    
+&gt;  6 7   7   7   6   7     6  11   8   7   8    6 Georgia          SEC    
+&gt;  7 5   5   5   7   6     8   4   6   5   5    7 Florida St       ACC    
+&gt;  8 8   8   9   9  10     5   7   7  10   7    8 Baylor           B12    
+&gt;  9 9  11   8  13  11    11  12   9  14   9    9 Georgia Tech     ACC    
+&gt; 10 13  10  13  11   8     9  10  11   9  10   10 Mississippi      SEC
+```
+
+---
+
+# Importando datos .orange[RECTANGULARES]
+
+Para ello tenemos `read_csv2()` cuando el separador sea el **.bg-purple_light[punto y coma]**, `read_tsv()` cuando el separador sea un **.bg-purple_light[tabulador]**, `read_table()` cuando el separador sea un **.bg-purple_light[espacio]** y  `read_delim()` en general
+
+
+```r
+datos_txt &lt;- read_table(file = "./datos/massey-rating.txt")
+as_tibble(datos_txt)
+```
+
+```
+&gt; # A tibble: 10 × 13
+&gt;      UCC   PAY   LAZ   KPK    RT   COF   BIH   DII   ENG   ACU  Rank Team  Conf 
+&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;
+&gt;  1     1     1     1     1     1     1     1     1     1     1     1 Ohio  St   
+&gt;  2     2     2     2     2     2     2     2     2     4     2     2 Oreg… P12  
+&gt;  3     3     4     3     4     3     4     3     4     2     3     3 Alab… SEC  
+&gt;  4     4     3     4     3     4     3     5     3     3     4     4 TCU   B12  
+&gt;  5     6     6     6     5     5     7     6     5     6    11     5 Mich… St   
+&gt;  6     7     7     7     6     7     6    11     8     7     8     6 Geor… SEC  
+&gt;  7     5     5     5     7     6     8     4     6     5     5     7 Flor… St   
+&gt;  8     8     8     9     9    10     5     7     7    10     7     8 Bayl… B12  
+&gt;  9     9    11     8    13    11    11    12     9    14     9     9 Geor… Tech 
+&gt; 10    13    10    13    11     8     9    10    11     9    10    10 Miss… SEC
+```
+
+---
+
+# Exportando datos .orange[RECTANGULARES]
+
+Para **.bg-purple_light[exportar datos]** rectangulares las funciones serán similares pero con el prefijo `write_xxx()` y el formato adecuado.
+
+Por ejemplo, vamos a **.bg-purple_light[exportar a un .csv]** el dataset de starwars (seleccionando solo las columnas que no son lista)
+
+
+```r
+write_csv(starwars %&gt;% select(name:species),
+          file = "./datos/starwars.csv")
+read_csv(file = "./datos/starwars.csv")
+```
+
+```
+&gt; # A tibble: 87 × 11
+&gt;    name        height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
+&gt;    &lt;chr&gt;        &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
+&gt;  1 Luke Skywa…    172    77 blond   fair    blue       19   male  mascu… Tatooi…
+&gt;  2 C-3PO          167    75 &lt;NA&gt;    gold    yellow    112   none  mascu… Tatooi…
+&gt;  3 R2-D2           96    32 &lt;NA&gt;    white,… red        33   none  mascu… Naboo  
+&gt;  4 Darth Vader    202   136 none    white   yellow     41.9 male  mascu… Tatooi…
+&gt;  5 Leia Organa    150    49 brown   light   brown      19   fema… femin… Aldera…
+&gt;  6 Owen Lars      178   120 brown,… light   blue       52   male  mascu… Tatooi…
+&gt;  7 Beru White…    165    75 brown   light   blue       47   fema… femin… Tatooi…
+&gt;  8 R5-D4           97    32 &lt;NA&gt;    white,… red        NA   none  mascu… Tatooi…
+&gt;  9 Biggs Dark…    183    84 black   light   brown      24   male  mascu… Tatooi…
+&gt; 10 Obi-Wan Ke…    182    77 auburn… fair    blue-g…    57   male  mascu… Stewjon
+&gt; # … with 77 more rows, 1 more variable: species &lt;chr&gt;, and abbreviated variable
+&gt; #   names ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
+```
+
+---
+
+# Importando datos .orange[DESDE WEB]
+
+
+Una de las principales ventajas de `R` es que podemos **.bg-purple_light[importar datos desde una web]**, sin necesidad de realizar la descarga manual del archivo. Y lo mejor es que se hará igual que hemos importado todo: en lugar de pasarle la ruta local de nuestro PC, le **.bg-purple_light[indicaremos el enlace (permalink)]**.
+
+
+
+```r
+momo_datos &lt;-
+  read_csv(file = "https://momo.isciii.es/public/momo/data",
+           n_max = 500000)
+momo_datos
+```
+
+```
+&gt; # A tibble: 500,000 × 15
+&gt;    ambito   cod_amb…¹ cod_i…² nombr…³ cod_s…⁴ nombr…⁵ cod_g…⁶ nombr…⁷ fecha_de…⁸
+&gt;    &lt;chr&gt;    &lt;chr&gt;       &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;date&gt;    
+&gt;  1 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   all     todos   2022-10-24
+&gt;  2 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   +85     edad &gt;… 2022-10-24
+&gt;  3 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   0-14    edad 0… 2022-10-24
+&gt;  4 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   15-44   edad 1… 2022-10-24
+&gt;  5 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   45-64   edad 4… 2022-10-24
+&gt;  6 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   65-74   edad 6… 2022-10-24
+&gt;  7 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   75-84   edad 7… 2022-10-24
+&gt;  8 nacional &lt;NA&gt;           NA &lt;NA&gt;    1       hombres all     todos   2022-10-24
+&gt;  9 nacional &lt;NA&gt;           NA &lt;NA&gt;    1       hombres +85     edad &gt;… 2022-10-24
+&gt; 10 nacional &lt;NA&gt;           NA &lt;NA&gt;    1       hombres 0-14    edad 0… 2022-10-24
+&gt; # … with 499,990 more rows, 6 more variables: defunciones_observadas &lt;dbl&gt;,
+&gt; #   defunciones_estimadas_base &lt;dbl&gt;, defunciones_estimadas_base_q01 &lt;dbl&gt;,
+&gt; #   defunciones_estimadas_base_q99 &lt;dbl&gt;, defunciones_atrib_exc_temp &lt;dbl&gt;,
+&gt; #   defunciones_atrib_def_temp &lt;dbl&gt;, and abbreviated variable names
+&gt; #   ¹​cod_ambito, ²​cod_ine_ambito, ³​nombre_ambito, ⁴​cod_sexo, ⁵​nombre_sexo,
+&gt; #   ⁶​cod_gedad, ⁷​nombre_gedad, ⁸​fecha_defuncion
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
+```
+
+---
+
+# Importando datos .orange[DESDE WEB]
+
+
+Una de las principales ventajas de `R` es que podemos **.bg-purple_light[importar datos desde una web]**, sin necesidad de realizar la descarga manual del archivo. Y lo mejor es que se hará igual que hemos importado todo: en lugar de pasarle la ruta local de nuestro PC, le **.bg-purple_light[indicaremos el enlace (permalink)]**.
+
+
+
+```r
+discurso_2021 &lt;-
+  read_delim(file = "https://raw.githubusercontent.com/lirondos/discursos-de-navidad/master/data/speeches/2021.txt", delim = "\t")
+discurso_2021
+```
+
+```
+&gt; # A tibble: 26 × 1
+&gt;    `Buenas noches,`                                                             
+&gt;    &lt;chr&gt;                                                                        
+&gt;  1 Mis primeras palabras en esta Nochebuena quiero dedicarlas a quienes vivís e…
+&gt;  2 Hoy nuestro corazón y nuestro pensamiento siguen con vosotros. Nos sentimos …
+&gt;  3 El año pasado, en mi mensaje de Navidad, compartí con vosotros la necesidad …
+&gt;  4 Un año después —y siempre con toda la prudencia necesaria— la situación es d…
+&gt;  5 Aun así, estamos viendo que el virus todavía tiene la capacidad de hacernos …
+&gt;  6 También en este último año muchos ciudadanos continúan padeciendo las consec…
+&gt;  7 Y junto a todo ello, es verdad que en el mundo es un hecho que los países de…
+&gt;  8 También, las nuevas tecnologías están cambiando los tradicionales modos de p…
+&gt;  9 Estos son algunos ejemplos de los retos que tenemos por delante y que muestr…
+&gt; 10 Ante esta situación ¿qué hacer?, ¿tenemos que dejarnos llevar por el pesimis…
+&gt; # … with 16 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
+```
+
+---
+
+name: excel-data
+
+# Importando datos: datos .orange[EXCEL]
+
+Otro de los paquetes fundamentales de importación será el paquete `{readxl}` para **.bg-purple_light[importar datos desde una Excel]** (y `{openxlsx}` para exportar, aunque se recomienda `.csv`)
+
+Tres funciones serán claves: `read_xls()` (especifica para extensión `.xls`), `read_xlsx()` (especifica para extensión `.xlsx`) y `read_excel()` (para ambas).
+
+
+
+```r
+library(readxl)
+deaths &lt;-
+  read_xls(path = "./datos/deaths.xls",
+           skip = 4)
+deaths
+```
+
+```
+&gt; # A tibble: 14 × 6
+&gt;    Name               Profession       Age   Has k…¹ `Date of birth`     Date …²
+&gt;    &lt;chr&gt;              &lt;chr&gt;            &lt;chr&gt; &lt;chr&gt;   &lt;dttm&gt;              &lt;chr&gt;  
+&gt;  1 David Bowie        musician         69    TRUE    1947-01-08 00:00:00 42379  
+&gt;  2 Carrie Fisher      actor            60    TRUE    1956-10-21 00:00:00 42731  
+&gt;  3 Chuck Berry        musician         90    TRUE    1926-10-18 00:00:00 42812  
+&gt;  4 Bill Paxton        actor            61    TRUE    1955-05-17 00:00:00 42791  
+&gt;  5 Prince             musician         57    TRUE    1958-06-07 00:00:00 42481  
+&gt;  6 Alan Rickman       actor            69    FALSE   1946-02-21 00:00:00 42383  
+&gt;  7 Florence Henderson actor            82    TRUE    1934-02-14 00:00:00 42698  
+&gt;  8 Harper Lee         author           89    FALSE   1926-04-28 00:00:00 42419  
+&gt;  9 Zsa Zsa Gábor      actor            99    TRUE    1917-02-06 00:00:00 42722  
+&gt; 10 George Michael     musician         53    FALSE   1963-06-25 00:00:00 42729  
+&gt; 11 Some               &lt;NA&gt;             &lt;NA&gt;  &lt;NA&gt;    NA                  &lt;NA&gt;   
+&gt; 12 &lt;NA&gt;               also like to wr… &lt;NA&gt;  &lt;NA&gt;    NA                  &lt;NA&gt;   
+&gt; 13 &lt;NA&gt;               &lt;NA&gt;             at t… bottom, NA                  &lt;NA&gt;   
+&gt; 14 &lt;NA&gt;               &lt;NA&gt;             &lt;NA&gt;  &lt;NA&gt;    NA                  too!   
+&gt; # … with abbreviated variable names ¹​`Has kids`, ²​`Date of death`
+```
+
+---
+
+# Importando datos: datos .orange[EXCEL]
+
+Otro de los paquetes fundamentales de importación será el paquete `{readxl}` para **.bg-purple_light[importar datos desde una Excel]** (y `{openxlsx}` para exportar, aunque se recomienda `.csv`)
+
+Tres funciones serán claves: `read_xls()` (especifica para extensión `.xls`), `read_xlsx()` (especifica para extensión `.xlsx`) y `read_excel()` (para ambas).
+
+
+
+
+```r
+deaths &lt;-
+  read_xlsx(path = "./datos/deaths.xlsx",
+            skip = 5,
+            col_names =
+              c("name", "profession",
+                "age", "kids",
+                "birth", "death"))
+deaths
+```
+
+```
+&gt; # A tibble: 14 × 6
+&gt;    name               profession           age   kids  birth               death
+&gt;    &lt;chr&gt;              &lt;chr&gt;                &lt;chr&gt; &lt;chr&gt; &lt;dttm&gt;              &lt;chr&gt;
+&gt;  1 David Bowie        musician             69    TRUE  1947-01-08 00:00:00 42379
+&gt;  2 Carrie Fisher      actor                60    TRUE  1956-10-21 00:00:00 42731
+&gt;  3 Chuck Berry        musician             90    TRUE  1926-10-18 00:00:00 42812
+&gt;  4 Bill Paxton        actor                61    TRUE  1955-05-17 00:00:00 42791
+&gt;  5 Prince             musician             57    TRUE  1958-06-07 00:00:00 42481
+&gt;  6 Alan Rickman       actor                69    FALSE 1946-02-21 00:00:00 42383
+&gt;  7 Florence Henderson actor                82    TRUE  1934-02-14 00:00:00 42698
+&gt;  8 Harper Lee         author               89    FALSE 1926-04-28 00:00:00 42419
+&gt;  9 Zsa Zsa Gábor      actor                99    TRUE  1917-02-06 00:00:00 42722
+&gt; 10 George Michael     musician             53    FALSE 1963-06-25 00:00:00 42729
+&gt; 11 Some               &lt;NA&gt;                 &lt;NA&gt;  &lt;NA&gt;  NA                  &lt;NA&gt; 
+&gt; 12 &lt;NA&gt;               also like to write … &lt;NA&gt;  &lt;NA&gt;  NA                  &lt;NA&gt; 
+&gt; 13 &lt;NA&gt;               &lt;NA&gt;                 at t… bott… NA                  &lt;NA&gt; 
+&gt; 14 &lt;NA&gt;               &lt;NA&gt;                 &lt;NA&gt;  &lt;NA&gt;  NA                  too!
+```
+
+
+---
+
+# Importando datos .orange[EXCEL]
+
+Si te fijas las **.bg-purple_light[fechas de Excel están mal formateadas]** (sorpresa) así que podemos hacer uso de `convertToDate()` del paquete `{openxlsx}` para convertirlo
+
+
+
+```r
+library(openxlsx)
+library(lubridate)
+deaths %&gt;% mutate(birth = as_date(birth),
+                  death = convertToDate(death))
+```
+
+```
+&gt; # A tibble: 14 × 6
+&gt;    name               profession               age   kids  birth      death     
+&gt;    &lt;chr&gt;              &lt;chr&gt;                    &lt;chr&gt; &lt;chr&gt; &lt;date&gt;     &lt;date&gt;    
+&gt;  1 David Bowie        musician                 69    TRUE  1947-01-08 2016-01-10
+&gt;  2 Carrie Fisher      actor                    60    TRUE  1956-10-21 2016-12-27
+&gt;  3 Chuck Berry        musician                 90    TRUE  1926-10-18 2017-03-18
+&gt;  4 Bill Paxton        actor                    61    TRUE  1955-05-17 2017-02-25
+&gt;  5 Prince             musician                 57    TRUE  1958-06-07 2016-04-21
+&gt;  6 Alan Rickman       actor                    69    FALSE 1946-02-21 2016-01-14
+&gt;  7 Florence Henderson actor                    82    TRUE  1934-02-14 2016-11-24
+&gt;  8 Harper Lee         author                   89    FALSE 1926-04-28 2016-02-19
+&gt;  9 Zsa Zsa Gábor      actor                    99    TRUE  1917-02-06 2016-12-18
+&gt; 10 George Michael     musician                 53    FALSE 1963-06-25 2016-12-25
+&gt; 11 Some               &lt;NA&gt;                     &lt;NA&gt;  &lt;NA&gt;  NA         NA        
+&gt; 12 &lt;NA&gt;               also like to write stuff &lt;NA&gt;  &lt;NA&gt;  NA         NA        
+&gt; 13 &lt;NA&gt;               &lt;NA&gt;                     at t… bott… NA         NA        
+&gt; 14 &lt;NA&gt;               &lt;NA&gt;                     &lt;NA&gt;  &lt;NA&gt;  NA         NA
+```
+
+---
+
+# Importando datos: datos .orange[EXCEL]
+
+También podemos **.bg-purple_light[cargar un Excel con varias hojas]**, pero por defecto nos carga solo la primera hoja. Para indicarle la hoja (bien por su nombre bien por su número) usaremos el argumento `sheet = ...`
+
+
+
+```r
+mtcars &lt;- read_xlsx(path = "./datos/datasets.xlsx",
+                      sheet = "mtcars")
+mtcars
+```
+
+```
+&gt; # A tibble: 32 × 11
+&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
+&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+&gt;  1  21       6  160    110  3.9   2.62  16.5     0     1     4     4
+&gt;  2  21       6  160    110  3.9   2.88  17.0     0     1     4     4
+&gt;  3  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1
+&gt;  4  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1
+&gt;  5  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2
+&gt;  6  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1
+&gt;  7  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4
+&gt;  8  24.4     4  147.    62  3.69  3.19  20       1     0     4     2
+&gt;  9  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2
+&gt; 10  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4
+&gt; # … with 22 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
+```
+---
+
+# Importando datos: datos .orange[EXCEL]
+
+Incluso podemos **.bg-purple_light[indicarle el rango de celdas]** del Excel que queremos caergar, haciendo uso del argumento `range = ...`
+
+
+
+```r
+iris &lt;- read_xlsx(path = "./datos/datasets.xlsx",
+                  sheet = "iris",
+                  range = "C1:E4")
+iris
+```
+
+```
+&gt; # A tibble: 3 × 3
+&gt;   Petal.Length Petal.Width Species
+&gt;          &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;  
+&gt; 1          1.4         0.2 setosa 
+&gt; 2          1.4         0.2 setosa 
+&gt; 3          1.3         0.2 setosa
+```
+
+---
+
+name: google-data
+
+# Importando datos .orange[googlesheet]
+
+Otra opción disponible (sobre todo si trabajamos con otras personas que trabajan en Google Drive) es **.bg-purple_light[importar desde una hoja de cálculo Google Drive]**, haciendo uso de `read_sheet()` del paquete `{googlesheets4}` (os pedirá un permiso de tidyverse para interactuar con vuestro drive)
+
+
+```r
+library(googlesheets4)
+google_sheet &lt;- read_sheet("https://docs.google.com/spreadsheets/d/1AxHm5qndAQXT77HUjbB7h4rbUVe48Doe1iNIxwk05L4/edit?usp=sharing")
+google_sheet
+```
+
+```
+&gt; # A tibble: 3 × 3
+&gt;       x     y     z
+&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+&gt; 1     1    NA     4
+&gt; 2     2     1    NA
+&gt; 3   -10     3    -6
+```
+
+
+---
+
+# Importando .orange[SAS/SPSS/STATA]
+
+El paquete `{haven}` dentro de la órbita tidyverse nos permitirá importar archivos de los 3 software de pago de gestión y análisis de datos más importantes y usados: nos permite **.bg-purple_light[importar desde SAS, SPSS y Stata]**
+
+
+```r
+library(haven)
+# SAS
+iris_sas &lt;- read_sas(data_file = "./datos/iris.sas7bdat")
+write_sas(iris_sas, path = "./datos/iris_exportado.sas7bdat")
+iris_sas
+```
+
+```
+&gt; # A tibble: 150 × 5
+&gt;    Sepal_Length Sepal_Width Petal_Length Petal_Width Species
+&gt;           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;  
+&gt;  1          5.1         3.5          1.4         0.2 setosa 
+&gt;  2          4.9         3            1.4         0.2 setosa 
+&gt;  3          4.7         3.2          1.3         0.2 setosa 
+&gt;  4          4.6         3.1          1.5         0.2 setosa 
+&gt;  5          5           3.6          1.4         0.2 setosa 
+&gt;  6          5.4         3.9          1.7         0.4 setosa 
+&gt;  7          4.6         3.4          1.4         0.3 setosa 
+&gt;  8          5           3.4          1.5         0.2 setosa 
+&gt;  9          4.4         2.9          1.4         0.2 setosa 
+&gt; 10          4.9         3.1          1.5         0.1 setosa 
+&gt; # … with 140 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
+```
+
+---
+
+# Importando .orange[SAS/SPSS/STATA]
+
+El paquete `{haven}` dentro de la órbita tidyverse nos permitirá importar archivos de los 3 software de pago de gestión y análisis de datos más importantes y usados: nos permite **.bg-purple_light[importar desde SAS, SPSS y Stata]**
+
+
+```r
+# SPSS
+iris_spss &lt;- read_sav(file = "./datos/iris.sav")
+write_sav(iris_spss, path = "./datos/iris_exportado.sav")
+iris_spss
+```
+
+```
+&gt; # A tibble: 150 × 5
+&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width    Species
+&gt;           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt;  &lt;dbl+lbl&gt;
+&gt;  1          5.1         3.5          1.4         0.2 1 [setosa]
+&gt;  2          4.9         3            1.4         0.2 1 [setosa]
+&gt;  3          4.7         3.2          1.3         0.2 1 [setosa]
+&gt;  4          4.6         3.1          1.5         0.2 1 [setosa]
+&gt;  5          5           3.6          1.4         0.2 1 [setosa]
+&gt;  6          5.4         3.9          1.7         0.4 1 [setosa]
+&gt;  7          4.6         3.4          1.4         0.3 1 [setosa]
+&gt;  8          5           3.4          1.5         0.2 1 [setosa]
+&gt;  9          4.4         2.9          1.4         0.2 1 [setosa]
+&gt; 10          4.9         3.1          1.5         0.1 1 [setosa]
+&gt; # … with 140 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
+```
+
+---
+
+name: sas-data
+# Importando .orange[SAS/SPSS/STATA]
+
+El paquete `{haven}` dentro de la órbita tidyverse nos permitirá importar archivos de los 3 software de pago de gestión y análisis de datos más importantes y usados: nos permite **.bg-purple_light[importar desde SAS, SPSS y Stata]**
+
+
+```r
+# Stata
+iris_stata &lt;- read_dta(file = "./datos/iris.dta")
+write_dta(iris_stata, path = "./datos/iris_exportado.dta")
+iris_stata
+```
+
+```
+&gt; # A tibble: 150 × 5
+&gt;    sepallength sepalwidth petallength petalwidth species
+&gt;          &lt;dbl&gt;      &lt;dbl&gt;       &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;  
+&gt;  1        5.10       3.5         1.40      0.200 setosa 
+&gt;  2        4.90       3           1.40      0.200 setosa 
+&gt;  3        4.70       3.20        1.30      0.200 setosa 
+&gt;  4        4.60       3.10        1.5       0.200 setosa 
+&gt;  5        5          3.60        1.40      0.200 setosa 
+&gt;  6        5.40       3.90        1.70      0.400 setosa 
+&gt;  7        4.60       3.40        1.40      0.300 setosa 
+&gt;  8        5          3.40        1.5       0.200 setosa 
+&gt;  9        4.40       2.90        1.40      0.200 setosa 
+&gt; 10        4.90       3.10        1.5       0.100 setosa 
+&gt; # … with 140 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
+```
+
+
+---
+
+# Importando datos: desde .orange[API]
+
+* aemet
+* catastro
+* spotify
+* chess
+* Twitter
+* owidR
+
+
 
 ---
 
 class: inverse center middle
 name: clase-12
 
-# CLASE 12: entrega II
+# CLASE 12: cruzar tablas
+
+---
+
+class: inverse center middle
+name: clase-13
+
+# CLASE 13: entrega II
 
 
 ---
