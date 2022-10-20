@@ -261,8 +261,9 @@ class: inverse center middle
 
 #### [CLASE 4: INTRO A LA MINERÍA (SEMMA)](#clase-4)
 
----
+#### [CLASE 5: PRIMER ALGORITMO DE CLASIFICACIÓN (KNN)](#clase-5)
 
+---
 
 class: inverse center middle
 name: clase-1
@@ -7593,9 +7594,1117 @@ starwars %>%
 class: inverse center middle
 name: clase-5
 
-# CLASE 5: depuración
+# CLASE 5: primer algoritmo de clasificación (knn)
+
+&nbsp;
+
+### [Depuración tidyverse](#preproc)
+
+### [Introducción a la clasificación supervisada](#sup-class)
+
+### [Clasificador Bayesiano](#bayes)
+
+### [knn: algoritmo de los k-vecinos más cercanos](#knn)
+
+
 
 ---
+
+name: preproc
+
+# .orange[ELIMINAR] duplicados: distinct()
+
+Otra opción es **.bg-purple_light[eliminar filas duplicadas]** con `distinct()`, pasándole como argumentos las variables. Por defecto, solo extrae las columnas en base a las cuales hemos eliminado duplicados. Si queremos que nos **mantenga todas** deberemos explicitarlo con `.keep_all = TRUE`.
+
+.pull-left[
+
+```{r}
+# Elimina filas con igual (color_pelo, color_ojos)
+starwars %>% distinct(hair_color, eye_color)
+```
+
+]
+
+.pull-left[
+
+```{r}
+# Elimina filas con igual (color_pelo, color_ojos)
+starwars %>% distinct(hair_color, eye_color, .keep_all = TRUE)
+```
+
+]
+  
+---
+
+# .orange[SELECCIONAR] columnas:  select()
+
+.pull-left[
+
+```{r eval = FALSE}
+datos %>%
+  selecciono(col1, col2, ...)
+```
+
+]
+
+.pull-right[
+
+```{r eval = FALSE}
+starwars %>%
+  select(col1, col2, ...)
+```
+
+]
+
+--
+
+La opción más sencilla para **.bg-purple_light[seleccionar variables]** es `select()`, dando como argumentos los nombres de columnas. Por ejemplo, vamos a seleccionar las variables `names` y `hair_color`
+
+```{r}
+starwars %>%
+  select(name, hair_color) #<<
+```
+
+
+---
+
+# .orange[SELECCIONAR] columnas:  select()
+
+.pull-left[
+
+```{r}
+starwars %>% select(name, hair_color)
+```
+
+]
+
+.pull-right[
+
+```{r select1, echo = FALSE,  out.width = "140%", fig.align = "center", fig.cap = "Flujo de https://tidydatatutor.com/"}
+knitr::include_graphics("./img/select1.jpg")
+``` 
+
+]
+
+---
+
+# .orange[SELECCIONAR] columnas:  select()
+
+
+Como sucedía al filtrar, la función `select()` es bastante versatil y nos permite:
+
+* Seleccionar **.bg-purple_light[varias variables a la vez]** (concatenando sus nombres).
+
+```{r}
+starwars %>% select(name:skin_color)
+```
+
+---
+
+# .orange[SELECCIONAR] columnas:  select()
+
+* **.bg-purple_light[Deseleccionar]** columnas con `-`
+
+```{r}
+starwars %>% select(-c(mass:eye_color), -species, -c(films:starships))
+```
+
+---
+
+# .orange[SELECCIONAR] columnas:  select()
+
+
+* Seleccionar columnas que **.bg-purple_light[comiencen por un prefijo]** (`starts_with()`), **.bg-purple_light[terminen]** con un sufijo (`ends_with()`), **.bg-purple_light[contengan]** un texto (`contains()`) o cumplan una **.bg-purple_light[expresión regular]** (`matches()`)
+
+
+```{r}
+# nombre acaba en "color"
+starwars %>% select(ends_with("color"))
+```
+
+---
+
+# .orange[SELECCIONAR] columnas:  select()
+
+
+* Seleccionar columnas que **.bg-purple_light[comiencen por un prefijo]** (`starts_with()`), **.bg-purple_light[terminen]** con un sufijo (`ends_with()`), **.bg-purple_light[contengan]** un texto (`contains()`) o cumplan una **.bg-purple_light[expresión regular]** (`matches()`)
+
+```{r}
+# empiezan por new_sp
+who %>% select(country, year, starts_with("new_sp"))
+```
+
+---
+
+# .orange[SELECCIONAR] columnas:  select()
+
+
+* Seleccionar columnas que **.bg-purple_light[comiencen por un prefijo]** (`starts_with()`), **.bg-purple_light[terminen]** con un sufijo (`ends_with()`), **.bg-purple_light[contengan]** un texto (`contains()`) o cumplan una **.bg-purple_light[expresión regular]** (`matches()`)
+
+```{r}
+tb <- tibble("edad" = c(30, 35, 40),
+             "color_ojos" = c("azul", "amarillo", "negro"),
+             "pelo_color" = c("negro", "marrón", "rubio"))
+tb %>% select(contains("color"))
+```
+
+
+---
+
+# .orange[SELECCIONAR] columnas:  select()
+
+Incluso podemos seleccionar por rango numérico si tenemos variables conun prefijo y números.
+
+```{r}
+billboard %>% select(num_range("wk", 10:15))
+```
+
+---
+
+# .orange[SELECCIONAR] columnas:  select()
+
+* Seleccionar columnas de un **.bg-purple_light[tipo]** haciendo uso de `where()`.
+
+
+```{r}
+# Solo columnas numéricas o de trexto
+starwars %>% select(where(is.numeric) | where(is.character))
+```
+
+---
+
+# .orange[RECOLOCAR] columnas: relocate()
+
+Fíjate que con `select()` podrías además **.bg-purple_light[recolocar columnas]**, indícandole el orden, ayudándote también de `everything()`
+
+```{r}
+starwars %>%  select(c(species, name, birth_year, everything()))
+```
+
+---
+
+# .orange[RECOLOCAR] columnas: relocate()
+
+
+.pull-left[
+
+```{r eval = FALSE}
+datos %>% 
+  recolocar(col1, col2, .after = ...)
+```
+
+]
+
+.pull-right[
+
+```{r eval = FALSE}
+starwars %>% 
+  relocate(col1, col2, .after = ...)
+```
+
+]
+
+--
+
+Para facilitar la **.bg-purple_light[recolocación]** tenemos una función para ello, `relocate()`,  indicándole en `.after` o `.before` detrás o delante de qué columnas queremos moverlas.
+
+```{r}
+starwars %>% relocate(species, .before = name)
+```
+
+---
+
+# .orange[EXTRAER] columnas: pull()
+
+
+.pull-left[
+
+```{r eval = FALSE}
+datos %>% 
+  retirar(variable)
+```
+
+]
+
+.pull-right[
+
+```{r eval = FALSE}
+starwars %>% 
+  pull(variable)
+```
+
+]
+
+--
+
+.pull-left[
+
+Si observas la salida de los `select()`, sigue siendo una tabla `tibble`, nos preserva la naturaleza de nuestros datos.
+
+```{r}
+starwars %>% select(name)
+```
+
+]
+
+.pull-right[
+
+A veces no querremos dicha estructura sino **.bg-purple_light[extraer literalmente la columna]**, algo que podemos hacer con `pull()`
+
+```{r}
+starwars %>% pull(name)
+```
+
+]
+
+---
+
+# .orange[RENOMBRAR] columnas: rename()
+
+
+.pull-left[
+
+```{r eval = FALSE}
+datos %>% 
+  renombrar(col1, col2)
+```
+
+]
+
+.pull-right[
+
+```{r eval = FALSE}
+starwars %>% 
+  rename(col1, col2)
+```
+
+]
+
+--
+
+A veces también podemos querer **modificar la «metainformación»** de los datos, **.bg-purple_light[renombrando columnas]**. Para ello usaremos la función `rename()` poniendo primero el nombre nuevo y luego el antiguo.
+
+```{r}
+starwars %>% 
+  rename(nombre = name, altura = height,  peso = mass)
+```
+
+
+---
+
+# Ejercicios (columnas)
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+
+* 📝 **Ejercicio 1**: filtra el conjunto de personajes y quédate solo con aquellos que en la variable `height` no tengan un dato ausente.
+
+* 📝 **Ejercicio 2**: con los datos obtenidos del filtro anterior, selecciona solo las variables `name`, `height`, así como todas aquellas variables que CONTENGAN la palabra `color` en su nombre.
+
+* 📝 **Ejercicio 3**: con los datos obtenidos del ejercicio anterior, traduce el nombre de las columnas a castellano
+
+* 📝 **Ejercicio 4**: con los datos obtenidos del ejercicio anterior, coloca la variable de color de pelo justo detrás de la variable de nombres.
+
+* 📝 **Ejercicio 5**: con los datos obtenidos del ejercicio, comprueba cuántas modalidades únicas hay en la variable de color de pelo.
+
+]
+
+.panel[.panel-name[Sol. Ej. 1]
+
+**IMPORTANTE**: todo lo que hagas en la tabla original, si el resultado final no se lo asignas `<-` a otra variable, lo verás en consola pero no se guardará en ningún sitio. Lo que no guardes, no existe.
+
+
+```{r}
+starwars_NA <- starwars %>% drop_na(height)
+starwars_NA 
+```
+
+]
+
+.panel[.panel-name[Sol. Ej. 2]
+
+```{r}
+starwars %>%
+  drop_na(height) %>%
+  select(c(name, height, contains("color")))
+```
+
+]
+
+.panel[.panel-name[Sol. Ej. 3]
+
+
+```{r}
+starwars %>%
+  drop_na(height) %>%
+  select(c(name, height, contains("color"))) %>%
+  rename(nombre = name, altura = height,
+         color_pelo = hair_color,
+         color_piel = skin_color,
+         color_ojos = eye_color)
+```
+
+]
+
+.panel[.panel-name[Sol. Ej. 4]
+
+
+```{r}
+starwars %>%
+  drop_na(height) %>%
+  select(c(name, height, contains("color"))) %>%
+  rename(nombre = name, altura = height,
+         color_pelo = hair_color,
+         color_piel = skin_color,
+         color_ojos = eye_color) %>%
+  relocate(color_pelo, .after = nombre)
+```
+
+]
+
+.panel[.panel-name[Sol. Ej. 5]
+
+```{r}
+starwars %>%
+  drop_na(height) %>%
+  select(c(name, height, contains("color"))) %>%
+  rename(nombre = name, altura = height, color_pelo = hair_color,
+         color_piel = skin_color, color_ojos = eye_color) %>%
+  relocate(color_pelo, .after = nombre) %>%
+  distinct(color_pelo)
+```
+
+**IMPORTANTE**: recuerda que `distinct()` de mantener todas las columnas añadiendo `.keep_all = TRUE`.
+
+]
+
+]
+
+
+---
+
+# Ejercicio extra
+
+
+Veamos un ejercicio extra para comprobar la **potencia y flexibilidad** de `{tidyverse}`, pudiendo hacer muchas cosas en dos líneas de código.
+
+&nbsp;
+
+* 📝 **Ejercicio extra**: selecciona solo las variables `name` y aquellas que sean de tipo numérico y la variable `homeworld`, y selecciona solo los personajes que no sean humanos y que pesen entre 70 y 90 kg.  Tras ello elimina datos ausentes, y elimina duplicados con el mismo valor en `homeworld`. Tras ello, recoloca las variables para que el orden la primera columna sea `name` y la segunda `birth_year`. Para acabar, cambia el nombre  a castellano de las variables.
+
+
+---
+
+name: mutate
+
+
+# .orange[MODIFICAR] columnas: mutate()
+
+
+.pull-left[
+
+```{r eval = FALSE}
+datos %>%
+  modificar(nueva_var = ...)
+```
+
+]
+
+.pull-right[
+
+```{r eval = FALSE}
+starwars %>%
+  mutate(nueva_var = ...)
+```
+
+]
+
+--
+
+En muchas ocasiones querremos **.bg-purple_light[modificar o crear  variables]**. Para ello tenemos la función `mutate()`. Vamos a crear una **nueva variable** `height_m` con la altura en centímetros.
+
+```{r}
+# altura en metros
+starwars %>%
+  mutate(height_m = height / 100) #<<
+```
+
+---
+
+# .orange[MODIFICAR] columnas: mutate()
+
+
+```{r eval = FALSE}
+starwars %>% mutate(height_m = height / 100)
+```
+
+```{r mutate1, echo = FALSE,  out.width = "90%", fig.align = "center", fig.cap = "Flujo de https://tidydatatutor.com/"}
+knitr::include_graphics("./img/mutate1.jpg")
+``` 
+
+---
+
+# .orange[MODIFICAR] columnas: mutate()
+
+Otra opción es **.bg-purple_light[quedarnos solo con las modificadas]** (por ejemplo, para ver si hace lo que debe) con `transmute()`
+
+```{r}
+starwars %>%
+  transmute(height_m = height / 100) #<<
+```
+
+---
+
+
+# .orange[MODIFICAR] columnas: mutate()
+
+También se pueden aplicar **.bg-purple_light[funciones más complejas]** o incluso **.bg-purple_light[funciones propias]** creadas por nosotros mismos (y varias a la vez).
+
+```{r}
+calculo_IMC <- function(peso, estatura, unidades = "metros") {
+  
+  estatura <- ifelse(unidades == "metros", estatura, estatura / 100)
+  IMC <- peso / (estatura^2)
+  
+  return(IMC)
+}
+```
+
+---
+
+# .orange[MODIFICAR] columnas: mutate()
+
+También se pueden aplicar **.bg-purple_light[funciones más complejas]** o incluso **.bg-purple_light[funciones propias]** creadas por nosotros mismos (y varias a la vez).
+
+```{r}
+starwars %>%
+  mutate(IMC = calculo_IMC(mass, height, unidades = "centímetros"),
+         height_m = height / 100) %>%
+  relocate(IMC, height_m, .after = mass)
+```
+
+---
+
+# .orange[MODIFICAR] columnas: mutate()
+
+También podemos combinarlo con la función `if_else()`, una modificación dentro de `{tidyverse}` para hacer un `if-else` vectorizado, que nos puede ayudar a **.bg-purple_light[recategorizaciones sencillas]**.
+
+```{r}
+starwars %>%
+  mutate(human = if_else(species == "Human", "Human", "Not Human")) %>% 
+  relocate(human, .after = name)
+```
+
+
+---
+
+# .orange[RECATEGORIZAR]: case_when()
+
+Para **.bg-purple_light[recategorizaciones más complejas]** tenemos a nuestra disposición `case_when()`. Supongamos por ejemplo que queremos crear una **categoría en función de su altura**.
+
+* Si `height > 180` –> serán `"alto"`.
+* Si `height <= 180` y `height > 120` –> serán `"bajo"`
+* Si `height <= 120` y `height > 0` –> serán `"enano"`
+* Si no se cumple lo anterior –> serán `"ausente"`
+
+--
+
+```{r}
+starwars %>% mutate(height = case_when(height > 180 ~ "alto",
+                                       height > 120 ~ "bajo",
+                                       height > 0 ~ "enano",
+                                       TRUE ~ "ausente"))
+```
+
+---
+
+# .orange[RECATEGORIZAR]: case_when()
+
+Las condiciones de `case_when()` pueden combinar varias variables, cómo por ejemplo:
+
+* Si pesan mucho o miden mucho --> `"large"`
+* Si `species == "Droid"` --> `"robot"`
+* En caso contrario --> `"other"`
+
+```{r}
+starwars %>%
+  mutate(type =
+           case_when(height > 200 | mass > 200 ~ "large",
+                     species == "Droid" ~ "robot",
+                     TRUE ~ "other"))
+```
+
+---
+
+# Ejercicios (mutate)
+
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+
+* 📝 **Ejercicio 1**: crea tres nuevas columnas que nos digan el número de películas en las que han salido, el número de vehículos y el número d naves (pero haciendo uso de mutate()). 
+
+* 📝 **Ejercicio 2**: con las 3 columnas creadas, crea una nueva columna llamada `frequency` que nos ponga `almost_all` en personajes que salen en 5 o más películas, `many` en personajes que salen en más de 2 películas pero en menos de 5 y `some` en personajes que salen 1 o 2 películas.
+
+* 📝 **Ejercicio 3**: elimina registros con datos ausentes en la variable `birth_year` y filtra solo los 20 personajes más jóvenes.
+
+* 📝 **Ejercicio 4**: selecciona solo las variables numéricas y de tipo texto. Define una nueva variable llamada `under_18` que nos recategorice la variable `birth_year`: `TRUE` si es menor de edad y `FALSE` en caso contrario
+
+]
+
+.panel[.panel-name[Sol. Ej. 1]
+
+```{r}
+starwars_nueva <- 
+  starwars %>%
+  mutate(n_films = films %>% map_int(length),
+         n_vehicles = vehicles %>% map_int(length),
+         n_starships = starships %>% map_int(length))
+starwars_nueva
+```
+
+]
+
+.panel[.panel-name[Sol. Ej. 2]
+
+```{r}
+starwars_nueva <-
+  starwars_nueva %>%
+  mutate(frequency =
+           case_when(n_films >= 5 ~ "almost_all",
+                     n_films > 2 ~ "many",
+                     TRUE ~ "some"))
+starwars_nueva
+```
+
+]
+
+.panel[.panel-name[Sol. Ej. 3]
+
+```{r}
+starwars_nueva <-
+  starwars_nueva %>%
+  drop_na(birth_year) %>%
+  slice_min(n = 20, birth_year)
+starwars_nueva
+```
+
+]
+
+.panel[.panel-name[Sol. Ej. 4]
+
+```{r}
+starwars_nueva <-
+  starwars_nueva %>%
+  select(where(is.numeric) | where(is.character)) %>%
+  mutate(under_18 = birth_year < 18)
+starwars_nueva
+```
+
+
+]
+
+]
+
+
+---
+
+
+# Ejercicios (mutate)
+
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+* 📝 **Ejercicio 5**: de la base de datos original, determina el número de modalidades que toma la variable `species` (elimina antes registros con ausente en dicha variable). Después elimina duplicados por dicha variable, dejando el representante más bajito.
+
+* 📝 **Ejercicio 6**: sobre la base de datos original, crea una nueva columna llamada `auburn` (cobrizo/caoba) que nos diga `TRUE` si el color de pelo contiene dicha palabra y `FALSE` en caso contrario.
+
+* 📝 **Ejercicio 7**: sobre la base de datos original, filtra solo aquellos personajes de la familia `"Skywalker"` o `"Antilles"`, selecciona solo las columnas de `name` y `specie`, y renombra a castellano.
+
+
+]
+
+.panel[.panel-name[Sol. Ej. 5]
+
+```{r}
+starwars %>%
+  drop_na(species) %>%
+  distinct(species)
+
+starwars %>%
+  drop_na(species) %>%
+  arrange(height) %>%
+  distinct(species, .keep_all = TRUE)
+```
+
+]
+
+.panel[.panel-name[Sol. Ej. 6]
+
+```{r}
+starwars %>%
+  drop_na(hair_color) %>%
+  mutate(auburn = str_detect(hair_color, "auburn"))
+```
+
+]
+
+.panel[.panel-name[Sol. Ej. 6]
+
+```{r}
+starwars %>%
+  filter(str_detect(name, "Skywalker") |
+           str_detect(name, "Antilles")) %>%
+  select(name, species) %>%
+  rename(nombre = name, especie = species)
+```
+
+]
+]
+
+
+---
+
+name: sup-class
+
+# Aprendizaje .green[SUPERVISADO]
+
+.pull-left[
+
+* **.bg-purple_light[Aprendizaje supervisado]**: tendremos dos tipos de variables, la **.bg-orange[variable dependiente (output/target)]** que se quiere predecir/clasificar (con su valor conocido en el conjunto de entrenamiento) y las **.bg-orange[variables independientes (inputs)]** o variables explicativas, que contienen la información disponible.
+
+&nbsp;
+
+Todo lo que veremos en esta asignatura entra dentro de la idea de **aprendizaje supervisado**
+
+]
+
+
+.pull-right[
+
+
+```{r echo = FALSE,  out.width = "110%", fig.align = "center", fig.cap = "Extraída de https://realpython.com/knn-python/basics-of-machine-learning"}
+knitr::include_graphics("./img/esquema_supervised.jpg")
+``` 
+
+
+]
+
+---
+
+# Fundamentos de la .orange[CLASIFICACIÓN]
+
+Como decíamos en diapositivas pasadas, un problema de **.bg-purple_light[clasificación]** constará de los siguientes elementos
+
+* Una **.bg-purple_light[variable objetivo]** $Y$ que será **.bg-purple_light[cualitativa]** (o cuantitativa discreta recategorizada).
+
+--
+
+* Dicha variable objetivo podrá tomar un **.bg-purple_light[número finito C de categorías]** denotadas como $G = \left\lbrace 1, 2, \ldots, C \right\rbrace$).
+
+--
+
+* El **.bg-purple_light[conjunto de variables predictoras]** será denotada como $\left(X_1, \ldots, X_p \right)$ 
+
+--
+
+* Nuestros datos formarán una **.bg-purple_light[muestra conjunta]** de tamaño $n$ denotada como $\left\lbrace \left(x_{i, 1},...,x_{i, p}, y_i \right) \right\rbrace_{i=1,\ldots,n}$
+
+&nbsp;
+
+--
+
+Si $C = 2$ diremos que es un problema de **.bg-purple_light[clasificación binaria]**
+
+
+📚 Ver «The elements of Statistical Learning» (Hastie et al., 2008): <https://github.com/dadosdelaplace/teaching/blob/main/data_mining/biblio/datamining_hastieetal_2008.pdf>
+
+
+---
+
+# Objetivo de la .orange[CLASIFICACIÓN]
+
+Nuestro **.bg-purple_light[objetivo]** primario (no siempre) será conseguir que la mayor parte de etiquetas predichas $\hat{y}_i$ coincidan con su categoría real $y_i$, siendo la tasa de bien clasificados una de las métrias más importantes (no la única).
+
+&nbsp;
+
+* **.bg-purple_light[Accuracy]** (tasa de bien clasificados): del total de datos de tu partición, la **.bg-purple_light[proporción o % de observaciones con una etiqueta correcta]** (al ser supervisado sabemos que está bien y que está mal).
+
+
+$$ACC  = \frac{1}{n} \sum_{i=1}^{n} I(y_i = \hat{y}_i)$$
+
+A veces nos fijaremos en su complementario, la **.bg-purple_light[tasa de mal clasificados]**, siendo esta la proporción de individuos mal clasificados.
+
+---
+
+# Métricas de .orange[CLASIFICACIÓN BINARIA]
+
+En la mayoría de ocasiones nuestros problemas serán de **.bg-purple_light[clasificación binaria]** (podemos entender las categorías como $G = \left\lbrace 0, 1\right\rbrace$), ya que todo problema de clasificacón multiclase se puede reducir a un conjunto de problemas binarios. En ese caso tendremos además un **.bg-purple_light[conjunto de métricas]** basadas en los conceptos de falso negativo/positivo y verdadero negativo/positivo
+
+* **.bg-purple_light[Verdadero positivo (TP)]**: todos aquellos individuos con clasificación positiva $\hat{y}_i = 1$ y que efectivamente así lo eran $y_i = 1$
+
+* **.bg-purple_light[Falso positivo (FP)]**: todos aquellos individuos con clasificación positiva $\hat{y}_i = 1$ pero que no lo eran $y_i = 0$
+
+--
+
+* **.bg-purple_light[Verdadero negativo (TN)]**: todos aquellos individuos con clasificación negativa $\hat{y}_i = 0$ y que efectivamente así lo eran $y_i = 0$
+
+* **.bg-purple_light[Falso negativo (FN)]**: todos aquellos individuos con clasificación negativa $\hat{y}_i = 0$ pero que no lo eran $y_i = 1$
+
+---
+
+
+# Métricas de .orange[CLASIFICACIÓN BINARIA]
+
+.pull-left[
+
+* **.bg-purple_light[Verdadero positivo (TP)]**: individuos con clasificación positiva $\hat{y}_i = 1$ y que efectivamente así lo eran $y_i = 1$
+
+* **.bg-purple_light[Falso positivo (FP)]**: individuos con clasificación positiva $\hat{y}_i = 1$ pero que no lo eran $y_i = 0$
+
+* **.bg-purple_light[Verdadero negativo (TN)]**: individuos con clasificación negativa $\hat{y}_i = 0$ y que efectivamente así lo eran $y_i = 0$
+
+* **.bg-purple_light[Falso negativo (FN)]**: individuos con clasificación negativa $\hat{y}_i = 0$ pero que no lo eran $y_i = 1$
+
+]
+
+.pull-right[
+
+
+```{r echo = FALSE,  out.width = "80%", fig.align = "left", fig.cap = "Tabla extraída de wikipedia"}
+knitr::include_graphics("./img/contigency_table.jpg")
+``` 
+
+]
+
+En el futuro, en la fase de evaluación (assess) hablaremos de una herramienta conocida como **.bg-purple_light[curva ROC]**.
+
+---
+
+
+
+# Métricas de .orange[CLASIFICACIÓN BINARIA]
+
+En base a dichos conceptos existen otras **.bg-purple_light[métricas habituales]** a tener en cuenta:
+
+* **.bg-purple_light[Accuracy (ACC)]**: definida en el caso binario como $ACC = \frac{TP + TN}{TP+TN+FP+FN} = \frac{TP + TN}{n}$
+
+--
+
+* **.bg-purple_light[Sensibilidad (TPR)]**: también conocida como True Positive Rate o **.bg-purple_light[recall]**, es la proporción de positivos reales $y_i=1$ que han sido clasificadas como  positivo $\hat{y}_i = 1$, definida como $TPR = \frac{TP}{P}$ (**.bg-purple_light[probabilidad]** empírica de **.bg-purple_light[detectar correctamente los positivos]**). Su complementario se conoce como **False Negative Rate (FNR)**.
+
+--
+
+* **.bg-purple_light[Especificidad (TNR)]**: también conocida como True Negative Rate, es la proporción de negativos reales $y_i=0$ que han sido clasificadas como negativos $\hat{y}_i = 0$, definida como $TNR = \frac{TN}{N}$ (**.bg-purple_light[probabilidad]** empírica de **.bg-purple_light[detectar correctamente los negativos]**). Su complementario se conoce como **False Positive Rate (FPR)**.
+
+&nbsp;
+
+Desde lo teórico, ambas son maximizables de forma conjunta al 100% (aunque en la práctica, una mejora en una supondrá un coste en la otra).
+
+---
+
+
+# Métricas de .orange[CLASIFICACIÓN BINARIA]
+
+Un ejemplo reciente son las **.bg-purple_light[pruebas de detección de covid]**. En el caso de las pruebas PCR comercializadas en España
+
+* la **.bg-purple_light[sensibilidad]** era en torno al 80-90%. ¿Qué implica el 10-20% restante?
+
+* la **.bg-purple_light[especificidad]** era en torno al 99%. ¿Qué implica el 1% restante?
+
+
+--
+
+&nbsp;
+
+Otras métricas habituales que pueden ayudarnos a tomar decisiones son la **.bg-purple_light[prevalencia]**, definida como  $P / (P + N)$ (la proporción de positivos en tu población) y la conocida como **.bg-purple_light[precisión (PPV)]** o Positive Predictive Value, definida como $TP / PP$ (siendo $PP$ los positivos predichos, del total de clasificados como positivos cuantos son verdaderos positivos)
+
+
+📚 Ver <https://www.aemps.gob.es/la-aemps/ultima-informacion-de-la-aemps-acerca-del-covid%E2%80%9119/informacion-general-sobre-tests-de-diagnostico-de-covid-19/>
+
+---
+
+name: bayes
+
+# Clasificador .orange[BAYESIANO]
+
+Más allá de la comparación que podamos hacer entre distintos métodos, ¿existe **.bg-purple_light[algún clasificador de referencia]** contra el que compararnos? La buena noticia es que sí existe, la mala noticia es que en la mayoría de casos no vamos a poder conocerlo.
+
+--
+
+&nbsp;
+
+Dicho clasificador se conoce como **.bg-purple_light[clasificador Bayesiano]**, y es el **.bg-purple_light[clasificador óptimo]** en el sentido de que nos devuelve como clase predicha aquella que sea más probable, haciendo uso de la distribución de probabilidad teórica de nuestros datos (algo que normalmente no conoceremos).
+
+
+$$\hat{y_i} = j \quad \text{si} \quad  P(Y = j | X = \left(x_{i,1}, \ldots, x_{i,p} \right) =  \max_{g \in G} P(Y = g | X = \left(x_{i,1}, \ldots, x_{i,p} \right)$$
+
+&nbsp;
+
+En el **.bg-purple_light[caso binario]**, se asignará la clase 1 si $P(Y = 1|X) > 0.5$, y la clase 0 en otro
+caso.
+
+
+---
+
+# Clasificador .orange[BAYESIANO]
+
+.pull-left[
+
+Fíjate que el criterio óptimo no es seguramente el perfecto, ni el que mejor tasa de bien clasificados proporcione: es aquel que es capaz de entender los patrones de los datos. El **.bg-purple_light[clasificador Bayesiano solo es posible si conocemos la distribución conjunta]** de probabilidad (algo que por desgracia, no suele ser).
+
+]
+
+.pull-right[
+
+
+```{r echo = FALSE,  out.width = "99%", fig.align = "center", fig.cap = "Hastie et al. (2008)"}
+knitr::include_graphics("./img/bayes_rule.jpg")
+``` 
+
+]
+
+---
+
+
+name: knn
+
+# Algoritmo .orange[KNN]: k-vecinos más cercanos
+
+**.bg-purple_light[Motivación]**: imagina que quieres dedicir si vas al cine para ver o no una película. **.bg-purple_light[¿Qué proceso seguirías?]**
+
+
+--
+
+Parece lógico que el proceso sea **.bg-purple_light[considerar opiniones]** de tu entorno y/o de las críticas que puedas buscar en internet. **.bg-purple_light[¿Qué decisiones tomarías? ¿Cómo «algoritmizarías» el proceso?]**
+
+--
+
+1. **.bg-purple_light[Número de vecinos]**: decidir el número $k$ de opiniones (**.bg-purple_light[k-vecinos]**) que vas a tomar cuenta (no puedes preguntar a todo el mundo ni leer todas las críticas, pero tampoco fiarte de una sola persona).
+
+--
+
+2. **.bg-purple_light[¿Qué es «entorno cercano»?]** Tendremos que decidir quién entra y quién no en nuestro entorno más cercano. ¿Cuál es la definición de cercano? Deberemos definir el **.bg-purple_light[concepto de cercanía con una distancia]** que nos permita decidir los **.bg-purple_light[k-vecinos más cercanos]**
+
+--
+
+3. **.bg-purple_light[Ponderación]**: deberemos por último decidir si **.bg-purple_light[todas las opiniones valen lo mismo o no]**. ¿Vale lo mismo la opinión de alguien muy afín a ti que la de Boyero (crítico de cine)? ¿Te fías igual
+de todas ellas? Deberemos decidir si estas distancias son **.bg-purple_light[ponderadas]**.
+
+---
+
+# Algoritmo .orange[KNN]
+
+Tu decisión final será por tanto aquella **.bg-purple_light[opinión mayoritaria (moda)]** de las opiniones de tus **.bg-purple_light[k-vecinos]** **.bg-orange[más cercanos]**, una vez que dichas opiniones han sido o no **.bg-green_light[ponderadas]**: 
+
+* **.bg-purple_light[Sin poderar]**: para cada  individuo, su clasificación será asignada como la **.bg-purple_light[moda de sus k-vecinos]** más cercanos.
+
+* **.bg-purple_light[Con ponderación]**: para cada  individuo, su clasificación será asignada como la **.bg-purple_light[moda ponderada de sus k-vecinos]** más cercanos, por ejemplo tomando como peso el inverso de la distancia (cuánto más cerca, más pesa).
+
+--
+
+Matemáticamente, dado un registro $x_i = (x_{i,1},\ldots,x_{i,p})$, un número $k$ de vecinos y una métrica $d()$, la **.bg-purple_light[probabilidad de pertenencia]** de $y_i$ a la **.bg-purple_light[clase j]** será
+
+$$P(y_i = j | X = x_i) = \frac{1}{k} \sum_{l=1}^{k} w_l I(y_l = j)$$
+
+donde $x_l$, con $l=1,...,k$, son los k-vecinos más cercanos en función de $d()$ y $w_l$ es el peso de vécino l-ésimo (pudiendo ser todos uno si no ponderamos, o $w_l = \frac{1}{d(x_i, x_l)}$)
+
+---
+
+
+# Algoritmo .orange[KNN]
+
+En el caso de que tengamos un problema de **.bg-purple_light[clasificación binaria]**, el problema será mucho más sencillo. Dado un registro $x_i = (x_{i,1},\ldots,x_{i,p})$, un número $k$ de vecinos y una métrica $d()$, la **.bg-purple_light[probabilidad de ser 1]** de $y_i$ será
+
+$$P(y_i = 1 | X = x_i) = \frac{1}{k} \sum_{l=1}^{k} w_l I(y_l = 1)$$
+
+y la **.bg-purple_light[probabilidad de ser 0]** de $y_i$ será 
+$P(y_i = 0 | X = x_i) = 1- P(y_i = 1 | X = x_i)$ (su complementario).
+
+&nbsp;
+
+La **.bg-purple_light[clase predicha]** será aquella cuya probabilidad sea mayor.
+
+---
+
+# Decisiones KNN: .orange[K] vecinos
+
+.pull-left[
+
+* **.bg-purple_light[Pocos vecinos]**: regla de decisión extremadamente flexible, creando incluso «islas» de un solo individuo. **.bg-purple_light[Poco sesgo y enorme varianza]** (con un dato nuevo que tuviéramos, ya cambiaría todo).
+
+* **.bg-purple_light[Muchos vecinos]**: regla de decisión extremadamente rígida. **.bg-purple_light[Mucho sesgo y poca varianza]** (dado que aunque tengamos inputs nuevos, apenas cambiará)
+
+]
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "70%", fig.align = "left"}
+knitr::include_graphics("./img/knn_1.jpg")
+``` 
+
+```{r echo = FALSE,  out.width = "70%", fig.align = "left"}
+knitr::include_graphics("./img/knn_todos.jpg")
+``` 
+
+]
+
+Será por tanto crucial **.bg-purple_light[probar un rango de vecinos lo suficientemente amplio]** como para encontrar lo óptimo.
+
+---
+
+# Decisiones KNN: .orange[DISTANCIA]
+
+Lo segundo a elegir será la **.bg-purple_light[distancia]** con la que se decidirá qué está **.bg-purple_light[cerca o lejos]**.Cuando tenemos **.bg-purple_light[variables numéricas]** tenemos dos opciones:
+
+* **.bg-purple_light[Distancias geométricas]**: miden distancias en un plano/espacio/espacio de dimensión p.
+
+* **.bg-purple_light[Distancias probabilísticas]**: miden distancias en base parámetros estadísticos como la media o la desviación típica.
+
+---
+
+# Decisiones KNN: .orange[DISTANCIA]
+
+En el caso de las **.bg-purple_light[distancias geométricas]** la más habitual es la conocida como **.bg-purple_light[distancia euclídea]**, la que usamos de forma habitual.
+
+
+.pull-left[
+
+En el plano, se define como
+
+$$d(x, y) = \sqrt{(x_1 - y_1)^2 + (x_2 - y_2)^2}$$
+
+En el caso general en el que tengamos $p$ predictoras numéricas se calculará como
+
+$$d(x, y) = \sqrt{\displaystyle \sum_{j=1}^{p} (x_j - y_j)^2}$$
+
+]
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "80%", fig.align = "left"}
+knitr::include_graphics("./img/circulo_distancia_euclidea.jpg")
+``` 
+
+Círculo euclídeo: conjunto de puntos a la misma distancia del centro, haciendo uso de la distancia Euclídea (el radio).
+
+]
+
+---
+
+# Decisiones KNN: .orange[DISTANCIA]
+
+
+Existen otro tipo de distancias geométricas como la **.bg-purple_light[distancia Manhattan]**, la distancia que usas cuando caminas por la calle (dado que no puedes atravesar manzanas), definida como
+
+$$d(x, y) = \sqrt{\displaystyle \sum_{j=1}^{p} |x_j - y_j|}$$
+
+
+Otra métrica es la **.bg-purple_light[distancia de Chebyshev]**
+ $d(x, y) = \max_i \left(|x_i - y_i| \right)$
+
+```{r echo = FALSE,  out.width = "40%", fig.align = "center"}
+knitr::include_graphics("./img/minkowski.jpeg")
+``` 
+
+
+--
+
+¿Cómo se definirían los círculos (lugares a la misma distancia de un centro) en dichas métricas?
+
+---
+
+# Decisiones KNN: .orange[DISTANCIA]
+
+
+Todas estas métricas en realidad son casos particulares de las conocidas como **.bg-purple_light[distancias de Minkowski]**, definidas en función de un parámetro $r$
+
+$$d(x, y) = \left(\displaystyle \sum_{j=1}^{p} |x_j - y_j|^r\right)^{1/r}$$
+
+.pull-left[
+
+```{r echo = FALSE,  out.width = "100%", fig.align = "left"}
+knitr::include_graphics("./img/minkowski_1.jpg")
+``` 
+
+]
+
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "100%", fig.align = "left"}
+knitr::include_graphics("./img/minkowski_2.jpg")
+``` 
+
+]
+
+Cuando $p=1$ estamos ante la distancia Manhattan, cuando $p=2$ es la distancia Euclídea, cuando $p=\infty$ es la distancia de Chebyshev.
+
+---
+
+# .orange[PREPROCESAMIENTO] en KNN
+
+En el caso en el que tengamos **.bg-purple_light[predictoras numéricas]** y que decidamos optar por una **.bg-purple_light[distancia geométrica]**, en un ejemplo bidimensional, si $x_1$ toma valores entre 10 000 y 100 000 y $x_2$ toma valores entre 0 y 0.001, a la hora de calcular las distancias en realidad la **.bg-purple_light[segunda variable no está participando]** en el aprendizaje (ya que es tan pequeña que da igual lo que valga).
+
+¿Qué **.bg-purple_light[preprocesamiento/depuración]** de los datos deberíamos hacer para que eso no suceda?
+
+--
+
+Cuando usamos las distancias geométricas debemos **.bg-purple_light[reescalar o estandarizar por rango]**, de forma que **.bg-purple_light[todas las variables estén en un rango común]** (por ejempo, $[0,1]$)
+
+$$\tilde{x}_{i,j} = \frac{x_{i,j} - min(x_j)}{max(x_j) - min(x_j)}$$
+
+--
+
+&nbsp;
+
+Además necesitamos **.bg-purple_light[tratar los datos ausentes]** (lo veremos en futuras clases, si imputarles un valor o si eliminarlos).
+
+---
+
+# Decisiones KNN: .orange[DISTANCIA]
+
+En el caso de las **.bg-purple_light[distancias probabilísticas]** la más habitual es la conocida como **.bg-purple_light[distancia de Mahalanobis]**, que tiene en cuenta las características probabilísticas de los datos. En el caso **.bg-purple_light[bidimensional (con variables independientes)]**
+
+$$d(x, y) = \sqrt{\left(\frac{x_1 - y_1}{\sigma_1} \right)^2 + \left(\frac{x_2 - y_2}{\sigma_2} \right)^2}$$
+
+--
+
+En el caso **.bg-purple_light[multidimensional (con variables independientes)]**
+
+$$d(x, y) = \sqrt{\displaystyle \sum_{j=1}^{p} \left(\frac{x_j - y_j}{\sigma_j} \right)^2 }$$
+
+---
+
+# Decisiones KNN: .orange[DISTANCIA]
+
+En el caso general de tener un problema **.bg-purple_light[multidimensional (con variables dependientes)]**, la idea es promediar las observaciones por la **.bg-purple_light[matriz de varianzas y covarianzas]**
+
+$$d(x, y) = \sqrt{\displaystyle \sum_{j=1}^{p} \left(x_j - y_j \right)^{T} \Sigma^{-1} \left(x_j - y_j \right) }$$
+
+Donde $\Sigma^{-1}$ es la **.bg-purple_light[matriz de varianzas y covarianzas]** (matriz simétrica)
+
+$$\Sigma = \begin{pmatrix} \sigma_{1}^2 & cov(x_1, x_2) & \ldots & cov(x_1, x_p) \\ cov(x_2, x_1) & \sigma_{2}^2 & \ldots & cov(x_2, x_p) \\ \vdots & \vdots & \ddots & \vdots \\ cov(x_p, x_1) & cov(x_p, x_2) & \ldots & \sigma_{p}^2 \end{pmatrix}$$
+
+---
+
+# .orange[PREPROCESAMIENTO] en KNN
+
+En el caso en el que tengamos **.bg-purple_light[predictoras numéricas]** y que decidamos optar por una **.bg-purple_light[distancia probabilística]**,  ya no será tan importante los valores en sí literales sino las **.bg-purple_light[características probabilísticas de nuestras variables]** 
+
+¿Qué **.bg-purple_light[preprocesamiento/depuración]** de los datos deberíamos hacer para que eso no suceda?
+
+--
+
+Cuando usamos las distancias probabilísticas debemos **.bg-purple_light[normalizar o estandarizar por media/varianza)]**, de forma que **.bg-purple_light[todas las variables tengan media 0 y desv. típica 1]**
+
+$$\tilde{x}_{i,j} = \frac{x_{i,j} - \overline{x}_j}{\sigma_j}$$
+
+---
+
 
 # .orange[EXPLORACIÓN] y .green[MODIFICACIÓN]
 
