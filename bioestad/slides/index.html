@@ -28,7 +28,7 @@ class: center, middle, inverse, title-slide
 # GESTIÓN DE BASES DE DATOS
 ## Máster en Bioestadística
 ### Javier Álvarez Liébana (Fac. Estudios Estadísticos - UCM)
-### Última actualización: 19-10-2022
+### Última actualización: 23-10-2022
 
 ---
 
@@ -221,7 +221,7 @@ class: inverse center middle
 .pull-left[
 
 
-#### [CLASE 12: cruzando tablas e introducción al dataviz](#clase-13)
+#### [CLASE 12: cruzando tablas y más funciones](#clase-12)
 
 #### [ENTREGA II (clase 13)](#entrega-II)
 
@@ -1760,7 +1760,7 @@ hoy
 ```
 
 ```
-&gt; [1] "2022-10-19"
+&gt; [1] "2022-10-23"
 ```
 
 --
@@ -1773,7 +1773,7 @@ También podemos obtener el **.bg-purple_light[«hoy y ahora»]** con la funció
 ```
 
 ```
-&gt; [1] "2022-10-19 15:57:02 CEST"
+&gt; [1] "2022-10-23 23:35:39 CEST"
 ```
  
 ---
@@ -2157,7 +2157,7 @@ hoy - cumple
 ```
 
 ```
-&gt; Time difference of 12092 days
+&gt; Time difference of 12096 days
 ```
 
 ]
@@ -3080,8 +3080,8 @@ x &lt;- rnorm(1e3) # 1000 elementos aleatorias
 ```
 &gt; Unit: microseconds
 &gt;         expr    min      lq     mean median      uq     max neval cld
-&gt;      sort(x) 45.242 52.5435 65.02197 57.822 66.9715 265.703  1000   b
-&gt;  x[order(x)] 31.015 36.4585 44.33122 39.769 45.9785 150.071  1000  a
+&gt;      sort(x) 43.241 46.0120 53.54165 48.501 56.1525 160.266  1000   b
+&gt;  x[order(x)] 30.574 32.5655 37.42333 34.417 39.3080 148.147  1000  a
 ```
 
 --
@@ -6330,11 +6330,11 @@ microbenchmark(x^2,
 ```
 &gt; Unit: nanoseconds
 &gt;                                     expr     min      lq        mean    median
-&gt;                                      x^2     348     469    1383.434     900.5
-&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 1679461 1905754 2374496.734 2137317.0
-&gt;       uq      max neval cld
-&gt;     1937    24311  1000  a 
-&gt;  2508383 13869351  1000   b
+&gt;                                      x^2     355     466    1257.409    1050.5
+&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 1742089 1895516 2160343.723 2010911.5
+&gt;         uq      max neval cld
+&gt;     1851.5    28407  1000  a 
+&gt;  2237388.5 13097885  1000   b
 ```
 
 ---
@@ -6612,7 +6612,7 @@ sample(x = 0:1, size = 2)
 ```
 
 ```
-&gt; [1] 1 0
+&gt; [1] 0 1
 ```
 
 **.bg-red_light[IMPORTANTE]**: si no indicamos nada en el vector de probabilidades `prob`, asume que son equiprobables (en este caso, `\(1/2\)` para cada cara).
@@ -6647,7 +6647,7 @@ sample(x = 0:1, size = 30, replace = TRUE)
 ```
 
 ```
-&gt;  [1] 1 1 1 0 1 0 1 0 1 0 0 0 1 1 0 0 0 0 0 0 1 0 1 0 0 0 1 1 0 0
+&gt;  [1] 0 0 1 0 1 0 1 1 0 1 1 0 1 0 1 0 1 1 0 1 1 0 0 1 1 0 0 0 1 0
 ```
 
 ---
@@ -6662,7 +6662,7 @@ sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
 ```
 
 ```
-&gt;  [1] "cruz" "cruz" "cruz" "cruz" "cara" "cara" "cara" "cruz" "cruz" "cara"
+&gt;  [1] "cruz" "cara" "cruz" "cruz" "cruz" "cruz" "cruz" "cruz" "cara" "cara"
 ```
 
 --
@@ -6675,7 +6675,7 @@ sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
 ```
 
 ```
-&gt;  [1] "cara" "cara" "cruz" "cruz" "cruz" "cara" "cara" "cruz" "cara" "cruz"
+&gt;  [1] "cara" "cruz" "cruz" "cara" "cruz" "cruz" "cruz" "cruz" "cruz" "cara"
 ```
 
 ---
@@ -8675,12 +8675,12 @@ microbenchmark(sqrt(x), for (i in 1:1000) { y[i] &lt;- sqrt(x[i]) }, times = 1e3
 
 ```
 &gt; Unit: microseconds
-&gt;                                          expr      min       lq        mean
-&gt;                                       sqrt(x)    2.358    2.985    4.087976
-&gt;  for (i in 1:1000) {     y[i] &lt;- sqrt(x[i]) } 1734.051 2004.079 2675.315442
-&gt;    median      uq       max neval cld
-&gt;     3.598    4.25    28.762  1000  a 
-&gt;  2279.054 2792.55 34624.249  1000   b
+&gt;                                          expr      min       lq      mean
+&gt;                                       sqrt(x)    2.314    2.819    4.1975
+&gt;  for (i in 1:1000) {     y[i] &lt;- sqrt(x[i]) } 1815.588 1969.149 2285.4987
+&gt;    median        uq      max neval cld
+&gt;     3.538    4.1165   33.550  1000  a 
+&gt;  2094.087 2384.0000 9697.645  1000   b
 ```
 
 
@@ -8764,11 +8764,11 @@ microbenchmark(map(x, .f = function(x) { mean(x^2) }), lapply(x, FUN = function(
 ```
 &gt; Unit: milliseconds
 &gt;                                            expr      min       lq     mean
-&gt;      map(x, .f = function(x) {     mean(x^2) }) 5.699520 6.889858 9.216749
-&gt;  lapply(x, FUN = function(x) {     mean(x^2) }) 5.342943 6.759794 9.106092
+&gt;      map(x, .f = function(x) {     mean(x^2) }) 5.590447 6.227360 8.330858
+&gt;  lapply(x, FUN = function(x) {     mean(x^2) }) 5.407099 6.127187 8.256562
 &gt;    median       uq       max neval cld
-&gt;  7.860894 9.011815  56.63832  1000   a
-&gt;  7.764812 8.828415 240.66022  1000   a
+&gt;  7.341453 7.918372  45.70966  1000   a
+&gt;  7.201513 7.805942 181.40017  1000   a
 ```
 
 
@@ -14408,6 +14408,203 @@ starwars_factor %&gt;%
 
 ]
 
+
+---
+
+# Ejercicios (factores)
+
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+* 📝 **Ejercicio 1**: dada la variable `meses` definida debajo (definida como un vector de caracteres), convierte dicha variable a factor (solo eso)
+
+
+```r
+meses &lt;- c("Ene", "Feb", "Mar", "Abr")
+```
+  
+* 📝 **Ejercicio 2**:  dada la variable `meses` definida debajo convierte dicha variable a factor pero indicando los niveles de forma correcta.
+
+
+```r
+meses &lt;- c(NA, "Abr", "Ene", "Oct", "Jul", "Ene", "Sep", NA, "Feb", "Dic",
+           "Jul", "Mar", "Ene", "Mar", "Feb", "Abr", "May", "Oct", "Sep",  NA,
+           "Dic", "Jul", "Nov", "Feb", "Oct", "Jun", "Sep", "Oct", "Oct", "Sep")
+```
+
+  
+* 📝 **Ejercicio 3**: cuenta cuantos valores hay de cada mes pero teniendo en cuenta que son factores (quizás haya niveles sin ser usados y de los que debería obtener un 0).
+
+]
+
+.panel[.panel-name[Sol. ej. 1]
+
+
+```r
+meses &lt;- c("Ene", "Feb", "Mar", "Abr")
+meses_fct &lt;- as_factor(meses)
+meses_fct
+```
+
+```
+&gt; [1] Ene Feb Mar Abr
+&gt; Levels: Ene Feb Mar Abr
+```
+
+
+
+]
+
+.panel[.panel-name[Sol. ej. 2]
+
+
+```r
+meses &lt;- c(NA, "Abr", "Ene", "Oct", "Jul", "Ene", "Sep", NA, "Feb", "Dic",
+           "Jul", "Mar", "Ene", "Mar", "Feb", "Abr", "May", "Oct", "Sep",  NA,
+           "Dic", "Jul", "Nov", "Feb", "Oct", "Jun", "Sep", "Oct", "Oct", "Sep")
+
+# Orden de niveles correcto e incluimos agosto aunque no haya
+meses_fct &lt;-
+  factor(meses,
+         levels = c("Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"))
+meses_fct
+```
+
+```
+&gt;  [1] &lt;NA&gt; Abr  Ene  Oct  Jul  Ene  Sep  &lt;NA&gt; Feb  Dic  Jul  Mar  Ene  Mar  Feb 
+&gt; [16] Abr  May  Oct  Sep  &lt;NA&gt; Dic  Jul  Nov  Feb  Oct  Jun  Sep  Oct  Oct  Sep 
+&gt; Levels: Ene Feb Mar Abr May Jun Jul Ago Sep Oct Nov Dic
+```
+
+]
+
+.panel[.panel-name[Sol. ej. 3]
+
+
+```r
+meses_fct %&gt;% fct_count()
+```
+
+```
+&gt; # A tibble: 13 × 2
+&gt;    f         n
+&gt;    &lt;fct&gt; &lt;int&gt;
+&gt;  1 Ene       3
+&gt;  2 Feb       3
+&gt;  3 Mar       2
+&gt;  4 Abr       2
+&gt;  5 May       1
+&gt;  6 Jun       1
+&gt;  7 Jul       3
+&gt;  8 Ago       0
+&gt;  9 Sep       4
+&gt; 10 Oct       5
+&gt; 11 Nov       1
+&gt; 12 Dic       2
+&gt; 13 &lt;NA&gt;      3
+```
+
+]
+
+]
+
+---
+
+# Ejercicios (factores)
+
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+* 📝 **Ejercicio 4**: dado que hay ausentes, indica que los ausentes sea un decimotercer nivel etiquetado como "ausente".
+
+* 📝 **Ejercicio 5**: elimina los niveles no usados.
+
+* 📝 **Ejercicio 6**: ordena los niveles por frecuencia de aparición.
+  
+* 📝 **Ejercicio 7**:  agrupa niveles de forma que todo nivel que no aparezca al menos el 7% de las veces se agrupe en un nivel llamado "otros meses"
+]
+
+.panel[.panel-name[Sol. ej. 4]
+
+
+```r
+meses_fct &lt;- 
+  meses_fct %&gt;%
+  fct_explicit_na(na_level = "ausente")
+meses_fct
+```
+
+```
+&gt;  [1] ausente Abr     Ene     Oct     Jul     Ene     Sep     ausente Feb    
+&gt; [10] Dic     Jul     Mar     Ene     Mar     Feb     Abr     May     Oct    
+&gt; [19] Sep     ausente Dic     Jul     Nov     Feb     Oct     Jun     Sep    
+&gt; [28] Oct     Oct     Sep    
+&gt; Levels: Ene Feb Mar Abr May Jun Jul Ago Sep Oct Nov Dic ausente
+```
+
+]
+
+.panel[.panel-name[Sol. ej. 4]
+
+
+```r
+meses_fct &lt;- 
+  meses_fct %&gt;%
+  fct_drop()
+meses_fct
+```
+
+```
+&gt;  [1] ausente Abr     Ene     Oct     Jul     Ene     Sep     ausente Feb    
+&gt; [10] Dic     Jul     Mar     Ene     Mar     Feb     Abr     May     Oct    
+&gt; [19] Sep     ausente Dic     Jul     Nov     Feb     Oct     Jun     Sep    
+&gt; [28] Oct     Oct     Sep    
+&gt; Levels: Ene Feb Mar Abr May Jun Jul Sep Oct Nov Dic ausente
+```
+
+]
+
+.panel[.panel-name[Sol. ej. 6]
+
+
+```r
+meses_fct %&gt;% 
+  fct_infreq()
+```
+
+```
+&gt;  [1] ausente Abr     Ene     Oct     Jul     Ene     Sep     ausente Feb    
+&gt; [10] Dic     Jul     Mar     Ene     Mar     Feb     Abr     May     Oct    
+&gt; [19] Sep     ausente Dic     Jul     Nov     Feb     Oct     Jun     Sep    
+&gt; [28] Oct     Oct     Sep    
+&gt; Levels: Oct Sep Ene Feb Jul ausente Mar Abr Dic May Jun Nov
+```
+
+]
+
+.panel[.panel-name[Sol. ej. 7]
+
+
+```r
+meses_fct &lt;-
+  meses_fct %&gt;% 
+  fct_lump_prop(prop = 0.07, other_level = "otros")
+meses_fct
+```
+
+```
+&gt;  [1] ausente otros   Ene     Oct     Jul     Ene     Sep     ausente Feb    
+&gt; [10] otros   Jul     otros   Ene     otros   Feb     otros   otros   Oct    
+&gt; [19] Sep     ausente otros   Jul     otros   Feb     Oct     otros   Sep    
+&gt; [28] Oct     Oct     Sep    
+&gt; Levels: Ene Feb Jul Sep Oct ausente otros
+```
+
+]
+]
+
 ---
 
 name: rdata
@@ -14803,16 +15000,16 @@ momo_datos
 &gt; # A tibble: 500,000 × 15
 &gt;    ambito   cod_amb…¹ cod_i…² nombr…³ cod_s…⁴ nombr…⁵ cod_g…⁶ nombr…⁷ fecha_de…⁸
 &gt;    &lt;chr&gt;    &lt;chr&gt;       &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;date&gt;    
-&gt;  1 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   all     todos   2022-10-24
-&gt;  2 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   +85     edad &gt;… 2022-10-24
-&gt;  3 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   0-14    edad 0… 2022-10-24
-&gt;  4 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   15-44   edad 1… 2022-10-24
-&gt;  5 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   45-64   edad 4… 2022-10-24
-&gt;  6 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   65-74   edad 6… 2022-10-24
-&gt;  7 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   75-84   edad 7… 2022-10-24
-&gt;  8 nacional &lt;NA&gt;           NA &lt;NA&gt;    1       hombres all     todos   2022-10-24
-&gt;  9 nacional &lt;NA&gt;           NA &lt;NA&gt;    1       hombres +85     edad &gt;… 2022-10-24
-&gt; 10 nacional &lt;NA&gt;           NA &lt;NA&gt;    1       hombres 0-14    edad 0… 2022-10-24
+&gt;  1 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   all     todos   2022-10-28
+&gt;  2 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   +85     edad &gt;… 2022-10-28
+&gt;  3 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   0-14    edad 0… 2022-10-28
+&gt;  4 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   15-44   edad 1… 2022-10-28
+&gt;  5 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   45-64   edad 4… 2022-10-28
+&gt;  6 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   65-74   edad 6… 2022-10-28
+&gt;  7 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   75-84   edad 7… 2022-10-28
+&gt;  8 nacional &lt;NA&gt;           NA &lt;NA&gt;    1       hombres all     todos   2022-10-28
+&gt;  9 nacional &lt;NA&gt;           NA &lt;NA&gt;    1       hombres +85     edad &gt;… 2022-10-28
+&gt; 10 nacional &lt;NA&gt;           NA &lt;NA&gt;    1       hombres 0-14    edad 0… 2022-10-28
 &gt; # … with 499,990 more rows, 6 more variables: defunciones_observadas &lt;dbl&gt;,
 &gt; #   defunciones_estimadas_base &lt;dbl&gt;, defunciones_estimadas_base_q01 &lt;dbl&gt;,
 &gt; #   defunciones_estimadas_base_q99 &lt;dbl&gt;, defunciones_atrib_exc_temp &lt;dbl&gt;,
@@ -15005,6 +15202,7 @@ mtcars
 &gt; # … with 22 more rows
 &gt; # ℹ Use `print(n = ...)` to see more rows
 ```
+
 ---
 
 # Importando datos: datos .orange[EXCEL]
@@ -15055,6 +15253,8 @@ google_sheet
 
 
 ---
+
+name: sas-data
 
 # Importando .orange[SAS/SPSS/STATA]
 
@@ -15121,7 +15321,7 @@ iris_spss
 
 ---
 
-name: sas-data
+
 # Importando .orange[SAS/SPSS/STATA]
 
 El paquete `{haven}` dentro de la órbita tidyverse nos permitirá importar archivos de los 3 software de pago de gestión y análisis de datos más importantes y usados: nos permite **.bg-purple_light[importar desde SAS, SPSS y Stata]**
@@ -15157,21 +15357,966 @@ iris_stata
 
 # Importando datos: desde .orange[API]
 
-* aemet
-* catastro
-* spotify
-* chess
-* Twitter
-* owidR
+Por último, una opción muy interesante es la **.bg-purple_light[carga desde una API]**: un intermediario entre una app o proveedor datos y nuestro `R`. Por ejemplo, vamos a cargar la librería `{owidR}`, que nos permite la descarga de datos de uno de los mayores referentes durante la pandemia, la web &lt;https://ourworldindata.org/&gt;
 
 
+```r
+# install.packages("owidR")
+library(owidR)
+owid_covid()
+```
+
+```
+&gt; # A tibble: 229,445 × 67
+&gt;    iso_code continent locat…¹ date       total…² new_c…³ new_c…⁴ total…⁵ new_d…⁶
+&gt;    &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;   &lt;date&gt;       &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+&gt;  1 AFG      Asia      Afghan… 2020-02-24       5       5  NA          NA      NA
+&gt;  2 AFG      Asia      Afghan… 2020-02-25       5       0  NA          NA      NA
+&gt;  3 AFG      Asia      Afghan… 2020-02-26       5       0  NA          NA      NA
+&gt;  4 AFG      Asia      Afghan… 2020-02-27       5       0  NA          NA      NA
+&gt;  5 AFG      Asia      Afghan… 2020-02-28       5       0  NA          NA      NA
+&gt;  6 AFG      Asia      Afghan… 2020-02-29       5       0   0.714      NA      NA
+&gt;  7 AFG      Asia      Afghan… 2020-03-01       5       0   0.714      NA      NA
+&gt;  8 AFG      Asia      Afghan… 2020-03-02       5       0   0          NA      NA
+&gt;  9 AFG      Asia      Afghan… 2020-03-03       5       0   0          NA      NA
+&gt; 10 AFG      Asia      Afghan… 2020-03-04       5       0   0          NA      NA
+&gt; # … with 229,435 more rows, 58 more variables: new_deaths_smoothed &lt;dbl&gt;,
+&gt; #   total_cases_per_million &lt;dbl&gt;, new_cases_per_million &lt;dbl&gt;,
+&gt; #   new_cases_smoothed_per_million &lt;dbl&gt;, total_deaths_per_million &lt;dbl&gt;,
+&gt; #   new_deaths_per_million &lt;dbl&gt;, new_deaths_smoothed_per_million &lt;dbl&gt;,
+&gt; #   reproduction_rate &lt;dbl&gt;, icu_patients &lt;dbl&gt;,
+&gt; #   icu_patients_per_million &lt;dbl&gt;, hosp_patients &lt;dbl&gt;,
+&gt; #   hosp_patients_per_million &lt;dbl&gt;, weekly_icu_admissions &lt;dbl&gt;, …
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
+```
+
+---
+
+# Importando datos: desde .orange[API]
+
+
+```r
+# install.packages("owidR")
+library(owidR)
+owid_covid()
+```
+
+La función `owid_covid()` nos ha cargado sin darnos cuenta **.bg-purple_light[más de 200 000 registros]** con más de 50 variables  de 238 países diferentes, desde casos, hospitalizados, pacientes en UCI, fallecidos, etc.
+
+---
+
+# Importando datos: desde .orange[API]
+
+
+
+```r
+owid_search("emissions")
+emissions &lt;- owid("per-capita-ghg-emissions")
+emissions
+```
+
+---
+
+# Importando datos: desde .orange[API]
+
+En muchas ocasiones...
+
+&lt;https://opendata.aemet.es/centrodedescargas/altaUsuario&gt;
+
+
+```r
+library(aemet)
+apikey &lt;- "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYXZhbHYwOUB1Y20uZXMiLCJqdGkiOiI4YTU1ODUxMS01MTE3LTQ4MTYtYmM4OS1hYmVkNDhiODBkYzkiLCJpc3MiOiJBRU1FVCIsImlhdCI6MTY2NjQ2OTcxNSwidXNlcklkIjoiOGE1NTg1MTEtNTExNy00ODE2LWJjODktYWJlZDQ4YjgwZGM5Iiwicm9sZSI6IiJ9.HEMR77lZy2ASjmOxJa8ppx2J8Za1IViurMX3p1reVBU"
+aemet::aemet_stations(apikey = apikey)
+```
+
+
+---
+
+# Importando datos: desde .orange[API]
+
+
+
+```r
+library(CatastRo)
+val_catr_code &lt;- catr_get_code_from_coords(val)
+val_catr_code
+valencia_bu &lt;- catr_atom_get_buildings(val_catr_code$catrcode)
+```
+
+
+---
+
+# Importando datos: desde .orange[API]
+
+
+
+```r
+library(spotifyr)
+```
+
+---
+
+# Importando datos: desde .orange[API]
+
+
+```r
+library(twitteR)
+```
 
 ---
 
 class: inverse center middle
 name: clase-12
 
-# CLASE 12: cruzar tablas
+# CLASE 12: cruzar tablas y funciones
+
+
+&amp;nbsp;
+
+### [Left/right join](#left-join)
+
+### [Sufijos y claves](#sufijos-claves)
+
+### [Inner, full y anti join](#inner-full-anti)
+
+### [Ejercicios](#ejercicios-join)
+
+### [Practicando funciones](#extra-funciones)
+
+---
+
+names: left-join
+
+# .orange[RELACIONANDO] datos
+
+Al trabajar con datos **.bg-purple_light[no siempre tendremos la información en una sola tabla]** y a veces nos interesará cruzar la información de distintas fuentes.
+
+--
+
+Para ello usaremos un clásico de todo lenguaje que maneja datos: los famosos **.bg-purple_light[join]**, una herramienta que nos va a permitir **.bg-purple_light[cruzar una o variables tablas]**, haciendo uso de una **.bg-purple_light[columna identificadora]** de cada una de ellas (por ejemplo, imagina que cruzamos datos de hacienda y de antecedentes penales, haciendo _join_ por la columna `DNI`).
+
+---
+
+# .orange[RELACIONANDO] datos
+
+
+.pull-left[
+
+
+```r
+tabla_1 %&gt;% xxx_join(tabla_2, by = id)
+```
+
+* `inner_join()`: solo sobreviven los **.bg-purple_light[registros con id en ambas]** tablas.
+
+* `full_join()`: mantiene **.bg-purple_light[todos los registros de ambas]** tablas.
+
+* `left_join()`: mantiene **.bg-purple_light[todos los registros de la primera tabla]**, y busca cuales tienen id también en la segunda (en caso de **.bg-purple_light[no tenerlo se rellena con NA]** los campos de la 2ª tabla).
+
+* `right_join()`: mantiene **.bg-purple_light[todos los registros de la segunda tabla]**, y busca cuales tienen id también en la primera.
+
+]
+
+
+.pull-right[
+
+&lt;img src="./img/sql-joins.jpg" width="120%" style="display: block; margin: auto;" /&gt;
+
+
+]
+
+
+---
+
+# .orange[RELACIONANDO] datos
+
+Vamos a probar los distintos joins con un ejemplo sencillo
+
+
+```r
+tb_1 &lt;- tibble("key" = 1:3, "val_x" = c("x1", "x2", "x3"))
+tb_2 &lt;- tibble("key" = c(1, 2, 4), "val_y" = c("y1", "y2", "y3"))
+```
+
+.pull-left[
+
+
+```r
+tb_1
+```
+
+```
+&gt; # A tibble: 3 × 2
+&gt;     key val_x
+&gt;   &lt;int&gt; &lt;chr&gt;
+&gt; 1     1 x1   
+&gt; 2     2 x2   
+&gt; 3     3 x3
+```
+
+]
+
+.pull-right[
+
+
+```r
+tb_2
+```
+
+```
+&gt; # A tibble: 3 × 2
+&gt;     key val_y
+&gt;   &lt;dbl&gt; &lt;chr&gt;
+&gt; 1     1 y1   
+&gt; 2     2 y2   
+&gt; 3     4 y3
+```
+
+]
+
+---
+
+
+# .orange[LEFT] join
+
+Imagina que queremos **.bg-purple_light[incorporar]** a `tb_1` la **.bg-purple_light[información de la tabla_2]**, identificando los registros por la columna key (indicando con `by = "key"` la columna por la que tiene que cruzar): queremos mantener todos los registros de la primera tabla y buscar cuales tienen id (mismo valor en `key`) también en la segunda tabla.
+
+.pull-left[
+
+
+
+```r
+tb_1 %&gt;%
+  left_join(tb_2, by = "key")
+```
+
+```
+&gt; # A tibble: 3 × 3
+&gt;     key val_x val_y
+&gt;   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;
+&gt; 1     1 x1    y1   
+&gt; 2     2 x2    y2   
+&gt; 3     3 x3    &lt;NA&gt;
+```
+
+]
+
+
+.pull-right[
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/left_join.jpg" alt="Esquema del left join" width="100%" /&gt;
+&lt;p class="caption"&gt;Esquema del left join&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+---
+
+# .orange[LEFT] join
+
+
+
+```r
+tb_1 %&gt;% left_join(tb_2, by = "key")
+```
+
+```
+&gt; # A tibble: 3 × 3
+&gt;     key val_x val_y
+&gt;   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;
+&gt; 1     1 x1    y1   
+&gt; 2     2 x2    y2   
+&gt; 3     3 x3    &lt;NA&gt;
+```
+
+Fíjate que los **.bg-purple_light[registros de la primera cuya key no ha encontrado en la segunda]** les ha dado el valor de **.bg-purple_light[ausente]**.
+
+---
+
+# .orange[RIGHT] join
+
+El `right_join()` realizará la operación contraria: vamos ahora a **.bg-purple_light[incorporar]** a `tb_2` la **.bg-purple_light[información de la tabla_2]**, identificando los registros por la columna key (indicando con `by = "key"` la columna por la que tiene que cruzar): queremos mantener todos los registros de la segunda y buscar cuales tienen id (mismo valor en `key`) también en la primera tabla.
+
+.pull-left[
+
+
+
+```r
+tb_1 %&gt;%
+  right_join(tb_2, by = "key")
+```
+
+```
+&gt; # A tibble: 3 × 3
+&gt;     key val_x val_y
+&gt;   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;
+&gt; 1     1 x1    y1   
+&gt; 2     2 x2    y2   
+&gt; 3     4 &lt;NA&gt;  y3
+```
+
+]
+
+
+.pull-right[
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/right_join.jpg" alt="Esquema del right join" width="100%" /&gt;
+&lt;p class="caption"&gt;Esquema del right join&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+
+---
+
+# .orange[RIGHT] join
+
+
+
+```r
+tb_1 %&gt;% right_join(tb_2, by = "key")
+```
+
+```
+&gt; # A tibble: 3 × 3
+&gt;     key val_x val_y
+&gt;   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;
+&gt; 1     1 x1    y1   
+&gt; 2     2 x2    y2   
+&gt; 3     4 &lt;NA&gt;  y3
+```
+
+Fíjate que ahora los **.bg-purple_light[registros de la segunda cuya key no ha encontrado en la primera]** son los que les ha dado el valor de **.bg-purple_light[ausente]**.
+
+---
+
+
+name: sufijos-claves
+
+# .orange[CLAVES] y .green[SUFIJOS] 
+
+Las columnas clave que usaremos para el cruce **.bg-purple_light[no siempre se llamarán igual]**.
+
+
+```r
+tb_1 &lt;- tibble("key_1" = 1:3, "val_x" = c("x1", "x2", "x3"))
+tb_2 &lt;- tibble("key_2" = c(1, 2, 4), "val_y" = c("y1", "y2", "y3"))
+```
+
+--
+
+* `by = c("key_2" = "key_2")`: le indicaremos en qué columna de cada tabla están las claves por las que vamos a cruzar.
+
+.pull-left[
+
+
+```r
+# Left
+tb_1 %&gt;%
+  left_join(tb_2, by = c("key_1" = "key_2"))
+```
+
+```
+&gt; # A tibble: 3 × 3
+&gt;   key_1 val_x val_y
+&gt;   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;
+&gt; 1     1 x1    y1   
+&gt; 2     2 x2    y2   
+&gt; 3     3 x3    &lt;NA&gt;
+```
+
+]
+
+.pull-right[
+
+
+```r
+# Right
+tb_1 %&gt;%
+  right_join(tb_2, by = c("key_1" = "key_2"))
+```
+
+```
+&gt; # A tibble: 3 × 3
+&gt;   key_1 val_x val_y
+&gt;   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;
+&gt; 1     1 x1    y1   
+&gt; 2     2 x2    y2   
+&gt; 3     4 &lt;NA&gt;  y3
+```
+]
+
+
+---
+
+# .orange[CLAVES] y .green[SUFIJOS] 
+
+Además podemos **.bg-purple_light[cruzar por varias columnas a la vez]** (interpretará como igual registro aquel que tenga el conjunto de claves igual), con `by = c("var1_t1" = "var1_t2", "var2_t1" = "var2_t2", ...)`. Modifiquemos el ejemplo anterior
+
+
+```r
+tb_1 &lt;- tibble("k_11" = 1:3, "k_12" = c("a", "b", "c"),  "val_x" = c("x1", "x2", "x3"))
+tb_2 &lt;- tibble("k_21" = c(1, 2, 4), "k_22" = c("a", "b", "e"), "val_y" = c("y1", "y2", "y3"))
+```
+
+--
+
+.pull-left[
+
+
+```r
+# Left
+tb_1 %&gt;%
+  left_join(tb_2,
+            by = c("k_11" = "k_21",
+                   "k_12" = "k_22"))
+```
+
+```
+&gt; # A tibble: 3 × 4
+&gt;    k_11 k_12  val_x val_y
+&gt;   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
+&gt; 1     1 a     x1    y1   
+&gt; 2     2 b     x2    y2   
+&gt; 3     3 c     x3    &lt;NA&gt;
+```
+]
+
+.pull-right[
+
+
+```r
+# Right
+tb_1 %&gt;%
+  right_join(tb_2,
+             by = c("k_11" = "k_21",
+                    "k_12" = "k_22"))
+```
+
+```
+&gt; # A tibble: 3 × 4
+&gt;    k_11 k_12  val_x val_y
+&gt;   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
+&gt; 1     1 a     x1    y1   
+&gt; 2     2 b     x2    y2   
+&gt; 3     4 e     &lt;NA&gt;  y3
+```
+]
+
+---
+
+# .orange[CLAVES] y .green[SUFIJOS] 
+
+También podría suceder que al cruzar dos tablas, haya **.bg-purple_light[columnas de valores que se llamen igual]**
+
+
+
+```r
+tb_1 &lt;- tibble("key_1" = 1:3, "val" = c("x1", "x2", "x3"))
+tb_2 &lt;- tibble("key_2" = c(1, 2, 4), "val" = c("y1", "y2", "y3"))
+```
+
+--
+
+
+```r
+# Left
+tb_1 %&gt;% left_join(tb_2, by = c("key_1" = "key_2"))
+```
+
+```
+&gt; # A tibble: 3 × 3
+&gt;   key_1 val.x val.y
+&gt;   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;
+&gt; 1     1 x1    y1   
+&gt; 2     2 x2    y2   
+&gt; 3     3 x3    &lt;NA&gt;
+```
+
+Fíjate que **.bg-purple_light[por defecto nos añade los sufijos]** `.x` y `.y` para indicarnos de que tabla vienen.
+
+---
+
+# .orange[CLAVES] y .green[SUFIJOS] 
+
+
+Dicho **.bg-purple_light[sufijo podemos especificárselo]** en el argumento opcional `suffix = ...`, que nos permita **.bg-purple_light[distinguir las variables]** de una tabla y de otra.
+
+
+
+```r
+# Left
+tb_1 %&gt;% left_join(tb_2, by = c("key_1" = "key_2"), suffix = c("_tabla1", "_tabla2"))
+```
+
+```
+&gt; # A tibble: 3 × 3
+&gt;   key_1 val_tabla1 val_tabla2
+&gt;   &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;     
+&gt; 1     1 x1         y1        
+&gt; 2     2 x2         y2        
+&gt; 3     3 x3         &lt;NA&gt;
+```
+
+---
+
+name: inner-full-anti
+
+# .orange[FULL] join
+
+Los dos anteriores casos forman lo que se conoce como **.bg-purple_light[outer joins]**: cruces donde se mantienen observaciones que salgan en al menos una tabla. El tercer outer join es el conocido como `full_join()` que nos **.bg-purple_light[mantendrá las observaciones de ambas]** tablas, **.bg-purple_light[añadiendo las filas]** que no casen con la otra tabla.
+
+.pull-left[
+
+
+
+```r
+tb_1 %&gt;%
+  full_join(tb_2,
+            by = c("key_1" = "key_2"))
+```
+
+```
+&gt; # A tibble: 4 × 3
+&gt;   key_1 val.x val.y
+&gt;   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;
+&gt; 1     1 x1    y1   
+&gt; 2     2 x2    y2   
+&gt; 3     3 x3    &lt;NA&gt; 
+&gt; 4     4 &lt;NA&gt;  y3
+```
+
+]
+
+
+.pull-right[
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/full_join.jpg" alt="Esquema del full join" width="100%" /&gt;
+&lt;p class="caption"&gt;Esquema del full join&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+
+---
+
+# .orange[INNER] join
+
+Frente a los outer join está lo que se conoce como **.bg-purple_light[inner join]**, con `inner_join()`: un cruce en el que solo se mantienen las **.bg-purple_light[observaciones que salgan en ambas tablas]**, solo mantiene aquellos registros matcheados.
+
+.pull-left[
+
+
+
+```r
+tb_1 %&gt;%
+  inner_join(tb_2,
+             by = c("key_1" = "key_2"))
+```
+
+```
+&gt; # A tibble: 2 × 3
+&gt;   key_1 val.x val.y
+&gt;   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;
+&gt; 1     1 x1    y1   
+&gt; 2     2 x2    y2
+```
+
+]
+
+
+.pull-right[
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/inner_join.png" alt="Esquema del inner join" width="100%" /&gt;
+&lt;p class="caption"&gt;Esquema del inner join&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+---
+
+# .orange[INNER] join
+
+Fíjate que en términos de registros, `inner_join` si es conmutativa, **nos da igual el orden de las tablas**: lo único que cambia es el orden de las columnas que añade.
+
+.pull-left[
+
+
+
+```r
+tb_1 %&gt;%
+  inner_join(tb_2,
+             by = c("key_1" = "key_2"))
+```
+
+```
+&gt; # A tibble: 2 × 3
+&gt;   key_1 val.x val.y
+&gt;   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;
+&gt; 1     1 x1    y1   
+&gt; 2     2 x2    y2
+```
+
+]
+
+.pull-right[
+
+
+
+```r
+tb_2 %&gt;% inner_join(tb_1,
+                    by = c("key_2" = "key_1"))
+```
+
+```
+&gt; # A tibble: 2 × 3
+&gt;   key_2 val.x val.y
+&gt;   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;
+&gt; 1     1 y1    x1   
+&gt; 2     2 y2    x2
+```
+
+]
+
+---
+
+# .orange[ANTI/SEMI] join
+
+Por último tenemos dos herramientas interesantes para **.bg-purple_light[filtrar (no cruzar) registros]**: `semi_join()` y `anti_join()`. El **.bg-purple_light[semi join]** nos deja en la **.bg-purple_light[primera tabla los registros que cuya clave está también en la segunda]** (como un inner join pero sin añadir la info de la segunda tabla). Y el segundo, los anti join, hace justo lo contrario (aquellos que no están).
+
+
+.pull-left[
+
+
+```r
+# semijoin
+tb_1 %&gt;%
+  semi_join(tb_2,
+            by = c("key_1" = "key_2"))
+```
+
+```
+&gt; # A tibble: 2 × 2
+&gt;   key_1 val  
+&gt;   &lt;int&gt; &lt;chr&gt;
+&gt; 1     1 x1   
+&gt; 2     2 x2
+```
+
+]
+
+.pull-right[
+
+
+```r
+# antijoin
+tb_1 %&gt;%
+  anti_join(tb_2,
+            by = c("key_1" = "key_2"))
+```
+
+```
+&gt; # A tibble: 1 × 2
+&gt;   key_1 val  
+&gt;   &lt;int&gt; &lt;chr&gt;
+&gt; 1     3 x3
+```
+
+]
+
+
+---
+
+name: ejercicios-join
+
+# Ejercicios
+
+Para los ejercicios usaremos las tablas disponibles en el paquete `{nycflights13}` (echa un vistazo antes)
+
+
+```r
+library(nycflights13)
+```
+
+* **.bg-purple_light[airlines]**: nombre de aerolíneas (con su abreviatura).
+* **.bg-purple_light[airports]**: datos de aeropuertos (nombres, longitud, latitud, altitud, etc).
+* **.bg-purple_light[flights]**: datos de vuelos.
+* **.bg-purple_light[planes]**: datos de los aviones.
+* **.bg-purple_light[weather]**: datos meteorológicos horarios de las estaciones LGA, JFK y EWR.
+
+---
+
+# Ejercicios
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/relational-nycflights.png" alt="Relación de las tablas" width="60%" /&gt;
+&lt;p class="caption"&gt;Relación de las tablas&lt;/p&gt;
+&lt;/div&gt;
+
+---
+
+# Ejercicios
+
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+
+* 📝 **Ejercicio 1**: del paquete `{nycflights13}` cruza la tabla `flights` con `airlines`. Queremos mantener todos los registros de vuelos, añadiendo la información de las aerolíneas a la tabla de aviones.
+
+* 📝 **Ejercicio 2**: a la tabla obtenida del cruce del apartado anterior, cruza después con los datos de los aviones en `planes`, pero incluyendo solo aquellos vuelos de los que tengamos información de sus aviones (y viceversa). 
+
+* 📝 **Ejercicio 3**: repite el ejercicio anterior pero conservando ambas variables `year` (en una es el año del vuelo, en la otra es el año de construcción del avión), y distinguiéndolas entre sí
+
+
+]
+
+.panel[.panel-name[Sol. Ej. 1]
+
+
+
+```r
+flights_airlines &lt;-
+  flights %&gt;% 
+  left_join(airlines, by = "carrier")
+flights_airlines
+```
+
+```
+&gt; # A tibble: 336,776 × 20
+&gt;     year month   day dep_time sched_de…¹ dep_d…² arr_t…³ sched…⁴ arr_d…⁵ carrier
+&gt;    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;      &lt;int&gt;   &lt;dbl&gt;   &lt;int&gt;   &lt;int&gt;   &lt;dbl&gt; &lt;chr&gt;  
+&gt;  1  2013     1     1      517        515       2     830     819      11 UA     
+&gt;  2  2013     1     1      533        529       4     850     830      20 UA     
+&gt;  3  2013     1     1      542        540       2     923     850      33 AA     
+&gt;  4  2013     1     1      544        545      -1    1004    1022     -18 B6     
+&gt;  5  2013     1     1      554        600      -6     812     837     -25 DL     
+&gt;  6  2013     1     1      554        558      -4     740     728      12 UA     
+&gt;  7  2013     1     1      555        600      -5     913     854      19 B6     
+&gt;  8  2013     1     1      557        600      -3     709     723     -14 EV     
+&gt;  9  2013     1     1      557        600      -3     838     846      -8 B6     
+&gt; 10  2013     1     1      558        600      -2     753     745       8 AA     
+&gt; # … with 336,766 more rows, 10 more variables: flight &lt;int&gt;, tailnum &lt;chr&gt;,
+&gt; #   origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;,
+&gt; #   minute &lt;dbl&gt;, time_hour &lt;dttm&gt;, name &lt;chr&gt;, and abbreviated variable names
+&gt; #   ¹​sched_dep_time, ²​dep_delay, ³​arr_time, ⁴​sched_arr_time, ⁵​arr_delay
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
+```
+ 
+]
+
+.panel[.panel-name[Sol. Ej. 2]
+
+
+
+```r
+flights_airlines_planes &lt;- 
+  flights_airlines %&gt;% 
+  inner_join(planes, by = "tailnum")
+flights_airlines_planes
+```
+
+```
+&gt; # A tibble: 284,170 × 28
+&gt;    year.x month   day dep_time sched_d…¹ dep_d…² arr_t…³ sched…⁴ arr_d…⁵ carrier
+&gt;     &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;     &lt;int&gt;   &lt;dbl&gt;   &lt;int&gt;   &lt;int&gt;   &lt;dbl&gt; &lt;chr&gt;  
+&gt;  1   2013     1     1      517       515       2     830     819      11 UA     
+&gt;  2   2013     1     1      533       529       4     850     830      20 UA     
+&gt;  3   2013     1     1      542       540       2     923     850      33 AA     
+&gt;  4   2013     1     1      544       545      -1    1004    1022     -18 B6     
+&gt;  5   2013     1     1      554       600      -6     812     837     -25 DL     
+&gt;  6   2013     1     1      554       558      -4     740     728      12 UA     
+&gt;  7   2013     1     1      555       600      -5     913     854      19 B6     
+&gt;  8   2013     1     1      557       600      -3     709     723     -14 EV     
+&gt;  9   2013     1     1      557       600      -3     838     846      -8 B6     
+&gt; 10   2013     1     1      558       600      -2     849     851      -2 B6     
+&gt; # … with 284,160 more rows, 18 more variables: flight &lt;int&gt;, tailnum &lt;chr&gt;,
+&gt; #   origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;,
+&gt; #   minute &lt;dbl&gt;, time_hour &lt;dttm&gt;, name &lt;chr&gt;, year.y &lt;int&gt;, type &lt;chr&gt;,
+&gt; #   manufacturer &lt;chr&gt;, model &lt;chr&gt;, engines &lt;int&gt;, seats &lt;int&gt;, speed &lt;int&gt;,
+&gt; #   engine &lt;chr&gt;, and abbreviated variable names ¹​sched_dep_time, ²​dep_delay,
+&gt; #   ³​arr_time, ⁴​sched_arr_time, ⁵​arr_delay
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
+```
+
+]
+
+.panel[.panel-name[Sol. Ej. 3]
+
+
+
+```r
+flights_airlines_planes &lt;- 
+  flights_airlines %&gt;% 
+  inner_join(planes, by = "tailnum",
+             suffix = c("_flight", "_build_aircraft"))
+flights_airlines_planes
+```
+
+```
+&gt; # A tibble: 284,170 × 28
+&gt;    year_fl…¹ month   day dep_t…² sched…³ dep_d…⁴ arr_t…⁵ sched…⁶ arr_d…⁷ carrier
+&gt;        &lt;int&gt; &lt;int&gt; &lt;int&gt;   &lt;int&gt;   &lt;int&gt;   &lt;dbl&gt;   &lt;int&gt;   &lt;int&gt;   &lt;dbl&gt; &lt;chr&gt;  
+&gt;  1      2013     1     1     517     515       2     830     819      11 UA     
+&gt;  2      2013     1     1     533     529       4     850     830      20 UA     
+&gt;  3      2013     1     1     542     540       2     923     850      33 AA     
+&gt;  4      2013     1     1     544     545      -1    1004    1022     -18 B6     
+&gt;  5      2013     1     1     554     600      -6     812     837     -25 DL     
+&gt;  6      2013     1     1     554     558      -4     740     728      12 UA     
+&gt;  7      2013     1     1     555     600      -5     913     854      19 B6     
+&gt;  8      2013     1     1     557     600      -3     709     723     -14 EV     
+&gt;  9      2013     1     1     557     600      -3     838     846      -8 B6     
+&gt; 10      2013     1     1     558     600      -2     849     851      -2 B6     
+&gt; # … with 284,160 more rows, 18 more variables: flight &lt;int&gt;, tailnum &lt;chr&gt;,
+&gt; #   origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;,
+&gt; #   minute &lt;dbl&gt;, time_hour &lt;dttm&gt;, name &lt;chr&gt;, year_build_aircraft &lt;int&gt;,
+&gt; #   type &lt;chr&gt;, manufacturer &lt;chr&gt;, model &lt;chr&gt;, engines &lt;int&gt;, seats &lt;int&gt;,
+&gt; #   speed &lt;int&gt;, engine &lt;chr&gt;, and abbreviated variable names ¹​year_flight,
+&gt; #   ²​dep_time, ³​sched_dep_time, ⁴​dep_delay, ⁵​arr_time, ⁶​sched_arr_time,
+&gt; #   ⁷​arr_delay
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
+```
+
+]
+]
+
+---
+
+# Ejercicios
+
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+
+* 📝 **Ejercicio 4**: al cruce obtenido del ejercicio anterior incluye la longitud y latitud de los aeropuertos en `airports`, distinguiendo entre la latitud/longitud del aeropuerto en destino y en origen.
+
+* 📝 **Ejercicio 5**: filtra de `airports` solo aquellos aeropuertos de los que salgan vuelos. Repite el proceso filtrado solo aquellos a los que lleguen vuelos
+
+* 📝 **Ejercicio 6**: ¿de cuántos vuelos no disponemos información del avión? Elimina antes los vuelos que no tengan identificar (diferente a NA) del avión
+
+]
+
+.panel[.panel-name[Sol. Ej. 4]
+
+* 📝 **Ejercicio 4**: al cruce obtenido del ejercicio anterior incluye la longitud y latitud de los aeropuertos en `airports`, distinguiendo entre la latitud/longitud del aeropuerto en destino y en origen.
+
+
+
+```r
+flights_airlines_planes %&gt;%
+  left_join(airports %&gt;% select(faa, lat, lon),
+            by = c("origin" = "faa")) %&gt;%
+  rename(lat_origin = lat, lon_origin = lon) %&gt;% 
+  left_join(airports %&gt;% select(faa, lat, lon),
+            by = c("dest" = "faa")) %&gt;%
+  rename(lat_dest = lat, lon_dest = lon)
+```
+
+```
+&gt; # A tibble: 284,170 × 32
+&gt;    year_fl…¹ month   day dep_t…² sched…³ dep_d…⁴ arr_t…⁵ sched…⁶ arr_d…⁷ carrier
+&gt;        &lt;int&gt; &lt;int&gt; &lt;int&gt;   &lt;int&gt;   &lt;int&gt;   &lt;dbl&gt;   &lt;int&gt;   &lt;int&gt;   &lt;dbl&gt; &lt;chr&gt;  
+&gt;  1      2013     1     1     517     515       2     830     819      11 UA     
+&gt;  2      2013     1     1     533     529       4     850     830      20 UA     
+&gt;  3      2013     1     1     542     540       2     923     850      33 AA     
+&gt;  4      2013     1     1     544     545      -1    1004    1022     -18 B6     
+&gt;  5      2013     1     1     554     600      -6     812     837     -25 DL     
+&gt;  6      2013     1     1     554     558      -4     740     728      12 UA     
+&gt;  7      2013     1     1     555     600      -5     913     854      19 B6     
+&gt;  8      2013     1     1     557     600      -3     709     723     -14 EV     
+&gt;  9      2013     1     1     557     600      -3     838     846      -8 B6     
+&gt; 10      2013     1     1     558     600      -2     849     851      -2 B6     
+&gt; # … with 284,160 more rows, 22 more variables: flight &lt;int&gt;, tailnum &lt;chr&gt;,
+&gt; #   origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;,
+&gt; #   minute &lt;dbl&gt;, time_hour &lt;dttm&gt;, name &lt;chr&gt;, year_build_aircraft &lt;int&gt;,
+&gt; #   type &lt;chr&gt;, manufacturer &lt;chr&gt;, model &lt;chr&gt;, engines &lt;int&gt;, seats &lt;int&gt;,
+&gt; #   speed &lt;int&gt;, engine &lt;chr&gt;, lat_origin &lt;dbl&gt;, lon_origin &lt;dbl&gt;,
+&gt; #   lat_dest &lt;dbl&gt;, lon_dest &lt;dbl&gt;, and abbreviated variable names
+&gt; #   ¹​year_flight, ²​dep_time, ³​sched_dep_time, ⁴​dep_delay, ⁵​arr_time, …
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
+```
+
+]
+
+.panel[.panel-name[Sol. Ej. 5]
+
+
+* 📝 **Ejercicio 5**: filtra de `airports` solo aquellos aeropuertos de los que salgan vuelos. Repite el proceso filtrado solo aquellos a los que lleguen vuelos
+
+
+```r
+airports %&gt;% 
+  semi_join(flights, by = c("faa" = "origin"))
+airports %&gt;% 
+  semi_join(flights, by = c("faa" = "dest"))
+```
+
+]
+
+.panel[.panel-name[Sol. Ej. 6]
+
+
+
+```r
+flights %&gt;% 
+  drop_na(tailnum) %&gt;% 
+  anti_join(planes, by = "tailnum") %&gt;%
+  count(tailnum, sort = TRUE) # de mayor a menor ya de paso
+```
+
+```
+&gt; # A tibble: 721 × 2
+&gt;    tailnum     n
+&gt;    &lt;chr&gt;   &lt;int&gt;
+&gt;  1 N725MQ    575
+&gt;  2 N722MQ    513
+&gt;  3 N723MQ    507
+&gt;  4 N713MQ    483
+&gt;  5 N735MQ    396
+&gt;  6 N0EGMQ    371
+&gt;  7 N534MQ    364
+&gt;  8 N542MQ    363
+&gt;  9 N531MQ    349
+&gt; 10 N6EAMQ    348
+&gt; # … with 711 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
+```
+
+]
+]
+
+---
+
+name: extra-funciones
+
+# Practicando .orange[FUNCIONES]
+
+Vamos a profundizar un poco en la **.bg-purple_light[definición de funciones]** en R.
+
+
+* 📝 **Ejercicio 1**: sabiendo que la temperatura en grados es igual a la temperatura en Fahrenheit menos 32, y todo ello dividido entre 1.8, construye una función que convierta de ºF a ºC.
+
+--
+
+* 📝 **Ejercicio 2**: construye una función aún más genérica que incluya un argumento `celsius_to_fahr`, de forma que si vale `TRUE`, haga la conversión de ºC a ºF, y si vale `FALSE` de ºF a ºC
+
+--
+
+* 📝 **Ejercicio 3**: sabiendo que para pasar de ºC a Kelvin basta con sumar 273.15 a la temperatura en ºC, construye una función que parmita pasar de celsius a kelvin y viceversa, con un argumento `celsius_to_kelvin` que pueda ser `TRUE` o `FALSE`
+
+--
+
+* 📝 **Ejercicio 4**: haciendo uso de las funciones anteriores, construye una función de ºF a Kelvin y viceversa, con un argumento `fahr_to_kelvin` que pueda ser `TRUE` o `FALSE`
+
+--
+
+* 📝 **Ejercicio 5**: modifica las funciones anteriores para que, además de devolver el valor numérico, nos devuelva las unidades de salida.
 
 ---
 
@@ -15180,6 +16325,34 @@ name: clase-13
 
 # CLASE 13: entrega II
 
+---
+
+class: inverse center middle
+name: clase-14
+
+# CLASE 14: introducción al dataviz
+
+---
+
+class: inverse center middle
+name: clase-15
+
+# CLASE 15: profundizando en ggplot
+
+---
+
+class: inverse center middle
+name: clase-16
+
+# CLASE 16: profundizando en ggplot
+
+
+---
+
+class: inverse center middle
+name: clase-17
+
+# CLASE 17: entrega III
 
 ---
 

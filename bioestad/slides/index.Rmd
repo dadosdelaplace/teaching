@@ -276,7 +276,7 @@ class: inverse center middle
 .pull-left[
 
 
-#### [CLASE 12: cruzando tablas e introducción al dataviz](#clase-13)
+#### [CLASE 12: cruzando tablas y más funciones](#clase-12)
 
 #### [ENTREGA II (clase 13)](#entrega-II)
 
@@ -9285,6 +9285,132 @@ starwars_factor %>%
 
 ]
 
+
+---
+
+# Ejercicios (factores)
+
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+* 📝 **Ejercicio 1**: dada la variable `meses` definida debajo (definida como un vector de caracteres), convierte dicha variable a factor (solo eso)
+
+```{r}
+meses <- c("Ene", "Feb", "Mar", "Abr")
+```
+  
+* 📝 **Ejercicio 2**:  dada la variable `meses` definida debajo convierte dicha variable a factor pero indicando los niveles de forma correcta.
+
+```{r}
+meses <- c(NA, "Abr", "Ene", "Oct", "Jul", "Ene", "Sep", NA, "Feb", "Dic",
+           "Jul", "Mar", "Ene", "Mar", "Feb", "Abr", "May", "Oct", "Sep",  NA,
+           "Dic", "Jul", "Nov", "Feb", "Oct", "Jun", "Sep", "Oct", "Oct", "Sep")
+```
+
+  
+* 📝 **Ejercicio 3**: cuenta cuantos valores hay de cada mes pero teniendo en cuenta que son factores (quizás haya niveles sin ser usados y de los que debería obtener un 0).
+
+]
+
+.panel[.panel-name[Sol. ej. 1]
+
+```{r}
+meses <- c("Ene", "Feb", "Mar", "Abr")
+meses_fct <- as_factor(meses)
+meses_fct
+```
+
+
+
+]
+
+.panel[.panel-name[Sol. ej. 2]
+
+```{r}
+meses <- c(NA, "Abr", "Ene", "Oct", "Jul", "Ene", "Sep", NA, "Feb", "Dic",
+           "Jul", "Mar", "Ene", "Mar", "Feb", "Abr", "May", "Oct", "Sep",  NA,
+           "Dic", "Jul", "Nov", "Feb", "Oct", "Jun", "Sep", "Oct", "Oct", "Sep")
+
+# Orden de niveles correcto e incluimos agosto aunque no haya
+meses_fct <-
+  factor(meses,
+         levels = c("Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"))
+meses_fct
+```
+
+]
+
+.panel[.panel-name[Sol. ej. 3]
+
+```{r}
+meses_fct %>% fct_count()
+```
+
+]
+
+]
+
+---
+
+# Ejercicios (factores)
+
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+* 📝 **Ejercicio 4**: dado que hay ausentes, indica que los ausentes sea un decimotercer nivel etiquetado como "ausente".
+
+* 📝 **Ejercicio 5**: elimina los niveles no usados.
+
+* 📝 **Ejercicio 6**: ordena los niveles por frecuencia de aparición.
+  
+* 📝 **Ejercicio 7**:  agrupa niveles de forma que todo nivel que no aparezca al menos el 7% de las veces se agrupe en un nivel llamado "otros meses"
+]
+
+.panel[.panel-name[Sol. ej. 4]
+
+```{r}
+meses_fct <- 
+  meses_fct %>%
+  fct_explicit_na(na_level = "ausente")
+meses_fct
+```
+
+]
+
+.panel[.panel-name[Sol. ej. 4]
+
+```{r}
+meses_fct <- 
+  meses_fct %>%
+  fct_drop()
+meses_fct
+```
+
+]
+
+.panel[.panel-name[Sol. ej. 6]
+
+```{r}
+meses_fct %>% 
+  fct_infreq()
+```
+
+]
+
+.panel[.panel-name[Sol. ej. 7]
+
+```{r}
+meses_fct <-
+  meses_fct %>% 
+  fct_lump_prop(prop = 0.07, other_level = "otros")
+meses_fct
+```
+
+]
+]
+
 ---
 
 name: rdata
@@ -9580,6 +9706,7 @@ mtcars <- read_xlsx(path = "./datos/datasets.xlsx",
                       sheet = "mtcars")
 mtcars
 ```
+
 ---
 
 # Importando datos: datos .orange[EXCEL]
@@ -9611,6 +9738,8 @@ google_sheet
 
 ---
 
+name: sas-data
+
 # Importando .orange[SAS/SPSS/STATA]
 
 El paquete `{haven}` dentro de la órbita tidyverse nos permitirá importar archivos de los 3 software de pago de gestión y análisis de datos más importantes y usados: nos permite **.bg-purple_light[importar desde SAS, SPSS y Stata]**
@@ -9638,7 +9767,7 @@ iris_spss
 
 ---
 
-name: sas-data
+
 # Importando .orange[SAS/SPSS/STATA]
 
 El paquete `{haven}` dentro de la órbita tidyverse nos permitirá importar archivos de los 3 software de pago de gestión y análisis de datos más importantes y usados: nos permite **.bg-purple_light[importar desde SAS, SPSS y Stata]**
@@ -9655,21 +9784,635 @@ iris_stata
 
 # Importando datos: desde .orange[API]
 
-* aemet
-* catastro
-* spotify
-* chess
-* Twitter
-* owidR
+Por último, una opción muy interesante es la **.bg-purple_light[carga desde una API]**: un intermediario entre una app o proveedor datos y nuestro `R`. Por ejemplo, vamos a cargar la librería `{owidR}`, que nos permite la descarga de datos de uno de los mayores referentes durante la pandemia, la web <https://ourworldindata.org/>
+
+```{r}
+# install.packages("owidR")
+library(owidR)
+owid_covid()
+```
+
+---
+
+# Importando datos: desde .orange[API]
+
+```{r eval = FALSE}
+# install.packages("owidR")
+library(owidR)
+owid_covid()
+```
+
+La función `owid_covid()` nos ha cargado sin darnos cuenta **.bg-purple_light[más de 200 000 registros]** con más de 50 variables  de 238 países diferentes, desde casos, hospitalizados, pacientes en UCI, fallecidos, etc.
+
+---
+
+# Importando datos: desde .orange[API]
 
 
+```{r eval = FALSE}
+owid_search("emissions")
+emissions <- owid("per-capita-ghg-emissions")
+emissions
+```
+
+---
+
+# Importando datos: desde .orange[API]
+
+En muchas ocasiones...
+
+<https://opendata.aemet.es/centrodedescargas/altaUsuario>
+
+```{r eval = FALSE}
+library(aemet)
+apikey <- "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYXZhbHYwOUB1Y20uZXMiLCJqdGkiOiI4YTU1ODUxMS01MTE3LTQ4MTYtYmM4OS1hYmVkNDhiODBkYzkiLCJpc3MiOiJBRU1FVCIsImlhdCI6MTY2NjQ2OTcxNSwidXNlcklkIjoiOGE1NTg1MTEtNTExNy00ODE2LWJjODktYWJlZDQ4YjgwZGM5Iiwicm9sZSI6IiJ9.HEMR77lZy2ASjmOxJa8ppx2J8Za1IViurMX3p1reVBU"
+aemet::aemet_stations(apikey = apikey)
+```
+
+
+---
+
+# Importando datos: desde .orange[API]
+
+
+```{r eval = FALSE}
+library(CatastRo)
+val_catr_code <- catr_get_code_from_coords(val)
+val_catr_code
+valencia_bu <- catr_atom_get_buildings(val_catr_code$catrcode)
+```
+
+
+---
+
+# Importando datos: desde .orange[API]
+
+
+```{r eval = FALSE}
+library(spotifyr)
+```
+
+---
+
+# Importando datos: desde .orange[API]
+
+```{r eval = FALSE}
+library(twitteR)
+```
 
 ---
 
 class: inverse center middle
 name: clase-12
 
-# CLASE 12: cruzar tablas
+# CLASE 12: cruzar tablas y funciones
+
+
+&nbsp;
+
+### [Left/right join](#left-join)
+
+### [Sufijos y claves](#sufijos-claves)
+
+### [Inner, full y anti join](#inner-full-anti)
+
+### [Ejercicios](#ejercicios-join)
+
+### [Practicando funciones](#extra-funciones)
+
+---
+
+names: left-join
+
+# .orange[RELACIONANDO] datos
+
+Al trabajar con datos **.bg-purple_light[no siempre tendremos la información en una sola tabla]** y a veces nos interesará cruzar la información de distintas fuentes.
+
+--
+
+Para ello usaremos un clásico de todo lenguaje que maneja datos: los famosos **.bg-purple_light[join]**, una herramienta que nos va a permitir **.bg-purple_light[cruzar una o variables tablas]**, haciendo uso de una **.bg-purple_light[columna identificadora]** de cada una de ellas (por ejemplo, imagina que cruzamos datos de hacienda y de antecedentes penales, haciendo _join_ por la columna `DNI`).
+
+---
+
+# .orange[RELACIONANDO] datos
+
+
+.pull-left[
+
+```{r eval = FALSE}
+tabla_1 %>% xxx_join(tabla_2, by = id)
+```
+
+* `inner_join()`: solo sobreviven los **.bg-purple_light[registros con id en ambas]** tablas.
+
+* `full_join()`: mantiene **.bg-purple_light[todos los registros de ambas]** tablas.
+
+* `left_join()`: mantiene **.bg-purple_light[todos los registros de la primera tabla]**, y busca cuales tienen id también en la segunda (en caso de **.bg-purple_light[no tenerlo se rellena con NA]** los campos de la 2ª tabla).
+
+* `right_join()`: mantiene **.bg-purple_light[todos los registros de la segunda tabla]**, y busca cuales tienen id también en la primera.
+
+]
+
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "120%", fig.align = "center"}
+knitr::include_graphics("./img/sql-joins.jpg")
+``` 
+
+
+]
+
+
+---
+
+# .orange[RELACIONANDO] datos
+
+Vamos a probar los distintos joins con un ejemplo sencillo
+
+```{r}
+tb_1 <- tibble("key" = 1:3, "val_x" = c("x1", "x2", "x3"))
+tb_2 <- tibble("key" = c(1, 2, 4), "val_y" = c("y1", "y2", "y3"))
+```
+
+.pull-left[
+
+```{r}
+tb_1
+```
+
+]
+
+.pull-right[
+
+```{r}
+tb_2
+```
+
+]
+
+---
+
+
+# .orange[LEFT] join
+
+Imagina que queremos **.bg-purple_light[incorporar]** a `tb_1` la **.bg-purple_light[información de la tabla_2]**, identificando los registros por la columna key (indicando con `by = "key"` la columna por la que tiene que cruzar): queremos mantener todos los registros de la primera tabla y buscar cuales tienen id (mismo valor en `key`) también en la segunda tabla.
+
+.pull-left[
+
+
+```{r}
+tb_1 %>%
+  left_join(tb_2, by = "key")
+```
+
+]
+
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "100%", fig.align = "center", fig.cap = "Esquema del left join"}
+knitr::include_graphics("./img/left_join.jpg")
+``` 
+
+]
+
+---
+
+# .orange[LEFT] join
+
+
+```{r}
+tb_1 %>% left_join(tb_2, by = "key")
+```
+
+Fíjate que los **.bg-purple_light[registros de la primera cuya key no ha encontrado en la segunda]** les ha dado el valor de **.bg-purple_light[ausente]**.
+
+---
+
+# .orange[RIGHT] join
+
+El `right_join()` realizará la operación contraria: vamos ahora a **.bg-purple_light[incorporar]** a `tb_2` la **.bg-purple_light[información de la tabla_2]**, identificando los registros por la columna key (indicando con `by = "key"` la columna por la que tiene que cruzar): queremos mantener todos los registros de la segunda y buscar cuales tienen id (mismo valor en `key`) también en la primera tabla.
+
+.pull-left[
+
+
+```{r}
+tb_1 %>%
+  right_join(tb_2, by = "key")
+```
+
+]
+
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "100%", fig.align = "center", fig.cap = "Esquema del right join"}
+knitr::include_graphics("./img/right_join.jpg")
+``` 
+
+]
+
+
+---
+
+# .orange[RIGHT] join
+
+
+```{r}
+tb_1 %>% right_join(tb_2, by = "key")
+```
+
+Fíjate que ahora los **.bg-purple_light[registros de la segunda cuya key no ha encontrado en la primera]** son los que les ha dado el valor de **.bg-purple_light[ausente]**.
+
+---
+
+
+name: sufijos-claves
+
+# .orange[CLAVES] y .green[SUFIJOS] 
+
+Las columnas clave que usaremos para el cruce **.bg-purple_light[no siempre se llamarán igual]**.
+
+```{r}
+tb_1 <- tibble("key_1" = 1:3, "val_x" = c("x1", "x2", "x3"))
+tb_2 <- tibble("key_2" = c(1, 2, 4), "val_y" = c("y1", "y2", "y3"))
+```
+
+--
+
+* `by = c("key_2" = "key_2")`: le indicaremos en qué columna de cada tabla están las claves por las que vamos a cruzar.
+
+.pull-left[
+
+```{r}
+# Left
+tb_1 %>%
+  left_join(tb_2, by = c("key_1" = "key_2"))
+```
+
+]
+
+.pull-right[
+
+```{r}
+# Right
+tb_1 %>%
+  right_join(tb_2, by = c("key_1" = "key_2"))
+```
+]
+
+
+---
+
+# .orange[CLAVES] y .green[SUFIJOS] 
+
+Además podemos **.bg-purple_light[cruzar por varias columnas a la vez]** (interpretará como igual registro aquel que tenga el conjunto de claves igual), con `by = c("var1_t1" = "var1_t2", "var2_t1" = "var2_t2", ...)`. Modifiquemos el ejemplo anterior
+
+```{r}
+tb_1 <- tibble("k_11" = 1:3, "k_12" = c("a", "b", "c"),  "val_x" = c("x1", "x2", "x3"))
+tb_2 <- tibble("k_21" = c(1, 2, 4), "k_22" = c("a", "b", "e"), "val_y" = c("y1", "y2", "y3"))
+```
+
+--
+
+.pull-left[
+
+```{r}
+# Left
+tb_1 %>%
+  left_join(tb_2,
+            by = c("k_11" = "k_21",
+                   "k_12" = "k_22"))
+```
+]
+
+.pull-right[
+
+```{r}
+# Right
+tb_1 %>%
+  right_join(tb_2,
+             by = c("k_11" = "k_21",
+                    "k_12" = "k_22"))
+```
+]
+
+---
+
+# .orange[CLAVES] y .green[SUFIJOS] 
+
+También podría suceder que al cruzar dos tablas, haya **.bg-purple_light[columnas de valores que se llamen igual]**
+
+
+```{r}
+tb_1 <- tibble("key_1" = 1:3, "val" = c("x1", "x2", "x3"))
+tb_2 <- tibble("key_2" = c(1, 2, 4), "val" = c("y1", "y2", "y3"))
+```
+
+--
+
+```{r}
+# Left
+tb_1 %>% left_join(tb_2, by = c("key_1" = "key_2"))
+```
+
+Fíjate que **.bg-purple_light[por defecto nos añade los sufijos]** `.x` y `.y` para indicarnos de que tabla vienen.
+
+---
+
+# .orange[CLAVES] y .green[SUFIJOS] 
+
+
+Dicho **.bg-purple_light[sufijo podemos especificárselo]** en el argumento opcional `suffix = ...`, que nos permita **.bg-purple_light[distinguir las variables]** de una tabla y de otra.
+
+
+```{r}
+# Left
+tb_1 %>% left_join(tb_2, by = c("key_1" = "key_2"), suffix = c("_tabla1", "_tabla2"))
+```
+
+---
+
+name: inner-full-anti
+
+# .orange[FULL] join
+
+Los dos anteriores casos forman lo que se conoce como **.bg-purple_light[outer joins]**: cruces donde se mantienen observaciones que salgan en al menos una tabla. El tercer outer join es el conocido como `full_join()` que nos **.bg-purple_light[mantendrá las observaciones de ambas]** tablas, **.bg-purple_light[añadiendo las filas]** que no casen con la otra tabla.
+
+.pull-left[
+
+
+```{r}
+tb_1 %>%
+  full_join(tb_2,
+            by = c("key_1" = "key_2"))
+```
+
+]
+
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "100%", fig.align = "center", fig.cap = "Esquema del full join"}
+knitr::include_graphics("./img/full_join.jpg")
+``` 
+
+]
+
+
+---
+
+# .orange[INNER] join
+
+Frente a los outer join está lo que se conoce como **.bg-purple_light[inner join]**, con `inner_join()`: un cruce en el que solo se mantienen las **.bg-purple_light[observaciones que salgan en ambas tablas]**, solo mantiene aquellos registros matcheados.
+
+.pull-left[
+
+
+```{r}
+tb_1 %>%
+  inner_join(tb_2,
+             by = c("key_1" = "key_2"))
+```
+
+]
+
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "100%", fig.align = "center", fig.cap = "Esquema del inner join"}
+knitr::include_graphics("./img/inner_join.png")
+``` 
+
+]
+
+---
+
+# .orange[INNER] join
+
+Fíjate que en términos de registros, `inner_join` si es conmutativa, **nos da igual el orden de las tablas**: lo único que cambia es el orden de las columnas que añade.
+
+.pull-left[
+
+
+```{r}
+tb_1 %>%
+  inner_join(tb_2,
+             by = c("key_1" = "key_2"))
+```
+
+]
+
+.pull-right[
+
+
+```{r}
+tb_2 %>% inner_join(tb_1,
+                    by = c("key_2" = "key_1"))
+```
+
+]
+
+---
+
+# .orange[ANTI/SEMI] join
+
+Por último tenemos dos herramientas interesantes para **.bg-purple_light[filtrar (no cruzar) registros]**: `semi_join()` y `anti_join()`. El **.bg-purple_light[semi join]** nos deja en la **.bg-purple_light[primera tabla los registros que cuya clave está también en la segunda]** (como un inner join pero sin añadir la info de la segunda tabla). Y el segundo, los anti join, hace justo lo contrario (aquellos que no están).
+
+
+.pull-left[
+
+```{r}
+# semijoin
+tb_1 %>%
+  semi_join(tb_2,
+            by = c("key_1" = "key_2"))
+```
+
+]
+
+.pull-right[
+
+```{r}
+# antijoin
+tb_1 %>%
+  anti_join(tb_2,
+            by = c("key_1" = "key_2"))
+```
+
+]
+
+
+---
+
+name: ejercicios-join
+
+# Ejercicios
+
+Para los ejercicios usaremos las tablas disponibles en el paquete `{nycflights13}` (echa un vistazo antes)
+
+```{r}
+library(nycflights13)
+```
+
+* **.bg-purple_light[airlines]**: nombre de aerolíneas (con su abreviatura).
+* **.bg-purple_light[airports]**: datos de aeropuertos (nombres, longitud, latitud, altitud, etc).
+* **.bg-purple_light[flights]**: datos de vuelos.
+* **.bg-purple_light[planes]**: datos de los aviones.
+* **.bg-purple_light[weather]**: datos meteorológicos horarios de las estaciones LGA, JFK y EWR.
+
+---
+
+# Ejercicios
+
+```{r echo = FALSE,  out.width = "60%", fig.align = "center", fig.cap = "Relación de las tablas"}
+knitr::include_graphics("./img/relational-nycflights.png")
+``` 
+
+---
+
+# Ejercicios
+
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+
+* 📝 **Ejercicio 1**: del paquete `{nycflights13}` cruza la tabla `flights` con `airlines`. Queremos mantener todos los registros de vuelos, añadiendo la información de las aerolíneas a la tabla de aviones.
+
+* 📝 **Ejercicio 2**: a la tabla obtenida del cruce del apartado anterior, cruza después con los datos de los aviones en `planes`, pero incluyendo solo aquellos vuelos de los que tengamos información de sus aviones (y viceversa). 
+
+* 📝 **Ejercicio 3**: repite el ejercicio anterior pero conservando ambas variables `year` (en una es el año del vuelo, en la otra es el año de construcción del avión), y distinguiéndolas entre sí
+
+
+]
+
+.panel[.panel-name[Sol. Ej. 1]
+
+
+```{r}
+flights_airlines <-
+  flights %>% 
+  left_join(airlines, by = "carrier")
+flights_airlines
+```
+ 
+]
+
+.panel[.panel-name[Sol. Ej. 2]
+
+
+```{r}
+flights_airlines_planes <- 
+  flights_airlines %>% 
+  inner_join(planes, by = "tailnum")
+flights_airlines_planes
+```
+
+]
+
+.panel[.panel-name[Sol. Ej. 3]
+
+
+```{r}
+flights_airlines_planes <- 
+  flights_airlines %>% 
+  inner_join(planes, by = "tailnum",
+             suffix = c("_flight", "_build_aircraft"))
+flights_airlines_planes
+```
+
+]
+]
+
+---
+
+# Ejercicios
+
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+
+* 📝 **Ejercicio 4**: al cruce obtenido del ejercicio anterior incluye la longitud y latitud de los aeropuertos en `airports`, distinguiendo entre la latitud/longitud del aeropuerto en destino y en origen.
+
+* 📝 **Ejercicio 5**: filtra de `airports` solo aquellos aeropuertos de los que salgan vuelos. Repite el proceso filtrado solo aquellos a los que lleguen vuelos
+
+* 📝 **Ejercicio 6**: ¿de cuántos vuelos no disponemos información del avión? Elimina antes los vuelos que no tengan identificar (diferente a NA) del avión
+
+]
+
+.panel[.panel-name[Sol. Ej. 4]
+
+* 📝 **Ejercicio 4**: al cruce obtenido del ejercicio anterior incluye la longitud y latitud de los aeropuertos en `airports`, distinguiendo entre la latitud/longitud del aeropuerto en destino y en origen.
+
+
+```{r}
+flights_airlines_planes %>%
+  left_join(airports %>% select(faa, lat, lon),
+            by = c("origin" = "faa")) %>%
+  rename(lat_origin = lat, lon_origin = lon) %>% 
+  left_join(airports %>% select(faa, lat, lon),
+            by = c("dest" = "faa")) %>%
+  rename(lat_dest = lat, lon_dest = lon)
+```
+
+]
+
+.panel[.panel-name[Sol. Ej. 5]
+
+
+* 📝 **Ejercicio 5**: filtra de `airports` solo aquellos aeropuertos de los que salgan vuelos. Repite el proceso filtrado solo aquellos a los que lleguen vuelos
+
+```{r eval = FALSE}
+airports %>% 
+  semi_join(flights, by = c("faa" = "origin"))
+airports %>% 
+  semi_join(flights, by = c("faa" = "dest"))
+```
+
+]
+
+.panel[.panel-name[Sol. Ej. 6]
+
+
+```{r}
+flights %>% 
+  drop_na(tailnum) %>% 
+  anti_join(planes, by = "tailnum") %>%
+  count(tailnum, sort = TRUE) # de mayor a menor ya de paso
+```
+
+]
+]
+
+---
+
+name: extra-funciones
+
+# Practicando .orange[FUNCIONES]
+
+Vamos a profundizar un poco en la **.bg-purple_light[definición de funciones]** en R.
+
+
+* 📝 **Ejercicio 1**: sabiendo que la temperatura en grados es igual a la temperatura en Fahrenheit menos 32, y todo ello dividido entre 1.8, construye una función que convierta de ºF a ºC.
+
+--
+
+* 📝 **Ejercicio 2**: construye una función aún más genérica que incluya un argumento `celsius_to_fahr`, de forma que si vale `TRUE`, haga la conversión de ºC a ºF, y si vale `FALSE` de ºF a ºC
+
+--
+
+* 📝 **Ejercicio 3**: sabiendo que para pasar de ºC a Kelvin basta con sumar 273.15 a la temperatura en ºC, construye una función que parmita pasar de celsius a kelvin y viceversa, con un argumento `celsius_to_kelvin` que pueda ser `TRUE` o `FALSE`
+
+--
+
+* 📝 **Ejercicio 4**: haciendo uso de las funciones anteriores, construye una función de ºF a Kelvin y viceversa, con un argumento `fahr_to_kelvin` que pueda ser `TRUE` o `FALSE`
+
+--
+
+* 📝 **Ejercicio 5**: modifica las funciones anteriores para que, además de devolver el valor numérico, nos devuelva las unidades de salida.
 
 ---
 
@@ -9678,6 +10421,34 @@ name: clase-13
 
 # CLASE 13: entrega II
 
+---
+
+class: inverse center middle
+name: clase-14
+
+# CLASE 14: introducción al dataviz
+
+---
+
+class: inverse center middle
+name: clase-15
+
+# CLASE 15: profundizando en ggplot
+
+---
+
+class: inverse center middle
+name: clase-16
+
+# CLASE 16: profundizando en ggplot
+
+
+---
+
+class: inverse center middle
+name: clase-17
+
+# CLASE 17: entrega III
 
 ---
 
