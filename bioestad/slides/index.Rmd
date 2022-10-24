@@ -9808,9 +9808,19 @@ La función `owid_covid()` nos ha cargado sin darnos cuenta **.bg-purple_light[m
 
 # Importando datos: desde .orange[API]
 
+Este paquete tiene la función `owid_search()` para **.bg-purple_light[buscar datasets por palabras clave]**, por ejemplo, por `emissions`, dándonos un dataset con el título de la base de datos y su id para luego usarla.
 
-```{r eval = FALSE}
-owid_search("emissions")
+```{r}
+as_tibble(owid_search("emissions"))
+```
+
+---
+
+# Importando datos: desde .orange[API]
+
+Vamos a pedirle por ejemplo las emisiones per cápita de gases de efecto invernadero
+
+```{r}
 emissions <- owid("per-capita-ghg-emissions")
 emissions
 ```
@@ -9819,45 +9829,90 @@ emissions
 
 # Importando datos: desde .orange[API]
 
-En muchas ocasiones...
+En muchas ocasiones para **.bg-purple_light[conectar con la API tendremos antes que registrarnos y obtener una clave]**, es el caso del paquete `{climaemet}` para acceder a datos meteorológicos (ver documentación en <https://ropenspain.github.io/climaemet/). Dicha clave se puede obtener de manera inmediata en <https://opendata.aemet.es/centrodedescargas/altaUsuario>
 
-<https://opendata.aemet.es/centrodedescargas/altaUsuario>
+--
+
+&nbsp;
+
+Una vez que tenemos la clave la registramos en nuestro RStudio para poder usarla a futuro
+
+```{r echo = FALSE}
+# install.packages("climaemet")
+library(climaemet)
+```
 
 ```{r eval = FALSE}
-library(aemet)
+# install.packages("climaemet")
+library(climaemet)
+
+# Definir la clave
 apikey <- "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYXZhbHYwOUB1Y20uZXMiLCJqdGkiOiI4YTU1ODUxMS01MTE3LTQ4MTYtYmM4OS1hYmVkNDhiODBkYzkiLCJpc3MiOiJBRU1FVCIsImlhdCI6MTY2NjQ2OTcxNSwidXNlcklkIjoiOGE1NTg1MTEtNTExNy00ODE2LWJjODktYWJlZDQ4YjgwZGM5Iiwicm9sZSI6IiJ9.HEMR77lZy2ASjmOxJa8ppx2J8Za1IViurMX3p1reVBU"
-aemet::aemet_stations(apikey = apikey)
+aemet_api_key(apikey, install = TRUE)
 ```
-
 
 ---
 
 # Importando datos: desde .orange[API]
 
+Con dicho paquete podemos hacer una **.bg-purple_light[búsqueda de las estaciones meteorológicas]** para conocer tanto su código postal como su código identificador dentro de la red AEMET (por ejemplo, para acceder a la estación de el aeropuerto de El Prat, Barcelona, es el código 0076)
 
-```{r eval = FALSE}
-library(CatastRo)
-val_catr_code <- catr_get_code_from_coords(val)
-val_catr_code
-valencia_bu <- catr_atom_get_buildings(val_catr_code$catrcode)
+
+```{r}
+stations <- aemet_stations()
+stations
 ```
-
 
 ---
 
 # Importando datos: desde .orange[API]
 
+Una vez que tenemos el identificador podemos obtener los **.bg-purple_light[datos horarios de las últimas 24 horas]**, incluyendo no solo temperatura sino estadísticas del viento, la presión, etc
 
 ```{r eval = FALSE}
+aemet_last_obs("0076")
+```
+
+```{r echo = FALSE}
+knitr::kable(aemet_last_obs("0076"))
+```
+
+---
+
+# Importando datos: desde .orange[API]
+
+También podemos extraer los **.bg-purple_light[datos diarios en un intervalo de fechas]** que le proporciones con `aemet_daily_clim()`
+
+```{r eval = FALSE}
+aemet_daily_clim("0076", start = "2022-01-01", end = "2022-09-30")
+```
+
+
+
+```{r echo = FALSE}
+knitr::kable(aemet_daily_clim("0076", start = "2022-01-01", end = "2022-09-30"))
+```
+
+---
+
+# Importando datos: desde .orange[API]
+
+También se pueden importar datos desde las API de spotify (ver <https://www.rcharlie.com/spotifyr/>) como de Twitter (ver <https://github.com/ropensci/rtweet>)
+
+```{r eval = FALSE}
+# install.packages("rtweet")
+library(rtweet)
+# install.packages("spotifyr")
 library(spotifyr)
 ```
 
----
 
-# Importando datos: desde .orange[API]
-
-```{r eval = FALSE}
-library(twitteR)
+```{r}
+# install.packages("rtweet")
+library(rtweet)
+auth_setup_default()
+rt <- search_tweets("#pedrosanchez", n = 100, include_rts = FALSE)
+rt
 ```
 
 ---

@@ -4,6 +4,7 @@
     <title>GESTIÓN DE BASES DE DATOS</title>
     <meta charset="utf-8" />
     <meta name="author" content="Javier Álvarez Liébana (Fac. Estudios Estadísticos - UCM)" />
+    <script src="index_files/header-attrs-2.17/header-attrs.js"></script>
     <link href="index_files/tile-view-0.2.6/tile-view.css" rel="stylesheet" />
     <script src="index_files/tile-view-0.2.6/tile-view.js"></script>
     <link href="index_files/animate.css-3.7.2/animate.xaringan.css" rel="stylesheet" />
@@ -25,10 +26,18 @@
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
+.title[
 # GESTIÓN DE BASES DE DATOS
+]
+.subtitle[
 ## Máster en Bioestadística
+]
+.author[
 ### Javier Álvarez Liébana (Fac. Estudios Estadísticos - UCM)
-### Última actualización: 23-10-2022
+]
+.date[
+### Última actualización: 24-10-2022
+]
 
 ---
 
@@ -1760,7 +1769,7 @@ hoy
 ```
 
 ```
-&gt; [1] "2022-10-23"
+&gt; [1] "2022-10-24"
 ```
 
 --
@@ -1773,7 +1782,7 @@ También podemos obtener el **.bg-purple_light[«hoy y ahora»]** con la funció
 ```
 
 ```
-&gt; [1] "2022-10-23 23:35:39 CEST"
+&gt; [1] "2022-10-24 12:17:31 CEST"
 ```
  
 ---
@@ -2157,7 +2166,7 @@ hoy - cumple
 ```
 
 ```
-&gt; Time difference of 12096 days
+&gt; Time difference of 12097 days
 ```
 
 ]
@@ -2272,8 +2281,8 @@ wday(cumple, week_start = 1, label = TRUE)
 ```
 
 ```
-&gt; [1] dom
-&gt; Levels: lun &lt; mar &lt; mié &lt; jue &lt; vie &lt; sáb &lt; dom
+&gt; [1] do\\.
+&gt; Levels: lu\\. &lt; ma\\. &lt; mi\\. &lt; ju\\. &lt; vi\\. &lt; sá\\. &lt; do\\.
 ```
 
 ]
@@ -3079,9 +3088,9 @@ x &lt;- rnorm(1e3) # 1000 elementos aleatorias
 
 ```
 &gt; Unit: microseconds
-&gt;         expr    min      lq     mean median      uq     max neval cld
-&gt;      sort(x) 43.241 46.0120 53.54165 48.501 56.1525 160.266  1000   b
-&gt;  x[order(x)] 30.574 32.5655 37.42333 34.417 39.3080 148.147  1000  a
+&gt;         expr    min      lq     mean median     uq     max neval
+&gt;      sort(x) 58.201 61.7010 71.59240 62.902 66.700 270.800  1000
+&gt;  x[order(x)] 39.501 42.0005 48.89748 43.000 44.701 216.302  1000
 ```
 
 --
@@ -4903,7 +4912,6 @@ tabla_tb
 &gt;  9     9 d     TRUE  
 &gt; 10    10 e     FALSE 
 &gt; # … with 40 more rows
-&gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 
@@ -4936,7 +4944,6 @@ Puedes **imprimir las filas y columnas** que quieras con `print()`
 &gt; 11    11 a     TRUE  
 &gt; 12    12 b     FALSE 
 &gt; # … with 38 more rows
-&gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 ---
@@ -5085,7 +5092,6 @@ as_tibble(USArrests)
 &gt;  9   15.4     335       80  31.9
 &gt; 10   17.4     211       60  25.8
 &gt; # … with 40 more rows
-&gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 Puedes consultar **más funcionalidades** de dichos datos en &lt;https://tibble.tidyverse.org/&gt;
@@ -5252,7 +5258,6 @@ filtro_fila
 &gt;  9   110     207   8      90     8     9
 &gt; 10    NA     222   8.6    92     8    10
 &gt; # … with 21 more rows
-&gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 ]
 
@@ -5305,7 +5310,6 @@ subset(airquality, subset = !(Month %in% c(7, 8)))
 &gt;  9     8      19  20.1    61     5     9
 &gt; 10    NA     194   8.6    69     5    10
 &gt; # … with 81 more rows
-&gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 ]
@@ -5334,7 +5338,6 @@ filtro_col
 &gt;  9     8    61
 &gt; 10    NA    69
 &gt; # … with 143 more rows
-&gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 ]
@@ -5362,7 +5365,6 @@ datos
 &gt;  9    90   8  
 &gt; 10    92   8.6
 &gt; # … with 21 more rows
-&gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 ```r
@@ -5404,7 +5406,6 @@ nuevos_datos
 &gt;  9     8      19  20.1    61     5     9 1973-05-09
 &gt; 10    NA     194   8.6    69     5    10 1973-05-10
 &gt; # … with 143 more rows
-&gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 ]
@@ -6329,12 +6330,12 @@ microbenchmark(x^2,
 
 ```
 &gt; Unit: nanoseconds
-&gt;                                     expr     min      lq        mean    median
-&gt;                                      x^2     355     466    1257.409    1050.5
-&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 1742089 1895516 2160343.723 2010911.5
-&gt;         uq      max neval cld
-&gt;     1851.5    28407  1000  a 
-&gt;  2237388.5 13097885  1000   b
+&gt;                                     expr     min      lq        mean  median
+&gt;                                      x^2     200     302    1204.412    1100
+&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 2095500 2194551 2585031.491 2323201
+&gt;         uq      max neval
+&gt;     1500.5    27601  1000
+&gt;  2533651.5 94299900  1000
 ```
 
 ---
@@ -6647,7 +6648,7 @@ sample(x = 0:1, size = 30, replace = TRUE)
 ```
 
 ```
-&gt;  [1] 0 0 1 0 1 0 1 1 0 1 1 0 1 0 1 0 1 1 0 1 1 0 0 1 1 0 0 0 1 0
+&gt;  [1] 0 1 1 0 1 0 0 0 1 0 0 1 1 0 0 0 0 1 0 0 1 1 0 1 0 1 0 0 0 1
 ```
 
 ---
@@ -6662,7 +6663,7 @@ sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
 ```
 
 ```
-&gt;  [1] "cruz" "cara" "cruz" "cruz" "cruz" "cruz" "cruz" "cruz" "cara" "cara"
+&gt;  [1] "cruz" "cara" "cruz" "cara" "cruz" "cruz" "cruz" "cruz" "cruz" "cara"
 ```
 
 --
@@ -6675,7 +6676,7 @@ sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
 ```
 
 ```
-&gt;  [1] "cara" "cruz" "cruz" "cara" "cruz" "cruz" "cruz" "cruz" "cruz" "cara"
+&gt;  [1] "cara" "cara" "cara" "cara" "cruz" "cara" "cara" "cara" "cara" "cruz"
 ```
 
 ---
@@ -7637,7 +7638,6 @@ relig_income
 &gt; # … with 2 more variables: `&gt;150k` &lt;dbl&gt;, `Don't know/refused` &lt;dbl&gt;, and
 &gt; #   abbreviated variable names ¹​`$10-20k`, ²​`$20-30k`, ³​`$30-40k`, ⁴​`$40-50k`,
 &gt; #   ⁵​`$50-75k`, ⁶​`$75-100k`, ⁷​`$100-150k`
-&gt; # ℹ Use `colnames()` to see all variable names
 ```
 
 **.bg-purple_light[TODO TUYO]**: ¿es tidy o messy? ¿Cómo convertirla a tidy data en caso de que no lo sea ya?
@@ -7669,7 +7669,6 @@ relig_income %&gt;%
 &gt;  9 Agnostic &gt;150k                  84
 &gt; 10 Agnostic Don't know/refused     96
 &gt; # … with 170 more rows
-&gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 ]
@@ -8675,12 +8674,12 @@ microbenchmark(sqrt(x), for (i in 1:1000) { y[i] &lt;- sqrt(x[i]) }, times = 1e3
 
 ```
 &gt; Unit: microseconds
-&gt;                                          expr      min       lq      mean
-&gt;                                       sqrt(x)    2.314    2.819    4.1975
-&gt;  for (i in 1:1000) {     y[i] &lt;- sqrt(x[i]) } 1815.588 1969.149 2285.4987
-&gt;    median        uq      max neval cld
-&gt;     3.538    4.1165   33.550  1000  a 
-&gt;  2094.087 2384.0000 9697.645  1000   b
+&gt;                                          expr      min       lq        mean
+&gt;                                       sqrt(x)    4.702    5.200    6.436333
+&gt;  for (i in 1:1000) {     y[i] &lt;- sqrt(x[i]) } 2131.901 2213.051 2492.017809
+&gt;    median      uq      max neval
+&gt;     5.800    6.40   83.001  1000
+&gt;  2315.202 2548.65 7287.202  1000
 ```
 
 
@@ -8764,11 +8763,11 @@ microbenchmark(map(x, .f = function(x) { mean(x^2) }), lapply(x, FUN = function(
 ```
 &gt; Unit: milliseconds
 &gt;                                            expr      min       lq     mean
-&gt;      map(x, .f = function(x) {     mean(x^2) }) 5.590447 6.227360 8.330858
-&gt;  lapply(x, FUN = function(x) {     mean(x^2) }) 5.407099 6.127187 8.256562
-&gt;    median       uq       max neval cld
-&gt;  7.341453 7.918372  45.70966  1000   a
-&gt;  7.201513 7.805942 181.40017  1000   a
+&gt;      map(x, .f = function(x) {     mean(x^2) }) 8.221602 9.229200 10.58022
+&gt;  lapply(x, FUN = function(x) {     mean(x^2) }) 8.183101 9.071951 10.47581
+&gt;    median       uq     max neval
+&gt;  10.32135 10.97305 27.4943  1000
+&gt;  10.17385 10.77850 98.9652  1000
 ```
 
 
@@ -10127,7 +10126,6 @@ starwars %&gt;%
 &gt; # … with 11 more rows, 4 more variables: species &lt;chr&gt;, films &lt;list&gt;,
 &gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names
 &gt; #   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
-&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
 ---
@@ -10175,7 +10173,6 @@ starwars %&gt;%
 &gt; # … with 56 more rows, 4 more variables: species &lt;chr&gt;, films &lt;list&gt;,
 &gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names
 &gt; #   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
-&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
 ---
@@ -10210,7 +10207,6 @@ starwars %&gt;%
 &gt; # … with 30 more rows, 4 more variables: species &lt;chr&gt;, films &lt;list&gt;,
 &gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names
 &gt; #   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
-&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
 ---
@@ -10319,7 +10315,6 @@ starwars %&gt;% drop_na(mass, height, sex, gender)
 &gt; # … with 48 more rows, 4 more variables: species &lt;chr&gt;, films &lt;list&gt;,
 &gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names
 &gt; #   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
-&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
 ---
@@ -10368,7 +10363,6 @@ starwars %&gt;%
 &gt; # … with 25 more rows, 4 more variables: species &lt;chr&gt;, films &lt;list&gt;,
 &gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names
 &gt; #   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
-&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
 ]
@@ -10398,7 +10392,6 @@ starwars %&gt;%
 &gt; # … with 22 more rows, 4 more variables: species &lt;chr&gt;, films &lt;list&gt;,
 &gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names
 &gt; #   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
-&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
 ]
@@ -10428,7 +10421,6 @@ starwars %&gt;%
 &gt; # … with 16 more rows, 4 more variables: species &lt;chr&gt;, films &lt;list&gt;,
 &gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names
 &gt; #   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
-&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
 ]
@@ -10459,7 +10451,6 @@ starwars %&gt;%
 &gt; # … with 16 more rows, 4 more variables: species &lt;chr&gt;, films &lt;list&gt;,
 &gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names
 &gt; #   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
-&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
 ]
@@ -10483,7 +10474,6 @@ starwars %&gt;% filter(n_starships &gt; 2)
 &gt; # … with 5 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, n_starships &lt;int&gt;, and abbreviated variable names
 &gt; #   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
-&gt; # ℹ Use `colnames()` to see all variable names
 ```
 
 
@@ -10545,7 +10535,6 @@ Normalmente filtraremos registros por alguna condición pero no siempre, a veces
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
-&gt; # ℹ Use `colnames()` to see all variable names
 ```
 
 ---
@@ -10593,7 +10582,6 @@ starwars %&gt;% slice(1:5)
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
-&gt; # ℹ Use `colnames()` to see all variable names
 ```
 
 ---
@@ -10620,7 +10608,6 @@ starwars %&gt;% slice(c(1, 2, 10, 13, 27))
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
-&gt; # ℹ Use `colnames()` to see all variable names
 ```
 
 
@@ -10649,7 +10636,6 @@ starwars %&gt;% slice_head(n = 2)
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
-&gt; # ℹ Use `colnames()` to see all variable names
 ```
 
 ---
@@ -10675,7 +10661,6 @@ starwars %&gt;% slice_tail(n = 3)
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
-&gt; # ℹ Use `colnames()` to see all variable names
 ```
 
 ---
@@ -10702,7 +10687,6 @@ starwars %&gt;% slice_sample(n = 3)
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
-&gt; # ℹ Use `colnames()` to see all variable names
 ```
 
 ---
@@ -10727,7 +10711,6 @@ starwars %&gt;% slice_sample(prop = 0.025)
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
-&gt; # ℹ Use `colnames()` to see all variable names
 ```
 
 ---
@@ -10866,7 +10849,6 @@ starwars %&gt;% arrange(height, desc(mass))
 &gt; # … with 77 more rows, 4 more variables: species &lt;chr&gt;, films &lt;list&gt;,
 &gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names
 &gt; #   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
-&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
 ---
@@ -10898,7 +10880,6 @@ starwars %&gt;% distinct(hair_color, eye_color)
 &gt;  9 auburn, white blue-gray
 &gt; 10 auburn, grey  blue     
 &gt; # … with 25 more rows
-&gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 ]
@@ -10928,7 +10909,6 @@ starwars %&gt;% distinct(hair_color, eye_color, .keep_all = TRUE)
 &gt; # … with 25 more rows, 4 more variables: species &lt;chr&gt;, films &lt;list&gt;,
 &gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names
 &gt; #   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
-&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
 ]
@@ -11002,7 +10982,6 @@ starwars %&gt;%
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
-&gt; # ℹ Use `colnames()` to see all variable names
 ```
 
 ]
@@ -11054,7 +11033,6 @@ starwars %&gt;%
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
-&gt; # ℹ Use `colnames()` to see all variable names
 ```
 
 ]
@@ -11102,7 +11080,6 @@ starwars %&gt;%
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
-&gt; # ℹ Use `colnames()` to see all variable names
 ```
 
 ]
@@ -11153,7 +11130,6 @@ starwars %&gt;%
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
-&gt; # ℹ Use `colnames()` to see all variable names
 ```
 
 ]
@@ -11205,7 +11181,6 @@ starwars %&gt;%
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
-&gt; # ℹ Use `colnames()` to see all variable names
 ```
 
 ]
@@ -11268,7 +11243,6 @@ starwars %&gt;%
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
-&gt; # ℹ Use `colnames()` to see all variable names
 ```
 
 ]
@@ -11291,7 +11265,6 @@ starwars %&gt;%
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
-&gt; # ℹ Use `colnames()` to see all variable names
 ```
 
 
@@ -11310,7 +11283,6 @@ starwars %&gt;%
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
-&gt; # ℹ Use `colnames()` to see all variable names
 ```
 
 
@@ -11339,7 +11311,6 @@ starwars %&gt;%
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
-&gt; # ℹ Use `colnames()` to see all variable names
 ```
 
 ]
@@ -11363,7 +11334,6 @@ starwars %&gt;%
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
-&gt; # ℹ Use `colnames()` to see all variable names
 ```
 
 
@@ -11382,7 +11352,6 @@ starwars %&gt;%
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
-&gt; # ℹ Use `colnames()` to see all variable names
 ```
 ]
 
@@ -11500,7 +11469,6 @@ starwars %&gt;%
 &gt;  9 Biggs Darklighter  black        
 &gt; 10 Obi-Wan Kenobi     auburn, white
 &gt; # … with 77 more rows
-&gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 
@@ -11530,7 +11498,6 @@ starwars %&gt;% select(name, hair_color)
 &gt;  9 Biggs Darklighter  black        
 &gt; 10 Obi-Wan Kenobi     auburn, white
 &gt; # … with 77 more rows
-&gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 ]
@@ -11573,7 +11540,6 @@ starwars %&gt;% select(name:skin_color)
 &gt;  9 Biggs Darklighter     183    84 black         light      
 &gt; 10 Obi-Wan Kenobi        182    77 auburn, white fair       
 &gt; # … with 77 more rows
-&gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 ---
@@ -11602,7 +11568,6 @@ starwars %&gt;% select(-c(mass:eye_color), -species, -c(films:starships))
 &gt;  9 Biggs Darklighter     183       24   male   masculine Tatooine 
 &gt; 10 Obi-Wan Kenobi        182       57   male   masculine Stewjon  
 &gt; # … with 77 more rows
-&gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 ---
@@ -11634,7 +11599,6 @@ starwars %&gt;% select(ends_with("color"))
 &gt;  9 black         light       brown    
 &gt; 10 auburn, white fair        blue-gray
 &gt; # … with 77 more rows
-&gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 ---
@@ -11669,7 +11633,6 @@ who %&gt;% select(country, year, starts_with("new_sp"))
 &gt; #   new_sp_f5564 &lt;int&gt;, new_sp_f65 &lt;int&gt;, and abbreviated variable names
 &gt; #   ¹​new_sp_m014, ²​new_sp_m1524, ³​new_sp_m2534, ⁴​new_sp_m3544, ⁵​new_sp_m4554,
 &gt; #   ⁶​new_sp_m5564, ⁷​new_sp_m65, ⁸​new_sp_f014
-&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
 ---
@@ -11723,7 +11686,6 @@ billboard %&gt;% select(num_range("wk", 10:15))
 &gt;  9    10     9     8     6     1     2
 &gt; 10    59    66    68    61    67    59
 &gt; # … with 307 more rows
-&gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 ---
@@ -11755,7 +11717,6 @@ starwars %&gt;% select(where(is.numeric) | where(is.character))
 &gt; 10    182    77       57   Obi-Wan… auburn… fair    blue-g… male  mascu… Stewjon
 &gt; # … with 77 more rows, 1 more variable: species &lt;chr&gt;, and abbreviated variable
 &gt; #   names ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​homeworld
-&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
 ---
@@ -11786,7 +11747,6 @@ starwars %&gt;%  select(c(species, name, birth_year, everything()))
 &gt; # … with 77 more rows, 4 more variables: homeworld &lt;chr&gt;, films &lt;list&gt;,
 &gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names
 &gt; #   ¹​birth_year, ²​hair_color, ³​skin_color, ⁴​eye_color
-&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
 ---
@@ -11840,7 +11800,6 @@ starwars %&gt;% relocate(species, .before = name)
 &gt; # … with 77 more rows, 4 more variables: homeworld &lt;chr&gt;, films &lt;list&gt;,
 &gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names
 &gt; #   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year
-&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
 ---
@@ -11894,7 +11853,6 @@ starwars %&gt;% select(name)
 &gt;  9 Biggs Darklighter 
 &gt; 10 Obi-Wan Kenobi    
 &gt; # … with 77 more rows
-&gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 ]
@@ -11994,7 +11952,6 @@ starwars %&gt;%
 &gt; # … with 77 more rows, 4 more variables: species &lt;chr&gt;, films &lt;list&gt;,
 &gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names
 &gt; #   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
-&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
 
@@ -12046,7 +12003,6 @@ starwars_NA
 &gt; # … with 71 more rows, 4 more variables: species &lt;chr&gt;, films &lt;list&gt;,
 &gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names
 &gt; #   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
-&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
 ]
@@ -12075,7 +12031,6 @@ starwars %&gt;%
 &gt;  9 Biggs Darklighter     183 black         light       brown    
 &gt; 10 Obi-Wan Kenobi        182 auburn, white fair        blue-gray
 &gt; # … with 71 more rows
-&gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 ]
@@ -12109,7 +12064,6 @@ starwars %&gt;%
 &gt;  9 Biggs Darklighter     183 black         light       brown     
 &gt; 10 Obi-Wan Kenobi        182 auburn, white fair        blue-gray 
 &gt; # … with 71 more rows
-&gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 ]
@@ -12144,7 +12098,6 @@ starwars %&gt;%
 &gt;  9 Biggs Darklighter  black            183 light       brown     
 &gt; 10 Obi-Wan Kenobi     auburn, white    182 fair        blue-gray 
 &gt; # … with 71 more rows
-&gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 ]
@@ -12255,7 +12208,6 @@ starwars %&gt;%
 &gt; # … with 77 more rows, 5 more variables: species &lt;chr&gt;, films &lt;list&gt;,
 &gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, height_m &lt;dbl&gt;, and abbreviated variable
 &gt; #   names ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
-&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
 ---
@@ -12300,7 +12252,6 @@ starwars %&gt;%
 &gt;  9     1.83
 &gt; 10     1.82
 &gt; # … with 77 more rows
-&gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 ---
@@ -12352,7 +12303,6 @@ starwars %&gt;%
 &gt; # … with 77 more rows, 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,
 &gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable
 &gt; #   names ¹​height_m, ²​hair_color, ³​skin_color, ⁴​eye_color, ⁵​birth_year
-&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
 ---
@@ -12385,7 +12335,6 @@ starwars %&gt;%
 &gt; # … with 77 more rows, 4 more variables: species &lt;chr&gt;, films &lt;list&gt;,
 &gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names
 &gt; #   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
-&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
 
@@ -12427,7 +12376,6 @@ starwars %&gt;% mutate(height = case_when(height &gt; 180 ~ "alto",
 &gt; # … with 77 more rows, 4 more variables: species &lt;chr&gt;, films &lt;list&gt;,
 &gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names
 &gt; #   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
-&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
 ---
@@ -12466,7 +12414,6 @@ starwars %&gt;%
 &gt; # … with 77 more rows, 5 more variables: species &lt;chr&gt;, films &lt;list&gt;,
 &gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, type &lt;chr&gt;, and abbreviated variable
 &gt; #   names ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
-&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
 ---
@@ -12518,7 +12465,6 @@ starwars_nueva
 &gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, n_films &lt;int&gt;, n_vehicles &lt;int&gt;,
 &gt; #   n_starships &lt;int&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
-&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
 ]
@@ -12554,7 +12500,6 @@ starwars_nueva
 &gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, n_films &lt;int&gt;, n_vehicles &lt;int&gt;,
 &gt; #   n_starships &lt;int&gt;, frequency &lt;chr&gt;, and abbreviated variable names
 &gt; #   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
-&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
 ]
@@ -12588,7 +12533,6 @@ starwars_nueva
 &gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, n_films &lt;int&gt;, n_vehicles &lt;int&gt;,
 &gt; #   n_starships &lt;int&gt;, frequency &lt;chr&gt;, and abbreviated variable names
 &gt; #   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
-&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
 ]
@@ -12622,7 +12566,6 @@ starwars_nueva
 &gt; #   homeworld &lt;chr&gt;, species &lt;chr&gt;, frequency &lt;chr&gt;, under_18 &lt;lgl&gt;, and
 &gt; #   abbreviated variable names ¹​n_vehicles, ²​n_starships, ³​hair_color,
 &gt; #   ⁴​skin_color, ⁵​eye_color
-&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
 
@@ -12673,7 +12616,6 @@ starwars %&gt;%
 &gt;  9 Ewok          
 &gt; 10 Sullustan     
 &gt; # … with 27 more rows
-&gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 ```r
@@ -12700,7 +12642,6 @@ starwars %&gt;%
 &gt; # … with 27 more rows, 4 more variables: species &lt;chr&gt;, films &lt;list&gt;,
 &gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names
 &gt; #   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
-&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
 ]
@@ -12731,7 +12672,6 @@ starwars %&gt;%
 &gt; # … with 72 more rows, 5 more variables: species &lt;chr&gt;, films &lt;list&gt;,
 &gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, auburn &lt;lgl&gt;, and abbreviated variable
 &gt; #   names ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
-&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
 ]
@@ -13282,7 +13222,6 @@ starwars %&gt;%
 &gt;  9 Geonosian     1
 &gt; 10 Gungan        3
 &gt; # … with 28 more rows
-&gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 ```r
@@ -13306,7 +13245,6 @@ starwars %&gt;%
 &gt;  9 Geonosian     1
 &gt; 10 Gungan        3
 &gt; # … with 28 more rows
-&gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 ]
@@ -13422,7 +13360,6 @@ starwars %&gt;%
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
-&gt; # ℹ Use `colnames()` to see all variable names
 ```
   
 ]
@@ -13526,7 +13463,6 @@ starwars %&gt;%
 &gt;  9 male                     20     4
 &gt; 10 male                     30     3
 &gt; # … with 16 more rows
-&gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 ]
@@ -14638,7 +14574,6 @@ as_tibble(titanic)
 &gt;  9           9        1      3 Johns… fema…    27     0     2 347742 11.1  ""   
 &gt; 10          10        1      2 Nasse… fema…    14     1     0 237736 30.1  ""   
 &gt; # … with 881 more rows, and 1 more variable: Embarked &lt;fct&gt;
-&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
 ---
@@ -14668,7 +14603,6 @@ as_tibble(titanic)
 &gt;  9           9        1      3 Johns… fema…    27     0     2 347742 11.1  ""   
 &gt; 10          10        1      2 Nasse… fema…    14     1     0 237736 30.1  ""   
 &gt; # … with 881 more rows, and 1 more variable: Embarked &lt;fct&gt;
-&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
 ---
@@ -14977,7 +14911,6 @@ read_csv(file = "./datos/starwars.csv")
 &gt; 10 Obi-Wan Ke…    182    77 auburn… fair    blue-g…    57   male  mascu… Stewjon
 &gt; # … with 77 more rows, 1 more variable: species &lt;chr&gt;, and abbreviated variable
 &gt; #   names ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
-&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
 ---
@@ -15000,23 +14933,22 @@ momo_datos
 &gt; # A tibble: 500,000 × 15
 &gt;    ambito   cod_amb…¹ cod_i…² nombr…³ cod_s…⁴ nombr…⁵ cod_g…⁶ nombr…⁷ fecha_de…⁸
 &gt;    &lt;chr&gt;    &lt;chr&gt;       &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;date&gt;    
-&gt;  1 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   all     todos   2022-10-28
-&gt;  2 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   +85     edad &gt;… 2022-10-28
-&gt;  3 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   0-14    edad 0… 2022-10-28
-&gt;  4 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   15-44   edad 1… 2022-10-28
-&gt;  5 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   45-64   edad 4… 2022-10-28
-&gt;  6 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   65-74   edad 6… 2022-10-28
-&gt;  7 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   75-84   edad 7… 2022-10-28
-&gt;  8 nacional &lt;NA&gt;           NA &lt;NA&gt;    1       hombres all     todos   2022-10-28
-&gt;  9 nacional &lt;NA&gt;           NA &lt;NA&gt;    1       hombres +85     edad &gt;… 2022-10-28
-&gt; 10 nacional &lt;NA&gt;           NA &lt;NA&gt;    1       hombres 0-14    edad 0… 2022-10-28
+&gt;  1 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   all     todos   2022-10-29
+&gt;  2 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   +85     edad &gt;… 2022-10-29
+&gt;  3 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   0-14    edad 0… 2022-10-29
+&gt;  4 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   15-44   edad 1… 2022-10-29
+&gt;  5 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   45-64   edad 4… 2022-10-29
+&gt;  6 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   65-74   edad 6… 2022-10-29
+&gt;  7 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   75-84   edad 7… 2022-10-29
+&gt;  8 nacional &lt;NA&gt;           NA &lt;NA&gt;    1       hombres all     todos   2022-10-29
+&gt;  9 nacional &lt;NA&gt;           NA &lt;NA&gt;    1       hombres +85     edad &gt;… 2022-10-29
+&gt; 10 nacional &lt;NA&gt;           NA &lt;NA&gt;    1       hombres 0-14    edad 0… 2022-10-29
 &gt; # … with 499,990 more rows, 6 more variables: defunciones_observadas &lt;dbl&gt;,
 &gt; #   defunciones_estimadas_base &lt;dbl&gt;, defunciones_estimadas_base_q01 &lt;dbl&gt;,
 &gt; #   defunciones_estimadas_base_q99 &lt;dbl&gt;, defunciones_atrib_exc_temp &lt;dbl&gt;,
 &gt; #   defunciones_atrib_def_temp &lt;dbl&gt;, and abbreviated variable names
 &gt; #   ¹​cod_ambito, ²​cod_ine_ambito, ³​nombre_ambito, ⁴​cod_sexo, ⁵​nombre_sexo,
 &gt; #   ⁶​cod_gedad, ⁷​nombre_gedad, ⁸​fecha_defuncion
-&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
 ---
@@ -15049,7 +14981,6 @@ discurso_2021
 &gt;  9 Estos son algunos ejemplos de los retos que tenemos por delante y que muestr…
 &gt; 10 Ante esta situación ¿qué hacer?, ¿tenemos que dejarnos llevar por el pesimis…
 &gt; # … with 16 more rows
-&gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 ---
@@ -15200,7 +15131,6 @@ mtcars
 &gt;  9  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2
 &gt; 10  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4
 &gt; # … with 22 more rows
-&gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 ---
@@ -15284,7 +15214,6 @@ iris_sas
 &gt;  9          4.4         2.9          1.4         0.2 setosa 
 &gt; 10          4.9         3.1          1.5         0.1 setosa 
 &gt; # … with 140 more rows
-&gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 ---
@@ -15303,8 +15232,8 @@ iris_spss
 
 ```
 &gt; # A tibble: 150 × 5
-&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width    Species
-&gt;           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt;  &lt;dbl+lbl&gt;
+&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width Species   
+&gt;           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;dbl+lbl&gt; 
 &gt;  1          5.1         3.5          1.4         0.2 1 [setosa]
 &gt;  2          4.9         3            1.4         0.2 1 [setosa]
 &gt;  3          4.7         3.2          1.3         0.2 1 [setosa]
@@ -15316,7 +15245,6 @@ iris_spss
 &gt;  9          4.4         2.9          1.4         0.2 1 [setosa]
 &gt; 10          4.9         3.1          1.5         0.1 1 [setosa]
 &gt; # … with 140 more rows
-&gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 ---
@@ -15349,7 +15277,6 @@ iris_stata
 &gt;  9        4.40       2.90        1.40      0.200 setosa 
 &gt; 10        4.90       3.10        1.5       0.100 setosa 
 &gt; # … with 140 more rows
-&gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 
@@ -15367,7 +15294,7 @@ owid_covid()
 ```
 
 ```
-&gt; # A tibble: 229,445 × 67
+&gt; # A tibble: 229,676 × 67
 &gt;    iso_code continent locat…¹ date       total…² new_c…³ new_c…⁴ total…⁵ new_d…⁶
 &gt;    &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;   &lt;date&gt;       &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
 &gt;  1 AFG      Asia      Afghan… 2020-02-24       5       5  NA          NA      NA
@@ -15380,14 +15307,13 @@ owid_covid()
 &gt;  8 AFG      Asia      Afghan… 2020-03-02       5       0   0          NA      NA
 &gt;  9 AFG      Asia      Afghan… 2020-03-03       5       0   0          NA      NA
 &gt; 10 AFG      Asia      Afghan… 2020-03-04       5       0   0          NA      NA
-&gt; # … with 229,435 more rows, 58 more variables: new_deaths_smoothed &lt;dbl&gt;,
+&gt; # … with 229,666 more rows, 58 more variables: new_deaths_smoothed &lt;dbl&gt;,
 &gt; #   total_cases_per_million &lt;dbl&gt;, new_cases_per_million &lt;dbl&gt;,
 &gt; #   new_cases_smoothed_per_million &lt;dbl&gt;, total_deaths_per_million &lt;dbl&gt;,
 &gt; #   new_deaths_per_million &lt;dbl&gt;, new_deaths_smoothed_per_million &lt;dbl&gt;,
 &gt; #   reproduction_rate &lt;dbl&gt;, icu_patients &lt;dbl&gt;,
 &gt; #   icu_patients_per_million &lt;dbl&gt;, hosp_patients &lt;dbl&gt;,
 &gt; #   hosp_patients_per_million &lt;dbl&gt;, weekly_icu_admissions &lt;dbl&gt;, …
-&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
 ---
@@ -15407,61 +15333,486 @@ La función `owid_covid()` nos ha cargado sin darnos cuenta **.bg-purple_light[m
 
 # Importando datos: desde .orange[API]
 
+Este paquete tiene la función `owid_search()` para **.bg-purple_light[buscar datasets por palabras clave]**, por ejemplo, por `emissions`, dándonos un dataset con el título de la base de datos y su id para luego usarla.
 
 
 ```r
-owid_search("emissions")
+as_tibble(owid_search("emissions"))
+```
+
+```
+&gt; # A tibble: 132 × 2
+&gt;    titles                                                 chart_id              
+&gt;    &lt;chr&gt;                                                  &lt;chr&gt;                 
+&gt;  1 Air pollutant emissions                                air-pollutant-emissio…
+&gt;  2 Emissions of air pollutants                            emissions-of-air-poll…
+&gt;  3 Emissions of air pollutants                            emissions-of-air-poll…
+&gt;  4 Emissions of particulate matter                        emissions-of-particul…
+&gt;  5 Global SO₂ emissions                                   global-so-emissions   
+&gt;  6 Global sulphur dioxide (SO₂) emissions by world region so-emissions-by-world…
+&gt;  7 Sulphur dioxide (SO₂) emissions                        so2-emissions         
+&gt;  8 Sulphur dioxide (SO₂) emissions                        so-emissions-tonnes-p…
+&gt;  9 Sulphur dioxide (SO₂) emissions per capita             so-emissions-per-capi…
+&gt; 10 Sulphur oxide (SO₂) emissions                          sulphur-oxide-emissio…
+&gt; # … with 122 more rows
+```
+
+---
+
+# Importando datos: desde .orange[API]
+
+Vamos a pedirle por ejemplo las emisiones per cápita de gases de efecto invernadero
+
+
+```r
 emissions &lt;- owid("per-capita-ghg-emissions")
 emissions
 ```
 
+```
+&gt; # A tibble: 6,149 × 4
+&gt;    entity      code   year `Total including LUCF`
+&gt;  * &lt;chr&gt;       &lt;chr&gt; &lt;int&gt;                  &lt;dbl&gt;
+&gt;  1 Afghanistan AFG    1990                  0.772
+&gt;  2 Afghanistan AFG    1991                  0.738
+&gt;  3 Afghanistan AFG    1992                  0.623
+&gt;  4 Afghanistan AFG    1993                  0.576
+&gt;  5 Afghanistan AFG    1994                  0.536
+&gt;  6 Afghanistan AFG    1995                  0.529
+&gt;  7 Afghanistan AFG    1996                  0.563
+&gt;  8 Afghanistan AFG    1997                  0.598
+&gt;  9 Afghanistan AFG    1998                  0.628
+&gt; 10 Afghanistan AFG    1999                  0.658
+&gt; # … with 6,139 more rows
+```
+
 ---
 
 # Importando datos: desde .orange[API]
 
-En muchas ocasiones...
+En muchas ocasiones para **.bg-purple_light[conectar con la API tendremos antes que registrarnos y obtener una clave]**, es el caso del paquete `{climaemet}` para acceder a datos meteorológicos (ver documentación en &lt;https://ropenspain.github.io/climaemet/). Dicha clave se puede obtener de manera inmediata en &lt;https://opendata.aemet.es/centrodedescargas/altaUsuario&gt;
 
-&lt;https://opendata.aemet.es/centrodedescargas/altaUsuario&gt;
+--
+
+&amp;nbsp;
+
+Una vez que tenemos la clave la registramos en nuestro RStudio para poder usarla a futuro
+
+
 
 
 ```r
-library(aemet)
+# install.packages("climaemet")
+library(climaemet)
+
+# Definir la clave
 apikey &lt;- "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYXZhbHYwOUB1Y20uZXMiLCJqdGkiOiI4YTU1ODUxMS01MTE3LTQ4MTYtYmM4OS1hYmVkNDhiODBkYzkiLCJpc3MiOiJBRU1FVCIsImlhdCI6MTY2NjQ2OTcxNSwidXNlcklkIjoiOGE1NTg1MTEtNTExNy00ODE2LWJjODktYWJlZDQ4YjgwZGM5Iiwicm9sZSI6IiJ9.HEMR77lZy2ASjmOxJa8ppx2J8Za1IViurMX3p1reVBU"
-aemet::aemet_stations(apikey = apikey)
+aemet_api_key(apikey, install = TRUE)
 ```
-
 
 ---
 
 # Importando datos: desde .orange[API]
 
+Con dicho paquete podemos hacer una **.bg-purple_light[búsqueda de las estaciones meteorológicas]** para conocer tanto su código postal como su código identificador dentro de la red AEMET (por ejemplo, para acceder a la estación de el aeropuerto de El Prat, Barcelona, es el código 0076)
+
 
 
 ```r
-library(CatastRo)
-val_catr_code &lt;- catr_get_code_from_coords(val)
-val_catr_code
-valencia_bu &lt;- catr_atom_get_buildings(val_catr_code$catrcode)
+stations &lt;- aemet_stations()
+stations
 ```
 
+```
+&gt; # A tibble: 291 × 7
+&gt;    indicativo indsinop nombre                 provincia altitud longitud latitud
+&gt;    &lt;chr&gt;      &lt;chr&gt;    &lt;chr&gt;                  &lt;chr&gt;       &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;
+&gt;  1 0252D      "08186"  ARENYS DE MAR          BARCELONA      74     2.54    41.6
+&gt;  2 0076       "08181"  BARCELONA AEROPUERTO   BARCELONA       4     2.07    41.3
+&gt;  3 0200E      ""       BARCELONA, FABRA       BARCELONA     408     2.12    41.4
+&gt;  4 0201D      "08180"  BARCELONA              BARCELONA       6     2.2     41.4
+&gt;  5 0149X      "08174"  MANRESA                BARCELONA     291     1.84    41.7
+&gt;  6 0229I      "08192"  SABADELL AEROPUERTO    BARCELONA     146     2.10    41.5
+&gt;  7 0255B      "08188"  SANTA SUSANNA          BARCELONA      40     2.70    41.7
+&gt;  8 0367       "08184"  GIRONA AEROPUERTO      GIRONA        143     2.76    41.9
+&gt;  9 0370B      ""       GIRONA, ANTIC INSTITUT GIRONA         95     2.83    42.0
+&gt; 10 0372C      "08120"  PORQUERES              GIRONA        157     2.76    42.1
+&gt; # … with 281 more rows
+```
 
 ---
 
 # Importando datos: desde .orange[API]
 
+Una vez que tenemos el identificador podemos obtener los **.bg-purple_light[datos horarios de las últimas 24 horas]**, incluyendo no solo temperatura sino estadísticas del viento, la presión, etc
 
 
 ```r
+aemet_last_obs("0076")
+```
+
+
+|idema |      lon|fint                | prec| alt| vmax|  vv|  dv|      lat| dmax|ubi                  |   pres| hr| stdvv|   ts| pres_nmar| tamin|   ta| tamax|  tpr|  vis| stddv| inso|
+|:-----|--------:|:-------------------|----:|---:|----:|---:|---:|--------:|----:|:--------------------|------:|--:|-----:|----:|---------:|-----:|----:|-----:|----:|----:|-----:|----:|
+|0076  | 2.069995|2022-10-23 11:00:00 |    0|   4|  3.6| 2.0| 220| 41.29278|  220|BARCELONA/AEROPUERTO | 1016.6| 71|   0.6| 27.4|    1017.2|  24.4| 25.0|  25.3| 19.3| 18.6|    18|    7|
+|0076  | 2.069995|2022-10-23 12:00:00 |    0|   4|  4.6| 2.9| 230| 41.29278|  230|BARCELONA/AEROPUERTO | 1016.0| 73|   0.5| 27.0|    1016.6|  24.8| 25.0|  26.0| 19.8| 17.5|     6|   12|
+|0076  | 2.069995|2022-10-23 13:00:00 |    0|   4|  4.6| 2.8| 240| 41.29278|  230|BARCELONA/AEROPUERTO | 1015.1| 72|   0.4| 27.6|    1015.7|  24.7| 25.4|  25.6| 20.0| 15.1|     8|    1|
+|0076  | 2.069995|2022-10-23 14:00:00 |    0|   4|  7.7| 2.7| 250| 41.29278|  240|BARCELONA/AEROPUERTO | 1014.2| 64|   0.6| 28.4|    1014.8|  25.4| 26.1|  26.2| 18.8| 18.3|    12|    5|
+|0076  | 2.069995|2022-10-23 15:00:00 |    0|   4|  4.6| 2.7| 210| 41.29278|  210|BARCELONA/AEROPUERTO | 1014.0| 74|   0.3| 25.1|    1014.6|  24.7| 24.7|  26.0| 19.8| 14.9|    10|    0|
+|0076  | 2.069995|2022-10-23 16:00:00 |    0|   4|  5.7| 3.1| 220| 41.29278|  250|BARCELONA/AEROPUERTO | 1014.2| 81|   0.5| 24.2|    1014.8|  24.0| 24.1|  24.9| 20.7| 14.2|     5|    0|
+|0076  | 2.069995|2022-10-23 17:00:00 |    0|   4|  5.1| 2.8| 230| 41.29278|  200|BARCELONA/AEROPUERTO | 1014.5| 84|   0.5| 22.8|    1015.1|  23.4| 23.5|  24.1| 20.7| 12.9|     6|    0|
+|0076  | 2.069995|2022-10-23 18:00:00 |    0|   4|  4.6| 2.2| 260| 41.29278|  220|BARCELONA/AEROPUERTO | 1015.0| 84|   0.2| 21.9|    1015.6|  22.8| 22.8|  23.5| 20.0| 13.6|     6|    0|
+|0076  | 2.069995|2022-10-23 19:00:00 |    0|   4|  3.1| 1.3| 230| 41.29278|  240|BARCELONA/AEROPUERTO | 1015.3| 83|   0.2| 21.7|    1015.9|  22.7| 23.0|  23.1| 20.0| 14.4|    11|    0|
+|0076  | 2.069995|2022-10-23 20:00:00 |    0|   4|  3.1| 2.1| 280| 41.29278|  250|BARCELONA/AEROPUERTO | 1015.3| 85|   0.1| 21.2|    1015.9|  22.0| 22.2|  23.1| 19.6| 10.8|     9|    0|
+|0076  | 2.069995|2022-10-23 21:00:00 |    0|   4|  4.1| 3.3| 230| 41.29278|  240|BARCELONA/AEROPUERTO | 1015.8| 86|   0.1| 21.2|    1016.4|  21.6| 22.3|  22.3| 19.8| 11.1|     3|    0|
+|0076  | 2.069995|2022-10-23 22:00:00 |    0|   4|  6.2| 4.6| 250| 41.29278|  260|BARCELONA/AEROPUERTO | 1015.7| 86|   0.3| 21.5|    1016.3|  22.2| 22.3|  22.4| 19.8| 12.2|     2|    0|
+|0076  | 2.069995|2022-10-23 23:00:00 |    0|   4|  5.1| 1.2| 270| 41.29278|  250|BARCELONA/AEROPUERTO | 1015.7| 85|   0.3| 19.8|    1016.3|  21.4| 21.5|  22.4| 18.8| 10.8|    18|    0|
+|0076  | 2.069995|2022-10-24 00:00:00 |    0|   4|  4.1| 0.6| 360| 41.29278|   30|BARCELONA/AEROPUERTO | 1015.6| 84|   0.6| 18.5|    1016.2|  20.4| 20.5|  21.6| 17.7| 12.9|   145|    0|
+|0076  | 2.069995|2022-10-24 01:00:00 |    0|   4|  5.1| 3.4| 360| 41.29278|  360|BARCELONA/AEROPUERTO | 1015.4| 88|   0.2| 17.9|    1016.0|  19.9| 20.0|  20.5| 17.9| 11.6|   183|    0|
+|0076  | 2.069995|2022-10-24 02:00:00 |    0|   4|  5.7| 3.9| 360| 41.29278|  360|BARCELONA/AEROPUERTO | 1015.3| 85|   0.3| 18.2|    1015.9|  19.6| 19.7|  19.9| 17.1| 13.8|   171|    0|
+|0076  | 2.069995|2022-10-24 03:00:00 |    0|   4|  7.2| 4.9|  10| 41.29278|  350|BARCELONA/AEROPUERTO | 1015.1| 82|   0.2| 17.6|    1015.7|  19.1| 19.1|  19.8| 16.0| 16.5|     2|    0|
+|0076  | 2.069995|2022-10-24 04:00:00 |    0|   4|  6.7| 4.8| 360| 41.29278|  350|BARCELONA/AEROPUERTO | 1015.6| 79|   0.2| 17.8|    1016.2|  19.1| 19.3|  19.3| 15.5| 18.0|     4|    0|
+|0076  | 2.069995|2022-10-24 05:00:00 |    0|   4|  5.7| 2.5| 350| 41.29278|  350|BARCELONA/AEROPUERTO | 1015.8| 79|   1.0| 17.4|    1016.4|  18.8| 18.8|  19.3| 15.1| 18.2|   141|    0|
+|0076  | 2.069995|2022-10-24 06:00:00 |    0|   4|  3.1| 0.8| 340| 41.29278|  340|BARCELONA/AEROPUERTO | 1015.9| 80|   0.6| 17.0|    1016.5|  18.8| 18.9|  18.9| 15.3| 13.1|    11|    0|
+|0076  | 2.069995|2022-10-24 07:00:00 |    0|   4|  3.6| 2.3| 360| 41.29278|  360|BARCELONA/AEROPUERTO | 1016.2| 79|   0.6| 17.9|    1016.8|  18.7| 19.0|  19.1| 15.3| 15.1|   149|    0|
+|0076  | 2.069995|2022-10-24 08:00:00 |    0|   4|  2.6| 1.4| 350| 41.29278|  360|BARCELONA/AEROPUERTO | 1016.7| 73|   0.3| 22.4|    1017.3|  19.1| 21.3|  21.6| 16.2| 14.6|    14|   36|
+|0076  | 2.069995|2022-10-24 09:00:00 |    0|   4|  4.6| 2.6|  10| 41.29278|  360|BARCELONA/AEROPUERTO | 1017.1| 66|   0.3| 27.2|    1017.7|  21.6| 23.3|  23.6| 16.6| 15.9|   150|   49|
+
+---
+
+# Importando datos: desde .orange[API]
+
+También podemos extraer los **.bg-purple_light[datos diarios en un intervalo de fechas]** que le proporciones con `aemet_daily_clim()`
+
+
+```r
+aemet_daily_clim("0076", start = "2022-01-01", end = "2022-09-30")
+```
+
+
+
+
+|fecha      |indicativo |nombre               |provincia | altitud| tmed|prec | tmin|horatmin | tmax|horatmax |dir | velmedia| racha|horaracha |  sol| presMax|horaPresMax | presMin|horaPresMin |
+|:----------|:----------|:--------------------|:---------|-------:|----:|:----|----:|:--------|----:|:--------|:---|--------:|-----:|:---------|----:|-------:|:-----------|-------:|:-----------|
+|2022-01-01 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 11.9|0,0  |  7.5|07:13    | 16.3|13:34    |99  |      2.5|   8.9|Varias    |  4.2|  1027.4|00          |  1024.7|14          |
+|2022-01-02 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 11.4|0,0  |  7.8|08:15    | 15.0|13:06    |99  |      3.3|   6.7|Varias    |  0.4|  1028.3|Varias      |  1025.9|14          |
+|2022-01-03 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 11.7|0,0  |  8.7|07:57    | 14.7|14:03    |24  |      6.1|  12.5|Varias    |  2.5|  1027.6|00          |  1016.8|24          |
+|2022-01-04 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 14.0|13,9 |  9.5|07:10    | 18.5|14:00    |23  |      2.8|  11.4|00:10     |  4.9|  1016.8|00          |  1003.2|24          |
+|2022-01-05 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 10.0|0,2  |  5.8|23:11    | 14.2|14:48    |10  |      2.8|  16.1|01:30     |  0.1|  1013.4|Varias      |  1003.2|00          |
+|2022-01-06 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4|  7.3|0,0  |  2.2|07:15    | 12.4|14:27    |99  |      5.8|  10.3|Varias    |  5.6|  1020.5|Varias      |  1013.2|01          |
+|2022-01-07 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4|  7.8|0,0  |  2.7|06:34    | 12.8|13:04    |03  |      2.5|  10.3|00:54     |  5.6|  1024.1|Varias      |  1020.5|00          |
+|2022-01-08 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4|  9.4|0,0  |  5.4|00:22    | 13.4|14:24    |99  |      3.1|   9.2|Varias    |  0.4|  1023.6|Varias      |  1014.7|24          |
+|2022-01-09 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 12.8|0,0  |  8.9|03:20    | 16.6|14:40    |33  |      6.1|  13.9|06:40     |  4.2|  1014.7|00          |  1010.2|24          |
+|2022-01-10 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 11.3|0,1  |  9.8|01:30    | 12.8|03:40    |99  |      3.9|   8.9|Varias    |  0.0|  1020.2|Varias      |  1009.4|03          |
+|2022-01-11 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 11.0|0,0  |  6.9|07:25    | 15.0|13:32    |26  |      5.6|  11.4|13:03     |  5.6|  1025.9|Varias      |  1020.1|00          |
+|2022-01-12 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4|  9.2|0,0  |  5.3|23:18    | 13.1|12:39    |99  |      3.1|   6.1|Varias    |  2.5|  1032.7|Varias      |  1025.9|00          |
+|2022-01-13 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4|  7.6|0,0  |  2.5|07:32    | 12.8|14:58    |01  |      2.8|   8.9|04:56     |  5.8|  1034.9|Varias      |  1032.6|00          |
+|2022-01-14 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4|  8.0|0,0  |  2.0|07:02    | 14.1|13:24    |36  |      3.3|   9.2|Varias    |  4.4|  1034.5|Varias      |  1029.5|24          |
+|2022-01-15 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4|  7.5|0,0  |  1.3|07:25    | 13.7|14:14    |99  |      4.2|   8.9|07:17     |  5.9|  1029.5|00          |  1024.6|14          |
+|2022-01-16 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4|  8.0|0,0  |  1.7|07:20    | 14.3|13:20    |36  |      3.6|  10.3|06:40     |  5.9|  1031.2|24          |  1025.4|01          |
+|2022-01-17 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4|  8.9|0,0  |  2.4|07:05    | 15.4|13:27    |01  |      4.2|  11.7|00:45     |  6.0|  1033.6|10          |  1029.6|24          |
+|2022-01-18 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4|  8.1|0,0  |  3.0|07:19    | 13.2|12:03    |04  |      4.2|   8.9|10:07     |  5.8|  1032.5|Varias      |  1028.7|05          |
+|2022-01-19 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4|  8.3|0,0  |  3.2|07:05    | 13.4|13:37    |99  |      2.8|   9.2|Varias    |  2.3|  1032.5|Varias      |  1028.6|24          |
+|2022-01-20 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4|  8.4|0,0  |  3.1|07:29    | 13.7|13:19    |36  |      4.4|  11.4|07:01     |  5.6|  1028.6|00          |  1023.8|Varias      |
+|2022-01-21 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4|  7.4|0,0  |  3.4|05:58    | 11.4|14:09    |99  |      4.2|   9.2|Varias    |  0.8|  1029.2|Varias      |  1022.9|04          |
+|2022-01-22 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4|  7.3|0,0  |  2.1|07:30    | 12.5|13:31    |99  |      2.8|   9.7|Varias    |  5.5|  1031.1|Varias      |  1027.7|15          |
+|2022-01-23 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4|  7.4|0,0  |  1.6|Varias   | 13.2|14:50    |01  |      3.3|   8.9|07:20     |  6.2|  1029.9|10          |  1026.9|15          |
+|2022-01-24 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4|  8.6|0,0  |  2.3|07:13    | 15.0|13:11    |03  |      2.5|   9.2|00:44     |  5.9|  1031.9|Varias      |  1027.9|03          |
+|2022-01-25 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4|  8.6|0,0  |  2.7|06:12    | 14.6|12:01    |01  |      3.3|   8.9|07:38     |  6.4|  1033.4|Varias      |  1031.2|14          |
+|2022-01-26 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4|  8.8|0,0  |  3.4|06:27    | 14.3|14:38    |02  |      4.4|   9.2|00:42     |  6.7|  1031.8|00          |  1028.1|24          |
+|2022-01-27 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 10.0|0,0  |  4.3|07:10    | 15.7|12:01    |36  |      3.6|  10.8|07:50     |  6.8|  1029.5|Varias      |  1027.4|03          |
+|2022-01-28 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 10.4|0,0  |  3.8|07:10    | 17.0|14:10    |05  |      3.9|  11.4|00:40     |  6.9|  1030.7|24          |  1027.7|15          |
+|2022-01-29 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 11.2|0,0  |  5.4|06:33    | 16.9|12:07    |99  |      4.2|  11.7|Varias    |  7.0|  1033.0|Varias      |  1030.0|01          |
+|2022-01-30 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 10.8|0,0  |  4.8|06:22    | 16.7|14:34    |24  |      4.7|   9.2|14:52     |  7.1|  1030.2|00          |  1021.9|24          |
+|2022-01-31 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 11.8|0,0  |  6.6|05:50    | 16.9|13:42    |99  |      3.6|  10.8|Varias    |  7.0|  1022.0|Varias      |  1018.2|19          |
+|2022-02-01 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 10.4|0,0  |  5.1|07:04    | 15.6|11:34    |35  |      2.8|   8.9|Varias    |  7.4|  1024.5|Varias      |  1019.8|00          |
+|2022-02-02 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 13.6|0,0  |  8.4|20:59    | 18.7|12:27    |99  |      3.3|  11.4|Varias    |  7.2|  1024.7|Varias      |  1021.6|14          |
+|2022-02-03 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 11.2|0,0  |  6.0|06:39    | 16.3|11:13    |99  |      5.0|  10.8|Varias    |  7.8|  1022.0|00          |  1016.8|17          |
+|2022-02-04 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 11.3|0,0  |  7.3|06:50    | 15.3|12:50    |02  |      3.6|   7.2|00:50     |  0.8|  1022.2|24          |  1018.7|13          |
+|2022-02-05 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 12.9|0,0  |  9.5|07:30    | 16.3|13:53    |35  |      2.8|   6.7|08:55     |  0.2|  1026.7|Varias      |  1021.9|01          |
+|2022-02-06 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 11.7|0,0  |  7.4|23:33    | 16.0|12:37    |99  |      4.2|  11.7|08:15     |  4.6|  1028.5|Varias      |  1025.5|15          |
+|2022-02-07 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 10.8|0,0  |  5.6|04:41    | 16.1|12:16    |01  |      3.9|   9.2|08:24     |  8.1|  1029.1|Varias      |  1024.2|14          |
+|2022-02-08 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 11.4|0,0  |  6.8|04:30    | 16.0|12:01    |99  |      4.2|   7.2|Varias    |  5.1|  1033.0|11          |  1029.1|00          |
+|2022-02-09 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 11.0|0,0  |  7.0|Varias   | 15.0|Varias   |99  |      5.0|   9.7|Varias    |  8.0|  1032.7|Varias      |  1029.7|Varias      |
+|2022-02-10 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 10.0|0,0  |  4.9|06:51    | 15.1|11:24    |22  |      4.2|   7.8|14:28     |  8.0|  1029.7|00          |  1025.4|24          |
+|2022-02-11 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 12.0|0,0  |  6.6|06:10    | 17.3|12:00    |99  |      2.8|   7.8|Varias    |  5.7|  1026.7|09          |  1024.6|Varias      |
+|2022-02-12 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 11.2|4,4  |  8.9|05:05    | 13.4|09:49    |13  |      3.1|   7.8|10:53     |  0.0|  1026.7|Varias      |  1024.3|16          |
+|2022-02-13 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 13.0|0,1  |  9.8|05:04    | 16.1|13:11    |23  |      4.7|  12.5|13:17     |  3.0|  1024.9|00          |  1015.2|24          |
+|2022-02-14 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 13.4|0,0  |  8.8|22:51    | 18.1|14:39    |99  |      3.9|  12.8|15:32     |  6.5|  1017.2|Varias      |  1011.4|05          |
+|2022-02-15 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 13.0|0,0  |  7.6|06:00    | 18.5|15:15    |36  |      3.3|   8.3|09:22     |  7.8|  1023.5|Varias      |  1017.2|00          |
+|2022-02-16 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 12.0|0,0  |  8.2|01:27    | 15.9|14:39    |24  |      4.2|   9.7|15:42     |  1.5|  1023.4|00          |  1019.6|16          |
+|2022-02-17 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 14.3|0,0  |  8.7|05:03    | 19.9|15:33    |24  |      5.3|  10.8|13:43     |  8.9|  1023.7|Varias      |  1020.1|02          |
+|2022-02-18 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 12.8|0,0  |  8.6|05:20    | 17.1|15:40    |24  |      6.1|  12.5|12:20     |  9.0|  1021.3|00          |  1013.1|17          |
+|2022-02-19 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 10.4|0,1  |  7.1|23:59    | 13.6|09:55    |35  |      2.2|  10.8|13:30     |  0.0|  1024.9|Varias      |  1016.7|03          |
+|2022-02-20 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 11.2|0,0  |  6.8|Varias   | 15.5|15:28    |99  |      5.0|  10.3|Varias    |  9.9|  1028.1|Varias      |  1024.4|16          |
+|2022-02-21 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 14.0|0,0  |  7.2|05:04    | 20.8|16:50    |08  |      4.2|  12.5|18:48     | 10.0|  1024.9|00          |  1017.7|16          |
+|2022-02-22 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 13.0|0,0  |  8.4|06:52    | 17.5|11:36    |99  |      5.3|   9.2|Varias    |  9.6|  1027.2|Varias      |  1024.6|17          |
+|2022-02-23 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 11.8|0,0  |  7.0|06:50    | 16.6|11:00    |25  |      4.7|  10.3|16:00     |  8.9|  1027.2|Varias      |  1022.4|24          |
+|2022-02-24 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 13.0|0,0  |  9.3|06:54    | 16.7|11:58    |24  |      3.3|   8.3|13:36     |  5.9|  1023.6|Varias      |  1019.9|15          |
+|2022-02-25 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 12.6|0,1  |  9.3|02:49    | 15.9|11:47    |15  |      3.6|   7.2|14:34     |  0.4|  1025.9|Varias      |  1023.0|03          |
+|2022-02-26 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 10.8|0,0  |  8.3|23:58    | 13.2|00:01    |10  |      4.4|  10.3|12:29     |  0.5|  1026.5|Varias      |  1023.9|17          |
+|2022-02-27 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 10.4|0,0  |  5.7|05:01    | 15.0|13:26    |21  |      3.6|   7.8|14:41     |  8.9|  1025.8|Varias      |  1022.4|15          |
+|2022-02-28 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 12.5|0,0  |  9.7|03:16    | 15.3|13:55    |23  |      3.9|   8.3|15:38     |  4.5|  1028.1|11          |  1025.0|24          |
+|2022-03-01 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 12.2|0,0  |  7.0|06:39    | 17.4|10:53    |99  |      5.3|   9.2|Varias    |  9.7|  1026.8|Varias      |  1024.3|03          |
+|2022-03-02 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 12.0|0,0  |  8.0|03:20    | 15.9|14:10    |23  |      3.9|   8.3|16:50     |  0.3|  1025.1|00          |  1018.2|Varias      |
+|2022-03-03 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 13.0|0,0  |  8.8|06:38    | 17.2|10:34    |23  |      5.0|  10.3|11:58     |  9.9|  1018.4|00          |  1012.9|16          |
+|2022-03-04 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 12.9|0,0  |  8.5|05:54    | 17.3|11:32    |99  |      4.2|   7.8|Varias    |  1.2|  1015.1|Varias      |  1012.5|03          |
+|2022-03-05 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 13.6|12,2 | 10.3|06:40    | 16.8|10:47    |99  |      4.2|   7.8|Varias    |  5.9|  1016.1|Varias      |  1014.1|16          |
+|2022-03-06 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 11.3|0,2  |  9.3|21:59    | 13.3|13:17    |01  |      2.8|   7.2|Varias    |  0.2|  1016.6|Varias      |  1014.4|04          |
+|2022-03-07 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 11.0|0,0  |  7.9|23:54    | 14.0|15:55    |99  |      3.6|   8.9|Varias    |  3.0|  1017.8|Varias      |  1015.6|05          |
+|2022-03-08 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4|  9.6|4,7  |  6.4|03:30    | 12.7|14:08    |99  |      2.8|   6.7|Varias    |  0.0|  1020.4|Varias      |  1016.7|05          |
+|2022-03-09 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 11.8|0,5  |  8.3|Varias   | 15.4|14:50    |04  |      3.3|   9.2|11:30     |  6.8|  1023.7|22          |  1020.3|03          |
+|2022-03-10 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 12.2|0,0  |  8.7|02:05    | 15.7|12:49    |22  |      4.7|   9.7|12:10     |  2.9|  1023.4|00          |  1018.9|24          |
+|2022-03-11 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 12.7|19,7 |  9.9|05:21    | 15.5|10:16    |20  |      2.2|   6.1|11:04     |  0.4|  1019.1|00          |  1014.4|24          |
+|2022-03-12 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 13.0|9,3  | 10.3|23:53    | 15.6|15:31    |35  |      4.2|  13.9|15:41     |  1.2|  1014.4|00          |  1010.8|14          |
+|2022-03-13 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 12.4|0,4  |  8.4|06:40    | 16.5|13:08    |99  |      2.5|  11.7|Varias    |  2.4|  1020.0|Varias      |  1011.7|05          |
+|2022-03-14 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 13.4|0,1  | 11.8|06:11    | 15.0|12:16    |07  |     12.8|  21.1|16:58     |  0.0|  1022.6|Varias      |  1018.9|03          |
+|2022-03-15 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 14.6|0,0  | 13.7|06:11    | 15.6|11:02    |07  |     12.5|  18.6|02:43     |  0.0|  1025.0|Varias      |  1021.6|03          |
+|2022-03-16 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 14.8|0,0  | 13.7|05:55    | 16.0|Varias   |08  |     11.4|  18.6|14:40     |  0.3|  1022.0|00          |  1015.8|16          |
+|2022-03-17 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 15.3|Ip   | 13.6|05:10    | 17.0|13:50    |08  |      9.7|  16.4|13:18     |  0.0|  1022.2|Varias      |  1017.4|03          |
+|2022-03-18 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 15.0|1,3  | 13.1|23:10    | 16.9|09:04    |99  |     10.3|  17.5|Varias    |  0.0|  1026.4|23          |  1021.1|05          |
+|2022-03-19 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 12.0|Ip   | 10.0|23:57    | 14.0|00:02    |06  |      9.2|  16.4|10:31     |  0.0|  1026.8|Varias      |  1024.9|04          |
+|2022-03-20 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 12.8|0,2  |  9.7|Varias   | 15.8|14:49    |99  |      5.0|  11.4|Varias    |  1.6|  1027.5|Varias      |  1025.0|04          |
+|2022-03-21 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 14.2|1,6  | 12.0|23:44    | 16.5|12:39    |10  |      8.6|  15.3|09:57     |  3.2|  1028.7|Varias      |  1026.2|04          |
+|2022-03-22 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 12.7|Ip   | 10.2|23:58    | 15.2|12:14    |99  |      8.3|  13.3|Varias    |  5.6|  1029.4|Varias      |  1027.1|04          |
+|2022-03-23 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 11.6|3,7  |  8.4|04:33    | 14.8|14:48    |08  |      6.7|  14.4|09:22     |  2.4|  1028.4|00          |  1025.4|16          |
+|2022-03-24 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 12.0|0,0  |  9.7|02:02    | 14.3|12:12    |07  |      6.7|  13.9|12:28     |  0.0|  1025.9|Varias      |  1023.9|24          |
+|2022-03-25 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 14.4|0,0  | 11.8|04:51    | 17.1|12:43    |09  |      8.9|  16.4|13:30     |  4.8|  1023.9|00          |  1019.9|16          |
+|2022-03-26 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 12.8|2,3  | 11.4|23:30    | 14.1|15:30    |99  |      6.7|  13.9|Varias    |  0.0|  1022.2|Varias      |  1019.5|03          |
+|2022-03-27 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 15.6|0,0  | 10.8|23:35    | 20.3|12:36    |02  |      6.1|  11.7|06:44     |  6.0|  1026.1|Varias      |  1021.4|04          |
+|2022-03-28 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 14.0|0,0  |  8.9|05:53    | 19.1|11:15    |36  |      3.3|  11.4|05:20     |  6.9|  1025.9|00          |  1017.2|24          |
+|2022-03-29 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 13.0|0,9  | 10.4|05:21    | 15.7|14:37    |07  |      7.2|  13.3|Varias    |  0.0|  1017.2|00          |  1003.4|24          |
+|2022-03-30 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 13.0|5,3  | 10.8|06:30    | 15.2|14:13    |05  |      3.1|  12.5|00:38     |  1.9|  1003.4|00          |   999.7|16          |
+|2022-03-31 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 13.2|0,0  |  9.6|23:49    | 16.8|11:07    |08  |      5.0|  11.7|17:11     |  6.1|  1001.5|Varias      |   997.8|16          |
+|2022-04-01 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 10.9|0,0  |  6.0|23:59    | 15.8|14:06    |31  |      7.2|  17.5|13:35     | 11.6|  1010.9|Varias      |  1000.2|06          |
+|2022-04-02 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 11.0|0,0  |  4.7|05:30    | 17.2|14:40    |99  |      7.8|  15.0|Varias    | 11.1|  1014.9|24          |  1008.8|04          |
+|2022-04-03 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4|  7.3|0,7  |  5.6|06:11    |  9.0|Varias   |35  |      3.6|   8.3|07:19     |  0.6|  1019.2|Varias      |  1014.4|03          |
+|2022-04-04 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4|  8.2|0,0  |  3.6|04:06    | 12.7|16:25    |10  |      5.6|  10.8|Varias    |  9.6|  1019.1|Varias      |  1015.9|16          |
+|2022-04-05 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 10.1|0,0  |  5.1|05:43    | 15.1|Varias   |03  |      4.7|  11.7|06:11     |  9.4|  1017.2|00          |  1012.1|24          |
+|2022-04-06 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4|   NA|0,0  |   NA|NA       |   NA|NA       |NA  |      5.6|    NA|NA        |  6.0|      NA|NA          |      NA|NA          |
+|2022-04-07 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4|   NA|0,0  |   NA|NA       |   NA|NA       |NA  |       NA|    NA|NA        |   NA|      NA|NA          |      NA|NA          |
+|2022-04-08 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4|   NA|0,0  |   NA|NA       |   NA|NA       |NA  |       NA|    NA|NA        |   NA|      NA|NA          |      NA|NA          |
+|2022-04-09 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 16.6|0,0  | 13.2|23:34    | 19.9|00:00    |16  |      5.6|  11.7|12:38     |  9.1|  1020.3|Varias      |  1010.0|02          |
+|2022-04-10 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 14.0|0,0  | 10.8|03:33    | 17.2|13:27    |22  |      3.9|   9.2|15:07     |  5.2|  1021.0|Varias      |  1016.7|24          |
+|2022-04-11 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 13.4|0,0  |  9.4|05:10    | 17.5|12:47    |08  |      7.8|  14.4|Varias    |  6.9|  1016.7|00          |  1013.2|19          |
+|2022-04-12 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 15.1|0,2  | 13.8|09:30    | 16.4|11:33    |07  |     10.0|  17.5|Varias    |  0.2|  1013.3|00          |  1010.3|15          |
+|2022-04-13 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 13.7|5,1  | 12.8|23:48    | 14.6|16:30    |07  |     10.0|  15.8|10:33     |  0.0|  1015.7|Varias      |  1010.1|05          |
+|2022-04-14 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 16.6|0,0  | 11.2|03:30    | 21.9|09:21    |08  |      6.9|  16.9|Varias    |  8.6|  1019.2|Varias      |  1014.4|04          |
+|2022-04-15 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 19.6|0,0  | 14.1|Varias   | 25.2|10:13    |35  |      4.7|   8.3|06:19     | 10.5|  1019.7|Varias      |  1017.8|15          |
+|2022-04-16 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 20.1|0,0  | 14.9|04:21    | 25.3|09:38    |25  |      6.1|  12.8|16:44     | 11.3|  1019.0|00          |  1013.4|16          |
+|2022-04-17 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 17.8|0,0  | 13.4|23:56    | 22.2|10:19    |10  |      5.6|  12.8|13:07     | 11.9|  1017.5|Varias      |  1015.2|02          |
+|2022-04-18 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 15.5|0,0  | 11.8|04:17    | 19.2|10:48    |15  |      3.1|   9.7|15:21     |  9.7|  1016.6|00          |  1013.3|16          |
+|2022-04-19 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 15.6|0,5  | 11.5|04:16    | 19.7|14:00    |99  |      2.5|   6.7|Varias    |  0.8|  1013.6|00          |  1006.8|24          |
+|2022-04-20 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4|   NA|6,8  |   NA|NA       |   NA|NA       |NA  |     11.9|    NA|NA        |  0.6|      NA|NA          |      NA|NA          |
+|2022-04-21 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4|   NA|12,7 |   NA|NA       |   NA|NA       |NA  |      1.9|    NA|NA        |  0.0|  1004.1|Varias      |  1001.6|13          |
+|2022-04-22 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 14.2|0,0  | 10.2|04:18    | 18.1|10:21    |23  |      4.7|  10.8|09:58     |  8.1|  1002.5|00          |   998.8|24          |
+|2022-04-23 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 14.7|0,6  | 11.4|22:56    | 18.0|12:05    |25  |      5.0|  17.5|12:36     |  4.0|  1003.6|Varias      |   995.8|07          |
+|2022-04-24 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 17.4|0,0  | 12.2|00:05    | 22.6|13:27    |25  |      5.3|  16.4|15:23     | 11.8|  1012.4|Varias      |  1003.2|01          |
+|2022-04-25 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 15.6|0,0  | 11.6|04:30    | 19.7|13:46    |99  |      4.2|   9.7|Varias    | 12.4|  1014.2|Varias      |  1011.5|04          |
+|2022-04-26 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 15.4|0,0  | 10.3|04:50    | 20.4|14:08    |99  |      3.3|   8.3|Varias    | 12.1|  1015.2|Varias      |  1012.9|03          |
+|2022-04-27 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4|   NA|0,0  |   NA|NA       |   NA|NA       |NA  |      2.5|    NA|NA        |  3.0|      NA|NA          |      NA|NA          |
+|2022-04-28 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4|   NA|0,0  |   NA|NA       |   NA|NA       |NA  |       NA|    NA|NA        |   NA|      NA|NA          |      NA|NA          |
+|2022-04-29 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 18.8|0,0  | 14.1|04:30    | 23.5|12:25    |35  |      4.7|   8.3|Varias    | 11.0|  1023.6|Varias      |  1021.2|19          |
+|2022-04-30 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 18.0|Ip   | 15.1|04:14    | 20.9|Varias   |22  |      3.6|   7.8|Varias    |  8.1|  1021.7|00          |  1018.6|14          |
+|2022-05-01 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 18.2|0,0  | 14.6|05:38    | 21.7|13:00    |99  |      3.6|   6.7|Varias    |  9.9|  1019.2|00          |  1015.5|24          |
+|2022-05-02 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 18.2|0,0  | 15.8|23:55    | 20.7|12:03    |10  |      3.3|   8.9|15:51     |  0.6|  1015.5|00          |  1012.0|16          |
+|2022-05-03 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4|   NA|0,2  |   NA|NA       |   NA|NA       |NA  |      6.1|    NA|NA        |  4.0|      NA|NA          |      NA|NA          |
+|2022-05-04 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4|   NA|0,0  |   NA|NA       |   NA|NA       |NA  |       NA|    NA|NA        |   NA|      NA|NA          |      NA|NA          |
+|2022-05-05 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4|   NA|1,8  |   NA|NA       |   NA|NA       |NA  |       NA|    NA|NA        |  4.0|      NA|NA          |      NA|NA          |
+|2022-05-06 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 17.2|0,0  | 12.4|04:22    | 21.9|14:25    |99  |      4.2|   8.3|Varias    | 12.7|  1019.9|Varias      |  1016.7|15          |
+|2022-05-07 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 18.6|0,0  | 13.8|02:30    | 23.3|09:19    |01  |      4.2|  10.3|05:18     | 10.0|  1019.5|00          |  1017.1|15          |
+|2022-05-08 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 18.5|0,0  | 13.9|04:41    | 23.1|12:39    |24  |      2.5|   7.2|11:43     |  8.4|  1021.2|Varias      |  1017.6|04          |
+|2022-05-09 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 19.4|0,0  | 14.8|00:00    | 23.9|08:49    |13  |      3.3|   7.8|10:25     |  9.6|  1023.2|Varias      |  1020.1|03          |
+|2022-05-10 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 18.6|0,0  | 14.5|04:41    | 22.7|14:02    |99  |      5.0|  12.5|Varias    | 11.7|  1022.8|Varias      |  1020.7|17          |
+|2022-05-11 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 18.3|0,0  | 14.7|03:43    | 21.9|11:41    |22  |      5.8|  11.7|11:44     | 12.0|  1021.7|Varias      |  1019.9|03          |
+|2022-05-12 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 18.8|0,0  | 14.6|Varias   | 23.1|14:08    |20  |      3.1|   8.3|10:43     | 11.8|  1022.6|Varias      |  1020.4|17          |
+|2022-05-13 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 18.3|0,0  | 14.2|04:45    | 22.4|16:10    |99  |      3.3|   7.8|Varias    | 11.6|  1021.9|Varias      |  1019.9|16          |
+|2022-05-14 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 20.2|0,0  | 15.9|02:49    | 24.4|09:01    |99  |      3.6|   7.2|Varias    | 12.1|  1020.0|00          |  1016.9|17          |
+|2022-05-15 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 21.0|0,0  | 16.9|03:29    | 25.1|08:03    |22  |      3.9|   8.3|Varias    |  9.8|  1017.7|Varias      |  1015.5|18          |
+|2022-05-16 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 21.0|0,0  | 17.3|02:19    | 24.6|15:15    |21  |      2.5|   7.2|10:10     | 10.5|  1019.8|Varias      |  1016.4|04          |
+|2022-05-17 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 20.7|0,0  | 16.9|04:03    | 24.5|11:36    |22  |      3.9|   8.3|18:03     | 12.4|  1019.2|00          |  1016.4|18          |
+|2022-05-18 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 23.2|0,0  | 18.6|03:31    | 27.8|11:20    |99  |      3.6|   7.2|Varias    | 12.0|  1019.5|Varias      |  1017.3|17          |
+|2022-05-19 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 22.4|0,0  | 20.0|23:56    | 24.9|11:17    |11  |      4.4|   8.9|10:08     | 11.0|  1023.8|Varias      |  1019.3|02          |
+|2022-05-20 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 22.3|0,0  | 18.6|04:32    | 26.0|12:53    |99  |      3.3|   7.2|Varias    | 11.6|  1025.0|Varias      |  1022.2|24          |
+|2022-05-21 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 23.5|0,0  | 18.8|04:37    | 28.2|15:12    |24  |      5.8|  12.5|12:21     | 11.8|  1022.2|00          |  1015.1|24          |
+|2022-05-22 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 23.1|0,0  | 18.8|04:08    | 27.4|10:43    |99  |      4.7|  10.3|Varias    | 11.2|  1015.1|00          |  1007.2|24          |
+|2022-05-23 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 22.2|0,0  | 19.2|04:07    | 25.1|14:11    |99  |      5.3|  11.4|Varias    | 10.9|  1009.3|Varias      |  1005.4|04          |
+|2022-05-24 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 19.4|24,2 | 15.9|23:46    | 22.9|08:16    |10  |      3.9|  11.4|19:05     |  0.1|  1012.6|Varias      |  1008.4|15          |
+|2022-05-25 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 18.6|0,0  | 14.4|04:15    | 22.8|14:24    |99  |      3.3|   9.7|Varias    |  0.3|  1019.4|Varias      |  1011.7|00          |
+|2022-05-26 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 21.4|0,0  | 17.8|05:44    | 24.9|09:43    |36  |      5.0|   9.2|07:15     | 12.2|  1021.0|Varias      |  1018.6|01          |
+|2022-05-27 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 21.6|0,0  | 18.2|04:17    | 25.0|09:32    |22  |      5.8|  10.3|14:50     |  7.5|  1018.8|00          |  1015.6|Varias      |
+|2022-05-28 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 24.5|0,0  | 19.7|04:30    | 29.3|09:18    |99  |      5.8|  14.4|Varias    | 12.5|  1015.6|00          |  1007.9|Varias      |
+|2022-05-29 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 22.2|0,0  | 19.3|Varias   | 25.1|08:44    |99  |      3.9|   8.9|Varias    | 11.6|  1008.0|Varias      |  1005.4|24          |
+|2022-05-30 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 21.0|0,0  | 18.4|Varias   | 23.5|08:29    |10  |      4.4|  10.3|08:15     | 10.3|  1011.6|Varias      |  1004.4|03          |
+|2022-05-31 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 21.1|0,0  | 17.8|04:08    | 24.4|10:21    |04  |      2.5|   8.9|23:41     | 12.6|  1015.4|Varias      |  1010.3|03          |
+|2022-06-01 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 21.3|0,0  | 18.2|03:58    | 24.4|Varias   |22  |      3.9|   9.2|12:58     | 12.1|  1015.1|00          |  1012.5|18          |
+|2022-06-02 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 21.6|0,0  | 18.7|03:47    | 24.5|Varias   |08  |      5.0|   9.7|11:50     |  9.8|  1015.0|Varias      |  1011.5|05          |
+|2022-06-03 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 23.3|0,0  | 20.0|02:43    | 26.6|08:52    |08  |      4.4|  11.4|07:31     |  7.1|  1014.2|Varias      |  1011.1|05          |
+|2022-06-04 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 23.7|0,0  | 20.0|03:44    | 27.4|12:05    |15  |      3.9|   9.7|Varias    | 10.6|  1014.8|Varias      |  1012.2|00          |
+|2022-06-05 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 23.8|0,0  | 20.1|04:20    | 27.5|10:05    |05  |      3.3|  10.3|07:34     | 11.8|  1019.9|Varias      |  1014.1|03          |
+|2022-06-06 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 23.8|0,0  | 20.9|04:31    | 26.6|10:24    |22  |      4.4|   9.7|13:25     | 10.7|  1019.5|Varias      |  1015.4|19          |
+|2022-06-07 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 23.8|0,0  | 20.4|02:33    | 27.1|09:41    |22  |      3.1|   9.2|14:41     | 11.5|  1017.7|Varias      |  1014.8|24          |
+|2022-06-08 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 23.8|0,0  | 21.1|Varias   | 26.5|15:02    |08  |      4.4|  10.3|15:33     |  5.4|  1015.5|Varias      |  1011.2|12          |
+|2022-06-09 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 23.0|0,0  | 20.1|Varias   | 26.0|08:10    |11  |      4.7|  10.8|09:40     | 11.7|  1019.3|Varias      |  1014.7|04          |
+|2022-06-10 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 22.6|0,0  | 19.1|04:27    | 26.1|14:31    |24  |      6.1|  12.5|Varias    | 12.4|  1019.9|Varias      |  1017.2|17          |
+|2022-06-11 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 24.4|0,0  | 20.6|04:30    | 28.3|15:36    |99  |      4.4|   8.9|16:31     | 11.8|  1021.4|Varias      |  1018.7|01          |
+|2022-06-12 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 25.4|0,0  | 21.9|00:52    | 28.9|09:51    |99  |      5.0|  10.8|Varias    | 10.0|  1020.4|Varias      |  1016.8|18          |
+|2022-06-13 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 26.0|0,0  | 21.1|04:33    | 31.0|Varias   |22  |      3.9|  10.3|Varias    | 11.5|  1019.0|Varias      |  1015.6|19          |
+|2022-06-14 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 25.3|0,5  | 21.6|02:41    | 29.0|11:52    |27  |      4.2|  11.4|23:04     |  7.0|  1016.7|Varias      |  1014.1|19          |
+|2022-06-15 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 26.8|0,0  | 23.4|23:56    | 30.1|12:44    |25  |      4.2|  12.5|05:01     |  8.1|  1017.8|23          |  1013.3|05          |
+|2022-06-16 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 26.0|0,0  | 21.3|02:30    | 30.6|12:30    |22  |      3.1|   7.8|09:30     | 10.4|  1018.1|21          |  1016.9|04          |
+|2022-06-17 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 28.4|0,0  | 24.0|02:02    | 32.9|11:42    |36  |      2.5|   7.8|04:31     | 11.0|  1019.0|Varias      |  1016.8|04          |
+|2022-06-18 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 27.6|0,0  | 24.2|21:26    | 31.0|09:30    |05  |      4.7|  10.8|06:20     | 11.0|  1017.2|Varias      |  1013.1|24          |
+|2022-06-19 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 26.4|0,0  | 24.0|01:44    | 28.8|Varias   |06  |      6.9|  12.8|18:23     | 11.2|  1013.1|00          |  1009.5|19          |
+|2022-06-20 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 26.3|0,0  | 23.6|03:10    | 29.0|13:40    |11  |      2.8|   8.9|06:47     |  8.0|  1012.3|Varias      |  1009.5|03          |
+|2022-06-21 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 26.4|3,8  | 22.1|23:59    | 30.6|12:50    |32  |      3.3|  10.3|22:50     |  2.1|  1013.7|23          |  1008.6|Varias      |
+|2022-06-22 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 24.8|0,2  | 21.5|04:30    | 28.2|14:31    |99  |      4.7|  10.3|Varias    |  8.2|  1011.1|Varias      |  1007.4|03          |
+|2022-06-23 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 25.0|0,0  | 22.2|02:42    | 27.8|16:00    |25  |      5.3|  11.7|16:24     | 11.5|  1011.7|Varias      |  1009.3|03          |
+|2022-06-24 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 25.6|0,0  | 21.0|04:47    | 30.1|13:10    |99  |      7.8|  12.8|Varias    | 12.1|  1013.9|Varias      |  1010.8|01          |
+|2022-06-25 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 24.5|0,0  | 21.3|03:47    | 27.7|13:38    |13  |      2.8|   7.8|11:35     | 12.1|  1013.2|01          |  1009.2|18          |
+|2022-06-26 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 24.7|0,0  | 22.4|03:52    | 27.0|Varias   |11  |      5.6|  12.5|09:17     | 10.0|  1011.5|Varias      |  1008.5|18          |
+|2022-06-27 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 25.6|Ip   | 22.9|23:56    | 28.3|14:49    |35  |      3.9|  10.8|23:30     |  4.9|  1017.3|Varias      |  1010.8|04          |
+|2022-06-28 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 24.6|0,0  | 21.4|04:08    | 27.7|14:37    |25  |      7.8|  14.4|17:29     | 12.6|  1016.5|Varias      |  1012.8|17          |
+|2022-06-29 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 23.8|0,0  | 19.7|04:12    | 28.0|12:34    |23  |      4.2|   9.2|Varias    | 12.1|  1015.9|00          |  1010.7|20          |
+|2022-06-30 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 24.8|0,0  | 21.3|04:41    | 28.3|15:09    |99  |      3.9|  10.8|Varias    |  9.3|  1015.5|24          |  1010.5|17          |
+|2022-07-01 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 23.7|0,0  | 21.2|23:58    | 26.2|10:36    |12  |      4.7|  10.3|10:34     | 11.0|  1019.7|Varias      |  1014.5|03          |
+|2022-07-02 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 23.8|0,0  | 20.0|04:02    | 27.6|08:10    |12  |      3.3|   8.9|12:24     | 11.2|  1019.5|10          |  1017.4|19          |
+|2022-07-03 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 25.9|0,0  | 21.7|02:39    | 30.1|16:09    |99  |      4.7|   8.9|Varias    |  8.8|  1018.4|Varias      |  1012.4|18          |
+|2022-07-04 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 27.2|0,0  | 22.5|01:39    | 31.9|08:14    |10  |      3.6|   8.3|11:43     | 11.6|  1017.1|Varias      |  1014.8|18          |
+|2022-07-05 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 27.0|2,1  | 23.2|03:50    | 30.8|09:50    |15  |      4.2|   9.7|19:00     |  9.6|  1021.4|20          |  1016.1|22          |
+|2022-07-06 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 25.9|0,5  | 22.8|05:49    | 29.0|10:30    |26  |      4.4|  12.5|17:06     |  2.0|  1021.2|Varias      |  1017.3|02          |
+|2022-07-07 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 25.8|0,0  | 22.5|05:26    | 29.2|14:03    |99  |      6.9|   9.7|Varias    | 11.5|  1020.5|Varias      |  1018.7|16          |
+|2022-07-08 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 25.5|0,0  | 22.2|04:33    | 28.8|13:04    |99  |      5.0|   8.9|Varias    | 11.6|  1022.1|Varias      |  1019.5|02          |
+|2022-07-09 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 26.0|0,0  | 22.3|04:20    | 29.8|08:35    |22  |      3.3|   8.3|12:47     | 12.5|  1021.5|Varias      |  1018.6|24          |
+|2022-07-10 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 26.8|0,0  | 23.0|03:16    | 30.5|08:08    |24  |      4.2|   9.4|Varias    | 12.4|  1018.6|00          |  1015.4|18          |
+|2022-07-11 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 26.4|0,0  | 23.0|04:24    | 29.9|09:54    |36  |      3.3|  10.3|06:19     | 12.2|  1017.4|Varias      |  1014.0|04          |
+|2022-07-12 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 26.6|0,0  | 22.6|01:57    | 30.7|14:03    |99  |      2.5|   7.2|Varias    | 12.7|  1019.6|Varias      |  1016.7|02          |
+|2022-07-13 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 27.2|0,0  | 23.6|03:41    | 30.7|07:39    |21  |      3.1|   7.2|15:40     | 12.8|  1020.5|Varias      |  1018.2|04          |
+|2022-07-14 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 26.6|0,0  | 22.9|04:14    | 30.4|14:57    |23  |      4.2|   8.3|14:20     | 12.4|  1020.2|00          |  1016.4|24          |
+|2022-07-15 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 28.4|0,0  | 23.6|03:51    | 33.3|12:01    |99  |      3.9|   8.9|Varias    | 12.2|  1016.4|00          |  1014.3|17          |
+|2022-07-16 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 28.8|0,0  | 25.1|23:44    | 32.4|10:29    |13  |      3.6|   8.9|14:01     | 11.9|  1016.8|Varias      |  1014.4|03          |
+|2022-07-17 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 28.1|0,0  | 24.3|23:17    | 31.9|10:59    |99  |      3.6|   8.3|Varias    | 11.1|  1018.4|Varias      |  1015.7|03          |
+|2022-07-18 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 26.6|0,0  | 23.3|04:30    | 30.0|14:04    |06  |      3.9|   8.3|07:06     | 11.8|  1018.7|Varias      |  1016.2|18          |
+|2022-07-19 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 27.0|0,0  | 23.4|04:32    | 30.7|13:37    |15  |      2.5|   6.7|14:48     | 11.3|  1016.9|Varias      |  1014.5|17          |
+|2022-07-20 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 27.5|0,0  | 24.0|04:48    | 31.0|08:08    |11  |      4.7|  11.4|14:21     | 11.1|  1019.6|Varias      |  1015.5|03          |
+|2022-07-21 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 27.9|0,0  | 24.2|04:29    | 31.6|13:58    |24  |      5.0|  11.7|14:48     | 12.1|  1019.6|Varias      |  1016.3|18          |
+|2022-07-22 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 27.8|0,0  | 23.6|04:30    | 31.9|14:20    |24  |      5.3|  23.3|07:26     | 11.5|  1016.8|Varias      |  1014.2|16          |
+|2022-07-23 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 27.4|0,0  | 24.3|03:51    | 30.6|15:19    |11  |      3.9|   9.2|10:16     |  9.4|  1018.4|Varias      |  1016.1|17          |
+|2022-07-24 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 28.2|0,0  | 24.8|04:47    | 31.6|15:26    |25  |      5.0|   9.7|16:51     | 12.0|  1017.7|00          |  1013.9|18          |
+|2022-07-25 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 27.8|0,0  | 24.5|03:29    | 31.1|07:55    |08  |      6.4|  10.8|10:20     |  6.5|  1015.9|Varias      |  1013.7|03          |
+|2022-07-26 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 28.0|0,7  | 25.0|02:45    | 31.0|10:28    |17  |      5.8|  10.3|13:03     |  9.8|  1015.3|Varias      |  1012.3|19          |
+|2022-07-27 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 26.6|0,4  | 23.2|05:57    | 30.1|16:02    |10  |      3.9|  11.4|05:39     |  4.5|  1014.5|Varias      |  1010.6|18          |
+|2022-07-28 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 27.8|0,0  | 24.4|07:49    | 31.3|11:24    |28  |      2.8|   8.3|07:17     |  6.7|  1013.9|Varias      |  1011.1|04          |
+|2022-07-29 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 27.8|0,0  | 24.5|04:35    | 31.0|10:11    |11  |      5.6|  12.5|15:12     |  4.9|  1017.6|Varias      |  1012.6|04          |
+|2022-07-30 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 27.8|0,0  | 24.6|01:51    | 31.0|13:30    |99  |      4.2|   8.9|Varias    |  8.3|  1019.7|Varias      |  1016.8|03          |
+|2022-07-31 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 28.3|0,0  | 24.4|03:41    | 32.2|12:58    |22  |      4.4|   9.2|14:29     | 11.8|  1019.1|00          |  1015.4|17          |
+|2022-08-01 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 29.0|0,0  | 24.8|05:10    | 33.3|11:50    |24  |      5.3|   8.9|15:25     | 11.4|  1016.4|Varias      |  1014.3|16          |
+|2022-08-02 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 29.6|0,0  | 26.7|04:36    | 32.5|10:45    |23  |      4.4|  10.3|14:48     | 11.6|  1015.5|Varias      |  1013.3|16          |
+|2022-08-03 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 28.8|0,0  | 25.2|04:48    | 32.3|14:46    |99  |      4.2|   9.2|Varias    | 12.4|  1014.6|Varias      |  1012.6|04          |
+|2022-08-04 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 28.8|0,0  | 25.6|04:37    | 31.9|12:15    |99  |      4.4|   8.9|Varias    | 12.0|  1014.7|Varias      |  1012.9|16          |
+|2022-08-05 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 27.2|13,5 | 22.2|17:28    | 32.3|13:33    |07  |      4.2|  18.1|15:47     |  8.9|  1017.9|Varias      |  1013.6|01          |
+|2022-08-06 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 28.2|0,0  | 22.7|04:01    | 33.6|09:40    |24  |      4.7|  10.3|21:28     | 10.2|  1016.5|Varias      |  1014.2|17          |
+|2022-08-07 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 28.0|0,0  | 24.4|04:52    | 31.7|11:53    |36  |      2.8|   9.2|19:25     |  8.8|  1015.7|Varias      |  1013.2|19          |
+|2022-08-08 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 27.2|0,0  | 22.5|04:49    | 31.8|12:02    |01  |      3.6|   9.2|05:11     | 12.3|  1016.2|Varias      |  1013.9|02          |
+|2022-08-09 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 28.2|0,0  | 24.2|05:05    | 32.1|14:16    |01  |      3.1|   9.2|12:33     | 11.3|  1017.5|Varias      |  1015.7|03          |
+|2022-08-10 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 28.2|0,0  | 24.0|05:10    | 32.5|13:50    |99  |      4.2|   9.7|Varias    | 12.3|  1016.5|00          |  1013.7|17          |
+|2022-08-11 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 28.0|0,0  | 23.9|04:30    | 32.2|16:05    |99  |      3.9|   8.3|Varias    | 11.6|  1015.4|Varias      |  1013.6|18          |
+|2022-08-12 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 28.6|0,0  | 24.5|05:09    | 32.6|14:13    |24  |      6.1|  15.0|Varias    | 11.6|  1014.3|00          |  1009.9|16          |
+|2022-08-13 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 29.5|0,0  | 25.3|03:02    | 33.7|08:51    |08  |      4.7|  11.4|18:20     |  7.1|  1011.1|Varias      |  1008.8|05          |
+|2022-08-14 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 30.2|2,7  | 25.9|03:37    | 34.6|13:11    |99  |      6.7|  12.8|Varias    |  7.6|  1009.4|00          |  1005.3|15          |
+|2022-08-15 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 27.3|0,0  | 24.2|04:30    | 30.4|11:30    |36  |      4.7|  10.8|06:40     | 11.7|  1008.7|23          |  1006.5|05          |
+|2022-08-16 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 27.5|0,0  | 23.8|04:08    | 31.2|13:49    |16  |      3.1|   7.8|14:17     |  7.4|  1008.7|00          |  1005.8|16          |
+|2022-08-17 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 24.8|45,9 | 18.3|19:45    | 31.2|12:09    |36  |      5.6|  14.4|18:58     |  5.8|  1011.9|Varias      |  1006.1|11          |
+|2022-08-18 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 23.4|2,8  | 19.4|23:18    | 27.5|13:30    |31  |      3.9|  10.3|15:44     |  4.9|  1016.0|Varias      |  1008.6|02          |
+|2022-08-19 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 23.8|0,0  | 18.2|05:16    | 29.5|11:26    |99  |      3.9|   8.3|Varias    | 12.8|  1018.6|Varias      |  1015.5|01          |
+|2022-08-20 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 25.4|0,0  | 20.6|04:54    | 30.1|13:13    |23  |      6.7|  12.5|15:36     | 12.6|  1018.3|Varias      |  1015.0|18          |
+|2022-08-21 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 27.0|3,4  | 23.2|03:28    | 30.7|13:35    |07  |      3.3|  12.8|17:11     |  7.3|  1015.9|00          |  1011.4|15          |
+|2022-08-22 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 26.4|0,0  | 23.5|00:10    | 29.2|14:20    |04  |      3.9|   9.2|08:40     |  8.0|  1013.4|10          |  1011.8|Varias      |
+|2022-08-23 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 26.6|0,0  | 23.0|05:12    | 30.3|12:33    |99  |      4.7|   9.7|Varias    | 12.0|  1014.4|Varias      |  1011.9|17          |
+|2022-08-24 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 27.6|0,0  | 24.3|05:12    | 31.0|11:24    |24  |      4.4|  10.3|12:43     | 10.5|  1015.4|Varias      |  1012.5|17          |
+|2022-08-25 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 26.5|0,6  | 22.2|21:45    | 30.8|13:31    |35  |      3.1|  12.8|21:01     |  8.6|  1015.4|Varias      |  1012.3|00          |
+|2022-08-26 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 26.6|0,0  | 22.0|04:03    | 31.3|10:26    |99  |      5.3|   9.2|Varias    |  7.4|  1014.4|Varias      |  1010.7|17          |
+|2022-08-27 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 27.4|0,0  | 23.6|04:59    | 31.3|13:47    |99  |      4.4|   9.7|Varias    |  9.8|  1012.2|Varias      |  1010.3|17          |
+|2022-08-28 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 26.8|0,0  | 22.6|04:53    | 31.1|14:29    |99  |      5.8|  10.8|Varias    | 12.1|  1014.9|Varias      |  1011.8|00          |
+|2022-08-29 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 26.8|Ip   | 22.9|05:00    | 30.7|15:33    |25  |      4.4|  11.4|10:44     |  7.9|  1016.9|Varias      |  1013.6|22          |
+|2022-08-30 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 27.3|1,8  | 23.4|05:10    | 31.2|13:43    |99  |      6.7|  11.7|Varias    | 10.3|  1016.7|Varias      |  1012.9|17          |
+|2022-08-31 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 24.6|11,6 | 18.8|16:50    | 30.5|13:43    |99  |      3.9|  16.9|16:37     |  3.3|  1017.1|Varias      |  1013.2|05          |
+|2022-09-01 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 24.8|0,0  | 19.4|Varias   | 30.2|13:37    |36  |      4.2|  10.3|01:48     | 11.5|  1014.8|00          |  1011.8|18          |
+|2022-09-02 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 27.0|0,0  | 23.1|23:14    | 30.9|15:11    |10  |      5.3|  11.7|17:57     |  8.7|  1012.4|00          |  1008.5|17          |
+|2022-09-03 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 26.0|0,0  | 22.7|05:16    | 29.3|12:20    |08  |      5.6|  12.5|01:30     |  5.6|  1013.4|Varias      |  1010.5|03          |
+|2022-09-04 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 26.3|0,0  | 23.1|05:15    | 29.5|12:40    |99  |      4.2|   8.3|Varias    | 10.3|  1017.9|Varias      |  1013.4|00          |
+|2022-09-05 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 27.1|0,0  | 23.8|05:58    | 30.4|10:41    |12  |      4.4|   9.7|10:24     |  6.2|  1018.7|Varias      |  1015.7|18          |
+|2022-09-06 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 27.0|0,0  | 23.1|23:31    | 30.8|13:52    |23  |      5.6|  10.6|16:15     | 11.4|  1016.3|00          |  1012.9|17          |
+|2022-09-07 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 26.2|0,0  | 21.8|05:48    | 30.5|11:16    |99  |      3.1|   8.3|Varias    |  7.6|  1014.3|Varias      |  1010.7|18          |
+|2022-09-08 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 26.4|0,0  | 23.6|03:21    | 29.3|12:31    |99  |      4.4|   8.3|Varias    |  4.2|  1015.4|Varias      |  1011.4|00          |
+|2022-09-09 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 26.0|0,0  | 22.2|05:30    | 29.7|11:03    |11  |      6.9|  11.7|12:06     |  4.4|  1019.0|Varias      |  1014.3|03          |
+|2022-09-10 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 25.2|0,0  | 21.0|03:28    | 29.4|15:08    |22  |      3.9|   8.3|Varias    |  9.8|  1019.7|10          |  1016.1|18          |
+|2022-09-11 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 26.8|0,0  | 24.4|23:33    | 29.1|Varias   |10  |      4.2|   8.9|10:12     |  6.5|  1016.8|00          |  1013.4|18          |
+|2022-09-12 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 27.0|0,0  | 23.2|05:00    | 30.8|12:00    |01  |      3.3|   9.2|23:40     |  8.2|  1014.0|00          |  1010.4|18          |
+|2022-09-13 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 28.9|0,7  | 25.0|23:32    | 32.8|11:46    |06  |      4.7|  14.4|17:47     |  0.4|  1011.5|Varias      |  1008.4|Varias      |
+|2022-09-14 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 24.4|0,1  | 20.8|02:25    | 28.1|16:26    |33  |      5.0|  16.1|02:08     |  0.7|  1010.2|02          |  1006.2|01          |
+|2022-09-15 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 25.4|0,0  | 20.8|06:05    | 29.9|13:31    |36  |      3.6|   8.3|04:39     | 11.4|  1012.0|Varias      |  1008.9|03          |
+|2022-09-16 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 25.1|0,0  | 21.7|05:22    | 28.5|14:49    |06  |      4.2|  13.3|21:40     |  5.2|  1012.7|Varias      |  1009.2|17          |
+|2022-09-17 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 23.2|0,0  | 20.1|04:58    | 26.4|10:37    |36  |      4.7|  11.4|06:00     |  8.2|  1015.8|Varias      |  1010.8|01          |
+|2022-09-18 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 22.0|0,0  | 18.6|05:07    | 25.5|13:42    |22  |      3.3|   9.2|13:52     | 10.4|  1017.2|Varias      |  1014.9|03          |
+|2022-09-19 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 22.7|0,0  | 18.8|05:20    | 26.6|14:00    |11  |      2.8|   7.2|09:40     | 10.3|  1016.1|Varias      |  1014.2|05          |
+|2022-09-20 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 23.4|0,0  | 20.7|23:47    | 26.2|12:09    |17  |      3.3|   7.8|12:17     |  3.9|  1018.1|Varias      |  1016.0|00          |
+|2022-09-21 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 22.8|0,0  | 19.5|Varias   | 26.0|13:27    |99  |      4.4|   8.9|Varias    |  7.6|  1018.0|Varias      |  1016.0|16          |
+|2022-09-22 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 23.0|0,0  | 20.1|Varias   | 25.8|13:04    |99  |      4.7|  11.4|Varias    |  8.4|  1018.9|Varias      |  1016.7|03          |
+|2022-09-23 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 22.0|13,7 | 17.0|23:59    | 27.0|13:14    |36  |      4.2|  14.4|23:46     |  6.2|  1018.5|Varias      |  1012.6|23          |
+|2022-09-24 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 20.0|0,6  | 16.7|00:20    | 23.3|13:10    |01  |      6.7|  13.3|07:50     |  0.4|  1013.7|10          |  1010.6|17          |
+|2022-09-25 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 20.0|0,0  | 16.4|07:02    | 23.7|13:55    |01  |      4.2|   8.9|08:22     |  5.9|  1013.3|Varias      |  1011.5|02          |
+|2022-09-26 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 20.3|0,0  | 15.0|05:59    | 25.6|13:36    |25  |      5.6|  13.3|14:31     |  9.7|  1012.7|00          |  1009.7|15          |
+|2022-09-27 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 20.0|0,0  | 15.3|03:01    | 24.7|12:26    |35  |      3.3|   8.9|10:27     |  8.2|  1011.5|Varias      |  1008.8|05          |
+|2022-09-28 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 21.9|0,0  | 16.8|04:28    | 27.0|12:57    |30  |      5.0|  12.5|17:13     |  3.5|  1010.8|00          |  1003.6|17          |
+|2022-09-29 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 20.4|0,0  | 16.3|23:55    | 24.6|16:23    |08  |      4.2|  16.1|19:40     |  3.8|  1005.0|Varias      |  1000.4|16          |
+|2022-09-30 |0076       |BARCELONA AEROPUERTO |BARCELONA |       4| 18.8|0,0  | 14.5|04:52    | 23.2|11:07    |21  |      4.7|  11.7|20:17     |  7.6|  1018.3|24          |  1004.8|00          |
+
+---
+
+# Importando datos: desde .orange[API]
+
+También se pueden importar datos desde las API de spotify (ver &lt;https://www.rcharlie.com/spotifyr/&gt;) como de Twitter (ver &lt;https://github.com/ropensci/rtweet&gt;)
+
+
+```r
+# install.packages("rtweet")
+library(rtweet)
+# install.packages("spotifyr")
 library(spotifyr)
 ```
 
----
-
-# Importando datos: desde .orange[API]
 
 
 ```r
-library(twitteR)
+# install.packages("rtweet")
+library(rtweet)
+auth_setup_default()
+rt &lt;- search_tweets("#pedrosanchez", n = 100, include_rts = FALSE)
+rt
+```
+
+```
+&gt; # A tibble: 100 × 43
+&gt;    created_at               id id_str       full_…¹ trunc…² displ…³ entities    
+&gt;    &lt;dttm&gt;                &lt;dbl&gt; &lt;chr&gt;        &lt;chr&gt;   &lt;lgl&gt;     &lt;dbl&gt; &lt;list&gt;      
+&gt;  1 2022-10-24 11:56:41 1.58e18 15844840143… "Los q… FALSE       187 &lt;named list&gt;
+&gt;  2 2022-10-24 11:45:01 1.58e18 15844810767… "Pedro… FALSE       188 &lt;named list&gt;
+&gt;  3 2022-10-24 11:02:03 1.58e18 15844702655… "Serra… FALSE       177 &lt;named list&gt;
+&gt;  4 2022-10-24 09:35:41 1.58e18 15844485305… "@nina… FALSE       147 &lt;named list&gt;
+&gt;  5 2022-10-24 08:49:57 1.58e18 15844370173… "Tal c… FALSE       222 &lt;named list&gt;
+&gt;  6 2022-10-24 08:44:53 1.58e18 15844357434… "#pedr… FALSE        37 &lt;named list&gt;
+&gt;  7 2022-10-23 23:28:09 1.58e18 15842956373… "Es el… FALSE       279 &lt;named list&gt;
+&gt;  8 2022-10-23 23:21:36 1.58e18 15842939888… "@jjav… FALSE        69 &lt;named list&gt;
+&gt;  9 2022-10-23 22:24:46 1.58e18 15842796873… "@naiT… FALSE       144 &lt;named list&gt;
+&gt; 10 2022-10-23 19:45:46 1.58e18 15842396742… "@elmu… FALSE       154 &lt;named list&gt;
+&gt; # … with 90 more rows, 36 more variables: metadata &lt;list&gt;, source &lt;chr&gt;,
+&gt; #   in_reply_to_status_id &lt;dbl&gt;, in_reply_to_status_id_str &lt;chr&gt;,
+&gt; #   in_reply_to_user_id &lt;dbl&gt;, in_reply_to_user_id_str &lt;chr&gt;,
+&gt; #   in_reply_to_screen_name &lt;chr&gt;, geo &lt;list&gt;, coordinates &lt;list&gt;,
+&gt; #   place &lt;list&gt;, contributors &lt;lgl&gt;, is_quote_status &lt;lgl&gt;,
+&gt; #   retweet_count &lt;int&gt;, favorite_count &lt;int&gt;, favorited &lt;lgl&gt;,
+&gt; #   retweeted &lt;lgl&gt;, possibly_sensitive &lt;lgl&gt;, lang &lt;chr&gt;, …
 ```
 
 ---
@@ -16105,7 +16456,6 @@ flights_airlines
 &gt; #   origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;,
 &gt; #   minute &lt;dbl&gt;, time_hour &lt;dttm&gt;, name &lt;chr&gt;, and abbreviated variable names
 &gt; #   ¹​sched_dep_time, ²​dep_delay, ³​arr_time, ⁴​sched_arr_time, ⁵​arr_delay
-&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
  
 ]
@@ -16141,7 +16491,6 @@ flights_airlines_planes
 &gt; #   manufacturer &lt;chr&gt;, model &lt;chr&gt;, engines &lt;int&gt;, seats &lt;int&gt;, speed &lt;int&gt;,
 &gt; #   engine &lt;chr&gt;, and abbreviated variable names ¹​sched_dep_time, ²​dep_delay,
 &gt; #   ³​arr_time, ⁴​sched_arr_time, ⁵​arr_delay
-&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
 ]
@@ -16179,7 +16528,6 @@ flights_airlines_planes
 &gt; #   speed &lt;int&gt;, engine &lt;chr&gt;, and abbreviated variable names ¹​year_flight,
 &gt; #   ²​dep_time, ³​sched_dep_time, ⁴​dep_delay, ⁵​arr_time, ⁶​sched_arr_time,
 &gt; #   ⁷​arr_delay
-&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
 ]
@@ -16239,7 +16587,6 @@ flights_airlines_planes %&gt;%
 &gt; #   speed &lt;int&gt;, engine &lt;chr&gt;, lat_origin &lt;dbl&gt;, lon_origin &lt;dbl&gt;,
 &gt; #   lat_dest &lt;dbl&gt;, lon_dest &lt;dbl&gt;, and abbreviated variable names
 &gt; #   ¹​year_flight, ²​dep_time, ³​sched_dep_time, ⁴​dep_delay, ⁵​arr_time, …
-&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
 ]
@@ -16285,7 +16632,6 @@ flights %&gt;%
 &gt;  9 N531MQ    349
 &gt; 10 N6EAMQ    348
 &gt; # … with 711 more rows
-&gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 ]
@@ -16507,6 +16853,19 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
     deleted = true;
   });
 })();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
 (function() {
   "use strict"
   // Replace <script> tags in slides area to make them executable
