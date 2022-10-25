@@ -181,16 +181,12 @@ El **.bg-purple_light[propósito]** de esta asignatura será triple
 
 Las 3 sesiones que tendremos contarán un **.bg-purple_light[50% de la nota final]** de la asignatura. La evaluación será mediante 3 entregas:
 
-* **.bg-purple_light[Entrega I]**: contará un **.bg-orange[15% de la nota]** (sobre 100%)
+* **.bg-purple_light[Entrega I]**: contará un **.bg-orange[15% de la nota]** (sobre 100%, deadline 20 de noviembre)
 
-* **.bg-purple_light[Entrega II]**: contará un **.bg-orange[40% de la nota]** (sobre 100%)
+* **.bg-purple_light[Entrega II]**: contará un **.bg-orange[35% de la nota]** (sobre 100%, deadline 11 de diciembre)
 
-* **.bg-purple_light[Entrega III]**: contará un **.bg-orange[45% de la nota]** (sobre 100%)
+* **.bg-purple_light[Entrega III]**: contará un **.bg-orange[50% de la nota]** (deadline, 25 de diciembre)
 
-
---
-
-Dos opciones a decidir: **.bg-purple_light[escalar]** los deadline (20 de noviembre - 11 de diciembre - 25 de diciembre, para tener una **retroalimentación** antes de las siguientes, o **.bg-purple_light[acumular]** deadline (todas el 25 de diciembre).
 
 &nbsp;
 
@@ -207,7 +203,7 @@ class: inverse center middle
 
 #### [CLASE 1: intro a R](#clase-1)
 
-#### [CLASE 2: introducción a tidyverse y sesgos](#clase-2)
+#### [CLASE 2: introducción a tidyverse](#clase-2)
 
 #### [CLASE 3: introducción al dataviz](#clase-3)
 
@@ -2976,7 +2972,7 @@ name: ejercicios-I
 La entrega de dicho ejercicios tienen de deadline antes de la próxima clase y son **.bg-purple_light[voluntarios]** (no contará para la nota). A cambio el alumno que lo haga recibirá una corrección de la tarea (como si contase para nota), teniendo una retroalimentación.
 
 .panelset[
-.panel[.panel-name[Vectores y matrices: I]
+.panel[.panel-name[Vectores: I]
 
 * 📝 **Ejercicio 1**: define un vector `y` que contenga los 5 primeros pares, y otro `x` con los 5 primeros impares. Haz la suma de `x` e `y`.
  
@@ -2986,18 +2982,14 @@ La entrega de dicho ejercicios tienen de deadline antes de la próxima clase y s
 
 ]
 
-.panel[.panel-name[Vectores y matrices: II]
+.panel[.panel-name[Vectores: II]
 
-* 📝 **Ejercicio 4**:  el siguiente código define una matriz de dimensiones `4 x 3` y calcula la suma por columnas. Modifica el código para que realice la suma por filas.
+* 📝 **Ejercicio 4**: usando la fecha de hoy, construye un vector de tipo fecha de longitud 7 (que incluya hoy, los 3 días anteriores y los 3 días posteriores). Tras ello, extrae el día de cada una de las fechas.
  
-```{r eval = FALSE}
-matriz <- matrix(1:12, nrow = 4)
-apply(matriz, MARGIN = 2, FUN = "sum")
-```
-
-* 📝 **Ejercicio 5**: tomando la matriz del ejercicio anterior, accede a la segunda variable. Accede al primer registro. Accede al valor de la tercera variable del segundo individuo.
+* 📝 **Ejercicio 5**: echa un vistazo al material complementario. Diseña un bucle `for` de 200 iteraciones que, empezando en un valor inicial de 100 (euros), te sume 3€ si el número actual de la iteración es par y te reste 5€ si la iteración es impar (un número par será todo aquel número que al dividir entre 2, la división es exacta, es decir, que su resto es nulo; para calcular ese resto usaremos la función `%%`, por ejemplo `5 %% 2`).
 
 ]
+
 
 ]
 
@@ -3005,8 +2997,10 @@ apply(matriz, MARGIN = 2, FUN = "sum")
 
 name: entrega-I
 
-# .orange[ENTREGA I]
-pendiente de concretar
+# .orange[ENTREGA I (15%)]
+
+Deberás **.bg-purple_light[entregar completado]** el archivo `.Rmd` que tienes disponible en <https://github.com/dadosdelaplace/teaching/tree/main/data_science_seguros/eval/ENTREGA%201> **.bg-purple_light[antes de las 23:59 del 20 de noviembre ]**, siguiendo las instrucciones contenidas en el mismo.
+
 
 &nbsp;
 
@@ -6293,7 +6287,7 @@ class: inverse
 
 # EJERCICIOS Y ENTREGA
 
-#### [Ejercicios extras](#ejercicios-I)
+#### [Ejercicios extras](#ejercicios-II)
 
 #### [Entrega II](#entrega-II)
 
@@ -6485,9 +6479,22 @@ name: ejercicios-II
 
 # Ejercicios extras
 
-La entrega de dicho ejercicios tienen de deadline antes de la próxima clase y son **.bg-purple_light[voluntarios]** (no contará para la nota). A cambio el alumno que lo haga recibirá una corrección de la tarea (como si contase para nota), teniendo una retroalimentación.
+La entrega de dicho ejercicios tienen de deadline antes de la próxima clase y son **.bg-purple_light[voluntarios]** (no contará para la nota). A cambio el alumno que lo haga recibirá una corrección de la tarea.
 
 .panelset[
+
+.panel[.panel-name[Matrices]
+
+* 📝 **Ejercicio 1**:  el siguiente código define una matriz de dimensiones `4 x 3` y calcula la suma por columnas. Modifica el código para que realice la suma por filas.
+ 
+```{r eval = FALSE}
+matriz <- matrix(1:12, nrow = 4)
+apply(matriz, MARGIN = 2, FUN = "sum")
+```
+
+* 📝 **Ejercicio 2**: tomando la matriz del ejercicio anterior, accede a la segunda variable. Accede al primer registro. Accede al valor de la tercera variable del segundo individuo.
+
+]
 .panel[.panel-name[Tibble]
 
 
@@ -6500,18 +6507,34 @@ La entrega de dicho ejercicios tienen de deadline antes de la próxima clase y s
 ]
 
 
-.panel[.panel-name[Tidy data]
+.panel[.panel-name[Tidy data I]
 
-* 📝 **Ejercicio 1**: del paquete `{tidyr}` carga el dataset `billboard` y busca en la ayuda (`? billboard`) para ver que significan las variables.
+* 📝 **Ejercicio 1**: del paquete `{tidyr}` carga el dataset `oms` y busca en la ayuda (`? oms`) para ver que significan las variables (datos relacionados con casos de tuberculosis **desagregados por año, país, edad, género y el tipo**). Tras analizar la tabla, construye partir de ella una nueva con los mismos datos (no borres nada) pero recolocados de tal forma que sea tidydata
 
-* 📝 **Ejercicio 2**: convierte a tidydata el conjunto de datos, ignorando de momento el tratamiento de ausentes, obteniendo un dataset de 24 092 filas y 5 columnas.
+```{r eval = FALSE}
+# Completa el código
+who1 <- who %>% pivot_...(...)
+who1
+```
 
-* 📝 **Ejercicio 3**: repite el ejercicio anterior pero tras la conversión a tidydata, elimina datos ausentes (deberías obtener un dataset de 5307 filas y 5 columnas). Tras ello, selecciona solo aquellos registros del primer año natural (es decir, de la semana 1 a la semana 52), y elimina la variable `date.entered`.
 
 ]
 
+.panel[.panel-name[Tidy data II]
 
-.panel[.panel-name[Filter, slice y select]
+* 📝 **Ejercicio 2**: repite el ejercicio anterior pero eliminando las filas que tengan casos ausentes.
+
+
+* 📝 **Ejercicio 3**: echa un vistazo a la ayuda de `count()` y aplica dicha función para contar cuantos registros tienes de cada tipo de enfermedad.
+
+```{r eval = FALSE}
+# Completa el código
+who1 %>% count(...)
+```
+
+]
+
+.panel[.panel-name[Tidyverse I]
 
 * 📝 **Ejercicio 1**: selecciona aquellos personajes de `starwars` que hayan salido en la película "El ataque de los clones" ("Attack of the Clones"). Busca información de la función `str_detect()` del paquete `stringr`. 
 
@@ -6522,7 +6545,7 @@ La entrega de dicho ejercicios tienen de deadline antes de la próxima clase y s
 ]
 
 
-.panel[.panel-name[Mutate, group_by y count]
+.panel[.panel-name[Tidyverse II]
 
 * 📝 **Ejercicio 1**: sobre la base de datos original de `starwars`, filtra solo aquellos personajes de la familia `"Skywalker"` o `"Antilles"`, selecciona solo las columnas de `name` y `specie`, y renombra a castellano.
 
@@ -6541,9 +6564,16 @@ La entrega de dicho ejercicios tienen de deadline antes de la próxima clase y s
 
 name: entrega-II
 
-# .orange[ENTREGA II]
+# .orange[ENTREGA II (35%)]
 
-pendiente de concretar
+Carga el entorno de paquetes `{tidyverse}` y usa los conjuntos de datos `billboard` y `who`. Deberás **.bg-purple_light[entregar completado]** el archivo `.Rmd` que tienes disponible en <https://github.com/dadosdelaplace/teaching/tree/main/data_science_seguros/> **.bg-purple_light[antes de las 23:59 del 11 de diciembre]**, siguiendo las instrucciones contenidas en el mismo.
+
+```{r eval = FALSE}
+library(tidyr)
+who
+billboard
+```
+
 
 &nbsp;
 
