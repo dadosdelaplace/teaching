@@ -6566,7 +6566,7 @@ name: entrega-II
 
 # .orange[ENTREGA II (35%)]
 
-Carga el entorno de paquetes `{tidyverse}` y usa los conjuntos de datos `billboard` y `who`. Deberás **.bg-purple_light[entregar completado]** el archivo `.Rmd` que tienes disponible en <https://github.com/dadosdelaplace/teaching/tree/main/data_science_seguros/> **.bg-purple_light[antes de las 23:59 del 11 de diciembre]**, siguiendo las instrucciones contenidas en el mismo.
+Carga el entorno de paquetes `{tidyverse}` y usa los conjuntos de datos `billboard` y `who`. Deberás **.bg-purple_light[entregar completado]** el archivo `.Rmd` que tienes disponible en <https://github.com/dadosdelaplace/teaching/tree/main/data_science_seguros/eval/ENTREGA%202> **.bg-purple_light[antes de las 23:59 del 11 de diciembre]**, siguiendo las instrucciones contenidas en el mismo.
 
 ```{r eval = FALSE}
 library(tidyr)
