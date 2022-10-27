@@ -125,6 +125,8 @@ $$\\[2in]$$
 
 ---
 
+class: inverse center middle
+
 # BLOQUES
 
 &nbsp;
@@ -145,9 +147,9 @@ $$\\[2in]$$
 
 #### [Bloque V: funciones y listas](#bloque-5)
 
-#### [Bloque VI: importar/exportar. Tidydata](#bloque-6)
+#### [Bloque VI: tibble y tidydata](#bloque-6)
 
-#### [Bloque VII: ordenando y resumiendo datos (tidyverse)](#bloque-7)
+#### [Bloque VII: depurando, ordenando y resumiendo datos (tidyverse)](#bloque-7)
 
 #### [Bloque VIII: visualizando datos](#bloque-7)
 
@@ -5342,22 +5344,2595 @@ map_lgl(segunda_peli, is.null)
 class: inverse center middle
 name: bloque-6
 
-# BLOQUE VI: importar/exportar. Tidydata
+# BLOQUE VI: tibble y tidydata
 
 &nbsp;
 
-### [Importar/exportar datos](#importar-exportar)
+### [Tibble](#tibble)
 
 ### [Tidydata](#tidydata)
+
+---
+
+name: tibble
+
+# Mejorando los data.frame: .orange[TIBBLE]
+ 
+Las tablas en formato `tibble` (con `tibble()` del paquete `{tibble}`, su clase será `tbl_df`) son un tipo de `data.frame` mejorado, para una gestión **.bg-purple_light[más ágil, eficiente y coherente]**. Las tablas en formato `tibble` tienen **.bg-purple_light[4 ventajas principales]**
+
+```{r echo = FALSE,  out.width = "30%", fig.align = "center"}
+knitr::include_graphics("./img/tibble.svg")
+``` 
+
+---
+
+# Mejorando los data.frame: .orange[TIBBLE]
+
+
+*  Muestran **.bg-purple_light[metainformación de las variables]**, y solo imprime por defecto las primeras filas.
+
+```{r}
+library(tibble)
+tabla_tb <- tibble("x" = 1:50, "y" = rep(c("a", "b", "c", "d", "e"), 10),
+                   "logica" = rep(c(TRUE, FALSE), 25))
+tabla_tb
+```
+
+
+
+---
+
+# Mejorando los data.frame: .orange[TIBBLE]
+ 
+Puedes **imprimir las filas y columnas** que quieras con `print()`
+
+```{r}
+print(tabla_tb, n = 12, width = Inf) #<<
+```
+
+---
+
+# Mejorando los data.frame: .orange[TIBBLE]
+ 
+
+* La función `tibble()` **.bg-purple_light[construye las variables secuencialmente]**, pudiendo hacer uso en la propia definición de variables recién definidas en dicha definición.
+
+```{r error = TRUE}
+# data.frame
+data.frame("x1" = 1:3, "x2" = 4:6, "y" = x1 * x2)
+```
+
+```{r}
+# tibble
+tibble("x1" = 1:3, "x2" = 4:6, "y" = x1 * x2)
+```
+
+
+---
+
+# Mejorando los data.frame: .orange[TIBBLE]
+ 
+* Si accedes a una **.bg-purple_light[columna que no existe]** avisa con un **.bg-red[warning]**.
+
+```{r}
+tabla_df <- data.frame("x" = 1:50, "y" = rep(c("a", "b", "c", "d", "e"), 10),
+                   "logica" = rep(c(TRUE, FALSE), 25))
+```
+
+.pull-left[
+
+```{r warning = TRUE}
+# data.frame
+tabla_df$variable_inexistente
+```
+
+]
+
+.pull-right[
+
+```{r warning = TRUE}
+# tibble
+tabla_tb$variable_inexistente
+```
+
+]
+
+---
+
+
+# Mejorando los data.frame: .orange[TIBBLE]
+
+* No solo no te cambiará el tipo de datos sino que **.bg-purple_light[no te cambiará el nombre de las variables]**.
+
+.pull-left[
+
+```{r}
+data.frame(":)" = "emoticono",
+           " " = "en blanco",
+           "2000" = "número")
+```
+
+]
+
+.pull-right[
+
+```{r}
+tibble(":)" = "emoticono",
+       " " = "en blanco",
+       "2000" = "número")
+```
+
+]
+
+---
+
+
+# Mejorando los data.frame: .orange[TIBBLE]
+
+Si ya tienes un `data.frame` es altamente recomendable **.bg-purple_light[convertirlo a tibble]** con `as_tibble()` (del paquete `{dplyr}`)
+
+```{r}
+library(dplyr)
+as_tibble(USArrests)
+```
+
+Puedes consultar **más funcionalidades** de dichos datos en <https://tibble.tidyverse.org/>
+
+---
+
+# Mejorando los data.frame: .orange[TIBBLE]
+
+Una de las ventajas es la función `glimpse()`, que nos permite obtener el **.bg-purple_light[resumen de columnas]** (no es para tener un resumen de los datos sino para ver las variables que tenemos y su tipo).
+
+```{r}
+glimpse(tabla_tb)
+```
+
+---
+
+# Mejorando los data.frame: .orange[TIBBLE]
+
+Amén de poder convetir con `as_tibble()` podemos **.bg-purple_light[crearlos por filas]** (como copiar y pegar de una tabla en documento) en lugar de por columnas con `tribble()`
+
+```{r}
+datos <- tribble(
+  ~colA, ~colB,
+  "a",   1,
+  "b",   2)
+datos
+```
+
+&nbsp;
+
+--
+
+**.bg-green_light[CONSEJO]**: prueba además el paquete `{datapasta}`, que nos permite **.bg-purple_light[copiar y pegar tablas de páginas web]**
+
+
+---
+
+
+name: tidydata
+
+# Datos limpios: .orange[TIDY DATA]
+
+.pull-left[
+
+```{r echo = FALSE,  out.width = "99%", fig.align = "center"}
+knitr::include_graphics("./img/tidyverrse_universe.jpg")
+``` 
+
+]
+
+.pull-right[
+```{r echo = FALSE,  out.width = "99%", fig.align = "center"}
+knitr::include_graphics("./img/flow_tidyverse.jpg")
+``` 
+]
+
+Universo de **.bg-purple_light[paquetes tidyverse]**: un conjunto de paquetes para un flujo de **trabajo eficiente, coherente y lexicográficamente** sencillo de entender.
+
+---
+
+# Datos limpios: .orange[TIDY DATA]
+
+> Tidy datasets are all alike, but every messy dataset is messy in its own way (Hadley Wickham, Chief Scientist en RStudio)
+
+Hasta ahora solo le hemos dado importancia al «qué» pero no al **.bg-purple_light[«cómo» manejamos los datos]**. La organización de nuestros datos es fundamental para que su **.bg-purple_light[preparación y explotación]** sea lo más eficiente posible.
+
+```{r echo = FALSE,  out.width = "60%", fig.align = "center", fig.cap = "Flujo deseable de datos según Hadley Wickham, extraída de https://r4ds.had.co.nz/wrangle-intro.html"}
+knitr::include_graphics("./img/tidy_flow.jpg")
+``` 
+
+
+---
+
+# Datos limpios: .orange[TIDY DATA]
+
+El concepto **.bg-purple_light[tidy data]** fue introducido por **Hadley Wickham** (Wickham, 2014) como el primer paso de un flujo de trabajo eficiente. Para ello haremos uso del paquete `{tidyr}` (dentro de `{tidyverse}`) que nos proporciona herramientas eficientes y sencillaspara su manejo.
+
+--
+
+&nbsp;
+
+Los **.bg-purple_light[conjuntos tidy u ordenados]** tienen tres objetivos
+
+* **.bg-orange[Estandarización]** en su estructura para una depuración y análisis eficiente.
+* **.bg-orange[Sencillez]** en su manipulación.
+* Listos para ser **.bg-orange[modelizados y visualizados]**.
+
+&nbsp;
+
+📚 Ver Wickham (2014) en **.bg-green_light[bibliografía]** en <https://github.com/dadosdelaplace/teaching/tree/main/bioestad/biblio>
+
+---
+
+# Datos limpios: .orange[TIDY DATA]
+
+
+
+.pull-left[
+
+Los **.bg-purple_light[datos ordenados o tidy data]** deben cumplir:
+
+1. Cada **.bg-green_light[variable en una columna]**.
+
+2. Cada **.bg-orange[observación/individuo en una fila]** diferente.
+
+3. Cada **.bg-green_light[celda con un único valor]**.
+
+4. Cada **.bg-orange[conjunto en un tibble]** (tabla).
+
+5. Si usamos múltiples tablas a la vez debemos tener una **.bg-green_light[columna común para poder cruzarlas]**.
+
+]
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "85%", fig.align = "center"}
+knitr::include_graphics("./img/tidy_def.jpg")
+``` 
+
+&nbsp;
+
+```{r echo = FALSE,  out.width = "50%", fig.align = "center"}
+knitr::include_graphics("./img/tidyr_1.jpg")
+``` 
+
+
+]
+
+
+---
+
+# Tubería .orange[PIPE]
+
+En este entorno de trabajo tendremos un **.bg-purple_light[operador clave]**: el **.bg-purple_light[operador pipeline]** `%>%` (podemos usar el atajo con `ctrl+shift+M` o `command+shift+M`). Dicho operador lo debemos interpretar como una **.bg-purple_light[tubería]** que va pasando por los datos y los va transformando.
+
+--
+
+Por ejemplo, si tuviésemos tres funciones `first()`, `second()` y `third()`, la opción más inmediata sería anidar las tres funciones tal que `third(second(first(x)))`, algo que dificulta la lectura posterior del código
+
+--
+
+Con `%>%` podremos escribir (y leer) la concetanción de acciones como una **.bg-purple_light[tubería de izquierda a derecha]**:
+
+```{r eval = FALSE}
+first(x) %>% second(x) %>% third(x)
+```
+
+--
+
+Dicho operador viene del paquete `{magrittr}`. Para **evitar esta dependencia** (cuantos menos paquetes tengamos que cargar, mejor), desde la versión 4.1.0 de R, disponemos de un pipeline nativo de R, el **operador** `|>` (disponible además fuera del entorno tidyverse).
+
+---
+
+# Tubería .orange[PIPE]
+
+.pull-left[
+
+```{r eval = FALSE}
+datos %>%
+  limpio(...) %>%
+  selecciono(...) %>%
+  filtro(...) %>%
+  ordeno(...) %>%
+  agrupo(...) %>%
+  cuento(...) %>%
+  resumo(...) %>% 
+  pinto(...)
+```
+
+```{r eval = FALSE}
+datos |>
+  limpio(...) |>
+  selecciono(...) |>
+  filtro(...) |>
+  ordeno(...) |>
+  agrupo(...) |>
+  cuento(...) |>
+  resumo(...) |>
+  pinto(...)
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "90%", fig.align = "center"}
+knitr::include_graphics("./img/tuberia.jpg")
+``` 
+
+]
+
+---
+
+# Datos .orange[SUCIOS]: messy data
+
+Por ejemplo, vamos a cargar la tabla `table4a` del paquete `{tidyr}` (que ya lo tenemos cargado del entorno `{tidyverse}`).
+
+```{r echo = FALSE}
+library(tidyverse)
+```
+
+```{r}
+table4a
+```
+
+**.bg-purple_light[¿Qué falla?]**
+
+---
+
+
+# Datos .orange[SUCIOS]: messy data
+
+.pull-left[
+
+```{r echo = FALSE}
+library(tidyverse)
+```
+
+```{r}
+table4a
+```
+
+**.bg-purple_light[¿Qué falla?]**
+
+]
+
+.pull-right[
+
+
+❎ Cada **.bg-green_light[variable en una columna]**.
+
+❎ Cada **.bg-orange[observación/individuo en una fila]** diferente.
+
+❎ Cada **.bg-green_light[celda con un único valor]**.
+
+]
+
+Aunque la columna `$country` representa una variable, las otras columnas no: **.bg-purple_light[ambas son la misma variable]**, solo que medida en años distintos (que debería ser a su vez otra variable), de forma que **.bg-purple_light[cada fila está representando dos observaciones]** (1999, 2000).
+
+
+---
+
+# Datos .orange[SUCIOS]: messy data
+
+
+.pull-left[
+
+Lo que haremos será incluir una nueva columna llamada (por ejemplo) `year` que nos marque el año y otra llamada `cases` que nos diga el valor de la variable de interés en cada uno de esos años.
+
+]
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "65%", fig.align = "center"}
+knitr::include_graphics("./img/table4a.jpg")
+``` 
+
+
+]
+
+--
+
+Con la función `pivot_longer()` pivotaremos la tabla para pasarla a **formato long**:
+
+```{r}
+table4a %>%
+  pivot_longer(cols = c("1999", "2000"), names_to = "year", values_to = "cases") #<<
+```
+
+---
+
+# Datos .orange[SUCIOS]: messy data
+
+.pull-left[
+
+```{r}
+table4a %>%
+  pivot_longer(cols = c("1999", "2000"),
+               names_to = "year", 
+               values_to = "cases") #<<
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "99%", fig.align = "center"}
+knitr::include_graphics("./img/table4a_2.png")
+``` 
+
+
+]
+
+
+* `cols`: el **.bg-purple_light[nombre de las columnas a pivotar]** (con comillas por ser números y no caracteres).
+* `names_to`: el **.bg-purple_light[nombre de la nueva columna]** a la mandamos los **.bg-purple_light[nombres]** de las columnas.
+* `values_to`: el **.bg-purple_light[nombre de la nueva columna]** a la que vamos a mandar los **.bg-purple_light[datos]**.
+
+
+---
+
+# Datos .orange[SUCIOS]: messy data
+
+
+.panelset[
+.panel[.panel-name[table4b]
+
+Echa un vistazo a la tabla `{table4b}`
+
+```{r}
+table4b
+```
+
+**.bg-purple_light[TODO TUYO]**: ¿es tidy o messy? ¿Cómo convertirla a tidy data en caso de que no lo sea ya?
+
+]
+
+.panel[.panel-name[Solución]
+
+```{r}
+table4b %>% pivot_longer(cols = "1999":"2000",
+                         names_to = "year",
+                         values_to = "cases")
+```
+
+]
+
+]
+
+
+
+---
+
+# Datos .orange[SUCIOS]: messy data
+
+.panelset[
+.panel[.panel-name[relig_income]
+
+
+Echa un vistazo a la tabla `{relig_income}`
+
+```{r}
+relig_income
+```
+
+**.bg-purple_light[TODO TUYO]**: ¿es tidy o messy? ¿Cómo convertirla a tidy data en caso de que no lo sea ya?
+
+]
+
+.panel[.panel-name[Solución]
+
+```{r}
+relig_income %>%
+  pivot_longer(cols = "<$10k":"Don't know/refused",
+               names_to = "income",
+               values_to = "people")
+```
+
+]
+]
+
+
+---
+
+# Datos .orange[SUCIOS]: messy data
+
+Veamos un segundo tipo de dato sucio: vamos a cargar la tabla `table2` del paquete `{tidyr}` (que ya lo tenemos cargado del entorno `{tidyverse}`). **.bg-purple_light[¿Qué falla?]**
+
+
+```{r}
+table2
+```
+
+
+---
+
+# Datos .orange[SUCIOS]: messy data
+
+.pull-left[
+
+
+```{r}
+head(table2)
+```
+
+]
+
+.pull-right[
+
+
+```{r echo = FALSE,  out.width = "69%", fig.align = "center"}
+knitr::include_graphics("./img/table2.jpg")
+``` 
+]
+
+
+❎ Cada **.bg-orange[observación/individuo en una fila]** diferente.
+
+
+Fíjate en las cuatro primeras filas: los registros con el mismo año deberían ser el mismo, es la misma información, **.bg-purple_light[debería estar en la misma fila]**, pero está dividada en dos. 
+
+---
+
+
+# Datos .orange[SUCIOS]: messy data
+
+Lo que haremos será lo opuesto a antes: con `pivot_wider()` «ampliaremos» la **.bg-purple_light[tabla a lo ancho]**, con menos filas pero con más columnas.
+
+```{r}
+table2 %>%
+  pivot_wider(names_from = type, values_from = count) #<<
+```
+
+* `names_from`: el **.bg-purple_light[nombre de la columna original]** de la que vamos a sacar las **.bg-purple_light[nuevas columnas]** que vamos a crear (`cases` y `population`).
+* `values_from`: el **.bg-purple_light[nombre de la columna orignal]** de la que vamos a sacar los **.bg-purple_light[datos]**.
+
+
+---
+
+# Datos .orange[SUCIOS]: messy data
+
+
+Por último veamos un tercer tipo de dato sucio: vamos a cargar la tabla `table3` del paquete `{tidyr}` (que ya lo tenemos cargado del entorno `{tidyverse}`). **.bg-purple_light[¿Qué falla?]**
+
+
+```{r}
+table3
+```
+
+--
+
+❎ Cada **.bg-green_light[celda con un único valor]**.
+
+
+---
+
+# Datos .orange[SUCIOS]: messy data
+
+Lo que haremos será hacer uso de la función `separate()` para mandar **.bg-purple_light[cada valor a una columna diferente]**.
+
+```{r}
+table3 %>%
+  separate(rate, into = c("cases", "pop")) #<<
+```
+
+* `into`: **.bg-purple_light[nombre de nuevas columnas]** donde separaremos valores.
+
+
+
+```{r echo = FALSE,  out.width = "50%", fig.align = "center"}
+knitr::include_graphics("./img/seperate.jpg")
+``` 
+
+---
+
+# Datos .orange[SUCIOS]: messy data
+
+
+Por defecto lo que hace es **.bg-purple_light[localizar como separador cualquier caracter que no sea alfa-numérico]**. Si queremos un caracter concreto para dividir podemos indicárselo explícitamente. Si usas un separador que no está en los datos te devolverá dichas columnas vacías ya que no ha podido dividirlas.
+
+
+```{r warning = TRUE}
+table3 %>% separate(rate, into = c("cases", "population"), sep = ".")
+```
+
+---
+
+# Datos .orange[SUCIOS]: messy data
+
+De la misma manera que podemos separar columnas también podemos **.bg-purple_light[unir columnas]**. Para ello vamos a usar la tabla `table5` del ya mencionado paquete.
+
+```{r}
+table5
+```
+
+---
+
+# Datos .orange[SUCIOS]: messy data
+
+.pull-left[
+
+Con la función `unite()` vamos a **.bg-purple_light[unir]** el siglo (en `century`) y el año (en `year`), y al inicio le indicaremos como se llamará la nueva variable `year_ok`
+
+```{r}
+table5 %>%
+  unite(col = year_ok,
+        century, year, sep = "")
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "99%", fig.align = "center"}
+knitr::include_graphics("./img/unite.jpg")
+``` 
+
+]
+
+
+---
+
+# Eliminando .orange[AUSENTES]
+
+El paquete `{tidyr}` también dispone de algunas herramientas útiles para **.bg-purple_light[quitar ausentes]**
+
+```{r}
+datos <- tibble(x = c(1, 2, NA), y = c("a", NA, "b"))
+datos
+```
+
+---
+
+# Eliminando .orange[AUSENTES]
+
+
+Con `drop_na()` podemos indicarle que nos **.bg-purple_light[elimine las filas con algún ausente]** en alguna de las variables (o especificarle la variable concreta).
+
+
+.pull-left[
+
+```{r}
+datos %>% drop_na()
+```
+
+]
+
+
+.pull-right[
+
+```{r}
+datos %>% drop_na(x)
+```
+
+]
+
+---
+
+# Eliminando .orange[AUSENTES]
+
+A veces no querremos eliminarlos sino **.bg-purple_light[imputar por el valor previo/siguiente]**  con `fill()`
+
+.pull-left[
+
+```{r}
+datos %>% fill(x)
+datos %>% fill(x, .direction = c("up"))
+```
+
+]
+
+.pull-right[
+
+```{r}
+datos %>% fill(y)
+datos %>% fill(y, .direction = c("up"))
+```
+
+]
+
+
+---
+
+# Eliminando .orange[AUSENTES]
+
+Los **.bg-purple_light[ausentes]** también pueden ser **.bg-purple_light[eliminados al pivotar]** con `values_drop_na`.
+
+
+```{r}
+stocks <-
+  tibble(qtr = 1:4,
+         "2015" = c(1.88, 0.59, 0.35, NA),
+         "2016" = c(NA, 0.92, 0.17, 2.66))
+stocks
+```
+
+---
+
+# Eliminando .orange[AUSENTES]
+
+Los **.bg-purple_light[ausentes]** también pueden ser **.bg-purple_light[eliminados al pivotar]** con `values_drop_na`.
+
+```{r}
+stocks %>%
+  pivot_longer(cols = c("2015", "2016"), names_to = "year",
+               values_to = "return", values_drop_na = TRUE)
+```
+
+---
+
+# Reemplazando .orange[AUSENTES]
+
+Otras veces querremos **.bg-purple_light[imputar los ausentes por un valor fijo]**, algo que podemos hacer con `replace_na()`
+
+.pull-left[
+
+```{r}
+datos
+```
+
+]
+
+.pull-right[
+
+```{r}
+
+datos %>%
+  replace_na(list(x = -1,
+                  y = "unknown"))
+```
+
+]
+
+---
+
+
+# Completando .orange[AUSENTES]
+
+Por último, también podemos **.bg-purple_light[crear todas las combinaciones posibles de variables]** (para completar datos ausentes que se hayan podido eliminar).
+
+
+```{r}
+stocks <- tibble(year = c(2015, 2015, 2015, 2015, 2016, 2016, 2016),
+                 qtr = c(1, 2, 3, 4, 2, 3, 4),
+                 return = c(1.88, 0.59, 0.35, NA, 0.92, 0.17, 2.66))
+```
+
+.pull-left[
+
+```{r}
+stocks
+```
+
+]
+
+.pull-right[
+
+```{r}
+stocks %>% complete(year, qtr)
+```
+
+]
 
 ---
 
 class: inverse center middle
 name: bloque-7
 
-# BLOQUE VII: ordenando y resumiendo datos (tidyverse)
+# BLOQUE VII: depurando, ordenando y resumiendo datos (tidyverse)
 
 &nbsp;
+
+### [Paquetes tidyverse](#intro-tidyverse)
+
+### [Operaciones con filas](#filas)
+
+### [Operaciones con columnas](#columnas)
+
+### [Agrupar + contar](#count)
+
+### [Resúmenes estadísticos](#summarise)
+
+---
+
+name: intro-tidyverse
+
+# Introducción a .orange[TIDYVERSE]
+
+
+.pull-left[
+
+```{r echo = FALSE,  out.width = "89%", fig.align = "center"}
+knitr::include_graphics("./img/tidyverrse_universe.jpg")
+``` 
+
+También tenemos los paquetes `{purrr}` y `{lubridate}` para el manejo de **listas** y **fechas**, `{readxl}` para importar archivos **.xls y .xlsx**, `{haven}` para importar archivos **SPSS, Stata y SAS**, `{httr}` para importar **desde web** y `{rvest}` para **web scraping**.
+
+
+]
+
+.pull-right[
+
+* `{tibble}`: **.bg-purple_light[optimizando data.frame]**.
+
+* `{tidyr}`: **.bg-purple_light[limpiar datos]**.
+
+* `{readr}`: **.bg-purple_light[carga rápida]** de datos rectangulares (formatos .csv, .tsv, etc). 
+
+* `{dplyr}`: gramática para **.bg-purple_light[depuración de datos]** para facilitar su procesamiento.
+
+* `{stringr}`: manejo de **.bg-purple_light[textos]**. 
+
+* `{forcast}` manejo de **.bg-purple_light[cualitativas]**.
+
+* `{ggplot2}`: una gramática para la **.bg-purple_light[visualización de datos]**.
+
+* `{tidymodels}`: una gramática para la **.bg-purple_light[modelización y predicción]**.
+
+
+]
+
+
+Puedes ver su **documentación completa** en <https://www.tidyverse.org/>.
+
+
+---
+
+# Introducción a .orange[TIDYVERSE]
+
+
+```{r echo = FALSE,  out.width = "75%", fig.align = "center", fig.cap = "Flujo deseable de datos según Hadley Wickham, extraída de https://r4ds.had.co.nz/wrangle-intro.html"}
+knitr::include_graphics("./img/tidy_flow.jpg")
+``` 
+
+&nbsp;
+
+El paquete vamos a usar para **.bg-purple_light[depurar los datos]** será el paquete `{dplyr}`, una gramática para la manipulación de datos.
+
+---
+
+# Introducción a .orange[TIDYVERSE]
+
+
+```{r dplyr, echo = FALSE,  out.width = "60%", fig.align = "center", fig.cap = "Cheet sheet de las opciones del paquete dplyr"}
+knitr::include_graphics("./img/dplyr.png")
+``` 
+
+El paquete vamos a usar para **.bg-purple_light[depurar los datos]** será el paquete `{dplyr}`, una gramática para la manipulación de datos.
+
+---
+
+name: filas
+
+# .orange[FILTRAR] registros: filter()
+
+.pull-left[
+
+```{r eval = FALSE}
+datos %>%
+  filtro(condicion)
+```
+
+]
+
+.pull-right[
+
+```{r eval = FALSE}
+starwars %>%
+  filter(condicion)
+```
+
+]
+
+--
+
+Una de las **operaciones más comunes** es **.bg-purple_light[filtrar registros]** en base a alguna **.bg-purple_light[condición lógica]**: con `filter()` se seleccionarán solo individuos que cumplan ciertas condiciones.
+
+--
+
+&nbsp;
+
+Comparadores habituales:
+
+* `==, !=` igual/distinto que
+* `>, <` mayor/menor que
+* `>=, <=` mayor/menor o igual que
+* `%in%` los valores pertenecen a un listado
+* `!is.na()` los valores no son ausentes (mejor usar `drop_na()`)
+* `between(variable, val1, val2)`: si los valores (normalmente continuos) están dentro de un rango.
+
+---
+
+# .orange[FILTRAR] registros: filter()
+
+.pull-left[
+
+```{r eval = FALSE}
+datos %>%
+  filtro(condicion)
+```
+
+]
+
+.pull-right[
+
+```{r eval = FALSE}
+starwars %>%
+  filter(condicion)
+```
+
+]
+
+&nbsp;
+
+```{r echo = FALSE,  out.width = "80%", fig.align = "center", fig.cap = "Tablas de verdad de operadores lógicos"}
+knitr::include_graphics("./img/tablas_verdad.jpg")
+``` 
+
+---
+
+# .orange[FILTRAR] registros: filter()
+
+.pull-left[
+
+```{r eval = FALSE}
+datos %>%
+  filtro(condicion)
+```
+
+]
+
+.pull-right[
+
+```{r eval = FALSE}
+starwars %>%
+  filter(condicion)
+```
+
+]
+
+
+Por ejemplo, vamos a **filtrar** aquellos personajes con **.bg-purple_light[ojos marrones]**.
+
+```{r}
+starwars %>%
+  filter(eye_color == "brown") #<<
+```
+
+---
+
+# .orange[VISUALIZAR] operaciones con datos
+
+
+En la web <https://tidydatatutor.com/> podemos visualizar el flujo de datos d las transformaciones que podemos hacer con `dplyr`
+
+```{r filter1, echo = FALSE,  out.width = "90%", fig.align = "center", fig.cap = "Flujo de https://tidydatatutor.com/"}
+knitr::include_graphics("./img/filter1.jpg")
+``` 
+
+]
+
+---
+
+# .orange[FILTRAR] registros: filter()
+
+
+De la misma manera podemos **filtrar** los personajes que **.bg-purple_light[no tienen ojos marrones]** (en realidad estamos eliminando filas de alguna manera).
+
+
+```{r}
+starwars %>%
+  filter(eye_color != "brown")
+```
+
+---
+
+# .orange[FILTRAR] registros: filter()
+
+
+
+Al ser una variable discreta, sería bastante lógico comprobar si toma algún valor **.bg-purple_light[dentro de una lista permitida]**  (por ejemplo, personjes con ojos marrones o azules).
+
+
+```{r}
+starwars %>%
+  filter(eye_color %in% c("brown", "blue"))
+```
+
+---
+
+# .orange[FILTRAR] registros: filter()
+
+Cuando es una variable continua el interés podría estar en comprobar si la variable toma valores **.bg-purple_light[dentro de un intervalo continuo]**.
+
+
+.pull-left[
+
+```{r eval = FALSE}
+starwars %>%
+  filter(between(height, 120, 160))
+```
+
+```{r echo = FALSE}
+# con estatura entre 120 y 160 cm
+starwars %>%
+  select(name, height, mass, eye_color) %>%
+  filter(between(height, 120, 160)) %>%
+  slice(1:5)
+```
+
+]
+
+.pull-right[
+
+```{r filter3, echo = FALSE,  out.width = "150%", fig.align = "center", fig.cap = "Flujo de https://tidydatatutor.com/"}
+knitr::include_graphics("./img/filter3.jpg")
+``` 
+
+]
+
+
+---
+
+
+# .orange[FILTRAR] registros: filter()
+
+
+Las condiciones también se pueden **.bg-purple_light[concatenar]**, pudiendo en pocas líneas realizar un filtro complejo. Por ejemplo, podemos filtrar los personajes con **.bg-purple_light[ojos marrones Y ADEMÁS NO humanos]**, o **.bg-purple_light[con más de 60 años]**.
+
+.pull-left[
+
+```{r eval = FALSE}
+starwars %>%
+  filter((eye_color == "brown" &
+            species != "Human") |
+           birth_year > 60)
+```
+
+]
+
+.pull-right[
+
+```{r filter5, echo = FALSE,  out.width = "100%", fig.align = "center", fig.cap = "Flujo de https://tidydatatutor.com/"}
+knitr::include_graphics("./img/filter5.jpg")
+``` 
+
+
+]
+
+---
+
+# .orange[FILTRAR] datos ausentes
+
+Podemos también **.bg-purple_light[filtrar los registros ausentes]** en alguna de sus variables con `drop_na()`. Si no especificamos, elimina todos los registros que tenga alguno de sus campos ausente.
+
+```{r eval = FALSE}
+starwars %>% drop_na()
+```
+
+--
+
+Podemos indicarle que nos elimine filas con datos ausentes fijándonos solo en **.bg-purple_light[alguna variable particular]**.
+
+```{r}
+starwars %>% drop_na(mass, height, sex, gender)
+```
+
+---
+
+
+# Ejercicios (filtro)
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+
+* 📝 **Ejercicio 1**: selecciona del conjunto de `starwars` solo los personajes que sean humanos (`species == "Human"`)
+
+* 📝 **Ejercicio 2**: selecciona del conjunto de `starwars` solo los personajes cuyo peso esté entre 65 y 90 kg.
+
+* 📝 **Ejercicio 3**: selecciona del conjunto de `starwars` los personajes con ojos marrones o rojos.
+
+* 📝 **Ejercicio 4**: selecciona del conjunto de `starwars` los personajes no humanos, hombres y que midan más de 170 cm, o los personajes con ojos marrones o rojos.
+
+* 📝 **Ejercicio 5**: selecciona aquellos personajes de `starwars` que hayan pilotado más de 2 naves.
+
+]
+
+.panel[.panel-name[Sol. Ej. 1]
+
+```{r}
+starwars %>%
+  filter(species == "Human")
+```
+
+]
+
+.panel[.panel-name[Sol. Ej. 2]
+
+```{r}
+starwars %>%
+  filter(between(mass, 65, 90))
+```
+
+]
+
+.panel[.panel-name[Sol. Ej. 3]
+
+```{r}
+starwars %>%
+  filter(eye_color %in% c("brown", "red"))
+```
+
+]
+
+.panel[.panel-name[Sol. Ej. 4]
+
+```{r}
+starwars %>%
+  filter((species != "Human" & sex == "Male" & height > 170) |
+           eye_color %in% c("brown", "red"))
+```
+
+]
+
+.panel[.panel-name[Sol. Ej. 5]
+
+```{r}
+library(purrr) # ya está en tidyverse per por si
+starwars$n_starships <- starwars$starships %>% map_int(length)
+starwars %>% filter(n_starships > 2)
+```
+
+```{r echo = FALSE}
+starwars <- dplyr::starwars
+```
+
+]
+
+]
+
+---
+
+# Ejercicio extra
+
+
+Veamos un ejercicio extra para comprobar la **potencia y flexibilidad** de `{tidyverse}`, pudiendo hacer muchas cosas en dos líneas de código.
+
+&nbsp;
+
+* 📝 **Ejercicio extra**: selecciona aquellos personajes de `starwars` que hayan salido en la película de la saga "El ataque de los clones" (en inglés, "Attack of the Clones"). Busca información de la función `str_detect()` del paquete `stringr`. Consejo: prueba antes las funciones que vayas a usar con algún vector de prueba para poder comprobar su funcionamiento.
+
+---
+
+# .orange[FILTRAR] registros:  slice()
+
+
+.pull-left[
+
+```{r eval = FALSE}
+datos %>%
+  rebanada(posicion)
+```
+
+]
+
+.pull-right[
+
+```{r eval = FALSE}
+starwars %>%
+  slice(posicion)
+```
+
+]
+
+--
+
+Normalmente filtraremos registros por alguna condición pero no siempre, a veces nos puede interesar, por ejemplo, sacar las primeras n filas. Para podemos crear **.bg-purple_light[rebanadas de los datos]**, seleccionando filas por su posición con `slice()`.
+
+```{r}
+starwars %>% slice(1) #<<
+```
+
+---
+
+# .orange[FILTRAR] registros:  slice()
+
+.pull-left[
+
+```{r eval = FALSE}
+datos %>%
+  rebanada(posicion)
+```
+
+]
+
+.pull-right[
+
+```{r eval = FALSE}
+starwars %>%
+  slice(posicion)
+```
+
+]
+
+
+Recuerda que todo lo que podemos hacer con un número (vector de longitud 1) podemos hacerlo con un vector de índices, así que podemos **.bg-purple_light[extraer varias rebanadas]**, a la vez.
+
+```{r}
+# filas de la 1 a la 5
+starwars %>% slice(1:5)
+```
+
+---
+
+# .orange[FILTRAR] registros:  slice()
+
+También podríamos usar una **.bg-purple_light[secuencia de índices]** a extraer.
+
+```{r}
+# filas 1, 2, 10, 13, 27
+starwars %>% slice(c(1, 2, 10, 13, 27))
+```
+
+
+---
+
+# .orange[FILTRAR] registros:  slice()
+
+
+Disponemos además de opciones por defecto de operaciones habituales
+
+* `slice_head(n = ...)`: extraer las n **.bg-purple_light[primeras filas]**.
+
+
+```{r}
+# las 2 primeras filas
+starwars %>% slice_head(n = 2)
+```
+
+---
+
+
+# .orange[FILTRAR] registros:  slice()
+
+* `slice_tail(n = ...)`: extraer las n **.bg-purple_light[últimas filas]**.
+
+```{r}
+# los 3 últimas filas
+starwars %>% slice_tail(n = 3) 
+```
+
+---
+
+# .orange[FILTRAR] registros:  slice()
+
+* `slice_sample(n = ...)`: extraer n **.bg-purple_light[registros aleatoriamente]** (a priori equiprobables). Podemos indicar el número o la proporción
+
+
+
+```{r}
+# 3 registros aleatorios
+starwars %>% slice_sample(n = 3)
+```
+
+---
+
+# .orange[FILTRAR] registros:  slice()
+
+* `slice_sample(n = ...)`: extraer n **.bg-purple_light[registros aleatoriamente]** (a priori equiprobables). Podemos indicar el número o la proporción
+
+
+```{r}
+# 2.5% de los datos
+starwars %>% slice_sample(prop = 0.025)
+```
+
+---
+
+# .orange[FILTRAR] registros:  slice()
+
+En `slice_sample(n = ...)` podemos incluso pasarlo un vector de probabilidades. Vamos a forzar que sea muy improbable sacar una fila que no sean las dos primeras
+
+```{r eval = FALSE}
+starwars %>% slice_sample(n = 2, weight_by = c(0.495, 0.495, rep(0.01/85, 85)))
+```
+
+```{r echo = FALSE}
+starwars %>% slice_sample(n = 2, weight_by = c(0.495, 0.495, rep(0.01/85, 85))) %>% select(name:gender)
+```
+
+```{r eval = FALSE}
+starwars %>% slice_sample(n = 2, weight_by = c(0.495, 0.495, rep(0.01/85, 85)))
+```
+
+```{r echo = FALSE}
+starwars %>% slice_sample(n = 2, weight_by = c(0.495, 0.495, rep(0.01/85, 85))) %>% select(name:gender)
+```
+
+---
+
+
+# .orange[FILTRAR] registros: slice()
+
+
+* `slice_min(var, n = ...)` y `slice_max(var, n = ...)`: extrae las n filas con **.bg-purple_light[menor/mayor de una variable]** (si hay empate, mostrará todas salvo que `with_ties = FALSE`). 
+
+.pull-left[
+
+```{r eval = FALSE}
+# los 3 más bajitos
+starwars %>% slice_min(height, n = 3) 
+```
+
+```{r echo = FALSE}
+# los 3 más bajitos
+starwars %>% slice_min(height, n = 3) %>% select(name:hair_color)
+```
+
+]
+
+.pull-right[
+
+```{r eval = FALSE}
+# los 3 más pesados
+starwars %>% slice_max(mass, n = 3) 
+```
+
+```{r echo = FALSE}
+# los 3 más pesados
+starwars %>% slice_max(mass, n = 3) %>% select(name:hair_color)
+```
+
+]
+
+---
+
+# .orange[REORDENAR] filas: rearrange()
+
+.pull-left[
+
+```{r eval = FALSE}
+datos %>%
+  ordeno(var1, desc(var2))
+```
+
+]
+
+.pull-right[
+
+```{r eval = FALSE}
+starwars %>%
+  arrange(var1, desc(var2))
+```
+
+]
+
+--
+
+Otra operación será **.bg-purple_light[ordenar filas]** con `arrange()`, pasándole las variables que usaremos para la ordenación (por defecto de menor a mayor, podemos invertirlo usando `desc()`. Por ejemplo, vamos a **ordenar** por altura, de bajitos a altos, y en caso de empate, por peso (pero al revés, de pesados a ligeros).
+
+
+
+```{r}
+starwars %>% arrange(height, desc(mass))
+```
+
+---
+
+# .orange[ELIMINAR] duplicados: distinct()
+
+Otra opción es **.bg-purple_light[eliminar filas duplicadas]** con `distinct()`, pasándole como argumentos las variables. Por defecto, solo extrae las columnas en base a las cuales hemos eliminado duplicados. Si queremos que nos **mantenga todas** deberemos explicitarlo con `.keep_all = TRUE`.
+
+.pull-left[
+
+```{r}
+# Elimina filas con igual (color_pelo, color_ojos)
+starwars %>% distinct(hair_color, eye_color)
+```
+
+]
+
+.pull-left[
+
+```{r}
+# Elimina filas con igual (color_pelo, color_ojos)
+starwars %>% distinct(hair_color, eye_color, .keep_all = TRUE)
+```
+
+]
+  
+---
+
+# .orange[AÑADIR] filas: bind_rows()
+
+Si quisiéramos **.bg-purple_light[añadir un nuevo registro]** manualmente, podremos hacerlo con `bind_rows()`, asegurándonos que las **variables en el nuevo registro son las mismas** que en el original. Por ejemplo, vamos a añadir al fichero original los 3 primeros registros (al final).
+
+```{r}
+starwars_nuevo <- bind_rows(starwars, starwars %>% slice(1:3))
+dim(starwars)
+dim(starwars_nuevo)
+```
+
+---
+
+
+# Ejercicios (filas)
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+
+* 📝 **Ejercicio 1**: selecciona solo los personajes que sean humanos y de ojos marrones, para después ordernarlos en altura descendente y peso ascendente.
+
+* 📝 **Ejercicio 2**:  extrae 3 registros aleatoriamente. Vuelve a hacerlo para comprobar que salen diferentes.
+
+* 📝 **Ejercicio 3**:  extrae el 10% de los registros aleatoriamente.
+
+* 📝 **Ejercicio 4**: selecciona los 3 personajes más mayores y los 3 personajes más bajitos.
+
+* 📝 **Ejercicio 5**: para saber que valores únicos hay en el color de pelo, elimina duplicados por dicha variable `hair_color`, eliminando antes los ausentes de dicha variable.
+
+
+]
+
+.panel[.panel-name[Sol. Ej. 1]
+
+```{r}
+# Podemos combinar varias acciones en pocas líneas
+starwars %>%
+  filter(eye_color == "brown",
+         species == "Human") %>%
+  arrange(height, desc(mass))
+```
+
+]
+
+.panel[.panel-name[Sol. Ej. 2]
+
+```{r}
+starwars %>%
+  slice_sample(n = 3)
+```
+
+```{r}
+starwars %>%
+  slice_sample(n = 3)
+```
+
+
+]
+
+.panel[.panel-name[Sol. Ej. 3]
+
+```{r}
+starwars %>%
+  slice_sample(prop = 0.1)
+```
+
+]
+
+.panel[.panel-name[Sol. Ej. 4]
+
+
+```{r}
+starwars %>%
+  slice_max(birth_year, n = 3)
+```
+
+```{r}
+starwars %>%
+  slice_min(height, n = 3)
+```
+]
+
+.panel[.panel-name[Sol. Ej. 5]
+
+
+```{r}
+starwars %>%
+  drop_na(hair_color) %>%
+  distinct(hair_color)
+```
+
+]
+
+]
+
+---
+
+# Ejercicio extra
+
+
+Veamos un ejercicio extra para comprobar la **potencia y flexibilidad** de `{tidyverse}`, pudiendo hacer muchas cosas en dos líneas de código.
+
+&nbsp;
+
+* 📝 **Ejercicio extra**: de los personajes que son humanos y miden más de 160 cm, elimina duplicados en color de ojos, elimina ausentes en peso, selecciona los 5 más altos, y orden de mayor a menor peso. Devuelve la tabla.
+
+---
+
+name: columnas
+
+# .orange[SELECCIONAR] columnas:  select()
+
+.pull-left[
+
+```{r eval = FALSE}
+datos %>%
+  selecciono(col1, col2, ...)
+```
+
+]
+
+.pull-right[
+
+```{r eval = FALSE}
+starwars %>%
+  select(col1, col2, ...)
+```
+
+]
+
+--
+
+La opción más sencilla para **.bg-purple_light[seleccionar variables]** es `select()`, dando como argumentos los nombres de columnas. Por ejemplo, vamos a seleccionar las variables `names` y `hair_color`
+
+```{r}
+starwars %>%
+  select(name, hair_color) #<<
+```
+
+
+---
+
+# .orange[SELECCIONAR] columnas:  select()
+
+.pull-left[
+
+```{r}
+starwars %>% select(name, hair_color)
+```
+
+]
+
+.pull-right[
+
+```{r select1, echo = FALSE,  out.width = "140%", fig.align = "center", fig.cap = "Flujo de https://tidydatatutor.com/"}
+knitr::include_graphics("./img/select1.jpg")
+``` 
+
+]
+
+---
+
+# .orange[SELECCIONAR] columnas:  select()
+
+
+Como sucedía al filtrar, la función `select()` es bastante versatil y nos permite:
+
+* Seleccionar **.bg-purple_light[varias variables a la vez]** (concatenando sus nombres).
+
+```{r}
+starwars %>% select(name:skin_color)
+```
+
+---
+
+# .orange[SELECCIONAR] columnas:  select()
+
+* **.bg-purple_light[Deseleccionar]** columnas con `-`
+
+```{r}
+starwars %>% select(-c(mass:eye_color), -species, -c(films:starships))
+```
+
+---
+
+# .orange[SELECCIONAR] columnas:  select()
+
+
+* Seleccionar columnas que **.bg-purple_light[comiencen por un prefijo]** (`starts_with()`), **.bg-purple_light[terminen]** con un sufijo (`ends_with()`), **.bg-purple_light[contengan]** un texto (`contains()`) o cumplan una **.bg-purple_light[expresión regular]** (`matches()`)
+
+
+```{r}
+# nombre acaba en "color"
+starwars %>% select(ends_with("color"))
+```
+
+---
+
+# .orange[SELECCIONAR] columnas:  select()
+
+
+* Seleccionar columnas que **.bg-purple_light[comiencen por un prefijo]** (`starts_with()`), **.bg-purple_light[terminen]** con un sufijo (`ends_with()`), **.bg-purple_light[contengan]** un texto (`contains()`) o cumplan una **.bg-purple_light[expresión regular]** (`matches()`)
+
+```{r}
+# empiezan por new_sp
+who %>% select(country, year, starts_with("new_sp"))
+```
+
+---
+
+# .orange[SELECCIONAR] columnas:  select()
+
+
+* Seleccionar columnas que **.bg-purple_light[comiencen por un prefijo]** (`starts_with()`), **.bg-purple_light[terminen]** con un sufijo (`ends_with()`), **.bg-purple_light[contengan]** un texto (`contains()`) o cumplan una **.bg-purple_light[expresión regular]** (`matches()`)
+
+```{r}
+tb <- tibble("edad" = c(30, 35, 40),
+             "color_ojos" = c("azul", "amarillo", "negro"),
+             "pelo_color" = c("negro", "marrón", "rubio"))
+tb %>% select(contains("color"))
+```
+
+
+---
+
+# .orange[SELECCIONAR] columnas:  select()
+
+Incluso podemos seleccionar por rango numérico si tenemos variables conun prefijo y números.
+
+```{r}
+billboard %>% select(num_range("wk", 10:15))
+```
+
+---
+
+# .orange[SELECCIONAR] columnas:  select()
+
+* Seleccionar columnas de un **.bg-purple_light[tipo]** haciendo uso de `where()`.
+
+
+```{r}
+# Solo columnas numéricas o de trexto
+starwars %>% select(where(is.numeric) | where(is.character))
+```
+
+---
+
+# .orange[RECOLOCAR] columnas: relocate()
+
+Fíjate que con `select()` podrías además **.bg-purple_light[recolocar columnas]**, indícandole el orden, ayudándote también de `everything()`
+
+```{r}
+starwars %>%  select(c(species, name, birth_year, everything()))
+```
+
+---
+
+# .orange[RECOLOCAR] columnas: relocate()
+
+
+.pull-left[
+
+```{r eval = FALSE}
+datos %>% 
+  recolocar(col1, col2, .after = ...)
+```
+
+]
+
+.pull-right[
+
+```{r eval = FALSE}
+starwars %>% 
+  relocate(col1, col2, .after = ...)
+```
+
+]
+
+--
+
+Para facilitar la **.bg-purple_light[recolocación]** tenemos una función para ello, `relocate()`,  indicándole en `.after` o `.before` detrás o delante de qué columnas queremos moverlas.
+
+```{r}
+starwars %>% relocate(species, .before = name)
+```
+
+---
+
+# .orange[EXTRAER] columnas: pull()
+
+
+.pull-left[
+
+```{r eval = FALSE}
+datos %>% 
+  retirar(variable)
+```
+
+]
+
+.pull-right[
+
+```{r eval = FALSE}
+starwars %>% 
+  pull(variable)
+```
+
+]
+
+--
+
+.pull-left[
+
+Si observas la salida de los `select()`, sigue siendo una tabla `tibble`, nos preserva la naturaleza de nuestros datos.
+
+```{r}
+starwars %>% select(name)
+```
+
+]
+
+.pull-right[
+
+A veces no querremos dicha estructura sino **.bg-purple_light[extraer literalmente la columna]**, algo que podemos hacer con `pull()`
+
+```{r}
+starwars %>% pull(name)
+```
+
+]
+
+---
+
+# .orange[RENOMBRAR] columnas: rename()
+
+
+.pull-left[
+
+```{r eval = FALSE}
+datos %>% 
+  renombrar(col1, col2)
+```
+
+]
+
+.pull-right[
+
+```{r eval = FALSE}
+starwars %>% 
+  rename(col1, col2)
+```
+
+]
+
+--
+
+A veces también podemos querer **modificar la «metainformación»** de los datos, **.bg-purple_light[renombrando columnas]**. Para ello usaremos la función `rename()` poniendo primero el nombre nuevo y luego el antiguo.
+
+```{r}
+starwars %>% 
+  rename(nombre = name, altura = height,  peso = mass)
+```
+
+
+---
+
+# Ejercicios (columnas)
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+
+* 📝 **Ejercicio 1**: filtra el conjunto de personajes y quédate solo con aquellos que en la variable `height` no tengan un dato ausente.
+
+* 📝 **Ejercicio 2**: con los datos obtenidos del filtro anterior, selecciona solo las variables `name`, `height`, así como todas aquellas variables que CONTENGAN la palabra `color` en su nombre.
+
+* 📝 **Ejercicio 3**: con los datos obtenidos del ejercicio anterior, traduce el nombre de las columnas a castellano
+
+* 📝 **Ejercicio 4**: con los datos obtenidos del ejercicio anterior, coloca la variable de color de pelo justo detrás de la variable de nombres.
+
+* 📝 **Ejercicio 5**: con los datos obtenidos del ejercicio, comprueba cuántas modalidades únicas hay en la variable de color de pelo.
+
+]
+
+.panel[.panel-name[Sol. Ej. 1]
+
+**IMPORTANTE**: todo lo que hagas en la tabla original, si el resultado final no se lo asignas `<-` a otra variable, lo verás en consola pero no se guardará en ningún sitio. Lo que no guardes, no existe.
+
+
+```{r}
+starwars_NA <- starwars %>% drop_na(height)
+starwars_NA 
+```
+
+]
+
+.panel[.panel-name[Sol. Ej. 2]
+
+```{r}
+starwars %>%
+  drop_na(height) %>%
+  select(c(name, height, contains("color")))
+```
+
+]
+
+.panel[.panel-name[Sol. Ej. 3]
+
+
+```{r}
+starwars %>%
+  drop_na(height) %>%
+  select(c(name, height, contains("color"))) %>%
+  rename(nombre = name, altura = height,
+         color_pelo = hair_color,
+         color_piel = skin_color,
+         color_ojos = eye_color)
+```
+
+]
+
+.panel[.panel-name[Sol. Ej. 4]
+
+
+```{r}
+starwars %>%
+  drop_na(height) %>%
+  select(c(name, height, contains("color"))) %>%
+  rename(nombre = name, altura = height,
+         color_pelo = hair_color,
+         color_piel = skin_color,
+         color_ojos = eye_color) %>%
+  relocate(color_pelo, .after = nombre)
+```
+
+]
+
+.panel[.panel-name[Sol. Ej. 5]
+
+```{r}
+starwars %>%
+  drop_na(height) %>%
+  select(c(name, height, contains("color"))) %>%
+  rename(nombre = name, altura = height, color_pelo = hair_color,
+         color_piel = skin_color, color_ojos = eye_color) %>%
+  relocate(color_pelo, .after = nombre) %>%
+  distinct(color_pelo)
+```
+
+**IMPORTANTE**: recuerda que `distinct()` de mantener todas las columnas añadiendo `.keep_all = TRUE`.
+
+]
+
+]
+
+
+---
+
+# Ejercicio extra
+
+
+Veamos un ejercicio extra para comprobar la **potencia y flexibilidad** de `{tidyverse}`, pudiendo hacer muchas cosas en dos líneas de código.
+
+&nbsp;
+
+* 📝 **Ejercicio extra**: selecciona solo las variables `name` y aquellas que sean de tipo numérico y la variable `homeworld`, y selecciona solo los personajes que no sean humanos y que pesen entre 70 y 90 kg.  Tras ello elimina datos ausentes, y elimina duplicados con el mismo valor en `homeworld`. Tras ello, recoloca las variables para que el orden la primera columna sea `name` y la segunda `birth_year`. Para acabar, cambia el nombre  a castellano de las variables.
+
+
+---
+
+name: mutate
+
+
+# .orange[MODIFICAR] columnas: mutate()
+
+
+.pull-left[
+
+```{r eval = FALSE}
+datos %>%
+  modificar(nueva_var = ...)
+```
+
+]
+
+.pull-right[
+
+```{r eval = FALSE}
+starwars %>%
+  mutate(nueva_var = ...)
+```
+
+]
+
+--
+
+En muchas ocasiones querremos **.bg-purple_light[modificar o crear  variables]**. Para ello tenemos la función `mutate()`. Vamos a crear una **nueva variable** `height_m` con la altura en centímetros.
+
+```{r}
+# altura en metros
+starwars %>%
+  mutate(height_m = height / 100) #<<
+```
+
+---
+
+# .orange[MODIFICAR] columnas: mutate()
+
+
+```{r eval = FALSE}
+starwars %>% mutate(height_m = height / 100)
+```
+
+```{r mutate1, echo = FALSE,  out.width = "90%", fig.align = "center", fig.cap = "Flujo de https://tidydatatutor.com/"}
+knitr::include_graphics("./img/mutate1.jpg")
+``` 
+
+---
+
+# .orange[MODIFICAR] columnas: mutate()
+
+Otra opción es **.bg-purple_light[quedarnos solo con las modificadas]** (por ejemplo, para ver si hace lo que debe) con `transmute()`
+
+```{r}
+starwars %>%
+  transmute(height_m = height / 100) #<<
+```
+
+---
+
+
+# .orange[MODIFICAR] columnas: mutate()
+
+También se pueden aplicar **.bg-purple_light[funciones más complejas]** o incluso **.bg-purple_light[funciones propias]** creadas por nosotros mismos (y varias a la vez).
+
+```{r}
+calculo_IMC <- function(peso, estatura, unidades = "metros") {
+  
+  estatura <- ifelse(unidades == "metros", estatura, estatura / 100)
+  IMC <- peso / (estatura^2)
+  
+  return(IMC)
+}
+```
+
+---
+
+# .orange[MODIFICAR] columnas: mutate()
+
+También se pueden aplicar **.bg-purple_light[funciones más complejas]** o incluso **.bg-purple_light[funciones propias]** creadas por nosotros mismos (y varias a la vez).
+
+```{r}
+starwars %>%
+  mutate(IMC = calculo_IMC(mass, height, unidades = "centímetros"),
+         height_m = height / 100) %>%
+  relocate(IMC, height_m, .after = mass)
+```
+
+---
+
+# .orange[MODIFICAR] columnas: mutate()
+
+También podemos combinarlo con la función `if_else()`, una modificación dentro de `{tidyverse}` para hacer un `if-else` vectorizado, que nos puede ayudar a **.bg-purple_light[recategorizaciones sencillas]**.
+
+```{r}
+starwars %>%
+  mutate(human = if_else(species == "Human", "Human", "Not Human")) %>% 
+  relocate(human, .after = name)
+```
+
+
+---
+
+# .orange[RECATEGORIZAR]: case_when()
+
+Para **.bg-purple_light[recategorizaciones más complejas]** tenemos a nuestra disposición `case_when()`. Supongamos por ejemplo que queremos crear una **categoría en función de su altura**.
+
+* Si `height > 180` –> serán `"alto"`.
+* Si `height <= 180` y `height > 120` –> serán `"bajo"`
+* Si `height <= 120` y `height > 0` –> serán `"enano"`
+* Si no se cumple lo anterior –> serán `"ausente"`
+
+--
+
+```{r}
+starwars %>% mutate(height = case_when(height > 180 ~ "alto",
+                                       height > 120 ~ "bajo",
+                                       height > 0 ~ "enano",
+                                       TRUE ~ "ausente"))
+```
+
+---
+
+# .orange[RECATEGORIZAR]: case_when()
+
+Las condiciones de `case_when()` pueden combinar varias variables, cómo por ejemplo:
+
+* Si pesan mucho o miden mucho --> `"large"`
+* Si `species == "Droid"` --> `"robot"`
+* En caso contrario --> `"other"`
+
+```{r}
+starwars %>%
+  mutate(type =
+           case_when(height > 200 | mass > 200 ~ "large",
+                     species == "Droid" ~ "robot",
+                     TRUE ~ "other"))
+```
+
+---
+
+# Ejercicios (mutate)
+
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+
+* 📝 **Ejercicio 1**: crea tres nuevas columnas que nos digan el número de películas en las que han salido, el número de vehículos y el número d naves (pero haciendo uso de mutate()). 
+
+* 📝 **Ejercicio 2**: con las 3 columnas creadas, crea una nueva columna llamada `frequency` que nos ponga `almost_all` en personajes que salen en 5 o más películas, `many` en personajes que salen en más de 2 películas pero en menos de 5 y `some` en personajes que salen 1 o 2 películas.
+
+* 📝 **Ejercicio 3**: elimina registros con datos ausentes en la variable `birth_year` y filtra solo los 20 personajes más jóvenes.
+
+* 📝 **Ejercicio 4**: selecciona solo las variables numéricas y de tipo texto. Define una nueva variable llamada `under_18` que nos recategorice la variable `birth_year`: `TRUE` si es menor de edad y `FALSE` en caso contrario
+
+]
+
+.panel[.panel-name[Sol. Ej. 1]
+
+```{r}
+starwars_nueva <- 
+  starwars %>%
+  mutate(n_films = films %>% map_int(length),
+         n_vehicles = vehicles %>% map_int(length),
+         n_starships = starships %>% map_int(length))
+starwars_nueva
+```
+
+]
+
+.panel[.panel-name[Sol. Ej. 2]
+
+```{r}
+starwars_nueva <-
+  starwars_nueva %>%
+  mutate(frequency =
+           case_when(n_films >= 5 ~ "almost_all",
+                     n_films > 2 ~ "many",
+                     TRUE ~ "some"))
+starwars_nueva
+```
+
+]
+
+.panel[.panel-name[Sol. Ej. 3]
+
+```{r}
+starwars_nueva <-
+  starwars_nueva %>%
+  drop_na(birth_year) %>%
+  slice_min(n = 20, birth_year)
+starwars_nueva
+```
+
+]
+
+.panel[.panel-name[Sol. Ej. 4]
+
+```{r}
+starwars_nueva <-
+  starwars_nueva %>%
+  select(where(is.numeric) | where(is.character)) %>%
+  mutate(under_18 = birth_year < 18)
+starwars_nueva
+```
+
+
+]
+
+]
+
+
+---
+
+
+# Ejercicios (mutate)
+
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+* 📝 **Ejercicio 5**: de la base de datos original, determina el número de modalidades que toma la variable `species` (elimina antes registros con ausente en dicha variable). Después elimina duplicados por dicha variable, dejando el representante más bajito.
+
+* 📝 **Ejercicio 6**: sobre la base de datos original, crea una nueva columna llamada `auburn` (cobrizo/caoba) que nos diga `TRUE` si el color de pelo contiene dicha palabra y `FALSE` en caso contrario.
+
+* 📝 **Ejercicio 7**: sobre la base de datos original, filtra solo aquellos personajes de la familia `"Skywalker"` o `"Antilles"`, selecciona solo las columnas de `name` y `specie`, y renombra a castellano.
+
+
+]
+
+.panel[.panel-name[Sol. Ej. 5]
+
+```{r}
+starwars %>%
+  drop_na(species) %>%
+  distinct(species)
+
+starwars %>%
+  drop_na(species) %>%
+  arrange(height) %>%
+  distinct(species, .keep_all = TRUE)
+```
+
+]
+
+.panel[.panel-name[Sol. Ej. 6]
+
+```{r}
+starwars %>%
+  drop_na(hair_color) %>%
+  mutate(auburn = str_detect(hair_color, "auburn"))
+```
+
+]
+
+.panel[.panel-name[Sol. Ej. 6]
+
+```{r}
+starwars %>%
+  filter(str_detect(name, "Skywalker") |
+           str_detect(name, "Antilles")) %>%
+  select(name, species) %>%
+  rename(nombre = name, especie = species)
+```
+
+]
+]
+
+
+
+
+---
+
+name: count
+
+# .orange[CONTAR]: group_by() + count()
+
+Hasta ahora solo hemos transformado o consultado nuestra tabla pero no hemos aprendido a **.bg-purple_light[generar resúmenes estadísticos]**. Empecemos por lo sencillo: contar (frecuencias)
+
+.pull-left[
+
+```{r eval = FALSE}
+datos %>%
+  contar(var1, var2)
+```
+
+]
+
+.pull-right[
+
+```{r eval = FALSE}
+starwars %>%
+  count(var1, var2)
+```
+
+]
+
+--
+
+Cuando lo usamos en solitario, `count()` nos devolverá simplemente el **.bg-purple_light[número de registros]**
+
+```{r}
+starwars %>% count()
+```
+
+---
+
+# .orange[CONTAR]: group_by() + count()
+
+Sin embargo, cuando lo usamos pasándole como **.bg-purple_light[argumento una o varias variables]**, `count()` nos cuenta lo que se conoce en estadística como **.bg-purple_light[frecuencias absolutas]**: el número de elementos pertenecientes a cada una de las **modalidades**. En nuestro caso, la variable `sex` tiene 4 modalidades: `female, hermaphroditic, male, none`.
+
+```{r}
+starwars %>% count(sex)#<<
+```
+
+---
+
+# .orange[CONTAR]: group_by() + count()
+
+
+Además si pasamos **.bg-purple_light[varias variables]** nos calcula una **.bg-purple_light[tabla de contigencia]** con las frecuencias absolutas n-dimensionales
+
+```{r}
+starwars %>% count(sex, gender)
+```
+
+---
+
+
+# .orange[CONTAR]: group_by() + count()
+
+Lo anterior podemos combinarlo con lo que ya sabemos para **.bg-purple_light[añadir variables]** a una tabla, de forma que podremos obtener no solo las frecuencias absolutas sino también las acumuladas o las relativas. Vamos a añadir por ejemplo una columna `f` que nos devuelve el conteo pero en % respecto al total de datos.
+
+--
+
+```{r}
+starwars %>%
+  count(sex) %>% 
+  mutate(f = 100 * n/sum(n))
+```
+
+---
+
+# .orange[CONTAR]: group_by() + count()
+
+Además dentro del `count()` podemos añadir `sort = TRUE`, que nos devolverá el conteo de frecuencias con los **.bg-purple_light[elementos más frecuentes primero]** (sin necesidad de añadir un `arrange()` a la tabla de conteo generada).
+
+```{r}
+starwars %>%
+  count(sex, sort = TRUE) %>% 
+  mutate(f = 100 * n/sum(n))
+```
+
+---
+
+
+# .orange[CONTAR]: group_by() + count()
+
+
+Una de las funciones más potentes a combinar con `count()` es `group_by()`  que nos permitirá **.bg-purple_light[agrupar nuestros registros]**
+
+
+.pull-left[
+
+```{r eval = FALSE}
+datos %>%
+  agrupar(var_grupo1, var_grupo2) %>% 
+  contar() %>% 
+  desagrupar()
+```
+
+]
+
+.pull-right[
+
+```{r eval = FALSE}
+starwars %>%
+  group_by(var_grupo1, var_grupo2) %>%
+  count() %>% 
+  ungroup()
+```
+
+]
+
+--
+
+Cuando apliquemos `group_by()` es importante entender que **.bg-purple_light[NO MODIFICA los datos]**: nos crea una variable de grupo que **.bg-purple_light[modificará las acciones futuras]** que apliquemos, generando una especie de generar **múltiples subtablas**, y las operaciones aplicadas después se **.bg-purple_light[aplicarán a cada una por separado]**.
+
+---
+
+
+# .orange[CONTAR]: group_by() + count()
+
+.pull-left[
+
+Por ejemplo, imagina que queremos saber el **.bg-purple_light[número de registros por sexo]**: primero **.bg-purple_light[agruparemos]** por la variable `sex`, y después aplicaremos el **.bg-purple_light[conteo]** con `count()` (realiza la acción pedida en cada subtabla).
+
+```{r}
+starwars %>%
+  group_by(sex) %>% #<< 
+  count() %>%
+  ungroup() #<<
+```
+
+**IMPORTANTE**: siempre que agrupes, acuérdate de desagrupar con `ungroup()`.
+
+]
+
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "45%", fig.align = "center"}
+knitr::include_graphics("./img/count_group_1.jpg")
+``` 
+
+```{r echo = FALSE,  out.width = "95%", fig.align = "center", fig.cap = "Flujo de https://tidydatatutor.com/"}
+knitr::include_graphics("./img/count_group_2.jpg")
+``` 
+
+
+]
+
+---
+
+
+# .orange[CONTAR]: group_by() + count()
+
+.pull-left[
+
+Podemos **.bg-purple_light[agrupar por variables]**, por ejemplo vamos a agrupar por `sex` y `gender`, y después aplicaremos `count()` (realiza la acción en cada subtabla).
+
+```{r}
+starwars %>%
+  group_by(sex, gender) %>% #<< 
+  count() %>%
+  ungroup() #<<
+```
+
+**IMPORTANTE**: siempre que agrupes, acuérdate de desagrupar con `ungroup()`.
+
+]
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "150%", fig.align = "center"}
+knitr::include_graphics("./img/group_1.jpg")
+``` 
+
+```{r group-count, echo = FALSE,  out.width = "150%", fig.align = "center", fig.cap = "Flujo de https://tidydatatutor.com/"}
+knitr::include_graphics("./img/group_count.jpg")
+``` 
+
+]
+
+---
+
+name: summarise
+
+# .orange[RESUMIR]: summarise()
+
+La agrupación `group_by()` es una idea superpotente porque permite **.bg-purple_light[desagregar cualquier acción posterior]**, entre otras, la función `summarise()`, que nos permite **.bg-purple_light[resumir]**.
+
+.pull-left[
+
+```{r eval = FALSE}
+datos %>%
+  agrupar(var_grupo1, var_grupo2) %>% 
+  resumir() %>% 
+  desagrupar()
+```
+
+]
+
+.pull-right[
+
+```{r eval = FALSE}
+starwars %>%
+  group_by(var_grupo1, var_grupo2) %>%
+  summarise() %>% 
+  ungroup()
+```
+
+]
+
+--
+
+Un ejemplo: vamos a calcular la **.bg-purple_light[media de las alturas]**. Si lo hacemos sin `group_by()` se hará de todos los personajes.
+
+```{r}
+starwars %>% drop_na(height) %>%
+  summarise(media_altura = mean(height))
+```
+
+Dentro de `summarise()` podrás definir cada estadístico como el `nombre = ` seguido de la función a aplicar (que exista o tuya propia definida anteriormente).
+
+---
+
+# .orange[RESUMIR]: summarise()
+
+
+Si la misma acción la realizamos con un `group_by()` previo, la media de las alturas se **.bg-purple_light[calculará de manera desagregada]** (por sexos por ejemplo), de forma independiente en cada subtabla por grupo creada.
+
+.pull-left[
+
+```{r}
+starwars %>% 
+  drop_na(height) %>%
+  group_by(sex) %>% 
+  summarise(media = mean(height)) %>%
+  ungroup()
+```
+
+]
+
+.pull-right[
+
+```{r group-summa, echo = FALSE,  out.width = "140%", fig.align = "center", fig.cap = "Flujo de https://tidydatatutor.com/"}
+knitr::include_graphics("./img/group_summarise.jpg")
+``` 
+
+]
+
+
+---
+
+# .orange[RESUMIR]: summarise()
+
+Podemos **.bg-purple_light[resumir varias variables]** a la vez combinándolo con la función `across()`: primero indicamos las **.bg-purple_light[variables a recorrer]** (por ejemplo, `height:mass`), después la función a aplicar (en este caso, la media `mean()`), y por último argumentos extras si fuesen necesarios (por ejemplo, `na.rm = TRUE`)
+
+```{r}
+starwars %>%
+  group_by(sex) %>% #<<
+  summarise(medias = across(height:mass, mean, na.rm = TRUE)) %>% #<<
+  ungroup()
+```
+
+---
+
+# .orange[RESUMIR]: summarise()
+
+Además la función `across()` podemos combinarla con un viejo conocido, `where()`, para que **.bg-purple_light[resuma las variables de un tipo]**, por ejemplo `where(is.numeric)` selecciona solo las numéricas.
+
+```{r}
+starwars %>%
+  drop_na(height, mass) %>%
+  group_by(sex, gender) %>%
+  summarise(across(where(is.numeric), mean, na.rm = TRUE)) %>%
+  ungroup()
+```
+
+---
+
+# .orange[RESUMIR]: summarise()
+
+Algunas de las funciones más útiles dentro de `summarise()`:
+
+* `sum()`, `mean()`, `median()`
+* `min()`, `which.min()`, `max()`, `which.max()`
+* `n()` (número de registros), `n_distinct()` (número de registros únicos).
+
+```{r}
+starwars %>%
+  summarise(valores_unicos = n_distinct(eye_color))
+```
+
+---
+
+
+# Ejercicios (count y summarise)
+
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+
+* 📝 **Ejercicio 1**: calcula cuántos personajes hay de cada especie de `starwars` haciendo uso de `group_by()` y `count()`
+
+* 📝 **Ejercicio 2**: determina el número de especies distintas.
+
+* 📝 **Ejercicio 3**: tras eliminar ausentes en las variables `mass` y `height`, añade una nueva variable que nos calcule el IMC de cada personaje, y determina el IMC medio de nuestros personajes desagregada por sexo (`sex`).
+
+* 📝 **Ejercicio 4**: obtén la edad mínima y máxima de cada sexo.
+
+]
+
+.panel[.panel-name[Sol Ej. 1]
+
+```{r}
+starwars %>% 
+  group_by(species) %>% 
+  count() %>% 
+  ungroup()
+
+# sin group
+starwars %>%
+  count(species)
+```
+
+]
+
+.panel[.panel-name[Sol Ej. 2]
+
+```{r}
+starwars %>%
+  summarise(unique_species = n_distinct(species))
+```
+
+
+]
+
+
+.panel[.panel-name[Sol Ej. 3]
+
+```{r}
+starwars %>%
+  drop_na(mass, height) %>% 
+  mutate(IMC = mass / (height/100)^2) %>%
+  group_by(sex) %>% 
+  summarise(mean_IMC = mean(IMC)) %>% 
+  ungroup()
+```
+
+]
+
+.panel[.panel-name[Sol Ej. 4]
+
+```{r}
+starwars %>% 
+  drop_na(birth_year) %>% 
+  group_by(sex) %>% 
+  summarise(min_age = min(birth_year),
+            max_age = max(birth_year)) %>% 
+  ungroup()
+```
+
+]
+
+]
+
+---
+
+# Ejercicios (count y summarise)
+
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+* 📝 **Ejercicio 5**: obtén el personaje más viejo por cada sexo.
+
+* 📝 **Ejercicio 6**: obtén las frecuencias (absolutas) desagregadas por `sex` y `gender` y ordenados de mayor a menor aparición (investiga `? count`)
+
+* 📝 **Ejercicio 7**: determina la cantidad de personajes en cada década (echa un vistazo a `? round()`: ¿qué sucede si hacemos `round(número, -1)`?), primero sin desagregar y luego desagregado por sexo.
+
+* 📝 **Ejercicio 8**: calcula para las variables de tipo texto la longitud media de cada una de ellas (echa un vistazo a `nchar()`)
+
+]
+
+.panel[.panel-name[Sol Ej. 5]
+
+```{r}
+starwars %>%
+  group_by(sex) %>% 
+  slice_max(n = 1, birth_year) %>% 
+  ungroup()
+```
+  
+]
+
+.panel[.panel-name[Sol Ej. 6a]
+
+```{r}
+# Con group
+starwars %>%
+  group_by(sex, gender) %>% 
+  count(sort = TRUE) %>% 
+  ungroup()
+```
+
+]
+
+.panel[.panel-name[Sol Ej. 6b]
+
+```{r}
+# Sin group
+starwars %>%
+  count(sex, gender, sort = TRUE)
+```
+
+]
+
+.panel[.panel-name[Sol Ej. 7]
+
+```{r}
+starwars %>%
+  count(birth_decade = round(birth_year, -1))
+
+starwars %>%
+  group_by(sex) %>%
+  count(birth_decade = round(birth_year, -1)) %>%
+  ungroup()
+```
+
+]
+
+.panel[.panel-name[Sol Ej. 8]
+
+```{r}
+starwars %>%
+  summarise(across(where(is.character),
+                   function(x) { mean(nchar(x), na.rm = TRUE)}))
+```
+
+]
+
+]
 
 
 ---

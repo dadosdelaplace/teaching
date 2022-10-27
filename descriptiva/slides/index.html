@@ -24,7 +24,7 @@ class: center, middle, inverse, title-slide
 # Introducción a R
 ## Descripción y exploración de datos
 ### Javier Álvarez Liébana (Fac. Estudios Estadísticos - UCM)
-### Última actualización: 17-09-2022
+### Última actualización: 28-10-2022
 
 ---
 
@@ -76,6 +76,8 @@ class: inverse center middle
 
 ---
 
+class: inverse center middle
+
 # BLOQUES
 
 &amp;nbsp;
@@ -96,9 +98,9 @@ class: inverse center middle
 
 #### [Bloque V: funciones y listas](#bloque-5)
 
-#### [Bloque VI: importar/exportar. Tidydata](#bloque-6)
+#### [Bloque VI: tibble y tidydata](#bloque-6)
 
-#### [Bloque VII: ordenando y resumiendo datos (tidyverse)](#bloque-7)
+#### [Bloque VII: depurando, ordenando y resumiendo datos (tidyverse)](#bloque-7)
 
 #### [Bloque VIII: visualizando datos](#bloque-7)
 
@@ -1467,7 +1469,7 @@ hoy
 ```
 
 ```
-&gt; [1] "2022-09-17"
+&gt; [1] "2022-10-28"
 ```
 
 --
@@ -1480,7 +1482,7 @@ También podemos obtener el **.bg-purple_light[«hoy y ahora»]** con la funció
 ```
 
 ```
-&gt; [1] "2022-09-17 15:17:57 CEST"
+&gt; [1] "2022-10-28 01:23:03 CEST"
 ```
  
 ---
@@ -1825,7 +1827,7 @@ hoy - cumple
 ```
 
 ```
-&gt; Time difference of 12060 days
+&gt; Time difference of 12101 days
 ```
 
 ]
@@ -2680,9 +2682,9 @@ x &lt;- rnorm(1e3) # 1000 elementos aleatorias
 
 ```
 &gt; Unit: microseconds
-&gt;         expr    min      lq     mean median      uq     max neval cld
-&gt;      sort(x) 42.538 46.0955 60.70000 51.389 64.1355 227.725  1000   b
-&gt;  x[order(x)] 29.407 32.4910 42.82261 37.109 44.6880 190.111  1000  a
+&gt;         expr    min      lq      mean   median      uq     max neval cld
+&gt;      sort(x) 90.461 98.0945 128.85731 105.6880 130.745 867.362  1000   b
+&gt;  x[order(x)] 62.499 67.4335  86.13783  73.2025  86.227 572.823  1000  a
 ```
 
 --
@@ -5440,11 +5442,11 @@ microbenchmark(x^2,
 ```
 &gt; Unit: nanoseconds
 &gt;                                     expr     min      lq        mean    median
-&gt;                                      x^2     342     437    1123.328    1045.5
-&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 1663308 1760144 2062407.503 1860955.5
-&gt;       uq      max neval cld
-&gt;     1515    18888  1000  a 
-&gt;  2134824 14404011  1000   b
+&gt;                                      x^2     747    1014    3203.477    3288.5
+&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 3602129 4356964 6322031.925 5126273.5
+&gt;         uq       max neval cld
+&gt;     4130.5    206929  1000  a 
+&gt;  6613113.5 128949994  1000   b
 ```
 
 ---
@@ -6859,10 +6861,10 @@ map(x, mean)
 
 ```
 &gt; [[1]]
-&gt; [1] 0.022081
+&gt; [1] -0.01606423
 &gt; 
 &gt; [[2]]
-&gt; [1] 2.012001
+&gt; [1] 1.966369
 ```
 
 
@@ -6874,11 +6876,11 @@ microbenchmark(map(x, .f = function(x) { mean(x^2) }), lapply(x, FUN = function(
 ```
 &gt; Unit: milliseconds
 &gt;                                            expr      min       lq     mean
-&gt;      map(x, .f = function(x) {     mean(x^2) }) 5.443403 6.671125 8.748847
-&gt;  lapply(x, FUN = function(x) {     mean(x^2) }) 5.131696 6.456057 8.819819
+&gt;      map(x, .f = function(x) {     mean(x^2) }) 11.27368 14.60427 19.70337
+&gt;  lapply(x, FUN = function(x) {     mean(x^2) }) 11.08842 14.02201 19.83873
 &gt;    median       uq      max neval cld
-&gt;  7.687849 9.309380 155.4689  1000   a
-&gt;  7.527804 8.896994 197.3503  1000   a
+&gt;  17.06050 22.13332 216.8250  1000   a
+&gt;  16.30701 21.77530 423.6289  1000   a
 ```
 
 
@@ -7947,22 +7949,4573 @@ map_lgl(segunda_peli, is.null)
 class: inverse center middle
 name: bloque-6
 
-# BLOQUE VI: importar/exportar. Tidydata
+# BLOQUE VI: tibble y tidydata
 
 &amp;nbsp;
 
-### [Importar/exportar datos](#importar-exportar)
+### [Tibble](#tibble)
 
 ### [Tidydata](#tidydata)
+
+---
+
+name: tibble
+
+# Mejorando los data.frame: .orange[TIBBLE]
+ 
+Las tablas en formato `tibble` (con `tibble()` del paquete `{tibble}`, su clase será `tbl_df`) son un tipo de `data.frame` mejorado, para una gestión **.bg-purple_light[más ágil, eficiente y coherente]**. Las tablas en formato `tibble` tienen **.bg-purple_light[4 ventajas principales]**
+
+&lt;img src="./img/tibble.svg" width="30%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Mejorando los data.frame: .orange[TIBBLE]
+
+
+*  Muestran **.bg-purple_light[metainformación de las variables]**, y solo imprime por defecto las primeras filas.
+
+
+```r
+library(tibble)
+tabla_tb &lt;- tibble("x" = 1:50, "y" = rep(c("a", "b", "c", "d", "e"), 10),
+                   "logica" = rep(c(TRUE, FALSE), 25))
+tabla_tb
+```
+
+```
+&gt; # A tibble: 50 × 3
+&gt;        x y     logica
+&gt;    &lt;int&gt; &lt;chr&gt; &lt;lgl&gt; 
+&gt;  1     1 a     TRUE  
+&gt;  2     2 b     FALSE 
+&gt;  3     3 c     TRUE  
+&gt;  4     4 d     FALSE 
+&gt;  5     5 e     TRUE  
+&gt;  6     6 a     FALSE 
+&gt;  7     7 b     TRUE  
+&gt;  8     8 c     FALSE 
+&gt;  9     9 d     TRUE  
+&gt; 10    10 e     FALSE 
+&gt; # … with 40 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
+```
+
+
+
+---
+
+# Mejorando los data.frame: .orange[TIBBLE]
+ 
+Puedes **imprimir las filas y columnas** que quieras con `print()`
+
+
+```r
+*print(tabla_tb, n = 12, width = Inf)
+```
+
+```
+&gt; # A tibble: 50 × 3
+&gt;        x y     logica
+&gt;    &lt;int&gt; &lt;chr&gt; &lt;lgl&gt; 
+&gt;  1     1 a     TRUE  
+&gt;  2     2 b     FALSE 
+&gt;  3     3 c     TRUE  
+&gt;  4     4 d     FALSE 
+&gt;  5     5 e     TRUE  
+&gt;  6     6 a     FALSE 
+&gt;  7     7 b     TRUE  
+&gt;  8     8 c     FALSE 
+&gt;  9     9 d     TRUE  
+&gt; 10    10 e     FALSE 
+&gt; 11    11 a     TRUE  
+&gt; 12    12 b     FALSE 
+&gt; # … with 38 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
+```
+
+---
+
+# Mejorando los data.frame: .orange[TIBBLE]
+ 
+
+* La función `tibble()` **.bg-purple_light[construye las variables secuencialmente]**, pudiendo hacer uso en la propia definición de variables recién definidas en dicha definición.
+
+
+```r
+# data.frame
+data.frame("x1" = 1:3, "x2" = 4:6, "y" = x1 * x2)
+```
+
+```
+&gt; Error in data.frame(x1 = 1:3, x2 = 4:6, y = x1 * x2): objeto 'x1' no encontrado
+```
+
+
+```r
+# tibble
+tibble("x1" = 1:3, "x2" = 4:6, "y" = x1 * x2)
+```
+
+```
+&gt; # A tibble: 3 × 3
+&gt;      x1    x2     y
+&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;
+&gt; 1     1     4     4
+&gt; 2     2     5    10
+&gt; 3     3     6    18
+```
+
+
+---
+
+# Mejorando los data.frame: .orange[TIBBLE]
+ 
+* Si accedes a una **.bg-purple_light[columna que no existe]** avisa con un **.bg-red[warning]**.
+
+
+```r
+tabla_df &lt;- data.frame("x" = 1:50, "y" = rep(c("a", "b", "c", "d", "e"), 10),
+                   "logica" = rep(c(TRUE, FALSE), 25))
+```
+
+.pull-left[
+
+
+```r
+# data.frame
+tabla_df$variable_inexistente
+```
+
+```
+&gt; NULL
+```
+
+]
+
+.pull-right[
+
+
+```r
+# tibble
+tabla_tb$variable_inexistente
+```
+
+```
+&gt; Warning: Unknown or uninitialised column: `variable_inexistente`.
+```
+
+```
+&gt; NULL
+```
+
+]
+
+---
+
+
+# Mejorando los data.frame: .orange[TIBBLE]
+
+* No solo no te cambiará el tipo de datos sino que **.bg-purple_light[no te cambiará el nombre de las variables]**.
+
+.pull-left[
+
+
+```r
+data.frame(":)" = "emoticono",
+           " " = "en blanco",
+           "2000" = "número")
+```
+
+```
+&gt;         X..        X.  X2000
+&gt; 1 emoticono en blanco número
+```
+
+]
+
+.pull-right[
+
+
+```r
+tibble(":)" = "emoticono",
+       " " = "en blanco",
+       "2000" = "número")
+```
+
+```
+&gt; # A tibble: 1 × 3
+&gt;   `:)`      ` `       `2000`
+&gt;   &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt; 
+&gt; 1 emoticono en blanco número
+```
+
+]
+
+---
+
+
+# Mejorando los data.frame: .orange[TIBBLE]
+
+Si ya tienes un `data.frame` es altamente recomendable **.bg-purple_light[convertirlo a tibble]** con `as_tibble()` (del paquete `{dplyr}`)
+
+
+```r
+library(dplyr)
+as_tibble(USArrests)
+```
+
+```
+&gt; # A tibble: 50 × 4
+&gt;    Murder Assault UrbanPop  Rape
+&gt;     &lt;dbl&gt;   &lt;int&gt;    &lt;int&gt; &lt;dbl&gt;
+&gt;  1   13.2     236       58  21.2
+&gt;  2   10       263       48  44.5
+&gt;  3    8.1     294       80  31  
+&gt;  4    8.8     190       50  19.5
+&gt;  5    9       276       91  40.6
+&gt;  6    7.9     204       78  38.7
+&gt;  7    3.3     110       77  11.1
+&gt;  8    5.9     238       72  15.8
+&gt;  9   15.4     335       80  31.9
+&gt; 10   17.4     211       60  25.8
+&gt; # … with 40 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
+```
+
+Puedes consultar **más funcionalidades** de dichos datos en &lt;https://tibble.tidyverse.org/&gt;
+
+---
+
+# Mejorando los data.frame: .orange[TIBBLE]
+
+Una de las ventajas es la función `glimpse()`, que nos permite obtener el **.bg-purple_light[resumen de columnas]** (no es para tener un resumen de los datos sino para ver las variables que tenemos y su tipo).
+
+
+```r
+glimpse(tabla_tb)
+```
+
+```
+&gt; Rows: 50
+&gt; Columns: 3
+&gt; $ x      &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, …
+&gt; $ y      &lt;chr&gt; "a", "b", "c", "d", "e", "a", "b", "c", "d", "e", "a", "b", "c"…
+&gt; $ logica &lt;lgl&gt; TRUE, FALSE, TRUE, FALSE, TRUE, FALSE, TRUE, FALSE, TRUE, FALSE…
+```
+
+---
+
+# Mejorando los data.frame: .orange[TIBBLE]
+
+Amén de poder convetir con `as_tibble()` podemos **.bg-purple_light[crearlos por filas]** (como copiar y pegar de una tabla en documento) en lugar de por columnas con `tribble()`
+
+
+```r
+datos &lt;- tribble(
+  ~colA, ~colB,
+  "a",   1,
+  "b",   2)
+datos
+```
+
+```
+&gt; # A tibble: 2 × 2
+&gt;   colA   colB
+&gt;   &lt;chr&gt; &lt;dbl&gt;
+&gt; 1 a         1
+&gt; 2 b         2
+```
+
+&amp;nbsp;
+
+--
+
+**.bg-green_light[CONSEJO]**: prueba además el paquete `{datapasta}`, que nos permite **.bg-purple_light[copiar y pegar tablas de páginas web]**
+
+
+---
+
+
+name: tidydata
+
+# Datos limpios: .orange[TIDY DATA]
+
+.pull-left[
+
+&lt;img src="./img/tidyverrse_universe.jpg" width="99%" style="display: block; margin: auto;" /&gt;
+
+]
+
+.pull-right[
+&lt;img src="./img/flow_tidyverse.jpg" width="99%" style="display: block; margin: auto;" /&gt;
+]
+
+Universo de **.bg-purple_light[paquetes tidyverse]**: un conjunto de paquetes para un flujo de **trabajo eficiente, coherente y lexicográficamente** sencillo de entender.
+
+---
+
+# Datos limpios: .orange[TIDY DATA]
+
+&gt; Tidy datasets are all alike, but every messy dataset is messy in its own way (Hadley Wickham, Chief Scientist en RStudio)
+
+Hasta ahora solo le hemos dado importancia al «qué» pero no al **.bg-purple_light[«cómo» manejamos los datos]**. La organización de nuestros datos es fundamental para que su **.bg-purple_light[preparación y explotación]** sea lo más eficiente posible.
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/tidy_flow.jpg" alt="Flujo deseable de datos según Hadley Wickham, extraída de https://r4ds.had.co.nz/wrangle-intro.html" width="60%" /&gt;
+&lt;p class="caption"&gt;Flujo deseable de datos según Hadley Wickham, extraída de https://r4ds.had.co.nz/wrangle-intro.html&lt;/p&gt;
+&lt;/div&gt;
+
+
+---
+
+# Datos limpios: .orange[TIDY DATA]
+
+El concepto **.bg-purple_light[tidy data]** fue introducido por **Hadley Wickham** (Wickham, 2014) como el primer paso de un flujo de trabajo eficiente. Para ello haremos uso del paquete `{tidyr}` (dentro de `{tidyverse}`) que nos proporciona herramientas eficientes y sencillaspara su manejo.
+
+--
+
+&amp;nbsp;
+
+Los **.bg-purple_light[conjuntos tidy u ordenados]** tienen tres objetivos
+
+* **.bg-orange[Estandarización]** en su estructura para una depuración y análisis eficiente.
+* **.bg-orange[Sencillez]** en su manipulación.
+* Listos para ser **.bg-orange[modelizados y visualizados]**.
+
+&amp;nbsp;
+
+📚 Ver Wickham (2014) en **.bg-green_light[bibliografía]** en &lt;https://github.com/dadosdelaplace/teaching/tree/main/bioestad/biblio&gt;
+
+---
+
+# Datos limpios: .orange[TIDY DATA]
+
+
+
+.pull-left[
+
+Los **.bg-purple_light[datos ordenados o tidy data]** deben cumplir:
+
+1. Cada **.bg-green_light[variable en una columna]**.
+
+2. Cada **.bg-orange[observación/individuo en una fila]** diferente.
+
+3. Cada **.bg-green_light[celda con un único valor]**.
+
+4. Cada **.bg-orange[conjunto en un tibble]** (tabla).
+
+5. Si usamos múltiples tablas a la vez debemos tener una **.bg-green_light[columna común para poder cruzarlas]**.
+
+]
+
+.pull-right[
+
+&lt;img src="./img/tidy_def.jpg" width="85%" style="display: block; margin: auto;" /&gt;
+
+&amp;nbsp;
+
+&lt;img src="./img/tidyr_1.jpg" width="50%" style="display: block; margin: auto;" /&gt;
+
+
+]
+
+
+---
+
+# Tubería .orange[PIPE]
+
+En este entorno de trabajo tendremos un **.bg-purple_light[operador clave]**: el **.bg-purple_light[operador pipeline]** `%&gt;%` (podemos usar el atajo con `ctrl+shift+M` o `command+shift+M`). Dicho operador lo debemos interpretar como una **.bg-purple_light[tubería]** que va pasando por los datos y los va transformando.
+
+--
+
+Por ejemplo, si tuviésemos tres funciones `first()`, `second()` y `third()`, la opción más inmediata sería anidar las tres funciones tal que `third(second(first(x)))`, algo que dificulta la lectura posterior del código
+
+--
+
+Con `%&gt;%` podremos escribir (y leer) la concetanción de acciones como una **.bg-purple_light[tubería de izquierda a derecha]**:
+
+
+```r
+first(x) %&gt;% second(x) %&gt;% third(x)
+```
+
+--
+
+Dicho operador viene del paquete `{magrittr}`. Para **evitar esta dependencia** (cuantos menos paquetes tengamos que cargar, mejor), desde la versión 4.1.0 de R, disponemos de un pipeline nativo de R, el **operador** `|&gt;` (disponible además fuera del entorno tidyverse).
+
+---
+
+# Tubería .orange[PIPE]
+
+.pull-left[
+
+
+```r
+datos %&gt;%
+  limpio(...) %&gt;%
+  selecciono(...) %&gt;%
+  filtro(...) %&gt;%
+  ordeno(...) %&gt;%
+  agrupo(...) %&gt;%
+  cuento(...) %&gt;%
+  resumo(...) %&gt;% 
+  pinto(...)
+```
+
+
+```r
+datos |&gt;
+  limpio(...) |&gt;
+  selecciono(...) |&gt;
+  filtro(...) |&gt;
+  ordeno(...) |&gt;
+  agrupo(...) |&gt;
+  cuento(...) |&gt;
+  resumo(...) |&gt;
+  pinto(...)
+```
+
+]
+
+.pull-right[
+
+&lt;img src="./img/tuberia.jpg" width="90%" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+
+# Datos .orange[SUCIOS]: messy data
+
+Por ejemplo, vamos a cargar la tabla `table4a` del paquete `{tidyr}` (que ya lo tenemos cargado del entorno `{tidyverse}`).
+
+
+
+
+```r
+table4a
+```
+
+```
+&gt; # A tibble: 3 × 3
+&gt;   country     `1999` `2000`
+&gt; * &lt;chr&gt;        &lt;int&gt;  &lt;int&gt;
+&gt; 1 Afghanistan    745   2666
+&gt; 2 Brazil       37737  80488
+&gt; 3 China       212258 213766
+```
+
+**.bg-purple_light[¿Qué falla?]**
+
+---
+
+
+# Datos .orange[SUCIOS]: messy data
+
+.pull-left[
+
+
+
+
+```r
+table4a
+```
+
+```
+&gt; # A tibble: 3 × 3
+&gt;   country     `1999` `2000`
+&gt; * &lt;chr&gt;        &lt;int&gt;  &lt;int&gt;
+&gt; 1 Afghanistan    745   2666
+&gt; 2 Brazil       37737  80488
+&gt; 3 China       212258 213766
+```
+
+**.bg-purple_light[¿Qué falla?]**
+
+]
+
+.pull-right[
+
+
+❎ Cada **.bg-green_light[variable en una columna]**.
+
+❎ Cada **.bg-orange[observación/individuo en una fila]** diferente.
+
+❎ Cada **.bg-green_light[celda con un único valor]**.
+
+]
+
+Aunque la columna `$country` representa una variable, las otras columnas no: **.bg-purple_light[ambas son la misma variable]**, solo que medida en años distintos (que debería ser a su vez otra variable), de forma que **.bg-purple_light[cada fila está representando dos observaciones]** (1999, 2000).
+
+
+---
+
+# Datos .orange[SUCIOS]: messy data
+
+
+.pull-left[
+
+Lo que haremos será incluir una nueva columna llamada (por ejemplo) `year` que nos marque el año y otra llamada `cases` que nos diga el valor de la variable de interés en cada uno de esos años.
+
+]
+
+.pull-right[
+
+&lt;img src="./img/table4a.jpg" width="65%" style="display: block; margin: auto;" /&gt;
+
+
+]
+
+--
+
+Con la función `pivot_longer()` pivotaremos la tabla para pasarla a **formato long**:
+
+
+```r
+table4a %&gt;%
+* pivot_longer(cols = c("1999", "2000"), names_to = "year", values_to = "cases")
+```
+
+```
+&gt; # A tibble: 6 × 3
+&gt;   country     year   cases
+&gt;   &lt;chr&gt;       &lt;chr&gt;  &lt;int&gt;
+&gt; 1 Afghanistan 1999     745
+&gt; 2 Afghanistan 2000    2666
+&gt; 3 Brazil      1999   37737
+&gt; 4 Brazil      2000   80488
+&gt; 5 China       1999  212258
+&gt; 6 China       2000  213766
+```
+
+---
+
+# Datos .orange[SUCIOS]: messy data
+
+.pull-left[
+
+
+```r
+table4a %&gt;%
+  pivot_longer(cols = c("1999", "2000"),
+               names_to = "year", 
+*              values_to = "cases")
+```
+
+```
+&gt; # A tibble: 6 × 3
+&gt;   country     year   cases
+&gt;   &lt;chr&gt;       &lt;chr&gt;  &lt;int&gt;
+&gt; 1 Afghanistan 1999     745
+&gt; 2 Afghanistan 2000    2666
+&gt; 3 Brazil      1999   37737
+&gt; 4 Brazil      2000   80488
+&gt; 5 China       1999  212258
+&gt; 6 China       2000  213766
+```
+
+]
+
+.pull-right[
+
+&lt;img src="./img/table4a_2.png" width="99%" style="display: block; margin: auto;" /&gt;
+
+
+]
+
+
+* `cols`: el **.bg-purple_light[nombre de las columnas a pivotar]** (con comillas por ser números y no caracteres).
+* `names_to`: el **.bg-purple_light[nombre de la nueva columna]** a la mandamos los **.bg-purple_light[nombres]** de las columnas.
+* `values_to`: el **.bg-purple_light[nombre de la nueva columna]** a la que vamos a mandar los **.bg-purple_light[datos]**.
+
+
+---
+
+# Datos .orange[SUCIOS]: messy data
+
+
+.panelset[
+.panel[.panel-name[table4b]
+
+Echa un vistazo a la tabla `{table4b}`
+
+
+```r
+table4b
+```
+
+```
+&gt; # A tibble: 3 × 3
+&gt;   country         `1999`     `2000`
+&gt; * &lt;chr&gt;            &lt;int&gt;      &lt;int&gt;
+&gt; 1 Afghanistan   19987071   20595360
+&gt; 2 Brazil       172006362  174504898
+&gt; 3 China       1272915272 1280428583
+```
+
+**.bg-purple_light[TODO TUYO]**: ¿es tidy o messy? ¿Cómo convertirla a tidy data en caso de que no lo sea ya?
+
+]
+
+.panel[.panel-name[Solución]
+
+
+```r
+table4b %&gt;% pivot_longer(cols = "1999":"2000",
+                         names_to = "year",
+                         values_to = "cases")
+```
+
+```
+&gt; # A tibble: 6 × 3
+&gt;   country     year       cases
+&gt;   &lt;chr&gt;       &lt;chr&gt;      &lt;int&gt;
+&gt; 1 Afghanistan 1999    19987071
+&gt; 2 Afghanistan 2000    20595360
+&gt; 3 Brazil      1999   172006362
+&gt; 4 Brazil      2000   174504898
+&gt; 5 China       1999  1272915272
+&gt; 6 China       2000  1280428583
+```
+
+]
+
+]
+
+
+
+---
+
+# Datos .orange[SUCIOS]: messy data
+
+.panelset[
+.panel[.panel-name[relig_income]
+
+
+Echa un vistazo a la tabla `{relig_income}`
+
+
+```r
+relig_income
+```
+
+```
+&gt; # A tibble: 18 × 11
+&gt;    religion      `&lt;$10k` $10-2…¹ $20-3…² $30-4…³ $40-5…⁴ $50-7…⁵ $75-1…⁶ $100-…⁷
+&gt;    &lt;chr&gt;           &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+&gt;  1 Agnostic           27      34      60      81      76     137     122     109
+&gt;  2 Atheist            12      27      37      52      35      70      73      59
+&gt;  3 Buddhist           27      21      30      34      33      58      62      39
+&gt;  4 Catholic          418     617     732     670     638    1116     949     792
+&gt;  5 Don’t know/r…      15      14      15      11      10      35      21      17
+&gt;  6 Evangelical …     575     869    1064     982     881    1486     949     723
+&gt;  7 Hindu               1       9       7       9      11      34      47      48
+&gt;  8 Historically…     228     244     236     238     197     223     131      81
+&gt;  9 Jehovah's Wi…      20      27      24      24      21      30      15      11
+&gt; 10 Jewish             19      19      25      25      30      95      69      87
+&gt; 11 Mainline Prot     289     495     619     655     651    1107     939     753
+&gt; 12 Mormon             29      40      48      51      56     112      85      49
+&gt; 13 Muslim              6       7       9      10       9      23      16       8
+&gt; 14 Orthodox           13      17      23      32      32      47      38      42
+&gt; 15 Other Christ…       9       7      11      13      13      14      18      14
+&gt; 16 Other Faiths       20      33      40      46      49      63      46      40
+&gt; 17 Other World …       5       2       3       4       2       7       3       4
+&gt; 18 Unaffiliated      217     299     374     365     341     528     407     321
+&gt; # … with 2 more variables: `&gt;150k` &lt;dbl&gt;, `Don't know/refused` &lt;dbl&gt;, and
+&gt; #   abbreviated variable names ¹​`$10-20k`, ²​`$20-30k`, ³​`$30-40k`, ⁴​`$40-50k`,
+&gt; #   ⁵​`$50-75k`, ⁶​`$75-100k`, ⁷​`$100-150k`
+&gt; # ℹ Use `colnames()` to see all variable names
+```
+
+**.bg-purple_light[TODO TUYO]**: ¿es tidy o messy? ¿Cómo convertirla a tidy data en caso de que no lo sea ya?
+
+]
+
+.panel[.panel-name[Solución]
+
+
+```r
+relig_income %&gt;%
+  pivot_longer(cols = "&lt;$10k":"Don't know/refused",
+               names_to = "income",
+               values_to = "people")
+```
+
+```
+&gt; # A tibble: 180 × 3
+&gt;    religion income             people
+&gt;    &lt;chr&gt;    &lt;chr&gt;               &lt;dbl&gt;
+&gt;  1 Agnostic &lt;$10k                  27
+&gt;  2 Agnostic $10-20k                34
+&gt;  3 Agnostic $20-30k                60
+&gt;  4 Agnostic $30-40k                81
+&gt;  5 Agnostic $40-50k                76
+&gt;  6 Agnostic $50-75k               137
+&gt;  7 Agnostic $75-100k              122
+&gt;  8 Agnostic $100-150k             109
+&gt;  9 Agnostic &gt;150k                  84
+&gt; 10 Agnostic Don't know/refused     96
+&gt; # … with 170 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
+```
+
+]
+]
+
+
+---
+
+# Datos .orange[SUCIOS]: messy data
+
+Veamos un segundo tipo de dato sucio: vamos a cargar la tabla `table2` del paquete `{tidyr}` (que ya lo tenemos cargado del entorno `{tidyverse}`). **.bg-purple_light[¿Qué falla?]**
+
+
+
+```r
+table2
+```
+
+```
+&gt; # A tibble: 12 × 4
+&gt;    country      year type            count
+&gt;    &lt;chr&gt;       &lt;int&gt; &lt;chr&gt;           &lt;int&gt;
+&gt;  1 Afghanistan  1999 cases             745
+&gt;  2 Afghanistan  1999 population   19987071
+&gt;  3 Afghanistan  2000 cases            2666
+&gt;  4 Afghanistan  2000 population   20595360
+&gt;  5 Brazil       1999 cases           37737
+&gt;  6 Brazil       1999 population  172006362
+&gt;  7 Brazil       2000 cases           80488
+&gt;  8 Brazil       2000 population  174504898
+&gt;  9 China        1999 cases          212258
+&gt; 10 China        1999 population 1272915272
+&gt; 11 China        2000 cases          213766
+&gt; 12 China        2000 population 1280428583
+```
+
+
+---
+
+# Datos .orange[SUCIOS]: messy data
+
+.pull-left[
+
+
+
+```r
+head(table2)
+```
+
+```
+&gt; # A tibble: 6 × 4
+&gt;   country      year type           count
+&gt;   &lt;chr&gt;       &lt;int&gt; &lt;chr&gt;          &lt;int&gt;
+&gt; 1 Afghanistan  1999 cases            745
+&gt; 2 Afghanistan  1999 population  19987071
+&gt; 3 Afghanistan  2000 cases           2666
+&gt; 4 Afghanistan  2000 population  20595360
+&gt; 5 Brazil       1999 cases          37737
+&gt; 6 Brazil       1999 population 172006362
+```
+
+]
+
+.pull-right[
+
+
+&lt;img src="./img/table2.jpg" width="69%" style="display: block; margin: auto;" /&gt;
+]
+
+
+❎ Cada **.bg-orange[observación/individuo en una fila]** diferente.
+
+
+Fíjate en las cuatro primeras filas: los registros con el mismo año deberían ser el mismo, es la misma información, **.bg-purple_light[debería estar en la misma fila]**, pero está dividada en dos. 
+
+---
+
+
+# Datos .orange[SUCIOS]: messy data
+
+Lo que haremos será lo opuesto a antes: con `pivot_wider()` «ampliaremos» la **.bg-purple_light[tabla a lo ancho]**, con menos filas pero con más columnas.
+
+
+```r
+table2 %&gt;%
+* pivot_wider(names_from = type, values_from = count)
+```
+
+```
+&gt; # A tibble: 6 × 4
+&gt;   country      year  cases population
+&gt;   &lt;chr&gt;       &lt;int&gt;  &lt;int&gt;      &lt;int&gt;
+&gt; 1 Afghanistan  1999    745   19987071
+&gt; 2 Afghanistan  2000   2666   20595360
+&gt; 3 Brazil       1999  37737  172006362
+&gt; 4 Brazil       2000  80488  174504898
+&gt; 5 China        1999 212258 1272915272
+&gt; 6 China        2000 213766 1280428583
+```
+
+* `names_from`: el **.bg-purple_light[nombre de la columna original]** de la que vamos a sacar las **.bg-purple_light[nuevas columnas]** que vamos a crear (`cases` y `population`).
+* `values_from`: el **.bg-purple_light[nombre de la columna orignal]** de la que vamos a sacar los **.bg-purple_light[datos]**.
+
+
+---
+
+# Datos .orange[SUCIOS]: messy data
+
+
+Por último veamos un tercer tipo de dato sucio: vamos a cargar la tabla `table3` del paquete `{tidyr}` (que ya lo tenemos cargado del entorno `{tidyverse}`). **.bg-purple_light[¿Qué falla?]**
+
+
+
+```r
+table3
+```
+
+```
+&gt; # A tibble: 6 × 3
+&gt;   country      year rate             
+&gt; * &lt;chr&gt;       &lt;int&gt; &lt;chr&gt;            
+&gt; 1 Afghanistan  1999 745/19987071     
+&gt; 2 Afghanistan  2000 2666/20595360    
+&gt; 3 Brazil       1999 37737/172006362  
+&gt; 4 Brazil       2000 80488/174504898  
+&gt; 5 China        1999 212258/1272915272
+&gt; 6 China        2000 213766/1280428583
+```
+
+--
+
+❎ Cada **.bg-green_light[celda con un único valor]**.
+
+
+---
+
+# Datos .orange[SUCIOS]: messy data
+
+Lo que haremos será hacer uso de la función `separate()` para mandar **.bg-purple_light[cada valor a una columna diferente]**.
+
+
+```r
+table3 %&gt;%
+* separate(rate, into = c("cases", "pop"))
+```
+
+```
+&gt; # A tibble: 6 × 4
+&gt;   country      year cases  pop       
+&gt;   &lt;chr&gt;       &lt;int&gt; &lt;chr&gt;  &lt;chr&gt;     
+&gt; 1 Afghanistan  1999 745    19987071  
+&gt; 2 Afghanistan  2000 2666   20595360  
+&gt; 3 Brazil       1999 37737  172006362 
+&gt; 4 Brazil       2000 80488  174504898 
+&gt; 5 China        1999 212258 1272915272
+&gt; 6 China        2000 213766 1280428583
+```
+
+* `into`: **.bg-purple_light[nombre de nuevas columnas]** donde separaremos valores.
+
+
+
+&lt;img src="./img/seperate.jpg" width="50%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Datos .orange[SUCIOS]: messy data
+
+
+Por defecto lo que hace es **.bg-purple_light[localizar como separador cualquier caracter que no sea alfa-numérico]**. Si queremos un caracter concreto para dividir podemos indicárselo explícitamente. Si usas un separador que no está en los datos te devolverá dichas columnas vacías ya que no ha podido dividirlas.
+
+
+
+```r
+table3 %&gt;% separate(rate, into = c("cases", "population"), sep = ".")
+```
+
+```
+&gt; Warning: Expected 2 pieces. Additional pieces discarded in 6 rows [1, 2, 3, 4,
+&gt; 5, 6].
+```
+
+```
+&gt; # A tibble: 6 × 4
+&gt;   country      year cases population
+&gt;   &lt;chr&gt;       &lt;int&gt; &lt;chr&gt; &lt;chr&gt;     
+&gt; 1 Afghanistan  1999 ""    ""        
+&gt; 2 Afghanistan  2000 ""    ""        
+&gt; 3 Brazil       1999 ""    ""        
+&gt; 4 Brazil       2000 ""    ""        
+&gt; 5 China        1999 ""    ""        
+&gt; 6 China        2000 ""    ""
+```
+
+---
+
+# Datos .orange[SUCIOS]: messy data
+
+De la misma manera que podemos separar columnas también podemos **.bg-purple_light[unir columnas]**. Para ello vamos a usar la tabla `table5` del ya mencionado paquete.
+
+
+```r
+table5
+```
+
+```
+&gt; # A tibble: 6 × 4
+&gt;   country     century year  rate             
+&gt; * &lt;chr&gt;       &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;            
+&gt; 1 Afghanistan 19      99    745/19987071     
+&gt; 2 Afghanistan 20      00    2666/20595360    
+&gt; 3 Brazil      19      99    37737/172006362  
+&gt; 4 Brazil      20      00    80488/174504898  
+&gt; 5 China       19      99    212258/1272915272
+&gt; 6 China       20      00    213766/1280428583
+```
+
+---
+
+# Datos .orange[SUCIOS]: messy data
+
+.pull-left[
+
+Con la función `unite()` vamos a **.bg-purple_light[unir]** el siglo (en `century`) y el año (en `year`), y al inicio le indicaremos como se llamará la nueva variable `year_ok`
+
+
+```r
+table5 %&gt;%
+  unite(col = year_ok,
+        century, year, sep = "")
+```
+
+```
+&gt; # A tibble: 6 × 3
+&gt;   country     year_ok rate             
+&gt;   &lt;chr&gt;       &lt;chr&gt;   &lt;chr&gt;            
+&gt; 1 Afghanistan 1999    745/19987071     
+&gt; 2 Afghanistan 2000    2666/20595360    
+&gt; 3 Brazil      1999    37737/172006362  
+&gt; 4 Brazil      2000    80488/174504898  
+&gt; 5 China       1999    212258/1272915272
+&gt; 6 China       2000    213766/1280428583
+```
+
+]
+
+.pull-right[
+
+&lt;img src="./img/unite.jpg" width="99%" style="display: block; margin: auto;" /&gt;
+
+]
+
+
+---
+
+# Eliminando .orange[AUSENTES]
+
+El paquete `{tidyr}` también dispone de algunas herramientas útiles para **.bg-purple_light[quitar ausentes]**
+
+
+```r
+datos &lt;- tibble(x = c(1, 2, NA), y = c("a", NA, "b"))
+datos
+```
+
+```
+&gt; # A tibble: 3 × 2
+&gt;       x y    
+&gt;   &lt;dbl&gt; &lt;chr&gt;
+&gt; 1     1 a    
+&gt; 2     2 &lt;NA&gt; 
+&gt; 3    NA b
+```
+
+---
+
+# Eliminando .orange[AUSENTES]
+
+
+Con `drop_na()` podemos indicarle que nos **.bg-purple_light[elimine las filas con algún ausente]** en alguna de las variables (o especificarle la variable concreta).
+
+
+.pull-left[
+
+
+```r
+datos %&gt;% drop_na()
+```
+
+```
+&gt; # A tibble: 1 × 2
+&gt;       x y    
+&gt;   &lt;dbl&gt; &lt;chr&gt;
+&gt; 1     1 a
+```
+
+]
+
+
+.pull-right[
+
+
+```r
+datos %&gt;% drop_na(x)
+```
+
+```
+&gt; # A tibble: 2 × 2
+&gt;       x y    
+&gt;   &lt;dbl&gt; &lt;chr&gt;
+&gt; 1     1 a    
+&gt; 2     2 &lt;NA&gt;
+```
+
+]
+
+---
+
+# Eliminando .orange[AUSENTES]
+
+A veces no querremos eliminarlos sino **.bg-purple_light[imputar por el valor previo/siguiente]**  con `fill()`
+
+.pull-left[
+
+
+```r
+datos %&gt;% fill(x)
+```
+
+```
+&gt; # A tibble: 3 × 2
+&gt;       x y    
+&gt;   &lt;dbl&gt; &lt;chr&gt;
+&gt; 1     1 a    
+&gt; 2     2 &lt;NA&gt; 
+&gt; 3     2 b
+```
+
+```r
+datos %&gt;% fill(x, .direction = c("up"))
+```
+
+```
+&gt; # A tibble: 3 × 2
+&gt;       x y    
+&gt;   &lt;dbl&gt; &lt;chr&gt;
+&gt; 1     1 a    
+&gt; 2     2 &lt;NA&gt; 
+&gt; 3    NA b
+```
+
+]
+
+.pull-right[
+
+
+```r
+datos %&gt;% fill(y)
+```
+
+```
+&gt; # A tibble: 3 × 2
+&gt;       x y    
+&gt;   &lt;dbl&gt; &lt;chr&gt;
+&gt; 1     1 a    
+&gt; 2     2 a    
+&gt; 3    NA b
+```
+
+```r
+datos %&gt;% fill(y, .direction = c("up"))
+```
+
+```
+&gt; # A tibble: 3 × 2
+&gt;       x y    
+&gt;   &lt;dbl&gt; &lt;chr&gt;
+&gt; 1     1 a    
+&gt; 2     2 b    
+&gt; 3    NA b
+```
+
+]
+
+
+---
+
+# Eliminando .orange[AUSENTES]
+
+Los **.bg-purple_light[ausentes]** también pueden ser **.bg-purple_light[eliminados al pivotar]** con `values_drop_na`.
+
+
+
+```r
+stocks &lt;-
+  tibble(qtr = 1:4,
+         "2015" = c(1.88, 0.59, 0.35, NA),
+         "2016" = c(NA, 0.92, 0.17, 2.66))
+stocks
+```
+
+```
+&gt; # A tibble: 4 × 3
+&gt;     qtr `2015` `2016`
+&gt;   &lt;int&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+&gt; 1     1   1.88  NA   
+&gt; 2     2   0.59   0.92
+&gt; 3     3   0.35   0.17
+&gt; 4     4  NA      2.66
+```
+
+---
+
+# Eliminando .orange[AUSENTES]
+
+Los **.bg-purple_light[ausentes]** también pueden ser **.bg-purple_light[eliminados al pivotar]** con `values_drop_na`.
+
+
+```r
+stocks %&gt;%
+  pivot_longer(cols = c("2015", "2016"), names_to = "year",
+               values_to = "return", values_drop_na = TRUE)
+```
+
+```
+&gt; # A tibble: 6 × 3
+&gt;     qtr year  return
+&gt;   &lt;int&gt; &lt;chr&gt;  &lt;dbl&gt;
+&gt; 1     1 2015    1.88
+&gt; 2     2 2015    0.59
+&gt; 3     2 2016    0.92
+&gt; 4     3 2015    0.35
+&gt; 5     3 2016    0.17
+&gt; 6     4 2016    2.66
+```
+
+---
+
+# Reemplazando .orange[AUSENTES]
+
+Otras veces querremos **.bg-purple_light[imputar los ausentes por un valor fijo]**, algo que podemos hacer con `replace_na()`
+
+.pull-left[
+
+
+```r
+datos
+```
+
+```
+&gt; # A tibble: 3 × 2
+&gt;       x y    
+&gt;   &lt;dbl&gt; &lt;chr&gt;
+&gt; 1     1 a    
+&gt; 2     2 &lt;NA&gt; 
+&gt; 3    NA b
+```
+
+]
+
+.pull-right[
+
+
+```r
+datos %&gt;%
+  replace_na(list(x = -1,
+                  y = "unknown"))
+```
+
+```
+&gt; # A tibble: 3 × 2
+&gt;       x y      
+&gt;   &lt;dbl&gt; &lt;chr&gt;  
+&gt; 1     1 a      
+&gt; 2     2 unknown
+&gt; 3    -1 b
+```
+
+]
+
+---
+
+
+# Completando .orange[AUSENTES]
+
+Por último, también podemos **.bg-purple_light[crear todas las combinaciones posibles de variables]** (para completar datos ausentes que se hayan podido eliminar).
+
+
+
+```r
+stocks &lt;- tibble(year = c(2015, 2015, 2015, 2015, 2016, 2016, 2016),
+                 qtr = c(1, 2, 3, 4, 2, 3, 4),
+                 return = c(1.88, 0.59, 0.35, NA, 0.92, 0.17, 2.66))
+```
+
+.pull-left[
+
+
+```r
+stocks
+```
+
+```
+&gt; # A tibble: 7 × 3
+&gt;    year   qtr return
+&gt;   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
+&gt; 1  2015     1   1.88
+&gt; 2  2015     2   0.59
+&gt; 3  2015     3   0.35
+&gt; 4  2015     4  NA   
+&gt; 5  2016     2   0.92
+&gt; 6  2016     3   0.17
+&gt; 7  2016     4   2.66
+```
+
+]
+
+.pull-right[
+
+
+```r
+stocks %&gt;% complete(year, qtr)
+```
+
+```
+&gt; # A tibble: 8 × 3
+&gt;    year   qtr return
+&gt;   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
+&gt; 1  2015     1   1.88
+&gt; 2  2015     2   0.59
+&gt; 3  2015     3   0.35
+&gt; 4  2015     4  NA   
+&gt; 5  2016     1  NA   
+&gt; 6  2016     2   0.92
+&gt; 7  2016     3   0.17
+&gt; 8  2016     4   2.66
+```
+
+]
 
 ---
 
 class: inverse center middle
 name: bloque-7
 
-# BLOQUE VII: ordenando y resumiendo datos (tidyverse)
+# BLOQUE VII: depurando, ordenando y resumiendo datos (tidyverse)
 
 &amp;nbsp;
+
+### [Paquetes tidyverse](#intro-tidyverse)
+
+### [Operaciones con filas](#filas)
+
+### [Operaciones con columnas](#columnas)
+
+### [Agrupar + contar](#count)
+
+### [Resúmenes estadísticos](#summarise)
+
+---
+
+name: intro-tidyverse
+
+# Introducción a .orange[TIDYVERSE]
+
+
+.pull-left[
+
+&lt;img src="./img/tidyverrse_universe.jpg" width="89%" style="display: block; margin: auto;" /&gt;
+
+También tenemos los paquetes `{purrr}` y `{lubridate}` para el manejo de **listas** y **fechas**, `{readxl}` para importar archivos **.xls y .xlsx**, `{haven}` para importar archivos **SPSS, Stata y SAS**, `{httr}` para importar **desde web** y `{rvest}` para **web scraping**.
+
+
+]
+
+.pull-right[
+
+* `{tibble}`: **.bg-purple_light[optimizando data.frame]**.
+
+* `{tidyr}`: **.bg-purple_light[limpiar datos]**.
+
+* `{readr}`: **.bg-purple_light[carga rápida]** de datos rectangulares (formatos .csv, .tsv, etc). 
+
+* `{dplyr}`: gramática para **.bg-purple_light[depuración de datos]** para facilitar su procesamiento.
+
+* `{stringr}`: manejo de **.bg-purple_light[textos]**. 
+
+* `{forcast}` manejo de **.bg-purple_light[cualitativas]**.
+
+* `{ggplot2}`: una gramática para la **.bg-purple_light[visualización de datos]**.
+
+* `{tidymodels}`: una gramática para la **.bg-purple_light[modelización y predicción]**.
+
+
+]
+
+
+Puedes ver su **documentación completa** en &lt;https://www.tidyverse.org/&gt;.
+
+
+---
+
+# Introducción a .orange[TIDYVERSE]
+
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/tidy_flow.jpg" alt="Flujo deseable de datos según Hadley Wickham, extraída de https://r4ds.had.co.nz/wrangle-intro.html" width="75%" /&gt;
+&lt;p class="caption"&gt;Flujo deseable de datos según Hadley Wickham, extraída de https://r4ds.had.co.nz/wrangle-intro.html&lt;/p&gt;
+&lt;/div&gt;
+
+&amp;nbsp;
+
+El paquete vamos a usar para **.bg-purple_light[depurar los datos]** será el paquete `{dplyr}`, una gramática para la manipulación de datos.
+
+---
+
+# Introducción a .orange[TIDYVERSE]
+
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/dplyr.png" alt="Cheet sheet de las opciones del paquete dplyr" width="60%" /&gt;
+&lt;p class="caption"&gt;Cheet sheet de las opciones del paquete dplyr&lt;/p&gt;
+&lt;/div&gt;
+
+El paquete vamos a usar para **.bg-purple_light[depurar los datos]** será el paquete `{dplyr}`, una gramática para la manipulación de datos.
+
+---
+
+name: filas
+
+# .orange[FILTRAR] registros: filter()
+
+.pull-left[
+
+
+```r
+datos %&gt;%
+  filtro(condicion)
+```
+
+]
+
+.pull-right[
+
+
+```r
+starwars %&gt;%
+  filter(condicion)
+```
+
+]
+
+--
+
+Una de las **operaciones más comunes** es **.bg-purple_light[filtrar registros]** en base a alguna **.bg-purple_light[condición lógica]**: con `filter()` se seleccionarán solo individuos que cumplan ciertas condiciones.
+
+--
+
+&amp;nbsp;
+
+Comparadores habituales:
+
+* `==, !=` igual/distinto que
+* `&gt;, &lt;` mayor/menor que
+* `&gt;=, &lt;=` mayor/menor o igual que
+* `%in%` los valores pertenecen a un listado
+* `!is.na()` los valores no son ausentes (mejor usar `drop_na()`)
+* `between(variable, val1, val2)`: si los valores (normalmente continuos) están dentro de un rango.
+
+---
+
+# .orange[FILTRAR] registros: filter()
+
+.pull-left[
+
+
+```r
+datos %&gt;%
+  filtro(condicion)
+```
+
+]
+
+.pull-right[
+
+
+```r
+starwars %&gt;%
+  filter(condicion)
+```
+
+]
+
+&amp;nbsp;
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/tablas_verdad.jpg" alt="Tablas de verdad de operadores lógicos" width="80%" /&gt;
+&lt;p class="caption"&gt;Tablas de verdad de operadores lógicos&lt;/p&gt;
+&lt;/div&gt;
+
+---
+
+# .orange[FILTRAR] registros: filter()
+
+.pull-left[
+
+
+```r
+datos %&gt;%
+  filtro(condicion)
+```
+
+]
+
+.pull-right[
+
+
+```r
+starwars %&gt;%
+  filter(condicion)
+```
+
+]
+
+
+Por ejemplo, vamos a **filtrar** aquellos personajes con **.bg-purple_light[ojos marrones]**.
+
+
+```r
+starwars %&gt;%
+* filter(eye_color == "brown")
+```
+
+```
+&gt; # A tibble: 21 × 14
+&gt;    name        height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
+&gt;    &lt;chr&gt;        &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
+&gt;  1 Leia Organa    150  49   brown   light   brown      19   fema… femin… Aldera…
+&gt;  2 Biggs Dark…    183  84   black   light   brown      24   male  mascu… Tatooi…
+&gt;  3 Han Solo       180  80   brown   fair    brown      29   male  mascu… Corell…
+&gt;  4 Yoda            66  17   white   green   brown     896   male  mascu… &lt;NA&gt;   
+&gt;  5 Boba Fett      183  78.2 black   fair    brown      31.5 male  mascu… Kamino 
+&gt;  6 Lando Calr…    177  79   black   dark    brown      31   male  mascu… Socorro
+&gt;  7 Arvel Cryn…     NA  NA   brown   fair    brown      NA   male  mascu… &lt;NA&gt;   
+&gt;  8 Wicket Sys…     88  20   brown   brown   brown       8   male  mascu… Endor  
+&gt;  9 Quarsh Pan…    183  NA   black   dark    brown      62   &lt;NA&gt;  &lt;NA&gt;   Naboo  
+&gt; 10 Shmi Skywa…    163  NA   black   fair    brown      72   fema… femin… Tatooi…
+&gt; # … with 11 more rows, 4 more variables: species &lt;chr&gt;, films &lt;list&gt;,
+&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names
+&gt; #   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
+```
+
+---
+
+# .orange[VISUALIZAR] operaciones con datos
+
+
+En la web &lt;https://tidydatatutor.com/&gt; podemos visualizar el flujo de datos d las transformaciones que podemos hacer con `dplyr`
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/filter1.jpg" alt="Flujo de https://tidydatatutor.com/" width="90%" /&gt;
+&lt;p class="caption"&gt;Flujo de https://tidydatatutor.com/&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+---
+
+# .orange[FILTRAR] registros: filter()
+
+
+De la misma manera podemos **filtrar** los personajes que **.bg-purple_light[no tienen ojos marrones]** (en realidad estamos eliminando filas de alguna manera).
+
+
+
+```r
+starwars %&gt;%
+  filter(eye_color != "brown")
+```
+
+```
+&gt; # A tibble: 66 × 14
+&gt;    name        height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
+&gt;    &lt;chr&gt;        &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
+&gt;  1 Luke Skywa…    172    77 blond   fair    blue       19   male  mascu… Tatooi…
+&gt;  2 C-3PO          167    75 &lt;NA&gt;    gold    yellow    112   none  mascu… Tatooi…
+&gt;  3 R2-D2           96    32 &lt;NA&gt;    white,… red        33   none  mascu… Naboo  
+&gt;  4 Darth Vader    202   136 none    white   yellow     41.9 male  mascu… Tatooi…
+&gt;  5 Owen Lars      178   120 brown,… light   blue       52   male  mascu… Tatooi…
+&gt;  6 Beru White…    165    75 brown   light   blue       47   fema… femin… Tatooi…
+&gt;  7 R5-D4           97    32 &lt;NA&gt;    white,… red        NA   none  mascu… Tatooi…
+&gt;  8 Obi-Wan Ke…    182    77 auburn… fair    blue-g…    57   male  mascu… Stewjon
+&gt;  9 Anakin Sky…    188    84 blond   fair    blue       41.9 male  mascu… Tatooi…
+&gt; 10 Wilhuff Ta…    180    NA auburn… fair    blue       64   male  mascu… Eriadu 
+&gt; # … with 56 more rows, 4 more variables: species &lt;chr&gt;, films &lt;list&gt;,
+&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names
+&gt; #   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
+```
+
+---
+
+# .orange[FILTRAR] registros: filter()
+
+
+
+Al ser una variable discreta, sería bastante lógico comprobar si toma algún valor **.bg-purple_light[dentro de una lista permitida]**  (por ejemplo, personjes con ojos marrones o azules).
+
+
+
+```r
+starwars %&gt;%
+  filter(eye_color %in% c("brown", "blue"))
+```
+
+```
+&gt; # A tibble: 40 × 14
+&gt;    name        height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
+&gt;    &lt;chr&gt;        &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
+&gt;  1 Luke Skywa…    172    77 blond   fair    blue       19   male  mascu… Tatooi…
+&gt;  2 Leia Organa    150    49 brown   light   brown      19   fema… femin… Aldera…
+&gt;  3 Owen Lars      178   120 brown,… light   blue       52   male  mascu… Tatooi…
+&gt;  4 Beru White…    165    75 brown   light   blue       47   fema… femin… Tatooi…
+&gt;  5 Biggs Dark…    183    84 black   light   brown      24   male  mascu… Tatooi…
+&gt;  6 Anakin Sky…    188    84 blond   fair    blue       41.9 male  mascu… Tatooi…
+&gt;  7 Wilhuff Ta…    180    NA auburn… fair    blue       64   male  mascu… Eriadu 
+&gt;  8 Chewbacca      228   112 brown   unknown blue      200   male  mascu… Kashyy…
+&gt;  9 Han Solo       180    80 brown   fair    brown      29   male  mascu… Corell…
+&gt; 10 Jek Tono P…    180   110 brown   fair    blue       NA   male  mascu… Bestin…
+&gt; # … with 30 more rows, 4 more variables: species &lt;chr&gt;, films &lt;list&gt;,
+&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names
+&gt; #   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
+```
+
+---
+
+# .orange[FILTRAR] registros: filter()
+
+Cuando es una variable continua el interés podría estar en comprobar si la variable toma valores **.bg-purple_light[dentro de un intervalo continuo]**.
+
+
+.pull-left[
+
+
+```r
+starwars %&gt;%
+  filter(between(height, 120, 160))
+```
+
+
+```
+&gt; # A tibble: 5 × 4
+&gt;   name        height  mass eye_color
+&gt;   &lt;chr&gt;        &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;    
+&gt; 1 Leia Organa    150    49 brown    
+&gt; 2 Mon Mothma     150    NA blue     
+&gt; 3 Nien Nunb      160    68 black    
+&gt; 4 Watto          137    NA yellow   
+&gt; 5 Gasgano        122    NA black
+```
+
+]
+
+.pull-right[
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/filter3.jpg" alt="Flujo de https://tidydatatutor.com/" width="150%" /&gt;
+&lt;p class="caption"&gt;Flujo de https://tidydatatutor.com/&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+
+---
+
+
+# .orange[FILTRAR] registros: filter()
+
+
+Las condiciones también se pueden **.bg-purple_light[concatenar]**, pudiendo en pocas líneas realizar un filtro complejo. Por ejemplo, podemos filtrar los personajes con **.bg-purple_light[ojos marrones Y ADEMÁS NO humanos]**, o **.bg-purple_light[con más de 60 años]**.
+
+.pull-left[
+
+
+```r
+starwars %&gt;%
+  filter((eye_color == "brown" &amp;
+            species != "Human") |
+           birth_year &gt; 60)
+```
+
+]
+
+.pull-right[
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/filter5.jpg" alt="Flujo de https://tidydatatutor.com/" width="100%" /&gt;
+&lt;p class="caption"&gt;Flujo de https://tidydatatutor.com/&lt;/p&gt;
+&lt;/div&gt;
+
+
+]
+
+---
+
+# .orange[FILTRAR] datos ausentes
+
+Podemos también **.bg-purple_light[filtrar los registros ausentes]** en alguna de sus variables con `drop_na()`. Si no especificamos, elimina todos los registros que tenga alguno de sus campos ausente.
+
+
+```r
+starwars %&gt;% drop_na()
+```
+
+--
+
+Podemos indicarle que nos elimine filas con datos ausentes fijándonos solo en **.bg-purple_light[alguna variable particular]**.
+
+
+```r
+starwars %&gt;% drop_na(mass, height, sex, gender)
+```
+
+```
+&gt; # A tibble: 58 × 14
+&gt;    name        height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
+&gt;    &lt;chr&gt;        &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
+&gt;  1 Luke Skywa…    172    77 blond   fair    blue       19   male  mascu… Tatooi…
+&gt;  2 C-3PO          167    75 &lt;NA&gt;    gold    yellow    112   none  mascu… Tatooi…
+&gt;  3 R2-D2           96    32 &lt;NA&gt;    white,… red        33   none  mascu… Naboo  
+&gt;  4 Darth Vader    202   136 none    white   yellow     41.9 male  mascu… Tatooi…
+&gt;  5 Leia Organa    150    49 brown   light   brown      19   fema… femin… Aldera…
+&gt;  6 Owen Lars      178   120 brown,… light   blue       52   male  mascu… Tatooi…
+&gt;  7 Beru White…    165    75 brown   light   blue       47   fema… femin… Tatooi…
+&gt;  8 R5-D4           97    32 &lt;NA&gt;    white,… red        NA   none  mascu… Tatooi…
+&gt;  9 Biggs Dark…    183    84 black   light   brown      24   male  mascu… Tatooi…
+&gt; 10 Obi-Wan Ke…    182    77 auburn… fair    blue-g…    57   male  mascu… Stewjon
+&gt; # … with 48 more rows, 4 more variables: species &lt;chr&gt;, films &lt;list&gt;,
+&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names
+&gt; #   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
+```
+
+---
+
+
+# Ejercicios (filtro)
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+
+* 📝 **Ejercicio 1**: selecciona del conjunto de `starwars` solo los personajes que sean humanos (`species == "Human"`)
+
+* 📝 **Ejercicio 2**: selecciona del conjunto de `starwars` solo los personajes cuyo peso esté entre 65 y 90 kg.
+
+* 📝 **Ejercicio 3**: selecciona del conjunto de `starwars` los personajes con ojos marrones o rojos.
+
+* 📝 **Ejercicio 4**: selecciona del conjunto de `starwars` los personajes no humanos, hombres y que midan más de 170 cm, o los personajes con ojos marrones o rojos.
+
+* 📝 **Ejercicio 5**: selecciona aquellos personajes de `starwars` que hayan pilotado más de 2 naves.
+
+]
+
+.panel[.panel-name[Sol. Ej. 1]
+
+
+```r
+starwars %&gt;%
+  filter(species == "Human")
+```
+
+```
+&gt; # A tibble: 35 × 14
+&gt;    name        height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
+&gt;    &lt;chr&gt;        &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
+&gt;  1 Luke Skywa…    172    77 blond   fair    blue       19   male  mascu… Tatooi…
+&gt;  2 Darth Vader    202   136 none    white   yellow     41.9 male  mascu… Tatooi…
+&gt;  3 Leia Organa    150    49 brown   light   brown      19   fema… femin… Aldera…
+&gt;  4 Owen Lars      178   120 brown,… light   blue       52   male  mascu… Tatooi…
+&gt;  5 Beru White…    165    75 brown   light   blue       47   fema… femin… Tatooi…
+&gt;  6 Biggs Dark…    183    84 black   light   brown      24   male  mascu… Tatooi…
+&gt;  7 Obi-Wan Ke…    182    77 auburn… fair    blue-g…    57   male  mascu… Stewjon
+&gt;  8 Anakin Sky…    188    84 blond   fair    blue       41.9 male  mascu… Tatooi…
+&gt;  9 Wilhuff Ta…    180    NA auburn… fair    blue       64   male  mascu… Eriadu 
+&gt; 10 Han Solo       180    80 brown   fair    brown      29   male  mascu… Corell…
+&gt; # … with 25 more rows, 4 more variables: species &lt;chr&gt;, films &lt;list&gt;,
+&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names
+&gt; #   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
+```
+
+]
+
+.panel[.panel-name[Sol. Ej. 2]
+
+
+```r
+starwars %&gt;%
+  filter(between(mass, 65, 90))
+```
+
+```
+&gt; # A tibble: 32 × 14
+&gt;    name        height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
+&gt;    &lt;chr&gt;        &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
+&gt;  1 Luke Skywa…    172    77 blond   fair    blue       19   male  mascu… Tatooi…
+&gt;  2 C-3PO          167    75 &lt;NA&gt;    gold    yellow    112   none  mascu… Tatooi…
+&gt;  3 Beru White…    165    75 brown   light   blue       47   fema… femin… Tatooi…
+&gt;  4 Biggs Dark…    183    84 black   light   brown      24   male  mascu… Tatooi…
+&gt;  5 Obi-Wan Ke…    182    77 auburn… fair    blue-g…    57   male  mascu… Stewjon
+&gt;  6 Anakin Sky…    188    84 blond   fair    blue       41.9 male  mascu… Tatooi…
+&gt;  7 Han Solo       180    80 brown   fair    brown      29   male  mascu… Corell…
+&gt;  8 Greedo         173    74 &lt;NA&gt;    green   black      44   male  mascu… Rodia  
+&gt;  9 Wedge Anti…    170    77 brown   fair    hazel      21   male  mascu… Corell…
+&gt; 10 Palpatine      170    75 grey    pale    yellow     82   male  mascu… Naboo  
+&gt; # … with 22 more rows, 4 more variables: species &lt;chr&gt;, films &lt;list&gt;,
+&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names
+&gt; #   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
+```
+
+]
+
+.panel[.panel-name[Sol. Ej. 3]
+
+
+```r
+starwars %&gt;%
+  filter(eye_color %in% c("brown", "red"))
+```
+
+```
+&gt; # A tibble: 26 × 14
+&gt;    name        height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
+&gt;    &lt;chr&gt;        &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
+&gt;  1 R2-D2           96  32   &lt;NA&gt;    white,… red        33   none  mascu… Naboo  
+&gt;  2 Leia Organa    150  49   brown   light   brown      19   fema… femin… Aldera…
+&gt;  3 R5-D4           97  32   &lt;NA&gt;    white,… red        NA   none  mascu… Tatooi…
+&gt;  4 Biggs Dark…    183  84   black   light   brown      24   male  mascu… Tatooi…
+&gt;  5 Han Solo       180  80   brown   fair    brown      29   male  mascu… Corell…
+&gt;  6 Yoda            66  17   white   green   brown     896   male  mascu… &lt;NA&gt;   
+&gt;  7 Boba Fett      183  78.2 black   fair    brown      31.5 male  mascu… Kamino 
+&gt;  8 IG-88          200 140   none    metal   red        15   none  mascu… &lt;NA&gt;   
+&gt;  9 Bossk          190 113   none    green   red        53   male  mascu… Trando…
+&gt; 10 Lando Calr…    177  79   black   dark    brown      31   male  mascu… Socorro
+&gt; # … with 16 more rows, 4 more variables: species &lt;chr&gt;, films &lt;list&gt;,
+&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names
+&gt; #   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
+```
+
+]
+
+.panel[.panel-name[Sol. Ej. 4]
+
+
+```r
+starwars %&gt;%
+  filter((species != "Human" &amp; sex == "Male" &amp; height &gt; 170) |
+           eye_color %in% c("brown", "red"))
+```
+
+```
+&gt; # A tibble: 26 × 14
+&gt;    name        height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
+&gt;    &lt;chr&gt;        &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
+&gt;  1 R2-D2           96  32   &lt;NA&gt;    white,… red        33   none  mascu… Naboo  
+&gt;  2 Leia Organa    150  49   brown   light   brown      19   fema… femin… Aldera…
+&gt;  3 R5-D4           97  32   &lt;NA&gt;    white,… red        NA   none  mascu… Tatooi…
+&gt;  4 Biggs Dark…    183  84   black   light   brown      24   male  mascu… Tatooi…
+&gt;  5 Han Solo       180  80   brown   fair    brown      29   male  mascu… Corell…
+&gt;  6 Yoda            66  17   white   green   brown     896   male  mascu… &lt;NA&gt;   
+&gt;  7 Boba Fett      183  78.2 black   fair    brown      31.5 male  mascu… Kamino 
+&gt;  8 IG-88          200 140   none    metal   red        15   none  mascu… &lt;NA&gt;   
+&gt;  9 Bossk          190 113   none    green   red        53   male  mascu… Trando…
+&gt; 10 Lando Calr…    177  79   black   dark    brown      31   male  mascu… Socorro
+&gt; # … with 16 more rows, 4 more variables: species &lt;chr&gt;, films &lt;list&gt;,
+&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names
+&gt; #   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
+```
+
+]
+
+.panel[.panel-name[Sol. Ej. 5]
+
+
+```r
+library(purrr) # ya está en tidyverse per por si
+starwars$n_starships &lt;- starwars$starships %&gt;% map_int(length)
+starwars %&gt;% filter(n_starships &gt; 2)
+```
+
+```
+&gt; # A tibble: 3 × 15
+&gt;   name         height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
+&gt;   &lt;chr&gt;         &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
+&gt; 1 Obi-Wan Ken…    182    77 auburn… fair    blue-g…    57   male  mascu… Stewjon
+&gt; 2 Anakin Skyw…    188    84 blond   fair    blue       41.9 male  mascu… Tatooi…
+&gt; 3 Padmé Amida…    165    45 brown   light   brown      46   fema… femin… Naboo  
+&gt; # … with 5 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
+&gt; #   starships &lt;list&gt;, n_starships &lt;int&gt;, and abbreviated variable names
+&gt; #   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `colnames()` to see all variable names
+```
+
+
+
+]
+
+]
+
+---
+
+# Ejercicio extra
+
+
+Veamos un ejercicio extra para comprobar la **potencia y flexibilidad** de `{tidyverse}`, pudiendo hacer muchas cosas en dos líneas de código.
+
+&amp;nbsp;
+
+* 📝 **Ejercicio extra**: selecciona aquellos personajes de `starwars` que hayan salido en la película de la saga "El ataque de los clones" (en inglés, "Attack of the Clones"). Busca información de la función `str_detect()` del paquete `stringr`. Consejo: prueba antes las funciones que vayas a usar con algún vector de prueba para poder comprobar su funcionamiento.
+
+---
+
+# .orange[FILTRAR] registros:  slice()
+
+
+.pull-left[
+
+
+```r
+datos %&gt;%
+  rebanada(posicion)
+```
+
+]
+
+.pull-right[
+
+
+```r
+starwars %&gt;%
+  slice(posicion)
+```
+
+]
+
+--
+
+Normalmente filtraremos registros por alguna condición pero no siempre, a veces nos puede interesar, por ejemplo, sacar las primeras n filas. Para podemos crear **.bg-purple_light[rebanadas de los datos]**, seleccionando filas por su posición con `slice()`.
+
+
+```r
+*starwars %&gt;% slice(1)
+```
+
+```
+&gt; # A tibble: 1 × 14
+&gt;   name         height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
+&gt;   &lt;chr&gt;         &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
+&gt; 1 Luke Skywal…    172    77 blond   fair    blue         19 male  mascu… Tatooi…
+&gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
+&gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
+&gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `colnames()` to see all variable names
+```
+
+---
+
+# .orange[FILTRAR] registros:  slice()
+
+.pull-left[
+
+
+```r
+datos %&gt;%
+  rebanada(posicion)
+```
+
+]
+
+.pull-right[
+
+
+```r
+starwars %&gt;%
+  slice(posicion)
+```
+
+]
+
+
+Recuerda que todo lo que podemos hacer con un número (vector de longitud 1) podemos hacerlo con un vector de índices, así que podemos **.bg-purple_light[extraer varias rebanadas]**, a la vez.
+
+
+```r
+# filas de la 1 a la 5
+starwars %&gt;% slice(1:5)
+```
+
+```
+&gt; # A tibble: 5 × 14
+&gt;   name         height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
+&gt;   &lt;chr&gt;         &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
+&gt; 1 Luke Skywal…    172    77 blond   fair    blue       19   male  mascu… Tatooi…
+&gt; 2 C-3PO           167    75 &lt;NA&gt;    gold    yellow    112   none  mascu… Tatooi…
+&gt; 3 R2-D2            96    32 &lt;NA&gt;    white,… red        33   none  mascu… Naboo  
+&gt; 4 Darth Vader     202   136 none    white   yellow     41.9 male  mascu… Tatooi…
+&gt; 5 Leia Organa     150    49 brown   light   brown      19   fema… femin… Aldera…
+&gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
+&gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
+&gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `colnames()` to see all variable names
+```
+
+---
+
+# .orange[FILTRAR] registros:  slice()
+
+También podríamos usar una **.bg-purple_light[secuencia de índices]** a extraer.
+
+
+```r
+# filas 1, 2, 10, 13, 27
+starwars %&gt;% slice(c(1, 2, 10, 13, 27))
+```
+
+```
+&gt; # A tibble: 5 × 14
+&gt;   name         height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
+&gt;   &lt;chr&gt;         &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
+&gt; 1 Luke Skywal…    172    77 blond   fair    blue         19 male  mascu… Tatooi…
+&gt; 2 C-3PO           167    75 &lt;NA&gt;    gold    yellow      112 none  mascu… Tatooi…
+&gt; 3 Obi-Wan Ken…    182    77 auburn… fair    blue-g…      57 male  mascu… Stewjon
+&gt; 4 Chewbacca       228   112 brown   unknown blue        200 male  mascu… Kashyy…
+&gt; 5 Mon Mothma      150    NA auburn  fair    blue         48 fema… femin… Chandr…
+&gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
+&gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
+&gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `colnames()` to see all variable names
+```
+
+
+---
+
+# .orange[FILTRAR] registros:  slice()
+
+
+Disponemos además de opciones por defecto de operaciones habituales
+
+* `slice_head(n = ...)`: extraer las n **.bg-purple_light[primeras filas]**.
+
+
+
+```r
+# las 2 primeras filas
+starwars %&gt;% slice_head(n = 2)
+```
+
+```
+&gt; # A tibble: 2 × 14
+&gt;   name         height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
+&gt;   &lt;chr&gt;         &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
+&gt; 1 Luke Skywal…    172    77 blond   fair    blue         19 male  mascu… Tatooi…
+&gt; 2 C-3PO           167    75 &lt;NA&gt;    gold    yellow      112 none  mascu… Tatooi…
+&gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
+&gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
+&gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `colnames()` to see all variable names
+```
+
+---
+
+
+# .orange[FILTRAR] registros:  slice()
+
+* `slice_tail(n = ...)`: extraer las n **.bg-purple_light[últimas filas]**.
+
+
+```r
+# los 3 últimas filas
+starwars %&gt;% slice_tail(n = 3) 
+```
+
+```
+&gt; # A tibble: 3 × 14
+&gt;   name         height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
+&gt;   &lt;chr&gt;         &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
+&gt; 1 BB8              NA    NA none    none    black        NA none  mascu… &lt;NA&gt;   
+&gt; 2 Captain Pha…     NA    NA unknown unknown unknown      NA &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt;   
+&gt; 3 Padmé Amida…    165    45 brown   light   brown        46 fema… femin… Naboo  
+&gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
+&gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
+&gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `colnames()` to see all variable names
+```
+
+---
+
+# .orange[FILTRAR] registros:  slice()
+
+* `slice_sample(n = ...)`: extraer n **.bg-purple_light[registros aleatoriamente]** (a priori equiprobables). Podemos indicar el número o la proporción
+
+
+
+
+```r
+# 3 registros aleatorios
+starwars %&gt;% slice_sample(n = 3)
+```
+
+```
+&gt; # A tibble: 3 × 14
+&gt;   name         height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
+&gt;   &lt;chr&gt;         &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
+&gt; 1 Han Solo        180    80 brown   fair    brown        29 male  mascu… Corell…
+&gt; 2 Wicket Syst…     88    20 brown   brown   brown         8 male  mascu… Endor  
+&gt; 3 Sly Moore       178    48 none    pale    white        NA &lt;NA&gt;  &lt;NA&gt;   Umbara 
+&gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
+&gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
+&gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `colnames()` to see all variable names
+```
+
+---
+
+# .orange[FILTRAR] registros:  slice()
+
+* `slice_sample(n = ...)`: extraer n **.bg-purple_light[registros aleatoriamente]** (a priori equiprobables). Podemos indicar el número o la proporción
+
+
+
+```r
+# 2.5% de los datos
+starwars %&gt;% slice_sample(prop = 0.025)
+```
+
+```
+&gt; # A tibble: 2 × 14
+&gt;   name         height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
+&gt;   &lt;chr&gt;         &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
+&gt; 1 Dud Bolt         94    45 none    blue, … yellow       NA male  mascu… Vulpter
+&gt; 2 Ki-Adi-Mundi    198    82 white   pale    yellow       92 male  mascu… Cerea  
+&gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
+&gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
+&gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `colnames()` to see all variable names
+```
+
+---
+
+# .orange[FILTRAR] registros:  slice()
+
+En `slice_sample(n = ...)` podemos incluso pasarlo un vector de probabilidades. Vamos a forzar que sea muy improbable sacar una fila que no sean las dos primeras
+
+
+```r
+starwars %&gt;% slice_sample(n = 2, weight_by = c(0.495, 0.495, rep(0.01/85, 85)))
+```
+
+
+```
+&gt; # A tibble: 2 × 9
+&gt;   name           height  mass hair_color skin_color eye_c…¹ birth…² sex   gender
+&gt;   &lt;chr&gt;           &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
+&gt; 1 C-3PO             167    75 &lt;NA&gt;       gold       yellow      112 none  mascu…
+&gt; 2 Luke Skywalker    172    77 blond      fair       blue         19 male  mascu…
+&gt; # … with abbreviated variable names ¹​eye_color, ²​birth_year
+```
+
+
+```r
+starwars %&gt;% slice_sample(n = 2, weight_by = c(0.495, 0.495, rep(0.01/85, 85)))
+```
+
+
+```
+&gt; # A tibble: 2 × 9
+&gt;   name             height  mass hair_color skin_c…¹ eye_c…² birth…³ sex   gender
+&gt;   &lt;chr&gt;             &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;    &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
+&gt; 1 Lando Calrissian    177    79 black      dark     brown        31 male  mascu…
+&gt; 2 C-3PO               167    75 &lt;NA&gt;       gold     yellow      112 none  mascu…
+&gt; # … with abbreviated variable names ¹​skin_color, ²​eye_color, ³​birth_year
+```
+
+---
+
+
+# .orange[FILTRAR] registros: slice()
+
+
+* `slice_min(var, n = ...)` y `slice_max(var, n = ...)`: extrae las n filas con **.bg-purple_light[menor/mayor de una variable]** (si hay empate, mostrará todas salvo que `with_ties = FALSE`). 
+
+.pull-left[
+
+
+```r
+# los 3 más bajitos
+starwars %&gt;% slice_min(height, n = 3) 
+```
+
+
+```
+&gt; # A tibble: 3 × 4
+&gt;   name                  height  mass hair_color
+&gt;   &lt;chr&gt;                  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;     
+&gt; 1 Yoda                      66    17 white     
+&gt; 2 Ratts Tyerell             79    15 none      
+&gt; 3 Wicket Systri Warrick     88    20 brown
+```
+
+]
+
+.pull-right[
+
+
+```r
+# los 3 más pesados
+starwars %&gt;% slice_max(mass, n = 3) 
+```
+
+
+```
+&gt; # A tibble: 3 × 4
+&gt;   name                  height  mass hair_color
+&gt;   &lt;chr&gt;                  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;     
+&gt; 1 Jabba Desilijic Tiure    175  1358 &lt;NA&gt;      
+&gt; 2 Grievous                 216   159 none      
+&gt; 3 IG-88                    200   140 none
+```
+
+]
+
+---
+
+# .orange[REORDENAR] filas: rearrange()
+
+.pull-left[
+
+
+```r
+datos %&gt;%
+  ordeno(var1, desc(var2))
+```
+
+]
+
+.pull-right[
+
+
+```r
+starwars %&gt;%
+  arrange(var1, desc(var2))
+```
+
+]
+
+--
+
+Otra operación será **.bg-purple_light[ordenar filas]** con `arrange()`, pasándole las variables que usaremos para la ordenación (por defecto de menor a mayor, podemos invertirlo usando `desc()`. Por ejemplo, vamos a **ordenar** por altura, de bajitos a altos, y en caso de empate, por peso (pero al revés, de pesados a ligeros).
+
+
+
+
+```r
+starwars %&gt;% arrange(height, desc(mass))
+```
+
+```
+&gt; # A tibble: 87 × 14
+&gt;    name        height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
+&gt;    &lt;chr&gt;        &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
+&gt;  1 Yoda            66    17 white   green   brown       896 male  mascu… &lt;NA&gt;   
+&gt;  2 Ratts Tyer…     79    15 none    grey, … unknown      NA male  mascu… Aleen …
+&gt;  3 Wicket Sys…     88    20 brown   brown   brown         8 male  mascu… Endor  
+&gt;  4 Dud Bolt        94    45 none    blue, … yellow       NA male  mascu… Vulpter
+&gt;  5 R2-D2           96    32 &lt;NA&gt;    white,… red          33 none  mascu… Naboo  
+&gt;  6 R4-P17          96    NA none    silver… red, b…      NA none  femin… &lt;NA&gt;   
+&gt;  7 R5-D4           97    32 &lt;NA&gt;    white,… red          NA none  mascu… Tatooi…
+&gt;  8 Sebulba        112    40 none    grey, … orange       NA male  mascu… Malast…
+&gt;  9 Gasgano        122    NA none    white,… black        NA male  mascu… Troiken
+&gt; 10 Watto          137    NA black   blue, … yellow       NA male  mascu… Toydar…
+&gt; # … with 77 more rows, 4 more variables: species &lt;chr&gt;, films &lt;list&gt;,
+&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names
+&gt; #   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
+```
+
+---
+
+# .orange[ELIMINAR] duplicados: distinct()
+
+Otra opción es **.bg-purple_light[eliminar filas duplicadas]** con `distinct()`, pasándole como argumentos las variables. Por defecto, solo extrae las columnas en base a las cuales hemos eliminado duplicados. Si queremos que nos **mantenga todas** deberemos explicitarlo con `.keep_all = TRUE`.
+
+.pull-left[
+
+
+```r
+# Elimina filas con igual (color_pelo, color_ojos)
+starwars %&gt;% distinct(hair_color, eye_color)
+```
+
+```
+&gt; # A tibble: 35 × 2
+&gt;    hair_color    eye_color
+&gt;    &lt;chr&gt;         &lt;chr&gt;    
+&gt;  1 blond         blue     
+&gt;  2 &lt;NA&gt;          yellow   
+&gt;  3 &lt;NA&gt;          red      
+&gt;  4 none          yellow   
+&gt;  5 brown         brown    
+&gt;  6 brown, grey   blue     
+&gt;  7 brown         blue     
+&gt;  8 black         brown    
+&gt;  9 auburn, white blue-gray
+&gt; 10 auburn, grey  blue     
+&gt; # … with 25 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
+```
+
+]
+
+.pull-left[
+
+
+```r
+# Elimina filas con igual (color_pelo, color_ojos)
+starwars %&gt;% distinct(hair_color, eye_color, .keep_all = TRUE)
+```
+
+```
+&gt; # A tibble: 35 × 14
+&gt;    name        height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
+&gt;    &lt;chr&gt;        &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
+&gt;  1 Luke Skywa…    172    77 blond   fair    blue       19   male  mascu… Tatooi…
+&gt;  2 C-3PO          167    75 &lt;NA&gt;    gold    yellow    112   none  mascu… Tatooi…
+&gt;  3 R2-D2           96    32 &lt;NA&gt;    white,… red        33   none  mascu… Naboo  
+&gt;  4 Darth Vader    202   136 none    white   yellow     41.9 male  mascu… Tatooi…
+&gt;  5 Leia Organa    150    49 brown   light   brown      19   fema… femin… Aldera…
+&gt;  6 Owen Lars      178   120 brown,… light   blue       52   male  mascu… Tatooi…
+&gt;  7 Beru White…    165    75 brown   light   blue       47   fema… femin… Tatooi…
+&gt;  8 Biggs Dark…    183    84 black   light   brown      24   male  mascu… Tatooi…
+&gt;  9 Obi-Wan Ke…    182    77 auburn… fair    blue-g…    57   male  mascu… Stewjon
+&gt; 10 Wilhuff Ta…    180    NA auburn… fair    blue       64   male  mascu… Eriadu 
+&gt; # … with 25 more rows, 4 more variables: species &lt;chr&gt;, films &lt;list&gt;,
+&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names
+&gt; #   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
+```
+
+]
+  
+---
+
+# .orange[AÑADIR] filas: bind_rows()
+
+Si quisiéramos **.bg-purple_light[añadir un nuevo registro]** manualmente, podremos hacerlo con `bind_rows()`, asegurándonos que las **variables en el nuevo registro son las mismas** que en el original. Por ejemplo, vamos a añadir al fichero original los 3 primeros registros (al final).
+
+
+```r
+starwars_nuevo &lt;- bind_rows(starwars, starwars %&gt;% slice(1:3))
+dim(starwars)
+```
+
+```
+&gt; [1] 87 14
+```
+
+```r
+dim(starwars_nuevo)
+```
+
+```
+&gt; [1] 90 14
+```
+
+---
+
+
+# Ejercicios (filas)
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+
+* 📝 **Ejercicio 1**: selecciona solo los personajes que sean humanos y de ojos marrones, para después ordernarlos en altura descendente y peso ascendente.
+
+* 📝 **Ejercicio 2**:  extrae 3 registros aleatoriamente. Vuelve a hacerlo para comprobar que salen diferentes.
+
+* 📝 **Ejercicio 3**:  extrae el 10% de los registros aleatoriamente.
+
+* 📝 **Ejercicio 4**: selecciona los 3 personajes más mayores y los 3 personajes más bajitos.
+
+* 📝 **Ejercicio 5**: para saber que valores únicos hay en el color de pelo, elimina duplicados por dicha variable `hair_color`, eliminando antes los ausentes de dicha variable.
+
+
+]
+
+.panel[.panel-name[Sol. Ej. 1]
+
+
+```r
+# Podemos combinar varias acciones en pocas líneas
+starwars %&gt;%
+  filter(eye_color == "brown",
+         species == "Human") %&gt;%
+  arrange(height, desc(mass))
+```
+
+```
+&gt; # A tibble: 17 × 14
+&gt;    name        height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
+&gt;    &lt;chr&gt;        &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
+&gt;  1 Leia Organa    150  49   brown   light   brown      19   fema… femin… Aldera…
+&gt;  2 Cordé          157  NA   brown   light   brown      NA   fema… femin… Naboo  
+&gt;  3 Shmi Skywa…    163  NA   black   fair    brown      72   fema… femin… Tatooi…
+&gt;  4 Padmé Amid…    165  45   brown   light   brown      46   fema… femin… Naboo  
+&gt;  5 Dormé          165  NA   brown   light   brown      NA   fema… femin… Naboo  
+&gt;  6 Lando Calr…    177  79   black   dark    brown      31   male  mascu… Socorro
+&gt;  7 Han Solo       180  80   brown   fair    brown      29   male  mascu… Corell…
+&gt;  8 Biggs Dark…    183  84   black   light   brown      24   male  mascu… Tatooi…
+&gt;  9 Jango Fett     183  79   black   tan     brown      66   male  mascu… Concor…
+&gt; 10 Boba Fett      183  78.2 black   fair    brown      31.5 male  mascu… Kamino 
+&gt; 11 Gregar Typ…    185  85   black   dark    brown      NA   male  mascu… Naboo  
+&gt; 12 Mace Windu     188  84   none    dark    brown      72   male  mascu… Haruun…
+&gt; 13 Raymus Ant…    188  79   brown   light   brown      NA   male  mascu… Aldera…
+&gt; 14 Bail Prest…    191  NA   black   tan     brown      67   male  mascu… Aldera…
+&gt; 15 Dooku          193  80   white   fair    brown     102   male  mascu… Serenno
+&gt; 16 Arvel Cryn…     NA  NA   brown   fair    brown      NA   male  mascu… &lt;NA&gt;   
+&gt; 17 Poe Dameron     NA  NA   brown   light   brown      NA   male  mascu… &lt;NA&gt;   
+&gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
+&gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
+&gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `colnames()` to see all variable names
+```
+
+]
+
+.panel[.panel-name[Sol. Ej. 2]
+
+
+```r
+starwars %&gt;%
+  slice_sample(n = 3)
+```
+
+```
+&gt; # A tibble: 3 × 14
+&gt;   name        height  mass hair_c…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
+&gt;   &lt;chr&gt;        &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
+&gt; 1 Kit Fisto      196    87 none     green   black        NA male  mascu… Glee A…
+&gt; 2 Leia Organa    150    49 brown    light   brown        19 fema… femin… Aldera…
+&gt; 3 R5-D4           97    32 &lt;NA&gt;     white,… red          NA none  mascu… Tatooi…
+&gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
+&gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
+&gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `colnames()` to see all variable names
+```
+
+
+```r
+starwars %&gt;%
+  slice_sample(n = 3)
+```
+
+```
+&gt; # A tibble: 3 × 14
+&gt;   name         height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
+&gt;   &lt;chr&gt;         &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
+&gt; 1 Bib Fortuna     180    NA none    pale    pink         NA male  mascu… Ryloth 
+&gt; 2 Lobot           175    79 none    light   blue         37 male  mascu… Bespin 
+&gt; 3 Luke Skywal…    172    77 blond   fair    blue         19 male  mascu… Tatooi…
+&gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
+&gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
+&gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `colnames()` to see all variable names
+```
+
+
+]
+
+.panel[.panel-name[Sol. Ej. 3]
+
+
+```r
+starwars %&gt;%
+  slice_sample(prop = 0.1)
+```
+
+```
+&gt; # A tibble: 8 × 14
+&gt;   name         height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
+&gt;   &lt;chr&gt;         &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
+&gt; 1 Nute Gunray     191    90 none    mottle… red          NA male  mascu… Cato N…
+&gt; 2 Biggs Darkl…    183    84 black   light   brown        24 male  mascu… Tatooi…
+&gt; 3 Lando Calri…    177    79 black   dark    brown        31 male  mascu… Socorro
+&gt; 4 Chewbacca       228   112 brown   unknown blue        200 male  mascu… Kashyy…
+&gt; 5 Poe Dameron      NA    NA brown   light   brown        NA male  mascu… &lt;NA&gt;   
+&gt; 6 Jabba Desil…    175  1358 &lt;NA&gt;    green-… orange      600 herm… mascu… Nal Hu…
+&gt; 7 Wilhuff Tar…    180    NA auburn… fair    blue         64 male  mascu… Eriadu 
+&gt; 8 Saesee Tiin     188    NA none    pale    orange       NA male  mascu… Iktotch
+&gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
+&gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
+&gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `colnames()` to see all variable names
+```
+
+]
+
+.panel[.panel-name[Sol. Ej. 4]
+
+
+
+```r
+starwars %&gt;%
+  slice_max(birth_year, n = 3)
+```
+
+```
+&gt; # A tibble: 3 × 14
+&gt;   name         height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
+&gt;   &lt;chr&gt;         &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
+&gt; 1 Yoda             66    17 white   green   brown       896 male  mascu… &lt;NA&gt;   
+&gt; 2 Jabba Desil…    175  1358 &lt;NA&gt;    green-… orange      600 herm… mascu… Nal Hu…
+&gt; 3 Chewbacca       228   112 brown   unknown blue        200 male  mascu… Kashyy…
+&gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
+&gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
+&gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `colnames()` to see all variable names
+```
+
+
+```r
+starwars %&gt;%
+  slice_min(height, n = 3)
+```
+
+```
+&gt; # A tibble: 3 × 14
+&gt;   name         height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
+&gt;   &lt;chr&gt;         &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
+&gt; 1 Yoda             66    17 white   green   brown       896 male  mascu… &lt;NA&gt;   
+&gt; 2 Ratts Tyere…     79    15 none    grey, … unknown      NA male  mascu… Aleen …
+&gt; 3 Wicket Syst…     88    20 brown   brown   brown         8 male  mascu… Endor  
+&gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
+&gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
+&gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `colnames()` to see all variable names
+```
+]
+
+.panel[.panel-name[Sol. Ej. 5]
+
+
+
+```r
+starwars %&gt;%
+  drop_na(hair_color) %&gt;%
+  distinct(hair_color)
+```
+
+```
+&gt; # A tibble: 12 × 1
+&gt;    hair_color   
+&gt;    &lt;chr&gt;        
+&gt;  1 blond        
+&gt;  2 none         
+&gt;  3 brown        
+&gt;  4 brown, grey  
+&gt;  5 black        
+&gt;  6 auburn, white
+&gt;  7 auburn, grey 
+&gt;  8 white        
+&gt;  9 grey         
+&gt; 10 auburn       
+&gt; 11 blonde       
+&gt; 12 unknown
+```
+
+]
+
+]
+
+---
+
+# Ejercicio extra
+
+
+Veamos un ejercicio extra para comprobar la **potencia y flexibilidad** de `{tidyverse}`, pudiendo hacer muchas cosas en dos líneas de código.
+
+&amp;nbsp;
+
+* 📝 **Ejercicio extra**: de los personajes que son humanos y miden más de 160 cm, elimina duplicados en color de ojos, elimina ausentes en peso, selecciona los 5 más altos, y orden de mayor a menor peso. Devuelve la tabla.
+
+---
+
+name: columnas
+
+# .orange[SELECCIONAR] columnas:  select()
+
+.pull-left[
+
+
+```r
+datos %&gt;%
+  selecciono(col1, col2, ...)
+```
+
+]
+
+.pull-right[
+
+
+```r
+starwars %&gt;%
+  select(col1, col2, ...)
+```
+
+]
+
+--
+
+La opción más sencilla para **.bg-purple_light[seleccionar variables]** es `select()`, dando como argumentos los nombres de columnas. Por ejemplo, vamos a seleccionar las variables `names` y `hair_color`
+
+
+```r
+starwars %&gt;%
+* select(name, hair_color)
+```
+
+```
+&gt; # A tibble: 87 × 2
+&gt;    name               hair_color   
+&gt;    &lt;chr&gt;              &lt;chr&gt;        
+&gt;  1 Luke Skywalker     blond        
+&gt;  2 C-3PO              &lt;NA&gt;         
+&gt;  3 R2-D2              &lt;NA&gt;         
+&gt;  4 Darth Vader        none         
+&gt;  5 Leia Organa        brown        
+&gt;  6 Owen Lars          brown, grey  
+&gt;  7 Beru Whitesun lars brown        
+&gt;  8 R5-D4              &lt;NA&gt;         
+&gt;  9 Biggs Darklighter  black        
+&gt; 10 Obi-Wan Kenobi     auburn, white
+&gt; # … with 77 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
+```
+
+
+---
+
+# .orange[SELECCIONAR] columnas:  select()
+
+.pull-left[
+
+
+```r
+starwars %&gt;% select(name, hair_color)
+```
+
+```
+&gt; # A tibble: 87 × 2
+&gt;    name               hair_color   
+&gt;    &lt;chr&gt;              &lt;chr&gt;        
+&gt;  1 Luke Skywalker     blond        
+&gt;  2 C-3PO              &lt;NA&gt;         
+&gt;  3 R2-D2              &lt;NA&gt;         
+&gt;  4 Darth Vader        none         
+&gt;  5 Leia Organa        brown        
+&gt;  6 Owen Lars          brown, grey  
+&gt;  7 Beru Whitesun lars brown        
+&gt;  8 R5-D4              &lt;NA&gt;         
+&gt;  9 Biggs Darklighter  black        
+&gt; 10 Obi-Wan Kenobi     auburn, white
+&gt; # … with 77 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
+```
+
+]
+
+.pull-right[
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/select1.jpg" alt="Flujo de https://tidydatatutor.com/" width="140%" /&gt;
+&lt;p class="caption"&gt;Flujo de https://tidydatatutor.com/&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+---
+
+# .orange[SELECCIONAR] columnas:  select()
+
+
+Como sucedía al filtrar, la función `select()` es bastante versatil y nos permite:
+
+* Seleccionar **.bg-purple_light[varias variables a la vez]** (concatenando sus nombres).
+
+
+```r
+starwars %&gt;% select(name:skin_color)
+```
+
+```
+&gt; # A tibble: 87 × 5
+&gt;    name               height  mass hair_color    skin_color 
+&gt;    &lt;chr&gt;               &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;         &lt;chr&gt;      
+&gt;  1 Luke Skywalker        172    77 blond         fair       
+&gt;  2 C-3PO                 167    75 &lt;NA&gt;          gold       
+&gt;  3 R2-D2                  96    32 &lt;NA&gt;          white, blue
+&gt;  4 Darth Vader           202   136 none          white      
+&gt;  5 Leia Organa           150    49 brown         light      
+&gt;  6 Owen Lars             178   120 brown, grey   light      
+&gt;  7 Beru Whitesun lars    165    75 brown         light      
+&gt;  8 R5-D4                  97    32 &lt;NA&gt;          white, red 
+&gt;  9 Biggs Darklighter     183    84 black         light      
+&gt; 10 Obi-Wan Kenobi        182    77 auburn, white fair       
+&gt; # … with 77 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
+```
+
+---
+
+# .orange[SELECCIONAR] columnas:  select()
+
+* **.bg-purple_light[Deseleccionar]** columnas con `-`
+
+
+```r
+starwars %&gt;% select(-c(mass:eye_color), -species, -c(films:starships))
+```
+
+```
+&gt; # A tibble: 87 × 6
+&gt;    name               height birth_year sex    gender    homeworld
+&gt;    &lt;chr&gt;               &lt;int&gt;      &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;     &lt;chr&gt;    
+&gt;  1 Luke Skywalker        172       19   male   masculine Tatooine 
+&gt;  2 C-3PO                 167      112   none   masculine Tatooine 
+&gt;  3 R2-D2                  96       33   none   masculine Naboo    
+&gt;  4 Darth Vader           202       41.9 male   masculine Tatooine 
+&gt;  5 Leia Organa           150       19   female feminine  Alderaan 
+&gt;  6 Owen Lars             178       52   male   masculine Tatooine 
+&gt;  7 Beru Whitesun lars    165       47   female feminine  Tatooine 
+&gt;  8 R5-D4                  97       NA   none   masculine Tatooine 
+&gt;  9 Biggs Darklighter     183       24   male   masculine Tatooine 
+&gt; 10 Obi-Wan Kenobi        182       57   male   masculine Stewjon  
+&gt; # … with 77 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
+```
+
+---
+
+# .orange[SELECCIONAR] columnas:  select()
+
+
+* Seleccionar columnas que **.bg-purple_light[comiencen por un prefijo]** (`starts_with()`), **.bg-purple_light[terminen]** con un sufijo (`ends_with()`), **.bg-purple_light[contengan]** un texto (`contains()`) o cumplan una **.bg-purple_light[expresión regular]** (`matches()`)
+
+
+
+```r
+# nombre acaba en "color"
+starwars %&gt;% select(ends_with("color"))
+```
+
+```
+&gt; # A tibble: 87 × 3
+&gt;    hair_color    skin_color  eye_color
+&gt;    &lt;chr&gt;         &lt;chr&gt;       &lt;chr&gt;    
+&gt;  1 blond         fair        blue     
+&gt;  2 &lt;NA&gt;          gold        yellow   
+&gt;  3 &lt;NA&gt;          white, blue red      
+&gt;  4 none          white       yellow   
+&gt;  5 brown         light       brown    
+&gt;  6 brown, grey   light       blue     
+&gt;  7 brown         light       blue     
+&gt;  8 &lt;NA&gt;          white, red  red      
+&gt;  9 black         light       brown    
+&gt; 10 auburn, white fair        blue-gray
+&gt; # … with 77 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
+```
+
+---
+
+# .orange[SELECCIONAR] columnas:  select()
+
+
+* Seleccionar columnas que **.bg-purple_light[comiencen por un prefijo]** (`starts_with()`), **.bg-purple_light[terminen]** con un sufijo (`ends_with()`), **.bg-purple_light[contengan]** un texto (`contains()`) o cumplan una **.bg-purple_light[expresión regular]** (`matches()`)
+
+
+```r
+# empiezan por new_sp
+who %&gt;% select(country, year, starts_with("new_sp"))
+```
+
+```
+&gt; # A tibble: 7,240 × 16
+&gt;    country  year new_s…¹ new_s…² new_s…³ new_s…⁴ new_s…⁵ new_s…⁶ new_s…⁷ new_s…⁸
+&gt;    &lt;chr&gt;   &lt;int&gt;   &lt;int&gt;   &lt;int&gt;   &lt;int&gt;   &lt;int&gt;   &lt;int&gt;   &lt;int&gt;   &lt;int&gt;   &lt;int&gt;
+&gt;  1 Afghan…  1980      NA      NA      NA      NA      NA      NA      NA      NA
+&gt;  2 Afghan…  1981      NA      NA      NA      NA      NA      NA      NA      NA
+&gt;  3 Afghan…  1982      NA      NA      NA      NA      NA      NA      NA      NA
+&gt;  4 Afghan…  1983      NA      NA      NA      NA      NA      NA      NA      NA
+&gt;  5 Afghan…  1984      NA      NA      NA      NA      NA      NA      NA      NA
+&gt;  6 Afghan…  1985      NA      NA      NA      NA      NA      NA      NA      NA
+&gt;  7 Afghan…  1986      NA      NA      NA      NA      NA      NA      NA      NA
+&gt;  8 Afghan…  1987      NA      NA      NA      NA      NA      NA      NA      NA
+&gt;  9 Afghan…  1988      NA      NA      NA      NA      NA      NA      NA      NA
+&gt; 10 Afghan…  1989      NA      NA      NA      NA      NA      NA      NA      NA
+&gt; # … with 7,230 more rows, 6 more variables: new_sp_f1524 &lt;int&gt;,
+&gt; #   new_sp_f2534 &lt;int&gt;, new_sp_f3544 &lt;int&gt;, new_sp_f4554 &lt;int&gt;,
+&gt; #   new_sp_f5564 &lt;int&gt;, new_sp_f65 &lt;int&gt;, and abbreviated variable names
+&gt; #   ¹​new_sp_m014, ²​new_sp_m1524, ³​new_sp_m2534, ⁴​new_sp_m3544, ⁵​new_sp_m4554,
+&gt; #   ⁶​new_sp_m5564, ⁷​new_sp_m65, ⁸​new_sp_f014
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
+```
+
+---
+
+# .orange[SELECCIONAR] columnas:  select()
+
+
+* Seleccionar columnas que **.bg-purple_light[comiencen por un prefijo]** (`starts_with()`), **.bg-purple_light[terminen]** con un sufijo (`ends_with()`), **.bg-purple_light[contengan]** un texto (`contains()`) o cumplan una **.bg-purple_light[expresión regular]** (`matches()`)
+
+
+```r
+tb &lt;- tibble("edad" = c(30, 35, 40),
+             "color_ojos" = c("azul", "amarillo", "negro"),
+             "pelo_color" = c("negro", "marrón", "rubio"))
+tb %&gt;% select(contains("color"))
+```
+
+```
+&gt; # A tibble: 3 × 2
+&gt;   color_ojos pelo_color
+&gt;   &lt;chr&gt;      &lt;chr&gt;     
+&gt; 1 azul       negro     
+&gt; 2 amarillo   marrón    
+&gt; 3 negro      rubio
+```
+
+
+---
+
+# .orange[SELECCIONAR] columnas:  select()
+
+Incluso podemos seleccionar por rango numérico si tenemos variables conun prefijo y números.
+
+
+```r
+billboard %&gt;% select(num_range("wk", 10:15))
+```
+
+```
+&gt; # A tibble: 317 × 6
+&gt;     wk10  wk11  wk12  wk13  wk14  wk15
+&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+&gt;  1    NA    NA    NA    NA    NA    NA
+&gt;  2    NA    NA    NA    NA    NA    NA
+&gt;  3    51    51    51    47    44    38
+&gt;  4    61    61    59    61    66    72
+&gt;  5    57    64    70    75    76    78
+&gt;  6     6     7    22    29    36    47
+&gt;  7    NA    NA    NA    NA    NA    NA
+&gt;  8    36    37    37    38    49    61
+&gt;  9    10     9     8     6     1     2
+&gt; 10    59    66    68    61    67    59
+&gt; # … with 307 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
+```
+
+---
+
+# .orange[SELECCIONAR] columnas:  select()
+
+* Seleccionar columnas de un **.bg-purple_light[tipo]** haciendo uso de `where()`.
+
+
+
+```r
+# Solo columnas numéricas o de trexto
+starwars %&gt;% select(where(is.numeric) | where(is.character))
+```
+
+```
+&gt; # A tibble: 87 × 11
+&gt;    height  mass birth_year name     hair_…¹ skin_…² eye_c…³ sex   gender homew…⁴
+&gt;     &lt;int&gt; &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
+&gt;  1    172    77       19   Luke Sk… blond   fair    blue    male  mascu… Tatooi…
+&gt;  2    167    75      112   C-3PO    &lt;NA&gt;    gold    yellow  none  mascu… Tatooi…
+&gt;  3     96    32       33   R2-D2    &lt;NA&gt;    white,… red     none  mascu… Naboo  
+&gt;  4    202   136       41.9 Darth V… none    white   yellow  male  mascu… Tatooi…
+&gt;  5    150    49       19   Leia Or… brown   light   brown   fema… femin… Aldera…
+&gt;  6    178   120       52   Owen La… brown,… light   blue    male  mascu… Tatooi…
+&gt;  7    165    75       47   Beru Wh… brown   light   blue    fema… femin… Tatooi…
+&gt;  8     97    32       NA   R5-D4    &lt;NA&gt;    white,… red     none  mascu… Tatooi…
+&gt;  9    183    84       24   Biggs D… black   light   brown   male  mascu… Tatooi…
+&gt; 10    182    77       57   Obi-Wan… auburn… fair    blue-g… male  mascu… Stewjon
+&gt; # … with 77 more rows, 1 more variable: species &lt;chr&gt;, and abbreviated variable
+&gt; #   names ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​homeworld
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
+```
+
+---
+
+# .orange[RECOLOCAR] columnas: relocate()
+
+Fíjate que con `select()` podrías además **.bg-purple_light[recolocar columnas]**, indícandole el orden, ayudándote también de `everything()`
+
+
+```r
+starwars %&gt;%  select(c(species, name, birth_year, everything()))
+```
+
+```
+&gt; # A tibble: 87 × 14
+&gt;    species name        birth…¹ height  mass hair_…² skin_…³ eye_c…⁴ sex   gender
+&gt;    &lt;chr&gt;   &lt;chr&gt;         &lt;dbl&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt; 
+&gt;  1 Human   Luke Skywa…    19      172    77 blond   fair    blue    male  mascu…
+&gt;  2 Droid   C-3PO         112      167    75 &lt;NA&gt;    gold    yellow  none  mascu…
+&gt;  3 Droid   R2-D2          33       96    32 &lt;NA&gt;    white,… red     none  mascu…
+&gt;  4 Human   Darth Vader    41.9    202   136 none    white   yellow  male  mascu…
+&gt;  5 Human   Leia Organa    19      150    49 brown   light   brown   fema… femin…
+&gt;  6 Human   Owen Lars      52      178   120 brown,… light   blue    male  mascu…
+&gt;  7 Human   Beru White…    47      165    75 brown   light   blue    fema… femin…
+&gt;  8 Droid   R5-D4          NA       97    32 &lt;NA&gt;    white,… red     none  mascu…
+&gt;  9 Human   Biggs Dark…    24      183    84 black   light   brown   male  mascu…
+&gt; 10 Human   Obi-Wan Ke…    57      182    77 auburn… fair    blue-g… male  mascu…
+&gt; # … with 77 more rows, 4 more variables: homeworld &lt;chr&gt;, films &lt;list&gt;,
+&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names
+&gt; #   ¹​birth_year, ²​hair_color, ³​skin_color, ⁴​eye_color
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
+```
+
+---
+
+# .orange[RECOLOCAR] columnas: relocate()
+
+
+.pull-left[
+
+
+```r
+datos %&gt;% 
+  recolocar(col1, col2, .after = ...)
+```
+
+]
+
+.pull-right[
+
+
+```r
+starwars %&gt;% 
+  relocate(col1, col2, .after = ...)
+```
+
+]
+
+--
+
+Para facilitar la **.bg-purple_light[recolocación]** tenemos una función para ello, `relocate()`,  indicándole en `.after` o `.before` detrás o delante de qué columnas queremos moverlas.
+
+
+```r
+starwars %&gt;% relocate(species, .before = name)
+```
+
+```
+&gt; # A tibble: 87 × 14
+&gt;    species name        height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender
+&gt;    &lt;chr&gt;   &lt;chr&gt;        &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
+&gt;  1 Human   Luke Skywa…    172    77 blond   fair    blue       19   male  mascu…
+&gt;  2 Droid   C-3PO          167    75 &lt;NA&gt;    gold    yellow    112   none  mascu…
+&gt;  3 Droid   R2-D2           96    32 &lt;NA&gt;    white,… red        33   none  mascu…
+&gt;  4 Human   Darth Vader    202   136 none    white   yellow     41.9 male  mascu…
+&gt;  5 Human   Leia Organa    150    49 brown   light   brown      19   fema… femin…
+&gt;  6 Human   Owen Lars      178   120 brown,… light   blue       52   male  mascu…
+&gt;  7 Human   Beru White…    165    75 brown   light   blue       47   fema… femin…
+&gt;  8 Droid   R5-D4           97    32 &lt;NA&gt;    white,… red        NA   none  mascu…
+&gt;  9 Human   Biggs Dark…    183    84 black   light   brown      24   male  mascu…
+&gt; 10 Human   Obi-Wan Ke…    182    77 auburn… fair    blue-g…    57   male  mascu…
+&gt; # … with 77 more rows, 4 more variables: homeworld &lt;chr&gt;, films &lt;list&gt;,
+&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names
+&gt; #   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
+```
+
+---
+
+# .orange[EXTRAER] columnas: pull()
+
+
+.pull-left[
+
+
+```r
+datos %&gt;% 
+  retirar(variable)
+```
+
+]
+
+.pull-right[
+
+
+```r
+starwars %&gt;% 
+  pull(variable)
+```
+
+]
+
+--
+
+.pull-left[
+
+Si observas la salida de los `select()`, sigue siendo una tabla `tibble`, nos preserva la naturaleza de nuestros datos.
+
+
+```r
+starwars %&gt;% select(name)
+```
+
+```
+&gt; # A tibble: 87 × 1
+&gt;    name              
+&gt;    &lt;chr&gt;             
+&gt;  1 Luke Skywalker    
+&gt;  2 C-3PO             
+&gt;  3 R2-D2             
+&gt;  4 Darth Vader       
+&gt;  5 Leia Organa       
+&gt;  6 Owen Lars         
+&gt;  7 Beru Whitesun lars
+&gt;  8 R5-D4             
+&gt;  9 Biggs Darklighter 
+&gt; 10 Obi-Wan Kenobi    
+&gt; # … with 77 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
+```
+
+]
+
+.pull-right[
+
+A veces no querremos dicha estructura sino **.bg-purple_light[extraer literalmente la columna]**, algo que podemos hacer con `pull()`
+
+
+```r
+starwars %&gt;% pull(name)
+```
+
+```
+&gt;  [1] "Luke Skywalker"        "C-3PO"                 "R2-D2"                
+&gt;  [4] "Darth Vader"           "Leia Organa"           "Owen Lars"            
+&gt;  [7] "Beru Whitesun lars"    "R5-D4"                 "Biggs Darklighter"    
+&gt; [10] "Obi-Wan Kenobi"        "Anakin Skywalker"      "Wilhuff Tarkin"       
+&gt; [13] "Chewbacca"             "Han Solo"              "Greedo"               
+&gt; [16] "Jabba Desilijic Tiure" "Wedge Antilles"        "Jek Tono Porkins"     
+&gt; [19] "Yoda"                  "Palpatine"             "Boba Fett"            
+&gt; [22] "IG-88"                 "Bossk"                 "Lando Calrissian"     
+&gt; [25] "Lobot"                 "Ackbar"                "Mon Mothma"           
+&gt; [28] "Arvel Crynyd"          "Wicket Systri Warrick" "Nien Nunb"            
+&gt; [31] "Qui-Gon Jinn"          "Nute Gunray"           "Finis Valorum"        
+&gt; [34] "Jar Jar Binks"         "Roos Tarpals"          "Rugor Nass"           
+&gt; [37] "Ric Olié"              "Watto"                 "Sebulba"              
+&gt; [40] "Quarsh Panaka"         "Shmi Skywalker"        "Darth Maul"           
+&gt; [43] "Bib Fortuna"           "Ayla Secura"           "Dud Bolt"             
+&gt; [46] "Gasgano"               "Ben Quadinaros"        "Mace Windu"           
+&gt; [49] "Ki-Adi-Mundi"          "Kit Fisto"             "Eeth Koth"            
+&gt; [52] "Adi Gallia"            "Saesee Tiin"           "Yarael Poof"          
+&gt; [55] "Plo Koon"              "Mas Amedda"            "Gregar Typho"         
+&gt; [58] "Cordé"                 "Cliegg Lars"           "Poggle the Lesser"    
+&gt; [61] "Luminara Unduli"       "Barriss Offee"         "Dormé"                
+&gt; [64] "Dooku"                 "Bail Prestor Organa"   "Jango Fett"           
+&gt; [67] "Zam Wesell"            "Dexter Jettster"       "Lama Su"              
+&gt; [70] "Taun We"               "Jocasta Nu"            "Ratts Tyerell"        
+&gt; [73] "R4-P17"                "Wat Tambor"            "San Hill"             
+&gt; [76] "Shaak Ti"              "Grievous"              "Tarfful"              
+&gt; [79] "Raymus Antilles"       "Sly Moore"             "Tion Medon"           
+&gt; [82] "Finn"                  "Rey"                   "Poe Dameron"          
+&gt; [85] "BB8"                   "Captain Phasma"        "Padmé Amidala"
+```
+
+]
+
+---
+
+# .orange[RENOMBRAR] columnas: rename()
+
+
+.pull-left[
+
+
+```r
+datos %&gt;% 
+  renombrar(col1, col2)
+```
+
+]
+
+.pull-right[
+
+
+```r
+starwars %&gt;% 
+  rename(col1, col2)
+```
+
+]
+
+--
+
+A veces también podemos querer **modificar la «metainformación»** de los datos, **.bg-purple_light[renombrando columnas]**. Para ello usaremos la función `rename()` poniendo primero el nombre nuevo y luego el antiguo.
+
+
+```r
+starwars %&gt;% 
+  rename(nombre = name, altura = height,  peso = mass)
+```
+
+```
+&gt; # A tibble: 87 × 14
+&gt;    nombre      altura  peso hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
+&gt;    &lt;chr&gt;        &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
+&gt;  1 Luke Skywa…    172    77 blond   fair    blue       19   male  mascu… Tatooi…
+&gt;  2 C-3PO          167    75 &lt;NA&gt;    gold    yellow    112   none  mascu… Tatooi…
+&gt;  3 R2-D2           96    32 &lt;NA&gt;    white,… red        33   none  mascu… Naboo  
+&gt;  4 Darth Vader    202   136 none    white   yellow     41.9 male  mascu… Tatooi…
+&gt;  5 Leia Organa    150    49 brown   light   brown      19   fema… femin… Aldera…
+&gt;  6 Owen Lars      178   120 brown,… light   blue       52   male  mascu… Tatooi…
+&gt;  7 Beru White…    165    75 brown   light   blue       47   fema… femin… Tatooi…
+&gt;  8 R5-D4           97    32 &lt;NA&gt;    white,… red        NA   none  mascu… Tatooi…
+&gt;  9 Biggs Dark…    183    84 black   light   brown      24   male  mascu… Tatooi…
+&gt; 10 Obi-Wan Ke…    182    77 auburn… fair    blue-g…    57   male  mascu… Stewjon
+&gt; # … with 77 more rows, 4 more variables: species &lt;chr&gt;, films &lt;list&gt;,
+&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names
+&gt; #   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
+```
+
+
+---
+
+# Ejercicios (columnas)
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+
+* 📝 **Ejercicio 1**: filtra el conjunto de personajes y quédate solo con aquellos que en la variable `height` no tengan un dato ausente.
+
+* 📝 **Ejercicio 2**: con los datos obtenidos del filtro anterior, selecciona solo las variables `name`, `height`, así como todas aquellas variables que CONTENGAN la palabra `color` en su nombre.
+
+* 📝 **Ejercicio 3**: con los datos obtenidos del ejercicio anterior, traduce el nombre de las columnas a castellano
+
+* 📝 **Ejercicio 4**: con los datos obtenidos del ejercicio anterior, coloca la variable de color de pelo justo detrás de la variable de nombres.
+
+* 📝 **Ejercicio 5**: con los datos obtenidos del ejercicio, comprueba cuántas modalidades únicas hay en la variable de color de pelo.
+
+]
+
+.panel[.panel-name[Sol. Ej. 1]
+
+**IMPORTANTE**: todo lo que hagas en la tabla original, si el resultado final no se lo asignas `&lt;-` a otra variable, lo verás en consola pero no se guardará en ningún sitio. Lo que no guardes, no existe.
+
+
+
+```r
+starwars_NA &lt;- starwars %&gt;% drop_na(height)
+starwars_NA 
+```
+
+```
+&gt; # A tibble: 81 × 14
+&gt;    name        height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
+&gt;    &lt;chr&gt;        &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
+&gt;  1 Luke Skywa…    172    77 blond   fair    blue       19   male  mascu… Tatooi…
+&gt;  2 C-3PO          167    75 &lt;NA&gt;    gold    yellow    112   none  mascu… Tatooi…
+&gt;  3 R2-D2           96    32 &lt;NA&gt;    white,… red        33   none  mascu… Naboo  
+&gt;  4 Darth Vader    202   136 none    white   yellow     41.9 male  mascu… Tatooi…
+&gt;  5 Leia Organa    150    49 brown   light   brown      19   fema… femin… Aldera…
+&gt;  6 Owen Lars      178   120 brown,… light   blue       52   male  mascu… Tatooi…
+&gt;  7 Beru White…    165    75 brown   light   blue       47   fema… femin… Tatooi…
+&gt;  8 R5-D4           97    32 &lt;NA&gt;    white,… red        NA   none  mascu… Tatooi…
+&gt;  9 Biggs Dark…    183    84 black   light   brown      24   male  mascu… Tatooi…
+&gt; 10 Obi-Wan Ke…    182    77 auburn… fair    blue-g…    57   male  mascu… Stewjon
+&gt; # … with 71 more rows, 4 more variables: species &lt;chr&gt;, films &lt;list&gt;,
+&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names
+&gt; #   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
+```
+
+]
+
+.panel[.panel-name[Sol. Ej. 2]
+
+
+```r
+starwars %&gt;%
+  drop_na(height) %&gt;%
+  select(c(name, height, contains("color")))
+```
+
+```
+&gt; # A tibble: 81 × 5
+&gt;    name               height hair_color    skin_color  eye_color
+&gt;    &lt;chr&gt;               &lt;int&gt; &lt;chr&gt;         &lt;chr&gt;       &lt;chr&gt;    
+&gt;  1 Luke Skywalker        172 blond         fair        blue     
+&gt;  2 C-3PO                 167 &lt;NA&gt;          gold        yellow   
+&gt;  3 R2-D2                  96 &lt;NA&gt;          white, blue red      
+&gt;  4 Darth Vader           202 none          white       yellow   
+&gt;  5 Leia Organa           150 brown         light       brown    
+&gt;  6 Owen Lars             178 brown, grey   light       blue     
+&gt;  7 Beru Whitesun lars    165 brown         light       blue     
+&gt;  8 R5-D4                  97 &lt;NA&gt;          white, red  red      
+&gt;  9 Biggs Darklighter     183 black         light       brown    
+&gt; 10 Obi-Wan Kenobi        182 auburn, white fair        blue-gray
+&gt; # … with 71 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
+```
+
+]
+
+.panel[.panel-name[Sol. Ej. 3]
+
+
+
+```r
+starwars %&gt;%
+  drop_na(height) %&gt;%
+  select(c(name, height, contains("color"))) %&gt;%
+  rename(nombre = name, altura = height,
+         color_pelo = hair_color,
+         color_piel = skin_color,
+         color_ojos = eye_color)
+```
+
+```
+&gt; # A tibble: 81 × 5
+&gt;    nombre             altura color_pelo    color_piel  color_ojos
+&gt;    &lt;chr&gt;               &lt;int&gt; &lt;chr&gt;         &lt;chr&gt;       &lt;chr&gt;     
+&gt;  1 Luke Skywalker        172 blond         fair        blue      
+&gt;  2 C-3PO                 167 &lt;NA&gt;          gold        yellow    
+&gt;  3 R2-D2                  96 &lt;NA&gt;          white, blue red       
+&gt;  4 Darth Vader           202 none          white       yellow    
+&gt;  5 Leia Organa           150 brown         light       brown     
+&gt;  6 Owen Lars             178 brown, grey   light       blue      
+&gt;  7 Beru Whitesun lars    165 brown         light       blue      
+&gt;  8 R5-D4                  97 &lt;NA&gt;          white, red  red       
+&gt;  9 Biggs Darklighter     183 black         light       brown     
+&gt; 10 Obi-Wan Kenobi        182 auburn, white fair        blue-gray 
+&gt; # … with 71 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
+```
+
+]
+
+.panel[.panel-name[Sol. Ej. 4]
+
+
+
+```r
+starwars %&gt;%
+  drop_na(height) %&gt;%
+  select(c(name, height, contains("color"))) %&gt;%
+  rename(nombre = name, altura = height,
+         color_pelo = hair_color,
+         color_piel = skin_color,
+         color_ojos = eye_color) %&gt;%
+  relocate(color_pelo, .after = nombre)
+```
+
+```
+&gt; # A tibble: 81 × 5
+&gt;    nombre             color_pelo    altura color_piel  color_ojos
+&gt;    &lt;chr&gt;              &lt;chr&gt;          &lt;int&gt; &lt;chr&gt;       &lt;chr&gt;     
+&gt;  1 Luke Skywalker     blond            172 fair        blue      
+&gt;  2 C-3PO              &lt;NA&gt;             167 gold        yellow    
+&gt;  3 R2-D2              &lt;NA&gt;              96 white, blue red       
+&gt;  4 Darth Vader        none             202 white       yellow    
+&gt;  5 Leia Organa        brown            150 light       brown     
+&gt;  6 Owen Lars          brown, grey      178 light       blue      
+&gt;  7 Beru Whitesun lars brown            165 light       blue      
+&gt;  8 R5-D4              &lt;NA&gt;              97 white, red  red       
+&gt;  9 Biggs Darklighter  black            183 light       brown     
+&gt; 10 Obi-Wan Kenobi     auburn, white    182 fair        blue-gray 
+&gt; # … with 71 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
+```
+
+]
+
+.panel[.panel-name[Sol. Ej. 5]
+
+
+```r
+starwars %&gt;%
+  drop_na(height) %&gt;%
+  select(c(name, height, contains("color"))) %&gt;%
+  rename(nombre = name, altura = height, color_pelo = hair_color,
+         color_piel = skin_color, color_ojos = eye_color) %&gt;%
+  relocate(color_pelo, .after = nombre) %&gt;%
+  distinct(color_pelo)
+```
+
+```
+&gt; # A tibble: 12 × 1
+&gt;    color_pelo   
+&gt;    &lt;chr&gt;        
+&gt;  1 blond        
+&gt;  2 &lt;NA&gt;         
+&gt;  3 none         
+&gt;  4 brown        
+&gt;  5 brown, grey  
+&gt;  6 black        
+&gt;  7 auburn, white
+&gt;  8 auburn, grey 
+&gt;  9 white        
+&gt; 10 grey         
+&gt; 11 auburn       
+&gt; 12 blonde
+```
+
+**IMPORTANTE**: recuerda que `distinct()` de mantener todas las columnas añadiendo `.keep_all = TRUE`.
+
+]
+
+]
+
+
+---
+
+# Ejercicio extra
+
+
+Veamos un ejercicio extra para comprobar la **potencia y flexibilidad** de `{tidyverse}`, pudiendo hacer muchas cosas en dos líneas de código.
+
+&amp;nbsp;
+
+* 📝 **Ejercicio extra**: selecciona solo las variables `name` y aquellas que sean de tipo numérico y la variable `homeworld`, y selecciona solo los personajes que no sean humanos y que pesen entre 70 y 90 kg.  Tras ello elimina datos ausentes, y elimina duplicados con el mismo valor en `homeworld`. Tras ello, recoloca las variables para que el orden la primera columna sea `name` y la segunda `birth_year`. Para acabar, cambia el nombre  a castellano de las variables.
+
+
+---
+
+name: mutate
+
+
+# .orange[MODIFICAR] columnas: mutate()
+
+
+.pull-left[
+
+
+```r
+datos %&gt;%
+  modificar(nueva_var = ...)
+```
+
+]
+
+.pull-right[
+
+
+```r
+starwars %&gt;%
+  mutate(nueva_var = ...)
+```
+
+]
+
+--
+
+En muchas ocasiones querremos **.bg-purple_light[modificar o crear  variables]**. Para ello tenemos la función `mutate()`. Vamos a crear una **nueva variable** `height_m` con la altura en centímetros.
+
+
+```r
+# altura en metros
+starwars %&gt;%
+* mutate(height_m = height / 100)
+```
+
+```
+&gt; # A tibble: 87 × 15
+&gt;    name        height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
+&gt;    &lt;chr&gt;        &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
+&gt;  1 Luke Skywa…    172    77 blond   fair    blue       19   male  mascu… Tatooi…
+&gt;  2 C-3PO          167    75 &lt;NA&gt;    gold    yellow    112   none  mascu… Tatooi…
+&gt;  3 R2-D2           96    32 &lt;NA&gt;    white,… red        33   none  mascu… Naboo  
+&gt;  4 Darth Vader    202   136 none    white   yellow     41.9 male  mascu… Tatooi…
+&gt;  5 Leia Organa    150    49 brown   light   brown      19   fema… femin… Aldera…
+&gt;  6 Owen Lars      178   120 brown,… light   blue       52   male  mascu… Tatooi…
+&gt;  7 Beru White…    165    75 brown   light   blue       47   fema… femin… Tatooi…
+&gt;  8 R5-D4           97    32 &lt;NA&gt;    white,… red        NA   none  mascu… Tatooi…
+&gt;  9 Biggs Dark…    183    84 black   light   brown      24   male  mascu… Tatooi…
+&gt; 10 Obi-Wan Ke…    182    77 auburn… fair    blue-g…    57   male  mascu… Stewjon
+&gt; # … with 77 more rows, 5 more variables: species &lt;chr&gt;, films &lt;list&gt;,
+&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, height_m &lt;dbl&gt;, and abbreviated variable
+&gt; #   names ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
+```
+
+---
+
+# .orange[MODIFICAR] columnas: mutate()
+
+
+
+```r
+starwars %&gt;% mutate(height_m = height / 100)
+```
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/mutate1.jpg" alt="Flujo de https://tidydatatutor.com/" width="90%" /&gt;
+&lt;p class="caption"&gt;Flujo de https://tidydatatutor.com/&lt;/p&gt;
+&lt;/div&gt;
+
+---
+
+# .orange[MODIFICAR] columnas: mutate()
+
+Otra opción es **.bg-purple_light[quedarnos solo con las modificadas]** (por ejemplo, para ver si hace lo que debe) con `transmute()`
+
+
+```r
+starwars %&gt;%
+* transmute(height_m = height / 100)
+```
+
+```
+&gt; # A tibble: 87 × 1
+&gt;    height_m
+&gt;       &lt;dbl&gt;
+&gt;  1     1.72
+&gt;  2     1.67
+&gt;  3     0.96
+&gt;  4     2.02
+&gt;  5     1.5 
+&gt;  6     1.78
+&gt;  7     1.65
+&gt;  8     0.97
+&gt;  9     1.83
+&gt; 10     1.82
+&gt; # … with 77 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
+```
+
+---
+
+
+# .orange[MODIFICAR] columnas: mutate()
+
+También se pueden aplicar **.bg-purple_light[funciones más complejas]** o incluso **.bg-purple_light[funciones propias]** creadas por nosotros mismos (y varias a la vez).
+
+
+```r
+calculo_IMC &lt;- function(peso, estatura, unidades = "metros") {
+  
+  estatura &lt;- ifelse(unidades == "metros", estatura, estatura / 100)
+  IMC &lt;- peso / (estatura^2)
+  
+  return(IMC)
+}
+```
+
+---
+
+# .orange[MODIFICAR] columnas: mutate()
+
+También se pueden aplicar **.bg-purple_light[funciones más complejas]** o incluso **.bg-purple_light[funciones propias]** creadas por nosotros mismos (y varias a la vez).
+
+
+```r
+starwars %&gt;%
+  mutate(IMC = calculo_IMC(mass, height, unidades = "centímetros"),
+         height_m = height / 100) %&gt;%
+  relocate(IMC, height_m, .after = mass)
+```
+
+```
+&gt; # A tibble: 87 × 16
+&gt;    name  height  mass   IMC heigh…¹ hair_…² skin_…³ eye_c…⁴ birth…⁵ sex   gender
+&gt;    &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
+&gt;  1 Luke…    172    77  26.0    1.72 blond   fair    blue       19   male  mascu…
+&gt;  2 C-3PO    167    75  25.4    1.67 &lt;NA&gt;    gold    yellow    112   none  mascu…
+&gt;  3 R2-D2     96    32  10.8    0.96 &lt;NA&gt;    white,… red        33   none  mascu…
+&gt;  4 Dart…    202   136  46.0    2.02 none    white   yellow     41.9 male  mascu…
+&gt;  5 Leia…    150    49  16.6    1.5  brown   light   brown      19   fema… femin…
+&gt;  6 Owen…    178   120  40.6    1.78 brown,… light   blue       52   male  mascu…
+&gt;  7 Beru…    165    75  25.4    1.65 brown   light   blue       47   fema… femin…
+&gt;  8 R5-D4     97    32  10.8    0.97 &lt;NA&gt;    white,… red        NA   none  mascu…
+&gt;  9 Bigg…    183    84  28.4    1.83 black   light   brown      24   male  mascu…
+&gt; 10 Obi-…    182    77  26.0    1.82 auburn… fair    blue-g…    57   male  mascu…
+&gt; # … with 77 more rows, 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,
+&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable
+&gt; #   names ¹​height_m, ²​hair_color, ³​skin_color, ⁴​eye_color, ⁵​birth_year
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
+```
+
+---
+
+# .orange[MODIFICAR] columnas: mutate()
+
+También podemos combinarlo con la función `if_else()`, una modificación dentro de `{tidyverse}` para hacer un `if-else` vectorizado, que nos puede ayudar a **.bg-purple_light[recategorizaciones sencillas]**.
+
+
+```r
+starwars %&gt;%
+  mutate(human = if_else(species == "Human", "Human", "Not Human")) %&gt;% 
+  relocate(human, .after = name)
+```
+
+```
+&gt; # A tibble: 87 × 15
+&gt;    name  human height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
+&gt;    &lt;chr&gt; &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
+&gt;  1 Luke… Human    172    77 blond   fair    blue       19   male  mascu… Tatooi…
+&gt;  2 C-3PO Not …    167    75 &lt;NA&gt;    gold    yellow    112   none  mascu… Tatooi…
+&gt;  3 R2-D2 Not …     96    32 &lt;NA&gt;    white,… red        33   none  mascu… Naboo  
+&gt;  4 Dart… Human    202   136 none    white   yellow     41.9 male  mascu… Tatooi…
+&gt;  5 Leia… Human    150    49 brown   light   brown      19   fema… femin… Aldera…
+&gt;  6 Owen… Human    178   120 brown,… light   blue       52   male  mascu… Tatooi…
+&gt;  7 Beru… Human    165    75 brown   light   blue       47   fema… femin… Tatooi…
+&gt;  8 R5-D4 Not …     97    32 &lt;NA&gt;    white,… red        NA   none  mascu… Tatooi…
+&gt;  9 Bigg… Human    183    84 black   light   brown      24   male  mascu… Tatooi…
+&gt; 10 Obi-… Human    182    77 auburn… fair    blue-g…    57   male  mascu… Stewjon
+&gt; # … with 77 more rows, 4 more variables: species &lt;chr&gt;, films &lt;list&gt;,
+&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names
+&gt; #   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
+```
+
+
+---
+
+# .orange[RECATEGORIZAR]: case_when()
+
+Para **.bg-purple_light[recategorizaciones más complejas]** tenemos a nuestra disposición `case_when()`. Supongamos por ejemplo que queremos crear una **categoría en función de su altura**.
+
+* Si `height &gt; 180` –&gt; serán `"alto"`.
+* Si `height &lt;= 180` y `height &gt; 120` –&gt; serán `"bajo"`
+* Si `height &lt;= 120` y `height &gt; 0` –&gt; serán `"enano"`
+* Si no se cumple lo anterior –&gt; serán `"ausente"`
+
+--
+
+
+```r
+starwars %&gt;% mutate(height = case_when(height &gt; 180 ~ "alto",
+                                       height &gt; 120 ~ "bajo",
+                                       height &gt; 0 ~ "enano",
+                                       TRUE ~ "ausente"))
+```
+
+```
+&gt; # A tibble: 87 × 14
+&gt;    name        height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
+&gt;    &lt;chr&gt;       &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
+&gt;  1 Luke Skywa… bajo      77 blond   fair    blue       19   male  mascu… Tatooi…
+&gt;  2 C-3PO       bajo      75 &lt;NA&gt;    gold    yellow    112   none  mascu… Tatooi…
+&gt;  3 R2-D2       enano     32 &lt;NA&gt;    white,… red        33   none  mascu… Naboo  
+&gt;  4 Darth Vader alto     136 none    white   yellow     41.9 male  mascu… Tatooi…
+&gt;  5 Leia Organa bajo      49 brown   light   brown      19   fema… femin… Aldera…
+&gt;  6 Owen Lars   bajo     120 brown,… light   blue       52   male  mascu… Tatooi…
+&gt;  7 Beru White… bajo      75 brown   light   blue       47   fema… femin… Tatooi…
+&gt;  8 R5-D4       enano     32 &lt;NA&gt;    white,… red        NA   none  mascu… Tatooi…
+&gt;  9 Biggs Dark… alto      84 black   light   brown      24   male  mascu… Tatooi…
+&gt; 10 Obi-Wan Ke… alto      77 auburn… fair    blue-g…    57   male  mascu… Stewjon
+&gt; # … with 77 more rows, 4 more variables: species &lt;chr&gt;, films &lt;list&gt;,
+&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names
+&gt; #   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
+```
+
+---
+
+# .orange[RECATEGORIZAR]: case_when()
+
+Las condiciones de `case_when()` pueden combinar varias variables, cómo por ejemplo:
+
+* Si pesan mucho o miden mucho --&gt; `"large"`
+* Si `species == "Droid"` --&gt; `"robot"`
+* En caso contrario --&gt; `"other"`
+
+
+```r
+starwars %&gt;%
+  mutate(type =
+           case_when(height &gt; 200 | mass &gt; 200 ~ "large",
+                     species == "Droid" ~ "robot",
+                     TRUE ~ "other"))
+```
+
+```
+&gt; # A tibble: 87 × 15
+&gt;    name        height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
+&gt;    &lt;chr&gt;        &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
+&gt;  1 Luke Skywa…    172    77 blond   fair    blue       19   male  mascu… Tatooi…
+&gt;  2 C-3PO          167    75 &lt;NA&gt;    gold    yellow    112   none  mascu… Tatooi…
+&gt;  3 R2-D2           96    32 &lt;NA&gt;    white,… red        33   none  mascu… Naboo  
+&gt;  4 Darth Vader    202   136 none    white   yellow     41.9 male  mascu… Tatooi…
+&gt;  5 Leia Organa    150    49 brown   light   brown      19   fema… femin… Aldera…
+&gt;  6 Owen Lars      178   120 brown,… light   blue       52   male  mascu… Tatooi…
+&gt;  7 Beru White…    165    75 brown   light   blue       47   fema… femin… Tatooi…
+&gt;  8 R5-D4           97    32 &lt;NA&gt;    white,… red        NA   none  mascu… Tatooi…
+&gt;  9 Biggs Dark…    183    84 black   light   brown      24   male  mascu… Tatooi…
+&gt; 10 Obi-Wan Ke…    182    77 auburn… fair    blue-g…    57   male  mascu… Stewjon
+&gt; # … with 77 more rows, 5 more variables: species &lt;chr&gt;, films &lt;list&gt;,
+&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, type &lt;chr&gt;, and abbreviated variable
+&gt; #   names ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
+```
+
+---
+
+# Ejercicios (mutate)
+
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+
+* 📝 **Ejercicio 1**: crea tres nuevas columnas que nos digan el número de películas en las que han salido, el número de vehículos y el número d naves (pero haciendo uso de mutate()). 
+
+* 📝 **Ejercicio 2**: con las 3 columnas creadas, crea una nueva columna llamada `frequency` que nos ponga `almost_all` en personajes que salen en 5 o más películas, `many` en personajes que salen en más de 2 películas pero en menos de 5 y `some` en personajes que salen 1 o 2 películas.
+
+* 📝 **Ejercicio 3**: elimina registros con datos ausentes en la variable `birth_year` y filtra solo los 20 personajes más jóvenes.
+
+* 📝 **Ejercicio 4**: selecciona solo las variables numéricas y de tipo texto. Define una nueva variable llamada `under_18` que nos recategorice la variable `birth_year`: `TRUE` si es menor de edad y `FALSE` en caso contrario
+
+]
+
+.panel[.panel-name[Sol. Ej. 1]
+
+
+```r
+starwars_nueva &lt;- 
+  starwars %&gt;%
+  mutate(n_films = films %&gt;% map_int(length),
+         n_vehicles = vehicles %&gt;% map_int(length),
+         n_starships = starships %&gt;% map_int(length))
+starwars_nueva
+```
+
+```
+&gt; # A tibble: 87 × 17
+&gt;    name        height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
+&gt;    &lt;chr&gt;        &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
+&gt;  1 Luke Skywa…    172    77 blond   fair    blue       19   male  mascu… Tatooi…
+&gt;  2 C-3PO          167    75 &lt;NA&gt;    gold    yellow    112   none  mascu… Tatooi…
+&gt;  3 R2-D2           96    32 &lt;NA&gt;    white,… red        33   none  mascu… Naboo  
+&gt;  4 Darth Vader    202   136 none    white   yellow     41.9 male  mascu… Tatooi…
+&gt;  5 Leia Organa    150    49 brown   light   brown      19   fema… femin… Aldera…
+&gt;  6 Owen Lars      178   120 brown,… light   blue       52   male  mascu… Tatooi…
+&gt;  7 Beru White…    165    75 brown   light   blue       47   fema… femin… Tatooi…
+&gt;  8 R5-D4           97    32 &lt;NA&gt;    white,… red        NA   none  mascu… Tatooi…
+&gt;  9 Biggs Dark…    183    84 black   light   brown      24   male  mascu… Tatooi…
+&gt; 10 Obi-Wan Ke…    182    77 auburn… fair    blue-g…    57   male  mascu… Stewjon
+&gt; # … with 77 more rows, 7 more variables: species &lt;chr&gt;, films &lt;list&gt;,
+&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, n_films &lt;int&gt;, n_vehicles &lt;int&gt;,
+&gt; #   n_starships &lt;int&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
+&gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
+```
+
+]
+
+.panel[.panel-name[Sol. Ej. 2]
+
+
+```r
+starwars_nueva &lt;-
+  starwars_nueva %&gt;%
+  mutate(frequency =
+           case_when(n_films &gt;= 5 ~ "almost_all",
+                     n_films &gt; 2 ~ "many",
+                     TRUE ~ "some"))
+starwars_nueva
+```
+
+```
+&gt; # A tibble: 87 × 18
+&gt;    name        height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
+&gt;    &lt;chr&gt;        &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
+&gt;  1 Luke Skywa…    172    77 blond   fair    blue       19   male  mascu… Tatooi…
+&gt;  2 C-3PO          167    75 &lt;NA&gt;    gold    yellow    112   none  mascu… Tatooi…
+&gt;  3 R2-D2           96    32 &lt;NA&gt;    white,… red        33   none  mascu… Naboo  
+&gt;  4 Darth Vader    202   136 none    white   yellow     41.9 male  mascu… Tatooi…
+&gt;  5 Leia Organa    150    49 brown   light   brown      19   fema… femin… Aldera…
+&gt;  6 Owen Lars      178   120 brown,… light   blue       52   male  mascu… Tatooi…
+&gt;  7 Beru White…    165    75 brown   light   blue       47   fema… femin… Tatooi…
+&gt;  8 R5-D4           97    32 &lt;NA&gt;    white,… red        NA   none  mascu… Tatooi…
+&gt;  9 Biggs Dark…    183    84 black   light   brown      24   male  mascu… Tatooi…
+&gt; 10 Obi-Wan Ke…    182    77 auburn… fair    blue-g…    57   male  mascu… Stewjon
+&gt; # … with 77 more rows, 8 more variables: species &lt;chr&gt;, films &lt;list&gt;,
+&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, n_films &lt;int&gt;, n_vehicles &lt;int&gt;,
+&gt; #   n_starships &lt;int&gt;, frequency &lt;chr&gt;, and abbreviated variable names
+&gt; #   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
+```
+
+]
+
+.panel[.panel-name[Sol. Ej. 3]
+
+
+```r
+starwars_nueva &lt;-
+  starwars_nueva %&gt;%
+  drop_na(birth_year) %&gt;%
+  slice_min(n = 20, birth_year)
+starwars_nueva
+```
+
+```
+&gt; # A tibble: 21 × 18
+&gt;    name        height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
+&gt;    &lt;chr&gt;        &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
+&gt;  1 Wicket Sys…     88  20   brown   brown   brown       8   male  mascu… Endor  
+&gt;  2 IG-88          200 140   none    metal   red        15   none  mascu… &lt;NA&gt;   
+&gt;  3 Luke Skywa…    172  77   blond   fair    blue       19   male  mascu… Tatooi…
+&gt;  4 Leia Organa    150  49   brown   light   brown      19   fema… femin… Aldera…
+&gt;  5 Wedge Anti…    170  77   brown   fair    hazel      21   male  mascu… Corell…
+&gt;  6 Plo Koon       188  80   none    orange  black      22   male  mascu… Dorin  
+&gt;  7 Biggs Dark…    183  84   black   light   brown      24   male  mascu… Tatooi…
+&gt;  8 Han Solo       180  80   brown   fair    brown      29   male  mascu… Corell…
+&gt;  9 Lando Calr…    177  79   black   dark    brown      31   male  mascu… Socorro
+&gt; 10 Boba Fett      183  78.2 black   fair    brown      31.5 male  mascu… Kamino 
+&gt; # … with 11 more rows, 8 more variables: species &lt;chr&gt;, films &lt;list&gt;,
+&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, n_films &lt;int&gt;, n_vehicles &lt;int&gt;,
+&gt; #   n_starships &lt;int&gt;, frequency &lt;chr&gt;, and abbreviated variable names
+&gt; #   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
+```
+
+]
+
+.panel[.panel-name[Sol. Ej. 4]
+
+
+```r
+starwars_nueva &lt;-
+  starwars_nueva %&gt;%
+  select(where(is.numeric) | where(is.character)) %&gt;%
+  mutate(under_18 = birth_year &lt; 18)
+starwars_nueva
+```
+
+```
+&gt; # A tibble: 21 × 16
+&gt;    height  mass birth_year n_films n_veh…¹ n_sta…² name  hair_…³ skin_…⁴ eye_c…⁵
+&gt;     &lt;int&gt; &lt;dbl&gt;      &lt;dbl&gt;   &lt;int&gt;   &lt;int&gt;   &lt;int&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;  
+&gt;  1     88  20          8         1       0       0 Wick… brown   brown   brown  
+&gt;  2    200 140         15         1       0       0 IG-88 none    metal   red    
+&gt;  3    172  77         19         5       2       2 Luke… blond   fair    blue   
+&gt;  4    150  49         19         5       1       0 Leia… brown   light   brown  
+&gt;  5    170  77         21         3       1       1 Wedg… brown   fair    hazel  
+&gt;  6    188  80         22         3       0       1 Plo … none    orange  black  
+&gt;  7    183  84         24         1       0       1 Bigg… black   light   brown  
+&gt;  8    180  80         29         4       0       2 Han … brown   fair    brown  
+&gt;  9    177  79         31         2       0       1 Land… black   dark    brown  
+&gt; 10    183  78.2       31.5       3       0       1 Boba… black   fair    brown  
+&gt; # … with 11 more rows, 6 more variables: sex &lt;chr&gt;, gender &lt;chr&gt;,
+&gt; #   homeworld &lt;chr&gt;, species &lt;chr&gt;, frequency &lt;chr&gt;, under_18 &lt;lgl&gt;, and
+&gt; #   abbreviated variable names ¹​n_vehicles, ²​n_starships, ³​hair_color,
+&gt; #   ⁴​skin_color, ⁵​eye_color
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
+```
+
+
+]
+
+]
+
+
+---
+
+
+# Ejercicios (mutate)
+
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+* 📝 **Ejercicio 5**: de la base de datos original, determina el número de modalidades que toma la variable `species` (elimina antes registros con ausente en dicha variable). Después elimina duplicados por dicha variable, dejando el representante más bajito.
+
+* 📝 **Ejercicio 6**: sobre la base de datos original, crea una nueva columna llamada `auburn` (cobrizo/caoba) que nos diga `TRUE` si el color de pelo contiene dicha palabra y `FALSE` en caso contrario.
+
+* 📝 **Ejercicio 7**: sobre la base de datos original, filtra solo aquellos personajes de la familia `"Skywalker"` o `"Antilles"`, selecciona solo las columnas de `name` y `specie`, y renombra a castellano.
+
+
+]
+
+.panel[.panel-name[Sol. Ej. 5]
+
+
+```r
+starwars %&gt;%
+  drop_na(species) %&gt;%
+  distinct(species)
+```
+
+```
+&gt; # A tibble: 37 × 1
+&gt;    species       
+&gt;    &lt;chr&gt;         
+&gt;  1 Human         
+&gt;  2 Droid         
+&gt;  3 Wookiee       
+&gt;  4 Rodian        
+&gt;  5 Hutt          
+&gt;  6 Yoda's species
+&gt;  7 Trandoshan    
+&gt;  8 Mon Calamari  
+&gt;  9 Ewok          
+&gt; 10 Sullustan     
+&gt; # … with 27 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
+```
+
+```r
+starwars %&gt;%
+  drop_na(species) %&gt;%
+  arrange(height) %&gt;%
+  distinct(species, .keep_all = TRUE)
+```
+
+```
+&gt; # A tibble: 37 × 14
+&gt;    name        height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
+&gt;    &lt;chr&gt;        &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
+&gt;  1 Yoda            66    17 white   green   brown       896 male  mascu… &lt;NA&gt;   
+&gt;  2 Ratts Tyer…     79    15 none    grey, … unknown      NA male  mascu… Aleen …
+&gt;  3 Wicket Sys…     88    20 brown   brown   brown         8 male  mascu… Endor  
+&gt;  4 Dud Bolt        94    45 none    blue, … yellow       NA male  mascu… Vulpter
+&gt;  5 R2-D2           96    32 &lt;NA&gt;    white,… red          33 none  mascu… Naboo  
+&gt;  6 Sebulba        112    40 none    grey, … orange       NA male  mascu… Malast…
+&gt;  7 Gasgano        122    NA none    white,… black        NA male  mascu… Troiken
+&gt;  8 Watto          137    NA black   blue, … yellow       NA male  mascu… Toydar…
+&gt;  9 Leia Organa    150    49 brown   light   brown        19 fema… femin… Aldera…
+&gt; 10 Nien Nunb      160    68 none    grey    black        NA male  mascu… Sullust
+&gt; # … with 27 more rows, 4 more variables: species &lt;chr&gt;, films &lt;list&gt;,
+&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names
+&gt; #   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
+```
+
+]
+
+.panel[.panel-name[Sol. Ej. 6]
+
+
+```r
+starwars %&gt;%
+  drop_na(hair_color) %&gt;%
+  mutate(auburn = str_detect(hair_color, "auburn"))
+```
+
+```
+&gt; # A tibble: 82 × 15
+&gt;    name        height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
+&gt;    &lt;chr&gt;        &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
+&gt;  1 Luke Skywa…    172    77 blond   fair    blue       19   male  mascu… Tatooi…
+&gt;  2 Darth Vader    202   136 none    white   yellow     41.9 male  mascu… Tatooi…
+&gt;  3 Leia Organa    150    49 brown   light   brown      19   fema… femin… Aldera…
+&gt;  4 Owen Lars      178   120 brown,… light   blue       52   male  mascu… Tatooi…
+&gt;  5 Beru White…    165    75 brown   light   blue       47   fema… femin… Tatooi…
+&gt;  6 Biggs Dark…    183    84 black   light   brown      24   male  mascu… Tatooi…
+&gt;  7 Obi-Wan Ke…    182    77 auburn… fair    blue-g…    57   male  mascu… Stewjon
+&gt;  8 Anakin Sky…    188    84 blond   fair    blue       41.9 male  mascu… Tatooi…
+&gt;  9 Wilhuff Ta…    180    NA auburn… fair    blue       64   male  mascu… Eriadu 
+&gt; 10 Chewbacca      228   112 brown   unknown blue      200   male  mascu… Kashyy…
+&gt; # … with 72 more rows, 5 more variables: species &lt;chr&gt;, films &lt;list&gt;,
+&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, auburn &lt;lgl&gt;, and abbreviated variable
+&gt; #   names ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
+```
+
+]
+
+.panel[.panel-name[Sol. Ej. 6]
+
+
+```r
+starwars %&gt;%
+  filter(str_detect(name, "Skywalker") |
+           str_detect(name, "Antilles")) %&gt;%
+  select(name, species) %&gt;%
+  rename(nombre = name, especie = species)
+```
+
+```
+&gt; # A tibble: 5 × 2
+&gt;   nombre           especie
+&gt;   &lt;chr&gt;            &lt;chr&gt;  
+&gt; 1 Luke Skywalker   Human  
+&gt; 2 Anakin Skywalker Human  
+&gt; 3 Wedge Antilles   Human  
+&gt; 4 Shmi Skywalker   Human  
+&gt; 5 Raymus Antilles  Human
+```
+
+]
+]
+
+
+
+
+---
+
+name: count
+
+# .orange[CONTAR]: group_by() + count()
+
+Hasta ahora solo hemos transformado o consultado nuestra tabla pero no hemos aprendido a **.bg-purple_light[generar resúmenes estadísticos]**. Empecemos por lo sencillo: contar (frecuencias)
+
+.pull-left[
+
+
+```r
+datos %&gt;%
+  contar(var1, var2)
+```
+
+]
+
+.pull-right[
+
+
+```r
+starwars %&gt;%
+  count(var1, var2)
+```
+
+]
+
+--
+
+Cuando lo usamos en solitario, `count()` nos devolverá simplemente el **.bg-purple_light[número de registros]**
+
+
+```r
+starwars %&gt;% count()
+```
+
+```
+&gt; # A tibble: 1 × 1
+&gt;       n
+&gt;   &lt;int&gt;
+&gt; 1    87
+```
+
+---
+
+# .orange[CONTAR]: group_by() + count()
+
+Sin embargo, cuando lo usamos pasándole como **.bg-purple_light[argumento una o varias variables]**, `count()` nos cuenta lo que se conoce en estadística como **.bg-purple_light[frecuencias absolutas]**: el número de elementos pertenecientes a cada una de las **modalidades**. En nuestro caso, la variable `sex` tiene 4 modalidades: `female, hermaphroditic, male, none`.
+
+
+```r
+*starwars %&gt;% count(sex)
+```
+
+```
+&gt; # A tibble: 5 × 2
+&gt;   sex                n
+&gt;   &lt;chr&gt;          &lt;int&gt;
+&gt; 1 female            16
+&gt; 2 hermaphroditic     1
+&gt; 3 male              60
+&gt; 4 none               6
+&gt; 5 &lt;NA&gt;               4
+```
+
+---
+
+# .orange[CONTAR]: group_by() + count()
+
+
+Además si pasamos **.bg-purple_light[varias variables]** nos calcula una **.bg-purple_light[tabla de contigencia]** con las frecuencias absolutas n-dimensionales
+
+
+```r
+starwars %&gt;% count(sex, gender)
+```
+
+```
+&gt; # A tibble: 6 × 3
+&gt;   sex            gender        n
+&gt;   &lt;chr&gt;          &lt;chr&gt;     &lt;int&gt;
+&gt; 1 female         feminine     16
+&gt; 2 hermaphroditic masculine     1
+&gt; 3 male           masculine    60
+&gt; 4 none           feminine      1
+&gt; 5 none           masculine     5
+&gt; 6 &lt;NA&gt;           &lt;NA&gt;          4
+```
+
+---
+
+
+# .orange[CONTAR]: group_by() + count()
+
+Lo anterior podemos combinarlo con lo que ya sabemos para **.bg-purple_light[añadir variables]** a una tabla, de forma que podremos obtener no solo las frecuencias absolutas sino también las acumuladas o las relativas. Vamos a añadir por ejemplo una columna `f` que nos devuelve el conteo pero en % respecto al total de datos.
+
+--
+
+
+```r
+starwars %&gt;%
+  count(sex) %&gt;% 
+  mutate(f = 100 * n/sum(n))
+```
+
+```
+&gt; # A tibble: 5 × 3
+&gt;   sex                n     f
+&gt;   &lt;chr&gt;          &lt;int&gt; &lt;dbl&gt;
+&gt; 1 female            16 18.4 
+&gt; 2 hermaphroditic     1  1.15
+&gt; 3 male              60 69.0 
+&gt; 4 none               6  6.90
+&gt; 5 &lt;NA&gt;               4  4.60
+```
+
+---
+
+# .orange[CONTAR]: group_by() + count()
+
+Además dentro del `count()` podemos añadir `sort = TRUE`, que nos devolverá el conteo de frecuencias con los **.bg-purple_light[elementos más frecuentes primero]** (sin necesidad de añadir un `arrange()` a la tabla de conteo generada).
+
+
+```r
+starwars %&gt;%
+  count(sex, sort = TRUE) %&gt;% 
+  mutate(f = 100 * n/sum(n))
+```
+
+```
+&gt; # A tibble: 5 × 3
+&gt;   sex                n     f
+&gt;   &lt;chr&gt;          &lt;int&gt; &lt;dbl&gt;
+&gt; 1 male              60 69.0 
+&gt; 2 female            16 18.4 
+&gt; 3 none               6  6.90
+&gt; 4 &lt;NA&gt;               4  4.60
+&gt; 5 hermaphroditic     1  1.15
+```
+
+---
+
+
+# .orange[CONTAR]: group_by() + count()
+
+
+Una de las funciones más potentes a combinar con `count()` es `group_by()`  que nos permitirá **.bg-purple_light[agrupar nuestros registros]**
+
+
+.pull-left[
+
+
+```r
+datos %&gt;%
+  agrupar(var_grupo1, var_grupo2) %&gt;% 
+  contar() %&gt;% 
+  desagrupar()
+```
+
+]
+
+.pull-right[
+
+
+```r
+starwars %&gt;%
+  group_by(var_grupo1, var_grupo2) %&gt;%
+  count() %&gt;% 
+  ungroup()
+```
+
+]
+
+--
+
+Cuando apliquemos `group_by()` es importante entender que **.bg-purple_light[NO MODIFICA los datos]**: nos crea una variable de grupo que **.bg-purple_light[modificará las acciones futuras]** que apliquemos, generando una especie de generar **múltiples subtablas**, y las operaciones aplicadas después se **.bg-purple_light[aplicarán a cada una por separado]**.
+
+---
+
+
+# .orange[CONTAR]: group_by() + count()
+
+.pull-left[
+
+Por ejemplo, imagina que queremos saber el **.bg-purple_light[número de registros por sexo]**: primero **.bg-purple_light[agruparemos]** por la variable `sex`, y después aplicaremos el **.bg-purple_light[conteo]** con `count()` (realiza la acción pedida en cada subtabla).
+
+
+```r
+starwars %&gt;%
+* group_by(sex) %&gt;%
+  count() %&gt;%
+* ungroup()
+```
+
+```
+&gt; # A tibble: 5 × 2
+&gt;   sex                n
+&gt;   &lt;chr&gt;          &lt;int&gt;
+&gt; 1 female            16
+&gt; 2 hermaphroditic     1
+&gt; 3 male              60
+&gt; 4 none               6
+&gt; 5 &lt;NA&gt;               4
+```
+
+**IMPORTANTE**: siempre que agrupes, acuérdate de desagrupar con `ungroup()`.
+
+]
+
+
+.pull-right[
+
+&lt;img src="./img/count_group_1.jpg" width="45%" style="display: block; margin: auto;" /&gt;
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/count_group_2.jpg" alt="Flujo de https://tidydatatutor.com/" width="95%" /&gt;
+&lt;p class="caption"&gt;Flujo de https://tidydatatutor.com/&lt;/p&gt;
+&lt;/div&gt;
+
+
+]
+
+---
+
+
+# .orange[CONTAR]: group_by() + count()
+
+.pull-left[
+
+Podemos **.bg-purple_light[agrupar por variables]**, por ejemplo vamos a agrupar por `sex` y `gender`, y después aplicaremos `count()` (realiza la acción en cada subtabla).
+
+
+```r
+starwars %&gt;%
+* group_by(sex, gender) %&gt;%
+  count() %&gt;%
+* ungroup()
+```
+
+```
+&gt; # A tibble: 6 × 3
+&gt;   sex            gender        n
+&gt;   &lt;chr&gt;          &lt;chr&gt;     &lt;int&gt;
+&gt; 1 female         feminine     16
+&gt; 2 hermaphroditic masculine     1
+&gt; 3 male           masculine    60
+&gt; 4 none           feminine      1
+&gt; 5 none           masculine     5
+&gt; 6 &lt;NA&gt;           &lt;NA&gt;          4
+```
+
+**IMPORTANTE**: siempre que agrupes, acuérdate de desagrupar con `ungroup()`.
+
+]
+
+.pull-right[
+
+&lt;img src="./img/group_1.jpg" width="150%" style="display: block; margin: auto;" /&gt;
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/group_count.jpg" alt="Flujo de https://tidydatatutor.com/" width="150%" /&gt;
+&lt;p class="caption"&gt;Flujo de https://tidydatatutor.com/&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+---
+
+name: summarise
+
+# .orange[RESUMIR]: summarise()
+
+La agrupación `group_by()` es una idea superpotente porque permite **.bg-purple_light[desagregar cualquier acción posterior]**, entre otras, la función `summarise()`, que nos permite **.bg-purple_light[resumir]**.
+
+.pull-left[
+
+
+```r
+datos %&gt;%
+  agrupar(var_grupo1, var_grupo2) %&gt;% 
+  resumir() %&gt;% 
+  desagrupar()
+```
+
+]
+
+.pull-right[
+
+
+```r
+starwars %&gt;%
+  group_by(var_grupo1, var_grupo2) %&gt;%
+  summarise() %&gt;% 
+  ungroup()
+```
+
+]
+
+--
+
+Un ejemplo: vamos a calcular la **.bg-purple_light[media de las alturas]**. Si lo hacemos sin `group_by()` se hará de todos los personajes.
+
+
+```r
+starwars %&gt;% drop_na(height) %&gt;%
+  summarise(media_altura = mean(height))
+```
+
+```
+&gt; # A tibble: 1 × 1
+&gt;   media_altura
+&gt;          &lt;dbl&gt;
+&gt; 1         174.
+```
+
+Dentro de `summarise()` podrás definir cada estadístico como el `nombre = ` seguido de la función a aplicar (que exista o tuya propia definida anteriormente).
+
+---
+
+# .orange[RESUMIR]: summarise()
+
+
+Si la misma acción la realizamos con un `group_by()` previo, la media de las alturas se **.bg-purple_light[calculará de manera desagregada]** (por sexos por ejemplo), de forma independiente en cada subtabla por grupo creada.
+
+.pull-left[
+
+
+```r
+starwars %&gt;% 
+  drop_na(height) %&gt;%
+  group_by(sex) %&gt;% 
+  summarise(media = mean(height)) %&gt;%
+  ungroup()
+```
+
+```
+&gt; # A tibble: 5 × 2
+&gt;   sex            media
+&gt;   &lt;chr&gt;          &lt;dbl&gt;
+&gt; 1 female          169.
+&gt; 2 hermaphroditic  175 
+&gt; 3 male            179.
+&gt; 4 none            131.
+&gt; 5 &lt;NA&gt;            181.
+```
+
+]
+
+.pull-right[
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/group_summarise.jpg" alt="Flujo de https://tidydatatutor.com/" width="140%" /&gt;
+&lt;p class="caption"&gt;Flujo de https://tidydatatutor.com/&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+
+---
+
+# .orange[RESUMIR]: summarise()
+
+Podemos **.bg-purple_light[resumir varias variables]** a la vez combinándolo con la función `across()`: primero indicamos las **.bg-purple_light[variables a recorrer]** (por ejemplo, `height:mass`), después la función a aplicar (en este caso, la media `mean()`), y por último argumentos extras si fuesen necesarios (por ejemplo, `na.rm = TRUE`)
+
+
+```r
+starwars %&gt;%
+* group_by(sex) %&gt;%
+* summarise(medias = across(height:mass, mean, na.rm = TRUE)) %&gt;%
+  ungroup()
+```
+
+```
+&gt; # A tibble: 5 × 2
+&gt;   sex            medias$height  $mass
+&gt;   &lt;chr&gt;                  &lt;dbl&gt;  &lt;dbl&gt;
+&gt; 1 female                  169.   54.7
+&gt; 2 hermaphroditic          175  1358  
+&gt; 3 male                    179.   81.0
+&gt; 4 none                    131.   69.8
+&gt; 5 &lt;NA&gt;                    181.   48
+```
+
+---
+
+# .orange[RESUMIR]: summarise()
+
+Además la función `across()` podemos combinarla con un viejo conocido, `where()`, para que **.bg-purple_light[resuma las variables de un tipo]**, por ejemplo `where(is.numeric)` selecciona solo las numéricas.
+
+
+```r
+starwars %&gt;%
+  drop_na(height, mass) %&gt;%
+  group_by(sex, gender) %&gt;%
+  summarise(across(where(is.numeric), mean, na.rm = TRUE)) %&gt;%
+  ungroup()
+```
+
+```
+&gt; # A tibble: 5 × 5
+&gt;   sex            gender    height   mass birth_year
+&gt;   &lt;chr&gt;          &lt;chr&gt;      &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt;
+&gt; 1 female         feminine    169.   54.7       43  
+&gt; 2 hermaphroditic masculine   175  1358        600  
+&gt; 3 male           masculine   178.   81.0       87.0
+&gt; 4 none           masculine   140    69.8       53.3
+&gt; 5 &lt;NA&gt;           &lt;NA&gt;        178    48        NaN
+```
+
+---
+
+# .orange[RESUMIR]: summarise()
+
+Algunas de las funciones más útiles dentro de `summarise()`:
+
+* `sum()`, `mean()`, `median()`
+* `min()`, `which.min()`, `max()`, `which.max()`
+* `n()` (número de registros), `n_distinct()` (número de registros únicos).
+
+
+```r
+starwars %&gt;%
+  summarise(valores_unicos = n_distinct(eye_color))
+```
+
+```
+&gt; # A tibble: 1 × 1
+&gt;   valores_unicos
+&gt;            &lt;int&gt;
+&gt; 1             15
+```
+
+---
+
+
+# Ejercicios (count y summarise)
+
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+
+* 📝 **Ejercicio 1**: calcula cuántos personajes hay de cada especie de `starwars` haciendo uso de `group_by()` y `count()`
+
+* 📝 **Ejercicio 2**: determina el número de especies distintas.
+
+* 📝 **Ejercicio 3**: tras eliminar ausentes en las variables `mass` y `height`, añade una nueva variable que nos calcule el IMC de cada personaje, y determina el IMC medio de nuestros personajes desagregada por sexo (`sex`).
+
+* 📝 **Ejercicio 4**: obtén la edad mínima y máxima de cada sexo.
+
+]
+
+.panel[.panel-name[Sol Ej. 1]
+
+
+```r
+starwars %&gt;% 
+  group_by(species) %&gt;% 
+  count() %&gt;% 
+  ungroup()
+```
+
+```
+&gt; # A tibble: 38 × 2
+&gt;    species       n
+&gt;    &lt;chr&gt;     &lt;int&gt;
+&gt;  1 Aleena        1
+&gt;  2 Besalisk      1
+&gt;  3 Cerean        1
+&gt;  4 Chagrian      1
+&gt;  5 Clawdite      1
+&gt;  6 Droid         6
+&gt;  7 Dug           1
+&gt;  8 Ewok          1
+&gt;  9 Geonosian     1
+&gt; 10 Gungan        3
+&gt; # … with 28 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
+```
+
+```r
+# sin group
+starwars %&gt;%
+  count(species)
+```
+
+```
+&gt; # A tibble: 38 × 2
+&gt;    species       n
+&gt;    &lt;chr&gt;     &lt;int&gt;
+&gt;  1 Aleena        1
+&gt;  2 Besalisk      1
+&gt;  3 Cerean        1
+&gt;  4 Chagrian      1
+&gt;  5 Clawdite      1
+&gt;  6 Droid         6
+&gt;  7 Dug           1
+&gt;  8 Ewok          1
+&gt;  9 Geonosian     1
+&gt; 10 Gungan        3
+&gt; # … with 28 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
+```
+
+]
+
+.panel[.panel-name[Sol Ej. 2]
+
+
+```r
+starwars %&gt;%
+  summarise(unique_species = n_distinct(species))
+```
+
+```
+&gt; # A tibble: 1 × 1
+&gt;   unique_species
+&gt;            &lt;int&gt;
+&gt; 1             38
+```
+
+
+]
+
+
+.panel[.panel-name[Sol Ej. 3]
+
+
+```r
+starwars %&gt;%
+  drop_na(mass, height) %&gt;% 
+  mutate(IMC = mass / (height/100)^2) %&gt;%
+  group_by(sex) %&gt;% 
+  summarise(mean_IMC = mean(IMC)) %&gt;% 
+  ungroup()
+```
+
+```
+&gt; # A tibble: 5 × 2
+&gt;   sex            mean_IMC
+&gt;   &lt;chr&gt;             &lt;dbl&gt;
+&gt; 1 female             19.2
+&gt; 2 hermaphroditic    443. 
+&gt; 3 male               25.7
+&gt; 4 none               32.7
+&gt; 5 &lt;NA&gt;               15.1
+```
+
+]
+
+.panel[.panel-name[Sol Ej. 4]
+
+
+```r
+starwars %&gt;% 
+  drop_na(birth_year) %&gt;% 
+  group_by(sex) %&gt;% 
+  summarise(min_age = min(birth_year),
+            max_age = max(birth_year)) %&gt;% 
+  ungroup()
+```
+
+```
+&gt; # A tibble: 5 × 3
+&gt;   sex            min_age max_age
+&gt;   &lt;chr&gt;            &lt;dbl&gt;   &lt;dbl&gt;
+&gt; 1 female              19      72
+&gt; 2 hermaphroditic     600     600
+&gt; 3 male                 8     896
+&gt; 4 none                15     112
+&gt; 5 &lt;NA&gt;                62      62
+```
+
+]
+
+]
+
+---
+
+# Ejercicios (count y summarise)
+
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+* 📝 **Ejercicio 5**: obtén el personaje más viejo por cada sexo.
+
+* 📝 **Ejercicio 6**: obtén las frecuencias (absolutas) desagregadas por `sex` y `gender` y ordenados de mayor a menor aparición (investiga `? count`)
+
+* 📝 **Ejercicio 7**: determina la cantidad de personajes en cada década (echa un vistazo a `? round()`: ¿qué sucede si hacemos `round(número, -1)`?), primero sin desagregar y luego desagregado por sexo.
+
+* 📝 **Ejercicio 8**: calcula para las variables de tipo texto la longitud media de cada una de ellas (echa un vistazo a `nchar()`)
+
+]
+
+.panel[.panel-name[Sol Ej. 5]
+
+
+```r
+starwars %&gt;%
+  group_by(sex) %&gt;% 
+  slice_max(n = 1, birth_year) %&gt;% 
+  ungroup()
+```
+
+```
+&gt; # A tibble: 5 × 14
+&gt;   name         height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
+&gt;   &lt;chr&gt;         &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
+&gt; 1 Shmi Skywal…    163    NA black   fair    brown        72 fema… femin… Tatooi…
+&gt; 2 Jabba Desil…    175  1358 &lt;NA&gt;    green-… orange      600 herm… mascu… Nal Hu…
+&gt; 3 Yoda             66    17 white   green   brown       896 male  mascu… &lt;NA&gt;   
+&gt; 4 C-3PO           167    75 &lt;NA&gt;    gold    yellow      112 none  mascu… Tatooi…
+&gt; 5 Quarsh Pana…    183    NA black   dark    brown        62 &lt;NA&gt;  &lt;NA&gt;   Naboo  
+&gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
+&gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
+&gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `colnames()` to see all variable names
+```
+  
+]
+
+.panel[.panel-name[Sol Ej. 6a]
+
+
+```r
+# Con group
+starwars %&gt;%
+  group_by(sex, gender) %&gt;% 
+  count(sort = TRUE) %&gt;% 
+  ungroup()
+```
+
+```
+&gt; # A tibble: 6 × 3
+&gt;   sex            gender        n
+&gt;   &lt;chr&gt;          &lt;chr&gt;     &lt;int&gt;
+&gt; 1 male           masculine    60
+&gt; 2 female         feminine     16
+&gt; 3 none           masculine     5
+&gt; 4 &lt;NA&gt;           &lt;NA&gt;          4
+&gt; 5 hermaphroditic masculine     1
+&gt; 6 none           feminine      1
+```
+
+]
+
+.panel[.panel-name[Sol Ej. 6b]
+
+
+```r
+# Sin group
+starwars %&gt;%
+  count(sex, gender, sort = TRUE)
+```
+
+```
+&gt; # A tibble: 6 × 3
+&gt;   sex            gender        n
+&gt;   &lt;chr&gt;          &lt;chr&gt;     &lt;int&gt;
+&gt; 1 male           masculine    60
+&gt; 2 female         feminine     16
+&gt; 3 none           masculine     5
+&gt; 4 &lt;NA&gt;           &lt;NA&gt;          4
+&gt; 5 hermaphroditic masculine     1
+&gt; 6 none           feminine      1
+```
+
+]
+
+.panel[.panel-name[Sol Ej. 7]
+
+
+```r
+starwars %&gt;%
+  count(birth_decade = round(birth_year, -1))
+```
+
+```
+&gt; # A tibble: 15 × 2
+&gt;    birth_decade     n
+&gt;           &lt;dbl&gt; &lt;int&gt;
+&gt;  1           10     1
+&gt;  2           20     6
+&gt;  3           30     4
+&gt;  4           40     6
+&gt;  5           50     8
+&gt;  6           60     4
+&gt;  7           70     4
+&gt;  8           80     2
+&gt;  9           90     3
+&gt; 10          100     1
+&gt; 11          110     1
+&gt; 12          200     1
+&gt; 13          600     1
+&gt; 14          900     1
+&gt; 15           NA    44
+```
+
+```r
+starwars %&gt;%
+  group_by(sex) %&gt;%
+  count(birth_decade = round(birth_year, -1)) %&gt;%
+  ungroup()
+```
+
+```
+&gt; # A tibble: 26 × 3
+&gt;    sex            birth_decade     n
+&gt;    &lt;chr&gt;                 &lt;dbl&gt; &lt;int&gt;
+&gt;  1 female                   20     1
+&gt;  2 female                   40     1
+&gt;  3 female                   50     4
+&gt;  4 female                   60     1
+&gt;  5 female                   70     1
+&gt;  6 female                   NA     8
+&gt;  7 hermaphroditic          600     1
+&gt;  8 male                     10     1
+&gt;  9 male                     20     4
+&gt; 10 male                     30     3
+&gt; # … with 16 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
+```
+
+]
+
+.panel[.panel-name[Sol Ej. 8]
+
+
+```r
+starwars %&gt;%
+  summarise(across(where(is.character),
+                   function(x) { mean(nchar(x), na.rm = TRUE)}))
+```
+
+```
+&gt; # A tibble: 1 × 8
+&gt;    name hair_color skin_color eye_color   sex gender homeworld species
+&gt;   &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
+&gt; 1  10.3       4.84       5.97      5.10  4.51   8.80      7.14    6.17
+```
+
+]
+
+]
 
 
 ---
