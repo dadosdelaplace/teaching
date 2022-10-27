@@ -1,0 +1,255 @@
+---
+title: "Entrega II de R"
+description: |
+  Avanzando en R
+author:
+  - name: C. Tangana (DNI 0000000-A)
+    affiliation: Universidad Complutense de Madrid
+    affiliation_url: 
+date: "`r Sys.Date()`"
+output:
+    distill::distill_article:
+        highlight: kate
+        colorlinks: true
+        code_folding: false
+        toc: true            
+        toc_depth: 3     
+---
+
+```{r setup, include = FALSE}
+# Ajuste comunes de los chunk
+knitr::opts_chunk$set(fig.width = 9, fig.asp = 1, out.width = "100%",
+                      message = FALSE, warning = FALSE,
+                      echo = TRUE, res = 400)
+```
+
+# Instrucciones (leer antes de empezar)
+
+* Modifica dentro del documento `.Rmd` tus datos personales (nombre y DNI) ubicados en la cabecera del archivo.
+
+* Asegúrate, **ANTES de seguir editando** el documento, que el archivo `.Rmd` se teje correctamente (botón Knit) y se genera el `.html` correspondiente.
+
+* Los chunks (cajas de código) creados están o vacíos o incompletos, de ahí que la mayoría tengan la opción `eval = FALSE`. Una vez que edites lo que consideres debes ir cambiando cada chunck a `eval = TRUE` para que se ejecuten.
+
+* Recuerda que puedes ejecutar chunk a chunk con el botón _play_ o ejecutar todos los chunk hasta uno dado (con el botón a la izquierda del anterior).
+
+
+## Paquetes necesarios
+
+Necesitaremos los siguientes paquetes:
+
+```{r paquetes}
+rm(list = ls()) # Borramos variables de environment
+library(glue)
+library(tidyverse)
+```
+
+# Popurrí básico:
+
+## Ejercicio 1:
+
+> Define dos vectores que tu quieras (que representen y sean coherentes con una variable edad y otra variable de número de hermanos) de longitud 10, incluyendo algún dato ausente y algún menor de edad. Forma una matriz con ellos
+
+```{r}
+# Completa el código y cambia a eval = TRUE 
+edad <- c(15, 21, 25, 30, 41, 27, 14, NA, 12, NA)
+hermanos <- c(0, 0, 1, NA, 2, 3, 1, NA, 1, 0)
+matriz <- cbind(edad, hermanos)
+matriz
+```
+
+
+## Ejercicio 2:
+
+> Accede a la edad de la tercera persona, y al número de hermanos de la quinta persona. Accede a todos los datos d la octava persona
+
+```{r}
+# Completa el código y cambia a eval = TRUE 
+matriz[3, 1] # otra opción: matriz[3, "edad"]
+matriz[5, 2] # otra opción: matriz[5, "hermanos"]
+matriz[8, ]
+```
+
+## Ejercicio 3:
+
+> Calcula la media de edad y la media del número de hermanos (sin hacer un bucle)
+
+```{r}
+# Completa el código y cambia a eval = TRUE 
+apply(matriz, MARGIN = 2, FUN = mean, na.rm = TRUE)
+```
+
+## Ejercicio 4:
+
+> Define otro vector de longitud 10 de nombres (invéntatelos) y construye una tabla (base de datos) conjunta de las 3 variables de la mejor manera que sepas. Detalla debajo porqué así y no de otra forma
+
+```{r}
+# Completa el código y cambia a eval = TRUE 
+nombres <- c(NA, "Javi", "Laura", "Carlos", "Marta",
+             "María", NA, "Lucas", "Marcos", "Cristina")
+# si hago esto los número se pasan a texto: una matriz no
+# nos deja guardar de distinto tipo
+cbind(edad, hermanos, nombres)
+
+tabla <- data.frame(edad, hermanos, nombres)
+tabla
+
+# a partir de ahora
+tabla <- tibble(edad, hermanos, nombres)
+tabla
+```
+
+## Ejercicio 5:
+
+> Construye un bucle que recorra cada persona de la base de datos anterior y guarde (rellene) en una variable `menor_edad` un `TRUE` si edad < 18 y un `FALSE` en caso contrario
+
+
+```{r}
+# Completa el código y cambia a eval = TRUE 
+menor_edad <- rep(FALSE, nrow(tabla))
+
+for (i in 1:length(edad)) {
+  
+  if (is.na(edad[i])) { menor_edad[i] <- NA}
+  else if (edad[i] < 18) { menor_edad[i] <- TRUE}
+  else { menor_edad[i] <- FALSE}
+}
+menor_edad
+
+# opción sin bucle (recomendada)
+menor_edad <- ifelse(edad < 18, TRUE, FALSE)
+menor_edad
+```
+
+
+# Segunda oportunidad: análisis de Star Wars
+
+## Carga de datos
+
+El archivo de datos a usar lo cargaremos del paquete`{dplyr}`. En él tenemos diferentes variables de los **personajes de Star Wars**, con características de su pelo, piel, altura, nombre, etc.
+
+
+```{r}
+starwars
+```
+
+
+## Ejercicio 1:
+
+> ¿Cuántos personajes hay incluidos en la base de datos? ¿Cuántas variables tenemos? ¿Cuántas modalidades distintas de color de ojos tenemos?
+
+
+```{r}
+# Completa el código y cambia a eval = TRUE 
+nrow(starwars) # personajes
+ncol(starwars) # variables
+unique(starwars$eye_color) # modalidades únicas
+length(unique(starwars$eye_color)) # número de modalidades únicas
+
+# en modo tidyverse
+starwars |> count(eye_color)
+```
+
+[Responde aquí debajo como texto normal lo que consideres]
+
+## Ejercicio 2:
+
+> Ahora que sabemos lo que es un data.frame y un tibble, accede a las columnas de nombre, peso y especie (sin importar la posición que ocupen, como una base de datos)
+
+```{r}
+# Completa el código y cambia a eval = TRUE 
+starwars$name
+starwars$mass
+starwars$species
+```
+
+## Ejercicio 3:
+
+> Del conjunto de datos filtra aquellos personajes que, o midan menos de 150 y pesen menos de 60, o sean de la especie Droid. Puedes probar con subset() o con filter() (consejo: si sabes, mejor la segunda opción, es la que usaremos ya para siempre)
+
+```{r}
+# opción subset (que se supone que se han hecho ej. del manual)
+subset(starwars, subset = (height < 150 & mass < 60) | species == "Droid")
+
+# opción tidyverse (la que usaremos a partir de ahora)
+starwars |> 
+  filter((height < 150 & mass < 60) | species == "Droid")
+```
+
+[Responde aquí debajo como texto normal lo que consideres]
+
+
+## Ejercicio 4:
+
+> Del conjunto de datos total, filtra aquellos personajes que midan más de 150, y además selecciona solo las columnas del nombre, el color de ojos y la edad.
+
+```{r}
+# opción subset (que se supone que se han hecho ej. del manual)
+subset(starwars, subset = height < 150, select = c(name, eye_color, birth_year))
+
+# opción tidyverse (la que usaremos a partir de ahora)
+starwars |> 
+  filter(height < 150) |> 
+  select(name, eye_color, birth_year)
+```
+
+
+[Responde aquí debajo como texto normal lo que consideres]
+
+## Ejercicio 5:
+
+> Elimina aquellos registros con ausente en peso y estatura.
+
+```{r}
+# opción subset (que se supone que se han ej. del manual)
+subset(starwars, subset = !is.na(mass) & !is.na(height))
+
+# opción tidyverse 
+starwars |> 
+  filter(!is.na(mass) & !is.na(height))
+
+# opción tidyverse pro (la que usaremos a partir de ahora)
+starwars |> 
+  drop_na(mass, height)
+```
+
+
+[Responde aquí debajo como texto normal lo que consideres]
+
+
+## Ejercicio 6:
+
+> Responde a las siguientes preguntas. ¿Cuál es la estatura máxima del 30% de personajes más bajitos? ¿Cuál es el peso mínimo del 21% de personajes más altos? 
+
+
+```{r}
+# Completa el código y cambia a eval = TRUE 
+quantile(starwars$height, probs = 0.3, na.rm = TRUE)
+quantile(starwars$mass, probs = 0.79, na.rm = TRUE)
+```
+
+[Responde aquí debajo como texto normal lo que consideres]
+
+
+## Ejercicio 7:
+
+> Selecciona solo aquellos personajes con ojos azules, y cuya estatura esté entre 160 y 180. Con esa subtabla (guárdala), añade una nueva variable llamada IMC (índice de masa corporal), definido como el peso entre la estatura al cuadrado (con la estatura en metros).
+
+```{r}
+# opción subset (que se supone que se han ej. del manual)
+subtabla <- 
+  subset(starwars, subset = eye_color == "blue" & between(height, 160, 180))
+subtabla$IMC <- subtabla$mass / ((subtabla$height/100)^2)
+subtabla
+
+# opción tidyverse (la que usaremos a partir de ahora)
+subtabla <- 
+  starwars |> 
+  filter(eye_color == "blue" & between(height, 160, 180)) |> 
+  mutate(IMC = mass / ((height/100)^2))
+subtabla
+```
+
+
+[Responde aquí debajo como texto normal lo que consideres]
+

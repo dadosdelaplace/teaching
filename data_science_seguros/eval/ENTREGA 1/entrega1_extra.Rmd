@@ -1,0 +1,238 @@
+---
+title: "Entrega I de R"
+description: |
+  Primeros pasos en R (deadline: 14:00 del 28 de septiembre)
+author:
+  - name: C. Tangana (DNI 0000000-A)
+    affiliation: Universidad Complutense de Madrid
+    affiliation_url: 
+date: "`r Sys.Date()`"
+output:
+    distill::distill_article:
+        highlight: kate
+        colorlinks: true
+        code_folding: false
+        toc: true            
+        toc_depth: 3     
+---
+
+```{r setup, include = FALSE}
+# Ajuste comunes de los chunk
+knitr::opts_chunk$set(fig.width = 9, fig.asp = 1, out.width = "100%",
+                      message = FALSE, warning = FALSE,
+                      echo = TRUE, res = 400)
+```
+
+# Instrucciones (leer antes de empezar)
+
+* Modifica dentro del documento `.Rmd` tus datos personales (nombre y DNI) ubicados en la cabecera del archivo.
+
+* Asegúrate, **ANTES de seguir editando** el documento, que el archivo `.Rmd` se teje correctamente (botón Knit) y se genera el `.html` correspondiente.
+
+* Los chunks (cajas de código) creados están o vacíos o incompletos, de ahí que la mayoría tengan la opción `eval = FALSE`. Una vez que edites lo que consideres debes ir cambiando cada chunck a `eval = TRUE` para que se ejecuten.
+
+* Recuerda que puedes ejecutar chunk a chunk con el botón _play_ o ejecutar todos los chunk hasta uno dado (con el botón a la izquierda del anterior).
+
+
+## Paquetes necesarios
+
+Necesitaremos los siguientes paquetes:
+
+```{r paquetes}
+rm(list = ls()) # Borramos variables de environment
+
+# descomentar si es la primera vez (y requieren instalación)
+# install.packages("glue")
+# install.packages("dplyr")
+library(glue)
+library(dplyr)
+```
+
+
+# Caso práctico: análisis de iris
+
+## Carga de datos
+
+El archivo de datos a usar lo cargaremos del paquete `{dataset}`. En él tenemos diferentes variables de **plantas**, con variables de su longitud y anchura del pétalo y sépalo, así como su specie
+
+```{r}
+iris
+```
+
+Dado que aún no sabemos trabajar con tablas enteras (fíjate como accedo a las variables con `nombre_tabla$nombre_variable`), a lo largo de la práctica trabajaremos con 4 variables que dejaremos ya guardadas:
+
+* `sepal_length`: longitud de sépalo
+* `sepal_width`: anchura de sépalo
+* `petal_length`: longitud de pétalo
+* `petal_width`: anchura de pétalo
+* `species`: especie
+
+
+```{r}
+sepal_length <- iris$Sepal.Length
+sepal_width <- iris$Sepal.Width
+petal_length <- iris$Petal.Length
+petal_width <- iris$Petal.Width
+species <- iris$Species
+```
+
+A partir de este momento solo nos fijaremos en estas cinco variables:
+
+```{r}
+sepal_length
+sepal_width
+petal_length
+petal_width
+species
+```
+
+
+## Ejercicio 1:
+
+> Determina qué tipo de variable es cada una (cuali/cuanti, discreta/continua, nominal/ordinal) y justifica la respuesta.
+
+[Responde aquí debajo como texto normal]
+
+
+## Ejercicio 2:
+
+> Determina la dimensión de nuestros datos calculando la longitud de las variables. ¿Cuántos registros hay incluidos en la base de datos?
+
+
+```{r eval = FALSE}
+# Completa el código y cambia a eval = TRUE 
+
+```
+
+[Responde aquí debajo como texto normal lo que consideres]
+
+## Ejercicio 3:
+
+> Determina las modalidades de aquellas variables que sean cualitativas
+
+```{r eval = FALSE}
+# Completa el código y cambia a eval = TRUE 
+unique(...)
+```
+
+[Responde aquí debajo como texto normal lo que consideres]
+
+## Ejercicio 4:
+
+> ¿Existen valores ausentes en alguna de las variables? ¿Cuántas flores tenemos de cada tipo?
+
+
+```{r eval = FALSE}
+# Completa el código y cambia a eval = TRUE 
+```
+
+[Responde aquí debajo como texto normal lo que consideres]
+
+
+## Ejercicio 5:
+
+> ¿Existen plantas que cumplan a la vez que su longitud de sépalo es mayor que 6.2 y la anchura del sépalo es mayor que 3.2? En caso afirmativo, ¿cuántas plantas serían? ¿Cuántas habría de cada especie cumpliendo dichas condiciones?
+
+
+```{r eval = FALSE}
+# Completa el código y cambia a eval = TRUE 
+```
+
+[Responde aquí debajo como texto normal lo que consideres]
+
+## Ejercicio 6:
+
+> Extrae la especie de aquellas plantas cuya longitud de pétalo sea superior a 6.2 y la anchura del pétalo sea superior a 1.
+
+```{r eval = FALSE}
+# Completa el código y cambia a eval = TRUE 
+```
+
+[Responde aquí debajo como texto normal lo que consideres]
+
+
+## Ejercicio 7:
+
+> Determina el rango (mínimo y máximo) de aquellas variables que sean cuantitativas. Recuerda que si hay datos ausentes (y no se eliminan antes), el máximo y mínimo devuelto será también ausente.
+
+```{r eval = FALSE}
+# Completa el código y cambia a eval = TRUE 
+```
+
+[Responde aquí debajo como texto normal lo que consideres]
+
+
+## Ejercicio 8:
+
+
+> Calcula la media de las variables, en aquellos casos en los que sea posible. Justifica aquellos casos en los que no se puede calcular.  Recuerda que a lo mejor hay datos ausentes.
+
+```{r eval = FALSE}
+# Completa el código y cambia a eval = TRUE 
+```
+
+[Responde aquí debajo como texto normal lo que consideres]
+
+
+> Calcula una medida de dispersión de las variables, en aquellos casos en los que sea posible. Justifica aquellos casos en los que no se puede calcular, y detalla qué medida de dispersión estás calculando.
+
+```{r eval = FALSE}
+# Completa el código y cambia a eval = TRUE 
+```
+
+[Responde aquí debajo como texto normal lo que consideres]
+
+
+> Entre todas las variables de las que podemos conocer su dispersión, determina cuál es más homogénea. Justifica tu respuesta.
+
+```{r eval = FALSE}
+# Completa el código y cambia a eval = TRUE 
+```
+
+[Responde aquí debajo como texto normal lo que consideres]
+
+
+## Ejercicio 9:
+
+> Ordena los registros de mayor a menor longitud de sépalo
+
+```{r eval = FALSE}
+# Completa el código y cambia a eval = TRUE 
+species[...]
+```
+
+[Responde aquí debajo como texto normal lo que consideres]
+
+
+> Calcula la mediana de las variables, en aquellos casos en los que sea posible. Justifica aquellos casos en los que no se puede calcular.  Recuerda que a lo mejor hay datos ausentes. Interpreta el valor obtenido
+
+
+```{r eval = FALSE}
+# Completa el código y cambia a eval = TRUE 
+median(...)
+```
+
+[Responde aquí debajo como texto normal lo que consideres]
+
+> Responde a las siguientes preguntas. ¿Cuál es la longitud de sépalo del 65% de flores con mayor longitud de sépalo? ¿Cuál es la anchura de pétalo mínima del 20% de las flores con menor anchura?
+
+
+```{r eval = FALSE}
+# Completa el código y cambia a eval = TRUE 
+quantile(...)
+```
+
+[Responde aquí debajo como texto normal lo que consideres]
+
+
+## Ejercicio 10:
+
+> ¿Cuál es la moda de la variable species? Justifica tu respuesta
+
+```{r eval = FALSE}
+# Completa el código y cambia a eval = TRUE 
+
+```
+
+[Responde aquí debajo como texto normal lo que consideres]
+
