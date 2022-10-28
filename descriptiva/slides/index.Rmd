@@ -6438,7 +6438,7 @@ starwars %>% drop_na(mass, height, sex, gender)
 
 * 📝 **Ejercicio 4**: selecciona del conjunto de `starwars` los personajes no humanos, hombres y que midan más de 170 cm, o los personajes con ojos marrones o rojos.
 
-* 📝 **Ejercicio 5**: selecciona aquellos personajes de `starwars` que hayan pilotado más de 2 naves.
+* 📝 **Ejercicio 5**: selecciona aquellos personajes de `starwars` de la familia Skywalker. Busca la ayuda de la función `str_detect()` del paquete `stringr`
 
 ]
 
@@ -6473,7 +6473,8 @@ starwars %>%
 
 ```{r}
 starwars %>%
-  filter((species != "Human" & sex == "Male" & height > 170) |
+  filter((species != "Human" &
+            gender == "masculine" & height > 170) |
            eye_color %in% c("brown", "red"))
 ```
 
@@ -6482,29 +6483,13 @@ starwars %>%
 .panel[.panel-name[Sol. Ej. 5]
 
 ```{r}
-library(purrr) # ya está en tidyverse per por si
-starwars$n_starships <- starwars$starships %>% map_int(length)
-starwars %>% filter(n_starships > 2)
-```
-
-```{r echo = FALSE}
-starwars <- dplyr::starwars
+starwars %>% 
+  filter(str_detect(name, "Skywalker"))
 ```
 
 ]
 
 ]
-
----
-
-# Ejercicio extra
-
-
-Veamos un ejercicio extra para comprobar la **potencia y flexibilidad** de `{tidyverse}`, pudiendo hacer muchas cosas en dos líneas de código.
-
-&nbsp;
-
-* 📝 **Ejercicio extra**: selecciona aquellos personajes de `starwars` que hayan salido en la película de la saga "El ataque de los clones" (en inglés, "Attack of the Clones"). Busca información de la función `str_detect()` del paquete `stringr`. Consejo: prueba antes las funciones que vayas a usar con algún vector de prueba para poder comprobar su funcionamiento.
 
 ---
 
@@ -6786,7 +6771,7 @@ dim(starwars_nuevo)
 starwars %>%
   filter(eye_color == "brown",
          species == "Human") %>%
-  arrange(height, desc(mass))
+  arrange(desc(height), mass)
 ```
 
 ]
@@ -6794,13 +6779,11 @@ starwars %>%
 .panel[.panel-name[Sol. Ej. 2]
 
 ```{r}
-starwars %>%
-  slice_sample(n = 3)
+starwars %>% slice_sample(n = 3)
 ```
 
 ```{r}
-starwars %>%
-  slice_sample(n = 3)
+starwars %>% slice_sample(n = 3)
 ```
 
 
@@ -6819,13 +6802,11 @@ starwars %>%
 
 
 ```{r}
-starwars %>%
-  slice_max(birth_year, n = 3)
+starwars %>% slice_max(birth_year, n = 3)
 ```
 
 ```{r}
-starwars %>%
-  slice_min(height, n = 3)
+starwars %>% slice_min(height, n = 3)
 ```
 ]
 
@@ -6835,7 +6816,7 @@ starwars %>%
 ```{r}
 starwars %>%
   drop_na(hair_color) %>%
-  distinct(hair_color)
+  distinct(hair_color, .keep_all = TRUE)
 ```
 
 ]
@@ -6999,7 +6980,7 @@ starwars %>% select(where(is.numeric) | where(is.character))
 Fíjate que con `select()` podrías además **.bg-purple_light[recolocar columnas]**, indícandole el orden, ayudándote también de `everything()`
 
 ```{r}
-starwars %>%  select(c(species, name, birth_year, everything()))
+starwars %>%  select(species, name, birth_year, everything())
 ```
 
 ---
@@ -7127,7 +7108,7 @@ starwars %>%
 
 * 📝 **Ejercicio 4**: con los datos obtenidos del ejercicio anterior, coloca la variable de color de pelo justo detrás de la variable de nombres.
 
-* 📝 **Ejercicio 5**: con los datos obtenidos del ejercicio, comprueba cuántas modalidades únicas hay en la variable de color de pelo.
+* 📝 **Ejercicio 5**: con los datos obtenidos del ejercicio, comprueba cuáles son las modalidades únicas hay en la variable de color de pelo.
 
 ]
 
@@ -7137,7 +7118,9 @@ starwars %>%
 
 
 ```{r}
-starwars_NA <- starwars %>% drop_na(height)
+starwars_NA <-
+  starwars %>%
+  drop_na(height)
 starwars_NA 
 ```
 
@@ -7148,7 +7131,7 @@ starwars_NA
 ```{r}
 starwars %>%
   drop_na(height) %>%
-  select(c(name, height, contains("color")))
+  select(name, height, contains("color"))
 ```
 
 ]
@@ -7159,11 +7142,9 @@ starwars %>%
 ```{r}
 starwars %>%
   drop_na(height) %>%
-  select(c(name, height, contains("color"))) %>%
-  rename(nombre = name, altura = height,
-         color_pelo = hair_color,
-         color_piel = skin_color,
-         color_ojos = eye_color)
+  select(name, height, contains("color")) %>%
+  rename(nombre = name, altura = height, color_pelo = hair_color,
+         color_piel = skin_color, color_ojos = eye_color)
 ```
 
 ]
@@ -7174,11 +7155,9 @@ starwars %>%
 ```{r}
 starwars %>%
   drop_na(height) %>%
-  select(c(name, height, contains("color"))) %>%
-  rename(nombre = name, altura = height,
-         color_pelo = hair_color,
-         color_piel = skin_color,
-         color_ojos = eye_color) %>%
+  select(name, height, contains("color")) %>%
+  rename(nombre = name, altura = height, color_pelo = hair_color,
+         color_piel = skin_color, color_ojos = eye_color) %>%
   relocate(color_pelo, .after = nombre)
 ```
 
@@ -7189,7 +7168,7 @@ starwars %>%
 ```{r}
 starwars %>%
   drop_na(height) %>%
-  select(c(name, height, contains("color"))) %>%
+  select(name, height, contains("color")) %>%
   rename(nombre = name, altura = height, color_pelo = hair_color,
          color_piel = skin_color, color_ojos = eye_color) %>%
   relocate(color_pelo, .after = nombre) %>%
@@ -7365,13 +7344,13 @@ starwars %>%
 .panel[.panel-name[Ejercicios]
 
 
-* 📝 **Ejercicio 1**: crea tres nuevas columnas que nos digan el número de películas en las que han salido, el número de vehículos y el número d naves (pero haciendo uso de mutate()). 
+* 📝 **Ejercicio 1**: crea una nueva columna que nos guarda en la tabla la estatura en metros. 
 
-* 📝 **Ejercicio 2**: con las 3 columnas creadas, crea una nueva columna llamada `frequency` que nos ponga `almost_all` en personajes que salen en 5 o más películas, `many` en personajes que salen en más de 2 películas pero en menos de 5 y `some` en personajes que salen 1 o 2 películas.
+* 📝 **Ejercicio 2**: crea una nueva columna a la tabla salida del ejercicio anterior que nos recodifique la variable altura: `"bajito"` para aquellos personajes que midan menos de 1.5m, `"mediano"` para los que midan entre 1.5 y 1.8m, `"alto"` para los que miden entre 1.8 y 2.1m, y `"bicho"` para los que midan más de 2.1m.
 
-* 📝 **Ejercicio 3**: elimina registros con datos ausentes en la variable `birth_year` y filtra solo los 20 personajes más jóvenes.
+* 📝 **Ejercicio 3**: usando la tabla salida del ejercicio anterior, elimina registros con datos ausentes en la variable `birth_year` y filtra solo los 15 personajes más jóvenes.
 
-* 📝 **Ejercicio 4**: selecciona solo las variables numéricas y de tipo texto. Define una nueva variable llamada `under_18` que nos recategorice la variable `birth_year`: `TRUE` si es menor de edad y `FALSE` en caso contrario
+* 📝 **Ejercicio 4**: de la tabla salida del ejercicio anterior, selecciona solo las variables numéricas y de tipo texto. Define una nueva variable llamada `under_18` que nos recategorice la variable `birth_year`: `TRUE` si es menor de edad y `FALSE` en caso contrario
 
 ]
 
@@ -7380,9 +7359,7 @@ starwars %>%
 ```{r}
 starwars_nueva <- 
   starwars %>%
-  mutate(n_films = films %>% map_int(length),
-         n_vehicles = vehicles %>% map_int(length),
-         n_starships = starships %>% map_int(length))
+  mutate(height_m = height / 100)
 starwars_nueva
 ```
 
@@ -7393,10 +7370,14 @@ starwars_nueva
 ```{r}
 starwars_nueva <-
   starwars_nueva %>%
-  mutate(frequency =
-           case_when(n_films >= 5 ~ "almost_all",
-                     n_films > 2 ~ "many",
-                     TRUE ~ "some"))
+  mutate(height_recat =
+           case_when(height_m <= 1.5 ~ "bajito",
+                     # solo llega aquí si arriba ha sido FALSE
+                     height_m <= 1.8 ~ "mediano",
+                     # solo llega aquí si arriba ha sido FALSE
+                     height_m <= 2.1 ~ "alto",
+                     # todo lo que no está arriba
+                     TRUE ~ "bicho"))
 starwars_nueva
 ```
 
@@ -7408,7 +7389,7 @@ starwars_nueva
 starwars_nueva <-
   starwars_nueva %>%
   drop_na(birth_year) %>%
-  slice_min(n = 20, birth_year)
+  slice_min(n = 15, birth_year)
 starwars_nueva
 ```
 
@@ -7439,11 +7420,11 @@ starwars_nueva
 .panelset[
 .panel[.panel-name[Ejercicios]
 
-* 📝 **Ejercicio 5**: de la base de datos original, determina el número de modalidades que toma la variable `species` (elimina antes registros con ausente en dicha variable). Después elimina duplicados por dicha variable, dejando el representante más bajito.
+* 📝 **Ejercicio 5**: de la base de datos original, determina cuáles son las modalidades únicas que toma la variable `species` (elimina antes registros con ausente en dicha variable). 
 
-* 📝 **Ejercicio 6**: sobre la base de datos original, crea una nueva columna llamada `auburn` (cobrizo/caoba) que nos diga `TRUE` si el color de pelo contiene dicha palabra y `FALSE` en caso contrario.
+* 📝 **Ejercicio 6**: sobre la base de datos original, crea una nueva columna llamada `auburn` (cobrizo/caoba) que nos diga `TRUE` si el color de pelo contiene dicha palabra y `FALSE` en caso contrario. Busca `? str_detect()`.
 
-* 📝 **Ejercicio 7**: sobre la base de datos original, filtra solo aquellos personajes de la familia `"Skywalker"` o `"Antilles"`, selecciona solo las columnas de `name` y `specie`, y renombra a castellano.
+* 📝 **Ejercicio 7**: sobre la base de datos original, filtra solo aquellos personajes de la familia `"Skywalker"` o `"Antilles"`, selecciona solo las columnas de `name`, `mass`, `height` y `specie`, y renombra a castellano. Tras ello crea una nueva columna llamada IMC definida como el cociente entre el peso y el cuadrado de la estatura (en metros).
 
 
 ]
@@ -7454,11 +7435,6 @@ starwars_nueva
 starwars %>%
   drop_na(species) %>%
   distinct(species)
-
-starwars %>%
-  drop_na(species) %>%
-  arrange(height) %>%
-  distinct(species, .keep_all = TRUE)
 ```
 
 ]
@@ -7479,8 +7455,11 @@ starwars %>%
 starwars %>%
   filter(str_detect(name, "Skywalker") |
            str_detect(name, "Antilles")) %>%
-  select(name, species) %>%
-  rename(nombre = name, especie = species)
+  # de name a mass (todas, las 3 que hay) y además species
+  select(name:mass, species) %>%
+  rename(nombre = name, peso = mass, estatura = height, especie = species) %>% 
+  mutate(IMC = peso / ((estatura/100)^2))
+starwars 
 ```
 
 ]
@@ -7801,6 +7780,8 @@ starwars %>%
 
 * 📝 **Ejercicio 4**: obtén la edad mínima y máxima de cada sexo.
 
+* 📝 **Ejercicio 5**: obtén la media de todas las variables numéricas de una vez (quita antes ausentes en esa variables) sin importar cuántas sean.
+
 ]
 
 .panel[.panel-name[Sol Ej. 1]
@@ -7821,8 +7802,11 @@ starwars %>%
 .panel[.panel-name[Sol Ej. 2]
 
 ```{r}
-starwars %>%
-  summarise(unique_species = n_distinct(species))
+starwars %>% summarise(unique_species = n_distinct(species))
+```
+
+```{r}
+starwars %>% count(species) %>% nrow()
 ```
 
 
@@ -7855,6 +7839,16 @@ starwars %>%
 
 ]
 
+.panel[.panel-name[Sol Ej. 5]
+
+```{r}
+starwars %>% 
+  drop_na(where(is.numeric)) %>% 
+   summarise(across(where(is.numeric), mean))
+```
+
+]
+
 ]
 
 ---
@@ -7865,17 +7859,17 @@ starwars %>%
 .panelset[
 .panel[.panel-name[Ejercicios]
 
-* 📝 **Ejercicio 5**: obtén el personaje más viejo por cada sexo.
+* 📝 **Ejercicio 6**: obtén el personaje más viejo por cada sexo.
 
-* 📝 **Ejercicio 6**: obtén las frecuencias (absolutas) desagregadas por `sex` y `gender` y ordenados de mayor a menor aparición (investiga `? count`)
+* 📝 **Ejercicio 7**: obtén las frecuencias (absolutas) desagregadas por `sex` y `gender` y ordenados de mayor a menor aparición (investiga `? count`)
 
-* 📝 **Ejercicio 7**: determina la cantidad de personajes en cada década (echa un vistazo a `? round()`: ¿qué sucede si hacemos `round(número, -1)`?), primero sin desagregar y luego desagregado por sexo.
+* 📝 **Ejercicio 8**: añade una nueva variable llamada `human_or_not`, que tenga un `TRUE` si la especie es humana, y un `FALSE` en caso contrario. Tras calcula la media de estatura desagregada en los dos estratos: en humanos y en no humanos.
 
-* 📝 **Ejercicio 8**: calcula para las variables de tipo texto la longitud media de cada una de ellas (echa un vistazo a `nchar()`)
+* 📝 **Ejercicio 9**: haciendo uso de la tabla del ejercicio anterior, selecciona el personaje humano más bajito y el personaje no humano más bajito. 
 
 ]
 
-.panel[.panel-name[Sol Ej. 5]
+.panel[.panel-name[Sol Ej. 6]
 
 ```{r}
 starwars %>%
@@ -7886,7 +7880,7 @@ starwars %>%
   
 ]
 
-.panel[.panel-name[Sol Ej. 6a]
+.panel[.panel-name[Sol Ej. 7a]
 
 ```{r}
 # Con group
@@ -7898,7 +7892,7 @@ starwars %>%
 
 ]
 
-.panel[.panel-name[Sol Ej. 6b]
+.panel[.panel-name[Sol Ej. 7b]
 
 ```{r}
 # Sin group
@@ -7908,29 +7902,50 @@ starwars %>%
 
 ]
 
-.panel[.panel-name[Sol Ej. 7]
+.panel[.panel-name[Sol Ej. 8]
+
+
 
 ```{r}
-starwars %>%
-  count(birth_decade = round(birth_year, -1))
+starwars_nueva <- 
+  starwars %>% 
+  drop_na(species) %>% 
+  mutate(human_or_not = species == "Human")
 
-starwars %>%
-  group_by(sex) %>%
-  count(birth_decade = round(birth_year, -1)) %>%
+starwars_nueva %>% 
+  group_by(human_or_not) %>% 
+  summarise(mean_height = mean(height, na.rm = TRUE)) %>% 
   ungroup()
 ```
 
 ]
 
-.panel[.panel-name[Sol Ej. 8]
+.panel[.panel-name[Sol Ej. 9a]
+
+Incluyendo empates
 
 ```{r}
-starwars %>%
-  summarise(across(where(is.character),
-                   function(x) { mean(nchar(x), na.rm = TRUE)}))
+starwars_nueva %>% 
+  group_by(human_or_not) %>% 
+  slice_min(height, n = 1) %>%
+  ungroup()
 ```
 
 ]
+
+.panel[.panel-name[Sol Ej. 9b]
+
+Sin empates (si hay empate, se queda con el primero que hubiera en la tabla)
+
+```{r}
+starwars_nueva %>% 
+  group_by(human_or_not) %>% 
+  slice_min(height, n = 1, with_ties = FALSE) %>%
+  ungroup()
+```
+
+]
+
 
 ]
 
