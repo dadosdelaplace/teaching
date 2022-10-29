@@ -24,7 +24,7 @@ class: center, middle, inverse, title-slide
 # Introducción a R
 ## Descripción y exploración de datos
 ### Javier Álvarez Liébana (Fac. Estudios Estadísticos - UCM)
-### Última actualización: 28-10-2022
+### Última actualización: 29-10-2022
 
 ---
 
@@ -1469,7 +1469,7 @@ hoy
 ```
 
 ```
-&gt; [1] "2022-10-28"
+&gt; [1] "2022-10-29"
 ```
 
 --
@@ -1482,7 +1482,7 @@ También podemos obtener el **.bg-purple_light[«hoy y ahora»]** con la funció
 ```
 
 ```
-&gt; [1] "2022-10-28 13:13:54 CEST"
+&gt; [1] "2022-10-29 12:20:00 CEST"
 ```
  
 ---
@@ -1827,7 +1827,7 @@ hoy - cumple
 ```
 
 ```
-&gt; Time difference of 12101 days
+&gt; Time difference of 12102 days
 ```
 
 ]
@@ -2682,9 +2682,9 @@ x &lt;- rnorm(1e3) # 1000 elementos aleatorias
 
 ```
 &gt; Unit: microseconds
-&gt;         expr    min      lq     mean  median      uq     max neval cld
-&gt;      sort(x) 43.310 45.4885 52.82622 47.5100 56.9995 146.745  1000   b
-&gt;  x[order(x)] 30.207 31.9875 36.74085 33.3885 38.7405 112.399  1000  a
+&gt;         expr    min      lq     mean median      uq     max neval cld
+&gt;      sort(x) 42.146 45.6165 56.96490 48.853 60.4930 219.459  1000   b
+&gt;  x[order(x)] 29.019 31.6565 38.78217 33.458 39.7235 163.892  1000  a
 ```
 
 --
@@ -5441,12 +5441,12 @@ microbenchmark(x^2,
 
 ```
 &gt; Unit: nanoseconds
-&gt;                                     expr     min        lq        mean
-&gt;                                      x^2     351     471.5    1427.758
-&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 1697508 1919337.5 2377349.294
-&gt;     median      uq      max neval cld
-&gt;     1180.5    1968    45954  1000  a 
-&gt;  2144828.0 2577199 13135859  1000   b
+&gt;                                     expr     min        lq        mean  median
+&gt;                                      x^2     355     465.5    1410.382    1129
+&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 1689339 1916491.0 2254051.076 2091480
+&gt;       uq      max neval cld
+&gt;     1951    39322  1000  a 
+&gt;  2377058 17523193  1000   b
 ```
 
 ---
@@ -6861,10 +6861,10 @@ map(x, mean)
 
 ```
 &gt; [[1]]
-&gt; [1] -0.01731686
+&gt; [1] 0.006360215
 &gt; 
 &gt; [[2]]
-&gt; [1] 2.008939
+&gt; [1] 2.006018
 ```
 
 
@@ -6876,11 +6876,11 @@ microbenchmark(map(x, .f = function(x) { mean(x^2) }), lapply(x, FUN = function(
 ```
 &gt; Unit: milliseconds
 &gt;                                            expr      min       lq     mean
-&gt;      map(x, .f = function(x) {     mean(x^2) }) 5.375275 6.634270 8.890006
-&gt;  lapply(x, FUN = function(x) {     mean(x^2) }) 5.327880 6.509009 8.768342
+&gt;      map(x, .f = function(x) {     mean(x^2) }) 5.503208 6.691110 8.659994
+&gt;  lapply(x, FUN = function(x) {     mean(x^2) }) 5.436693 6.586413 8.921007
 &gt;    median       uq      max neval cld
-&gt;  7.688387 9.431645 156.7635  1000   a
-&gt;  7.622233 9.110100 221.4689  1000   a
+&gt;  7.731784 9.082680 205.8324  1000   a
+&gt;  7.662183 9.439304 163.1035  1000   a
 ```
 
 
@@ -9961,11 +9961,11 @@ starwars %&gt;% slice_sample(n = 3)
 
 ```
 &gt; # A tibble: 3 × 14
-&gt;   name         height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
-&gt;   &lt;chr&gt;         &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
-&gt; 1 Bail Presto…    191    NA black   tan     brown        67 male  mascu… Aldera…
-&gt; 2 Ackbar          180    83 none    brown … orange       41 male  mascu… Mon Ca…
-&gt; 3 Bib Fortuna     180    NA none    pale    pink         NA male  mascu… Ryloth 
+&gt;   name       height  mass hair_co…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
+&gt;   &lt;chr&gt;       &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
+&gt; 1 R4-P17         96    NA none      silver… red, b…      NA none  femin… &lt;NA&gt;   
+&gt; 2 Mas Amedda    196    NA none      blue    blue         NA male  mascu… Champa…
+&gt; 3 Adi Gallia    184    50 none      dark    blue         NA fema… femin… Corusc…
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
@@ -9989,8 +9989,8 @@ starwars %&gt;% slice_sample(prop = 0.025)
 &gt; # A tibble: 2 × 14
 &gt;   name         height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
 &gt;   &lt;chr&gt;         &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
-&gt; 1 Shaak Ti        178  57   none    red, b… black        NA fema… femin… Shili  
-&gt; 2 Luminara Un…    170  56.2 black   yellow  blue         58 fema… femin… Mirial 
+&gt; 1 Beru Whites…    165    75 brown   light   blue       47   fema… femin… Tatooi…
+&gt; 2 Darth Vader     202   136 none    white   yellow     41.9 male  mascu… Tatooi…
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
@@ -10013,8 +10013,8 @@ starwars %&gt;% slice_sample(n = 2, weight_by = c(0.495, 0.495, rep(0.01/85, 85)
 &gt; # A tibble: 2 × 9
 &gt;   name           height  mass hair_color skin_color eye_c…¹ birth…² sex   gender
 &gt;   &lt;chr&gt;           &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
-&gt; 1 Luke Skywalker    172    77 blond      fair       blue         19 male  mascu…
-&gt; 2 C-3PO             167    75 &lt;NA&gt;       gold       yellow      112 none  mascu…
+&gt; 1 C-3PO             167    75 &lt;NA&gt;       gold       yellow      112 none  mascu…
+&gt; 2 Luke Skywalker    172    77 blond      fair       blue         19 male  mascu…
 &gt; # … with abbreviated variable names ¹​eye_color, ²​birth_year
 ```
 
@@ -10028,8 +10028,8 @@ starwars %&gt;% slice_sample(n = 2, weight_by = c(0.495, 0.495, rep(0.01/85, 85)
 &gt; # A tibble: 2 × 9
 &gt;   name           height  mass hair_color skin_color eye_c…¹ birth…² sex   gender
 &gt;   &lt;chr&gt;           &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
-&gt; 1 Luke Skywalker    172    77 blond      fair       blue         19 male  mascu…
-&gt; 2 C-3PO             167    75 &lt;NA&gt;       gold       yellow      112 none  mascu…
+&gt; 1 C-3PO             167    75 &lt;NA&gt;       gold       yellow      112 none  mascu…
+&gt; 2 Luke Skywalker    172    77 blond      fair       blue         19 male  mascu…
 &gt; # … with abbreviated variable names ¹​eye_color, ²​birth_year
 ```
 
@@ -10083,7 +10083,7 @@ starwars %&gt;% slice_max(mass, n = 3)
 
 ---
 
-# .orange[REORDENAR] filas: rearrange()
+# .orange[REORDENAR] filas: arrange()
 
 .pull-left[
 
@@ -10297,9 +10297,9 @@ starwars %&gt;% slice_sample(n = 3)
 &gt; # A tibble: 3 × 14
 &gt;   name         height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
 &gt;   &lt;chr&gt;         &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
-&gt; 1 Lobot           175    79 none    light   blue         37 male  mascu… Bespin 
-&gt; 2 Ayla Secura     178    55 none    blue    hazel        48 fema… femin… Ryloth 
-&gt; 3 Ratts Tyere…     79    15 none    grey, … unknown      NA male  mascu… Aleen …
+&gt; 1 Jabba Desil…    175  1358 &lt;NA&gt;    green-… orange      600 herm… mascu… Nal Hu…
+&gt; 2 Tion Medon      206    80 none    grey    black        NA male  mascu… Utapau 
+&gt; 3 Jocasta Nu      167    NA white   fair    blue         NA fema… femin… Corusc…
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
@@ -10315,9 +10315,9 @@ starwars %&gt;% slice_sample(n = 3)
 &gt; # A tibble: 3 × 14
 &gt;   name         height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
 &gt;   &lt;chr&gt;         &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
-&gt; 1 Saesee Tiin     188    NA none    pale    orange       NA male  mascu… Iktotch
-&gt; 2 San Hill        191    NA none    grey    gold         NA male  mascu… Muunil…
-&gt; 3 Barriss Off…    166    50 black   yellow  blue         40 fema… femin… Mirial 
+&gt; 1 Rugor Nass      206    NA none    green   orange       NA male  mascu… Naboo  
+&gt; 2 Jek Tono Po…    180   110 brown   fair    blue         NA male  mascu… Bestin…
+&gt; 3 Finis Valor…    170    NA blond   fair    blue         91 male  mascu… Corusc…
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
@@ -10339,14 +10339,14 @@ starwars %&gt;%
 &gt; # A tibble: 8 × 14
 &gt;   name         height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
 &gt;   &lt;chr&gt;         &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
-&gt; 1 Finn             NA    NA black   dark    dark         NA male  mascu… &lt;NA&gt;   
-&gt; 2 Dooku           193    80 white   fair    brown       102 male  mascu… Serenno
-&gt; 3 Palpatine       170    75 grey    pale    yellow       82 male  mascu… Naboo  
-&gt; 4 Dud Bolt         94    45 none    blue, … yellow       NA male  mascu… Vulpter
-&gt; 5 Jabba Desil…    175  1358 &lt;NA&gt;    green-… orange      600 herm… mascu… Nal Hu…
-&gt; 6 Captain Pha…     NA    NA unknown unknown unknown      NA &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt;   
-&gt; 7 Raymus Anti…    188    79 brown   light   brown        NA male  mascu… Aldera…
-&gt; 8 Obi-Wan Ken…    182    77 auburn… fair    blue-g…      57 male  mascu… Stewjon
+&gt; 1 Mon Mothma      150  NA   auburn  fair    blue       48   fema… femin… Chandr…
+&gt; 2 Tion Medon      206  80   none    grey    black      NA   male  mascu… Utapau 
+&gt; 3 Boba Fett       183  78.2 black   fair    brown      31.5 male  mascu… Kamino 
+&gt; 4 Jek Tono Po…    180 110   brown   fair    blue       NA   male  mascu… Bestin…
+&gt; 5 Padmé Amida…    165  45   brown   light   brown      46   fema… femin… Naboo  
+&gt; 6 Wilhuff Tar…    180  NA   auburn… fair    blue       64   male  mascu… Eriadu 
+&gt; 7 Taun We         213  NA   none    grey    black      NA   fema… femin… Kamino 
+&gt; 8 Zam Wesell      168  55   blonde  fair, … yellow     NA   fema… femin… Zolan  
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld

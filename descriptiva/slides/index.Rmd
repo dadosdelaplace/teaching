@@ -6676,7 +6676,7 @@ starwars %>% slice_max(mass, n = 3) %>% select(name:hair_color)
 
 ---
 
-# .orange[REORDENAR] filas: rearrange()
+# .orange[REORDENAR] filas: arrange()
 
 .pull-left[
 
