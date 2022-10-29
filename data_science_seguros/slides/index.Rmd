@@ -5649,6 +5649,331 @@ starwars %>%
 
 ---
 
+
+name: complementos-II
+
+class: inverse
+
+
+# COMPLEMENTOS
+
+#### [Generando muestras aleatorias](#sample)
+
+#### [Operaciones con matrices](#apply)
+
+&nbsp;
+
+# EJERCICIOS Y ENTREGA
+
+#### [Ejercicios extras](#ejercicios-II)
+
+#### [Entrega II](#entrega-II)
+
+---
+
+name: sample
+
+
+# Simulando muestras: .orange[SAMPLE]
+
+La función `sample()` nos permitirá **.bg-purple_light[generar muestras aleatorias]** indicando cuál es la **.bg-purple_light[función de probabilidad]** asociada] (generar **«tiradas de dados»** indicando cuál es la **probabilidad** de cada cara).
+
+* `x`: **.bg-purple_light[soporte]** (valores permitidos, caras del dado).
+* `size`: **.bg-purple_light[tamaño]** (número de tiradas)
+* `replace`: **.bg-purple_light[¿con reemplazamiento?]** (¿puede salir un elemento que ya ha salido?)
+* `prob`: **.bg-purple_light[vector de probabilidades]** (probabilidad de cada cara)
+
+--
+
+Por ejempo, vamos a simular **.bg-purple_light[2 tiradas de una moneda]**, indicando el soporte (0 y 1, cara y cruz), y `size = 2`
+
+```{r}
+sample(x = 0:1, size = 2)
+```
+
+**.bg-red_light[IMPORTANTE]**: si no indicamos nada en el vector de probabilidades `prob`, asume que son equiprobables (en este caso, $1/2$ para cada cara).
+
+
+---
+
+# Simulando muestras: .orange[SAMPLE]
+
+Fíjate que tampoco le hemos indicado nada en `replace`, ya que por defecto toma el valor `FALSE`. ¿Qué sucede si hubiésemos querido generar 10 tiradas de una moneda?
+
+```{r error = TRUE}
+sample(x = 0:1, size = 10)
+```
+
+--
+
+&nbsp;
+
+Dado que solo tenemos 2 posibles valores a elegir, y le hemos pedido 10 tiradas, al llegar a la segunda **.bg-purple_light[no tiene opciones de seguir eligiendo]**. Para poder generarlas deberemos asignar `replace = TRUE` (ahora podrán repetirse las caras).
+
+
+```{r}
+# 30 tiradas
+sample(x = 0:1, size = 30, replace = TRUE)
+```
+
+---
+
+# Simulando muestras: .orange[SAMPLE]
+
+El soporte no solo tiene porqué ser numérico, sino que podríamos definir un **.bg-purple_light[soporte de valores de texto]**, de forma que asignemos en los posibles valores directamente `"cara"` y `"cruz"`
+
+```{r}
+sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
+```
+
+--
+
+El comando `sample()` nos genera **.bg-purple_light[valores (pseudo) aleatorios]**, por lo que si volvemos a ejecutar la misma órden tendremos (seguramente) **.bg-red_light[valores diferentes]**.
+
+```{r}
+sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
+```
+
+---
+
+# Simulando muestras: .orange[SAMPLE]
+
+Si quisiéramos generar resultados que no dependiesen de la aleatoriedad de una muestra simulada (por ejemplo, para ver si un método es mejor que otro), tenemos la opción de **.bg-purple_light[fijar semilla]** (valor inicial usado para generar el mecanismo de pseudoaleatoriedad).
+
+```{r}
+set.seed(1234567)
+sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
+```
+
+
+```{r}
+set.seed(1234567)
+sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
+```
+
+```{r}
+set.seed(1234567)
+sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
+```
+
+---
+
+
+# Simulando muestras: .orange[SAMPLE]
+
+
+De esta manera podemos **.bg-purple_light[simular una gran cantidad de datos]** y ver cómo evoluciona por ejemplo la media muestral.
+
+> ¿Cómo hacer uso de un bucle para generar 1 tirada, 2 tiradas, 3 tiradas, ..., 25 tiradas (con `sample()`), y guardar la media de caras?
+
+--
+
+```{r}
+tiradas <- 1:25
+media <- rep(0, length(tiradas))
+
+for (i in tiradas) {
+  
+  tirada <- sample(x = c("cara", "cruz"), size = i, replace = TRUE)
+  media[i] <- sum(tirada == "cruz") / i
+
+}
+media
+```
+
+---
+
+
+# Simulando muestras: .orange[SAMPLE]
+
+
+Esto nos permite comprobar de primera mano algo muy importante a la hora de simular: nuestra muestra será (seguramente) distinta pero según  **.bg-purple_light[aumenta el tamaño muestral]**, los **.bg-purple_light[parámetros muestrales]** (media, por ejemplo) tenderán a los **.bg-purple_light[parámetros teóricos o poblacionales]** (la media si aumentamos el tamaño debería tender a $0.5$).
+
+
+```{r}
+tiradas <- c(1, 5, 10, 15, 25, 50, 100, 500, 1000, 5000,
+             10000, 25000, 50000, 100000, 200000, 500000)
+media <- rep(0, length(tiradas))
+
+for (i in 1:length(tiradas)) {
+  
+  tirada <- sample(x = c(0, 1), size = tiradas[i], 
+                   replace = TRUE)
+  media[i] <- mean(tirada)
+
+}
+media
+```
+
+
+Lo anterior se debe al **.bg-purple_light[TEOREMA CENTRAL DEL LÍMITE]**
+
+
+---
+
+name: apply
+
+# .orange[OPERACIONES] por filas/columnas
+
+Normalmente, para explicar las **operaciones con matrices** en un lenguaje de programación al uso, necesitaríamos hablar de una **herramienta llamada bucles**. Lo mencionaremos más adelante pero no los vamos a necesitar de momento (cuántos menos los usemos en `R`, mejor)
+
+--
+
+Imagina que tuviésemos nuestra matriz de estaturas y pesos.
+
+```{r}
+datos_matriz <- cbind(estaturas, pesos)
+datos_matriz
+```
+
+--
+
+¿Cómo podemos **.bg-purple_light[aplicar una operación para cada una de las filas o columnas]** de una matriz?
+
+---
+
+# .orange[OPERACIONES] por filas/columnas
+
+Imagina que queremos obtener la **.bg-purple_light[media de cada columna]**. Lo haremos con la función `apply()`, y le indicaremos como argumentos la matriz, el **.bg-orange[sentido de la operación]** (`MARGIN = 1` por filas, `MARGIN = 2` por columnas) y la **función a aplicar**
+
+```{r}
+# Media (mean) por columnas (MARGIN = 2)
+apply(datos_matriz, MARGIN = 2, FUN = "mean")
+```
+
+--
+
+Si la función **requiere de argumentos extras** se lo podemos indicar al final.
+
+```{r}
+estaturas_bis <- c(150, NA, 170, 180, 190)
+datos_matriz_bis <- cbind(estaturas_bis, pesos) 
+apply(datos_matriz_bis, MARGIN = 2, FUN = "mean")
+```
+
+---
+
+name: ejercicios-II
+
+# Ejercicios extras
+
+La entrega de dicho ejercicios tienen de deadline antes de la próxima clase y son **.bg-purple_light[voluntarios]** (no contará para la nota). A cambio el alumno que lo haga recibirá una corrección de la tarea.
+
+.panelset[
+
+.panel[.panel-name[Matrices]
+
+* 📝 **Ejercicio 1**:  el siguiente código define una matriz de dimensiones `4 x 3` y calcula la suma por columnas. Modifica el código para que realice la suma por filas.
+ 
+```{r eval = FALSE}
+matriz <- matrix(1:12, nrow = 4)
+apply(matriz, MARGIN = 2, FUN = "sum")
+```
+
+* 📝 **Ejercicio 2**: tomando la matriz del ejercicio anterior, accede a la segunda variable. Accede al primer registro. Accede al valor de la tercera variable del segundo individuo.
+
+]
+.panel[.panel-name[Tibble]
+
+
+* 📝 **Ejercicio 1**: define un `tibble` con tres variables numéricas `a, b, c`, tal que la tercera sea el producto de las dos primeras `c = a * b`.
+
+* 📝 **Ejercicio 2**:  obten de los paquetes `{dplyr}` y `{gapminder}` los conjuntos de datos `starwars` y `gapminder`. Comprueba el número de variables, de registros e imprime los datos
+
+* 📝 **Ejercicio 3**: define un tibble que recopile datos de 5 personas de tu entorno (o inventadas) que incluyan su nombre, apellidos, código postal, edades, si están o no casados y su fecha de boda (si no están casados...piensa que valor tendría que tener).
+
+]
+
+
+.panel[.panel-name[Tidy data I]
+
+* 📝 **Ejercicio 1**: del paquete `{tidyr}` carga el dataset `oms` y busca en la ayuda (`? oms`) para ver que significan las variables (datos relacionados con casos de tuberculosis **desagregados por año, país, edad, género y el tipo**). Tras analizar la tabla, construye partir de ella una nueva con los mismos datos (no borres nada) pero recolocados de tal forma que sea tidydata
+
+```{r eval = FALSE}
+# Completa el código
+who1 <- who %>% pivot_...(...)
+who1
+```
+
+
+]
+
+.panel[.panel-name[Tidy data II]
+
+* 📝 **Ejercicio 2**: repite el ejercicio anterior pero eliminando las filas que tengan casos ausentes.
+
+
+* 📝 **Ejercicio 3**: echa un vistazo a la ayuda de `count()` y aplica dicha función para contar cuantos registros tienes de cada tipo de enfermedad.
+
+```{r eval = FALSE}
+# Completa el código
+who1 %>% count(...)
+```
+
+]
+
+.panel[.panel-name[Tidyverse I]
+
+* 📝 **Ejercicio 1**: selecciona aquellos personajes de `starwars` que hayan salido en la película "El ataque de los clones" ("Attack of the Clones"). Busca información de la función `str_detect()` del paquete `stringr`. 
+
+* 📝 **Ejercicio 2**: de los personajes que son humanos y miden más de 160 cm, elimina duplicados en color de ojos, elimina ausentes en peso y selecciona los 5 más altos. Devuelve la tabla.
+
+* 📝 **Ejercicio 3**: selecciona solo las variables `name`, `homeworld`, `species` y aquellas que sean de tipo numérico, y selecciona solo los personajes que no sean humanos y que pesen entre 70 y 90 kg.  Tras ello elimina datos ausentes, y elimina duplicados con el mismo valor en `homeworld`. Tras ello, recoloca variables para que la primera columna sea `name` y la segunda `birth_year`.
+
+]
+
+
+.panel[.panel-name[Tidyverse II]
+
+* 📝 **Ejercicio 1**: sobre la base de datos original de `starwars`, filtra solo aquellos personajes de la familia `"Skywalker"` o `"Antilles"`, selecciona solo las columnas de `name` y `specie`, y renombra a castellano.
+
+* 📝 **Ejercicio 2**: obtén el personaje más viejo por cada sexo.
+
+* 📝 **Ejercicio 3**: obtén las frecuencias (absolutas) desagregadas por `sex` y `gender` y ordenados de mayor a menor aparición (investiga `? count`)
+
+* 📝 **Ejercicio 4**: filtra el conjunto original para que solo haya `sex = male` y  `sex = female`. Tras ello extrae un 50% de los datos pero manteniendo la proporción de hombres y mujeres.
+
+]
+
+]
+
+
+---
+
+name: entrega-II
+
+# .orange[ENTREGA II (35%)]
+
+Carga el entorno de paquetes `{tidyverse}` y usa los conjuntos de datos `billboard` y `who`. Deberás **.bg-purple_light[entregar completado]** el archivo `.Rmd` que tienes disponible en <https://github.com/dadosdelaplace/teaching/tree/main/data_science_seguros/eval/ENTREGA%202> **.bg-purple_light[antes de las 23:59 del 11 de diciembre]**, siguiendo las instrucciones contenidas en el mismo.
+
+```{r eval = FALSE}
+library(tidyr)
+who
+billboard
+```
+
+
+&nbsp;
+
+🔎 Mira antes <https://github.com/dadosdelaplace/teaching/tree/main/data_science_seguros/scripts> el ejemplo de entrega (con enunciados sin y con resolver) para realizarla correctamente (tras revisar las diapositivas de `.rmd`).
+
+---
+
+class: inverse center middle
+name: clase-3
+
+# CLASE 3: profundizando en tidyverse
+
+&nbsp;
+
+### [Creando variables](#mutate)
+
+### [Contar y agrupar](#count_group)
+
+### [Resumir](#summarise)
+
+---
+
 name: mutate
 
 
@@ -5905,6 +6230,8 @@ starwars %>%
 ]
 
 ---
+
+name: count_group
 
 # .orange[CONTAR]: group_by() + count()
 
@@ -6273,313 +6600,6 @@ starwars %>%
 ---
 
 
-name: complementos-II
-
-class: inverse
-
-# COMPLEMENTOS
-
-#### [Generando muestras aleatorias](#sample)
-
-#### [Operaciones con matrices](#apply)
-
-&nbsp;
-
-# EJERCICIOS Y ENTREGA
-
-#### [Ejercicios extras](#ejercicios-II)
-
-#### [Entrega II](#entrega-II)
-
----
-
-name: sample
-
-
-# Simulando muestras: .orange[SAMPLE]
-
-La función `sample()` nos permitirá **.bg-purple_light[generar muestras aleatorias]** indicando cuál es la **.bg-purple_light[función de probabilidad]** asociada] (generar **«tiradas de dados»** indicando cuál es la **probabilidad** de cada cara).
-
-* `x`: **.bg-purple_light[soporte]** (valores permitidos, caras del dado).
-* `size`: **.bg-purple_light[tamaño]** (número de tiradas)
-* `replace`: **.bg-purple_light[¿con reemplazamiento?]** (¿puede salir un elemento que ya ha salido?)
-* `prob`: **.bg-purple_light[vector de probabilidades]** (probabilidad de cada cara)
-
---
-
-Por ejempo, vamos a simular **.bg-purple_light[2 tiradas de una moneda]**, indicando el soporte (0 y 1, cara y cruz), y `size = 2`
-
-```{r}
-sample(x = 0:1, size = 2)
-```
-
-**.bg-red_light[IMPORTANTE]**: si no indicamos nada en el vector de probabilidades `prob`, asume que son equiprobables (en este caso, $1/2$ para cada cara).
-
-
----
-
-# Simulando muestras: .orange[SAMPLE]
-
-Fíjate que tampoco le hemos indicado nada en `replace`, ya que por defecto toma el valor `FALSE`. ¿Qué sucede si hubiésemos querido generar 10 tiradas de una moneda?
-
-```{r error = TRUE}
-sample(x = 0:1, size = 10)
-```
-
---
-
-&nbsp;
-
-Dado que solo tenemos 2 posibles valores a elegir, y le hemos pedido 10 tiradas, al llegar a la segunda **.bg-purple_light[no tiene opciones de seguir eligiendo]**. Para poder generarlas deberemos asignar `replace = TRUE` (ahora podrán repetirse las caras).
-
-
-```{r}
-# 30 tiradas
-sample(x = 0:1, size = 30, replace = TRUE)
-```
-
----
-
-# Simulando muestras: .orange[SAMPLE]
-
-El soporte no solo tiene porqué ser numérico, sino que podríamos definir un **.bg-purple_light[soporte de valores de texto]**, de forma que asignemos en los posibles valores directamente `"cara"` y `"cruz"`
-
-```{r}
-sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
-```
-
---
-
-El comando `sample()` nos genera **.bg-purple_light[valores (pseudo) aleatorios]**, por lo que si volvemos a ejecutar la misma órden tendremos (seguramente) **.bg-red_light[valores diferentes]**.
-
-```{r}
-sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
-```
-
----
-
-# Simulando muestras: .orange[SAMPLE]
-
-Si quisiéramos generar resultados que no dependiesen de la aleatoriedad de una muestra simulada (por ejemplo, para ver si un método es mejor que otro), tenemos la opción de **.bg-purple_light[fijar semilla]** (valor inicial usado para generar el mecanismo de pseudoaleatoriedad).
-
-```{r}
-set.seed(1234567)
-sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
-```
-
-
-```{r}
-set.seed(1234567)
-sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
-```
-
-```{r}
-set.seed(1234567)
-sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
-```
-
----
-
-
-# Simulando muestras: .orange[SAMPLE]
-
-
-De esta manera podemos **.bg-purple_light[simular una gran cantidad de datos]** y ver cómo evoluciona por ejemplo la media muestral.
-
-> ¿Cómo hacer uso de un bucle para generar 1 tirada, 2 tiradas, 3 tiradas, ..., 25 tiradas (con `sample()`), y guardar la media de caras?
-
---
-
-```{r}
-tiradas <- 1:25
-media <- rep(0, length(tiradas))
-
-for (i in tiradas) {
-  
-  tirada <- sample(x = c("cara", "cruz"), size = i, replace = TRUE)
-  media[i] <- sum(tirada == "cruz") / i
-
-}
-media
-```
-
----
-
-
-# Simulando muestras: .orange[SAMPLE]
-
-
-Esto nos permite comprobar de primera mano algo muy importante a la hora de simular: nuestra muestra será (seguramente) distinta pero según  **.bg-purple_light[aumenta el tamaño muestral]**, los **.bg-purple_light[parámetros muestrales]** (media, por ejemplo) tenderán a los **.bg-purple_light[parámetros teóricos o poblacionales]** (la media si aumentamos el tamaño debería tender a $0.5$).
-
-
-```{r}
-tiradas <- c(1, 5, 10, 15, 25, 50, 100, 500, 1000, 5000,
-             10000, 25000, 50000, 100000, 200000, 500000)
-media <- rep(0, length(tiradas))
-
-for (i in 1:length(tiradas)) {
-  
-  tirada <- sample(x = c(0, 1), size = tiradas[i], 
-                   replace = TRUE)
-  media[i] <- mean(tirada)
-
-}
-media
-```
-
-
-Lo anterior se debe al **.bg-purple_light[TEOREMA CENTRAL DEL LÍMITE]**
-
-
----
-
-name: apply
-
-# .orange[OPERACIONES] por filas/columnas
-
-Normalmente, para explicar las **operaciones con matrices** en un lenguaje de programación al uso, necesitaríamos hablar de una **herramienta llamada bucles**. Lo mencionaremos más adelante pero no los vamos a necesitar de momento (cuántos menos los usemos en `R`, mejor)
-
---
-
-Imagina que tuviésemos nuestra matriz de estaturas y pesos.
-
-```{r}
-datos_matriz <- cbind(estaturas, pesos)
-datos_matriz
-```
-
---
-
-¿Cómo podemos **.bg-purple_light[aplicar una operación para cada una de las filas o columnas]** de una matriz?
-
----
-
-# .orange[OPERACIONES] por filas/columnas
-
-Imagina que queremos obtener la **.bg-purple_light[media de cada columna]**. Lo haremos con la función `apply()`, y le indicaremos como argumentos la matriz, el **.bg-orange[sentido de la operación]** (`MARGIN = 1` por filas, `MARGIN = 2` por columnas) y la **función a aplicar**
-
-```{r}
-# Media (mean) por columnas (MARGIN = 2)
-apply(datos_matriz, MARGIN = 2, FUN = "mean")
-```
-
---
-
-Si la función **requiere de argumentos extras** se lo podemos indicar al final.
-
-```{r}
-estaturas_bis <- c(150, NA, 170, 180, 190)
-datos_matriz_bis <- cbind(estaturas_bis, pesos) 
-apply(datos_matriz_bis, MARGIN = 2, FUN = "mean")
-```
-
----
-
-name: ejercicios-II
-
-# Ejercicios extras
-
-La entrega de dicho ejercicios tienen de deadline antes de la próxima clase y son **.bg-purple_light[voluntarios]** (no contará para la nota). A cambio el alumno que lo haga recibirá una corrección de la tarea.
-
-.panelset[
-
-.panel[.panel-name[Matrices]
-
-* 📝 **Ejercicio 1**:  el siguiente código define una matriz de dimensiones `4 x 3` y calcula la suma por columnas. Modifica el código para que realice la suma por filas.
- 
-```{r eval = FALSE}
-matriz <- matrix(1:12, nrow = 4)
-apply(matriz, MARGIN = 2, FUN = "sum")
-```
-
-* 📝 **Ejercicio 2**: tomando la matriz del ejercicio anterior, accede a la segunda variable. Accede al primer registro. Accede al valor de la tercera variable del segundo individuo.
-
-]
-.panel[.panel-name[Tibble]
-
-
-* 📝 **Ejercicio 1**: define un `tibble` con tres variables numéricas `a, b, c`, tal que la tercera sea el producto de las dos primeras `c = a * b`.
-
-* 📝 **Ejercicio 2**:  obten de los paquetes `{dplyr}` y `{gapminder}` los conjuntos de datos `starwars` y `gapminder`. Comprueba el número de variables, de registros e imprime los datos
-
-* 📝 **Ejercicio 3**: define un tibble que recopile datos de 5 personas de tu entorno (o inventadas) que incluyan su nombre, apellidos, código postal, edades, si están o no casados y su fecha de boda (si no están casados...piensa que valor tendría que tener).
-
-]
-
-
-.panel[.panel-name[Tidy data I]
-
-* 📝 **Ejercicio 1**: del paquete `{tidyr}` carga el dataset `oms` y busca en la ayuda (`? oms`) para ver que significan las variables (datos relacionados con casos de tuberculosis **desagregados por año, país, edad, género y el tipo**). Tras analizar la tabla, construye partir de ella una nueva con los mismos datos (no borres nada) pero recolocados de tal forma que sea tidydata
-
-```{r eval = FALSE}
-# Completa el código
-who1 <- who %>% pivot_...(...)
-who1
-```
-
-
-]
-
-.panel[.panel-name[Tidy data II]
-
-* 📝 **Ejercicio 2**: repite el ejercicio anterior pero eliminando las filas que tengan casos ausentes.
-
-
-* 📝 **Ejercicio 3**: echa un vistazo a la ayuda de `count()` y aplica dicha función para contar cuantos registros tienes de cada tipo de enfermedad.
-
-```{r eval = FALSE}
-# Completa el código
-who1 %>% count(...)
-```
-
-]
-
-.panel[.panel-name[Tidyverse I]
-
-* 📝 **Ejercicio 1**: selecciona aquellos personajes de `starwars` que hayan salido en la película "El ataque de los clones" ("Attack of the Clones"). Busca información de la función `str_detect()` del paquete `stringr`. 
-
-* 📝 **Ejercicio 2**: de los personajes que son humanos y miden más de 160 cm, elimina duplicados en color de ojos, elimina ausentes en peso y selecciona los 5 más altos. Devuelve la tabla.
-
-* 📝 **Ejercicio 3**: selecciona solo las variables `name`, `homeworld`, `species` y aquellas que sean de tipo numérico, y selecciona solo los personajes que no sean humanos y que pesen entre 70 y 90 kg.  Tras ello elimina datos ausentes, y elimina duplicados con el mismo valor en `homeworld`. Tras ello, recoloca variables para que la primera columna sea `name` y la segunda `birth_year`.
-
-]
-
-
-.panel[.panel-name[Tidyverse II]
-
-* 📝 **Ejercicio 1**: sobre la base de datos original de `starwars`, filtra solo aquellos personajes de la familia `"Skywalker"` o `"Antilles"`, selecciona solo las columnas de `name` y `specie`, y renombra a castellano.
-
-* 📝 **Ejercicio 2**: obtén el personaje más viejo por cada sexo.
-
-* 📝 **Ejercicio 3**: obtén las frecuencias (absolutas) desagregadas por `sex` y `gender` y ordenados de mayor a menor aparición (investiga `? count`)
-
-* 📝 **Ejercicio 4**: filtra el conjunto original para que solo haya `sex = male` y  `sex = female`. Tras ello extrae un 50% de los datos pero manteniendo la proporción de hombres y mujeres.
-
-]
-
-]
-
-
----
-
-name: entrega-II
-
-# .orange[ENTREGA II (35%)]
-
-Carga el entorno de paquetes `{tidyverse}` y usa los conjuntos de datos `billboard` y `who`. Deberás **.bg-purple_light[entregar completado]** el archivo `.Rmd` que tienes disponible en <https://github.com/dadosdelaplace/teaching/tree/main/data_science_seguros/eval/ENTREGA%202> **.bg-purple_light[antes de las 23:59 del 11 de diciembre]**, siguiendo las instrucciones contenidas en el mismo.
-
-```{r eval = FALSE}
-library(tidyr)
-who
-billboard
-```
-
-
-&nbsp;
-
-🔎 Mira antes <https://github.com/dadosdelaplace/teaching/tree/main/data_science_seguros/scripts> el ejemplo de entrega (con enunciados sin y con resolver) para realizarla correctamente (tras revisar las diapositivas de `.rmd`).
-
----
 
 
 # .orange[RECURSOS] y .green[BIBLIOGRAFÍA]
