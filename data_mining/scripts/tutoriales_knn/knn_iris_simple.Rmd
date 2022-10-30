@@ -1,0 +1,794 @@
+---
+title: "Tutorial de knn en R: iris dataset"
+description: |
+  Flujo de trabajo paso a paso
+author:
+  - name: Javier Álvarez Liébana
+    url: https://javier-alvarez-liebana.github.io
+    affiliation: Universidad Complutense de Madrid
+    affiliation_url: 
+date: "`r Sys.Date()`"
+output:
+    distill::distill_article:
+        highlight: kate
+        colorlinks: true
+        code_folding: false
+        toc: true            
+        toc_depth: 3     
+---
+
+```{r setup, include = FALSE}
+# Ajuste comunes de los chunk
+knitr::opts_chunk$set(fig.width = 8, fig.asp = 1, out.width = "100%",
+                      message = FALSE, warning = FALSE,
+                      echo = TRUE, res = 400)
+```
+
+# Objetivo {#objetivo}
+
+El objetivo de este pequeño tutorial es saber aplicar un flujo de trabajo en el entorno `{tidymodels}` para poder implementar un algoritmo de clasificación knn en `R`. Puedes ver más detalles y funcionalidades en la web oficial del paquete: <https://www.tidymodels.org/>
+
+
+## Paquetes necesarios
+
+Necesitaremos los siguientes paquetes
+
+* **Análisis exploratorio numérico**: paquete `{skimr}`
+* **Depuración y preprocesamiento**: paquete `{tidyverse}`
+* **Modelización**: paquete `{tidymodels}` para modelos
+
+
+```{r paquetes}
+# Borramos
+rm(list = ls())
+
+# Paquetes
+library(skimr) # resumen numérico
+library(tidymodels) # depuración datos
+library(tidyverse) # modelos
+```
+
+# Datos {#datos}
+
+Los datos utilizados en este primer tutorial será el famoso dataset conocido como `iris`, que pasaremos a formato tibble nada más empezar
+
+```{r carga-datos}
+iris <- as_tibble(iris)
+glimpse(iris)
+```
+
+## Análisis exploratorio (numérico)
+
+Antes de tomar ninguna decisión con los datos lo primero que deberíamos hacer es **echar un vistazo numérico** a cómo se comportan las variables. Dado que vamos a clasificar, lo primero que deberíamos observar es como se distribuyen los niveles de nuestra variable objetivo.
+
+```{r}
+# Objetivo: predecir la especie de las plantas
+iris %>% count(Species) %>% mutate(porc = 100 * n / sum(n))
+```
+
+Además con la función `skim()` del paquete `{skimr}` podemos **extraer algunas estadísticas básicas** de nuestros datos.
+
+```{r skim}
+# Resumen numérico
+iris %>% skim()
+```
+
+
+
+# Primer flujo de trabajo: knn
+
+## Filosofía tidymodels
+
+La idea detrás de `{tidymodels}` es **tratar por separado** la depuración y preparación de los datos, el modelo o paradigma de aprendizaje que se quiere aplicar, la optimización de los parámetros de dicho modelo, el ajuste, la evaluación y la predicción correspondiente, **creando un flujo de trabajo muy flexible**. La **filosofía es la misma que hay detrás de cocinar un plato**:
+
+1. Primero **escribimos la receta**, una lista de pasos e instrucciones.
+2. Después **preparamos la herramientas y utensilios para cocinar** (nuestro modelo).
+3. Con la **receta + utensilios** podemos cocinar el plato muchas veces, con **distintos lotes de ingredientes (datos)**.
+
+También podemos aplicar una receta distinta a distintos ingredientes, o incluso combinar partes de dos recetas. La idea es que tengamos guardado, y explícitamente detallado, cada uno de los componentes, para poder **combinarlos entre ellos**.
+
+## Fase 1: muestreo y particiones
+
+* Muestreo inicial.
+* Partición train-test estratificada por la variable objetivo.
+
+Una de las **primeras acciones a realizar** es un **muestreo inicial** de los datos, que en este caso no será necesario por la poca cantidad de registros disponibles, así que empezaremos directaemnte con una **partición train-test** estratificado por la variable `Species`: repartiremos en **70-30%** los datos **PERO asegurándonos de que la proporción de 0's-1's se preserva**.
+
+```{r sample, warning = FALSE}
+# Partición 70-30%: estratificada para que mantenga clases
+# con el argumento pool podemos afinar mejor la estratificación
+# para hacerla más exacta (por ejemplo, pool = 0.05)
+iris_split <- initial_split(iris, strata = Species, prop = 0.7)
+iris_split
+```
+
+En `iris_split` tenemos **guardada la información** de lo que queremos hacer cuando lo apliquemos, pero hasta que no se aplique no realiza ninguna acción.
+
+```{r split}
+iris_train <- training(iris_split)
+iris_test  <- testing(iris_split)
+
+# Comprobamos estratos
+iris_train %>% count(Species) %>% mutate(porc = 100 * n / sum(n))
+iris_test %>% count(Species) %>% mutate(porc = 100 * n / sum(n))
+```
+
+**Reminder**: los conjuntos que salen de `initial_split()` siguen a lo largo de todo el proceso (pero en conjuntos separados).
+
+
+## Fase 2: exploración
+
+### Resumen numérico: skim
+
+Con `skim()`, del paquete `{skimr}`, podemos realizar un **primer análisis numérico** muy sencillo, haciendo uso de la función `skim()`
+
+```{r}
+library(skimr)
+iris %>% skim()
+```
+
+No parece que tengamos **problemas de codificación o rango**: los valores parecen valores permitidos según lo que representa la variable. Además tampoco tenemos **datos ausentes**, ya que `complete_rate` sale en todas 1 (`n_missing` está a cero). A la vista de los pequeños histogramas y los percentiles, no parece que tengamos **xcesivos valores atípicos (outliers)** (al menos muy evidentes, además la mediana y media se parecen entre sí). Quizás la **variable con mayor dispersión** sea `Petal.Length`.
+
+
+Además todas las **variables predictoras son numéricas**: recordemos que para aplicar las métricas que conocemos en el KNN **necesitamos que sean numéricas**. En caso contrario nos tocaría **recategorizar**
+
+
+### Balanceamiento de la variable objetivo
+
+
+Una vez que hemos echado un vistazo a qué tenemos (de forma muy muy preliminar), lo primero a hacer en un **problema de clasificación** es determinar **cuál es nuestra variable objetivo**: nuestra variable $Y$ que vamos a clasificar, y que debe ser categórica. En este caso nuestra variable objetivo será la variable `Species`: vamos a intentar clasificar las flores, siendo la variable objetivo una variable que puede tomar 3 categorías (algo que podemos ver y resumir con `count()`).
+
+```{r}
+iris %>% count(Species)
+```
+
+En nuestro caso la variable objetivo está **.bg-purple_light[balanceada]**: tenemos proporciones similares para cada una de las modalidades.
+
+### Importancia de las variables: objetivo vs predictores
+
+
+Otra de las acciones clave será analizar cómo se **comporta la variable objetivo en función de los valores de cada variable**. ¿La longitud del sépalo media es similar en cada especie de planta? ¿Y la anchura del pétalo? Con ello podremos tener una idea preliminar de la **importancia de las variables** en la clasificación. Para ello combinaremos `group_by()` con `summarise()` (nos construye resúmenes numéricos, con la función que le pidamos).
+
+
+```{r}
+iris %>%
+  group_by(Species) %>% 
+  summarise("mean_long_sep" = mean(Sepal.Length)) %>% 
+  ungroup()
+```
+
+
+Podemos hacer varias a la vez usando `across()`: le tendremos que indicar las variables a recorrer, y la función a aplicar en todas ellas.
+
+```{r}
+iris %>%
+  group_by(Species) %>%
+  summarise(mean = across(Sepal.Length:Petal.Width, mean)) %>% 
+  ungroup()
+```
+
+
+Si nos fijamos en cada una de ellas:
+
+* Las **variables relacionadas con el sépalo** no parece que cambien mucho de una especie a otra: seguramente **no sean influyentes]** en nuestra clasificación.
+
+* Las **variables relacionadas con el pétalo** si parecen ser determinantes ya que la especie setosa tiene valores muy pequeños. Seguramente lo más complicado sea clasificar entre versicolor y virginica (se diferencia muy ligeramente)
+
+
+### Colinealidad
+
+Otro de los aspectos a considerar antes de tomar decisiones será **analizar la relación entre las variables]**, empezando por la posible relación lineal, calculando la matriz de correlaciones con las herramientas de la librería `{corrr}`. **Importante**: solo podemos pasarle las variables numéricas de la tabla.
+
+```{r}
+library(corrr)
+correlate(iris %>% select(where(is.numeric)))
+```
+
+
+La matriz de correlaciones será **siempre simétrica** y en la diagonal siempre será 1 (podemos indicarle que queremos que nos muestre con el argumento `diagonal = ...`). La matriz de correlaciones será **siempre simétrica** y en la diagonal siempre será 1 (podemos indicarle que queremos que nos muestre con el argumento `diagonal = ...`)
+
+
+```{r}
+correlate(iris %>% select(where(is.numeric)), diagonal = "*")
+```
+
+También podemos mostrarla algo más estética **redondeando los valores** con `fashion()`
+
+```{r}
+correlate(iris %>% select(where(is.numeric))) %>% fashion()
+```
+
+Incluso visualizarla con el paquete `{corrplot}`
+
+```{r}
+library(corrplot)
+cor_matrix <- cor(iris %>% select(where(is.numeric)))
+corrplot(cor_matrix)
+```
+
+
+```{r}
+corrplot(cor_matrix, method = "number")
+```
+
+```{r}
+corrplot(cor_matrix, method = "color")
+```
+
+
+
+```{r}
+corrplot(cor_matrix, method = "ellipse")
+```
+
+
+
+En este caso tenemos dos variables muy correlacionadas: `Petal.Length` y `Petal.Width`, con una correlación de casi 1, lo que nos indica que nos van a aportar **información redundante** una de la otra, provocando **problemas de colinealidad**.
+
+Nuestro caso ideal sería aquel en el que todas fuesen independientes (o al menos incorreladas entre sí, sin dependencia lineal), para **maximizar la información de los datos**. Si dos variables nos aportan lo mismo, una seguramente sobre (ya que solo nos va a aportar ruido). Veremos más adelante otras herramientas para cuantificar la dependencia (no solo lineal, y no solo de variables cuanti)
+
+También aprenderemos a **visualizar los datos**, un paso CLAVE en el análisis exploratorio y la depuración, pero más adelante.
+
+## Fase 3: modificación
+
+
+
+* Asignar roles
+* Recategorizar
+* Tratamiento de outliers
+* Tratamiento de datos ausentes
+* Tratamiento de fechas
+* Selección de variables
+* Filtro de correlación
+* Filtro de varianza cero
+* Estandarización por rango y/o normalización (tipificación)
+  
+  
+La lista de arriba son **algunas de las opciones que quizás querramos hacer** con nuestras variables antes de poder aplicar un modelo. Todo ello lo incluiremos en una recta, y vamos a empezar en este primer tutorial por una **receta sencilla**
+
+
+### Definición de la recta
+
+Con la información obtenida de la anterior fase, en la **fase de modificación o depuración** es donde tendremos que tomar decisiones para **preparar nuestros datos** de manera adecuada. Y para ello será **fundamental conocer el algoritmo** que vamos a aplicar. 
+
+El primer paso en nuestra receta será indicarle en `recipe()` los **datos** y la **«fórmula»** de nuestro modelo (en nuestro caso le indicaremos que vamos la objetivo será `Species` frente al resto de predictoras numéricas). La receta **guardará los roles**: 4 predictoras y 1 objetivo
+
+```{r}
+iris_rec <-
+  # Fórmula y datos
+  recipe(data = iris_train, Species ~ .)
+iris_rec
+iris_rec %>% summary()
+```
+
+### Asignar roles
+
+Dicha receta la hemos llamado `iris_rec` ya que **podemos querer aplicarla** para preprocesar antes de aplicar distintos modelos de clasificación  (árboles, knn, etc): aunque el modelo sea distinto, **la receta previa puede ser la misma**. Vamos a complicar un poco nuestra receta **indicándole algunos roles especiales en nuestros datos** (los roles son fundamentales ya que dependiendo del rol asignado podremos «llamar» a nuestras variables).
+
+* `update_role()`: actualizar el rol de la variable (lo machaca el que existiese).
+* `add_role()`: añadir rol a la variable (amén de los que ya tuviese asignados).
+* `remove_role()`: eliminar rol.
+
+Dado que el tratamiento de outliers lo estamos haciendo de manera distinta en las variables de sépalo que en las de pétalo, lo primero que haremos es **asignar** roles (sin eliminar el rol de predictor que ya tiene, así que lo haremos con `add_role()`)
+
+```{r}
+iris_rec <-
+  iris_rec %>%
+  # Roles
+  add_role(starts_with("Sepal"), new_role = "sepal") %>% 
+  add_role(starts_with("Petal"), new_role = "petal")
+iris_rec
+iris_rec %>% summary()
+```
+
+
+En este caso además todas las variables son numéricas y no hay aparentemente problemas de codificación. Fíjate que **nuestra receta no ha realizado ningún paso**, es algo así como la **receta escrita que tenemos guardada en un cajón** para preparar un plato: la receta por sí sola no se pone a cocinarte menús, simplemente es una lista de instrucciones, lista para cuando la necesites. Las funciones que empiezan por `step_` tienen implementadas muchas de las funcionalidades que podemos realizar en depuración con `{tidyverse}`. La diferencia al incluirlo en la receta es que **se ejecutará cada vez que dicha receta se aplique (tanto a train como a test)**.
+
+### Tratamiento de outliers (tidyverse)
+
+Una de las partes más importantes de la fase de exploración y modificación es la **detección de outliers**, pudiendo tener diferentes definiciones de valor atípico:
+
+#### Respecto a media
+
+* **Atípico respecto a media**: será un dato muy alejado de la **media de la variable**. ¿Cuánto de alejado? Una definición habitual es definir un dato atípico como aquel que se aleja de la media $k$ veces la desviación típica (un valor habitual es $k = 2.5$).
+
+$$x_i > \overline{x} + k* s_{j} \quad \text{ o bien } \quad x_i < \overline{x} - k *s_{j}$$
+
+Dicha definición de atípico solo tendrá sentido cuando la **media sea representativa** de tu distribución, es decir, siempre y cuando tengamos cierta simetría (ya que sino, la media al ser poco robusta se perturbará fácilmente).
+
+
+Para detectarlos usaremos el paquete `{outliers}` y su función `scores()`, que nos dará en cada caso una **"puntuación" de cada observación**. En caso de que queramos **detectarlos respecto a la media**, le indicaremos que `type = "z"`: nos devolverá precisamente el valor $k$ (si aplicamos valor absoluto), ya que hará cada observación menos la media y la dividirá entre la desviación típica.
+
+
+```{r}
+library(outliers)
+abs(scores(c(1, -1, 0, 5, 2, 1.5, 0.5, -0.3, 0, 2, 1.7, 0.2, -0.8), type = "z"))
+```
+
+De forma que podamos detectar muy fácil los outliers en función de los estrictos que queramos ser con ese $k$. El tipo `type = "chisq"` nos hace algo parecido pero elevando las desviaciones al cuadrado y diviendo por la varianza.
+
+
+
+En el caso de nuestros datos, usaremos $k = 2.5$, y detectaremos aquellos datos que son outliers para luego pasarlos a un **valor ausente**.
+
+```{r warning = FALSE}
+iris_na_outliers <- 
+  iris %>% 
+  mutate(Sepal.Width =
+           ifelse(abs(scores(Sepal.Width, type = "z")) > 2.5,
+                  NA, Sepal.Width))
+iris_na_outliers
+```
+
+```{r}
+iris_na_outliers %>% filter(is.na(Sepal.Width))
+```
+
+Tras ello tendremos **dos opciones**: **eliminar** dichas observaciones o **imputar la media** sin los ausentes (dado que los hemos detectado con la media)
+
+```{r}
+# opción 1
+iris_outliers <-
+  iris_na_outliers %>% 
+  mutate(Sepal.Width =
+           ifelse(is.na(Sepal.Width), mean(Sepal.Width, na.rm = TRUE), Sepal.Width))
+```
+
+```{r}
+# opción 2
+iris_outliers <- iris_na_outliers %>% drop_na(Sepal.Width)
+```
+
+
+Si queremos hacer esto con varias variables a la vez, tendremos que usar de nuevo `across()`
+
+```{r}
+iris_na_outliers <-
+  iris %>% 
+  mutate(across(Sepal.Length:Petal.Width,
+                function(x) { ifelse(abs(scores(x, type = "z")) > 2.5, NA, Sepal.Length) }))
+```
+
+
+Con `if_any()` dentro del `filter()` podemos mostrar todo los registros detectados como outlier en alguna variable.
+
+```{r}
+iris_na_outliers %>% filter(if_any(Sepal.Length:Petal.Width, is.na))
+```
+
+Tras su detección y análisis podemos o imputarles a todos la media (de la variable en cuestión) o eliminarlos.
+
+```{r}
+# opción 1
+iris_outliers <-
+  iris_na_outliers %>% 
+  mutate(across(Sepal.Length:Petal.Width,
+                function(x) { ifelse(is.na(x), mean(x, na.rm = TRUE), x) }))
+```
+
+
+```{r}
+# opción 2
+iris_outliers <-
+  iris_na_outliers %>% drop_na()
+```
+
+
+
+#### Respecto a mediana
+
+* **Atípico respecto a mediana**: será un dato muy alejado de la **mediana de la variable**. ¿Cuánto de alejado? Una definición habitual (conocido como **filtro de Hampel**) es definir un dato atípico como aquel que se aleja de la mediana $k$ veces la mediana de las desviaciones absolutas (conocida como $MAD = Me \left(\left| x_i - Me_x \right| \right)$). Un valor habitual es $k = 3$.
+
+$$x_i > Me_{x} + k*MAD\quad \text{ o bien } \quad x_i< Me_{x} - k*MAD$$
+
+Para ello nos bastará usar `scores()` con `type = "mad"` (y nos devolverá de nuevo ese $k$).
+
+```{r}
+abs(scores(c(1, -1, 0, 5, 2, 1.5, 0.5, -0.3, 0, 2, 1.7, 0.2, -0.8), type = "mad"))
+```
+
+El **valor a imputar sería la mediana**
+
+
+#### Respecto a percentiles
+
+
+* **Atípico respecto a percentiles**: será un dato muy alejado de los **cuartiles de la variable**. ¿Cuánto de alejado? Una definición habitual es definir un dato atípico como aquel que se aleja de los cuartiles 1 y 3 (percentiles 25 y 75) $k$ veces el rango intercuartílico ($IQR = Q_3 - Q_1$). Un valor habitual es $k = 1.5$).
+
+$$x_i > Q_3 + k* IQR \quad \text{ o bien } \quad x_i < Q_1 - k*IQR$$
+
+Para ello nos bastará usar `scores()` con `type = "iqr"` (y nos devolverá de nuevo ese $k$, siendo $k = 0$ para lo que esté dentro del IQR).
+
+```{r}
+abs(scores(c(1, -1, 0, 5, 2, 1.5, 0.5, -0.3, 0, 2, 1.7, 0.2, -0.8), type = "iqr"))
+```
+
+El **valor a imputar sería la mediana**
+
+
+#### Métodos basados en inferencia
+
+Existen otros procedimientos **basados en inferencia estadística** (muchos de ellos en el paquete `{outliers}`)
+
+* **Tests de Grubbs y Dixon**: ambos test nos permiten **detectar si el valor más alto (o bajo)** de una varibale es un outlier, pudiendo detectar un solo outlier en cada iteración (en caso de detectarlo, deberíamos tratarlo y volver a ejecutar el test)
+
+$\mathcal{H}_0: \text{valor más alto/bajo no es outlier}$
+
+$\mathcal{H}_1: \text{ valor más alto/bajo sí es outlier}$
+
+
+&nbsp;
+
+El test de Dixon (basado en una ordenación) suele funcionar mejor cuando tenemos poca muestra que el test de Grubbs (basado en la media).
+
+📚 Ver más documentación de su funcionamiento en <https://www.itl.nist.gov/div898/handbook/eda/section3/eda35h1.htm> y <https://www.statisticshowto.com/dixons-q-test/>
+
+
+
+Por ejemplo, para el de Dixon existe `dixon.test()`
+
+```{r}
+x <- c(1, -1, 0, 5, 2, 1.5, 0.5, -0.3, 0, 2, 1.7, 0.2, -0.8)
+dixon.test(x, opposite = TRUE) # valor más bajo
+```
+
+```{r}
+x <- c(1, -1, 0, 5, 2, 1.5, 0.5, -0.3, 0, 2, 1.7, 0.2, -0.8)
+dixon.test(x, opposite = FALSE) # valor más alto
+```
+
+
+* **Test de Rosner**: al contrario que los anteriores, nos permite **detectar varios outliers** a la vez, especialmente diseñado para evitar que un valor atípico nos perturbe tanto que nos enmascare otro (basado en la media). Podemos ejecutarlo con la función `rosnerTest()` del paquete `{EnvStats}`.
+
+&nbsp;
+
+**IMPORTANTE**: la detección de outliers deberá combinar el análisis numérico y la visualización.
+
+📚 Ver más documentación de su funcionamiento en <https://vsp.pnnl.gov/help/vsample/rosners_outlier_test.htm>
+
+
+### Tratamiento de outliers (tidymodels)
+
+Lo que haremos a continuación será **detectar outliers** (transformando dichos outliers a `NA`)
+
+```{r}
+iris_rec <-
+  iris_rec %>% 
+  # Detectar outliers
+  step_mutate(across(starts_with("Sepal"), function(x) { ifelse(abs(scores(x, type = "z")) > 2.5, NA, x) }),
+              across(starts_with("Petal"), function(x) { ifelse(abs(scores(x, type = "mad")) > 3, NA, x) }))
+  
+iris_rec
+iris_rec %>% summary()
+```
+
+### Tratamiento de ausentes
+
+Y decidiremos cómo **.bg-purple_light[tratar los ausentes]** (los existentes y los generados al detectar los outliers). Tenemos muchísimas funciones para ello (ver `step_impute_...()`):
+
+
+* `step_impute_mean()`, `step_impute_median()` y `step_impute_mode()`: imputamos por media, mediana o moda.
+
+* `step_impute_knn()`: usaremos un knn previo para imputar los ausentes.
+
+* `step_impute_bag()`: usaremos un árbol o conjunto de árboles para imputar los ausentes.
+
+
+* `step_impute_linear()`: usaremos una regresión lineal para imputar ausentes
+
+```{r}
+iris_rec <-
+  iris_rec %>% 
+  # Imputar ausentes
+  step_impute_mean(has_role("sepal")) %>% 
+  step_impute_median(has_role("petal"))
+
+iris_rec
+iris_rec %>% summary()
+```
+
+Fíjate la **utilidad de los roles**: con `has_role()` podemos indicarle a qué variables aplicar la acción.
+
+### Filtro de correlación
+
+Para tratar los **problemas de colinealidad** usaremos directamente `step_corr()`, al que le tendremos que pasar un umbral en `threshold`: se queda solo con una variable de todo par de variables cuya **correlación en valor absoluto supere el umbral** (en este caso usaremos `all_numeric_predictors()` para considerar solo las predictoras numéricas)
+
+
+```{r}
+iris_rec <-
+  iris_rec %>% 
+  # Filtro de correlación
+  step_corr(all_numeric_predictors(), threshold = 0.9) 
+  
+iris_rec
+iris_rec %>% summary()
+```
+
+### Normalización
+
+Por último, dado que el knn es un **algoritmo que usa una distancia (geométrica en nuestro caso)**, necesitamos que **todas las variables tengan el mismo peso inicial**, así que vamos a **estandarizar las numéricas por rango** con `step_range()` (siempre entre 0 y 1, aunque podríamos asignarle otro rango dando valores a `max` y `min`). Con `step_normalize()` normalizaríamos (media nula y varianza unitaria).
+
+$$x_{range} = \frac{x - min(x)}{max(x) - min(x)}, \quad x_{normalize} = \frac{x - \overline{x}}{s_{x}}$$
+
+Lo haremos con `step_range()` para que nos **normalice por rango** las variables predictoras que sean numéricas.
+
+```{r}
+iris_rec <-
+  iris_rec %>% 
+  # Normalizar por rango
+  step_range(all_numeric_predictors())
+
+iris_rec
+iris_rec %>% summary()
+```
+
+### Filtro de varianza cero
+
+Por último añadiremos siempre un último **filtro de cero varianza** para que nos elimine las variables con varianza constante.
+
+```{r}
+iris_rec <-
+  iris_rec %>% 
+  # Filtro de cero varianza
+  step_zv(all_predictors())
+
+iris_rec
+iris_rec %>% summary()
+```
+
+### Receta final: horneado (bake)
+
+La receta final completa sería por tanto la siguiente
+
+```{r}
+iris_rec <-
+  # Fórmula y datos
+  recipe(data = iris_train, Species ~ .) %>%
+  # Roles
+  add_role(starts_with("Sepal"), new_role = "sepal") %>% 
+  add_role(starts_with("Petal"), new_role = "petal") %>% 
+  # Detectar outliers
+  step_mutate(across(starts_with("Sepal"), function(x) { ifelse(abs(scores(x, type = "z")) > 2.5, NA, x) }),
+              across(starts_with("Petal"), function(x) { ifelse(abs(scores(x, type = "mad")) > 3, NA, x) })) %>% 
+  # Imputar ausentes
+  step_impute_mean(has_role("sepal")) %>% 
+  step_impute_median(has_role("petal")) %>% 
+  # Filtro de correlación
+  step_corr(all_numeric_predictors(), threshold = 0.9) %>% 
+  # Normalizar por rango
+  step_range(all_numeric_predictors()) %>% 
+  # Filtro de cero varianza
+  step_zv(all_predictors())
+
+iris_rec
+iris_rec %>% summary()
+```
+
+Una vez que la **receta está diseñada** una buena práctica para evitar errores es comprobar que se ejecuta correctamente (y qué no sucede nada raro) en el conjunto de entrenamiento. Tras escribir la receta vamos a **prepararla** (con `prep()`) y a **hornear los datos** con `bake()`: para hornearla en el conjunto de train, basta con poner `new_data = NULL`.
+
+```{r bake}
+# Aplicada a train
+bake(iris_rec %>% prep(), new_data = NULL)
+
+# Aplicada a test
+bake(iris_rec %>% prep(), new_data = iris_test)
+```
+
+Nuestra receta, aplicada a nuestros ingredientes, está lista. Este «horneado» con `bake()` solo lo necesitamos **si queremos ya aplicar la receta a nuestros datos**. Nosotros, al añadir ahora un modelo de clasificación, **incluiremos la receta en un flujo de trabajo**.
+
+## Fase 4: modelización
+
+### Definición del modelo (utensilios de cocina)
+
+Una vez que tenemos nuestra lista de instrucciones escrita, lo siguiente que haríamos al **cocinar un plato** es buscar los utensilios necesarios: cuchillos, cacerolas, batidora, etc. En nuestro caso los **utensilios serán nuestro modelo (en este caso de clasificación)**, con `nearest_neighbor()` (echa un vistazo a los modelos del paquete `{parsnip}`). La idea del **algoritmo de los k-vecinos (knn)** es muy similar al **proceso que seguiríamos para decidir si vemos o no una película**: preguntaríamos a un número de conocidos (parámetro k), decidiríamos si ir o no en función de la mayoría de opiniones, y no trataríamos todas las opiniones por igual (dependiendo de la cercanía o afinidad, ponderaríamos las opiniones).
+
+En `nearest_neighbor()` especificaremos los siguientes argumentos (de momento):
+
+- `mode`: admite dos opciones, `mode = "classification"` o `mode = "regression"` (en nuestro caso `mode = "classification"`).
+- `neighbors`: el número de vecinos `k` que consideramos como entorno de vecindad para asignar una categoría a los datos.
+- `weight_func`: función (kernel) para promedir distancias (`weight_func = "inv"` nos promedia por el inverso de la distancia, vecinos más alejados valen menos en la asignación; ver opciones en <https://epub.ub.uni-muenchen.de/1769/>)
+- `dist_power`: número $r$ de la distancia de Minkowski ($r = 2$ es la distancia euclídea)
+
+$$D_{Minkow}(\boldsymbol{x}, \boldsymbol{y}) = \left(\sum_{i=1}^{p} \left|x_i - y_i \right|^r\right)^{1/r}, \quad \boldsymbol{x} = \left(x_1, \ldots, x_p\right),~ \boldsymbol{y} = \left(y_1, \ldots, y_p \right)$$
+
+
+Con `set_engine("kknn")` le **especificaremos en concreto el «motor» (el paquete)** que contiene las herramientas matemáticas necesarias con el que realizaremos el ajuste.
+
+```{r knn}
+knn_model <-
+  nearest_neighbor(mode = "classification", neighbors = 10,
+                   weight_func = "inv", dist_power = 2) %>%
+  set_engine("kknn") # el «motor» que realiza el ajuste
+knn_model
+```
+
+### Flujo de trabajo
+
+Llegados a este punto tenemos
+
+* Tenemos una **receta para preprocesar los datos**, una lista de instrucciones.
+* Tenemos los **utensilios (modelo)**.
+* Tenemos los **ingredientes (datos) ya preparados** (muestreo, partición, etc).
+
+Con dichos ingredientes podemos crear ya un **flujo de trabajo** con `workflow()`
+
+```{r flujo}
+# Flujo de trabajo
+iris_wflow <-
+  workflow() %>%
+  add_recipe(iris_rec) %>%
+  add_model(knn_model)
+iris_wflow
+```
+
+En `hoteles_wflow` tenemos guardada la receta y los pasos que vamos a ejecutar para preparar nuestro «plato». 
+
+### Ajuste
+
+Dichos pasos vamos a **proporcionárselos a nuestro conjunto de entrenamiento** para que nos **aplique el flujo de trabajo** que hemos construido, realizando el ajuste con `fit(data = iris_train)`.
+
+
+```{r fit-knn-1}
+# Aplicamos flujo
+iris_knn_fit <- iris_wflow %>% fit(data = iris_train)
+iris_knn_fit
+```
+
+Dicho ajuste guardado en `iris_knn_fit` podemos usarlo para **predecir el conjunto test** de dos maneras:
+
+* **Clase**
+* **Probabilidades** (de pertenencia a dichas clases, que realmente es el objetivo de estos modelos, predecir esas probabilidades de pertenencia)
+
+Ambas se hacen con `predict()` pasándole un argumento de `type` diferente. **Reminder**: al tenerlo todo integrado en un flujo, **aplicará el procesamiento que necesite al conjunto de test**, tal cual lo hemos indicado en las instrucciones.
+
+```{r predict-knn-1}
+# Predecir el conjunto test: devuelve la clase
+predict(iris_knn_fit, iris_test)
+
+# Predecir las probabilidades (las necesitamos para la ROC)
+predict(iris_knn_fit, iris_test, type = "prob")
+```
+
+
+Dentro del paquete `{parsnip}` que hemos cargado dentro de `{tidymodels}` tenemos a nuestra disposición una función llamada `augment()` que nos permite **incluir en una misma tabla las predicciones de la clase, de las probabilidades y los datos de test originales** (añadiendo columnas).
+
+```{r augment}
+# Para obtener las probabilidades en los datos (con variables)
+prob_test <- augment(iris_knn_fit, iris_test)
+prob_test
+```
+
+## Fase 5: evaluación y predicción
+
+**¿Cómo evaluar nuestro ajuste en base a las predicciones en nuestro conjunto test?** En realidad el conjunto de test solo deberíamos usarlo al final del proceso, no como evaluación intermedia de los hiperparámetros, ya que dicho rol le corresponde a un **tercer conjunto de validación**, pero de momento vamos a simplificarlo en train-test.
+
+Una de las formas más sencillas de **evaluar un método de clasificación es con una matriz de confusión**: una matriz que nos cruce las frecuencias de las etiquetas reales frente a las predichas. En `conf_mat()` le tendremos que especificar donde está la etiqueta real (estamos en supervisado y la conocemos) y la predicción de la clase de pertenencia, guardada si te fijas en el dataset anterior en la variable `.pred_class` (pero que podemos cambiarle de nombre)
+
+```{r}
+# Matriz de confusión: etiqueta real vs etiqueta predicha
+conf_mat_test <-
+  prob_test %>%
+  rename(pred_specie = .pred_class) %>% 
+  conf_mat(truth = Species, estimate = pred_specie)
+conf_mat_test 
+
+# La guardamos en una tabla
+conf_mat_test_table <- as_tibble(conf_mat_test$table)
+conf_mat_test_table
+```
+
+De dicha matriz de confusión podemos **obtener la mayoría de métricas de validación**. Si llamamos $TP$ y $TN$ a los **verdaderos positivos y negativos** (registros que eran 0/1 y fueron clasificados como tal), y $FP$ y $FN$ a los **falsos positivos** (un 0 clasificado como 1) y **falsos negativos** (un 1 clasificado como 0), tenemos:
+
+* **Prevalencia**: proporción de los datos que realmente son 1's  $\frac{P}{P + N} = \frac{P}{todos}$.
+
+* **Sensibilidad** (sensitivity, recall, hit rate, o tasa de verdaderos positivos TPR): proporción de los 1's que han sido clasificados como tal  $\frac{TP}{TP + FN} = \frac{TP}{positivos}$.
+
+* **Tasa de falsos negativos** (miss rate FNR): proporción de los 1's mal clasificados  $\frac{FN}{TP + FN} = \frac{FN}{positivos} = 1 - sensibilidad$
+
+* **Especificidad** (specificity, selectivity o tasa de verdaderos negativos TNR): proporción de los 0's que han sido clasificados como tal  $\frac{TN}{FP + TN} = \frac{TN}{negativos}$.
+
+* **Tasa de falsos positivos** (fall-out FPR): proporción de los 0's mal clasificados  $\frac{FP}{TN + FP} = \frac{FP}{negativos} = 1 - especificidad$
+
+* **Precisión** (positive predictive value PPV): proporción de los 1's asignados por el modelo bien clasificados  $\frac{TP}{TP + FP} = \frac{TP}{\text{clasificados como positivos}}$
+
+* **Valor predictivo negativo** (negative predictive value NPV): proporción de los 0's asignados por el modelo bien clasificados  $\frac{TN}{TN + FN} = \frac{TN}{\text{clasificados como negativos}}$
+
+* **False discovery rate** (FDR): proporción de los 1's asignados por el modelo mal clasificados  $\frac{FP}{TP + FP} = \frac{FP}{\text{clasificados como positivos}} = 1 - precision$
+
+* **Tasa de mal clasificados** (MISC): proporción de los datos bien clasificados (ya sean 0's o 1's)  $\frac{FP + FN}{TP + TN + FP + FN} = \frac{FP + FN}{todos}$
+
+* **Tasa de bien clasificados** (accuracy ACC): proporción de los datos bien clasificados (ya sean 0's o 1's)  $\frac{TP + TN}{P + N} = \frac{TP + TN}{todos} = 1 - MISC$
+
+Dichas **métricas las podemos obtener automáticamente** de la matriz de confusión, haciendo uso de `summary()`
+
+```{r}
+# Matriz de confusión + resumen: etiqueta real vs etiqueta predicha
+metricas <- conf_mat_test %>% summary()
+metricas
+```
+
+
+Fíjate que aunque no sea un problema de clasificación binaria nos proporciona métricas como la sensibilidad y especificidad: lo que es, **para cada clase, construir una matriz de confusión** (ser setosa vs no serlo, ser virginica vs no serlo, ser versicolor vs no serlo), y devuelve la **media de las tres sensibilidad o especificidades**
+
+
+
+
+
+# Código completo
+
+Te dejo el código completo 
+
+```{r eval = FALSE}
+# Partición 70-30% de train y test
+iris_split <- initial_split(iris, strata = Species, prop = 0.7)
+iris_split
+
+# Aplicamos partición
+iris_train <- training(iris_split)
+iris_test  <- testing(iris_split)
+
+# Comprobamos estratos
+iris_train %>% count(Species) %>% mutate(porc = 100 * n / sum(n))
+iris_test %>% count(Species) %>% mutate(porc = 100 * n / sum(n))
+
+# Receta
+iris_rec <-
+  # Fórmula y datos
+  recipe(data = iris_train, Species ~ .)%>%
+  # Roles
+  add_role(starts_with("Sepal"), new_role = "sepal") %>% 
+  add_role(starts_with("Petal"), new_role = "petal")%>% 
+  # Detectar outliers
+  step_mutate(across(starts_with("Sepal"),
+                     function(x) { ifelse(abs(scores(x, type = "z")) > 2.5, NA, x) }),
+              across(starts_with("Petal"),
+                     function(x) { ifelse(abs(scores(x, type = "mad")) > 3, NA, x) }))%>% 
+  # Imputar ausentes
+  step_impute_mean(has_role("sepal")) %>% 
+  step_impute_median(has_role("petal"))%>% 
+  # Filtro de correlación
+  step_corr(all_numeric_predictors(), threshold = 0.9)%>% 
+  # Normalizar por rango
+  step_range(all_numeric_predictors())%>% 
+  # Filtro de cero varianza
+  step_zv(all_predictors()) # Aplicada a train
+
+# Horneado para comprobar que todo ok
+bake(iris_rec %>% prep(), new_data = NULL)
+bake(iris_rec %>% prep(), new_data = iris_test)
+
+# Modelo knn
+knn_model <-
+  nearest_neighbor(mode = "classification", neighbors = 10,
+                   weight_func = "inv", dist_power = 2) %>%
+  set_engine("kknn") # el «motor» que realiza el ajuste
+
+# Flujo
+iris_wflow <-
+  workflow() %>%
+  add_recipe(iris_rec) %>%
+  add_model(knn_model)
+
+# Ajuste
+iris_knn_fit <- iris_wflow %>% fit(data = iris_train)
+
+# Predecir el conjunto test: devuelve la clase
+predict(iris_knn_fit, iris_test)
+
+# Predecir las probabilidades (las necesitamos para la ROC)
+predict(iris_knn_fit, iris_test, type = "prob")
+
+# Incluir predicciones en tabla
+prob_test <- augment(iris_knn_fit, iris_test)
+
+# Matriz de confusión: etiqueta real vs etiqueta predicha
+conf_mat_test <-
+  prob_test %>%
+  rename(pred_specie = .pred_class) %>% 
+  conf_mat(truth = Species, estimate = pred_specie)
+conf_mat_test 
+
+# Métricas en test
+metricas <- conf_mat_test %>% summary()
+metricas
+```

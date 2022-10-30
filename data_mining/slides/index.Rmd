@@ -263,6 +263,12 @@ class: inverse center middle
 
 #### [CLASE 5: PRIMER ALGORITMO DE CLASIFICACIÓN (KNN)](#clase-5)
 
+#### [CLASE 5: PRIMER ALGORITMO DE CLASIFICACIÓN (KNN)](#clase-5)
+
+#### [CLASE 6: DEPURACIÓN PARA KNN](#clase-6)
+
+#### [CLASE 7: MODELIZANDO CON TIDYMODELS (KNN)](#clase-7)
+
 ---
 
 class: inverse center middle
@@ -8705,25 +8711,1814 @@ $$\tilde{x}_{i,j} = \frac{x_{i,j} - \overline{x}_j}{\sigma_j}$$
 
 ---
 
+class: inverse center middle
+name: clase-6
+
+# CLASE 6: depuración para KNN
+
+&nbsp;
+
+
+### [Factores](#factores)
+
+### [Fase 1: muestreo](#sample-iris)
+
+### [Fase 2: exploración](#exploracion-iris)
+
+### [Fase 3: modificación/depuración](#depuracion-iris)
+
+
+---
+
+# Primer conjunto: iris
+
+Para empezar con la implementación de nuestro primer **.bg-purple_light[algoritmo de clasificación]** vamos a usar un conjunto simple y conocido: el iris.
+
+```{r}
+iris <- as_tibble(iris)
+iris
+```
+
+---
+
+# .orange[EXPLORACIÓN] inicial
+
+Dentro de esa metodología SEMMMA hay una fase muy importante: la **.bg-purple_light[fase exploratoria]**. Aunque más adelante podemos volver a realizarla, una vez realizado el muestro, lo conveniente sería una **.bg-purple_light[análisis exploratorio previo]** a los datos en bruto.
+
+
+--
+
+* `View()`: el primer paso debería ser ver nuestra tabla para tener una idea preliminar de nuestros datos.
+
+```{r eval = FALSE}
+iris %>% View()
+```
+
+---
+
+# .orange[EXPLORACIÓN] inicial
+
+
+* `glimpse()`: también podemos ejecutar algunos comandos que nos permiten saber rápidamente el **.bg-purple_light[número de registros y variables]** que tenemos, así como el **.bg-purple_light[tipo de variables]** que tenemos. En nuestro caso tenemos **.bg-purple_light[5 variables]**: 4 variables numéricas (cuantitativas continuas) y una **.bg-purple_light[variable categórica]** (de tipo factor).
+
+```{r}
+dim(iris)
+iris %>% glimpse()
+```
+
+---
+
+name: factores
+
+
+# Variables cuali: .orange[FACTORES]
+
+.pull-left[
+
+Las variables cualitativas se conocen en `R` como **.bg-purple_light[factores]**. Y el paquete fundamental para tratarlos es `{forcats}` (del entorno `{tidyverse}`). 
+
+]
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "100%", fig.align = "left"}
+knitr::include_graphics("./img/factors.jpg")
+``` 
+
+]
+
+---
+
+# Variables cuali: .orange[FACTORES]
+
+Este paquete nos permite fijar los **.bg-purple_light[niveles/modalidades]** (guardados internamente como `levels`) que toma una determinada variable categórica para que no puedan generarse errores. Además hace que su análisis sea menos costoso computacionalmente a la hora de hacer búsquedas y comparativas, dándoles un **.bg-purple_light[tratamiento diferente que a las cadena de texto normales]**.
+
+--
+
+Veamos un ejempo sencillo definiendo una variable `estado` que tome los valores `"sano"`, `"leve"` y `"grave"` de la siguiente manera.
+
+```{r}
+estado <-
+  c("leve", "grave", "sano", "sano", "leve", "sano", "sano", "grave",
+    "grave", "leve", "grave", "sano", "sano")
+estado
+```
+
+La variable `estado` actualmente es de **.bg-purple_light[tipo texto]**, de tipo `chr`, algo que podemos comprobar con `class(estado)`.
+
+```{r}
+class(estado)
+```
+
+---
+
+# Variables cuali: .orange[FACTORES]
+
+
+Desde un punto de vista estadístico y computacional, para `R` esta variable ahora mismo sería equivalente una variable de nombres. Pero estadísticamente **.bg-purple_light[no es lo mismo una variable con nombres]** (que identifican muchas veces el registro) que una variable categórica como estado que **.bg-purple_light[solo puede tomar esos 3 niveles]**. ¿Cómo **.bg-purple_light[convertir a factor]**? Haciendo uso de la función `as_factor()` del paquete `{forcats}`.
+
+--
+
+```{r}
+library(tidyverse)
+estado_fct <- tibble(paciente = 1:length(estado),
+                     estado = as_factor(estado))
+estado_fct
+```
+
+---
+
+# Variables cuali: .orange[FACTORES]
+
+
+No solo ha cambiado la clase de la variable sino que ahora, debajo del valor guardado, nos aparece la frase `Levels: grave leve sano`: son las **.bg-purple_light[modalidades o niveles]** de nuestra cualitativa. Imagina que ese día en el hospital no tuviésemos a **nadie en estado grave**: aunque ese día nuestra variable no tome dicho valor, el estado `grave` es un **.bg-purple_light[nivel permitido en la base de datos]**, así que aunque lo eliminemos, por ser un factor, el nivel permanece (no lo tenemos ahora pero es un nivel permitido).
+
+
+```{r}
+estado_fct %>% 
+  filter(estado %in% c("sano", "leve")) %>% 
+  pull(estado)
+```
+
+---
+
+# Variables cuali: .orange[FACTORES]
+
+
+Con `factor()` podemos **.bg-purple_light[especificar explícitamente]** los nombres de las modalidades, incluso si son nominales u **.bg-purple_light[ordinales]**
+
+```{r}
+estado_fct <-
+  tibble(paciente = 1:length(estado),
+         estado = factor(estado, ordered = TRUE))
+estado_fct %>% pull(estado)
+```
+
+---
+
+# Variables cuali: .orange[FACTORES]
+
+
+Con  `levels = ...` podemos indicarle explícitamente el **.bg-purple_light[orden de las modalidades]**
+
+```{r}
+estado_fct <-
+  tibble(paciente = 1:length(estado),
+         estado = factor(estado,
+                         levels = c("sano", "leve", "grave"),
+                         ordered = TRUE))
+estado_fct %>% pull(estado)
+```
+
+
+
+---
+
+# Variables cuali: .orange[FACTORES]
+
+
+.pull-left[
+
+Si queremos indicarle que **.bg-purple_light[elimine un nivel no usado]** en ese momento (y que queremos excluir de la definición) podemos hacerlo con `fct_drop()`
+
+]
+
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "100%", fig.align = "left"}
+knitr::include_graphics("./img/drop_factor.jpg")
+``` 
+
+]
+
+```{r}
+estado_fct %>% 
+  filter(estado %in% c("sano", "leve")) %>% 
+  mutate(estado = fct_drop(estado)) %>% 
+  pull(estado)
+```
+
+---
+
+# Variables cuali: .orange[FACTORES]
+
+.pull-left[
+
+Al igual que podemos eliminar niveles podemos **.bg-purple_light[ampliar los niveles existentes]** (aunque no existan datos de ese nivel en ese momento) con `fct_expand()`
+
+
+]
+
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "100%", fig.align = "left"}
+knitr::include_graphics("./img/factor_expand.jpg")
+``` 
+
+]
+
+```{r}
+estado_fct %>% 
+  mutate(estado = fct_expand(estado, c("UCI", "fallecido"))) %>% 
+  pull(estado)
+```
+
+---
+
+# Variables cuali: .orange[FACTORES]
+
+.pull-left[
+
+Además con `fct_explicit_na()` podemos **.bg-purple_light[asignar un nivel a los valores]** para que sea incluido dicho nivel en los análisis y visualizaciones.
+
+
+]
+
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "100%", fig.align = "left"}
+knitr::include_graphics("./img/factor_explicit.jpg")
+``` 
+
+]
+
+```{r}
+fct_explicit_na(factor(c("a", "b", NA)))
+```
+
+---
+
+# Variables cuali: .orange[FACTORES]
+
+
+Incluso una vez definidos podemos **.bg-purple_light[reordenar los níveles]** con `fct_relevel()`
+
+
+```{r}
+estado_fct_expand <- 
+  estado_fct %>% 
+  mutate(estado = fct_expand(estado, c("UCI", "fallecido"))) %>% 
+  pull(estado)
+
+estado_fct_expand %>%
+  fct_relevel(c("fallecido", "leve", "sano",
+                "grave", "UCI"))
+  
+```
+
+
+---
+
+# Variables cuali: .orange[FACTORES]
+
+.pull-left[
+
+Esta forma de trabajar con variables cualitativas nos permite dar una **.bg-purple_light[definición teórica]** de nuestra base de datos, pudiendo incluso contar valores que aún no existen (pero que podrían), haciendo uso de `fct_count()`
+
+]
+
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "70%", fig.align = "left"}
+knitr::include_graphics("./img/fct_count.jpg")
+``` 
+
+]
+
+```{r}
+estado_fct %>% 
+  mutate(estado = fct_expand(estado, c("UCI", "fallecido"))) %>% 
+  pull(estado) %>% 
+  fct_count()
+```
+
+
+---
+
+# Variables cuali: .orange[FACTORES]
+
+
+Los níveles también podemos **.bg-purple_light[ordenarlos por frecuencia]** con `fct_infreq()`
+
+```{r}
+estado_fct %>% 
+  mutate(estado = fct_infreq(estado)) %>% 
+  pull(estado) %>% 
+  fct_count()
+```
+
+---
+
+# Variables cuali: .orange[FACTORES]
+
+
+A veces querremos **.bg-purple_light[agrupar niveles]**, por ejemplo, no permitiendo niveles que **.bg-purple_light[no sucedan un mínimo de veces]** con `fct_lump_min(.., min = ..)` (las observaciones que no lo cumplan irán a un **nivel genérico** llamado `Other`, aunque se puede cambiar con el argumento `other_level`). 
+
+.pull-left[
+
+
+```{r}
+estado_fct %>% 
+  pull(estado) %>% 
+  fct_lump_min(min = 4)
+```
+
+]
+
+.pull-right[
+
+```{r}
+estado_fct %>% 
+  pull(estado) %>% 
+  fct_lump_min(min = 4,
+               other_level = "otros")
+```
+
+]
+
+---
+
+# Variables cuali: .orange[FACTORES]
+
+
+Podemos hacer algo equivalente pero en función de su **.bg-purple_light[frecuencia relativa]** con `fct_lump_prop()`.
+
+
+```{r}
+estado_fct %>% 
+  pull(estado) %>% 
+  fct_lump_prop(prop = 0.4,
+                other_level = "otros")
+```
+
+
+---
+
+# Variables cuali: .orange[FACTORES]
+
+Con `fct_reorder()` podemos también indicar que queremos **.bg-purple_light[ordenar los factores]** en función de una función aplicada a otra variable.
+
+
+```{r}
+starwars_factor <- 
+  starwars %>% 
+  drop_na(height, species) %>% 
+  mutate(species =
+           fct_lump_min(species, min = 3,
+                        other_level = "Otras"))
+```
+
+.pull-left[
+
+```{r}
+starwars_factor %>% pull(species)
+```
+
+]
+
+.pull-right[
+
+```{r}
+starwars_factor %>%
+  mutate(species = fct_reorder(species, height, mean)) %>% 
+  pull(species)
+```
+
+]
+
+
+---
+
+# Ejercicios (factores)
+
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+* 📝 **Ejercicio 1**: dada la variable `meses` definida debajo (definida como un vector de caracteres), convierte dicha variable a factor (solo eso)
+
+```{r}
+meses <- c("Ene", "Feb", "Mar", "Abr")
+```
+  
+* 📝 **Ejercicio 2**:  dada la variable `meses` definida debajo convierte dicha variable a factor pero indicando los niveles de forma correcta.
+
+```{r}
+meses <- c(NA, "Abr", "Ene", "Oct", "Jul", "Ene", "Sep", NA, "Feb", "Dic",
+           "Jul", "Mar", "Ene", "Mar", "Feb", "Abr", "May", "Oct", "Sep",  NA,
+           "Dic", "Jul", "Nov", "Feb", "Oct", "Jun", "Sep", "Oct", "Oct", "Sep")
+```
+
+  
+* 📝 **Ejercicio 3**: cuenta cuantos valores hay de cada mes pero teniendo en cuenta que son factores (quizás haya niveles sin ser usados y de los que debería obtener un 0).
+
+]
+
+.panel[.panel-name[Sol. ej. 1]
+
+```{r}
+meses <- c("Ene", "Feb", "Mar", "Abr")
+meses_fct <- as_factor(meses)
+meses_fct
+```
+
+
+
+]
+
+.panel[.panel-name[Sol. ej. 2]
+
+```{r}
+meses <- c(NA, "Abr", "Ene", "Oct", "Jul", "Ene", "Sep", NA, "Feb", "Dic",
+           "Jul", "Mar", "Ene", "Mar", "Feb", "Abr", "May", "Oct", "Sep",  NA,
+           "Dic", "Jul", "Nov", "Feb", "Oct", "Jun", "Sep", "Oct", "Oct", "Sep")
+
+# Orden de niveles correcto e incluimos agosto aunque no haya
+meses_fct <-
+  factor(meses,
+         levels = c("Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"))
+meses_fct
+```
+
+]
+
+.panel[.panel-name[Sol. ej. 3]
+
+```{r}
+meses_fct %>% fct_count()
+```
+
+]
+
+]
+
+---
+
+# Ejercicios (factores)
+
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+* 📝 **Ejercicio 4**: dado que hay ausentes, indica que los ausentes sea un decimotercer nivel etiquetado como "ausente".
+
+* 📝 **Ejercicio 5**: elimina los niveles no usados.
+
+* 📝 **Ejercicio 6**: ordena los niveles por frecuencia de aparición.
+  
+* 📝 **Ejercicio 7**:  agrupa niveles de forma que todo nivel que no aparezca al menos el 7% de las veces se agrupe en un nivel llamado "otros meses"
+]
+
+.panel[.panel-name[Sol. ej. 4]
+
+```{r}
+meses_fct <- 
+  meses_fct %>%
+  fct_explicit_na(na_level = "ausente")
+meses_fct
+```
+
+]
+
+.panel[.panel-name[Sol. ej. 4]
+
+```{r}
+meses_fct <- 
+  meses_fct %>%
+  fct_drop()
+meses_fct
+```
+
+]
+
+.panel[.panel-name[Sol. ej. 6]
+
+```{r}
+meses_fct %>% 
+  fct_infreq()
+```
+
+]
+
+.panel[.panel-name[Sol. ej. 7]
+
+```{r}
+meses_fct <-
+  meses_fct %>% 
+  fct_lump_prop(prop = 0.07, other_level = "otros")
+meses_fct
+```
+
+]
+]
+
+---
+
+name: exploracion-inicial
+
+# .orange[EXPLORACIÓN] inicial
+
+* `skim()`: con el paquete `{skimr}` podemos realizar un **.bg-purple_light[primer análisis numérico]** muy sencillo, haciendo uso de la función `skim()`
+
+```{r eval = FALSE}
+library(skimr)
+iris %>% skim()
+```
+
+---
+
+# ¿Cuál es nuestra variable .orange[OBJETIVO]?
+
+Una vez que hemos echado un vistazo a qué tenemos (de forma muy muy preliminar), lo primero a hacer en un **.bg-purple_light[problema de clasificación]** es determinar **.bg-purple_light[cuál es nuestra variable objetivo]**: nuestra variable $Y$ que vamos a clasificar, y que debe ser categórica.
+
+--
+
+En este caso nuestra variable objetivo será la **.bg-purple_light[variable Species]**: vamos a intentar clasificar las flores, siendo la variable objetivo una variable que puede tomar 3 categorías (algo que podemos ver y resumir con `count()`).
+
+```{r}
+iris %>% count(Species)
+```
+
+En nuestro caso la variable objetivo está **.bg-purple_light[balanceada]**: tenemos proporciones similares para cada una de las modalidades.
+
+---
+
+name: sample-iris
+
+# Fase 1: .orange[MUESTREO]
+
+La primera fase de la **.bg-purple_light[metodología SEMMA]** será decidir si es necesario realizar un **.bg-purple_light[muestreo]** previo (una submuestra de la muestra). ¿Cómo haríamos un **.bg-purple_light[muestro aleatorio estratificado del 50%]**, respetando la proporción de cada clase de la variable objetivo?
+
+--
+
+```{r}
+iris_sample <-
+  iris %>% group_by(Species) %>%
+  slice_sample(prop = 0.5) %>% 
+  ungroup()
+iris_sample %>% count(Species)
+```
+
+En nuestro caso: ¿es necesario? No parece dado que tenemos **.bg-purple_light[muy pocas observaciones]**, así que trabajaremos con la tabla iris original.
+
+---
+
+name: exploracion-iris
+
+# Fase 2: .orange[EXPLORACIÓN]
+
+Como ya hemos comentado, una **.bg-purple_light[primera fase exploratoria]** la podemos realizar con `skim()` (del paquete `{skimr}`).
+
+```{r eval = FALSE}
+library(skimr)
+iris %>% skim()
+```
+
+```{r echo = FALSE,  out.width = "75%", fig.align = "center"}
+knitr::include_graphics("./img/skim.jpg")
+``` 
+
+---
+
+# Fase 2: .orange[EXPLORACIÓN]
+
+* No parece que tengamos **.bg-purple_light[problemas de codificación o rango]**: los valores parecen valores permitidos según lo que representa la variable.
+
+--
+
+* No tenemos **.bg-purple_light[datos ausentes]** (no hace falta decidir que hacemos con ellos), ya que `complete_rate` sale en todas 1 (`n_missing` está a cero).
+
+--
+
+* A la vista de los pequeños histogramas y los percentiles, no parece que tengamos **.bg-purple_light[excesivos valores atípicos (outliers)]** (al menos muy evidentes, además la mediana y media se parecen entre sí). Quizás la **.bg-purple_light[variable con mayor dispersión]** sea `Petal.Length`.
+
+--
+
+* Todas las **.bg-purple_light[variables predictoras son numéricas]**: recordemos que para aplicar las métricas que conocemos en el KNN **.bg-purple_light[necesitamos que sean numéricas]**. En caso contrario nos tocaría **.bg-purple_light[recategorizar]**
+
+---
+
+# Fase 2: .orange[EXPLORACIÓN]
+
+
+Otra de las acciones clave será analizar cómo se **.bg-purple_light[comporta la variable objetivo en función de los valores de cada variable]**. ¿La longitud del sépalo media es similar en cada especie de planta? ¿Y la anchura del pétalo? Con ello podremos tener una idea preliminar de la **.bg-purple_light[importancia de las variables]** en la clasificación. Para ello combinaremos `group_by()` con `summarise()` (nos construye resúmenes numéricos, con la función que le pidamos).
+
+--
+
+```{r}
+iris %>%
+  group_by(Species) %>% 
+  summarise("mean_long_sep" = mean(Sepal.Length)) %>% 
+  ungroup()
+```
+
+---
+
+# Fase 2: .orange[EXPLORACIÓN]
+
+Podemos hacer varias a la vez usando `across()`: le tendremos que indicar las variables a recorrer, y la función a aplicar en todas ellas.
+
+```{r}
+iris %>%
+  group_by(Species) %>%
+  summarise(mean = across(Sepal.Length:Petal.Width, mean)) %>% 
+  ungroup()
+```
+
+---
+
+# Fase 2: .orange[EXPLORACIÓN]
+
+```{r}
+iris %>%
+  group_by(Species) %>%
+  summarise(mean = across(Sepal.Length:Petal.Width, mean)) %>% 
+  ungroup()
+```
+
+Si nos fijamos en cada una de ellas:
+
+* Las **.bg-purple_light[variables relacionadas con el sépalo]** no parece que cambien mucho de una especie a otra: seguramente **.bg-purple_light[no sean influyentes]** en nuestra clasificación.
+
+* Las **.bg-purple_light[variables relacionadas con el pétalo]** si parecen ser determinantes ya que la especie setosa tiene valores muy pequeños. Seguramente lo más complicado sea clasificar entre versicolor y virginica (se diferencia muy ligeramente)
+
+
+---
+
+# Fase 2: .orange[EXPLORACIÓN]
+
+
+Otro de los aspectos a considerar antes de tomar decisiones será **.bg-purple_light[analizar la relación entre las variables]**, empezando por la posible relación lineal, calculando la matriz de correlaciones con las herramientas de la librería `{corrr}`. **.bg-red_light[Importante]**: solo podemos pasarle las variables numéricas de la tabla.
+
+```{r}
+library(corrr)
+correlate(iris %>% select(where(is.numeric)))
+```
+
+---
+
+# Fase 2: .orange[EXPLORACIÓN]
+
+
+```{r}
+library(corrr)
+correlate(iris %>% select(where(is.numeric)))
+```
+
+
+La matriz de correlaciones será **siempre simétrica** y en la diagonal siempre será 1 (podemos indicarle que queremos que nos muestre con el argumento `diagonal = ...`)
+
+---
+
+# Fase 2: .orange[EXPLORACIÓN]
+
+La matriz de correlaciones será **siempre simétrica** y en la diagonal siempre será 1 (podemos indicarle que queremos que nos muestre con el argumento `diagonal = ...`)
+
+
+```{r}
+correlate(iris %>% select(where(is.numeric)), diagonal = "*")
+```
+
+---
+
+# Fase 2: .orange[EXPLORACIÓN]
+
+
+También podemos mostrarla algo más estética **.bg-red_light[redondeando los valores]** con `fashion()`
+
+```{r}
+correlate(iris %>% select(where(is.numeric))) %>% fashion()
+```
+
+---
+
+# Fase 2: .orange[EXPLORACIÓN]
+
+
+Incluso visualizarla con el paquete `{corrplot}`
+
+.pull-left[
+
+```{r eval = FALSE}
+library(corrplot)
+cor_matrix <-
+  cor(iris %>% select(where(is.numeric)))
+corrplot(cor_matrix)
+```
+
+]
+
+.pull-right[
+
+
+```{r echo = FALSE,  out.width = "100%", fig.align = "center"}
+knitr::include_graphics("./img/corrplot_1.jpg")
+``` 
+
+]
+
+---
+
+# Fase 2: .orange[EXPLORACIÓN]
+
+
+
+.pull-left[
+
+```{r eval = FALSE}
+corrplot(cor_matrix, method = "number")
+```
+
+]
+
+.pull-right[
+
+
+```{r echo = FALSE,  out.width = "100%", fig.align = "center"}
+knitr::include_graphics("./img/corrplot_2.jpg")
+``` 
+
+]
+
+---
+
+
+# Fase 2: .orange[EXPLORACIÓN]
+
+
+
+.pull-left[
+
+```{r eval = FALSE}
+corrplot(cor_matrix, method = "color")
+```
+
+]
+
+.pull-right[
+
+
+```{r echo = FALSE,  out.width = "100%", fig.align = "center"}
+knitr::include_graphics("./img/corrplot_3.jpg")
+``` 
+
+]
+
+---
+
+# Fase 2: .orange[EXPLORACIÓN]
+
+.pull-left[
+
+```{r eval = FALSE}
+corrplot(cor_matrix, method = "ellipse")
+```
+
+]
+
+.pull-right[
+
+
+```{r echo = FALSE,  out.width = "100%", fig.align = "center"}
+knitr::include_graphics("./img/corrplot_4.jpg")
+``` 
+
+]
+
+
+---
+
+# Fase 2: .orange[EXPLORACIÓN]
+
+
+En este caso tenemos dos variables muy correlacionadas: `Petal.Length` y `Petal.Width`, con una correlación de casi 1, lo que nos indica que nos van a aportar **.bg-red_light[información redundante]** una de la otra, provocando **.bg-red_light[problemas de colinealidad]**.
+
+--
+
+
+Nuestro caso ideal sería aquel en el que todas fuesen independientes (o al menos incorreladas entre sí, sin dependencia lineal), para **.bg-purple_light[maximizar la información de los datos]**. Si dos variables nos aportan lo mismo, una seguramente sobre (ya que solo nos va a aportar ruido). Veremos más adelante otras herramientas para cuantificar la dependencia (no solo lineal, y no solo de variables cuanti)
+
+--
+
+También aprenderemos a **.bg-purple_light[visualizar los datos]**, un paso CLAVE en el análisis exploratorio y la depuración, pero más adelante.
+
+---
+
+class: inverse center middle
+name: clase-7
+
+# CLASE 7: modelizando KNN con tidymodels
+
+&nbsp;
+
+### [Depuración iris](#depuracion-iris)
+
+### [Tratamiento de outliers](#outliers)
+
+### [Resumen knn](#knn-steps)
+
+### [¿Qué es tidymodels?](#tidymodels)
+
+---
+
+name: depuracion-iris
+
+# Fase 3: .orange[MODIFICACIÓN/DEPURACIÓN]
+
+Con la información obtenida de la anterior fase, en la **.bg-purple_light[fase de modificación o depuración]** es donde tendremos que tomar decisiones para **.bg-purple_light[preparar nuestros datos]** de manera adecuada. Y para ello será **.bg-purple_light[fundamental conocer el algoritmo]** que vamos a aplicar. ¿Qué necesitaremos en el caso del KNN?
+
+
+*  **.bg-purple_light[Tipología de las variables]**. ¿Todas mis variables  **.bg-orange[predictoras son numéricas]** o debo? ¿Mi **.bg-orange[variable objetivo]** es categórica?
+
+
+*  **.bg-purple_light[Codificación de las variables]**. ¿Todas mis variables tienen un **.bg-orange[rango coherente]** (por ejemplo, que una variable de peso no sea negativa)? ¿Están **.bg-orange[bien codificadas]**?
+
+
+* **.bg-purple_light[Atípicos y ausentes]**. ¿Tengo **.bg-orange[valores atípicos (outliers)]**? En caso afirmativo, ¿cómo tratarlos? Tras tratar atípicos, ¿tengo **.bg-orange[datos ausentes]**?
+
+
+* **.bg-purple_light[Selección de variables]**. ¿Necesito seleccionar variables? ¿Tengo alguna de varianza cero (es decir, sin información)? ¿Tengo **.bg-orange[problemas de dependencia o colinealidad]**? ¿Puedo resumir mi info con un conjunto nuevo de variables incorreladas (componentes principales)?
+
+
+---
+
+# Fase 3: .orange[MODIFICACIÓN/DEPURACIÓN]
+
+
+* **.bg-purple_light[Variables dummy]**. ¿Debo **.bg-orange[recategorizar]** variables que no sean numéricas? Recuerda que el kNN de momento solo sabemos hacerlo con numéricas (en caso contrario, veremos como «dummificar» variables: crear 0-1 para tener números)
+
+
+* **.bg-purple_light[Añadir info]**. ¿Debo **.bg-orange[crear nuevas variables]** que nos aporte info extra?
+
+* **.bg-purple_light[Normalizar variables]**. ¿Tengo ya mis variables preparadas (tras tratar lo anterior) para la métrica que vaya usar (**.bg-orange[estandarizadas]** por rango o **.bg-orange[tipificadas]** por media-varianza)?
+
+  
+---
+
+name: outliers
+
+# Tratamiento de .orange[OUTLIERS]
+
+Una de las partes más importantes de la fase de exploración y modificación es la **.bg-purple_light[detección de outliers]**, pudiendo tener diferentes definiciones de valor atípico:
+
+* **.bg-purple_light[Atípico respecto a media]**: será un dato muy alejado de la **.bg-purple_light[media de la variable]**. ¿Cuánto de alejado? Una definición habitual es definir un dato atípico como aquel que se aleja de la media $k$ veces la desviación típica (un valor habitual es $k = 2.5$).
+
+$$x_i > \overline{x} + k* s_{j} \quad \text{ o bien } \quad x_i < \overline{x} - k *s_{j}$$
+
+Dicha definición de atípico solo tendrá sentido cuando la **.bg-purple_light[media sea representativa]** de tu distribución, es decir, siempre y cuando tengamos cierta simetría (ya que sino, la media al ser poco robusta se perturbará fácilmente).
+
+---
+
+# Tratamiento de .orange[OUTLIERS]
+
+Para detectarlos usaremos el paquete `{outliers}` y su función `scores()`, que nos dará en cada caso una **.bg-purple_light["puntuación" de cada observación]**. En caso de que queramos **.bg-purple_light[detectarlos respecto a la media]**, le indicaremos que `type = "z"`: nos devolverá precisamente el valor $k$ (si aplicamos valor absoluto), ya que hará cada observación menos la media y la dividirá entre la desviación típica.
+
+
+```{r}
+library(outliers)
+abs(scores(c(1, -1, 0, 5, 2, 1.5, 0.5, -0.3, 0, 2, 1.7, 0.2, -0.8), type = "z"))
+```
+
+De forma que podamos detectar muy fácil los outliers en función de los estrictos que queramos ser con ese $k$. El tipo `type = "chisq"` nos hace algo parecido pero elevando las desviaciones al cuadrado y diviendo por la varianza.
+
+---
+
+# Tratamiento de .orange[OUTLIERS]
+
+En el caso de nuestros datos, usaremos $k = 2.5$, y detectaremos aquellos datos que son outliers para luego pasarlos a un **.bg-purple_light[valor ausente]**.
+
+```{r warning = FALSE}
+iris_na_outliers <- 
+  iris %>% 
+  mutate(Sepal.Width =
+           ifelse(abs(scores(Sepal.Width, type = "z")) > 2.5,
+                  NA, Sepal.Width))
+iris_na_outliers
+```
+
+---
+
+# Tratamiento de .orange[OUTLIERS]
+
+```{r}
+iris_na_outliers %>% filter(is.na(Sepal.Width))
+```
+
+Tras ello tendremos **.bg-purple_light[dos opciones]**: **.bg-orange[eliminar]** dichas observaciones o **.bg-orange[imputar la media]** sin los ausentes (dado que los hemos detectado con la media)
+
+```{r}
+# opción 1
+iris_outliers <-
+  iris_na_outliers %>% 
+  mutate(Sepal.Width =
+           ifelse(is.na(Sepal.Width), mean(Sepal.Width, na.rm = TRUE), Sepal.Width))
+```
+
+```{r}
+# opción 2
+iris_outliers <- iris_na_outliers %>% drop_na(Sepal.Width)
+```
+
+---
+
+# Tratamiento de .orange[OUTLIERS]
+
+Si queremos hacer esto con varias variables a la vez, tendremos que usar de nuevo `across()`
+
+```{r}
+iris_na_outliers <-
+  iris %>% 
+  mutate(across(Sepal.Length:Petal.Width,
+                function(x) { ifelse(abs(scores(x, type = "z")) > 2.5, NA, Sepal.Length) }))
+```
+
+--
+
+Con `if_any()` dentro del `filter()` podemos mostrar todo los registros detectados como outlier en alguna variable.
+
+```{r}
+iris_na_outliers %>% filter(if_any(Sepal.Length:Petal.Width, is.na))
+```
+
+---
+
+# Tratamiento de .orange[OUTLIERS]
+
+Trassu detección y análisis podemos o imputarles a todos la media (de la variable en cuestión) o eliminarlos.
+
+```{r}
+# opción 1
+iris_outliers <-
+  iris_na_outliers %>% 
+  mutate(across(Sepal.Length:Petal.Width,
+                function(x) { ifelse(is.na(x), mean(x, na.rm = TRUE), x) }))
+```
+
+
+```{r}
+# opción 2
+iris_outliers <-
+  iris_na_outliers %>% drop_na()
+```
+
+---
+
+# Tratamiento de .orange[OUTLIERS]
+
+* **.bg-purple_light[Atípico respecto a mediana]**: será un dato muy alejado de la **.bg-purple_light[mediana de la variable]**. ¿Cuánto de alejado? Una definición habitual (conocido como **filtro de Hampel**) es definir un dato atípico como aquel que se aleja de la mediana $k$ veces la mediana de las desviaciones absolutas (conocida como $MAD = Me \left(\left| x_i - Me_x \right| \right)$). Un valor habitual es $k = 3$.
+
+$$x_i > Me_{x} + k*MAD\quad \text{ o bien } \quad x_i< Me_{x} - k*MAD$$
+
+Para ello nos bastará usar `scores()` con `type = "mad"` (y nos devolverá de nuevo ese $k$).
+
+```{r}
+abs(scores(c(1, -1, 0, 5, 2, 1.5, 0.5, -0.3, 0, 2, 1.7, 0.2, -0.8), type = "mad"))
+```
+
+El **.bg-purple_light[valor a imputar sería la mediana]**
+
+---
+
+
+# Tratamiento de .orange[OUTLIERS]
+
+
+* **.bg-purple_light[Atípico respecto a percentiles]**: será un dato muy alejado de los **.bg-purple_light[cuartiles de la variable]**. ¿Cuánto de alejado? Una definición habitual es definir un dato atípico como aquel que se aleja de los cuartiles 1 y 3 (percentiles 25 y 75) $k$ veces el rango intercuartílico ($IQR = Q_3 - Q_1$). Un valor habitual es $k = 1.5$).
+
+$$x_i > Q_3 + k* IQR \quad \text{ o bien } \quad x_i < Q_1 - k*IQR$$
+
+Para ello nos bastará usar `scores()` con `type = "iqr"` (y nos devolverá de nuevo ese $k$, siendo $k = 0$ para lo que esté dentro del IQR).
+
+```{r}
+abs(scores(c(1, -1, 0, 5, 2, 1.5, 0.5, -0.3, 0, 2, 1.7, 0.2, -0.8), type = "iqr"))
+```
+
+El **.bg-purple_light[valor a imputar sería la mediana]**
+
+---
+
+# Tratamiento de .orange[OUTLIERS]
+
+Existen otros procedimientos **.bg-purple_light[basados en inferencia estadística]** (muchos de ellos en el paquete `{outliers}`)
+
+* **.bg-purple_light[Tests de Grubbs y Dixon]**: ambos test nos permiten **.bg-purple_light[detectar si el valor más alto (o bajo)]** de una varibale es un outlier, pudiendo detectar un solo outlier en cada iteración (en caso de detectarlo, deberíamos tratarlo y volver a ejecutar el test)
+
+$\mathcal{H}_0: \text{valor más alto/bajo no es outlier}$
+
+$\mathcal{H}_1: \text{ valor más alto/bajo sí es outlier}$
+
+
+&nbsp;
+
+El test de Dixon (basado en una ordenación) suele funcionar mejor cuando tenemos poca muestra que el test de Grubbs (basado en la media).
+
+📚 Ver más documentación de su funcionamiento en <https://www.itl.nist.gov/div898/handbook/eda/section3/eda35h1.htm> y <https://www.statisticshowto.com/dixons-q-test/>
+
+---
+
+# Tratamiento de .orange[OUTLIERS]
+
+Por ejemplo, para el de Dixon existe `dixon.test()`
+
+```{r}
+x <- c(1, -1, 0, 5, 2, 1.5, 0.5, -0.3, 0, 2, 1.7, 0.2, -0.8)
+dixon.test(x, opposite = TRUE) # valor más bajo
+```
+
+```{r}
+x <- c(1, -1, 0, 5, 2, 1.5, 0.5, -0.3, 0, 2, 1.7, 0.2, -0.8)
+dixon.test(x, opposite = FALSE) # valor más alto
+```
+
+---
+
+
+# Tratamiento de .orange[OUTLIERS]
+
+* **.bg-purple_light[Test de Rosner]**: al contrario que los anteriores, nos permite **.bg-purple_light[detectar varios outliers]** a la vez, especialmente diseñado para evitar que un valor atípico nos perturbe tanto que nos enmascare otro (basado en la media). Podemos ejecutarlo con la función `rosnerTest()` del paquete `{EnvStats}`.
+
+&nbsp;
+
+**.bg-red_light[IMPORTANTE]**: la detección de outliers deberá combinar el análisis numérico y la visualización.
+
+📚 Ver más documentación de su funcionamiento en <https://vsp.pnnl.gov/help/vsample/rosners_outlier_test.htm>
+
+
+---
+
+# Tratamiento de .orange[OUTLIERS]
+
+En el caso de que tengamos **.bg-purple_light[variables categoricas (factores)]** la detección más inmediata sería haciendo uso de la tabla de frecuencias proporcionada por `fct_count()`
+
+
+```{r}
+datos <- tibble("estado" = c(rep("grave", 18), rep("sano", 10), "muerto", "UCI"))
+
+datos <- 
+  datos %>% mutate(estado = factor(estado, levels = c("sano", "grave", "UCI", "muerto"), ordered = TRUE))
+datos$estado %>% fct_count() %>% mutate(f = 100 * n/sum(n))
+```
+
+---
+
+# Tratamiento de .orange[OUTLIERS]
+
+Con `fct_lump_prop()` podemos **.bg-purple_light[agrupar niveles que no aparezcan un mínimo]** de veces, por ejemplo que representen menos del 5% de los datos, con `prop = 0.05`. Y ese nivel "otros" podremos **.bg-purple_light[asignarle la moda]** del resto de valores.
+
+```{r}
+datos <- 
+  datos %>%
+  mutate(estado = fct_lump_prop(estado, prop = 0.05,
+                                other_level = "otros"))
+datos
+```
+
+---
+
+# Modificación: .orange[reescalado/tipificación]
+
+
+Por último, antes de poder aplicar nuestra métrica necesitaremos **.bg-purple_light[reescalar por rango]** (para distancias geométricas, con `rescale()` del paquete `{scales}`) o **.bg-purple_light[tipificar]** (para distancias probabilísticas, con `scale()`)
+
+
+```{r}
+# Escalado
+library(scales)
+iris_final <- 
+  iris_outliers %>% 
+  mutate(across(Sepal.Length:Petal.Width, rescale))
+```
+
+
+```{r}
+# Tipificado
+iris_final <- 
+  iris_outliers %>% 
+  mutate(across(Sepal.Length:Petal.Width, scale))
+```
+
+
+---
+
+name: knn-steps
 
 # .orange[EXPLORACIÓN] y .green[MODIFICACIÓN]
 
-* Exploración:
-  - Resúmenes numérico
-  - Dependencia entre variables
-  - Visualización de datos
-  
-* Depuración:
-  - Comprobar codificación/rango
-  - Tratamiento de ausentes
-  - Análisis de outliers
-  - Selección de variables.
+* **.bg-purple_light[Muestreo]**:
+  - ¿Hace falta? ¿Estratificado? ¿Tenemos la variable objetivo balanceada?
 
-* Modificación:
-  - Recategorizar (Dummy)
-  - Estandarizar (rango y media-varianza)
-  - Crear nuevas variables.
+* **.bg-purple_light[Exploración]**:
+  - Resúmenes numéricos (¿simetría? ¿dispersión? ¿ausentes? ¿codificación?)
+  - Dependencia entre variables (correlación, dependencia, predictoras vs objetivo)
+  - Visualización de datos (pendiente)
+
+* **.bg-purple_light[Depuración/modificación]**:
+  - Análisis de outliers (¿se imputan? ¿se mandan a NA? ¿se eliminan?)
+  - Tratamiento de ausentes (¿se imputan? ¿se eliminan?)
+  - Selección de variables (¿colinealidad? ¿varianza cero? ¿necesitamos tener solo numéricas?)
+  - Recategorizar (dummy,cuanti a cuali, codificación etc)
+  - Estandarizar para métricas (rango y media-varianza)
+  - Crear nuevas variables
   
+---
+
+# Caso concreto: .orange[KNN EN IRIS]
+
+* **.bg-purple_light[Muestreo]**:
+  - **¿Hace falta?**  --> En el caso del `iris` no necesitamos hacerlo ya que tenemos pocas observaciones y además la variable objetivo está balanceada, algo que podemos comprobar fácil con `count()` (podemos usar `mutate()` para construir la tabla de frecuencias).
+  
+```{r}
+iris %>%
+  count(Species) %>%
+  mutate(porc = 100 * n/sum(n))
+```
+
+---
+
+# Caso concreto: .orange[KNN EN IRIS]
+
+* **.bg-purple_light[Exploración]**:
+  - Resúmenes numéricos (¿simetría? ¿dispersión? ¿ausentes? ¿codificación?)
+
+.pull-left[
+
+```{r eval = FALSE}
+library(skimr)
+iris %>% skim()
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "100%", fig.align = "center"}
+knitr::include_graphics("./img/skim.jpg")
+``` 
+
+]
+
+No parece que tengamos **.bg-purple_light[problemas de codificación o rango]** y tampoco tenemos **.bg-purple_light[datos ausentes]** (`complete_rate` sale en todas 1). La **.bg-purple_light[variable con mayor dispersión]** es `Petal.Length`.
+
+---
+
+# Caso concreto: .orange[KNN EN IRIS]
+
+* **.bg-purple_light[Exploración]**:
+  - Dependencia entre variables (correlación, dependencia, **predictoras vs objetivo**)
+
+```{r}
+iris %>%
+  group_by(Species) %>%
+  summarise(mean = across(Sepal.Length:Petal.Width, mean)) %>% 
+  ungroup()
+```
+
+Las **.bg-purple_light[variables relacionadas con el sépalo]** no parece que cambien mucho de una especie a otra. Las **.bg-purple_light[variables relacionadas con el pétalo]** si parecen ser determinantes ya que la especie setosa tiene valores muy pequeños. Seguramente lo más complicado sea clasificar entre versicolor y virginica (se diferencian muy ligeramente)
+
+---
+
+# Caso concreto: .orange[KNN EN IRIS]
+
+* **.bg-purple_light[Exploración]**:
+  - Dependencia entre variables (**correlación**, dependencia, predictoras vs objetivo)
+
+```{r}
+library(corrr)
+library(corrplot)
+correlate(iris %>% select(where(is.numeric)))
+# corrplot(iris %>% %>% select(where(is.numeric)) %>% cor())
+```
+
+Parece que hay una **.bg-purple_light[altísima correlación]** entre la anchura y la longitud del sépalo (alguna habrá que eliminar en la siguiente fase para evitar problemas de colinealidad)
+
+---
+
+# Caso concreto: .orange[KNN EN IRIS]
+
+* **.bg-purple_light[Depuración/modificación]**:
+  - **Análisis de outliers** --> en este caso a las dos primeras variables (muy simétricas) detectaremos por la media, en las dos últimas por mediana y lo pasamos a ausente.
+
+```{r}
+iris_na_outliers <- 
+  iris %>% 
+  mutate(across(Sepal.Length:Sepal.Width,
+                function(x) { ifelse(abs(scores(x, type = "z")) > 2.5, NA, x) }),
+         across(Petal.Length:Petal.Width,
+                function(x) { ifelse(abs(scores(x, type = "mad")) > 3, NA, x) }))
+iris_na_outliers %>% 
+  filter(if_any(Sepal.Length:Petal.Width, is.na))
+```
+
+---
+
+# Caso concreto: .orange[KNN EN IRIS]
+
+* **.bg-purple_light[Depuración/modificación]**:
+  - Tratamiento de **ausentes** --> en este caso los imputaremos por media en las dos primeras y por mediana en las dos segundas.
+  
+
+```{r}
+iris_outliers <- 
+  iris_na_outliers %>% 
+  mutate(across(Sepal.Length:Sepal.Width,
+                function(x) { ifelse(is.na(x), mean(x, rm.na = TRUE), x) }),
+         across(Petal.Length:Petal.Width,
+                function(x) { ifelse(is.na(x), median(x, rm.na = TRUE), x) }))
+```
+
+---
+
+# Caso concreto: .orange[KNN EN IRIS]
+
+* **.bg-purple_light[Depuración/modificación]**:
+
+  - Selección de variables (¿colinealidad? ¿varianza cero? ¿necesitamos tener solo numéricas?) --> en este caso ya tenemos solo predictoras numéricas y no tenemos varianza cero (variables de constantes), así que solo necesitamos **.bg-purple_light[volver a mirar correlación]**
+  
+  
+```{r}
+correlate(iris_outliers %>% select(where(is.numeric)))
+```
+
+Seguimos observando una alta correlación entre `Petal.Length` y `Petal.Width`: eliminaremos la primera ya que es la que tiene una correlación más alta (en valor absoluto) con las demás
+
+```{r}
+iris_colin <-
+  iris_outliers %>% select(-Petal.Length)
+```
+
+---
+  
+# Caso concreto: .orange[KNN EN IRIS]
+
+* **.bg-purple_light[Depuración/modificación]**:
+  
+  - **Recategorizar** --> no necesitamos hacerlo en este caso
+  - Crear **nuevas variables** --> no necesitamos hacerlo en este caso
+  - **Estandarizar** para métricas --> vamos a usar distancias geométricas así que habrá que normalizar por rango.
+
+```{r}
+library(scales)
+iris_final <-
+  iris_colin %>% 
+  mutate(across(c(everything(), -Species), rescale))
+iris_final
+```
+
+  
+---
+
+# Caso concreto: .orange[KNN EN IRIS]
+
+Este sería el **.bg-purple_light[código completo de nuestra depuración]**
+
+```{r}
+iris_final <-
+  iris %>% 
+  mutate(across(Sepal.Length:Sepal.Width,
+                function(x) { ifelse(abs(scores(x, type = "z")) > 2.5,
+                                     mean(x, rm.na = TRUE), x) }),
+         across(Petal.Length:Petal.Width,
+                function(x) { ifelse(abs(scores(x, type = "mad")) > 3,
+                                     median(x, rm.na = TRUE), x) })) %>% 
+  select(-Petal.Length) %>% mutate(across(c(everything(), -Species), rescale))
+iris_final
+```
+
+
+---
+
+name: tidymodels
+
+# Modelando con .orange[TIDYMODELS]
+
+Una vez que sabemos que proceso necesitamos aplicar a los datos, vamos a introducirnos en la idea del **.bg-purple_light[tidymodels]**: un marco de trabajo, bajo los principios de tidyverse, para aplicar **.bg-purple_light[modelos Machine Learning]**. Puedes ver documentación en <https://www.tidymodels.org/>
+
+.pull-left[
+
+```{r eval = FALSE}
+install.packages("tidymodels")
+library(tidymodels)
+```
+
+```{r echo = FALSE}
+library(tidymodels)
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "80%", fig.align = "left"}
+knitr::include_graphics("./img/tidymodels.jpg")
+``` 
+
+]
+
+---
+
+# Modelando con .orange[TIDYMODELS]
+
+En uno de los paquetes de `{tidymodels}`, el paquete `{rsample}`, nos proporciona **.bg-purple_light[herramientas para generar particiones]** de train-validación-test al inicio de nuestro proceso.
+
+--
+
+&nbsp;
+
+Usaremos la función `initial_split()`, de forma estratificada por la variable objetivo con
+
+* `strata = Species` indicándole la variable por la que estratificar
+* `prop = 0.7` indicándole que el 70% será train y el 30% test (de momento sin validación).
+
+```{r}
+library(tidymodels)
+iris_split <- initial_split(iris, strata = Species, prop = 0.7)
+```
+
+**.bg-red_light[IMPORTANTE]**: la partición deberá hacer siempre DESPUÉS de un posible muestreo (si fuese necesario).
+
+
+
+---
+
+# Modelando con .orange[TIDYMODELS]
+
+En `iris_split` no se **.bg-purple_light[ejecutado nada]**: solo están guaradas las **.bg-purple_light[instrucciones]**.
+
+.pull-left[
+
+```{r}
+iris_split
+```
+
+]
+
+.pull-right[
+
+```{r}
+iris_train <- training(iris_split)
+iris_test <- testing(iris_split)
+```
+
+]
+
+--
+
+Tras aplicar las instrucciones, comprobamos la estratificación.
+
+```{r}
+iris_train %>% count(Species) %>% mutate(porc = n / sum(n))
+```
+
+---
+
+# Modelando con .orange[TIDYMODELS]
+
+La idea detrás de la filosofía  de `{tidymodels}` es tratar por separado la **.bg-purple_light[depuración]** de los datos, el **.bg-purple_light[modelo]** o paradigma de aprendizaje que se quiere aplicar, la **.bg-purple_light[optimización de los parámetros]** de dicho modelo, el **ajuste**, la **evaluación** y la **predicción** correspondiente.
+
+El objetivo será crear un **.bg-purple_light[flujo de trabajo flexible]**, con una filosofía similar a la que hay detrás de cocinar un plato:
+
+* **.bg-purple_light[Escribimos la receta]**: una lista de pasos e instrucciones.
+
+* **.bg-purple_light[Preparamos los utensilios de cocina]**: en nuestro caso, el modelo.
+
+* **.bg-purple_light[Cocinamos]**: con la receta + utensilios podemos **.bg-purple_light[cocinar el plato muchas veces]**, con **.bg-purple_light[distintos lotes de ingredientes (datos)]**.
+
+También podemos aplicar una **.bg-purple_light[receta distinta a distintos ingredientes]**, o incluso **.bg-purple_light[combinar partes de dos recetas]**. 
+
+---
+
+# Modelando con .orange[TIDYMODELS]
+
+El primer paso en nuestra receta será indicarle en `recipe()` los **.bg-purple_light[datos]** y la **.bg-purple_light[«fórmula»]** de nuestro modelo (en nuestro caso le indicaremos que vamos la objetivo será `Species` frente al resto de predictoras numéricas). La receta **.bg-purple_light[guardará los roles]**: 4 predictoras y 1 objetivo
+
+```{r}
+iris_rec <- recipe(data = iris_train, Species ~ .)
+```
+
+.pull-left[
+
+```{r}
+iris_rec
+```
+
+]
+
+.pull-right[
+
+```{r}
+summary(iris_rec)
+```
+
+]
+
+
+---
+
+# Modelando con .orange[TIDYMODELS]
+
+Una receta puede **.bg-purple_light[asignar varios roles]** a cada variable: una variable puede ser `predictor`, `outcome` o cualquier otro rol no predefinido.
+
+* `update_role()`: **.bg-purple_light[modifica]** el rol (lo crea si no tiene, borra si lo tenía).
+
+```{r}
+iris_rec <-
+  recipe(data = iris_train, Species ~ .) %>% 
+  update_role(starts_with("Sepal"), new_role = "sepal") %>% 
+  update_role(starts_with("Petal"), new_role = "petal")
+```
+
+.pull-left[
+
+```{r}
+iris_rec
+```
+
+]
+
+.pull-right[
+
+```{r}
+summary(iris_rec)
+```
+
+]
+
+---
+
+# Modelando con .orange[TIDYMODELS]
+
+* `add_role()`: **.bg-purple_light[añade]** un rol a una variable que ya tiene uno (no borra el ya existente)
+
+```{r}
+iris_rec <-
+  iris_rec %>% 
+  add_role(ends_with("Length"), new_role = "length") %>% 
+  add_role(ends_with("Width"), new_role = "width")
+```
+
+.pull-left[
+
+```{r}
+iris_rec
+```
+
+]
+
+.pull-right[
+
+```{r}
+summary(iris_rec)
+```
+
+]
+
+---
+
+# Modelando con .orange[TIDYMODELS]
+
+* `remove_role()`: **.bg-purple_light[elimina]** un rol ya existente
+
+```{r}
+iris_rec <-
+  iris_rec %>% remove_role(ends_with("Length"), old_role = "length") %>% 
+  remove_role(ends_with("Width"), old_role = "width") %>% 
+  remove_role(starts_with("Sepal"), old_role = "sepal") %>% 
+  remove_role(starts_with("Petal"), old_role = "petal")
+```
+
+.pull-left[
+
+```{r}
+iris_rec
+```
+
+]
+
+.pull-right[
+
+```{r}
+summary(iris_rec)
+```
+
+]
+
+---
+
+# Modelando con .orange[TIDYMODELS]
+
+La idea es que las acciones que hagamos de depuración podremos **.bg-purple_light[personalizarlas para cada tipo de rol]**. La idea es **.bg-purple_light[añadir pasos]** la `recipe()`, algo así como la receta escrita que tenemos guardada en un cajón para preparar un plato: la receta por sí sola no te cocina, simplemente es una lista de instrucciones, lista para cuando la necesites.
+
+&nbsp;
+
+Las funciones que empiezan por `step_...()` tienen **.bg-purple_light[implementadas muchas de las funcionalidades tidyverse]**: la diferencia al incluirlo en la receta es que se **.bg-purple_light[ejecutará en todas las particiones]** cada vez que dicha receta se aplique (pudiéndose aplicar a diferentes modelos).
+
+* `step_arrange()`
+* `step_filter()`
+* `step_count()`
+* `step_mutate()`
+* `step_select()`
+
+---
+
+# Modelando con .orange[TIDYMODELS]
+
+En nuestro caso, en la receta indicaremos la **.bg-purple_light[lista de acciones que hemos decidido]** en diapositivas anteriores (con `step_...()`)
+
+
+```{r}
+iris_rec <-
+  recipe(data = iris_train, Species ~ .) %>%
+  step_mutate(across(Sepal.Length:Sepal.Width,
+                     function(x) { ifelse(abs(scores(x, type = "z")) > 2.5, mean(x, rm.na = TRUE), x) }),
+              across(Petal.Length:Petal.Width,
+                     function(x) { ifelse(abs(scores(x, type = "mad")) > 3, median(x, rm.na = TRUE), x) })) %>% 
+  step_select(-Petal.Length) %>%
+  step_mutate(across(c(everything(), -Species), rescale))
+```
+
+
+---
+
+# Modelando con .orange[TIDYMODELS]
+
+
+```{r}
+iris_rec
+```
+
+---
+
+# .orange[TIDYMODELS]: .green[RECIPE]
+
+Lo hecho anteriormente es una traducción literal (con `step_...()`) de lo que sabíamos hacer con tidyverse. Pero además de todo eso tendremos **.bg-purple_light[muchas funciones concretas para facilitar]** la depuración de nuestras variables (por roles).
+
+--
+
+Dado que el tratamiento de outliers lo estamos haciendo de manera distinta en las variables de sépalo que en las de pétalo, lo primero que haremos es **.bg-purple_light[asignar]** roles (sin eliminar el rol de predictor que ya tiene, así que lo haremos con `add_role()`)
+
+```{r}
+iris_rec <-
+  recipe(data = iris_train, Species ~ .) %>%
+  add_role(starts_with("Sepal"), new_role = "sepal") %>% 
+  add_role(starts_with("Petal"), new_role = "petal")
+```
+
+
+---
+
+# .orange[TIDYMODELS]: .green[RECIPE]
+
+Tras ello **.bg-purple_light[detectaremos outliers]** (transformando a `NA`)
+
+```{r}
+iris_rec <-
+  iris_rec %>% 
+  step_mutate(across(starts_with("Sepal"), function(x) { ifelse(abs(scores(x, type = "z")) > 2.5, NA, x) }),
+              across(starts_with("Petal"), function(x) { ifelse(abs(scores(x, type = "mad")) > 3, NA, x) }))
+```
+
+--
+
+Y decidiremos cómo **.bg-purple_light[tratar los ausentes]** (los existentes y los generados al detectar los outliers). Tenemos muchísimas funciones para ello (ver `step_impute_...()`):
+
+.pull-left[
+
+* `step_impute_mean()`, `step_impute_median()` y `step_impute_mode()`: imputamos por media, mediana o moda.
+
+* `step_impute_knn()`: usaremos un knn previo para imputar los ausentes.
+
+]
+
+.pull-right[
+
+```{r}
+iris_rec <-
+  iris_rec %>% 
+  step_impute_mean(has_role("sepal")) %>% 
+  step_impute_median(has_role("petal"))
+```
+
+Fíjate la **.bg-purple_light[utilidad de los roles]**: con `has_role()` podemos indicarle a qué variables aplicar la acción.
+
+]
+
+---
+
+# .orange[TIDYMODELS]: .green[RECIPE]
+
+Para tratar los **.bg-purple_light[problemas de colinealidad]** usaremos directamente `step_corr()`, al que le tendremos que pasar un umbral en `threshold`: se queda solo con una variable de todo par de variables cuya **.bg-purple_light[correlación en valor absoluto supere el umbral]** (en este caso usaremos `all_numeric_predictors()` para considerar solo las predictoras numéricas)
+
+
+```{r}
+iris_rec <-
+  iris_rec %>% 
+  step_corr(all_numeric_predictors(), threshold = 0.9)
+```
+
+
+--
+
+Por último, le indicaremos con `step_range()` que nos **.bg-purple_light[normalice por rango]** las variables predictoras que sean numéricas, y añadimos siempre un último **.bg-purple_light[filtro de cero varianza]** para que nos elimine las variables con varianza constante.
+
+
+```{r}
+iris_rec <-
+  iris_rec %>%
+  step_range(all_numeric_predictors()) %>% 
+  step_zv(all_predictors())
+```
+
+---
+
+# .orange[TIDYMODELS]: .green[RECIPE]
+
+
+Esta será por tanto nuestra **receta completa**:
+
+```{r}
+iris_rec <-
+  # Fórmula y datos
+  recipe(data = iris_train, Species ~ .) %>%
+  # Roles
+  add_role(starts_with("Sepal"), new_role = "sepal") %>% 
+  add_role(starts_with("Petal"), new_role = "petal") %>% 
+  # Detectar outliers
+  step_mutate(across(starts_with("Sepal"), function(x) { ifelse(abs(scores(x, type = "z")) > 2.5, NA, x) }),
+              across(starts_with("Petal"), function(x) { ifelse(abs(scores(x, type = "mad")) > 3, NA, x) })) %>% 
+  # Imputar ausentes
+  step_impute_mean(has_role("sepal")) %>% 
+  step_impute_median(has_role("petal")) %>% 
+  # Filtro de correlación
+  step_corr(all_numeric_predictors(), threshold = 0.9) %>% 
+  # Normalizar por rango
+  step_range(all_numeric_predictors()) %>% 
+  # Filtro de cero varianza
+  step_zv(all_predictors())
+```
+
+---
+
+# .orange[TIDYMODELS]: .green[RECIPE]
+
+```{r}
+iris_rec
+```
+
+---
+
+# .orange[TIDYMODELS]: .green[RECIPE]
+
+Tras «redactar» la receta **.bg-purple_light[hornear la receta]** a unos datos, haciiendo uso de `bake()`, y en `new_data` le podemos indicar el dataset al que aplicaremos la receta (si `new_data = NULL`, se hará con el conjunto de entrenamiento).
+
+```{r}
+bake(iris_rec %>% prep(), new_data = NULL)
+```
+  
+
+---
+
+# Fase 4: .orange[MODELIZACIÓN]
+
+
+Tras la receta vamos a **.bg-purple_light[definir el modelo en abstracto]**, sin pasarle aún datos
+
+* `nearest_neighbor()`: definimos el modelo KNN
+  - `mode = ...`: puede ser **"classification"** o **"regression"**
+  - `neighbors = ...`: número k de vecinos.
+  - `weight_func = ...`: método de ponderación de distancias. Las diferentes opciones de las puedes ver en <https://epub.ub.uni-muenchen.de/1769/>
+  - `dist_power = ...`: exponente a usar en nuestra familia de métricas de Minkowski
+  
+* `set_engine("kknn")`: motor interno que usa para optimizar el modelo.
+  
+```{r}
+knn_model <-
+  nearest_neighbor(mode = "classification", neighbors = 10,
+                   weight_func = "inv", dist_power = 2) %>%
+  set_engine("kknn") # «motor interno» que realiza el ajuste
+```
+
+
+---
+
+# Fase 4: .orange[MODELIZACIÓN]
+
+
+```{r}
+knn_model <-
+  nearest_neighbor(mode = "classification", neighbors = 10,
+                   weight_func = "inv", dist_power = 2) %>%
+  set_engine("kknn") # «motor interno» que realiza el ajuste
+knn_model
+```
+
+
+
+---
+
+# .orange[TIDYMODELS]: .green[FLUJO]
+
+
+* Tenemos una **.bg-purple_light[receta]** para preprocesar los datos, una lista de instrucciones.
+* Tenemos los **.bg-purple_light[utensilios de cocina]** (modelo).
+* Tenemos los **.bg-purple_light[ingredientes (datos)]**
+
+Todo ello lo **.bg-purple_light[juntaremos en un flujo de trabajo]** con `workflow()`
+
+```{r}
+iris_wflow <-
+  workflow() %>% add_recipe(iris_rec) %>% add_model(knn_model)
+iris_wflow
+```
+
+
+---
+
+# .orange[TIDYMODELS]: .green[AJUSTE]
+
+El siguiente paso, una vez que tenemos construido el flujo de trabajo, es **.bg-purple_light[aplicarlo al conjunto de entrenamiento]** con `fit(data = iris_train)` (es aquí donde el algoritmo aprenderá del conjunto de entrenamiento, aunque en el caso de knn deberá calcular siempre la distancia de cada punto al resto)
+
+```{r}
+iris_knn_fit <- iris_wflow %>% fit(data = iris_train)
+iris_knn_fit
+```
+
+---
+
+# Fase 5: .orange[PREDICCIÓN Y EVALUACIÓN]
+
+
+Tras realizar el ajuste, con `predict()` podremos **.bg-purple_light[obtener las predicciones]** de `Species` de nuestro **.bg-purple_light[conjunto de test]** (en este caso concreto del knn, lo que hará será calcular los vecinos de cada registro de test usando los registros de train)
+
+```{r}
+predict(iris_knn_fit, iris_test)
+```
+
+---
+
+# Fase 5: .orange[PREDICCIÓN Y EVALUACIÓN]
+
+
+Recuerda que el objetivo de estos algoritmos es **.bg-purple_light[estimar aquellas probabilidades de pertenencia]** teóricas del clasificador Bayesiano (y que desconocemos), algo que podemos obtener añadiendo `type = "prob"`
+
+```{r}
+predict(iris_knn_fit, iris_test, type = "prob")
+```
+
+---
+
+# Fase 5: .orange[PREDICCIÓN Y EVALUACIÓN]
+
+
+En muchas ocasiones querremos tener una **.bg-purple_light[visión conjunta]**: ver la clasificación realizada de cada registro pero también ver los valores de cada registro, juntando en una sola tabla los datos originales y las predicciones con `augment()`
+
+```{r}
+prob_test <- augment(iris_knn_fit, iris_test)
+prob_test
+```
+
+---
+
+# Fase 5: .orange[PREDICCIÓN Y EVALUACIÓN]
+
+
+La **.bg-purple_light[matriz confusión]** de verdaderos positivos y negativos, y falsos positivos y negativos, de la que saldrán todas las métricas que usemos para **.bg-purple_light[evaluar nuestro modelo]** se podrán obtener con `conf_mat(truth = ..., estimate = ...)`, indicándole la **.bg-purple_light[columna con la clase real]** y la **.bg-purple_light[columna con la clase predicha]** (que como ves le podemos cambiar el nombre si queremos, por defecto es `.pred_class`)
+
+```{r}
+conf_mat_test <- 
+  prob_test %>%
+  rename(pred_species = .pred_class) %>% 
+  conf_mat(truth = Species, estimate = pred_species)
+conf_mat_test
+```
+
+---
+
+# Fase 5: .orange[PREDICCIÓN Y EVALUACIÓN]
+
+Por último podemos  **.bg-purple_light[obtener la mayoría de métricas]** haciendo uso de `summary()`, aplicado a dicha matriz de confusión
+
+```{r}
+conf_mat_test %>% summary()
+```
+
+---
+
+# Fase 5: .orange[PREDICCIÓN Y EVALUACIÓN]
+
+
+```{r}
+conf_mat_test %>%
+  summary() %>%
+  filter(.metric %in% c("accuracy", "sens", "spec"))
+```
+
+Fíjate que aunque no sea un problema de clasificación binaria nos proporciona métricas como la sensibilidad y especificidad: lo que es, **.bg-purple_light[para cada clase, construir una matriz de confusión]** (ser setosa vs no serlo, ser virginica vs no serlo, ser versicolor vs no serlo), y devuelve la **.bg-purple_light[media de las tres sensibilidad o especificidades]**
+
+
 ---
 
 # .orange[RECURSOS] y .green[BIBLIOGRAFÍA]
