@@ -151,7 +151,7 @@ class: inverse center middle
 
 #### [Bloque VII: depurando, ordenando y resumiendo datos (tidyverse)](#bloque-7)
 
-#### [Bloque VIII: visualizando datos](#bloque-7)
+#### [Bloque VIII: visualizando datos](#bloque-8)
 
 ]
 
@@ -7948,7 +7948,6 @@ starwars_nueva %>%
 
 
 ]
-
 
 ---
 
