@@ -5972,6 +5972,10 @@ name: clase-3
 
 ### [Resumir](#summarise)
 
+### [Introducción al dataviz](#dataviz-intro)
+
+### [ggplot2](#intro-ggplot2)
+
 ---
 
 name: mutate
@@ -6599,8 +6603,1884 @@ starwars %>%
 
 ---
 
+name: dataviz-intro
+
+# Dataviz: .orange[INTRODUCCIÓN]
+
+La aparición de **.bg-purple_light[gráficos estadísticos es relativamente reciente]** en la ciencia (hasta la Edad Media solo se acercaban a la idea los mapas)
 
 
+Podríamos considerar los **.bg-purple_light[mapas]** como las primeras visualización de dato, con la representación de nuestra realidad en superficies bidimensionales. Las propias palabras _chart_ y _cartography_ derivan del mismo origen latino, _charta_.
+
+Parte de esta introducción está basada en:
+
+.footnote[[1] [«Gramática de las gráficas: pistas para mejorar las representaciones de datos» de Joaquín Sevilla](http://academica-e.unavarra.es/bitstream/handle/2454/15785/Gram%C3%A1tica.pdf)
+
+[2] [«Presentation Graphics» de Leland Wilkinson. International Encyclopedia of the Social & Behavioral Sciences](https://www.cs.uic.edu/~wilkinson/Publications/iesbs.pdf)
+
+[3] [«Quantitative Graphics in Statistics: A Brief History» de James R. Beniger y Dorothy L. Robyn. The American Statistician (1978)](https://www.jstor.org/stable/2683467)]
+
+---
+
+# Navegación y .orange[ASTRONOMÍA]
+
+Es en la época medieval, en la que la **.bg-purple_light[navegación y la astronomía]** empezaban a tomar relevancia, cuando aparece la que se considera la primera gráfica (aunque no propiamente estadística) <sup>3</sup>, representando el **.bg-purple_light[movimiento cíclico de los planetas]** (siglos X y XI)
+
+```{r echo = FALSE,  out.width = "57%", fig.align = "center", fig.cap = "Gráfica extraída de Beniger y Robyn (1978)"}
+knitr::include_graphics("./img/dataviz_historico_1.png")
+``` 
+
+[3] [«Quantitative Graphics in Statistics: A Brief History» de James R. Beniger y Dorothy L. Robyn. The American Statistician (1978)](https://www.jstor.org/stable/2683467)
+
+ 
+---
+
+# Navegación y .orange[ASTRONOMÍA]
+
+Con una motivación similar, en torno a 1360 el matemático **Nicole Oresme** diseñó el **.bg-purple_light[primer gráfico de barras]** (no estadístico), con la idea de **visualizar a la vez dos magnitudes** físicas teóricas.
+
+
+```{r echo = FALSE,  out.width = "30%", fig.align = "center", fig.cap = "Gráfica extraída de Friendly y Valero-Mora (2010), de «Tractatus De Latitudinibus Formarum»"}
+knitr::include_graphics("./img/dataviz_historico_2.jpeg")
+``` 
+
+[5] [«The First (Known) Statistical Graph: Michael Florent van Langren and the 'Secret' of Longitude» de M. Friendly y P. M. Valero-Mora. The American Statistician (2010)](https://www.researchgate.net/publication/227369016_The_First_Known_Statistical_Graph_Michael_Florent_van_Langren_and_the_Secret_of_Longitude)
+
+ 
+---
+
+# .orange[PRIMER GRÁFICO] estadístico
+
+La mayoría de expertos, como Tufte <sup>6,7</sup>, consideran este gráfico como la **.bg-purple_light[primera visualización de datos]** de la historia, hecha por **Van Langren** en 1644, representando la **.bg-purple_light[distancia (en longitud) entre Toledo y Roma]**
+
+.pull-left[
+
+```{r echo = FALSE,  out.width = "90%", fig.align = "center", fig.cap = "Gráfica original extraída de Friendly y Valero-Mora (2010)"}
+knitr::include_graphics("./img/longitud_dataviz.jpg")
+``` 
+
+]
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "90%", fig.align = "center", fig.cap = "Adaptación extraída de Friendly y Valero-Mora (2010)"}
+knitr::include_graphics("./img/dataviz_historico_3.jpeg")
+``` 
+
+]
+
+[6] [«Visual explanations: images and quantities, evidence and narrative» de E. Tufte](https://archive.org/details/visualexplanatio00tuft)
+
+[7] [«PowerPoint is evil» de E. Tufte](https://www.wired.com/2003/09/ppt2/)
+
+
+---
+
+# ¿Qué es una .orange[GRÁFICA] estadística?
+
+1. Que se base en el esquema de composición de **.bg-purple_light[eje métrico]**
+
+2. Debe incluir **.bg-purple_light[información cuantitativa]** (debe visualizar datos)
+
+3. La relación de representatividad debería **.bg-purple_light[ser reversible]**: los **datos deberían poder «recuperarse»** a partir de la gráfica (una gráfica estadística es un tipo particular de aplicación matemática).
+
+
+```{r echo = FALSE,  out.width = "50%", fig.align = "center"}
+knitr::include_graphics("./img/sevilla_densidad.jpg")
+``` 
+
+
+---
+
+# .orange[VIZFAIL]
+
+.pull-left[
+
+```{r echo = FALSE,  out.width = "99%", fig.align = "center", fig.cap = "Ejemplo de metáfora visual mal ejecutada"}
+knitr::include_graphics("./img/persona_dataviz.jpg")
+``` 
+
+]
+
+.pull-right[
+
+* La figura elegida (una persona caminando) no guarda relación alguna con lo que se pretende representar.
+
+* Los sectores señalados no tienen relación con el ítem a representar, lo que dificulta su interpretación
+
+* Los colores no dan información de ningún tipo.
+
+* La forma hace imposible la comparación entre áreas (salvo que leas el % adjunto).
+
+* La suma total supera el 100% ¿?
+
+* **Sin la fuente de los datos**.
+
+]
+
+---
+
+# ¿Qué es una .orange[GRÁFICA] estadística?
+
+Hay muchas formas de hacer una gráfica estadística, y **no suele pasar** por hacer un gráfico de tartas. Los **.bg-purple_light[diagramas de tartas o sectores tiene un problema]** de reversibilidad:
+
+* Si hay **muchas variables**: salvo que conozcas el montante total y tengas un transportador de ángulos a mano, es muy complicado que obtengas información.
+
+* Si hay **pocas variables**: ¿aporta algo distinto (y/o mejor) que una tabla?
+
+
+```{r echo = FALSE,  out.width = "40%", fig.align = "center"}
+knitr::include_graphics("./img/sectores_sevilla.jpg")
+``` 
+
+---
+
+# ¿Qué es una .orange[GRÁFICA] estadística?
+
+El principal problema de un **diagrama de sectores** es que la posible información está contenido en los **ángulos**, pero nuestra interpretación la realizamos a través de la **comparación de áreas** (nuestros ojos no miden bien ángulos), las cuales dependen no solo del ángulo sino del radio.
+
+Algo similar sucede con los mal llamados **.bg-purple_light[gráficos tridimensionales]** (son bidimensionales con perspectiva en realidad): los valores más cercanos aparecen sobredimensionados, siendo prácticamente imposible la reversibilidad.
+
+
+```{r echo = FALSE,  out.width = "55%", fig.align = "center"}
+knitr::include_graphics("./img/sectores_3D_sevilla.jpg")
+``` 
+
+---
+
+
+# El gran boom: .orange[Playfair]
+
+La figura que cambió el dataviz fue, sin lugar a dudas, el economista y político **William Playfair (1759-1823)**. En 1786 publicó el **«Atlas político y comercial»** con 44 gráficas (43 series temporales y el **diagrama de barras más famoso**, aunque no el primero).
+
+.pull-left[
+
+```{r echo = FALSE, out.width = "80%", fig.align = "center", fig.cap = "Gráficas de Playfair, extraídas de Funkhouser y Walker (1935)"}
+knitr::include_graphics("./img/playfair_1.jpg")
+``` 
+
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "30%", fig.align = "center", fig.cap = "Gráficas de Playfair, extraídas de Funkhouser y Walker (1935)"}
+knitr::include_graphics("./img/playfair_2.jpg")
+``` 
+
+]
+
+[10] [«Atlas político y comercial» de William Playfair (1786)](https://www.amazon.es/Playfairs-Commercial-Political-Statistical-Breviary/dp/0521855543)
+
+[11] [«Playfair and his charts» de H. Gray Funkhouser and  Helen M. Walker (1935)](https://www.jstor.org/stable/45366440)
+
+---
+
+# El gran boom: .orange[Playfair]
+
+Playfair no solo fue el primero en usar el dataviz para entender la realidad: fue el primero en usar **conceptos modernos** como el _grid_ o el color como un elemento no solo estético.
+
+.pull-left[
+
+```{r echo = FALSE, out.width = "80%", fig.align = "center", fig.cap = "Gráficas de Playfair, extraídas de https://friendly.github.io/HistDataVis"}
+knitr::include_graphics("./img/playfair_3.jpg")
+``` 
+
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "80%", fig.align = "center", fig.cap = "Gráficas de Playfair, extraídas de la wikipedia."}
+knitr::include_graphics("./img/playfair_4.png")
+``` 
+
+]
+
+[10] [«Atlas político y comercial» de William Playfair (1786)](https://www.amazon.es/Playfairs-Commercial-Political-Statistical-Breviary/dp/0521855543)
+
+---
+
+# Primer .orange[GRÁFICO DE BARRAS]
+
+Playfair es además el **autor del gráfico de barras más famoso** (aunque no fue el primero, pero sí el que sentó un precedente, quien lo hizo _mainstream_).
+
+.pull-left[
+
+```{r echo = FALSE, out.width = "90%", fig.align = "center", fig.cap = "Gráficas de Playfair de importaciones (barras grises) y exportaciones (negras) de Escocia en 1781"}
+knitr::include_graphics("./img/playfair_5.jpg")
+``` 
+
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "90%", fig.align = "center", fig.cap = "Primer diagrama de barras (Philippe Buache y Guillaume de L’Isle), visualizando los niveles del Sena desde 1732 hasta 1766"}
+knitr::include_graphics("./img/playfair_6.jpg")
+``` 
+
+]
+
+---
+
+# El gran boom: .orange[Playfair]
+
+
+Playfair además fue el primero en **combinar gráficos en la misma visualización**
+
+.pull-left[
+
+```{r echo = FALSE, out.width = "70%", fig.align = "center", fig.cap = "Gráfica de Playfair, visualizando 3 series temporales"}
+knitr::include_graphics("./img/playfair_7.jpg")
+``` 
+
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "70%", fig.align = "center", fig.cap = "Gráfica de Playfair, visualizando un time-line histórico"}
+knitr::include_graphics("./img/playfair_8.jpg")
+``` 
+]
+
+[12] [«A Letter on Our Agricultural Distresses, Their Causes and Remedies» de William Playfair (1821)](http://onlinebooks.library.upenn.edu/webbin/book/lookupid?key=ha009726110)
+
+[13] [«An Inquiry Into the Permanent Causes of the Decline and Fall of Powerful and Wealthy Nations» de William Playfair (1821)](https://www.amazon.com/Permanent-Powerful-Nations-Prosperity-Prolonged/dp/140691830X)
+
+
+
+---
+
+
+# .orange[MAPAS DE MINARD]
+
+Minard fue el autor del famoso «Carte figurative des pertes successives en hommes de l'Armée Française dans la campagne de Russie 1812-1813», según Tufte «el mejor gráfico estadístico jamás dibujado», publicado en 1869 sobre la **.bg-purple_light[desastrosa campaña rusa de las tropas de Napoleón en 1812]**, mostrando 3 variables en un gráfico bidimensional
+
+```{r echo = FALSE, out.width = "70%", fig.align = "center", fig.cap = "Gráfico de Minard sobre el avance de las tropas de Napoleón hacia Rusia, extraída de https://friendly.github.io/HistDataVis."}
+knitr::include_graphics("./img/minard_2.png")
+``` 
+
+
+---
+
+# .orange[Francis Galton]
+
+.pull-left[
+
+Primo de Charles Darwin, inventor de los silbatos para perretes, de los mapas de predicción meteorológica y la persona que acuñó el concepto de **.bg-purple_light[regresión]** (y el de eugenesia :/).
+
+```{r echo = FALSE, out.width = "93%", fig.align = "center"}
+knitr::include_graphics("https://www.bogleheads.org/w/images/thumb/9/95/Screen_Shot_2012-01-03_at_7.36.29_AM.png/600px-Screen_Shot_2012-01-03_at_7.36.29_AM.png")
+``` 
+
+
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "58%", fig.align = "center"}
+knitr::include_graphics("./img/galton_1.jpg")
+``` 
+
+```{r echo = FALSE, out.width = "58%", fig.align = "center"}
+knitr::include_graphics("./img/galton_2.png")
+``` 
+
+]
+
+
+
+---
+
+
+# Diagrama de .orange[ÁREA POLAR]
+
+Se le atribuye a Farr el primer **.bg-purple_light[diagrama de área polar o radial]**, cambiando por completo el **paradigma cartesiano** de la época: para visualizar la estacionalidad de la mortalidad en función de la temperatura, Farr decidió visualizarlo con coordenadas polares.
+
+```{r echo = FALSE, out.width = "48%", fig.align = "center"}
+knitr::include_graphics("./img/farr_colera_2.png")
+``` 
+
+[16] [«General Register Office, Report on the Mortality of Cholera in England, 1848–49» publicado en 1852](https://wellcomecollection.org/works/pajtrpez/items?canvas=9)
+
+
+---
+
+# .orange[Florence Nigthingale]: una revolución
+
+.pull-left[
+
+
+* El 21 de octubre de 1854 **.bg-purple_light[Florence Nigthingale]** fue enviada para mejorar las condiciones sanitarias de los **.bg-purple_light[soldados británicos]** en la guerra de Crimea. 
+
+* A su regreso se dedicó a demostrar que los **.bg-purple_light[soldados fallecían por las condiciones sanitarias]**: eran muertes evitables.
+
+* Nigthingale es la creadora del famoso **.bg-purple_light[diagrama de rosa]**, permitiendo pintar tres variables a la vez y su estacionalidad.
+
+* El 8 de febrero de 1955, The Times la describió como la **.bg-purple_light[«ángel guardián» de los hospitales]**, y al finalizar la contienda, fue recibida como una heroína, conocida como **«The Lady with the Lamp»** tras un poema de H. W. Longfellow publicado en 1857.
+
+
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "90%", fig.align = "center"}
+knitr::include_graphics("https://www.researchgate.net/profile/Miguel-Guevara-4/publication/325622727/figure/fig1/AS:635977265582080@1528640204506/FIGURA-2-La-dama-con-la-lampara-1891-en-ingles-The-lady-with-the-lamp.png")
+``` 
+
+]
+
+---
+
+# .orange[DIAGRAMA DE ROSA]
+
+Florence Nigthingale es la creadora del famoso **.bg-purple_light[diagrama de rosa]**, permitiendo pintar tres variables a la vez y su estacionalidad: **tiempo** (cada **gajo** es un mes), **nº de muertes** (**área** del gajo) y **causa** de la muerte (**color** del gajo: azules enfermedades infecciosas, rojas por heridas, negras otras causas).
+
+
+```{r echo = FALSE, out.width = "70%", fig.align = "center"}
+knitr::include_graphics("./img/rosa_nightingale.jpg")
+``` 
+
+
+---
+
+# .red[¿Líneas rojas?]
+
+```{r echo = FALSE, out.width = "65%", fig.align = "center", fig.cap = "Infografía extraída de https://twitter.com/storywithdata"}
+knitr::include_graphics("https://pbs.twimg.com/media/FIgZcF4X0AAzLnC?format=jpg&name=medium")
+``` 
+
+---
+
+# Contexto
+
+Una **buena idea** puede estar mejor o peor ejecutada, y la forma de llevarla a cabo es importante
+
+```{r echo = FALSE, out.width = "30%", fig.align = "center", fig.cap = "Un semáforo no es una mala idea, la forma de instalarlo sí puede serlo. Imagen extraída del manual de Joaquín Sevilla"}
+knitr::include_graphics("./img/semaforo.jpg")
+``` 
+
+---
+
+name: intro-ggplot2
+
+# Introducción a .orange[ggplot2]
+
+
+El paquete `{ggplot2}` se basa en la idea propuesta en **.bg-purple_light[«Grammar of graphics»]** del recién fallecido Wilkinson (de ahí el gg)
+
+
+.pull-left[
+
+```{r echo = FALSE,  out.width = "60%", fig.align = "center", fig.cap = "Imagen extraída de Reddit"}
+knitr::include_graphics("https://dadosdelaplace.github.io/courses-ECI-2022/img/telling-dataviz")
+``` 
+
+]
+
+.pull-right[
+
+Una de las **principales fortalezas** de `R` no solo es el manejo de datos con `{tidyverse}`, también la visualización con uno de sus paquetes: el paquete `{ggplot2}`.
+
+La **visualización de datos** debería ser una parte fundamental de todo análisis de datos. No es solo una cuestión estética. La visualización de datos es fundamental para convertir el dato en información.
+
+]
+
+
+---
+
+# ggplot2: .orange[GRAMMAR OF GRAPHICS] 
+
+.pull-left[
+
+La idea de la filosofía detrás de `{ggplot2}` es entender los **.bg-purple_light[gráficos como parte integrada del flujo de datos]**, dotándoles de una gramática, basándose en la idea de 
+[«The Grammar of Graphics» de Leland Wilkinson](https://www.amazon.es/Grammar-Graphics-Statistics-Computing/dp/0387245448).
+
+El objetivo es empezar con un lienzo en blanco e ir **.bg-purple_light[añadiendo capas a tu gráfico]**, como harías por ejemplo en Photoshop, con la diferencia de que nuestras capas podemos **.bg-purple_light[vincularlas a los datos]**.
+
+La ventaja de `{ggplot2}` es poder **.bg-purple_light[mapear atributos estéticos]** (color, forma, tamaño) de objetos geométricos (puntos, barras, líneas) en función de los datos.
+
+
+
+]
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "100%", fig.align = "center", fig.cap = "Idea detrás de la «Grammar of graphics» de Wilkinson"}
+knitr::include_graphics("https://dadosdelaplace.github.io/courses-ECI-2022/img/grammar.jpg")
+``` 
+
+La **.bg-purple_light[documentación]** del paquete puedes consultarla en <https://ggplot2-book.org/introduction.html> 
+
+]
+
+
+---
+
+# ggplot2: .orange[GRAMMAR OF GRAPHICS] 
+.pull-left[
+
+
+```{r echo = FALSE,  out.width = "100%", fig.align = "center", fig.cap = "Idea detrás de la «Grammar of graphics» de Wilkinson"}
+knitr::include_graphics("https://dadosdelaplace.github.io/courses-ECI-2022/img/grammar.jpg")
+``` 
+
+]
+
+.pull-right[
+
+Un gráfico se podrá componer de las siguientes **capas**
+
+* **.bg-purple_light[Datos]**
+* **.bg-purple_light[Mapeado]** de elementos estéticos (aesthetics): ejes, color, forma, tamaño, etc (en función de los datos)
+* **.bg-purple_light[Elementos geométricos]** (geom): puntos, líneas, barras, polígonos, etc.
+* **.bg-purple_light[Componer gráficas]** (facet): visualizar varias gráficas a la vez.
+* **.bg-purple_light[Transformaciones]** estadísticas (stat): ordenar, resumir, agrupar, etc.
+* **.bg-purple_light[Sistema de coordenadas]** (coord): coordenadas, grids, etc.
+* **.bg-purple_light[Temas]** (theme): fuente, tamaño de letra, subtítulos, captions, leyenda, ejes, etc.
+
+]
+
+---
+
+# Primer intento: .orange[scatter plot]
+
+Veamos un **primer intento** para entender la filosofía. Imagina que queremos dibujar un **.bg-purple_light[scatter plot]** o **.bg-purple_light[diagrama de (dispersión)]** de puntos.
+
+Para ello vamos a usar el conjunto de datos `gapminder`, del paquete homónimo: un fichero con **datos de esperanzas de vida, poblaciones y renta per cápita** de distintos países en distintos momentos temporales.
+
+```{r}
+library(gapminder)
+gapminder
+```
+
+---
+
+# Primer intento: .orange[scatter plot]
+
+El fichero consta de 1704 registros y 6 variables: `country`, `continent`, `year`, `lifeExp` (esperanza de vida), `pop` (población)  y `gdpPercap` (renta per cápita).
+
+Para empezar con algo sencillo **filtraremos solo los datos de 1997**
+
+```{r}
+gapminder_1997 <- gapminder %>% filter(year == 1997)
+gapminder_1997
+```
+
+---
+
+# Primer intento: .orange[scatter plot]
+
+.pull-left[
+
+* **.bg-purple_light[Eje X]**: renta per cápita (variable `gdpPercap`)
+* **.bg-purple_light[Eje Y]**: población (variable `pop`)
+
+**¿Qué necesitamos?**
+
+* **Datos**:  `gapminder_1997`.
+* **Mapeado**: indicarle dentro de `aes()` (aesthetics) las variables a pintar en cada coordenada. Todo lo que esté **.bg-purple_light[dentro de aes() dependerá de los datos]**.
+
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(x = gdpPercap, y = pop))
+```
+
+* **Elegir una geometría**: optaremos por **puntos** con `geom_point()`.
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(x = gdpPercap, y = pop)) +
+  geom_point() #<< Geometría
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(gapminder_1997, aes(x = gdpPercap, y = pop)) +
+  geom_point()
+```
+]
+
+---
+
+
+# Primer intento: .orange[scatter plot]
+
+.pull-left[
+
+Vamos a profundizar en ese mapeado, cambiando el rol de los ejes:
+
+* **Eje X**: población (variable `pop`)
+* **Eje Y**: renta per cápita (variable `gdpPercap`)
+
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = pop)) + #<<
+  geom_point() 
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(gapminder_1997, aes(y = gdpPercap, x = pop)) +
+  geom_point() 
+```
+]
+
+---
+
+
+# Primer intento: .orange[scatter plot]
+
+.pull-left[
+
+La idea podemos repetirla enfrentando ahora la **esperanza de vida** frente a **la renta per cápita**.
+
+* **Eje X**: esperanza de vida (variable `lifeExp`)
+* **Eje Y**: renta per cápita (variable `gdpPercap`)
+
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) + #<<
+  geom_point()
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(gapminder_1997, aes(y = gdpPercap, x = lifeExp)) +
+  geom_point()
+```
+]
+
+---
+
+# .orange[COLORES], .green[TAMAÑOS] y formas
+
+.pull-left[
+
+Para **cambiar el color de los puntos**, indicaremos dentro de `geom_point()` el color de la geometría con `color = ...` (en este caso, el color del punto). Empezaremos por un **color fijo**, por ejemplo `"red"` (existen otros como `"blue"`, `"black"`, `"yellow"`, etc)
+
+```{r eval = FALSE}
+# Color con palabra reservada
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(color = "red") #<<
+```
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(gapminder_1997, aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(color = "red")
+```
+
+]
+
+---
+
+# .orange[COLORES], .green[TAMAÑOS] y formas
+
+.pull-left[
+
+Los colores también podemos asignárselos por su **código hexadecimal**, consultando en la página <https://htmlcolorcodes.com/es/>, eligiendo el color que queramos. El código hexadecimal siempre comenzará con `#`
+
+
+```{r eval = FALSE}
+# Color en hexadecimal
+# https://htmlcolorcodes.com/es/
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(color = "#2EA2D8") #<<
+```
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(gapminder_1997, aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(color = "#2EA2D8")
+```
+
+]
+
+
+---
+
+# .orange[COLORES], .green[TAMAÑOS] y formas
+
+.pull-left[
+  
+De la misma manera podemos **indicarle el tamaño de la geometría** (en este caso el **tamaño de los punto**) con `size = ...` (cuanto mayor sea el número, mayor será el tamaño de la geometría).
+
+```{r eval = FALSE}
+# Color y tamaño
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(color = "#A02B85", size = 5) #<<
+```
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(gapminder_1997, aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(color = "#A02B85", size = 5)
+```
+
+]
+  
+  
+
+---
+
+# .orange[COLORES], .green[TAMAÑOS] y formas
+
+.pull-left[
+  
+También podemos jugar con la **transparencia del color** con `alpha = ...`: si `alpha = 1`, el color será totalmente opaco (por defecto); si `alpha = 0` será totalmente transparente.
+
+
+```{r eval = FALSE}
+# Color, tamaño y transparencia
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(color = "#A02B85", size = 9,
+             alpha = 0.4) #<<
+```
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(color = "#A02B85", size = 9,
+             alpha = 0.4)
+```
+
+]
+  
+  
+---
+
+# .orange[MAPEAR] (aesthetics)
+
+.pull-left[
+  
+Hasta ahora los **parámetros estéticos** se los hemos pasado fijos y **constantes**. Pero la verdadera potencia y versatilidad de `ggplot` es entender todos esos parámetros como entendemos el mapeado coordenadas: podemos **mapear los atributos estéticos** en `aes()` para que dependan de variables de los datos
+
+&nbsp;
+
+Por ejemplo, vamos a **asignar un color a cada dato en función de su continente**.
+
+```{r eval = FALSE}
+# Tamaño fijo
+# Color por continentes
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent)) + #<<
+  geom_point(size = 5)
+```
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp, color = continent)) +
+  geom_point(size = 5)
+```
+
+]
+  
+  
+---
+
+
+# .orange[MAPEAR] (aesthetics)
+
+.pull-left[
+  
+Podemos combinarlo con lo que hemos hecho anteriormente:
+
+
+* **color** en función del **continente**.
+* **tamaño** en función de la **población**
+* **transparencia** fija del 70%
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) + #<<
+  geom_point(alpha = 0.7)
+```
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.7)
+```
+
+]
+  
+  
+---
+
+# .orange[MAPEAR] (aesthetics)
+
+.pull-left[
+  
+En lugar de jugar con el color, también podríamos añadir las variables en función de la **forma de la geometría** (en este caso la forma de los «puntos») con `shape = ...`.
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           shape = continent, size = pop)) +
+  geom_point(alpha = 0.7)
+```
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           shape = continent, size = pop)) +
+  geom_point(alpha = 0.7)
+```
+
+]
+  
+
+---
+
+# Gráfico .orange[MULTIDIMENSIONAL]
+
+.pull-left[
+  
+Reflexionemos sobre el gráfico anterior:
+
+* **color** en función del **continente**.
+* **tamaño** en función de la **población**
+* **transparencia** fija del 70%
+
+Usando los datos hemos conseguido **dibujar en un gráfico bidimensional 4 variables** (`lifeExp` y `gdpPercap` en los ejes $(X, Y)$), `continent` como color y `pop` como tamaño de la geometría) con muy pocas líneas de código.
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.7)
+```
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.7)
+```
+
+]
+  
+---
+
+# .orange[ESCALA] de los ejes
+
+.pull-left[
+  
+A veces nos puede ser más conveniente **representar alguna de las variables** en otras escalas, por ejemplo en **escala logarítmica** (importante indicarlo en el gráfico), lo que podemos hacer facilmente con `scale_x_log10()` y/o `scale_y_log10()`.
+
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.7) +
+  # Eje Y con escala logarítmica
+  scale_y_log10() #<<
+```
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.7) +
+  # Eje Y con escala logarítmica
+  scale_y_log10()
+```
+
+]
+
+---
+
+# .orange[PALETAS] de colores
+
+.pull-left[
+
+Si no indicamos nada, `R` selecciona automáticamente una **paleta de colores**, pero podemos indicarle alguna paleta concreta de varias maneras.
+
+&nbsp;
+
+La primera y más inmediata es indicarle los **colores manualmente**: con `scale_color_manual` le podemos indicar un **vector de colores**.
+
+```{r eval = FALSE}
+pal <- c("#A02B85", "#2DE86B", "#4FB2CA",
+         "#E8DA2D", "#E84C2D")
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.7) +
+  scale_y_log10() +
+  # Escala manual de colores
+  scale_color_manual(values = pal) #<<
+```
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+pal <- c("#A02B85", "#2DE86B", "#4FB2CA",
+         "#E8DA2D", "#E84C2D")
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.7) +
+  scale_y_log10() +
+  scale_color_manual(values = pal)
+```
+
+]
+
+---
+
+# .orange[PALETAS] de colores
+.pull-left[
+
+Otra opción es elegir alguna de las **paletas de colores disponibles** en el paquete `{ggthemes}`:
+
+* `scale_color_economist()`: paleta de colores basada en los colores de The Economist.
+
+```{r eval = FALSE}
+library(ggthemes)
+# scale_color_economist()
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_economist()
+```
+  
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+library(ggthemes)
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_economist()
+```
+
+]
+
+---
+
+# .orange[PALETAS] de colores
+.pull-left[
+
+Otra opción es elegir alguna de las **paletas de colores disponibles** en el paquete `{ggthemes}`:
+
+* `scale_color_excel()`: paleta de colores basada en los colores del Excel.
+
+```{r eval = FALSE}
+library(ggthemes)
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_excel()
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+library(ggthemes)
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_excel()
+```
+
+]
+
+---
+
+# .orange[PALETAS] de colores
+.pull-left[
+
+Otra opción es elegir alguna de las **paletas de colores disponibles** en el paquete `{ggthemes}`:
+
+* `scale_color_tableau()`: paleta de colores basada en los colores de Tableau.
+
+```{r eval = FALSE}
+library(ggthemes)
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau()
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+library(ggthemes)
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau()
+```
+
+]
+
+---
+
+# .orange[PALETAS] de colores
+.pull-left[
+
+También existen **múltiples paquetes** que nos proporcionan **paletas de colores** basados en:
+
+* **películas**: paquete `{harrypotter}` (repositorio de Github `aljrico/harrypotter`) usando `scale_color_hp_d()`.
+
+```{r eval = FALSE}
+library(devtools)
+install_github(repo = "https://github.com/aljrico/harrypotter")
+library(harrypotter)
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.9) +
+  scale_y_log10() +
+  scale_color_hp_d(option = "ravenclaw")
+```
+
+]
+
+.pull-right[
+
+
+```{r echo = FALSE,  out.width = "21%", fig.align = "center", fig.cap = "Paleta basada en la casa Ravenclaw"}
+knitr::include_graphics("https://raw.githubusercontent.com/aljrico/harrypotter/master/readme_raw_files/palettes/ravenclaw.png")
+``` 
+
+```{r echo = FALSE}
+library(harrypotter)
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.9) +
+  scale_y_log10() +
+  scale_color_hp_d(option = "ravenclaw")
+```
+
+]
+
+---
+
+# .orange[PALETAS] de colores
+.pull-left[
+
+También existen **múltiples paquetes** que nos proporcionan **paletas de colores** basados en:
+
+
+* **cuadros**(paquete `{MetBrewer}` descargado desde el repositorio de Github `BlakeRMills/MetBrewer`).
+
+```{r eval = FALSE}
+devtools::install_github("BlakeRMills/MetBrewer") 
+library(MetBrewer)
+MetBrewer::met.brewer("Renoir")
+```
+
+```{r echo = FALSE, out.width = "60%"}
+library(MetBrewer)
+MetBrewer::met.brewer("Renoir")
+```
+
+
+]
+
+
+.pull-right[
+
+```{r echo = FALSE}
+library(MetBrewer)
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.9) +
+  scale_y_log10() +
+  scale_colour_manual(values = met.brewer("Renoir"))
+```
+
+]
+
+---
+
+# .orange[PALETAS] de colores
+.pull-left[
+
+También existen **múltiples paquetes** que nos proporcionan **paletas de colores** basados en:
+
+
+* **cuadros**(paquete `{MetBrewer}` descargado desde el repositorio de Github `BlakeRMills/MetBrewer`).
+
+```{r eval = FALSE}
+devtools::install_github("BlakeRMills/MetBrewer") 
+library(MetBrewer)
+MetBrewer::met.brewer("Klimt")
+```
+
+```{r echo = FALSE, out.width = "60%"}
+library(MetBrewer)
+MetBrewer::met.brewer("Klimt")
+```
+
+]
+
+
+.pull-right[
+
+```{r echo = FALSE}
+library(MetBrewer)
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.9) +
+  scale_y_log10() +
+  scale_colour_manual(values = met.brewer("Klimt"))
+```
+
+]
+
+---
+
+
+# .orange[GEOMETRÍAS] (geom)
+
+.pull-left[
+
+Hemos jugado un poco con las formas, tamaños y colores, pero siempre ha sido un diagrama de dispersión con puntos. Al igual que hemos usado `geom_point()`, podríamos usar otras geometrías como **líneas** con `geom_line()`.
+
+```{r eval = FALSE }
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_line(alpha = 0.8) + #<<
+  scale_y_log10() +
+  scale_color_tableau()
+```
+  
+]
+
+.pull-right[
+
+```{r echo = FALSE }
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_line(alpha = 0.8) + 
+  scale_y_log10() +
+  scale_color_tableau()
+```
+]
+
+---
+
+# .orange[GEOMETRÍAS] (geom)
+
+.pull-left[
+
+Asignado los colores a la variable `continent`, automáticamente obtenemos cada curva separada por continente.
+
+```{r eval = FALSE}
+# Separando por continente
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent)) +
+  geom_line(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau()
+```
+  
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent)) +
+  geom_line(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau()
+```
+]
+
+---
+
+# .orange[GEOMETRÍAS] (geom)
+
+.pull-left[
+
+La **filosofía es siempre la misma**: dado que cada elemento lo podemos tratar de forma individual, pasar de un gráfico a otro es relativamente sencillo, sin más que cambiar `geom_point()` por `geom_line()`.
+
+De la misma manera podemos dibujar un diagrama de dispersión con **formas hexagonales** con `geom_hex()`. Dado que ahora nuestra geometría **tiene volumen** tendremos dos parámetros: `color` para el contorno y `fill` para el **relleno**  (fíjate que también cambiamos `scale_color_tableau()` por `scale_fill_tableau()`)
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           fill = continent, size = pop)) +
+  geom_hex(alpha = 0.8) + #<<
+  scale_y_log10() +
+  scale_fill_tableau() #<<
+```
+  
+]
+
+.pull-right[
+
+
+```{r echo = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           fill = continent, size = pop)) +
+  geom_hex(alpha = 0.8) +
+  scale_y_log10() +
+  scale_fill_tableau()
+```
+
+]
+
+---
+
+# .orange[GEOMETRÍAS] (geom)
+
+.pull-left[
+
+Tenemos varias funciones de este tipo, como `geom_tile()`, que nos visualiza los datos con «mosaicos» (como baldosas), o `geom_text()`, con la podemos hacer que en lugar de una forma geométrica aparezcan **textos que tengamos en alguna variable**, que la pasaremos en `aes()` por el **parámetro label** (en este caso, la variable de la que tomará los nombres será `country`).
+
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop, label = country)) +
+  geom_text(alpha = 0.8) + #<<
+  scale_y_log10() +
+  scale_color_tableau()
+```
+  
+]
+
+.pull-right[
+
+
+```{r echo = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop, label = country)) +
+  geom_text(alpha = 0.8) + #<<
+  scale_y_log10() +
+  scale_color_tableau()
+```
+
+]
+
+---
+
+# .orange[COMPONER] (facet)
+
+.pull-left[
+
+Hasta ahora hemos pintado una sola gráfica, **codificando información en colores y formas**. Pero también podemos **dividir/desagregar los gráficos (facetar) por variables**, pintando por ejemplo un **gráfico por continente**, mostrando todos los gráficos a la vez pero por separado, con `facet_wrap()`.
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(alpha = 0.9) +
+  scale_y_log10() +
+  facet_wrap(~ continent) #<<
+``` 
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(alpha = 0.9) +
+  scale_y_log10() +
+  facet_wrap(~ continent)
+``` 
+
+]
+
+---
+
+# .orange[COMPONER] (facet)
+
+.pull-left[
+
+También le podemos pasar **argumentos opcionales** para indicarle el **número de columnas o de filas** que queremos.
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(alpha = 0.9) +
+  scale_y_log10() +
+  facet_wrap(~ continent, nrow = 3) #<<
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(alpha = 0.9) +
+  scale_y_log10() +
+  facet_wrap(~ continent, nrow = 3) #<<
+```
+
+]
+
+---
+
+# .orange[COMPONER] (facet)
+
+.pull-left[
+
+De esta manera podríamos incluso **visualizar el fichero de datos originales incluye hasta 5 variables** en un gráfico bidimensional:
+
+* las variables `pop` y `lifeExp` en los **ejes**.
+* la variable `gdpPercap` en el **tamaño**.
+* la variable `continent` en el **color**.
+* la variable `year` en la composición de `facet_wrap()`.
+
+```{r eval = FALSE}
+library(MetBrewer)
+ggplot(gapminder %>% filter(year > 1962),
+       aes(y = lifeExp, x = pop,
+           size = gdpPercap, color = continent)) +
+  geom_point(alpha = 0.6) +
+  scale_x_log10() +
+  scale_colour_manual(values =
+                        met.brewer("Klimt")) +
+  facet_wrap(~ year)
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+library(MetBrewer)
+ggplot(gapminder %>% filter(year > 1962),
+       aes(y = lifeExp, x = pop,
+           size = gdpPercap, color = continent)) +
+  geom_point(alpha = 0.6) +
+  scale_x_log10() +
+  scale_colour_manual(values =
+                        met.brewer("Klimt")) +
+  facet_wrap(~ year)
+```
+
+]
+
+---
+
+# .orange[COMPONER] (facet)
+
+.pull-left[
+
+Con `facet_grid()` podemos incluso **organizar una cuadrícula en base a dos variables**, por ejemplo que haya una **fila por año** (vamos a usar la tabla original en los **años 1952, 1972, 1982 y 2002**) y una **columna por continente**.
+
+```{r eval = FALSE}
+ggplot(gapminder %>%
+         filter(year %in% c(1952,  1972, 1982,  2002)),
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(alpha = 0.9) +
+  scale_y_log10() +
+  facet_grid(year ~ continent)
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(gapminder %>%
+         filter(year %in% c(1952,  1972, 1982,  2002)),
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(alpha = 0.9) +
+  scale_y_log10() +
+  facet_grid(year ~ continent)
+```
+
+]
+
+---
+
+# .orange[COORDENADAS] y .green[TEMA]
+
+.pull-left[
+
+Los gráficos pueden además **personalizarse añadiendo**, por ejemplo, *títulos y subtítulos** de la gráfica con `labs()`, asignando textos a `title, subtitle y caption`.
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau() +
+  labs(title = "EJEMPLO DE SCATTERPLOT CON GGPLOT2",
+       subtitle =
+         "Esperanza vida vs renta per cápita (1997)",
+       caption = "J. Álvarez Liébana | Datos: gapminder")
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau() +
+  labs(title = "EJEMPLO DE SCATTERPLOT CON GGPLOT2",
+       subtitle =
+         "Esperanza vida vs renta per cápita (1997)",
+       caption = "J. Álvarez Liébana | Datos: gapminder")
+```
+
+]
+
+---
+
+# .orange[COORDENADAS] y .green[TEMA]
+
+.pull-left[
+
+También podemos **personalizar algunos aspectos extras**, como el **título que vamos a dar a los ejes** o el **título de las leyendas**.
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  # Eje Y con escala logarítmica
+  scale_y_log10() +
+  scale_color_tableau() +
+  labs(x = "Esperanza de vida", #<<
+       y = "Renta per cápita", #<<
+       color = "Continente", #<<
+       size = "Población", #<<
+       title = "EJEMPLO DE SCATTERPLOT CON GGPLOT2",
+       subtitle =
+         "Esperanza vida vs renta per cápita (1997)",
+       caption = "J. Álvarez Liébana | Datos: gapminder")
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  # Eje Y con escala logarítmica
+  scale_y_log10() +
+  scale_color_tableau() +
+  labs(x = "Esperanza de vida", #<<
+       y = "Renta per cápita", #<<
+       color = "Continente", #<<
+       size = "Población", #<<
+       title = "EJEMPLO DE SCATTERPLOT CON GGPLOT2",
+       subtitle =
+         "Esperanza vida vs renta per cápita (1997)",
+       caption = "J. Álvarez Liébana | Datos: gapminder")
+```
+
+]
+
+---
+
+# .orange[COORDENADAS] y .green[TEMA]
+
+.pull-left[
+
+También podemos **ocultar algún nombre de las leyendas** (o ambos) si ya es explícito de lo que se está hablando. Por ejemplo, vamos a indicarle que no queremos el nombre de la leyenda en continentes, haciendo `color = NULL` (la variable que codifica los continentes a `NULL`).
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau() +
+  labs(x = "Esperanza de vida",
+       y = "Renta per cápita",
+       color = NULL, #<<
+       size = "Población",
+       title = "EJEMPLO DE SCATTERPLOT CON GGPLOT2",
+       subtitle =
+         "Esperanza vida vs renta per cápita (1997)",
+       caption = "J. Álvarez Liébana | Datos: gapminder")
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau() +
+  labs(x = "Esperanza de vida",
+       y = "Renta per cápita",
+       color = NULL, #<<
+       size = "Población",
+       title = "EJEMPLO DE SCATTERPLOT CON GGPLOT2",
+       subtitle =
+         "Esperanza vida vs renta per cápita (1997)",
+       caption = "J. Álvarez Liébana | Datos: gapminder")
+```
+
+]
+
+---
+
+# .orange[COORDENADAS] y .green[TEMA]
+
+.pull-left[
+
+Incluso podemos **ocultar la leyenda en sí de alguna de alguna de las variables** con `guides(size = "none")` (en este caso, `size = "none"` nos elimina la leyenda que codifica el tamaño de los puntos).
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau() +
+  guides(size = "none") + #<<
+  labs(x = "Esperanza de vida",
+       y = "Renta per cápita",
+       color = NULL, size = "Población",
+       title = "EJEMPLO DE SCATTERPLOT CON GGPLOT2",
+       subtitle =
+         "Esperanza vida vs renta per cápita (1997)",
+       caption = "J. Álvarez Liébana | Datos: gapminder")
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau() +
+  guides(size = "none") + #<<
+  labs(x = "Esperanza de vida",
+       y = "Renta per cápita",
+       color = NULL, size = "Población",
+       title = "EJEMPLO DE SCATTERPLOT CON GGPLOT2",
+       subtitle =
+         "Esperanza vida vs renta per cápita (1997)",
+       caption = "J. Álvarez Liébana | Datos: gapminder")
+```
+]
+
+---
+
+# Ejercicios
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+* 📝 **Ejercicio 1**: del conjunto `starwars` filtra solo los registros que no tenga ausente las columnas `mass, height, eye_color`. Dibuja un diagrama de puntos enfrentando `x = height` en el eje X e `y = mass` en el eje Y.
+ 
+* 📝 **Ejercicio 2**: modifica el código  anterior para asignar el tamaño en función de `mass`.
+
+* 📝 **Ejercicio 3**: modifica el código del gráfico anterior para asignar el color en función de su color de ojos guardado en `eye_color`. Antes procesa la variable para quedarte con colores reales: si hay dos colores, quédate con el primero; el color `"hazel"` pásalo a `"brown"`; los colores `"unknown"` pásalo a gris.
+
+* 📝 **Ejercicio 4**: repite el gráfico anterior localizando ese dato con un peso extremadamente elevado (outlier), elimínalo y vuelve a repetir la visualización.
+
+ 
+]
+
+.panel[.panel-name[Sol. 1]
+
+.pull-left[
+
+```{r eval = FALSE}
+# Eliminamos NA
+starwars_filtro <-
+  starwars %>%
+  drop_na(c(mass, height, eye_color))
+# Visualizamos
+ggplot(starwars_filtro,
+       aes(x = height, y = mass)) +
+  geom_point()
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+# Eliminamos NA
+starwars_filtro <- starwars %>% drop_na(c(mass, height, eye_color))
+# Visualizamos
+ggplot(starwars_filtro, aes(x = height, y = mass)) +
+  geom_point()
+```
+
+]
+
+]
+
+.panel[.panel-name[Sol. 2]
+
+.pull-left[
+
+```{r eval = FALSE}
+ggplot(starwars_filtro,
+       aes(x = height, y = mass, size = mass)) +
+  geom_point()
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(starwars_filtro, aes(x = height, y = mass, size = mass)) +
+  geom_point()
+```
+
+]
+
+]
+
+.panel[.panel-name[Sol. 3a]
+
+```{r}
+# Transformar colores
+starwars_filtro <-
+   starwars_filtro %>%
+    mutate(eye_color =
+             case_when(eye_color == "blue-gray" ~ "blue",
+                       eye_color == "hazel" ~ "brown",
+                       eye_color == "unknown" ~ "gray",
+                       eye_color == "green, yellow" ~ "green",
+                       TRUE ~ eye_color))
+```
+
+]
+
+.panel[.panel-name[Sol. 3b]
+
+.pull-left[
+
+```{r eval = FALSE}
+# Visualizamos
+ggplot(starwars_filtro,
+       aes(x = height, y = mass,
+           size = mass, color = eye_color)) +
+  geom_point() +
+  scale_color_manual(values =
+                       c("black", "blue",
+                         "brown", "gray",
+                         "green", "orange",
+                         "red", "white",
+                         "yellow"))
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+# Visualizamos
+ggplot(starwars_filtro,
+       aes(x = height, y = mass, size = mass, color = eye_color)) +
+  geom_point() +
+  scale_color_manual(values =
+                       c("black", "blue", "brown", "gray", "green",
+                         "orange", "red", "white", "yellow"))
+```
+
+]
+
+]
+
+.panel[.panel-name[Sol. 4a]
+
+```{r}
+# Localizamos el valor y su nombre
+starwars_filtro %>% slice_max(mass, n = 5) %>% pull(name)
+# Filtramos
+starwars_filtro <- starwars_filtro %>%
+  filter(name != "Jabba Desilijic Tiure")
+```
+
+]
+
+.panel[.panel-name[Sol. 4b]
+
+.pull-left[
+
+```{r eval = FALSE}
+ggplot(starwars_filtro,
+       aes(x = height, y = mass,
+           size = mass, color = eye_color)) +
+  geom_point() +
+  scale_color_manual(values =
+                       c("black", "blue",
+                         "brown", "gray",
+                         "green", "orange",
+                         "red", "white",
+                         "yellow"))
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(starwars_filtro,
+       aes(x = height, y = mass,
+           size = mass, color = eye_color)) +
+  geom_point() +
+  scale_color_manual(values =
+                       c("black", "blue", "brown", "gray", "green",
+                         "orange", "red", "white", "yellow"))
+```
+
+]
+
+]
+
+]
+
+---
+
+
+
+# Ejercicios
+
+.panelset[
+.panel[.panel-name[Ejercicios]
+
+* 📝 **Ejercicio 5**: repite el gráfico anterior eliminando la leyenda del tamaño del punto y cambia el título de la leyenda del color de ojos a castellano. Añade además transparencia alpha = 0.6 a los puntos.
+
+* 📝 **Ejercicio 6**: repite el gráfico modificando títulos de ejes (a castellano) con título, subtítulo y caption.
+ 
+* 📝 **Ejercicio 7**: explicita los cortes en los ejes con `scale_x_continuous()` y `scale_y_continuous()`: el eje X de 60 a 240 (de 30 en 30 cada marca), el eje Y de 20 a 160 (de 20 en 2).
+
+]
+
+
+.panel[.panel-name[Sol. 5]
+
+.pull-left[
+
+```{r eval = FALSE}
+ggplot(starwars_filtro,
+       aes(x = height, y = mass,
+           size = mass, color = eye_color)) +
+  geom_point(alpha = 0.6) +
+  guides(size = "none") +
+  scale_color_manual(values =
+                       c("black", "blue",
+                         "brown", "gray",
+                         "green", "orange",
+                         "red", "white",
+                         "yellow")) +
+  labs(color = "color de ojos")
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(starwars_filtro,
+       aes(x = height, y = mass,
+           size = mass, color = eye_color)) +
+  geom_point(alpha = 0.6) +
+  guides(size = "none") +
+  scale_color_manual(values =
+                       c("black", "blue", "brown", "gray", "green",
+                         "orange", "red", "white", "yellow")) +
+  labs(color = "color de ojos")
+```
+
+]
+]
+
+.panel[.panel-name[Sol. 6]
+
+.pull-left[
+
+```{r eval = FALSE}
+ggplot(starwars_filtro,
+       aes(x = height, y = mass,
+           size = mass, color = eye_color)) +
+  geom_point(alpha = 0.6) +
+  guides(size = "none") +
+  scale_color_manual(values =
+                       c("black", "blue",
+                         "brown", "gray",
+                         "green", "orange",
+                         "red", "white",
+                         "yellow")) +
+  labs(color = "color de ojos",
+       x = "altura (cm)",
+       y = "peso (kg)",
+       title = "STARWARS",
+       subtitle = "Diagrama de puntos altura vs peso",
+       caption = "J. Álvarez Liébana | Datos: starwars")
+```
+
+]
+
+.pull-left[
+
+```{r echo = FALSE}
+ggplot(starwars_filtro,
+       aes(x = height, y = mass,
+           size = mass, color = eye_color)) +
+  geom_point(alpha = 0.6) +
+  guides(size = "none") +
+  scale_color_manual(values =
+                       c("black", "blue", "brown", "gray", "green",
+                         "orange", "red", "white", "yellow")) +
+  labs(color = "color de ojos",
+       x = "altura (cm)", y = "peso (kg)",
+       title = "STARWARS",
+       subtitle = "Diagrama de puntos altura vs peso",
+       caption = "Autor: Javier Álvarez Liébana | Datos: starwars")
+```
+
+]
+
+]
+
+.panel[.panel-name[Sol. 7]
+
+.pull-left[
+
+```{r eval = FALSE}
+ggplot(starwars_filtro,
+       aes(x = height, y = mass,
+           size = mass, color = eye_color)) +
+    geom_point(alpha = 0.6) +
+    guides(size = "none") +
+    scale_color_manual(values =
+                           c("black", "blue",
+                             "brown", "gray",
+                             "green", "orange",
+                             "red", "white",
+                             "yellow")) +
+  scale_y_continuous(breaks =
+                       seq(20, 160, by = 20)) +
+  scale_x_continuous(breaks =
+                       seq(60, 240, by = 30)) +
+  labs(color = "color de ojos",
+       x = "altura (cm)",
+       y = "peso (kg)",
+       title = "STARWARS",
+       subtitle = "Diagrama de puntos altura vs peso",
+       caption = "J. Álvarez Liébana | Datos: starwars")
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE}
+ggplot(starwars_filtro,
+       aes(x = height, y = mass,
+           size = mass, color = eye_color)) +
+    geom_point(alpha = 0.6) +
+    guides(size = "none") +
+    scale_color_manual(values =
+                           c("black", "blue", "brown", "gray", "green",
+                             "orange", "red", "white", "yellow")) +
+  scale_y_continuous(breaks = seq(20, 160, by = 20)) +
+  scale_x_continuous(breaks = seq(60, 240, by = 30)) +
+  labs(color = "color de ojos",
+       x = "altura (cm)", y = "peso (kg)",
+       title = "STARWARS",
+       subtitle = "Diagrama de puntos altura vs peso",
+       caption = "Autor: Javier Álvarez Liébana | Datos: starwars")
+```
+
+]
+
+]
+
+]
+
+---
 
 # .orange[RECURSOS] y .green[BIBLIOGRAFÍA]
 
