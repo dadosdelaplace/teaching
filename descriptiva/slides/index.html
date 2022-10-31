@@ -1482,7 +1482,7 @@ También podemos obtener el **.bg-purple_light[«hoy y ahora»]** con la funció
 ```
 
 ```
-&gt; [1] "2022-10-31 16:22:41 CET"
+&gt; [1] "2022-10-31 16:24:54 CET"
 ```
  
 ---
@@ -2682,9 +2682,9 @@ x &lt;- rnorm(1e3) # 1000 elementos aleatorias
 
 ```
 &gt; Unit: microseconds
-&gt;         expr    min      lq     mean  median      uq     max neval cld
-&gt;      sort(x) 43.995 49.2140 65.26755 56.1415 76.6485 181.759  1000   b
-&gt;  x[order(x)] 30.487 33.9995 44.93127 38.4755 52.5300 118.734  1000  a
+&gt;         expr    min     lq      mean  median       uq      max neval cld
+&gt;      sort(x) 57.316 74.562 121.87125 105.738 135.1560 1621.546  1000   b
+&gt;  x[order(x)] 39.626 49.844  77.55825  67.450  86.0465  545.378  1000  a
 ```
 
 --
@@ -5441,12 +5441,12 @@ microbenchmark(x^2,
 
 ```
 &gt; Unit: nanoseconds
-&gt;                                     expr     min        lq        mean
-&gt;                                      x^2     354     488.5    1514.189
-&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 1786972 2038141.0 2644445.274
-&gt;     median        uq      max neval cld
-&gt;     1199.5    2002.5    43522  1000  a 
-&gt;  2325381.5 2850582.5 30596419  1000   b
+&gt;                                     expr     min      lq        mean  median
+&gt;                                      x^2     436     590    1724.928    1976
+&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 2095192 2491641 3040173.967 2860052
+&gt;       uq      max neval cld
+&gt;     2420     9551  1000  a 
+&gt;  3333020 16754000  1000   b
 ```
 
 ---
@@ -6861,10 +6861,10 @@ map(x, mean)
 
 ```
 &gt; [[1]]
-&gt; [1] 0.07202093
+&gt; [1] 0.007376258
 &gt; 
 &gt; [[2]]
-&gt; [1] 1.947863
+&gt; [1] 2.046173
 ```
 
 
@@ -6876,11 +6876,11 @@ microbenchmark(map(x, .f = function(x) { mean(x^2) }), lapply(x, FUN = function(
 ```
 &gt; Unit: milliseconds
 &gt;                                            expr      min       lq     mean
-&gt;      map(x, .f = function(x) {     mean(x^2) }) 5.559262 6.889880 9.258253
-&gt;  lapply(x, FUN = function(x) {     mean(x^2) }) 5.504968 6.729391 9.458835
+&gt;      map(x, .f = function(x) {     mean(x^2) }) 5.822561 6.840376 9.172347
+&gt;  lapply(x, FUN = function(x) {     mean(x^2) }) 5.474051 6.729833 9.037657
 &gt;    median       uq      max neval cld
-&gt;  8.025717 10.67278 140.1170  1000   a
-&gt;  7.851905 10.23100 211.0872  1000   a
+&gt;  8.001891 9.221110 222.5655  1000   a
+&gt;  7.894986 9.362199 159.9683  1000   a
 ```
 
 
@@ -9961,11 +9961,11 @@ starwars %&gt;% slice_sample(n = 3)
 
 ```
 &gt; # A tibble: 3 × 14
-&gt;   name         height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
-&gt;   &lt;chr&gt;         &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
-&gt; 1 Mas Amedda      196    NA none    blue    blue         NA male  mascu… Champa…
-&gt; 2 Dexter Jett…    198   102 none    brown   yellow       NA male  mascu… Ojom   
-&gt; 3 Darth Maul      175    80 none    red     yellow       54 male  mascu… Dathom…
+&gt;   name        height  mass hair_c…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
+&gt;   &lt;chr&gt;        &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
+&gt; 1 Leia Organa    150    49 brown    light   brown        19 fema… femin… Aldera…
+&gt; 2 Mas Amedda     196    NA none     blue    blue         NA male  mascu… Champa…
+&gt; 3 Shaak Ti       178    57 none     red, b… black        NA fema… femin… Shili  
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
@@ -9987,13 +9987,13 @@ starwars %&gt;% slice_sample(prop = 0.025)
 
 ```
 &gt; # A tibble: 2 × 14
-&gt;   name     height  mass hair_color skin_c…¹ eye_c…² birth…³ sex   gender homew…⁴
-&gt;   &lt;chr&gt;     &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;    &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
-&gt; 1 Plo Koon    188    80 none       orange   black        22 male  mascu… Dorin  
-&gt; 2 Tarfful     234   136 brown      brown    blue         NA male  mascu… Kashyy…
+&gt;   name         height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
+&gt;   &lt;chr&gt;         &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
+&gt; 1 Obi-Wan Ken…    182    77 auburn… fair    blue-g…      57 male  mascu… Stewjon
+&gt; 2 Rugor Nass      206    NA none    green   orange       NA male  mascu… Naboo  
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
-&gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​skin_color, ²​eye_color,
-&gt; #   ³​birth_year, ⁴​homeworld
+&gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
+&gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
 &gt; # ℹ Use `colnames()` to see all variable names
 ```
 
@@ -10013,8 +10013,8 @@ starwars %&gt;% slice_sample(n = 2, weight_by = c(0.495, 0.495, rep(0.01/85, 85)
 &gt; # A tibble: 2 × 9
 &gt;   name           height  mass hair_color skin_color eye_c…¹ birth…² sex   gender
 &gt;   &lt;chr&gt;           &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
-&gt; 1 Luke Skywalker    172    77 blond      fair       blue         19 male  mascu…
-&gt; 2 C-3PO             167    75 &lt;NA&gt;       gold       yellow      112 none  mascu…
+&gt; 1 C-3PO             167    75 &lt;NA&gt;       gold       yellow      112 none  mascu…
+&gt; 2 Luke Skywalker    172    77 blond      fair       blue         19 male  mascu…
 &gt; # … with abbreviated variable names ¹​eye_color, ²​birth_year
 ```
 
@@ -10028,8 +10028,8 @@ starwars %&gt;% slice_sample(n = 2, weight_by = c(0.495, 0.495, rep(0.01/85, 85)
 &gt; # A tibble: 2 × 9
 &gt;   name           height  mass hair_color skin_color eye_c…¹ birth…² sex   gender
 &gt;   &lt;chr&gt;           &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
-&gt; 1 Luke Skywalker    172    77 blond      fair       blue         19 male  mascu…
-&gt; 2 C-3PO             167    75 &lt;NA&gt;       gold       yellow      112 none  mascu…
+&gt; 1 C-3PO             167    75 &lt;NA&gt;       gold       yellow      112 none  mascu…
+&gt; 2 Luke Skywalker    172    77 blond      fair       blue         19 male  mascu…
 &gt; # … with abbreviated variable names ¹​eye_color, ²​birth_year
 ```
 
@@ -10297,9 +10297,9 @@ starwars %&gt;% slice_sample(n = 3)
 &gt; # A tibble: 3 × 14
 &gt;   name         height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
 &gt;   &lt;chr&gt;         &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
-&gt; 1 Yarael Poof     264    NA none    white   yellow       NA male  mascu… Quermia
-&gt; 2 Captain Pha…     NA    NA unknown unknown unknown      NA &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt;   
-&gt; 3 Wilhuff Tar…    180    NA auburn… fair    blue         64 male  mascu… Eriadu 
+&gt; 1 R4-P17           96    NA none    silver… red, b…      NA none  femin… &lt;NA&gt;   
+&gt; 2 Kit Fisto       196    87 none    green   black        NA male  mascu… Glee A…
+&gt; 3 Lando Calri…    177    79 black   dark    brown        31 male  mascu… Socorro
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
@@ -10313,11 +10313,11 @@ starwars %&gt;% slice_sample(n = 3)
 
 ```
 &gt; # A tibble: 3 × 14
-&gt;   name         height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
-&gt;   &lt;chr&gt;         &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
-&gt; 1 Jango Fett      183    79 black   tan     brown        66 male  mascu… Concor…
-&gt; 2 Roos Tarpals    224    82 none    grey    orange       NA male  mascu… Naboo  
-&gt; 3 Palpatine       170    75 grey    pale    yellow       82 male  mascu… Naboo  
+&gt;   name        height  mass hair_c…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
+&gt;   &lt;chr&gt;        &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
+&gt; 1 Grievous       216   159 none     brown,… green,…    NA   male  mascu… Kalee  
+&gt; 2 Tarfful        234   136 brown    brown   blue       NA   male  mascu… Kashyy…
+&gt; 3 Darth Vader    202   136 none     white   yellow     41.9 male  mascu… Tatooi…
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
@@ -10339,14 +10339,14 @@ starwars %&gt;%
 &gt; # A tibble: 8 × 14
 &gt;   name         height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
 &gt;   &lt;chr&gt;         &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
-&gt; 1 Jocasta Nu      167    NA white   fair    blue         NA fema… femin… Corusc…
-&gt; 2 Mace Windu      188    84 none    dark    brown        72 male  mascu… Haruun…
-&gt; 3 Bib Fortuna     180    NA none    pale    pink         NA male  mascu… Ryloth 
-&gt; 4 Wilhuff Tar…    180    NA auburn… fair    blue         64 male  mascu… Eriadu 
-&gt; 5 R5-D4            97    32 &lt;NA&gt;    white,… red          NA none  mascu… Tatooi…
-&gt; 6 Jango Fett      183    79 black   tan     brown        66 male  mascu… Concor…
-&gt; 7 Wicket Syst…     88    20 brown   brown   brown         8 male  mascu… Endor  
-&gt; 8 Barriss Off…    166    50 black   yellow  blue         40 fema… femin… Mirial 
+&gt; 1 Wilhuff Tar…    180    NA auburn… fair    blue         64 male  mascu… Eriadu 
+&gt; 2 Adi Gallia      184    50 none    dark    blue         NA fema… femin… Corusc…
+&gt; 3 Roos Tarpals    224    82 none    grey    orange       NA male  mascu… Naboo  
+&gt; 4 Captain Pha…     NA    NA unknown unknown unknown      NA &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt;   
+&gt; 5 Yarael Poof     264    NA none    white   yellow       NA male  mascu… Quermia
+&gt; 6 Poe Dameron      NA    NA brown   light   brown        NA male  mascu… &lt;NA&gt;   
+&gt; 7 Cliegg Lars     183    NA brown   fair    blue         82 male  mascu… Tatooi…
+&gt; 8 Ben Quadina…    163    65 none    grey, … orange       NA male  mascu… Tund   
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
@@ -12547,6 +12547,236 @@ starwars_nueva %&gt;%
 
 
 ]
+
+---
+
+# Ejercicio 3 de la hoja 2
+
+&gt; En un control de calidad se analiza el número de productos defectuosos de diferentes lotes, obteniendo los siguientes datos (justifica todas tus respuestas).
+
+&gt; 6, 7, 8, 4, 6, 7, 7, 5, 6, 4, 8, 11, 3, 6, 7, 4, 3, 5, 5, 4, 2, 3, 3, 3, 4, 5, 8, 6, 4, 8, 5, 5, 5, 4, 2, 5, 3, 4, 4, 8, 6, 7, 5, 5, 5, 5, 2, 11, 10, 8, 4, 8, 3, 4, 7, 2, 4, 6, 9, 10
+  
+**.bg-purple_light[Resume los datos de manera numérica]** (lo que sea posible)
+
+---
+
+# Ejercicio 3 de la hoja 2
+
+
+* Primer paso: **.bg-purple_light[generar la base de datos]** (con un tibble)
+
+
+```r
+datos &lt;-
+  tibble("x" = c(6, 7, 8, 4, 6, 7, 7, 5, 6, 4, 8, 11, 3,
+                 6, 7, 4, 3, 5, 5, 4, 2, 3, 3, 3, 4, 5, 8,
+                 6, 4, 8, 5, 5, 5, 4, 2, 5, 3, 4, 4, 8, 6,
+                 7, 5, 5, 5, 5, 2, 11, 10, 8, 4, 8, 3, 4,
+                 7, 2, 4, 6, 9, 10))
+datos
+```
+
+```
+&gt; # A tibble: 60 × 1
+&gt;        x
+&gt;    &lt;dbl&gt;
+&gt;  1     6
+&gt;  2     7
+&gt;  3     8
+&gt;  4     4
+&gt;  5     6
+&gt;  6     7
+&gt;  7     7
+&gt;  8     5
+&gt;  9     6
+&gt; 10     4
+&gt; # … with 50 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
+```
+
+---
+
+# Ejercicio 3 de la hoja 2
+
+
+* Segundo paso: **.bg-purple_light[contar]**. ¿Cómo podemos contar (lo que conocemos como n o frecuencia absoluta)?
+
+--
+
+
+```r
+tabla_frec &lt;-
+  datos %&gt;% count(x)
+tabla_frec
+```
+
+```
+&gt; # A tibble: 10 × 2
+&gt;        x     n
+&gt;    &lt;dbl&gt; &lt;int&gt;
+&gt;  1     2     4
+&gt;  2     3     7
+&gt;  3     4    12
+&gt;  4     5    12
+&gt;  5     6     7
+&gt;  6     7     6
+&gt;  7     8     7
+&gt;  8     9     1
+&gt;  9    10     2
+&gt; 10    11     2
+```
+
+---
+
+# Ejercicio 3 de la hoja 2
+
+
+* Tercer paso: **.bg-purple_light[construir la tabla de frecuencias]**.
+
+--
+
+
+```r
+tabla_frec &lt;-
+  tabla_frec %&gt;%
+  mutate(N = cumsum(n), frec_f = n / sum(n), frec_F = cumsum(frec_f),
+         f_x = frec_f * x, f_x2 = frec_f * x^2)
+tabla_frec
+```
+
+```
+&gt; # A tibble: 10 × 7
+&gt;        x     n     N frec_f frec_F   f_x  f_x2
+&gt;    &lt;dbl&gt; &lt;int&gt; &lt;int&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+&gt;  1     2     4     4 0.0667 0.0667 0.133 0.267
+&gt;  2     3     7    11 0.117  0.183  0.35  1.05 
+&gt;  3     4    12    23 0.2    0.383  0.8   3.2  
+&gt;  4     5    12    35 0.2    0.583  1     5    
+&gt;  5     6     7    42 0.117  0.7    0.7   4.2  
+&gt;  6     7     6    48 0.1    0.8    0.7   4.9  
+&gt;  7     8     7    55 0.117  0.917  0.933 7.47 
+&gt;  8     9     1    56 0.0167 0.933  0.15  1.35 
+&gt;  9    10     2    58 0.0333 0.967  0.333 3.33 
+&gt; 10    11     2    60 0.0333 1      0.367 4.03
+```
+
+---
+
+# Ejercicio 3 de la hoja 2
+
+¿Cómo calcular la **.bg-purple_light[media, moda y mediana]**? La ventaja de usar `R` es que la tabla de frecuencias solo nos servirá para conocer un poco mejor los datos PERO **.bg-purple_light[no necesitamos la tabla para la mayoría de cálculos]**: lo haremos con las funciones de `R`
+
+--
+
+
+```r
+datos %&gt;% 
+  drop_na(x) %&gt;% # por si acaso
+  summarise(media = mean(x), mediana = median(x))
+```
+
+```
+&gt; # A tibble: 1 × 2
+&gt;   media mediana
+&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+&gt; 1  5.47       5
+```
+
+Para la **.bg-purple_light[moda]** deberemos extraer aquel que más se repite
+
+
+```r
+tabla_frec %&gt;% slice_max(n, with_ties = TRUE) %&gt;% pull(x)
+```
+
+```
+&gt; [1] 4 5
+```
+
+---
+
+# Ejercicio 3 de la hoja 2
+
+
+¿Cómo calcular las **.bg-purple_light[medidas de dispersión]**?
+
+--
+
+
+```r
+datos %&gt;% 
+  drop_na(x) %&gt;% # por si acaso
+  summarise(cuasi_var = var(x), cuasi_sd = sd(x), cuasi_CV = cuasi_sd / mean(x))
+```
+
+```
+&gt; # A tibble: 1 × 3
+&gt;   cuasi_var cuasi_sd cuasi_CV
+&gt;       &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;
+&gt; 1      5.00     2.24    0.409
+```
+
+Recuerda que los software nos devuelven la cuasi_algo: para comparar entre dos variables, nos servirá igualmente.
+
+
+---
+
+# Ejercicio 3 de la hoja 2
+
+&gt; ¿Qué porcentaje de los lotes tienen 7 o menos piezas defectuosas?
+
+
+
+```r
+datos %&gt;% group_by(x &lt;= 7) %&gt;% count() %&gt;%  ungroup()
+```
+
+```
+&gt; # A tibble: 2 × 2
+&gt;   `x &lt;= 7`     n
+&gt;   &lt;lgl&gt;    &lt;int&gt;
+&gt; 1 FALSE       12
+&gt; 2 TRUE        48
+```
+
+
+```r
+datos %&gt;% 
+  group_by(x &lt;= 7) %&gt;% count() %&gt;% ungroup() %&gt;% 
+  mutate(porc = 100*n / sum(n))
+```
+
+```
+&gt; # A tibble: 2 × 3
+&gt;   `x &lt;= 7`     n  porc
+&gt;   &lt;lgl&gt;    &lt;int&gt; &lt;dbl&gt;
+&gt; 1 FALSE       12    20
+&gt; 2 TRUE        48    80
+```
+
+---
+
+# Ejercicio 3 de la hoja 2
+
+&gt; Calcula la mediana. Calcula los percentiles 15, 27, 61 y 93. Calcula los cuartiles
+
+
+
+```r
+datos %&gt;% 
+  drop_na(x) %&gt;% # por si acaso
+  summarise(mediana = median(x),
+            p15 = quantile(x, probs = 0.15), p27 = quantile(x, probs = 0.27),
+            p61 = quantile(x, probs = 0.61), p93 = quantile(x, probs = 0.93),
+            q1 = quantile(x, probs = 0.25), q3 = quantile(x, probs = 0.75))
+```
+
+```
+&gt; # A tibble: 1 × 7
+&gt;   mediana   p15   p27   p61   p93    q1    q3
+&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+&gt; 1       5     3     4     6  8.87     4     7
+```
 
 ---
 
