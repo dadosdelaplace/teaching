@@ -9810,7 +9810,7 @@ La función `owid_covid()` nos ha cargado sin darnos cuenta **.bg-purple_light[m
 
 Este paquete tiene la función `owid_search()` para **.bg-purple_light[buscar datasets por palabras clave]**, por ejemplo, por `emissions`, dándonos un dataset con el título de la base de datos y su id para luego usarla.
 
-```{r}
+```{r eval = FALSE}
 as_tibble(owid_search("emissions"))
 ```
 
@@ -9820,7 +9820,7 @@ as_tibble(owid_search("emissions"))
 
 Vamos a pedirle por ejemplo las emisiones per cápita de gases de efecto invernadero
 
-```{r}
+```{r eval = FALSE}
 emissions <- owid("per-capita-ghg-emissions")
 emissions
 ```
@@ -9859,6 +9859,7 @@ Con dicho paquete podemos hacer una **.bg-purple_light[búsqueda de las estacion
 
 
 ```{r}
+library(climaemet)
 stations <- aemet_stations()
 stations
 ```
@@ -9907,7 +9908,7 @@ library(spotifyr)
 ```
 
 
-```{r}
+```{r eval = FALSE}
 # install.packages("rtweet")
 library(rtweet)
 auth_setup_default()
@@ -10483,12 +10484,1223 @@ name: clase-14
 
 # CLASE 14: introducción al dataviz
 
+&nbsp;
+
+### [Dataviz: introducción histórica.](#intro-historica)
+
+### [Introducción a ggplot2](#intro-ggplot2)
+
+### [La importancia de visualizar datos](#importancia-dataviz)
+
+
 ---
+
+name: intro-historica
+
+# Dataviz: .orange[HISTORIA]
+
+
+La aparición de gráficos estadísticos es **.bg-purple_light[relativamente reciente en la ciencia]** ya que hasta la Edad Media la única visualización de datos estaba en los **.bg-purple_light[mapas]** (representación de nuestra realidad en superficies bidimensionales).
+
+De hecho las propias palabras _chart_ y _cartography_ derivan del mismo origen latino, _charta_, aunque el primer uso datado de coordenadas parece venir de los egipcios. <sup>2,3</sup>
+
+
+.footnote[[1] [«Gramática de las gráficas: pistas para mejorar las representaciones de datos» de Joaquín Sevilla](http://academica-e.unavarra.es/bitstream/handle/2454/15785/Gram%C3%A1tica.pdf)
+
+[2] [«Presentation Graphics» de Leland Wilkinson. International Encyclopedia of the Social & Behavioral Sciences](https://www.cs.uic.edu/~wilkinson/Publications/iesbs.pdf)
+
+[3] [«Quantitative Graphics in Statistics: A Brief History» de James R. Beniger y Dorothy L. Robyn. The American Statistician (1978)](https://www.jstor.org/stable/2683467)]
+
+---
+
+
+# .orange[NAVEGACIÓN] y .green[ASTRONOMÍA]
+
+.pull-left[
+
+No es hasta la Edad Media, cuando la **.bg-purple_light[navegación y la astronomía]** empezaban a tomar relevancia científica, cuando aparece la que se considera la primera gráfica (aunque no propiamente estadística) <sup>3</sup>, representando el **movimiento cíclico de los planetas** (entre los siglos X y XI)
+
+]
+
+.pull-right[
+
+
+```{r echo = FALSE,  out.width = "110%", fig.align = "center", fig.cap = "Gráfica extraída de Beniger y Robyn (1978)"}
+knitr::include_graphics("./img/dataviz_historico_1.png")
+``` 
+
+]
+
+[3] [«Quantitative Graphics in Statistics: A Brief History» de James R. Beniger y Dorothy L. Robyn. The American Statistician (1978)](https://www.jstor.org/stable/2683467)
+
+ 
+---
+
+# .orange[NAVEGACIÓN] y .green[ASTRONOMÍA]
+
+.pull-left[
+
+Con una motivación similar, en torno a 1360 el matemático **Nicole Oresme** diseñó el **.bg-purple_light[primer gráfico de barras]** (pero no estadístico), con la idea de visualizar a la vez dos **magnitudes físicas teóricas**.
+
+]
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "55%", fig.align = "center", fig.cap = "Gráfica extraída de Friendly y Valero-Mora (2010)"}
+knitr::include_graphics("./img/dataviz_historico_2.jpeg")
+``` 
+
+]
+
+[5] [«The First (Known) Statistical Graph: Michael Florent van Langren and the 'Secret' of Longitude» de M. Friendly y P. M. Valero-Mora. The American Statistician (2010)](https://www.researchgate.net/publication/227369016_The_First_Known_Statistical_Graph_Michael_Florent_van_Langren_and_the_Secret_of_Longitude)
+
+ 
+---
+
+# .orange[PRIMER] gráfico estadístico
+
+La mayoría de expertos, como Tufte <sup>6,7</sup>, consideran este gráfico casi longitudinal como la **.bg-purple_light[primera visualización de datos]** de la historia, hecha por **Van Langren** en 1644, representando la **.bg-purple_light[distancia entre Toledo y Roma]** (un poco mal medida ya que la distancia real es de 16.5º).
+
+.pull-left[
+
+```{r echo = FALSE,  out.width = "100%", fig.align = "center", fig.cap = "Extraída de Friendly y Valero-Mora (2010)"}
+knitr::include_graphics("./img/longitud_dataviz.jpg")
+``` 
+
+]
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "100%", fig.align = "center", fig.cap = "Extraída de Friendly y Valero-Mora (2010)"}
+knitr::include_graphics("./img/dataviz_historico_3.jpeg")
+``` 
+
+]
+
+[6] [«Visual explanations: images and quantities, evidence and narrative» de E. Tufte](https://archive.org/details/visualexplanatio00tuft)
+
+[7] [«PowerPoint is evil» de E. Tufte](https://www.wired.com/2003/09/ppt2/)
+
+---
+
+# ¿Qué es una .orange[GRÁFICA] estadística?
+
+¿Por qué ese gráfico se considera la primera visualización estadística de la historia? ¿Qué es lo que hace que una visualización sea una gráfica estadística y no las anteriores? ¿Cuál es la **.bg-purple_light[frontera entre una ilustración y una gráfica]** (de datos)?
+
+
+.pull-left[
+
+¿Es una gráfica estadística? ¿Por qué sí o por qué no?
+
+]
+
+.pull-right[
+
+
+```{r echo = FALSE,  out.width = "45%", fig.align = "center"}
+knitr::include_graphics("./img/cuadro_dataviz.jpg")
+``` 
+
+]
+
+--
+
+No hay  **.bg-purple_light[ninguna INFORMACIÓN]** representada
+
+
+---
+
+# ¿Qué es una .orange[GRÁFICA] estadística?
+
+¿Por qué ese gráfico se considera la primera visualización estadística de la historia? ¿Qué es lo que hace que una visualización sea una gráfica estadística y no las anteriores? ¿Cuál es la **.bg-purple_light[frontera entre una ilustración y una gráfica]** (de datos)?
+
+.pull-left[
+
+¿Es una gráfica estadística? ¿Por qué sí o por qué no?
+
+]
+
+.pull-right[
+
+
+```{r echo = FALSE,  out.width = "65%", fig.align = "center"}
+knitr::include_graphics("./img/horoscopo_dataviz.jpg")
+``` 
+
+]
+
+--
+
+No hay **.bg-purple_light[ningún PROCESO DE MEDIDA]** representado, no cuantifica nada.
+
+
+---
+
+# ¿Qué es una .orange[GRÁFICA] estadística?
+
+¿Por qué ese gráfico se considera la primera visualización estadística de la historia? ¿Qué es lo que hace que una visualización sea una gráfica estadística y no las anteriores? ¿Cuál es la **.bg-purple_light[frontera entre una ilustración y una gráfica]** (de datos)?
+
+
+.pull-left[
+
+¿Es una gráfica estadística? ¿Por qué sí o por qué no?
+
+]
+
+.pull-right[
+
+
+```{r echo = FALSE,  out.width = "110%", fig.align = "center"}
+knitr::include_graphics("./img/celsius_dataviz.jpg")
+``` 
+
+]
+
+--
+
+No hay **.bg-purple_light[ningún DATO]** representado en él, es una magnitud física teórica, no un dato (medido empíricamente o simulado).
+
+
+---
+
+# ¿Qué es una .orange[GRÁFICA] estadística?
+
+¿Por qué ese gráfico se considera la primera visualización estadística de la historia? ¿Qué es lo que hace que una visualización sea una gráfica estadística y no las anteriores? ¿Cuál es la **.bg-purple_light[frontera entre una ilustración y una gráfica]** (de datos)?
+
+
+.pull-left[
+
+¿Es una gráfica estadística? ¿Por qué sí o por qué no?
+
+]
+
+.pull-right[
+
+
+```{r echo = FALSE,  out.width = "60%", fig.align = "center"}
+knitr::include_graphics("./img/mapa_infografia_dataviz.jpg")
+``` 
+
+]
+
+--
+
+El proceso de representación **.bg-purple_light[no es REVERSIBLE]** ni comparable (al menos no fácilmente): es una infografía, no un gráfico estadístico o dataviz.
+
+
+
+---
+
+# ¿Qué es una .orange[GRÁFICA] estadística?
+
+Esas mismas preguntas se hizo **Joaquín Sevilla** <sup>1</sup>, proporcionando **.bg-purple_light[3 requisitos]**:
+
+.pull-left[
+
+1. Que se base en el esquema de composición de **.bg-purple_light[eje métrico]** (proceso de medida) debe **.bg-orange[medir algo]**.
+
+2. Debe incluir **.bg-purple_light[información (datos)]** (medible o simulada),
+
+3. La **.bg-purple_light[relación de representatividad]** debería ser **.bg-purple_light[reversible]**: los datos deberían poder «recuperarse» a partir de la gráfica (es un tipo particular de **.bg-orange[«biyección» matemática]**).
+
+]
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "70%", fig.align = "center", fig.cap = "Ejemplo de metáfora visual bien ejecutada (extraída del manual de J. Sevilla)"}
+knitr::include_graphics("./img/grafica_dinero_sevilla.jpg")
+``` 
+
+]
+
+[1] [«Gramática de las gráficas: pistas para mejorar las representaciones de datos» de Joaquín Sevilla](http://academica-e.unavarra.es/bitstream/handle/2454/15785/Gram%C3%A1tica.pdf)
+
+
+---
+
+# Abolición de .orange[DIAGRAMAS DE TARTAS]
+
+Hay muchas formas de hacer una gráfica estadística, y no suele pasar por hacer un **.bg-purple_light[gráfico de tartas o sectores]** ya que tienen un grave **.bg-purple_light[problema de reversibilidad]**:
+
+.pull-left[
+
+* Si hay **muchas variables**: salvo que conozcas el montante total y tengas un transportador de ángulos a mano, es **.bg-purple_light[imposible que tus ojos midan ángulos]**
+
+* Si hay **pocas variables**: ¿aporta algo distinto (y/o mejor) que una tabla?
+
+]
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "99%", fig.align = "center"}
+knitr::include_graphics("./img/sectores_muchas_categorías.webp")
+``` 
+
+]
+
+---
+
+# Abolición de .orange[DIAGRAMAS DE TARTAS]
+
+
+El principal problema de un diagrama de sectores es que la posible información está **.bg-purple_light[contenida en los ángulos]**, pero nuestra interpretación la realizamos a través de la **.bg-purple_light[comparación de áreas]** (nuestros ojos no miden bien ángulos), las cuales dependen no solo del ángulo sino del radio.
+
+.pull-left[
+
+
+Algo similar sucede con los mal llamados **.bg-purple_light[gráficos tridimensionales]** (son bidimensionales con perspectiva en realidad): los valores más cercanos aparecen sobredimensionados, siendo prácticamente imposible la reversibilidad.
+
+]
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "99%", fig.align = "center"}
+knitr::include_graphics("./img/sectores_3D.jpg")
+``` 
+
+]
+
+---
+
+# Vizfail
+
+```{r echo = FALSE,  out.width = "55%", fig.align = "center", fig.cap = "Ejemplo de metáfora visual mal ejecutada"}
+knitr::include_graphics("./img/persona_dataviz.jpg")
+``` 
+
+---
+
+# Vizfail
+
+.pull-left[
+
+```{r echo = FALSE,  out.width = "99%", fig.align = "center", fig.cap = "Ejemplo de metáfora visual mal ejecutada"}
+knitr::include_graphics("./img/persona_dataviz.jpg")
+``` 
+
+]
+
+.pull-right[
+
+* La figura elegida (una persona caminando) no guarda relación alguna con lo que se pretende representar: **.bg-purple_light[mala metáfora]**.
+
+* Los sectores señalados no tienen relación con el ítem a representar, lo que dificulta su interpretación
+
+* Los colores no dan información de ningún tipo.
+
+* La forma hace **.bg-purple_light[imposible la comparación entre áreas]**, amén de que la suma total supera el 100% (¿?)
+
+* Sin aportar **fuente** de los datos.
+
+]
+
+---
+
+# Vizfail
+
+```{r echo = FALSE,  out.width = "70%", fig.align = "center", fig.cap = "Ejemplo de una buena idea mal ejecutada"}
+knitr::include_graphics("./img/viz_fail_covid.jpg")
+``` 
+
+---
+
+# Vizfail
+
+.pull-left[
+
+```{r echo = FALSE,  out.width = "100%", fig.align = "center", fig.cap = "Ejemplo de una buena idea mal ejecutada"}
+knitr::include_graphics("./img/viz_fail_covid.jpg")
+``` 
+
+]
+
+.pull-right[
+
+* Intenta usar dos ejes (a izquierda para mortalidad, a derecha para letalidad) pero no lo indica adecuadamente. Cuidado con los dos ejes: puede ser confuso
+
+* Leyenda pequeña y muy mal referenciada
+
+* Tamaño de la línea totalmente desproporcionada que **.bg-purple_light[impide la reversibilidad y la comparación]**
+
+* Además compara celdas geográficas no comparables (por tamaño y contexto): ¿Galicia vs Alemania?
+
+]
+
+
+
+---
+
+# Vizfail
+
+.pull-left[
+
+```{r echo = FALSE,  out.width = "60%", fig.align = "center", fig.cap = "Ejemplo de una mala codificación"}
+knitr::include_graphics("./img/viz_fail_uk.jpg")
+``` 
+
+]
+
+.pull-right[
+
+* La elección previa de la desagregación es incorrecta: áreas muy grandes que se podrían representar en una tabla de 9 filas
+
+* Leyenda tan grande que atrae la atención más que el propio gráfico.
+
+* Ejemplo de los **.bg-purple_light[colores no son algo meramente estético]**: hay que codificarlos adecuadamente. El gradiente de una paleta de colores puede convertir una buena idea en una pésima visualización.
+
+]
+
+---
+
+# Vizfail
+
+```{r echo = FALSE,  out.width = "30%", fig.align = "center", fig.cap = "Fuente: https://www.nytimes.com/2022/01/06/opinion/omicron-covid-us.html"}
+knitr::include_graphics("./img/espiral_nyt.jpg")
+``` 
+
+---
+
+# Vizfail
+
+.pull-left[
+
+```{r echo = FALSE,  out.width = "70%", fig.align = "center", fig.cap = "Fuente: https://www.nytimes.com/2022/01/06/opinion/omicron-covid-us.html"}
+knitr::include_graphics("./img/espiral_nyt.jpg")
+``` 
+
+]
+
+.pull-right[
+
+* En su momento se dijo que era novedosa: no lo es (la novedad tampoco debería ser un argumento a favor per se)
+
+* **.bg-purple_light[No respeta la reversibilidad]**: es una ilustración, no una gráfica estadística. La forma de llevarlo a cabo infraestima los datos actuales y, por su **.bg-purple_light[distorsión de la realidad]**, no permite **medir** precisamente la estacional que se propone visualizar con coordenadas polares
+
+* El **eje que recorre la espiral no aporta**, distrae de los datos a representar, **aumenta la distorsión producida** por la no linealidad de la espiral y duplica información.
+
+
+]
+
+
+---
+
+# Vizfail
+
+
+El **.bg-purple_light[uso de colores]** no es solo algo estético: es una variable más, y la paleta elegida así como su uso es fundamental (por ejemplo, la inclusión de colores nos permite centrarnos en los oscuros, y comparar entre tonalidades), así como la **.bg-purple_light[escala de la geometría]** elegida.
+
+
+```{r echo = FALSE, out.width = "75%", fig.align = "center"}
+knitr::include_graphics("./img/espiral_covid_bien.jpg_large")
+``` 
+
+
+---
+
+# Vizfail
+
+
+El **.bg-purple_light[uso de colores]** no es solo algo estético: es una variable más, y la paleta elegida así como su uso es fundamental (por ejemplo, la inclusión de colores nos permite centrarnos en los oscuros, y comparar entre tonalidades), así como la **.bg-purple_light[escala de la geometría]** elegida.
+
+
+.pull-left[
+
+```{r echo = FALSE, out.width = "90%", fig.align = "center", fig.cap = "Fuente: https://www.reddit.com/r/dataisbeautiful"}
+knitr::include_graphics("./img/espirales_colores.webp")
+``` 
+
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "78%", fig.align = "center", fig.cap = "Fuente: https://twitter.com/victimofmaths/status/1480550926066847749"}
+knitr::include_graphics("./img/espirales_covid_2.jpg")
+``` 
+
+]
+
+---
+
+# La importancia del .orange[CONTEXTO]
+
+Una **buena idea** puede estar mejor o peor ejecutada, y la forma de llevarla a cabo es importante
+
+```{r echo = FALSE, out.width = "30%", fig.align = "center", fig.cap = "Ejemplo de buena idea mal ejecutada"}
+knitr::include_graphics("./img/semaforos.jpg")
+``` 
+
+---
+
+# Dataviz: .orange[HISTORIA]
+
+En el siglo XVII hubo un boom de la estadística al empezar a aplicarse en **.bg-purple_light[demografía]**. Uno de los autores más importantes fue **.bg-purple_light[J. Graunt]**, autor de «Natural and Political Observations Made upon the Bills of Mortality» (1662), estimando la población de Londres con las **.bg-purple_light[primeras tablas de natalidad y mortalidad]**.
+
+.pull-left[
+
+Son precisamente las tablas de Graunt las que usó **.bg-purple_light[Christiaan Huygens]** para generar la **.bg-purple_light[primera gráfica de densidad]** de una distribución continua (esperanza de vida vs edad).
+
+]
+
+.pull-right[
+
+
+```{r echo = FALSE,  out.width = "100%", fig.align = "center", fig.cap = "Primera función de densidad, extraída de https://omeka.lehigh.edu/exhibits/show/data_visualization/vital_statistics/huygen"}
+knitr::include_graphics("./img/primera_densidad.jpg")
+``` 
+
+]
+
+---
+
+# Los gráficos de .orange[Playfair]
+
+La figura que cambió el dataviz fue, sin lugar a dudas, el economista y político **.bg-purple_light[William Playfair (1759-1823)]**, publicando en 1786 el **«Atlas político y comercial»** con 44 gráficas (43 series temporales y el diagrama de barras más famoso de la historia).
+
+.pull-left[
+
+```{r echo = FALSE, out.width = "70%", fig.align = "center", fig.cap = "Extraídas de Funkhouser y Walker (1935)"}
+knitr::include_graphics("./img/playfair_1.jpg")
+``` 
+
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "25%", fig.align = "center", fig.cap = "Extraídas de Funkhouser y Walker (1935)"}
+knitr::include_graphics("./img/playfair_2.jpg")
+``` 
+
+]
+
+[10] [«Atlas político y comercial» de William Playfair (1786)](https://www.amazon.es/Playfairs-Commercial-Political-Statistical-Breviary/dp/0521855543)
+
+[11] [«Playfair and his charts» de H. Gray Funkhouser and  Helen M. Walker (1935)](https://www.jstor.org/stable/45366440)
+
+---
+
+
+# Los gráficos de .orange[Playfair]
+
+Playfair no solo fue el primero en usar el dataviz para entender (y no solo describir): fue el primero en usar **.bg-purple_light[conceptos modernos]** como _grid_, tema o color
+
+.pull-left[
+
+```{r echo = FALSE, out.width = "90%", fig.align = "center", fig.cap = "Extraída de https://friendly.github.io/HistDataVis"}
+knitr::include_graphics("./img/playfair_3.jpg")
+``` 
+
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "90%", fig.align = "center", fig.cap = "Extraída de la wikipedia."}
+knitr::include_graphics("./img/playfair_4.png")
+``` 
+
+]
+
+---
+
+# Los gráficos de .orange[Playfair]
+
+Playfair es además el autor del **.bg-purple_light[gráfico de barras más famoso]** (no fue el primero pero sí quien lo hizo _mainstream_).
+
+.pull-left[
+
+```{r echo = FALSE, out.width = "90%", fig.align = "center", fig.cap = "Gráficas de Playfair de importaciones (barras grises) y exportaciones (negras) de Escocia en 1781, extraídas de la wikipedia."}
+knitr::include_graphics("./img/playfair_5.jpg")
+``` 
+
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "90%", fig.align = "center", fig.cap = "Primer diagrama de barras (P. Buache y G. de L’Isle), visualizando los niveles del Sena (1732 - 1766), extraída de https://friendly.github.io/HistDataVis"}
+knitr::include_graphics("./img/playfair_6.jpg")
+``` 
+
+]
+
+---
+
+# Los gráficos de .orange[Playfair]
+
+
+Playfair además fue el primero en **.bg-purple_light[combinar gráficos en la misma visualización]**
+
+.pull-left[
+
+```{r echo = FALSE, out.width = "85%", fig.align = "center", fig.cap = "Visualiza 3 series temporales: precios (barras) del trigo, salarios (línea) y time-line con reinados, extraída de https://friendly.github.io/HistDataVis."}
+knitr::include_graphics("./img/playfair_7.jpg")
+``` 
+
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "85%", fig.align = "center", fig.cap = "Time-line histórico, extraída de https://friendly.github.io/HistDataVis."}
+knitr::include_graphics("./img/playfair_8.jpg")
+``` 
+
+]
+
+[12] [«A Letter on Our Agricultural Distresses, Their Causes and Remedies» de W. Playfair (1821)](http://onlinebooks.library.upenn.edu/webbin/book/lookupid?key=ha009726110)
+
+[13] [«An Inquiry Into the Permanent Causes of the Decline and Fall of Powerful and Wealthy Nations» de William Playfair (1821)](https://www.amazon.com/Permanent-Powerful-Nations-Prosperity-Prolonged/dp/140691830X)
+
+---
+
+# Mapas de .orange[Minard]
+
+Otro pionero en **.bg-purple_light[combinar visualizaciones]** fue Minard, autor del famoso «Carte figurative des pertes successives en hommes de l'Armée Française dans la campagne de Russie 1812-1813», según Tufte **.bg-purple_light[«el mejor gráfico estadístico jamás dibujado»]**, publicado en 1869 sobre la desastrosa campaña rusa de Napoleón en 1812 (3 variables en un gráfico bidimensional)
+
+```{r echo = FALSE, out.width = "60%", fig.align = "center", fig.cap = "Extraída de https://friendly.github.io/HistDataVis."}
+knitr::include_graphics("./img/minard_2.png")
+```
+
+---
+
+# Primer .orange[SCATTER PLOT]
+
+Según Sevilla <sup>1</sup>, se considera al astrónomo británico **John Frederick William Herschel** el autor del **.bg-purple_light[primer diagrama de dispersión o scatterplot]** en 1833, visualizando el movimiento de la estrella doble Virginis (tiempo en el eje horizontal, posición angular en el eje vertical)
+
+
+```{r echo = FALSE, out.width = "35%", fig.align = "center", fig.cap = "Extraído de https://friendly.github.io/HistDataVis."}
+knitr::include_graphics("./img/herschel.jpg")
+``` 
+
+---
+
+# Primera .orange[PIRÁMIDE POBLACIONAL]
+
+La **.bg-purple_light[primera pirámide de población]** (doble histograma de población), fue publicada por **Francis Amasa Walker**, superintendente del censo de EE.UU., en 1874.
+
+```{r echo = FALSE, out.width = "45%", fig.align = "center", fig.cap = "Extraída de https://www.depauw.edu/learn/dew/wpaper/workingpapers/DePauw2016-02-Barreto-DemographyEconomics.pdf"}
+knitr::include_graphics("./img/walker_piramide.jpg")
+``` 
+
+---
+
+# .orange[RECURSOS] de dataviz
+
+
+📚 [«The Functional Art: an introduction to information graphics and visualization» de Alberto Cairo](https://www.amazon.es/Functional-Art-Voices-That-Matter/dp/0321834739)
+
+
+📚 [«Gramática de las gráficas: pistas para mejorar las representaciones de datos» de Joaquín Sevilla](https://academica-e.unavarra.es/bitstream/handle/2454/15785/Gram%C3%A1tica.pdf)
+
+
+📚 [«A Brief History of Visualization» de Friendly et al. (2008)](https://www.researchgate.net/publication/226400313_A_Brief_History_of_Data_Visualization)
+
+📚 [«Quantitative Graphics in Statistics: A Brief History» de James R. Beniger y Dorothy L. Robyn. The American Statistician (1978)](https://www.jstor.org/stable/2683467)]
+
+📚 [«Presentation Graphics» de Leland Wilkinson. International Encyclopedia of the Social & Behavioral Sciences](https://www.cs.uic.edu/~wilkinson/Publications/iesbs.pdf)
+
+📚 [«The Grammar of Graphics» de Leland Wilkinson](https://www.amazon.es/Grammar-Graphics-Statistics-Computing/dp/0387245448)
+
+
+📚 [«The Minard System: The Graphical Works of Charles-Joseph Minard» de Sandra Rendgen](https://www.amazon.es/gp/product/1616896337/ref=sw_img_1?smid=A1AT7YVPFBWXBL&psc=1)
+
+📚 [«The Visual Display of Quantitative Information» de E. W. Tufte](https://www.amazon.es/Visual-Display-Quantitative-Information/dp/0961392142)
+
+---
+
+name: intro-ggplot2
+
+# Dataviz en R: .orange[ggplot2]
+
+.pull-left[
+
+El paquete `{ggplot2}` se basa en la idea propuesta por Wilkinson en **.bg-purple_light[«Grammar of graphics»]**: dotar a los gráficos de una gramática propia. Una de las **.bg-purple_light[principales fortalezas]** de `R` no solo la **flexibilidad y rapidez** de `{tidyverse}`, también la **.bg-purple_light[visualización]** con el paquete `{ggplot2}`.
+
+```{r}
+library(ggplot2)
+```
+
+La **.bg-purple_light[visualización de datos]** debería ser una parte fundamental de todo análisis de datos. No es solo una cuestión estética, es fundamental para **.bg-purple_light[convertir el dato en información]**.
+
+]
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "71%", fig.align = "center", fig.cap = "Imagen extraída de Reddit"}
+knitr::include_graphics("./img/telling_dataviz.jpg")
+``` 
+
+]
+
+
+---
+
+# Dataviz en R: .orange[ggplot2]
+
+
+.pull-left[
+
+La filosofía detrás de `{ggplot2}` es entender los **.bg-purple_light[gráficos como parte del flujo]** de trabajo, dotándoles de una **.bg-purple_light[gramática]**, basándose en la idea de Wilkinson.
+
+El objetivo es empezar con un lienzo en blanco e ir **.bg-purple_light[añadiendo capas a tu gráfico]**. La ventaja de `{ggplot2}` es poder **.bg-purple_light[mapear atributos estéticos]** (color, forma, tamaño) de objetos geométricos (puntos, barras, líneas) en función de los datos.
+
+&nbsp;
+
+
+La **documentación** del paquete puedes consultarla en <https://ggplot2-book.org/introduction.html> 
+
+]
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "100%", fig.align = "center", fig.cap = "Idea detrás de la «Grammar of graphics» de Wilkinson"}
+knitr::include_graphics("./img/grammar_ggplot2.jpg")
+``` 
+
+]
+
+---
+
+# Dataviz en R: .orange[ggplot2]
+
+```{r echo = FALSE,  out.width = "75%", fig.align = "center", fig.cap = "Extraída de https://twitter.com/tanya_shapiro"}
+knitr::include_graphics("./img/tarta_ggplot2.png")
+``` 
+
+---
+
+# Dataviz en R: .orange[ggplot2]
+
+.pull-left[
+
+
+```{r echo = FALSE,  out.width = "80%", fig.align = "center", fig.cap = "Extraída de https://twitter.com/tanya_shapiro"}
+knitr::include_graphics("./img/tarta_recortada_ggplot2.jpg")
+``` 
+
+]
+
+.pull-right[
+
+Un gráfico se podrá componer de las siguientes **.bg-purple_light[capas]**
+
+* **.bg-purple_light[Datos (data)]**
+* **.bg-purple_light[Mapeado (aesthetics)]** de elementos estéticos: ejes, color, forma, tamaño, etc (en función de los datos)
+* **.bg-purple_light[Geometría (geom)]**: puntos, líneas, barras, polígonos, etc.
+* **.bg-purple_light[Componer gráficas (facet)]**: visualizar varias gráficas a la vez.
+* **.bg-purple_light[Transformaciones (stat)]**: ordenar, resumir, agrupar, etc.
+* **.bg-purple_light[Coordenadas (coord)]**: coordenadas cartesianas, polares, grids, etc.
+* **.bg-purple_light[Temas (theme)]**: fuente, tamaño de letra, subtítulos, captions, leyenda, ejes, etc.
+
+]
+
+
+---
+
+# Primer intento: .orange[SCATTER PLOT]
+
+Veamos un **primer intento** para entender la filosofía. Imagina que queremos dibujar un **.bg-purple_light[scatter plot]** o **diagrama de dispersión** (de puntos).
+
+&nbsp;
+
+Para ello vamos a usar el conjunto de datos `gapminder`, del paquete homónimo: un fichero con **datos de esperanzas de vida, poblaciones y renta per cápita** de distintos países en distintos momentos temporales.
+
+```{r}
+library(gapminder)
+gapminder
+```
+
+---
+
+# Primer intento: .orange[SCATTER PLOT]
+
+El fichero consta de 1704 registros y 6 variables: `country`, `continent`, `year`, `lifeExp` (esperanza de vida), `pop` (población)  y `gdpPercap` (renta per cápita).
+
+```{r}
+glimpse(gapminder)
+```
+
+Para empezar con algo sencillo **.bg-purple_light[filtraremos solo los datos de 1997]**
+
+--
+
+```{r}
+gapminder_1997 <- gapminder %>% filter(year == 1997)
+gapminder_1997
+```
+
+---
+
+# .orange[SCATTER PLOT]: .green[(x, y)]
+
+
+¿Qué **.bg-purple_light[elementos necesitamos]** para realizar un diagrama de puntos?
+
+--
+
+.pull-left[
+
+* **.bg-purple_light[Datos (data)]**: conjunto `gapminder_1997`.
+
+* **.bg-purple_light[Mapeado (aes)]**: indicarle dentro de `aes()` (aesthetics) las variables en cada coordenada. Todo lo que esté **.bg-purple_light[dentro de aes() dependerá de los datos]**
+
+```{r eval = FALSE}
+ggplot(data = gapminder_1997,
+       aes(x = gdpPercap, y = pop)) #<<
+```
+
+* **.bg-purple_light[Geometría (geom)]**: optaremos por **.bg-orange[puntos]** usando `geom_point()`.
+
+```{r eval = FALSE}
+ggplot(gapminder_1997, aes(x = gdpPercap, y = pop)) +
+  geom_point() #<<
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "83%"}
+ggplot(gapminder_1997, aes(x = gdpPercap, y = pop)) +
+  geom_point()
+```
+]
+
+---
+
+
+# .orange[SCATTER PLOT]: .green[(x, y)]
+
+Vamos a profundizar en ese mapeado: ¿cómo **.bg-purple_light[cambiar el rol]** de los ejes?
+
+--
+
+.pull-left[
+
+Ahora queremos
+
+* **Eje X**: población (variable `pop`)
+* **Eje Y**: renta per cápita (variable `gdpPercap`)
+
+Es decir, el mapeado para que **enlace** coordenadas a datos será con `aes(y = gdpPercap, x = pop)`
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = pop)) + #<<
+  geom_point() 
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "83%"}
+ggplot(gapminder_1997, aes(y = gdpPercap, x = pop)) +
+  geom_point() 
+```
+
+]
+
+---
+
+
+# .orange[SCATTER PLOT]: .green[(x, y)]
+
+¿Cómo se pintaría un scatter plot con la **esperanza de vida** en el eje X frente a la **renta per cápita**?
+
+--
+
+.pull-left[
+
+* **Eje X**: esperanza de vida (variable `lifeExp`)
+* **Eje Y**: renta per cápita (variable `gdpPercap`)
+
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) + #<<
+  geom_point()
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "83%"}
+ggplot(gapminder_1997, aes(y = gdpPercap, x = lifeExp)) +
+  geom_point()
+```
+]
+
+---
+
+
+# Colores, tamaños y formas: orange[constantes]
+
+.pull-left[
+
+Dentro de `geom_point()` tenemos varios argumentos a usar:
+
+* `na.rm = ...`: si queremos que nos quite los ausentes antes de representar la variable.
+
+* `show.legend = ...`: si queremos que se muestre o no en la leyenda (por defecto, no muestra si solo hay una capa).
+
+```{r eval = FALSE}
+# Color con palabra reservada
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(show.legend = TRUE) #<<
+```
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "83%"}
+ggplot(gapminder_1997, aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(show.legend = TRUE)
+```
+
+]
+
+---
+
+# Colores, tamaños y formas: orange[constantes]
+
+.pull-left[
+
+* `colour = ...`: color (en el caso del punto se entiende que es algo sin dimensión, así que es el color del punto; en otros casos, será el color del contorno)
+
+* `fill = ...`: color relleno (para objetos con relleno y contorno)
+
+Empezaremos por un **color fijo**, por ejemplo `"red"` (existen otros como `"blue"`, `"black"`, `"yellow"`, etc)
+
+```{r eval = FALSE}
+# Color con palabra reservada
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(color = "red") #<<
+```
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "83%"}
+ggplot(gapminder_1997, aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(color = "red")
+```
+
+]
+
+---
+
+# Colores, tamaños y formas: orange[constantes]
+
+.pull-left[
+
+* `alpha = ...`: grado de opacidad del color (1 totalmente opaco, 0 totalmente transparente)
+
+```{r eval = FALSE}
+# Color con palabra reservada
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(color = "red", alpha = 0.3) #<<
+```
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "83%"}
+ggplot(gapminder_1997, aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(color = "red", alpha = 0.3)
+```
+
+]
+
+---
+
+# Colores, tamaños y formas: orange[constantes]
+
+.pull-left[
+
+* `stroke = ...`: tamaño del contorno
+
+```{r eval = FALSE}
+# Color con palabra reservada
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(color = "red", alpha = 0.2,
+             size = 4, stroke = 0) #<<
+```
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "83%"}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(color = "red", alpha = 0.2,
+             size = 4, stroke = 0)
+```
+
+]
+
+
+---
+
+# Colores, tamaños y formas: orange[constantes]
+
+.pull-left[
+
+* `shape = ...`: forma de la geometría, en este caso del «punto» (ver todas las opciones en `vignette("ggplot2-specs")`)
+
+
+```{r echo = FALSE,  out.width = "40%", fig.align = "left"}
+knitr::include_graphics("./img/shape_ggplot.jpg")
+``` 
+
+
+```{r eval = FALSE}
+# Color con palabra reservada
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(color = "red", alpha = 0.3,
+             shape = 5) #<<
+```
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "83%"}
+ggplot(gapminder_1997, aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(color = "red", alpha = 0.3, shape = 5)
+```
+
+]
+
+---
+
+# Colores, tamaños y formas: orange[constantes]
+
+.pull-left[
+
+* `shape = ...`: forma de la geometría, en este caso del «punto» (ver todas las opciones en `vignette("ggplot2-specs")`)
+
+
+```{r echo = FALSE,  out.width = "40%", fig.align = "left"}
+knitr::include_graphics("./img/shape_ggplot.jpg")
+``` 
+
+
+```{r eval = FALSE}
+# Color con palabra reservada
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(color = "red", alpha = 0.5,
+             shape = 22, fill = "black") #<<
+```
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "83%"}
+ggplot(gapminder_1997, aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(color = "red", alpha = 0.5, shape = 22, fill = "black")
+```
+
+]
+
+
+---
+
+# Colores, tamaños y formas: orange[constantes]
+
+.pull-left[
+
+* `size = ...`: tamaño  de la geometría (en este caso el **tamaño de los punto**), cuanto mayor sea el número, mayor será el tamaño de la geometría.
+
+  
+```{r eval = FALSE}
+# Color con palabra reservada
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(color = "red", alpha = 0.5,
+             size = 5) #<<
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "83%"}
+ggplot(gapminder_1997, aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(color = "red", alpha = 0.5, size = 5)
+```
+
+]
+
+
+---
+
+# Colores, tamaños y formas (constantes)
+
+.pull-left[
+
+Los colores también podemos asignárselos por su **código hexadecimal**, consultando en la página <https://htmlcolorcodes.com/es/>, eligiendo el color que queramos. El código hexadecimal siempre comenzará con `#`
+
+
+```{r eval = FALSE}
+# Color en hexadecimal
+# https://htmlcolorcodes.com/es/
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(color = "#2EA2D8", #<<
+             alpha = 0.5, size = 5) 
+```
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "83%"}
+ggplot(gapminder_1997, aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(color = "#2EA2D8", alpha = 0.5, size = 5)
+```
+
+]
+
+  
+---
+
+# .orange[SCATTER PLOT]: .green[aes(size, color, shape)]
+
+.pull-left[
+
+Hasta ahora los **parámetros estéticos** se los hemos pasado fijos y **constantes**.  Pero la verdadera potencia y versatilidad de `ggplot` es que podemos **.bg-purple_light[mapear los atributos estéticos]** en `aes()` para que dependan de variables de los datos
+
+&nbsp;
+
+Por ejemplo, vamos a asignar un **.bg-purple_light[color a cada dato en función de su continente]**.
+
+```{r eval = FALSE}
+# Tamaño fijo
+# Color por continentes
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent)) + #<<
+  geom_point(size = 5)
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "83%"}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp, color = continent)) +
+  geom_point(size = 5)
+```
+
+]
+
+---
+
+# .orange[SCATTER PLOT]: .green[aes(size, color, shape)]
+
+
+.pull-left[
+  
+Podemos combinarlo con lo que hemos hecho anteriormente:
+
+* **.bg-purple_light[color]** en función del **.bg-orange[continente]**.
+
+* **.bg-purple_light[tamaño]** en función de la **.bg-orange[población]**.
+
+* **.bg-purple_light[transparencia]** la fijamos  **.bg-orange[constante]** del 70%.
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) + #<<
+  geom_point(alpha = 0.7)
+```
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "83%"}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.7)
+```
+
+]
+
+
+---
+
+# .orange[SCATTER PLOT]: .green[aes(size, color, shape)]
+
+.pull-left[
+  
+En lugar de jugar con el color, también podríamos añadir las variables en función de la **forma de la geometría** (en este caso la forma de los «puntos») con `shape = ...`.
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           shape = continent, size = pop)) +
+  geom_point(alpha = 0.7)
+```
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "83%"}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           shape = continent, size = pop)) +
+  geom_point(alpha = 0.7)
+```
+
+]
+
+---
+
+# Visualización .orange[MULTIVARIANTE]
+
+.pull-left[
+  
+Reflexionemos sobre el gráfico anterior:
+
+* **color** en función del **continente**.
+* **tamaño** en función de la **población**
+* **transparencia** fija del 70%
+
+Usando los datos hemos conseguido dibujar en un **.bg-purple_light[gráfico bidimensional 4 variables]**: `lifeExp` y `gdpPercap` en los ejes $(X, Y)$), `continent` como color y `pop` como tamaño de la geometría, con muy pocas líneas de código.
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.7)
+```
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "83%"}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.7)
+```
+
+]
+
+---
+
 
 class: inverse center middle
 name: clase-15
 
 # CLASE 15: profundizando en ggplot
+
 
 ---
 

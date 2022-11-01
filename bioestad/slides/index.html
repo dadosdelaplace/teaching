@@ -4,7 +4,6 @@
     <title>GESTIÓN DE BASES DE DATOS</title>
     <meta charset="utf-8" />
     <meta name="author" content="Javier Álvarez Liébana (Fac. Estudios Estadísticos - UCM)" />
-    <script src="index_files/header-attrs-2.17/header-attrs.js"></script>
     <link href="index_files/tile-view-0.2.6/tile-view.css" rel="stylesheet" />
     <script src="index_files/tile-view-0.2.6/tile-view.js"></script>
     <link href="index_files/animate.css-3.7.2/animate.xaringan.css" rel="stylesheet" />
@@ -26,18 +25,10 @@
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
-.title[
 # GESTIÓN DE BASES DE DATOS
-]
-.subtitle[
 ## Máster en Bioestadística
-]
-.author[
 ### Javier Álvarez Liébana (Fac. Estudios Estadísticos - UCM)
-]
-.date[
-### Última actualización: 24-10-2022
-]
+### Última actualización: 01-11-2022
 
 ---
 
@@ -1769,7 +1760,7 @@ hoy
 ```
 
 ```
-&gt; [1] "2022-10-24"
+&gt; [1] "2022-11-01"
 ```
 
 --
@@ -1782,7 +1773,7 @@ También podemos obtener el **.bg-purple_light[«hoy y ahora»]** con la funció
 ```
 
 ```
-&gt; [1] "2022-10-24 12:17:31 CEST"
+&gt; [1] "2022-11-01 19:05:20 CET"
 ```
  
 ---
@@ -2166,7 +2157,7 @@ hoy - cumple
 ```
 
 ```
-&gt; Time difference of 12097 days
+&gt; Time difference of 12105 days
 ```
 
 ]
@@ -2281,8 +2272,8 @@ wday(cumple, week_start = 1, label = TRUE)
 ```
 
 ```
-&gt; [1] do\\.
-&gt; Levels: lu\\. &lt; ma\\. &lt; mi\\. &lt; ju\\. &lt; vi\\. &lt; sá\\. &lt; do\\.
+&gt; [1] dom
+&gt; Levels: lun &lt; mar &lt; mié &lt; jue &lt; vie &lt; sáb &lt; dom
 ```
 
 ]
@@ -3088,9 +3079,9 @@ x &lt;- rnorm(1e3) # 1000 elementos aleatorias
 
 ```
 &gt; Unit: microseconds
-&gt;         expr    min      lq     mean median     uq     max neval
-&gt;      sort(x) 58.201 61.7010 71.59240 62.902 66.700 270.800  1000
-&gt;  x[order(x)] 39.501 42.0005 48.89748 43.000 44.701 216.302  1000
+&gt;         expr    min       lq     mean   median      uq     max neval cld
+&gt;      sort(x) 91.430 106.9245 152.5658 131.8655 183.617 513.503  1000   b
+&gt;  x[order(x)] 62.269  70.9205 100.1166  86.4915 119.739 489.166  1000  a
 ```
 
 --
@@ -4912,6 +4903,7 @@ tabla_tb
 &gt;  9     9 d     TRUE  
 &gt; 10    10 e     FALSE 
 &gt; # … with 40 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 
@@ -4944,6 +4936,7 @@ Puedes **imprimir las filas y columnas** que quieras con `print()`
 &gt; 11    11 a     TRUE  
 &gt; 12    12 b     FALSE 
 &gt; # … with 38 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 ---
@@ -5092,6 +5085,7 @@ as_tibble(USArrests)
 &gt;  9   15.4     335       80  31.9
 &gt; 10   17.4     211       60  25.8
 &gt; # … with 40 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 Puedes consultar **más funcionalidades** de dichos datos en &lt;https://tibble.tidyverse.org/&gt;
@@ -5258,6 +5252,7 @@ filtro_fila
 &gt;  9   110     207   8      90     8     9
 &gt; 10    NA     222   8.6    92     8    10
 &gt; # … with 21 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 ]
 
@@ -5310,6 +5305,7 @@ subset(airquality, subset = !(Month %in% c(7, 8)))
 &gt;  9     8      19  20.1    61     5     9
 &gt; 10    NA     194   8.6    69     5    10
 &gt; # … with 81 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 ]
@@ -5338,6 +5334,7 @@ filtro_col
 &gt;  9     8    61
 &gt; 10    NA    69
 &gt; # … with 143 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 ]
@@ -5365,6 +5362,7 @@ datos
 &gt;  9    90   8  
 &gt; 10    92   8.6
 &gt; # … with 21 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 ```r
@@ -5406,6 +5404,7 @@ nuevos_datos
 &gt;  9     8      19  20.1    61     5     9 1973-05-09
 &gt; 10    NA     194   8.6    69     5    10 1973-05-10
 &gt; # … with 143 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 ]
@@ -6330,12 +6329,12 @@ microbenchmark(x^2,
 
 ```
 &gt; Unit: nanoseconds
-&gt;                                     expr     min      lq        mean  median
-&gt;                                      x^2     200     302    1204.412    1100
-&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 2095500 2194551 2585031.491 2323201
-&gt;         uq      max neval
-&gt;     1500.5    27601  1000
-&gt;  2533651.5 94299900  1000
+&gt;                                     expr     min        lq        mean
+&gt;                                      x^2     751     953.5    2951.689
+&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 3616471 4107608.5 5803166.067
+&gt;     median        uq      max neval cld
+&gt;     2365.5    3975.5    42568  1000  a 
+&gt;  5015899.0 6516613.0 27136681  1000   b
 ```
 
 ---
@@ -6648,7 +6647,7 @@ sample(x = 0:1, size = 30, replace = TRUE)
 ```
 
 ```
-&gt;  [1] 0 1 1 0 1 0 0 0 1 0 0 1 1 0 0 0 0 1 0 0 1 1 0 1 0 1 0 0 0 1
+&gt;  [1] 0 1 1 0 1 0 0 1 1 1 0 0 1 0 0 0 1 0 0 1 0 1 0 1 1 1 0 0 1 0
 ```
 
 ---
@@ -6663,7 +6662,7 @@ sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
 ```
 
 ```
-&gt;  [1] "cruz" "cara" "cruz" "cara" "cruz" "cruz" "cruz" "cruz" "cruz" "cara"
+&gt;  [1] "cara" "cruz" "cara" "cara" "cruz" "cruz" "cara" "cara" "cruz" "cara"
 ```
 
 --
@@ -6676,7 +6675,7 @@ sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
 ```
 
 ```
-&gt;  [1] "cara" "cara" "cara" "cara" "cruz" "cara" "cara" "cara" "cara" "cruz"
+&gt;  [1] "cruz" "cara" "cruz" "cara" "cruz" "cruz" "cara" "cruz" "cara" "cruz"
 ```
 
 ---
@@ -7638,6 +7637,7 @@ relig_income
 &gt; # … with 2 more variables: `&gt;150k` &lt;dbl&gt;, `Don't know/refused` &lt;dbl&gt;, and
 &gt; #   abbreviated variable names ¹​`$10-20k`, ²​`$20-30k`, ³​`$30-40k`, ⁴​`$40-50k`,
 &gt; #   ⁵​`$50-75k`, ⁶​`$75-100k`, ⁷​`$100-150k`
+&gt; # ℹ Use `colnames()` to see all variable names
 ```
 
 **.bg-purple_light[TODO TUYO]**: ¿es tidy o messy? ¿Cómo convertirla a tidy data en caso de que no lo sea ya?
@@ -7669,6 +7669,7 @@ relig_income %&gt;%
 &gt;  9 Agnostic &gt;150k                  84
 &gt; 10 Agnostic Don't know/refused     96
 &gt; # … with 170 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 ]
@@ -8674,12 +8675,12 @@ microbenchmark(sqrt(x), for (i in 1:1000) { y[i] &lt;- sqrt(x[i]) }, times = 1e3
 
 ```
 &gt; Unit: microseconds
-&gt;                                          expr      min       lq        mean
-&gt;                                       sqrt(x)    4.702    5.200    6.436333
-&gt;  for (i in 1:1000) {     y[i] &lt;- sqrt(x[i]) } 2131.901 2213.051 2492.017809
-&gt;    median      uq      max neval
-&gt;     5.800    6.40   83.001  1000
-&gt;  2315.202 2548.65 7287.202  1000
+&gt;                                          expr      min       lq       mean
+&gt;                                       sqrt(x)    4.690    5.795   10.13728
+&gt;  for (i in 1:1000) {     y[i] &lt;- sqrt(x[i]) } 3786.119 4603.141 7539.98602
+&gt;     median       uq        max neval cld
+&gt;     7.7895   10.744    136.059  1000  a 
+&gt;  5574.9045 8130.241 117398.771  1000   b
 ```
 
 
@@ -8763,11 +8764,11 @@ microbenchmark(map(x, .f = function(x) { mean(x^2) }), lapply(x, FUN = function(
 ```
 &gt; Unit: milliseconds
 &gt;                                            expr      min       lq     mean
-&gt;      map(x, .f = function(x) {     mean(x^2) }) 8.221602 9.229200 10.58022
-&gt;  lapply(x, FUN = function(x) {     mean(x^2) }) 8.183101 9.071951 10.47581
-&gt;    median       uq     max neval
-&gt;  10.32135 10.97305 27.4943  1000
-&gt;  10.17385 10.77850 98.9652  1000
+&gt;      map(x, .f = function(x) {     mean(x^2) }) 11.47705 14.12106 20.03720
+&gt;  lapply(x, FUN = function(x) {     mean(x^2) }) 11.34548 13.64759 18.27266
+&gt;    median       uq      max neval cld
+&gt;  15.99645 19.48938 396.9843  1000   b
+&gt;  15.50478 18.65260 102.3539  1000  a
 ```
 
 
@@ -10126,6 +10127,7 @@ starwars %&gt;%
 &gt; # … with 11 more rows, 4 more variables: species &lt;chr&gt;, films &lt;list&gt;,
 &gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names
 &gt; #   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
 ---
@@ -10173,6 +10175,7 @@ starwars %&gt;%
 &gt; # … with 56 more rows, 4 more variables: species &lt;chr&gt;, films &lt;list&gt;,
 &gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names
 &gt; #   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
 ---
@@ -10207,6 +10210,7 @@ starwars %&gt;%
 &gt; # … with 30 more rows, 4 more variables: species &lt;chr&gt;, films &lt;list&gt;,
 &gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names
 &gt; #   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
 ---
@@ -10315,6 +10319,7 @@ starwars %&gt;% drop_na(mass, height, sex, gender)
 &gt; # … with 48 more rows, 4 more variables: species &lt;chr&gt;, films &lt;list&gt;,
 &gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names
 &gt; #   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
 ---
@@ -10363,6 +10368,7 @@ starwars %&gt;%
 &gt; # … with 25 more rows, 4 more variables: species &lt;chr&gt;, films &lt;list&gt;,
 &gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names
 &gt; #   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
 ]
@@ -10392,6 +10398,7 @@ starwars %&gt;%
 &gt; # … with 22 more rows, 4 more variables: species &lt;chr&gt;, films &lt;list&gt;,
 &gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names
 &gt; #   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
 ]
@@ -10421,6 +10428,7 @@ starwars %&gt;%
 &gt; # … with 16 more rows, 4 more variables: species &lt;chr&gt;, films &lt;list&gt;,
 &gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names
 &gt; #   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
 ]
@@ -10451,6 +10459,7 @@ starwars %&gt;%
 &gt; # … with 16 more rows, 4 more variables: species &lt;chr&gt;, films &lt;list&gt;,
 &gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names
 &gt; #   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
 ]
@@ -10474,6 +10483,7 @@ starwars %&gt;% filter(n_starships &gt; 2)
 &gt; # … with 5 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, n_starships &lt;int&gt;, and abbreviated variable names
 &gt; #   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `colnames()` to see all variable names
 ```
 
 
@@ -10535,6 +10545,7 @@ Normalmente filtraremos registros por alguna condición pero no siempre, a veces
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `colnames()` to see all variable names
 ```
 
 ---
@@ -10582,6 +10593,7 @@ starwars %&gt;% slice(1:5)
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `colnames()` to see all variable names
 ```
 
 ---
@@ -10608,6 +10620,7 @@ starwars %&gt;% slice(c(1, 2, 10, 13, 27))
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `colnames()` to see all variable names
 ```
 
 
@@ -10636,6 +10649,7 @@ starwars %&gt;% slice_head(n = 2)
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `colnames()` to see all variable names
 ```
 
 ---
@@ -10661,6 +10675,7 @@ starwars %&gt;% slice_tail(n = 3)
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `colnames()` to see all variable names
 ```
 
 ---
@@ -10687,6 +10702,7 @@ starwars %&gt;% slice_sample(n = 3)
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `colnames()` to see all variable names
 ```
 
 ---
@@ -10711,6 +10727,7 @@ starwars %&gt;% slice_sample(prop = 0.025)
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `colnames()` to see all variable names
 ```
 
 ---
@@ -10849,6 +10866,7 @@ starwars %&gt;% arrange(height, desc(mass))
 &gt; # … with 77 more rows, 4 more variables: species &lt;chr&gt;, films &lt;list&gt;,
 &gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names
 &gt; #   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
 ---
@@ -10880,6 +10898,7 @@ starwars %&gt;% distinct(hair_color, eye_color)
 &gt;  9 auburn, white blue-gray
 &gt; 10 auburn, grey  blue     
 &gt; # … with 25 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 ]
@@ -10909,6 +10928,7 @@ starwars %&gt;% distinct(hair_color, eye_color, .keep_all = TRUE)
 &gt; # … with 25 more rows, 4 more variables: species &lt;chr&gt;, films &lt;list&gt;,
 &gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names
 &gt; #   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
 ]
@@ -10982,6 +11002,7 @@ starwars %&gt;%
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `colnames()` to see all variable names
 ```
 
 ]
@@ -11033,6 +11054,7 @@ starwars %&gt;%
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `colnames()` to see all variable names
 ```
 
 ]
@@ -11080,6 +11102,7 @@ starwars %&gt;%
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `colnames()` to see all variable names
 ```
 
 ]
@@ -11130,6 +11153,7 @@ starwars %&gt;%
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `colnames()` to see all variable names
 ```
 
 ]
@@ -11181,6 +11205,7 @@ starwars %&gt;%
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `colnames()` to see all variable names
 ```
 
 ]
@@ -11243,6 +11268,7 @@ starwars %&gt;%
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `colnames()` to see all variable names
 ```
 
 ]
@@ -11265,6 +11291,7 @@ starwars %&gt;%
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `colnames()` to see all variable names
 ```
 
 
@@ -11283,6 +11310,7 @@ starwars %&gt;%
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `colnames()` to see all variable names
 ```
 
 
@@ -11311,6 +11339,7 @@ starwars %&gt;%
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `colnames()` to see all variable names
 ```
 
 ]
@@ -11334,6 +11363,7 @@ starwars %&gt;%
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `colnames()` to see all variable names
 ```
 
 
@@ -11352,6 +11382,7 @@ starwars %&gt;%
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `colnames()` to see all variable names
 ```
 ]
 
@@ -11469,6 +11500,7 @@ starwars %&gt;%
 &gt;  9 Biggs Darklighter  black        
 &gt; 10 Obi-Wan Kenobi     auburn, white
 &gt; # … with 77 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 
@@ -11498,6 +11530,7 @@ starwars %&gt;% select(name, hair_color)
 &gt;  9 Biggs Darklighter  black        
 &gt; 10 Obi-Wan Kenobi     auburn, white
 &gt; # … with 77 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 ]
@@ -11540,6 +11573,7 @@ starwars %&gt;% select(name:skin_color)
 &gt;  9 Biggs Darklighter     183    84 black         light      
 &gt; 10 Obi-Wan Kenobi        182    77 auburn, white fair       
 &gt; # … with 77 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 ---
@@ -11568,6 +11602,7 @@ starwars %&gt;% select(-c(mass:eye_color), -species, -c(films:starships))
 &gt;  9 Biggs Darklighter     183       24   male   masculine Tatooine 
 &gt; 10 Obi-Wan Kenobi        182       57   male   masculine Stewjon  
 &gt; # … with 77 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 ---
@@ -11599,6 +11634,7 @@ starwars %&gt;% select(ends_with("color"))
 &gt;  9 black         light       brown    
 &gt; 10 auburn, white fair        blue-gray
 &gt; # … with 77 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 ---
@@ -11633,6 +11669,7 @@ who %&gt;% select(country, year, starts_with("new_sp"))
 &gt; #   new_sp_f5564 &lt;int&gt;, new_sp_f65 &lt;int&gt;, and abbreviated variable names
 &gt; #   ¹​new_sp_m014, ²​new_sp_m1524, ³​new_sp_m2534, ⁴​new_sp_m3544, ⁵​new_sp_m4554,
 &gt; #   ⁶​new_sp_m5564, ⁷​new_sp_m65, ⁸​new_sp_f014
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
 ---
@@ -11686,6 +11723,7 @@ billboard %&gt;% select(num_range("wk", 10:15))
 &gt;  9    10     9     8     6     1     2
 &gt; 10    59    66    68    61    67    59
 &gt; # … with 307 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 ---
@@ -11717,6 +11755,7 @@ starwars %&gt;% select(where(is.numeric) | where(is.character))
 &gt; 10    182    77       57   Obi-Wan… auburn… fair    blue-g… male  mascu… Stewjon
 &gt; # … with 77 more rows, 1 more variable: species &lt;chr&gt;, and abbreviated variable
 &gt; #   names ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​homeworld
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
 ---
@@ -11747,6 +11786,7 @@ starwars %&gt;%  select(c(species, name, birth_year, everything()))
 &gt; # … with 77 more rows, 4 more variables: homeworld &lt;chr&gt;, films &lt;list&gt;,
 &gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names
 &gt; #   ¹​birth_year, ²​hair_color, ³​skin_color, ⁴​eye_color
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
 ---
@@ -11800,6 +11840,7 @@ starwars %&gt;% relocate(species, .before = name)
 &gt; # … with 77 more rows, 4 more variables: homeworld &lt;chr&gt;, films &lt;list&gt;,
 &gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names
 &gt; #   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
 ---
@@ -11853,6 +11894,7 @@ starwars %&gt;% select(name)
 &gt;  9 Biggs Darklighter 
 &gt; 10 Obi-Wan Kenobi    
 &gt; # … with 77 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 ]
@@ -11952,6 +11994,7 @@ starwars %&gt;%
 &gt; # … with 77 more rows, 4 more variables: species &lt;chr&gt;, films &lt;list&gt;,
 &gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names
 &gt; #   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
 
@@ -12003,6 +12046,7 @@ starwars_NA
 &gt; # … with 71 more rows, 4 more variables: species &lt;chr&gt;, films &lt;list&gt;,
 &gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names
 &gt; #   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
 ]
@@ -12031,6 +12075,7 @@ starwars %&gt;%
 &gt;  9 Biggs Darklighter     183 black         light       brown    
 &gt; 10 Obi-Wan Kenobi        182 auburn, white fair        blue-gray
 &gt; # … with 71 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 ]
@@ -12064,6 +12109,7 @@ starwars %&gt;%
 &gt;  9 Biggs Darklighter     183 black         light       brown     
 &gt; 10 Obi-Wan Kenobi        182 auburn, white fair        blue-gray 
 &gt; # … with 71 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 ]
@@ -12098,6 +12144,7 @@ starwars %&gt;%
 &gt;  9 Biggs Darklighter  black            183 light       brown     
 &gt; 10 Obi-Wan Kenobi     auburn, white    182 fair        blue-gray 
 &gt; # … with 71 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 ]
@@ -12208,6 +12255,7 @@ starwars %&gt;%
 &gt; # … with 77 more rows, 5 more variables: species &lt;chr&gt;, films &lt;list&gt;,
 &gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, height_m &lt;dbl&gt;, and abbreviated variable
 &gt; #   names ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
 ---
@@ -12252,6 +12300,7 @@ starwars %&gt;%
 &gt;  9     1.83
 &gt; 10     1.82
 &gt; # … with 77 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 ---
@@ -12303,6 +12352,7 @@ starwars %&gt;%
 &gt; # … with 77 more rows, 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,
 &gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable
 &gt; #   names ¹​height_m, ²​hair_color, ³​skin_color, ⁴​eye_color, ⁵​birth_year
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
 ---
@@ -12335,6 +12385,7 @@ starwars %&gt;%
 &gt; # … with 77 more rows, 4 more variables: species &lt;chr&gt;, films &lt;list&gt;,
 &gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names
 &gt; #   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
 
@@ -12376,6 +12427,7 @@ starwars %&gt;% mutate(height = case_when(height &gt; 180 ~ "alto",
 &gt; # … with 77 more rows, 4 more variables: species &lt;chr&gt;, films &lt;list&gt;,
 &gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names
 &gt; #   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
 ---
@@ -12414,6 +12466,7 @@ starwars %&gt;%
 &gt; # … with 77 more rows, 5 more variables: species &lt;chr&gt;, films &lt;list&gt;,
 &gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, type &lt;chr&gt;, and abbreviated variable
 &gt; #   names ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
 ---
@@ -12465,6 +12518,7 @@ starwars_nueva
 &gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, n_films &lt;int&gt;, n_vehicles &lt;int&gt;,
 &gt; #   n_starships &lt;int&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
 ]
@@ -12500,6 +12554,7 @@ starwars_nueva
 &gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, n_films &lt;int&gt;, n_vehicles &lt;int&gt;,
 &gt; #   n_starships &lt;int&gt;, frequency &lt;chr&gt;, and abbreviated variable names
 &gt; #   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
 ]
@@ -12533,6 +12588,7 @@ starwars_nueva
 &gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, n_films &lt;int&gt;, n_vehicles &lt;int&gt;,
 &gt; #   n_starships &lt;int&gt;, frequency &lt;chr&gt;, and abbreviated variable names
 &gt; #   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
 ]
@@ -12566,6 +12622,7 @@ starwars_nueva
 &gt; #   homeworld &lt;chr&gt;, species &lt;chr&gt;, frequency &lt;chr&gt;, under_18 &lt;lgl&gt;, and
 &gt; #   abbreviated variable names ¹​n_vehicles, ²​n_starships, ³​hair_color,
 &gt; #   ⁴​skin_color, ⁵​eye_color
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
 
@@ -12616,6 +12673,7 @@ starwars %&gt;%
 &gt;  9 Ewok          
 &gt; 10 Sullustan     
 &gt; # … with 27 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 ```r
@@ -12642,6 +12700,7 @@ starwars %&gt;%
 &gt; # … with 27 more rows, 4 more variables: species &lt;chr&gt;, films &lt;list&gt;,
 &gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names
 &gt; #   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
 ]
@@ -12672,6 +12731,7 @@ starwars %&gt;%
 &gt; # … with 72 more rows, 5 more variables: species &lt;chr&gt;, films &lt;list&gt;,
 &gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, auburn &lt;lgl&gt;, and abbreviated variable
 &gt; #   names ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
 ]
@@ -13222,6 +13282,7 @@ starwars %&gt;%
 &gt;  9 Geonosian     1
 &gt; 10 Gungan        3
 &gt; # … with 28 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 ```r
@@ -13245,6 +13306,7 @@ starwars %&gt;%
 &gt;  9 Geonosian     1
 &gt; 10 Gungan        3
 &gt; # … with 28 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 ]
@@ -13360,6 +13422,7 @@ starwars %&gt;%
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `colnames()` to see all variable names
 ```
   
 ]
@@ -13463,6 +13526,7 @@ starwars %&gt;%
 &gt;  9 male                     20     4
 &gt; 10 male                     30     3
 &gt; # … with 16 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 ]
@@ -14574,6 +14638,7 @@ as_tibble(titanic)
 &gt;  9           9        1      3 Johns… fema…    27     0     2 347742 11.1  ""   
 &gt; 10          10        1      2 Nasse… fema…    14     1     0 237736 30.1  ""   
 &gt; # … with 881 more rows, and 1 more variable: Embarked &lt;fct&gt;
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
 ---
@@ -14603,6 +14668,7 @@ as_tibble(titanic)
 &gt;  9           9        1      3 Johns… fema…    27     0     2 347742 11.1  ""   
 &gt; 10          10        1      2 Nasse… fema…    14     1     0 237736 30.1  ""   
 &gt; # … with 881 more rows, and 1 more variable: Embarked &lt;fct&gt;
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
 ---
@@ -14911,6 +14977,7 @@ read_csv(file = "./datos/starwars.csv")
 &gt; 10 Obi-Wan Ke…    182    77 auburn… fair    blue-g…    57   male  mascu… Stewjon
 &gt; # … with 77 more rows, 1 more variable: species &lt;chr&gt;, and abbreviated variable
 &gt; #   names ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
 ---
@@ -14933,22 +15000,23 @@ momo_datos
 &gt; # A tibble: 500,000 × 15
 &gt;    ambito   cod_amb…¹ cod_i…² nombr…³ cod_s…⁴ nombr…⁵ cod_g…⁶ nombr…⁷ fecha_de…⁸
 &gt;    &lt;chr&gt;    &lt;chr&gt;       &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;date&gt;    
-&gt;  1 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   all     todos   2022-10-29
-&gt;  2 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   +85     edad &gt;… 2022-10-29
-&gt;  3 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   0-14    edad 0… 2022-10-29
-&gt;  4 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   15-44   edad 1… 2022-10-29
-&gt;  5 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   45-64   edad 4… 2022-10-29
-&gt;  6 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   65-74   edad 6… 2022-10-29
-&gt;  7 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   75-84   edad 7… 2022-10-29
-&gt;  8 nacional &lt;NA&gt;           NA &lt;NA&gt;    1       hombres all     todos   2022-10-29
-&gt;  9 nacional &lt;NA&gt;           NA &lt;NA&gt;    1       hombres +85     edad &gt;… 2022-10-29
-&gt; 10 nacional &lt;NA&gt;           NA &lt;NA&gt;    1       hombres 0-14    edad 0… 2022-10-29
+&gt;  1 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   all     todos   2022-11-06
+&gt;  2 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   +85     edad &gt;… 2022-11-06
+&gt;  3 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   0-14    edad 0… 2022-11-06
+&gt;  4 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   15-44   edad 1… 2022-11-06
+&gt;  5 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   45-64   edad 4… 2022-11-06
+&gt;  6 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   65-74   edad 6… 2022-11-06
+&gt;  7 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   75-84   edad 7… 2022-11-06
+&gt;  8 nacional &lt;NA&gt;           NA &lt;NA&gt;    1       hombres all     todos   2022-11-06
+&gt;  9 nacional &lt;NA&gt;           NA &lt;NA&gt;    1       hombres +85     edad &gt;… 2022-11-06
+&gt; 10 nacional &lt;NA&gt;           NA &lt;NA&gt;    1       hombres 0-14    edad 0… 2022-11-06
 &gt; # … with 499,990 more rows, 6 more variables: defunciones_observadas &lt;dbl&gt;,
 &gt; #   defunciones_estimadas_base &lt;dbl&gt;, defunciones_estimadas_base_q01 &lt;dbl&gt;,
 &gt; #   defunciones_estimadas_base_q99 &lt;dbl&gt;, defunciones_atrib_exc_temp &lt;dbl&gt;,
 &gt; #   defunciones_atrib_def_temp &lt;dbl&gt;, and abbreviated variable names
 &gt; #   ¹​cod_ambito, ²​cod_ine_ambito, ³​nombre_ambito, ⁴​cod_sexo, ⁵​nombre_sexo,
 &gt; #   ⁶​cod_gedad, ⁷​nombre_gedad, ⁸​fecha_defuncion
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
 ---
@@ -14981,6 +15049,7 @@ discurso_2021
 &gt;  9 Estos son algunos ejemplos de los retos que tenemos por delante y que muestr…
 &gt; 10 Ante esta situación ¿qué hacer?, ¿tenemos que dejarnos llevar por el pesimis…
 &gt; # … with 16 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 ---
@@ -15131,6 +15200,7 @@ mtcars
 &gt;  9  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2
 &gt; 10  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4
 &gt; # … with 22 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 ---
@@ -15214,6 +15284,7 @@ iris_sas
 &gt;  9          4.4         2.9          1.4         0.2 setosa 
 &gt; 10          4.9         3.1          1.5         0.1 setosa 
 &gt; # … with 140 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 ---
@@ -15232,8 +15303,8 @@ iris_spss
 
 ```
 &gt; # A tibble: 150 × 5
-&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width Species   
-&gt;           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;dbl+lbl&gt; 
+&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width    Species
+&gt;           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt;  &lt;dbl+lbl&gt;
 &gt;  1          5.1         3.5          1.4         0.2 1 [setosa]
 &gt;  2          4.9         3            1.4         0.2 1 [setosa]
 &gt;  3          4.7         3.2          1.3         0.2 1 [setosa]
@@ -15245,6 +15316,7 @@ iris_spss
 &gt;  9          4.4         2.9          1.4         0.2 1 [setosa]
 &gt; 10          4.9         3.1          1.5         0.1 1 [setosa]
 &gt; # … with 140 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 ---
@@ -15277,6 +15349,7 @@ iris_stata
 &gt;  9        4.40       2.90        1.40      0.200 setosa 
 &gt; 10        4.90       3.10        1.5       0.100 setosa 
 &gt; # … with 140 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 
@@ -15294,7 +15367,7 @@ owid_covid()
 ```
 
 ```
-&gt; # A tibble: 229,676 × 67
+&gt; # A tibble: 231,638 × 67
 &gt;    iso_code continent locat…¹ date       total…² new_c…³ new_c…⁴ total…⁵ new_d…⁶
 &gt;    &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;   &lt;date&gt;       &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
 &gt;  1 AFG      Asia      Afghan… 2020-02-24       5       5  NA          NA      NA
@@ -15307,13 +15380,14 @@ owid_covid()
 &gt;  8 AFG      Asia      Afghan… 2020-03-02       5       0   0          NA      NA
 &gt;  9 AFG      Asia      Afghan… 2020-03-03       5       0   0          NA      NA
 &gt; 10 AFG      Asia      Afghan… 2020-03-04       5       0   0          NA      NA
-&gt; # … with 229,666 more rows, 58 more variables: new_deaths_smoothed &lt;dbl&gt;,
+&gt; # … with 231,628 more rows, 58 more variables: new_deaths_smoothed &lt;dbl&gt;,
 &gt; #   total_cases_per_million &lt;dbl&gt;, new_cases_per_million &lt;dbl&gt;,
 &gt; #   new_cases_smoothed_per_million &lt;dbl&gt;, total_deaths_per_million &lt;dbl&gt;,
 &gt; #   new_deaths_per_million &lt;dbl&gt;, new_deaths_smoothed_per_million &lt;dbl&gt;,
 &gt; #   reproduction_rate &lt;dbl&gt;, icu_patients &lt;dbl&gt;,
 &gt; #   icu_patients_per_million &lt;dbl&gt;, hosp_patients &lt;dbl&gt;,
 &gt; #   hosp_patients_per_million &lt;dbl&gt;, weekly_icu_admissions &lt;dbl&gt;, …
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
 ---
@@ -15340,23 +15414,6 @@ Este paquete tiene la función `owid_search()` para **.bg-purple_light[buscar da
 as_tibble(owid_search("emissions"))
 ```
 
-```
-&gt; # A tibble: 132 × 2
-&gt;    titles                                                 chart_id              
-&gt;    &lt;chr&gt;                                                  &lt;chr&gt;                 
-&gt;  1 Air pollutant emissions                                air-pollutant-emissio…
-&gt;  2 Emissions of air pollutants                            emissions-of-air-poll…
-&gt;  3 Emissions of air pollutants                            emissions-of-air-poll…
-&gt;  4 Emissions of particulate matter                        emissions-of-particul…
-&gt;  5 Global SO₂ emissions                                   global-so-emissions   
-&gt;  6 Global sulphur dioxide (SO₂) emissions by world region so-emissions-by-world…
-&gt;  7 Sulphur dioxide (SO₂) emissions                        so2-emissions         
-&gt;  8 Sulphur dioxide (SO₂) emissions                        so-emissions-tonnes-p…
-&gt;  9 Sulphur dioxide (SO₂) emissions per capita             so-emissions-per-capi…
-&gt; 10 Sulphur oxide (SO₂) emissions                          sulphur-oxide-emissio…
-&gt; # … with 122 more rows
-```
-
 ---
 
 # Importando datos: desde .orange[API]
@@ -15367,23 +15424,6 @@ Vamos a pedirle por ejemplo las emisiones per cápita de gases de efecto inverna
 ```r
 emissions &lt;- owid("per-capita-ghg-emissions")
 emissions
-```
-
-```
-&gt; # A tibble: 6,149 × 4
-&gt;    entity      code   year `Total including LUCF`
-&gt;  * &lt;chr&gt;       &lt;chr&gt; &lt;int&gt;                  &lt;dbl&gt;
-&gt;  1 Afghanistan AFG    1990                  0.772
-&gt;  2 Afghanistan AFG    1991                  0.738
-&gt;  3 Afghanistan AFG    1992                  0.623
-&gt;  4 Afghanistan AFG    1993                  0.576
-&gt;  5 Afghanistan AFG    1994                  0.536
-&gt;  6 Afghanistan AFG    1995                  0.529
-&gt;  7 Afghanistan AFG    1996                  0.563
-&gt;  8 Afghanistan AFG    1997                  0.598
-&gt;  9 Afghanistan AFG    1998                  0.628
-&gt; 10 Afghanistan AFG    1999                  0.658
-&gt; # … with 6,139 more rows
 ```
 
 ---
@@ -15419,6 +15459,7 @@ Con dicho paquete podemos hacer una **.bg-purple_light[búsqueda de las estacion
 
 
 ```r
+library(climaemet)
 stations &lt;- aemet_stations()
 stations
 ```
@@ -15438,6 +15479,7 @@ stations
 &gt;  9 0370B      ""       GIRONA, ANTIC INSTITUT GIRONA         95     2.83    42.0
 &gt; 10 0372C      "08120"  PORQUERES              GIRONA        157     2.76    42.1
 &gt; # … with 281 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 ---
@@ -15454,29 +15496,29 @@ aemet_last_obs("0076")
 
 |idema |      lon|fint                | prec| alt| vmax|  vv|  dv|      lat| dmax|ubi                  |   pres| hr| stdvv|   ts| pres_nmar| tamin|   ta| tamax|  tpr|  vis| stddv| inso|
 |:-----|--------:|:-------------------|----:|---:|----:|---:|---:|--------:|----:|:--------------------|------:|--:|-----:|----:|---------:|-----:|----:|-----:|----:|----:|-----:|----:|
-|0076  | 2.069995|2022-10-23 11:00:00 |    0|   4|  3.6| 2.0| 220| 41.29278|  220|BARCELONA/AEROPUERTO | 1016.6| 71|   0.6| 27.4|    1017.2|  24.4| 25.0|  25.3| 19.3| 18.6|    18|    7|
-|0076  | 2.069995|2022-10-23 12:00:00 |    0|   4|  4.6| 2.9| 230| 41.29278|  230|BARCELONA/AEROPUERTO | 1016.0| 73|   0.5| 27.0|    1016.6|  24.8| 25.0|  26.0| 19.8| 17.5|     6|   12|
-|0076  | 2.069995|2022-10-23 13:00:00 |    0|   4|  4.6| 2.8| 240| 41.29278|  230|BARCELONA/AEROPUERTO | 1015.1| 72|   0.4| 27.6|    1015.7|  24.7| 25.4|  25.6| 20.0| 15.1|     8|    1|
-|0076  | 2.069995|2022-10-23 14:00:00 |    0|   4|  7.7| 2.7| 250| 41.29278|  240|BARCELONA/AEROPUERTO | 1014.2| 64|   0.6| 28.4|    1014.8|  25.4| 26.1|  26.2| 18.8| 18.3|    12|    5|
-|0076  | 2.069995|2022-10-23 15:00:00 |    0|   4|  4.6| 2.7| 210| 41.29278|  210|BARCELONA/AEROPUERTO | 1014.0| 74|   0.3| 25.1|    1014.6|  24.7| 24.7|  26.0| 19.8| 14.9|    10|    0|
-|0076  | 2.069995|2022-10-23 16:00:00 |    0|   4|  5.7| 3.1| 220| 41.29278|  250|BARCELONA/AEROPUERTO | 1014.2| 81|   0.5| 24.2|    1014.8|  24.0| 24.1|  24.9| 20.7| 14.2|     5|    0|
-|0076  | 2.069995|2022-10-23 17:00:00 |    0|   4|  5.1| 2.8| 230| 41.29278|  200|BARCELONA/AEROPUERTO | 1014.5| 84|   0.5| 22.8|    1015.1|  23.4| 23.5|  24.1| 20.7| 12.9|     6|    0|
-|0076  | 2.069995|2022-10-23 18:00:00 |    0|   4|  4.6| 2.2| 260| 41.29278|  220|BARCELONA/AEROPUERTO | 1015.0| 84|   0.2| 21.9|    1015.6|  22.8| 22.8|  23.5| 20.0| 13.6|     6|    0|
-|0076  | 2.069995|2022-10-23 19:00:00 |    0|   4|  3.1| 1.3| 230| 41.29278|  240|BARCELONA/AEROPUERTO | 1015.3| 83|   0.2| 21.7|    1015.9|  22.7| 23.0|  23.1| 20.0| 14.4|    11|    0|
-|0076  | 2.069995|2022-10-23 20:00:00 |    0|   4|  3.1| 2.1| 280| 41.29278|  250|BARCELONA/AEROPUERTO | 1015.3| 85|   0.1| 21.2|    1015.9|  22.0| 22.2|  23.1| 19.6| 10.8|     9|    0|
-|0076  | 2.069995|2022-10-23 21:00:00 |    0|   4|  4.1| 3.3| 230| 41.29278|  240|BARCELONA/AEROPUERTO | 1015.8| 86|   0.1| 21.2|    1016.4|  21.6| 22.3|  22.3| 19.8| 11.1|     3|    0|
-|0076  | 2.069995|2022-10-23 22:00:00 |    0|   4|  6.2| 4.6| 250| 41.29278|  260|BARCELONA/AEROPUERTO | 1015.7| 86|   0.3| 21.5|    1016.3|  22.2| 22.3|  22.4| 19.8| 12.2|     2|    0|
-|0076  | 2.069995|2022-10-23 23:00:00 |    0|   4|  5.1| 1.2| 270| 41.29278|  250|BARCELONA/AEROPUERTO | 1015.7| 85|   0.3| 19.8|    1016.3|  21.4| 21.5|  22.4| 18.8| 10.8|    18|    0|
-|0076  | 2.069995|2022-10-24 00:00:00 |    0|   4|  4.1| 0.6| 360| 41.29278|   30|BARCELONA/AEROPUERTO | 1015.6| 84|   0.6| 18.5|    1016.2|  20.4| 20.5|  21.6| 17.7| 12.9|   145|    0|
-|0076  | 2.069995|2022-10-24 01:00:00 |    0|   4|  5.1| 3.4| 360| 41.29278|  360|BARCELONA/AEROPUERTO | 1015.4| 88|   0.2| 17.9|    1016.0|  19.9| 20.0|  20.5| 17.9| 11.6|   183|    0|
-|0076  | 2.069995|2022-10-24 02:00:00 |    0|   4|  5.7| 3.9| 360| 41.29278|  360|BARCELONA/AEROPUERTO | 1015.3| 85|   0.3| 18.2|    1015.9|  19.6| 19.7|  19.9| 17.1| 13.8|   171|    0|
-|0076  | 2.069995|2022-10-24 03:00:00 |    0|   4|  7.2| 4.9|  10| 41.29278|  350|BARCELONA/AEROPUERTO | 1015.1| 82|   0.2| 17.6|    1015.7|  19.1| 19.1|  19.8| 16.0| 16.5|     2|    0|
-|0076  | 2.069995|2022-10-24 04:00:00 |    0|   4|  6.7| 4.8| 360| 41.29278|  350|BARCELONA/AEROPUERTO | 1015.6| 79|   0.2| 17.8|    1016.2|  19.1| 19.3|  19.3| 15.5| 18.0|     4|    0|
-|0076  | 2.069995|2022-10-24 05:00:00 |    0|   4|  5.7| 2.5| 350| 41.29278|  350|BARCELONA/AEROPUERTO | 1015.8| 79|   1.0| 17.4|    1016.4|  18.8| 18.8|  19.3| 15.1| 18.2|   141|    0|
-|0076  | 2.069995|2022-10-24 06:00:00 |    0|   4|  3.1| 0.8| 340| 41.29278|  340|BARCELONA/AEROPUERTO | 1015.9| 80|   0.6| 17.0|    1016.5|  18.8| 18.9|  18.9| 15.3| 13.1|    11|    0|
-|0076  | 2.069995|2022-10-24 07:00:00 |    0|   4|  3.6| 2.3| 360| 41.29278|  360|BARCELONA/AEROPUERTO | 1016.2| 79|   0.6| 17.9|    1016.8|  18.7| 19.0|  19.1| 15.3| 15.1|   149|    0|
-|0076  | 2.069995|2022-10-24 08:00:00 |    0|   4|  2.6| 1.4| 350| 41.29278|  360|BARCELONA/AEROPUERTO | 1016.7| 73|   0.3| 22.4|    1017.3|  19.1| 21.3|  21.6| 16.2| 14.6|    14|   36|
-|0076  | 2.069995|2022-10-24 09:00:00 |    0|   4|  4.6| 2.6|  10| 41.29278|  360|BARCELONA/AEROPUERTO | 1017.1| 66|   0.3| 27.2|    1017.7|  21.6| 23.3|  23.6| 16.6| 15.9|   150|   49|
+|0076  | 2.069995|2022-10-31 19:00:00 |    0|   4|  5.1| 2.1| 250| 41.29278|  190|BARCELONA/AEROPUERTO | 1019.2| 82|   0.2| 21.9|    1019.8|  22.2| 22.2|  22.4| 19.0| 16.2|     6|    0|
+|0076  | 2.069995|2022-10-31 20:00:00 |    0|   4|  4.6| 2.6| 260| 41.29278|  250|BARCELONA/AEROPUERTO | 1019.1| 85|   0.3| 20.2|    1019.7|  21.5| 21.6|  22.3| 19.0| 12.9|     3|    0|
+|0076  | 2.069995|2022-10-31 21:00:00 |    0|   4|  3.1| 1.8| 250| 41.29278|  250|BARCELONA/AEROPUERTO | 1019.3| 84|   0.5| 20.3|    1019.9|  21.6| 21.6|  21.7| 18.8| 14.9|     4|    0|
+|0076  | 2.069995|2022-10-31 22:00:00 |    0|   4|  5.1| 2.7| 280| 41.29278|  260|BARCELONA/AEROPUERTO | 1019.9| 84|   0.8| 20.9|    1020.5|  21.4| 21.6|  21.8| 18.8| 14.7|    10|    0|
+|0076  | 2.069995|2022-10-31 23:00:00 |    0|   4|  3.6| 2.7| 240| 41.29278|  250|BARCELONA/AEROPUERTO | 1019.7| 84|   0.1| 20.7|    1020.3|  21.4| 21.6|  21.7| 18.8| 14.5|     4|    0|
+|0076  | 2.069995|2022-11-01 00:00:00 |    0|   4|  3.6| 2.9| 260| 41.29278|  260|BARCELONA/AEROPUERTO | 1019.6| 85|   0.2| 20.4|    1020.2|  21.2| 21.2|  21.6| 18.5| 12.6|     5|    0|
+|0076  | 2.069995|2022-11-01 01:00:00 |    0|   4|  3.1| 2.4| 310| 41.29278|  300|BARCELONA/AEROPUERTO | 1019.6| 86|   0.2| 19.8|    1020.2|  20.8| 21.0|  21.2| 18.5| 11.9|    14|    0|
+|0076  | 2.069995|2022-11-01 02:00:00 |    0|   4|  4.6| 2.7|  10| 41.29278|  350|BARCELONA/AEROPUERTO | 1019.4| 86|   0.3| 19.1|    1020.0|  19.7| 19.7|  20.8| 17.3| 13.0|   112|    0|
+|0076  | 2.069995|2022-11-01 03:00:00 |    0|   4|  3.1| 0.3| 360| 41.29278|  360|BARCELONA/AEROPUERTO | 1019.2| 85|   0.5| 17.6|    1019.8|  19.1| 19.2|  19.7| 16.6| 14.1|   112|    0|
+|0076  | 2.069995|2022-11-01 04:00:00 |    0|   4|  3.6| 2.1|  10| 41.29278|  360|BARCELONA/AEROPUERTO | 1019.4| 83|   0.2| 17.3|    1020.0|  18.3| 18.4|  19.1| 15.4| 20.8|   171|    0|
+|0076  | 2.069995|2022-11-01 05:00:00 |    0|   4|  3.1| 1.6| 350| 41.29278|   20|BARCELONA/AEROPUERTO | 1019.8| 86|   0.3| 16.4|    1020.4|  17.7| 17.7|  18.4| 15.3| 16.8|   110|    0|
+|0076  | 2.069995|2022-11-01 06:00:00 |    0|   4|  5.7| 4.0|  10| 41.29278|   10|BARCELONA/AEROPUERTO | 1020.2| 86|   0.2| 16.8|    1020.8|  17.3| 17.5|  17.6| 15.2| 16.5|     3|    0|
+|0076  | 2.069995|2022-11-01 07:00:00 |    0|   4|  6.2| 2.6|  10| 41.29278|  360|BARCELONA/AEROPUERTO | 1020.8| 85|   0.4| 17.0|    1021.4|  17.3| 17.5|  17.6| 15.0| 17.7|     5|    7|
+|0076  | 2.069995|2022-11-01 08:00:00 |    0|   4|  5.7| 4.4|  10| 41.29278|   10|BARCELONA/AEROPUERTO | 1021.4| 77|   0.2| 19.3|    1022.0|  17.6| 18.7|  18.8| 14.6| 17.9|     2|   60|
+|0076  | 2.069995|2022-11-01 09:00:00 |    0|   4|  5.7| 4.0| 360| 41.29278|   10|BARCELONA/AEROPUERTO | 1021.8| 68|   0.3| 22.2|    1022.4|  18.8| 21.0|  21.1| 14.9| 22.0|   172|   60|
+|0076  | 2.069995|2022-11-01 10:00:00 |    0|   4|  6.2| 5.2|  10| 41.29278|   10|BARCELONA/AEROPUERTO | 1022.2| 57|   0.4| 25.2|    1022.8|  20.9| 23.0|  23.2| 14.0| 27.4|     3|   60|
+|0076  | 2.069995|2022-11-01 11:00:00 |    0|   4| 10.3| 3.1|  50| 41.29278|   20|BARCELONA/AEROPUERTO | 1022.2| 47|   0.8| 28.3|    1022.8|  23.3| 24.8|  24.9| 12.7| 29.8|    28|   60|
+|0076  | 2.069995|2022-11-01 12:00:00 |    0|   4|  8.2| 6.5|  80| 41.29278|  100|BARCELONA/AEROPUERTO | 1022.0| 64|   0.3| 26.1|    1022.6|  22.7| 22.9|  24.9| 15.7| 26.8|     5|   60|
+|0076  | 2.069995|2022-11-01 13:00:00 |    0|   4|  8.8| 6.6| 110| 41.29278|  110|BARCELONA/AEROPUERTO | 1021.7| 74|   0.5| 25.2|    1022.3|  22.3| 22.5|  23.0| 17.6| 23.0|     8|   60|
+|0076  | 2.069995|2022-11-01 14:00:00 |    0|   4|  8.8| 5.7| 100| 41.29278|  110|BARCELONA/AEROPUERTO | 1021.5| 71|   0.5| 24.5|    1022.1|  22.2| 22.3|  22.5| 16.8| 28.3|     9|   60|
+|0076  | 2.069995|2022-11-01 15:00:00 |    0|   4|  7.7| 4.5| 110| 41.29278|  110|BARCELONA/AEROPUERTO | 1021.6| 72|   0.4| 23.3|    1022.2|  21.7| 21.8|  22.3| 16.6| 29.3|    12|   52|
+|0076  | 2.069995|2022-11-01 16:00:00 |    0|   4|  5.7| 3.9| 100| 41.29278|  110|BARCELONA/AEROPUERTO | 1021.8| 75|   0.2| 21.8|    1022.4|  21.2| 21.3|  21.9| 16.7| 30.0|     6|    0|
+|0076  | 2.069995|2022-11-01 17:00:00 |    0|   4|  5.1| 3.6| 100| 41.29278|   80|BARCELONA/AEROPUERTO | 1022.0| 80|   0.1| 20.3|    1022.6|  20.5| 20.6|  21.3| 17.1| 29.3|     6|    0|
 
 ---
 
@@ -15790,29 +15832,6 @@ library(rtweet)
 auth_setup_default()
 rt &lt;- search_tweets("#pedrosanchez", n = 100, include_rts = FALSE)
 rt
-```
-
-```
-&gt; # A tibble: 100 × 43
-&gt;    created_at               id id_str       full_…¹ trunc…² displ…³ entities    
-&gt;    &lt;dttm&gt;                &lt;dbl&gt; &lt;chr&gt;        &lt;chr&gt;   &lt;lgl&gt;     &lt;dbl&gt; &lt;list&gt;      
-&gt;  1 2022-10-24 11:56:41 1.58e18 15844840143… "Los q… FALSE       187 &lt;named list&gt;
-&gt;  2 2022-10-24 11:45:01 1.58e18 15844810767… "Pedro… FALSE       188 &lt;named list&gt;
-&gt;  3 2022-10-24 11:02:03 1.58e18 15844702655… "Serra… FALSE       177 &lt;named list&gt;
-&gt;  4 2022-10-24 09:35:41 1.58e18 15844485305… "@nina… FALSE       147 &lt;named list&gt;
-&gt;  5 2022-10-24 08:49:57 1.58e18 15844370173… "Tal c… FALSE       222 &lt;named list&gt;
-&gt;  6 2022-10-24 08:44:53 1.58e18 15844357434… "#pedr… FALSE        37 &lt;named list&gt;
-&gt;  7 2022-10-23 23:28:09 1.58e18 15842956373… "Es el… FALSE       279 &lt;named list&gt;
-&gt;  8 2022-10-23 23:21:36 1.58e18 15842939888… "@jjav… FALSE        69 &lt;named list&gt;
-&gt;  9 2022-10-23 22:24:46 1.58e18 15842796873… "@naiT… FALSE       144 &lt;named list&gt;
-&gt; 10 2022-10-23 19:45:46 1.58e18 15842396742… "@elmu… FALSE       154 &lt;named list&gt;
-&gt; # … with 90 more rows, 36 more variables: metadata &lt;list&gt;, source &lt;chr&gt;,
-&gt; #   in_reply_to_status_id &lt;dbl&gt;, in_reply_to_status_id_str &lt;chr&gt;,
-&gt; #   in_reply_to_user_id &lt;dbl&gt;, in_reply_to_user_id_str &lt;chr&gt;,
-&gt; #   in_reply_to_screen_name &lt;chr&gt;, geo &lt;list&gt;, coordinates &lt;list&gt;,
-&gt; #   place &lt;list&gt;, contributors &lt;lgl&gt;, is_quote_status &lt;lgl&gt;,
-&gt; #   retweet_count &lt;int&gt;, favorite_count &lt;int&gt;, favorited &lt;lgl&gt;,
-&gt; #   retweeted &lt;lgl&gt;, possibly_sensitive &lt;lgl&gt;, lang &lt;chr&gt;, …
 ```
 
 ---
@@ -16456,6 +16475,7 @@ flights_airlines
 &gt; #   origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;,
 &gt; #   minute &lt;dbl&gt;, time_hour &lt;dttm&gt;, name &lt;chr&gt;, and abbreviated variable names
 &gt; #   ¹​sched_dep_time, ²​dep_delay, ³​arr_time, ⁴​sched_arr_time, ⁵​arr_delay
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
  
 ]
@@ -16491,6 +16511,7 @@ flights_airlines_planes
 &gt; #   manufacturer &lt;chr&gt;, model &lt;chr&gt;, engines &lt;int&gt;, seats &lt;int&gt;, speed &lt;int&gt;,
 &gt; #   engine &lt;chr&gt;, and abbreviated variable names ¹​sched_dep_time, ²​dep_delay,
 &gt; #   ³​arr_time, ⁴​sched_arr_time, ⁵​arr_delay
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
 ]
@@ -16528,6 +16549,7 @@ flights_airlines_planes
 &gt; #   speed &lt;int&gt;, engine &lt;chr&gt;, and abbreviated variable names ¹​year_flight,
 &gt; #   ²​dep_time, ³​sched_dep_time, ⁴​dep_delay, ⁵​arr_time, ⁶​sched_arr_time,
 &gt; #   ⁷​arr_delay
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
 ]
@@ -16587,6 +16609,7 @@ flights_airlines_planes %&gt;%
 &gt; #   speed &lt;int&gt;, engine &lt;chr&gt;, lat_origin &lt;dbl&gt;, lon_origin &lt;dbl&gt;,
 &gt; #   lat_dest &lt;dbl&gt;, lon_dest &lt;dbl&gt;, and abbreviated variable names
 &gt; #   ¹​year_flight, ²​dep_time, ³​sched_dep_time, ⁴​dep_delay, ⁵​arr_time, …
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
 ]
@@ -16632,6 +16655,7 @@ flights %&gt;%
 &gt;  9 N531MQ    349
 &gt; 10 N6EAMQ    348
 &gt; # … with 711 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 ]
@@ -16678,12 +16702,1249 @@ name: clase-14
 
 # CLASE 14: introducción al dataviz
 
+&amp;nbsp;
+
+### [Dataviz: introducción histórica.](#intro-historica)
+
+### [Introducción a ggplot2](#intro-ggplot2)
+
+### [La importancia de visualizar datos](#importancia-dataviz)
+
+
 ---
+
+name: intro-historica
+
+# Dataviz: .orange[HISTORIA]
+
+
+La aparición de gráficos estadísticos es **.bg-purple_light[relativamente reciente en la ciencia]** ya que hasta la Edad Media la única visualización de datos estaba en los **.bg-purple_light[mapas]** (representación de nuestra realidad en superficies bidimensionales).
+
+De hecho las propias palabras _chart_ y _cartography_ derivan del mismo origen latino, _charta_, aunque el primer uso datado de coordenadas parece venir de los egipcios. &lt;sup&gt;2,3&lt;/sup&gt;
+
+
+.footnote[[1] [«Gramática de las gráficas: pistas para mejorar las representaciones de datos» de Joaquín Sevilla](http://academica-e.unavarra.es/bitstream/handle/2454/15785/Gram%C3%A1tica.pdf)
+
+[2] [«Presentation Graphics» de Leland Wilkinson. International Encyclopedia of the Social &amp; Behavioral Sciences](https://www.cs.uic.edu/~wilkinson/Publications/iesbs.pdf)
+
+[3] [«Quantitative Graphics in Statistics: A Brief History» de James R. Beniger y Dorothy L. Robyn. The American Statistician (1978)](https://www.jstor.org/stable/2683467)]
+
+---
+
+
+# .orange[NAVEGACIÓN] y .green[ASTRONOMÍA]
+
+.pull-left[
+
+No es hasta la Edad Media, cuando la **.bg-purple_light[navegación y la astronomía]** empezaban a tomar relevancia científica, cuando aparece la que se considera la primera gráfica (aunque no propiamente estadística) &lt;sup&gt;3&lt;/sup&gt;, representando el **movimiento cíclico de los planetas** (entre los siglos X y XI)
+
+]
+
+.pull-right[
+
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/dataviz_historico_1.png" alt="Gráfica extraída de Beniger y Robyn (1978)" width="110%" /&gt;
+&lt;p class="caption"&gt;Gráfica extraída de Beniger y Robyn (1978)&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+[3] [«Quantitative Graphics in Statistics: A Brief History» de James R. Beniger y Dorothy L. Robyn. The American Statistician (1978)](https://www.jstor.org/stable/2683467)
+
+ 
+---
+
+# .orange[NAVEGACIÓN] y .green[ASTRONOMÍA]
+
+.pull-left[
+
+Con una motivación similar, en torno a 1360 el matemático **Nicole Oresme** diseñó el **.bg-purple_light[primer gráfico de barras]** (pero no estadístico), con la idea de visualizar a la vez dos **magnitudes físicas teóricas**.
+
+]
+
+.pull-right[
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/dataviz_historico_2.jpeg" alt="Gráfica extraída de Friendly y Valero-Mora (2010)" width="55%" /&gt;
+&lt;p class="caption"&gt;Gráfica extraída de Friendly y Valero-Mora (2010)&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+[5] [«The First (Known) Statistical Graph: Michael Florent van Langren and the 'Secret' of Longitude» de M. Friendly y P. M. Valero-Mora. The American Statistician (2010)](https://www.researchgate.net/publication/227369016_The_First_Known_Statistical_Graph_Michael_Florent_van_Langren_and_the_Secret_of_Longitude)
+
+ 
+---
+
+# .orange[PRIMER] gráfico estadístico
+
+La mayoría de expertos, como Tufte &lt;sup&gt;6,7&lt;/sup&gt;, consideran este gráfico casi longitudinal como la **.bg-purple_light[primera visualización de datos]** de la historia, hecha por **Van Langren** en 1644, representando la **.bg-purple_light[distancia entre Toledo y Roma]** (un poco mal medida ya que la distancia real es de 16.5º).
+
+.pull-left[
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/longitud_dataviz.jpg" alt="Extraída de Friendly y Valero-Mora (2010)" width="100%" /&gt;
+&lt;p class="caption"&gt;Extraída de Friendly y Valero-Mora (2010)&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+.pull-right[
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/dataviz_historico_3.jpeg" alt="Extraída de Friendly y Valero-Mora (2010)" width="100%" /&gt;
+&lt;p class="caption"&gt;Extraída de Friendly y Valero-Mora (2010)&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+[6] [«Visual explanations: images and quantities, evidence and narrative» de E. Tufte](https://archive.org/details/visualexplanatio00tuft)
+
+[7] [«PowerPoint is evil» de E. Tufte](https://www.wired.com/2003/09/ppt2/)
+
+---
+
+# ¿Qué es una .orange[GRÁFICA] estadística?
+
+¿Por qué ese gráfico se considera la primera visualización estadística de la historia? ¿Qué es lo que hace que una visualización sea una gráfica estadística y no las anteriores? ¿Cuál es la **.bg-purple_light[frontera entre una ilustración y una gráfica]** (de datos)?
+
+
+.pull-left[
+
+¿Es una gráfica estadística? ¿Por qué sí o por qué no?
+
+]
+
+.pull-right[
+
+
+&lt;img src="./img/cuadro_dataviz.jpg" width="45%" style="display: block; margin: auto;" /&gt;
+
+]
+
+--
+
+No hay  **.bg-purple_light[ninguna INFORMACIÓN]** representada
+
+
+---
+
+# ¿Qué es una .orange[GRÁFICA] estadística?
+
+¿Por qué ese gráfico se considera la primera visualización estadística de la historia? ¿Qué es lo que hace que una visualización sea una gráfica estadística y no las anteriores? ¿Cuál es la **.bg-purple_light[frontera entre una ilustración y una gráfica]** (de datos)?
+
+.pull-left[
+
+¿Es una gráfica estadística? ¿Por qué sí o por qué no?
+
+]
+
+.pull-right[
+
+
+&lt;img src="./img/horoscopo_dataviz.jpg" width="65%" style="display: block; margin: auto;" /&gt;
+
+]
+
+--
+
+No hay **.bg-purple_light[ningún PROCESO DE MEDIDA]** representado, no cuantifica nada.
+
+
+---
+
+# ¿Qué es una .orange[GRÁFICA] estadística?
+
+¿Por qué ese gráfico se considera la primera visualización estadística de la historia? ¿Qué es lo que hace que una visualización sea una gráfica estadística y no las anteriores? ¿Cuál es la **.bg-purple_light[frontera entre una ilustración y una gráfica]** (de datos)?
+
+
+.pull-left[
+
+¿Es una gráfica estadística? ¿Por qué sí o por qué no?
+
+]
+
+.pull-right[
+
+
+&lt;img src="./img/celsius_dataviz.jpg" width="110%" style="display: block; margin: auto;" /&gt;
+
+]
+
+--
+
+No hay **.bg-purple_light[ningún DATO]** representado en él, es una magnitud física teórica, no un dato (medido empíricamente o simulado).
+
+
+---
+
+# ¿Qué es una .orange[GRÁFICA] estadística?
+
+¿Por qué ese gráfico se considera la primera visualización estadística de la historia? ¿Qué es lo que hace que una visualización sea una gráfica estadística y no las anteriores? ¿Cuál es la **.bg-purple_light[frontera entre una ilustración y una gráfica]** (de datos)?
+
+
+.pull-left[
+
+¿Es una gráfica estadística? ¿Por qué sí o por qué no?
+
+]
+
+.pull-right[
+
+
+&lt;img src="./img/mapa_infografia_dataviz.jpg" width="60%" style="display: block; margin: auto;" /&gt;
+
+]
+
+--
+
+El proceso de representación **.bg-purple_light[no es REVERSIBLE]** ni comparable (al menos no fácilmente): es una infografía, no un gráfico estadístico o dataviz.
+
+
+
+---
+
+# ¿Qué es una .orange[GRÁFICA] estadística?
+
+Esas mismas preguntas se hizo **Joaquín Sevilla** &lt;sup&gt;1&lt;/sup&gt;, proporcionando **.bg-purple_light[3 requisitos]**:
+
+.pull-left[
+
+1. Que se base en el esquema de composición de **.bg-purple_light[eje métrico]** (proceso de medida) debe **.bg-orange[medir algo]**.
+
+2. Debe incluir **.bg-purple_light[información (datos)]** (medible o simulada),
+
+3. La **.bg-purple_light[relación de representatividad]** debería ser **.bg-purple_light[reversible]**: los datos deberían poder «recuperarse» a partir de la gráfica (es un tipo particular de **.bg-orange[«biyección» matemática]**).
+
+]
+
+.pull-right[
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/grafica_dinero_sevilla.jpg" alt="Ejemplo de metáfora visual bien ejecutada (extraída del manual de J. Sevilla)" width="70%" /&gt;
+&lt;p class="caption"&gt;Ejemplo de metáfora visual bien ejecutada (extraída del manual de J. Sevilla)&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+[1] [«Gramática de las gráficas: pistas para mejorar las representaciones de datos» de Joaquín Sevilla](http://academica-e.unavarra.es/bitstream/handle/2454/15785/Gram%C3%A1tica.pdf)
+
+
+---
+
+# Abolición de .orange[DIAGRAMAS DE TARTAS]
+
+Hay muchas formas de hacer una gráfica estadística, y no suele pasar por hacer un **.bg-purple_light[gráfico de tartas o sectores]** ya que tienen un grave **.bg-purple_light[problema de reversibilidad]**:
+
+.pull-left[
+
+* Si hay **muchas variables**: salvo que conozcas el montante total y tengas un transportador de ángulos a mano, es **.bg-purple_light[imposible que tus ojos midan ángulos]**
+
+* Si hay **pocas variables**: ¿aporta algo distinto (y/o mejor) que una tabla?
+
+]
+
+.pull-right[
+
+&lt;img src="./img/sectores_muchas_categorías.webp" width="99%" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+
+# Abolición de .orange[DIAGRAMAS DE TARTAS]
+
+
+El principal problema de un diagrama de sectores es que la posible información está **.bg-purple_light[contenida en los ángulos]**, pero nuestra interpretación la realizamos a través de la **.bg-purple_light[comparación de áreas]** (nuestros ojos no miden bien ángulos), las cuales dependen no solo del ángulo sino del radio.
+
+.pull-left[
+
+
+Algo similar sucede con los mal llamados **.bg-purple_light[gráficos tridimensionales]** (son bidimensionales con perspectiva en realidad): los valores más cercanos aparecen sobredimensionados, siendo prácticamente imposible la reversibilidad.
+
+]
+
+.pull-right[
+
+&lt;img src="./img/sectores_3D.jpg" width="99%" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+
+# Vizfail
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/persona_dataviz.jpg" alt="Ejemplo de metáfora visual mal ejecutada" width="55%" /&gt;
+&lt;p class="caption"&gt;Ejemplo de metáfora visual mal ejecutada&lt;/p&gt;
+&lt;/div&gt;
+
+---
+
+# Vizfail
+
+.pull-left[
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/persona_dataviz.jpg" alt="Ejemplo de metáfora visual mal ejecutada" width="99%" /&gt;
+&lt;p class="caption"&gt;Ejemplo de metáfora visual mal ejecutada&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+.pull-right[
+
+* La figura elegida (una persona caminando) no guarda relación alguna con lo que se pretende representar: **.bg-purple_light[mala metáfora]**.
+
+* Los sectores señalados no tienen relación con el ítem a representar, lo que dificulta su interpretación
+
+* Los colores no dan información de ningún tipo.
+
+* La forma hace **.bg-purple_light[imposible la comparación entre áreas]**, amén de que la suma total supera el 100% (¿?)
+
+* Sin aportar **fuente** de los datos.
+
+]
+
+---
+
+# Vizfail
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/viz_fail_covid.jpg" alt="Ejemplo de una buena idea mal ejecutada" width="70%" /&gt;
+&lt;p class="caption"&gt;Ejemplo de una buena idea mal ejecutada&lt;/p&gt;
+&lt;/div&gt;
+
+---
+
+# Vizfail
+
+.pull-left[
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/viz_fail_covid.jpg" alt="Ejemplo de una buena idea mal ejecutada" width="100%" /&gt;
+&lt;p class="caption"&gt;Ejemplo de una buena idea mal ejecutada&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+.pull-right[
+
+* Intenta usar dos ejes (a izquierda para mortalidad, a derecha para letalidad) pero no lo indica adecuadamente. Cuidado con los dos ejes: puede ser confuso
+
+* Leyenda pequeña y muy mal referenciada
+
+* Tamaño de la línea totalmente desproporcionada que **.bg-purple_light[impide la reversibilidad y la comparación]**
+
+* Además compara celdas geográficas no comparables (por tamaño y contexto): ¿Galicia vs Alemania?
+
+]
+
+
+
+---
+
+# Vizfail
+
+.pull-left[
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/viz_fail_uk.jpg" alt="Ejemplo de una mala codificación" width="60%" /&gt;
+&lt;p class="caption"&gt;Ejemplo de una mala codificación&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+.pull-right[
+
+* La elección previa de la desagregación es incorrecta: áreas muy grandes que se podrían representar en una tabla de 9 filas
+
+* Leyenda tan grande que atrae la atención más que el propio gráfico.
+
+* Ejemplo de los **.bg-purple_light[colores no son algo meramente estético]**: hay que codificarlos adecuadamente. El gradiente de una paleta de colores puede convertir una buena idea en una pésima visualización.
+
+]
+
+---
+
+# Vizfail
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/espiral_nyt.jpg" alt="Fuente: https://www.nytimes.com/2022/01/06/opinion/omicron-covid-us.html" width="30%" /&gt;
+&lt;p class="caption"&gt;Fuente: https://www.nytimes.com/2022/01/06/opinion/omicron-covid-us.html&lt;/p&gt;
+&lt;/div&gt;
+
+---
+
+# Vizfail
+
+.pull-left[
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/espiral_nyt.jpg" alt="Fuente: https://www.nytimes.com/2022/01/06/opinion/omicron-covid-us.html" width="70%" /&gt;
+&lt;p class="caption"&gt;Fuente: https://www.nytimes.com/2022/01/06/opinion/omicron-covid-us.html&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+.pull-right[
+
+* En su momento se dijo que era novedosa: no lo es (la novedad tampoco debería ser un argumento a favor per se)
+
+* **.bg-purple_light[No respeta la reversibilidad]**: es una ilustración, no una gráfica estadística. La forma de llevarlo a cabo infraestima los datos actuales y, por su **.bg-purple_light[distorsión de la realidad]**, no permite **medir** precisamente la estacional que se propone visualizar con coordenadas polares
+
+* El **eje que recorre la espiral no aporta**, distrae de los datos a representar, **aumenta la distorsión producida** por la no linealidad de la espiral y duplica información.
+
+
+]
+
+
+---
+
+# Vizfail
+
+
+El **.bg-purple_light[uso de colores]** no es solo algo estético: es una variable más, y la paleta elegida así como su uso es fundamental (por ejemplo, la inclusión de colores nos permite centrarnos en los oscuros, y comparar entre tonalidades), así como la **.bg-purple_light[escala de la geometría]** elegida.
+
+
+&lt;img src="./img/espiral_covid_bien.jpg_large" width="75%" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+# Vizfail
+
+
+El **.bg-purple_light[uso de colores]** no es solo algo estético: es una variable más, y la paleta elegida así como su uso es fundamental (por ejemplo, la inclusión de colores nos permite centrarnos en los oscuros, y comparar entre tonalidades), así como la **.bg-purple_light[escala de la geometría]** elegida.
+
+
+.pull-left[
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/espirales_colores.webp" alt="Fuente: https://www.reddit.com/r/dataisbeautiful" width="90%" /&gt;
+&lt;p class="caption"&gt;Fuente: https://www.reddit.com/r/dataisbeautiful&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+.pull-right[
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/espirales_covid_2.jpg" alt="Fuente: https://twitter.com/victimofmaths/status/1480550926066847749" width="78%" /&gt;
+&lt;p class="caption"&gt;Fuente: https://twitter.com/victimofmaths/status/1480550926066847749&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+---
+
+# La importancia del .orange[CONTEXTO]
+
+Una **buena idea** puede estar mejor o peor ejecutada, y la forma de llevarla a cabo es importante
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/semaforos.jpg" alt="Ejemplo de buena idea mal ejecutada" width="30%" /&gt;
+&lt;p class="caption"&gt;Ejemplo de buena idea mal ejecutada&lt;/p&gt;
+&lt;/div&gt;
+
+---
+
+# Dataviz: .orange[HISTORIA]
+
+En el siglo XVII hubo un boom de la estadística al empezar a aplicarse en **.bg-purple_light[demografía]**. Uno de los autores más importantes fue **.bg-purple_light[J. Graunt]**, autor de «Natural and Political Observations Made upon the Bills of Mortality» (1662), estimando la población de Londres con las **.bg-purple_light[primeras tablas de natalidad y mortalidad]**.
+
+.pull-left[
+
+Son precisamente las tablas de Graunt las que usó **.bg-purple_light[Christiaan Huygens]** para generar la **.bg-purple_light[primera gráfica de densidad]** de una distribución continua (esperanza de vida vs edad).
+
+]
+
+.pull-right[
+
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/primera_densidad.jpg" alt="Primera función de densidad, extraída de https://omeka.lehigh.edu/exhibits/show/data_visualization/vital_statistics/huygen" width="100%" /&gt;
+&lt;p class="caption"&gt;Primera función de densidad, extraída de https://omeka.lehigh.edu/exhibits/show/data_visualization/vital_statistics/huygen&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+---
+
+# Los gráficos de .orange[Playfair]
+
+La figura que cambió el dataviz fue, sin lugar a dudas, el economista y político **.bg-purple_light[William Playfair (1759-1823)]**, publicando en 1786 el **«Atlas político y comercial»** con 44 gráficas (43 series temporales y el diagrama de barras más famoso de la historia).
+
+.pull-left[
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/playfair_1.jpg" alt="Extraídas de Funkhouser y Walker (1935)" width="70%" /&gt;
+&lt;p class="caption"&gt;Extraídas de Funkhouser y Walker (1935)&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+.pull-right[
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/playfair_2.jpg" alt="Extraídas de Funkhouser y Walker (1935)" width="25%" /&gt;
+&lt;p class="caption"&gt;Extraídas de Funkhouser y Walker (1935)&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+[10] [«Atlas político y comercial» de William Playfair (1786)](https://www.amazon.es/Playfairs-Commercial-Political-Statistical-Breviary/dp/0521855543)
+
+[11] [«Playfair and his charts» de H. Gray Funkhouser and  Helen M. Walker (1935)](https://www.jstor.org/stable/45366440)
+
+---
+
+
+# Los gráficos de .orange[Playfair]
+
+Playfair no solo fue el primero en usar el dataviz para entender (y no solo describir): fue el primero en usar **.bg-purple_light[conceptos modernos]** como _grid_, tema o color
+
+.pull-left[
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/playfair_3.jpg" alt="Extraída de https://friendly.github.io/HistDataVis" width="90%" /&gt;
+&lt;p class="caption"&gt;Extraída de https://friendly.github.io/HistDataVis&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+.pull-right[
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/playfair_4.png" alt="Extraída de la wikipedia." width="90%" /&gt;
+&lt;p class="caption"&gt;Extraída de la wikipedia.&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+---
+
+# Los gráficos de .orange[Playfair]
+
+Playfair es además el autor del **.bg-purple_light[gráfico de barras más famoso]** (no fue el primero pero sí quien lo hizo _mainstream_).
+
+.pull-left[
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/playfair_5.jpg" alt="Gráficas de Playfair de importaciones (barras grises) y exportaciones (negras) de Escocia en 1781, extraídas de la wikipedia." width="90%" /&gt;
+&lt;p class="caption"&gt;Gráficas de Playfair de importaciones (barras grises) y exportaciones (negras) de Escocia en 1781, extraídas de la wikipedia.&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+.pull-right[
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/playfair_6.jpg" alt="Primer diagrama de barras (P. Buache y G. de L’Isle), visualizando los niveles del Sena (1732 - 1766), extraída de https://friendly.github.io/HistDataVis" width="90%" /&gt;
+&lt;p class="caption"&gt;Primer diagrama de barras (P. Buache y G. de L’Isle), visualizando los niveles del Sena (1732 - 1766), extraída de https://friendly.github.io/HistDataVis&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+---
+
+# Los gráficos de .orange[Playfair]
+
+
+Playfair además fue el primero en **.bg-purple_light[combinar gráficos en la misma visualización]**
+
+.pull-left[
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/playfair_7.jpg" alt="Visualiza 3 series temporales: precios (barras) del trigo, salarios (línea) y time-line con reinados, extraída de https://friendly.github.io/HistDataVis." width="85%" /&gt;
+&lt;p class="caption"&gt;Visualiza 3 series temporales: precios (barras) del trigo, salarios (línea) y time-line con reinados, extraída de https://friendly.github.io/HistDataVis.&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+.pull-right[
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/playfair_8.jpg" alt="Time-line histórico, extraída de https://friendly.github.io/HistDataVis." width="85%" /&gt;
+&lt;p class="caption"&gt;Time-line histórico, extraída de https://friendly.github.io/HistDataVis.&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+[12] [«A Letter on Our Agricultural Distresses, Their Causes and Remedies» de W. Playfair (1821)](http://onlinebooks.library.upenn.edu/webbin/book/lookupid?key=ha009726110)
+
+[13] [«An Inquiry Into the Permanent Causes of the Decline and Fall of Powerful and Wealthy Nations» de William Playfair (1821)](https://www.amazon.com/Permanent-Powerful-Nations-Prosperity-Prolonged/dp/140691830X)
+
+---
+
+# Mapas de .orange[Minard]
+
+Otro pionero en **.bg-purple_light[combinar visualizaciones]** fue Minard, autor del famoso «Carte figurative des pertes successives en hommes de l'Armée Française dans la campagne de Russie 1812-1813», según Tufte **.bg-purple_light[«el mejor gráfico estadístico jamás dibujado»]**, publicado en 1869 sobre la desastrosa campaña rusa de Napoleón en 1812 (3 variables en un gráfico bidimensional)
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/minard_2.png" alt="Extraída de https://friendly.github.io/HistDataVis." width="60%" /&gt;
+&lt;p class="caption"&gt;Extraída de https://friendly.github.io/HistDataVis.&lt;/p&gt;
+&lt;/div&gt;
+
+---
+
+# Primer .orange[SCATTER PLOT]
+
+Según Sevilla &lt;sup&gt;1&lt;/sup&gt;, se considera al astrónomo británico **John Frederick William Herschel** el autor del **.bg-purple_light[primer diagrama de dispersión o scatterplot]** en 1833, visualizando el movimiento de la estrella doble Virginis (tiempo en el eje horizontal, posición angular en el eje vertical)
+
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/herschel.jpg" alt="Extraído de https://friendly.github.io/HistDataVis." width="35%" /&gt;
+&lt;p class="caption"&gt;Extraído de https://friendly.github.io/HistDataVis.&lt;/p&gt;
+&lt;/div&gt;
+
+---
+
+# Primera .orange[PIRÁMIDE POBLACIONAL]
+
+La **.bg-purple_light[primera pirámide de población]** (doble histograma de población), fue publicada por **Francis Amasa Walker**, superintendente del censo de EE.UU., en 1874.
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/walker_piramide.jpg" alt="Extraída de https://www.depauw.edu/learn/dew/wpaper/workingpapers/DePauw2016-02-Barreto-DemographyEconomics.pdf" width="45%" /&gt;
+&lt;p class="caption"&gt;Extraída de https://www.depauw.edu/learn/dew/wpaper/workingpapers/DePauw2016-02-Barreto-DemographyEconomics.pdf&lt;/p&gt;
+&lt;/div&gt;
+
+---
+
+# .orange[RECURSOS] de dataviz
+
+
+📚 [«The Functional Art: an introduction to information graphics and visualization» de Alberto Cairo](https://www.amazon.es/Functional-Art-Voices-That-Matter/dp/0321834739)
+
+
+📚 [«Gramática de las gráficas: pistas para mejorar las representaciones de datos» de Joaquín Sevilla](https://academica-e.unavarra.es/bitstream/handle/2454/15785/Gram%C3%A1tica.pdf)
+
+
+📚 [«A Brief History of Visualization» de Friendly et al. (2008)](https://www.researchgate.net/publication/226400313_A_Brief_History_of_Data_Visualization)
+
+📚 [«Quantitative Graphics in Statistics: A Brief History» de James R. Beniger y Dorothy L. Robyn. The American Statistician (1978)](https://www.jstor.org/stable/2683467)]
+
+📚 [«Presentation Graphics» de Leland Wilkinson. International Encyclopedia of the Social &amp; Behavioral Sciences](https://www.cs.uic.edu/~wilkinson/Publications/iesbs.pdf)
+
+📚 [«The Grammar of Graphics» de Leland Wilkinson](https://www.amazon.es/Grammar-Graphics-Statistics-Computing/dp/0387245448)
+
+
+📚 [«The Minard System: The Graphical Works of Charles-Joseph Minard» de Sandra Rendgen](https://www.amazon.es/gp/product/1616896337/ref=sw_img_1?smid=A1AT7YVPFBWXBL&amp;psc=1)
+
+📚 [«The Visual Display of Quantitative Information» de E. W. Tufte](https://www.amazon.es/Visual-Display-Quantitative-Information/dp/0961392142)
+
+---
+
+name: intro-ggplot2
+
+# Dataviz en R: .orange[ggplot2]
+
+.pull-left[
+
+El paquete `{ggplot2}` se basa en la idea propuesta por Wilkinson en **.bg-purple_light[«Grammar of graphics»]**: dotar a los gráficos de una gramática propia. Una de las **.bg-purple_light[principales fortalezas]** de `R` no solo la **flexibilidad y rapidez** de `{tidyverse}`, también la **.bg-purple_light[visualización]** con el paquete `{ggplot2}`.
+
+
+```r
+library(ggplot2)
+```
+
+La **.bg-purple_light[visualización de datos]** debería ser una parte fundamental de todo análisis de datos. No es solo una cuestión estética, es fundamental para **.bg-purple_light[convertir el dato en información]**.
+
+]
+
+.pull-right[
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/telling_dataviz.jpg" alt="Imagen extraída de Reddit" width="71%" /&gt;
+&lt;p class="caption"&gt;Imagen extraída de Reddit&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+
+---
+
+# Dataviz en R: .orange[ggplot2]
+
+
+.pull-left[
+
+La filosofía detrás de `{ggplot2}` es entender los **.bg-purple_light[gráficos como parte del flujo]** de trabajo, dotándoles de una **.bg-purple_light[gramática]**, basándose en la idea de Wilkinson.
+
+El objetivo es empezar con un lienzo en blanco e ir **.bg-purple_light[añadiendo capas a tu gráfico]**. La ventaja de `{ggplot2}` es poder **.bg-purple_light[mapear atributos estéticos]** (color, forma, tamaño) de objetos geométricos (puntos, barras, líneas) en función de los datos.
+
+&amp;nbsp;
+
+
+La **documentación** del paquete puedes consultarla en &lt;https://ggplot2-book.org/introduction.html&gt; 
+
+]
+
+.pull-right[
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/grammar_ggplot2.jpg" alt="Idea detrás de la «Grammar of graphics» de Wilkinson" width="100%" /&gt;
+&lt;p class="caption"&gt;Idea detrás de la «Grammar of graphics» de Wilkinson&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+---
+
+# Dataviz en R: .orange[ggplot2]
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/tarta_ggplot2.png" alt="Extraída de https://twitter.com/tanya_shapiro" width="75%" /&gt;
+&lt;p class="caption"&gt;Extraída de https://twitter.com/tanya_shapiro&lt;/p&gt;
+&lt;/div&gt;
+
+---
+
+# Dataviz en R: .orange[ggplot2]
+
+.pull-left[
+
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/tarta_recortada_ggplot2.jpg" alt="Extraída de https://twitter.com/tanya_shapiro" width="80%" /&gt;
+&lt;p class="caption"&gt;Extraída de https://twitter.com/tanya_shapiro&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+.pull-right[
+
+Un gráfico se podrá componer de las siguientes **.bg-purple_light[capas]**
+
+* **.bg-purple_light[Datos (data)]**
+* **.bg-purple_light[Mapeado (aesthetics)]** de elementos estéticos: ejes, color, forma, tamaño, etc (en función de los datos)
+* **.bg-purple_light[Geometría (geom)]**: puntos, líneas, barras, polígonos, etc.
+* **.bg-purple_light[Componer gráficas (facet)]**: visualizar varias gráficas a la vez.
+* **.bg-purple_light[Transformaciones (stat)]**: ordenar, resumir, agrupar, etc.
+* **.bg-purple_light[Coordenadas (coord)]**: coordenadas cartesianas, polares, grids, etc.
+* **.bg-purple_light[Temas (theme)]**: fuente, tamaño de letra, subtítulos, captions, leyenda, ejes, etc.
+
+]
+
+
+---
+
+# Primer intento: .orange[SCATTER PLOT]
+
+Veamos un **primer intento** para entender la filosofía. Imagina que queremos dibujar un **.bg-purple_light[scatter plot]** o **diagrama de dispersión** (de puntos).
+
+&amp;nbsp;
+
+Para ello vamos a usar el conjunto de datos `gapminder`, del paquete homónimo: un fichero con **datos de esperanzas de vida, poblaciones y renta per cápita** de distintos países en distintos momentos temporales.
+
+
+```r
+library(gapminder)
+gapminder
+```
+
+```
+&gt; # A tibble: 1,704 × 6
+&gt;    country     continent  year lifeExp      pop gdpPercap
+&gt;    &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;
+&gt;  1 Afghanistan Asia       1952    28.8  8425333      779.
+&gt;  2 Afghanistan Asia       1957    30.3  9240934      821.
+&gt;  3 Afghanistan Asia       1962    32.0 10267083      853.
+&gt;  4 Afghanistan Asia       1967    34.0 11537966      836.
+&gt;  5 Afghanistan Asia       1972    36.1 13079460      740.
+&gt;  6 Afghanistan Asia       1977    38.4 14880372      786.
+&gt;  7 Afghanistan Asia       1982    39.9 12881816      978.
+&gt;  8 Afghanistan Asia       1987    40.8 13867957      852.
+&gt;  9 Afghanistan Asia       1992    41.7 16317921      649.
+&gt; 10 Afghanistan Asia       1997    41.8 22227415      635.
+&gt; # … with 1,694 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
+```
+
+---
+
+# Primer intento: .orange[SCATTER PLOT]
+
+El fichero consta de 1704 registros y 6 variables: `country`, `continent`, `year`, `lifeExp` (esperanza de vida), `pop` (población)  y `gdpPercap` (renta per cápita).
+
+
+```r
+glimpse(gapminder)
+```
+
+```
+&gt; Rows: 1,704
+&gt; Columns: 6
+&gt; $ country   &lt;fct&gt; "Afghanistan", "Afghanistan", "Afghanistan", "Afghanistan", …
+&gt; $ continent &lt;fct&gt; Asia, Asia, Asia, Asia, Asia, Asia, Asia, Asia, Asia, Asia, …
+&gt; $ year      &lt;int&gt; 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, …
+&gt; $ lifeExp   &lt;dbl&gt; 28.801, 30.332, 31.997, 34.020, 36.088, 38.438, 39.854, 40.8…
+&gt; $ pop       &lt;int&gt; 8425333, 9240934, 10267083, 11537966, 13079460, 14880372, 12…
+&gt; $ gdpPercap &lt;dbl&gt; 779.4453, 820.8530, 853.1007, 836.1971, 739.9811, 786.1134, …
+```
+
+Para empezar con algo sencillo **.bg-purple_light[filtraremos solo los datos de 1997]**
+
+--
+
+
+```r
+gapminder_1997 &lt;- gapminder %&gt;% filter(year == 1997)
+gapminder_1997
+```
+
+```
+&gt; # A tibble: 142 × 6
+&gt;    country     continent  year lifeExp       pop gdpPercap
+&gt;    &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;     &lt;int&gt;     &lt;dbl&gt;
+&gt;  1 Afghanistan Asia       1997    41.8  22227415      635.
+&gt;  2 Albania     Europe     1997    73.0   3428038     3193.
+&gt;  3 Algeria     Africa     1997    69.2  29072015     4797.
+&gt;  4 Angola      Africa     1997    41.0   9875024     2277.
+&gt;  5 Argentina   Americas   1997    73.3  36203463    10967.
+&gt;  6 Australia   Oceania    1997    78.8  18565243    26998.
+&gt;  7 Austria     Europe     1997    77.5   8069876    29096.
+&gt;  8 Bahrain     Asia       1997    73.9    598561    20292.
+&gt;  9 Bangladesh  Asia       1997    59.4 123315288      973.
+&gt; 10 Belgium     Europe     1997    77.5  10199787    27561.
+&gt; # … with 132 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
+```
+
+---
+
+# .orange[SCATTER PLOT]: .green[(x, y)]
+
+
+¿Qué **.bg-purple_light[elementos necesitamos]** para realizar un diagrama de puntos?
+
+--
+
+.pull-left[
+
+* **.bg-purple_light[Datos (data)]**: conjunto `gapminder_1997`.
+
+* **.bg-purple_light[Mapeado (aes)]**: indicarle dentro de `aes()` (aesthetics) las variables en cada coordenada. Todo lo que esté **.bg-purple_light[dentro de aes() dependerá de los datos]**
+
+
+```r
+ggplot(data = gapminder_1997,
+*      aes(x = gdpPercap, y = pop))
+```
+
+* **.bg-purple_light[Geometría (geom)]**: optaremos por **.bg-orange[puntos]** usando `geom_point()`.
+
+
+```r
+ggplot(gapminder_1997, aes(x = gdpPercap, y = pop)) +
+* geom_point()
+```
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-720-1.png" width="83%" /&gt;
+]
+
+---
+
+
+# .orange[SCATTER PLOT]: .green[(x, y)]
+
+Vamos a profundizar en ese mapeado: ¿cómo **.bg-purple_light[cambiar el rol]** de los ejes?
+
+--
+
+.pull-left[
+
+Ahora queremos
+
+* **Eje X**: población (variable `pop`)
+* **Eje Y**: renta per cápita (variable `gdpPercap`)
+
+Es decir, el mapeado para que **enlace** coordenadas a datos será con `aes(y = gdpPercap, x = pop)`
+
+
+```r
+ggplot(gapminder_1997,
+*      aes(y = gdpPercap, x = pop)) +
+  geom_point() 
+```
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-722-1.png" width="83%" /&gt;
+
+]
+
+---
+
+
+# .orange[SCATTER PLOT]: .green[(x, y)]
+
+¿Cómo se pintaría un scatter plot con la **esperanza de vida** en el eje X frente a la **renta per cápita**?
+
+--
+
+.pull-left[
+
+* **Eje X**: esperanza de vida (variable `lifeExp`)
+* **Eje Y**: renta per cápita (variable `gdpPercap`)
+
+
+
+```r
+ggplot(gapminder_1997,
+*      aes(y = gdpPercap, x = lifeExp)) +
+  geom_point()
+```
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-724-1.png" width="83%" /&gt;
+]
+
+---
+
+
+# Colores, tamaños y formas: orange[constantes]
+
+.pull-left[
+
+Dentro de `geom_point()` tenemos varios argumentos a usar:
+
+* `na.rm = ...`: si queremos que nos quite los ausentes antes de representar la variable.
+
+* `show.legend = ...`: si queremos que se muestre o no en la leyenda (por defecto, no muestra si solo hay una capa).
+
+
+```r
+# Color con palabra reservada
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+* geom_point(show.legend = TRUE)
+```
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-726-1.png" width="83%" /&gt;
+
+]
+
+---
+
+# Colores, tamaños y formas: orange[constantes]
+
+.pull-left[
+
+* `colour = ...`: color (en el caso del punto se entiende que es algo sin dimensión, así que es el color del punto; en otros casos, será el color del contorno)
+
+* `fill = ...`: color relleno (para objetos con relleno y contorno)
+
+Empezaremos por un **color fijo**, por ejemplo `"red"` (existen otros como `"blue"`, `"black"`, `"yellow"`, etc)
+
+
+```r
+# Color con palabra reservada
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+* geom_point(color = "red")
+```
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-728-1.png" width="83%" /&gt;
+
+]
+
+---
+
+# Colores, tamaños y formas: orange[constantes]
+
+.pull-left[
+
+* `alpha = ...`: grado de opacidad del color (1 totalmente opaco, 0 totalmente transparente)
+
+
+```r
+# Color con palabra reservada
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+* geom_point(color = "red", alpha = 0.3)
+```
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-730-1.png" width="83%" /&gt;
+
+]
+
+---
+
+# Colores, tamaños y formas: orange[constantes]
+
+.pull-left[
+
+* `stroke = ...`: tamaño del contorno
+
+
+```r
+# Color con palabra reservada
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(color = "red", alpha = 0.2,
+*            size = 4, stroke = 0)
+```
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-732-1.png" width="83%" /&gt;
+
+]
+
+
+---
+
+# Colores, tamaños y formas: orange[constantes]
+
+.pull-left[
+
+* `shape = ...`: forma de la geometría, en este caso del «punto» (ver todas las opciones en `vignette("ggplot2-specs")`)
+
+
+&lt;img src="./img/shape_ggplot.jpg" width="40%" style="display: block; margin: auto auto auto 0;" /&gt;
+
+
+
+```r
+# Color con palabra reservada
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(color = "red", alpha = 0.3,
+*            shape = 5)
+```
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-735-1.png" width="83%" /&gt;
+
+]
+
+---
+
+# Colores, tamaños y formas: orange[constantes]
+
+.pull-left[
+
+* `shape = ...`: forma de la geometría, en este caso del «punto» (ver todas las opciones en `vignette("ggplot2-specs")`)
+
+
+&lt;img src="./img/shape_ggplot.jpg" width="40%" style="display: block; margin: auto auto auto 0;" /&gt;
+
+
+
+```r
+# Color con palabra reservada
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(color = "red", alpha = 0.5,
+*            shape = 22, fill = "black")
+```
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-738-1.png" width="83%" /&gt;
+
+]
+
+
+---
+
+# Colores, tamaños y formas: orange[constantes]
+
+.pull-left[
+
+* `size = ...`: tamaño  de la geometría (en este caso el **tamaño de los punto**), cuanto mayor sea el número, mayor será el tamaño de la geometría.
+
+  
+
+```r
+# Color con palabra reservada
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(color = "red", alpha = 0.5,
+*            size = 5)
+```
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-740-1.png" width="83%" /&gt;
+
+]
+
+
+---
+
+# Colores, tamaños y formas (constantes)
+
+.pull-left[
+
+Los colores también podemos asignárselos por su **código hexadecimal**, consultando en la página &lt;https://htmlcolorcodes.com/es/&gt;, eligiendo el color que queramos. El código hexadecimal siempre comenzará con `#`
+
+
+
+```r
+# Color en hexadecimal
+# https://htmlcolorcodes.com/es/
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+* geom_point(color = "#2EA2D8",
+             alpha = 0.5, size = 5) 
+```
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-742-1.png" width="83%" /&gt;
+
+]
+
+  
+---
+
+# .orange[SCATTER PLOT]: .green[aes(size, color, shape)]
+
+.pull-left[
+
+Hasta ahora los **parámetros estéticos** se los hemos pasado fijos y **constantes**.  Pero la verdadera potencia y versatilidad de `ggplot` es que podemos **.bg-purple_light[mapear los atributos estéticos]** en `aes()` para que dependan de variables de los datos
+
+&amp;nbsp;
+
+Por ejemplo, vamos a asignar un **.bg-purple_light[color a cada dato en función de su continente]**.
+
+
+```r
+# Tamaño fijo
+# Color por continentes
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+*          color = continent)) +
+  geom_point(size = 5)
+```
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-744-1.png" width="83%" /&gt;
+
+]
+
+---
+
+# .orange[SCATTER PLOT]: .green[aes(size, color, shape)]
+
+
+.pull-left[
+  
+Podemos combinarlo con lo que hemos hecho anteriormente:
+
+* **.bg-purple_light[color]** en función del **.bg-orange[continente]**.
+
+* **.bg-purple_light[tamaño]** en función de la **.bg-orange[población]**.
+
+* **.bg-purple_light[transparencia]** la fijamos  **.bg-orange[constante]** del 70%.
+
+
+```r
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+*          color = continent, size = pop)) +
+  geom_point(alpha = 0.7)
+```
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-746-1.png" width="83%" /&gt;
+
+]
+
+
+---
+
+# .orange[SCATTER PLOT]: .green[aes(size, color, shape)]
+
+.pull-left[
+  
+En lugar de jugar con el color, también podríamos añadir las variables en función de la **forma de la geometría** (en este caso la forma de los «puntos») con `shape = ...`.
+
+
+```r
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           shape = continent, size = pop)) +
+  geom_point(alpha = 0.7)
+```
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-748-1.png" width="83%" /&gt;
+
+]
+
+---
+
+# Visualización .orange[MULTIVARIANTE]
+
+.pull-left[
+  
+Reflexionemos sobre el gráfico anterior:
+
+* **color** en función del **continente**.
+* **tamaño** en función de la **población**
+* **transparencia** fija del 70%
+
+Usando los datos hemos conseguido dibujar en un **.bg-purple_light[gráfico bidimensional 4 variables]**: `lifeExp` y `gdpPercap` en los ejes `\((X, Y)\)`), `continent` como color y `pop` como tamaño de la geometría, con muy pocas líneas de código.
+
+
+```r
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.7)
+```
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-750-1.png" width="83%" /&gt;
+
+]
+
+---
+
 
 class: inverse center middle
 name: clase-15
 
 # CLASE 15: profundizando en ggplot
+
 
 ---
 
@@ -16853,19 +18114,6 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
     deleted = true;
   });
 })();
-// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
-// screen reader (see PR #262)
-(function(d) {
-  let res = {};
-  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
-    const t = tr.querySelector('td:nth-child(2)').innerText;
-    tr.querySelectorAll('td:first-child .key').forEach(key => {
-      const k = key.innerText;
-      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
-    });
-  });
-  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
-})(document);
 (function() {
   "use strict"
   // Replace <script> tags in slides area to make them executable

@@ -6206,13 +6206,19 @@ starwars_nueva
 
 ]
 
-.panel[.panel-name[Sol. Ej. 5]
+.panel[.panel-name[Sol. Ej. 5a]
 
 ```{r}
 starwars %>%
   drop_na(species) %>%
   distinct(species)
+```
 
+]
+
+.panel[.panel-name[Sol. Ej. 5b]
+
+```{r}
 starwars %>%
   drop_na(species) %>%
   arrange(height) %>%
@@ -8481,6 +8487,7 @@ ggplot(starwars_filtro,
 ]
 
 ---
+
 
 # .orange[RECURSOS] y .green[BIBLIOGRAFÍA]
 
