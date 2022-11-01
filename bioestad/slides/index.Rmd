@@ -42,8 +42,6 @@ use_clipboard( # About clipboard
 # use_freezeframe() # restarting gifs
 # use_animate_all("fade") # animates
 use_panelset() # panels 
-
-use_search(show_icon = TRUE)
 ```
 
 ```{r xaringan-themer, include = FALSE, warning = FALSE}
@@ -5999,13 +5997,13 @@ La función más simple del paquete `{purrr}` es la función `map()`, que nos **
 
 ```{r}
 library(microbenchmark)
-x <- 1:1000
+x <- 1:700
 y <- sqrt(x) # vectorizado
 
 # bucle
-for (i in 1:1000) { y[i] <- sqrt(x[i]) }
+for (i in 1:700) { y[i] <- sqrt(x[i]) }
 
-microbenchmark(sqrt(x), for (i in 1:1000) { y[i] <- sqrt(x[i]) }, times = 1e3)
+microbenchmark(sqrt(x), for (i in 1:700) { y[i] <- sqrt(x[i]) }, times = 1e3)
 ```
 
 
@@ -10526,7 +10524,7 @@ No es hasta la Edad Media, cuando la **.bg-purple_light[navegación y la astrono
 
 
 ```{r echo = FALSE,  out.width = "110%", fig.align = "center", fig.cap = "Gráfica extraída de Beniger y Robyn (1978)"}
-knitr::include_graphics("./img/dataviz_historico_1.png")
+knitr::include_graphics("./img/dataviz_historico_1.webp")
 ``` 
 
 ]
@@ -11039,7 +11037,7 @@ knitr::include_graphics("./img/playfair_7.jpg")
 .pull-right[
 
 ```{r echo = FALSE, out.width = "85%", fig.align = "center", fig.cap = "Time-line histórico, extraída de https://friendly.github.io/HistDataVis."}
-knitr::include_graphics("./img/playfair_8.jpg")
+knitr::include_graphics("./img/playfair_8.webp")
 ``` 
 
 ]
@@ -11332,7 +11330,7 @@ ggplot(gapminder_1997, aes(y = gdpPercap, x = lifeExp)) +
 ---
 
 
-# Colores, tamaños y formas: orange[constantes]
+# Colores, tamaños y formas: .orange[constantes]
 
 .pull-left[
 
@@ -11361,7 +11359,7 @@ ggplot(gapminder_1997, aes(y = gdpPercap, x = lifeExp)) +
 
 ---
 
-# Colores, tamaños y formas: orange[constantes]
+# Colores, tamaños y formas: .orange[constantes]
 
 .pull-left[
 
@@ -11390,7 +11388,7 @@ ggplot(gapminder_1997, aes(y = gdpPercap, x = lifeExp)) +
 
 ---
 
-# Colores, tamaños y formas: orange[constantes]
+# Colores, tamaños y formas: .orange[constantes]
 
 .pull-left[
 
@@ -11415,36 +11413,7 @@ ggplot(gapminder_1997, aes(y = gdpPercap, x = lifeExp)) +
 
 ---
 
-# Colores, tamaños y formas: orange[constantes]
-
-.pull-left[
-
-* `stroke = ...`: tamaño del contorno
-
-```{r eval = FALSE}
-# Color con palabra reservada
-ggplot(gapminder_1997,
-       aes(y = gdpPercap, x = lifeExp)) +
-  geom_point(color = "red", alpha = 0.2,
-             size = 4, stroke = 0) #<<
-```
-]
-
-.pull-right[
-
-```{r echo = FALSE, out.width = "83%"}
-ggplot(gapminder_1997,
-       aes(y = gdpPercap, x = lifeExp)) +
-  geom_point(color = "red", alpha = 0.2,
-             size = 4, stroke = 0)
-```
-
-]
-
-
----
-
-# Colores, tamaños y formas: orange[constantes]
+# Colores, tamaños y formas: .orange[constantes]
 
 .pull-left[
 
@@ -11476,14 +11445,14 @@ ggplot(gapminder_1997, aes(y = gdpPercap, x = lifeExp)) +
 
 ---
 
-# Colores, tamaños y formas: orange[constantes]
+# Colores, tamaños y formas: .orange[constantes]
 
 .pull-left[
 
 * `shape = ...`: forma de la geometría, en este caso del «punto» (ver todas las opciones en `vignette("ggplot2-specs")`)
 
 
-```{r echo = FALSE,  out.width = "40%", fig.align = "left"}
+```{r echo = FALSE,  out.width = "24%", fig.align = "center"}
 knitr::include_graphics("./img/shape_ggplot.jpg")
 ``` 
 
@@ -11509,7 +11478,7 @@ ggplot(gapminder_1997, aes(y = gdpPercap, x = lifeExp)) +
 
 ---
 
-# Colores, tamaños y formas: orange[constantes]
+# Colores, tamaños y formas: .orange[constantes]
 
 .pull-left[
 
@@ -11535,10 +11504,38 @@ ggplot(gapminder_1997, aes(y = gdpPercap, x = lifeExp)) +
 
 ]
 
+---
+
+# Colores, tamaños y formas: .orange[constantes]
+
+.pull-left[
+
+* `stroke = ...`: tamaño del contorno
+
+```{r eval = FALSE}
+# Color con palabra reservada
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(color = "red", alpha = 0.2,
+             size = 4, stroke = 0) #<<
+```
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "83%"}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(color = "red", alpha = 0.2,
+             size = 4, stroke = 0)
+```
+
+]
+
 
 ---
 
-# Colores, tamaños y formas (constantes)
+# Colores, tamaños y formas: .orange[constantes]
 
 .pull-left[
 
@@ -11616,7 +11613,8 @@ Podemos combinarlo con lo que hemos hecho anteriormente:
 ```{r eval = FALSE}
 ggplot(gapminder_1997,
        aes(y = gdpPercap, x = lifeExp,
-           color = continent, size = pop)) + #<<
+           color = continent,
+           size = pop)) +
   geom_point(alpha = 0.7)
 ```
 ]
@@ -11644,7 +11642,8 @@ En lugar de jugar con el color, también podríamos añadir las variables en fun
 ```{r eval = FALSE}
 ggplot(gapminder_1997,
        aes(y = gdpPercap, x = lifeExp,
-           shape = continent, size = pop)) +
+           shape = continent,
+           size = pop)) +
   geom_point(alpha = 0.7)
 ```
 ]

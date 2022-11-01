@@ -15,10 +15,6 @@
     <script>window.xaringanExtraClipboard(null, {"button":"Click para copiar código","success":"Código copiado","error":"Ctrl+C para copiar"})</script>
     <link href="index_files/panelset-0.2.6/panelset.css" rel="stylesheet" />
     <script src="index_files/panelset-0.2.6/panelset.js"></script>
-    <script src="index_files/mark.js-8.11.1/mark.min.js"></script>
-    <link href="index_files/xaringanExtra-search-0.0.1/search.css" rel="stylesheet" />
-    <script src="index_files/xaringanExtra-search-0.0.1/search.js"></script>
-    <script>window.addEventListener('load', function() { window.xeSearch = new RemarkSearch({"position":"bottom-left","caseSensitive":false,"showIcon":true,"autoSearch":true}) })</script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
   <body>
@@ -1773,7 +1769,7 @@ También podemos obtener el **.bg-purple_light[«hoy y ahora»]** con la funció
 ```
 
 ```
-&gt; [1] "2022-11-01 19:05:20 CET"
+&gt; [1] "2022-11-01 23:14:12 CET"
 ```
  
 ---
@@ -3079,9 +3075,9 @@ x &lt;- rnorm(1e3) # 1000 elementos aleatorias
 
 ```
 &gt; Unit: microseconds
-&gt;         expr    min       lq     mean   median      uq     max neval cld
-&gt;      sort(x) 91.430 106.9245 152.5658 131.8655 183.617 513.503  1000   b
-&gt;  x[order(x)] 62.269  70.9205 100.1166  86.4915 119.739 489.166  1000  a
+&gt;         expr    min      lq     mean median      uq     max neval cld
+&gt;      sort(x) 43.169 50.9695 76.53932 64.108 93.8880 384.346  1000   b
+&gt;  x[order(x)] 29.831 35.1235 50.78894 41.555 61.7455 173.622  1000  a
 ```
 
 --
@@ -6330,11 +6326,11 @@ microbenchmark(x^2,
 ```
 &gt; Unit: nanoseconds
 &gt;                                     expr     min        lq        mean
-&gt;                                      x^2     751     953.5    2951.689
-&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 3616471 4107608.5 5803166.067
-&gt;     median        uq      max neval cld
-&gt;     2365.5    3975.5    42568  1000  a 
-&gt;  5015899.0 6516613.0 27136681  1000   b
+&gt;                                      x^2     427     723.5    2163.667
+&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 2073224 3008863.5 5674847.955
+&gt;     median      uq       max neval cld
+&gt;     1937.5    3002     93489  1000  a 
+&gt;  3745632.0 4812104 119068265  1000   b
 ```
 
 ---
@@ -6612,7 +6608,7 @@ sample(x = 0:1, size = 2)
 ```
 
 ```
-&gt; [1] 0 1
+&gt; [1] 1 0
 ```
 
 **.bg-red_light[IMPORTANTE]**: si no indicamos nada en el vector de probabilidades `prob`, asume que son equiprobables (en este caso, `\(1/2\)` para cada cara).
@@ -6647,7 +6643,7 @@ sample(x = 0:1, size = 30, replace = TRUE)
 ```
 
 ```
-&gt;  [1] 0 1 1 0 1 0 0 1 1 1 0 0 1 0 0 0 1 0 0 1 0 1 0 1 1 1 0 0 1 0
+&gt;  [1] 0 1 0 0 0 1 1 1 0 0 0 1 1 0 1 0 0 1 1 1 1 1 1 1 0 0 0 0 0 1
 ```
 
 ---
@@ -6662,7 +6658,7 @@ sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
 ```
 
 ```
-&gt;  [1] "cara" "cruz" "cara" "cara" "cruz" "cruz" "cara" "cara" "cruz" "cara"
+&gt;  [1] "cruz" "cruz" "cara" "cara" "cara" "cara" "cara" "cara" "cruz" "cruz"
 ```
 
 --
@@ -6675,7 +6671,7 @@ sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
 ```
 
 ```
-&gt;  [1] "cruz" "cara" "cruz" "cara" "cruz" "cruz" "cara" "cruz" "cara" "cruz"
+&gt;  [1] "cruz" "cruz" "cara" "cruz" "cara" "cruz" "cruz" "cara" "cara" "cruz"
 ```
 
 ---
@@ -8664,23 +8660,23 @@ La función más simple del paquete `{purrr}` es la función `map()`, que nos **
 
 ```r
 library(microbenchmark)
-x &lt;- 1:1000
+x &lt;- 1:700
 y &lt;- sqrt(x) # vectorizado
 
 # bucle
-for (i in 1:1000) { y[i] &lt;- sqrt(x[i]) }
+for (i in 1:700) { y[i] &lt;- sqrt(x[i]) }
 
-microbenchmark(sqrt(x), for (i in 1:1000) { y[i] &lt;- sqrt(x[i]) }, times = 1e3)
+microbenchmark(sqrt(x), for (i in 1:700) { y[i] &lt;- sqrt(x[i]) }, times = 1e3)
 ```
 
 ```
 &gt; Unit: microseconds
-&gt;                                          expr      min       lq       mean
-&gt;                                       sqrt(x)    4.690    5.795   10.13728
-&gt;  for (i in 1:1000) {     y[i] &lt;- sqrt(x[i]) } 3786.119 4603.141 7539.98602
-&gt;     median       uq        max neval cld
-&gt;     7.7895   10.744    136.059  1000  a 
-&gt;  5574.9045 8130.241 117398.771  1000   b
+&gt;                                         expr      min        lq       mean
+&gt;                                      sqrt(x)    1.798    2.3635    3.23169
+&gt;  for (i in 1:700) {     y[i] &lt;- sqrt(x[i]) } 1836.806 1995.6315 2258.01005
+&gt;    median       uq      max neval cld
+&gt;     3.098    3.733   15.232  1000  a 
+&gt;  2080.284 2245.918 9300.595  1000   b
 ```
 
 
@@ -8763,12 +8759,12 @@ microbenchmark(map(x, .f = function(x) { mean(x^2) }), lapply(x, FUN = function(
 
 ```
 &gt; Unit: milliseconds
-&gt;                                            expr      min       lq     mean
-&gt;      map(x, .f = function(x) {     mean(x^2) }) 11.47705 14.12106 20.03720
-&gt;  lapply(x, FUN = function(x) {     mean(x^2) }) 11.34548 13.64759 18.27266
+&gt;                                            expr      min       lq      mean
+&gt;      map(x, .f = function(x) {     mean(x^2) }) 5.535758 7.003163 10.079688
+&gt;  lapply(x, FUN = function(x) {     mean(x^2) }) 5.513930 6.852196  9.862827
 &gt;    median       uq      max neval cld
-&gt;  15.99645 19.48938 396.9843  1000   b
-&gt;  15.50478 18.65260 102.3539  1000  a
+&gt;  7.869746 9.472039 205.2818  1000   a
+&gt;  7.758710 9.407550 150.8870  1000   a
 ```
 
 
@@ -15496,10 +15492,6 @@ aemet_last_obs("0076")
 
 |idema |      lon|fint                | prec| alt| vmax|  vv|  dv|      lat| dmax|ubi                  |   pres| hr| stdvv|   ts| pres_nmar| tamin|   ta| tamax|  tpr|  vis| stddv| inso|
 |:-----|--------:|:-------------------|----:|---:|----:|---:|---:|--------:|----:|:--------------------|------:|--:|-----:|----:|---------:|-----:|----:|-----:|----:|----:|-----:|----:|
-|0076  | 2.069995|2022-10-31 19:00:00 |    0|   4|  5.1| 2.1| 250| 41.29278|  190|BARCELONA/AEROPUERTO | 1019.2| 82|   0.2| 21.9|    1019.8|  22.2| 22.2|  22.4| 19.0| 16.2|     6|    0|
-|0076  | 2.069995|2022-10-31 20:00:00 |    0|   4|  4.6| 2.6| 260| 41.29278|  250|BARCELONA/AEROPUERTO | 1019.1| 85|   0.3| 20.2|    1019.7|  21.5| 21.6|  22.3| 19.0| 12.9|     3|    0|
-|0076  | 2.069995|2022-10-31 21:00:00 |    0|   4|  3.1| 1.8| 250| 41.29278|  250|BARCELONA/AEROPUERTO | 1019.3| 84|   0.5| 20.3|    1019.9|  21.6| 21.6|  21.7| 18.8| 14.9|     4|    0|
-|0076  | 2.069995|2022-10-31 22:00:00 |    0|   4|  5.1| 2.7| 280| 41.29278|  260|BARCELONA/AEROPUERTO | 1019.9| 84|   0.8| 20.9|    1020.5|  21.4| 21.6|  21.8| 18.8| 14.7|    10|    0|
 |0076  | 2.069995|2022-10-31 23:00:00 |    0|   4|  3.6| 2.7| 240| 41.29278|  250|BARCELONA/AEROPUERTO | 1019.7| 84|   0.1| 20.7|    1020.3|  21.4| 21.6|  21.7| 18.8| 14.5|     4|    0|
 |0076  | 2.069995|2022-11-01 00:00:00 |    0|   4|  3.6| 2.9| 260| 41.29278|  260|BARCELONA/AEROPUERTO | 1019.6| 85|   0.2| 20.4|    1020.2|  21.2| 21.2|  21.6| 18.5| 12.6|     5|    0|
 |0076  | 2.069995|2022-11-01 01:00:00 |    0|   4|  3.1| 2.4| 310| 41.29278|  300|BARCELONA/AEROPUERTO | 1019.6| 86|   0.2| 19.8|    1020.2|  20.8| 21.0|  21.2| 18.5| 11.9|    14|    0|
@@ -15519,6 +15511,10 @@ aemet_last_obs("0076")
 |0076  | 2.069995|2022-11-01 15:00:00 |    0|   4|  7.7| 4.5| 110| 41.29278|  110|BARCELONA/AEROPUERTO | 1021.6| 72|   0.4| 23.3|    1022.2|  21.7| 21.8|  22.3| 16.6| 29.3|    12|   52|
 |0076  | 2.069995|2022-11-01 16:00:00 |    0|   4|  5.7| 3.9| 100| 41.29278|  110|BARCELONA/AEROPUERTO | 1021.8| 75|   0.2| 21.8|    1022.4|  21.2| 21.3|  21.9| 16.7| 30.0|     6|    0|
 |0076  | 2.069995|2022-11-01 17:00:00 |    0|   4|  5.1| 3.6| 100| 41.29278|   80|BARCELONA/AEROPUERTO | 1022.0| 80|   0.1| 20.3|    1022.6|  20.5| 20.6|  21.3| 17.1| 29.3|     6|    0|
+|0076  | 2.069995|2022-11-01 18:00:00 |    0|   4|  4.1| 2.6|  60| 41.29278|   40|BARCELONA/AEROPUERTO | 1022.7| 83|   0.5| 20.1|    1023.3|  20.0| 20.2|  20.4| 17.2| 25.7|    13|    0|
+|0076  | 2.069995|2022-11-01 19:00:00 |    0|   4|  3.6| 2.2|  70| 41.29278|   70|BARCELONA/AEROPUERTO | 1023.1| 82|   0.2| 19.4|    1023.7|  20.0| 20.1|  20.2| 16.9| 28.3|     6|    0|
+|0076  | 2.069995|2022-11-01 20:00:00 |    0|   4|  3.1| 1.4|  20| 41.29278|  100|BARCELONA/AEROPUERTO | 1023.0| 85|   0.1| 17.8|    1023.6|  19.1| 19.1|  20.1| 16.5| 20.8|     7|    0|
+|0076  | 2.069995|2022-11-01 21:00:00 |    0|   4|  3.6| 3.0| 360| 41.29278|  360|BARCELONA/AEROPUERTO | 1023.1| 85|   0.2| 17.6|    1023.7|  18.1| 18.1|  19.1| 15.5| 21.0|   181|    0|
 
 ---
 
@@ -16744,7 +16740,7 @@ No es hasta la Edad Media, cuando la **.bg-purple_light[navegación y la astrono
 
 
 &lt;div class="figure" style="text-align: center"&gt;
-&lt;img src="./img/dataviz_historico_1.png" alt="Gráfica extraída de Beniger y Robyn (1978)" width="110%" /&gt;
+&lt;img src="./img/dataviz_historico_1.webp" alt="Gráfica extraída de Beniger y Robyn (1978)" width="110%" /&gt;
 &lt;p class="caption"&gt;Gráfica extraída de Beniger y Robyn (1978)&lt;/p&gt;
 &lt;/div&gt;
 
@@ -17266,7 +17262,7 @@ Playfair además fue el primero en **.bg-purple_light[combinar gráficos en la m
 .pull-right[
 
 &lt;div class="figure" style="text-align: center"&gt;
-&lt;img src="./img/playfair_8.jpg" alt="Time-line histórico, extraída de https://friendly.github.io/HistDataVis." width="85%" /&gt;
+&lt;img src="./img/playfair_8.webp" alt="Time-line histórico, extraída de https://friendly.github.io/HistDataVis." width="85%" /&gt;
 &lt;p class="caption"&gt;Time-line histórico, extraída de https://friendly.github.io/HistDataVis.&lt;/p&gt;
 &lt;/div&gt;
 
@@ -17613,7 +17609,7 @@ ggplot(gapminder_1997,
 ---
 
 
-# Colores, tamaños y formas: orange[constantes]
+# Colores, tamaños y formas: .orange[constantes]
 
 .pull-left[
 
@@ -17640,7 +17636,7 @@ ggplot(gapminder_1997,
 
 ---
 
-# Colores, tamaños y formas: orange[constantes]
+# Colores, tamaños y formas: .orange[constantes]
 
 .pull-left[
 
@@ -17667,7 +17663,7 @@ ggplot(gapminder_1997,
 
 ---
 
-# Colores, tamaños y formas: orange[constantes]
+# Colores, tamaños y formas: .orange[constantes]
 
 .pull-left[
 
@@ -17690,32 +17686,7 @@ ggplot(gapminder_1997,
 
 ---
 
-# Colores, tamaños y formas: orange[constantes]
-
-.pull-left[
-
-* `stroke = ...`: tamaño del contorno
-
-
-```r
-# Color con palabra reservada
-ggplot(gapminder_1997,
-       aes(y = gdpPercap, x = lifeExp)) +
-  geom_point(color = "red", alpha = 0.2,
-*            size = 4, stroke = 0)
-```
-]
-
-.pull-right[
-
-&lt;img src="index_files/figure-html/unnamed-chunk-732-1.png" width="83%" /&gt;
-
-]
-
-
----
-
-# Colores, tamaños y formas: orange[constantes]
+# Colores, tamaños y formas: .orange[constantes]
 
 .pull-left[
 
@@ -17737,20 +17708,20 @@ ggplot(gapminder_1997,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-735-1.png" width="83%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-733-1.png" width="83%" /&gt;
 
 ]
 
 ---
 
-# Colores, tamaños y formas: orange[constantes]
+# Colores, tamaños y formas: .orange[constantes]
 
 .pull-left[
 
 * `shape = ...`: forma de la geometría, en este caso del «punto» (ver todas las opciones en `vignette("ggplot2-specs")`)
 
 
-&lt;img src="./img/shape_ggplot.jpg" width="40%" style="display: block; margin: auto auto auto 0;" /&gt;
+&lt;img src="./img/shape_ggplot.jpg" width="24%" style="display: block; margin: auto;" /&gt;
 
 
 
@@ -17765,14 +17736,14 @@ ggplot(gapminder_1997,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-738-1.png" width="83%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-736-1.png" width="83%" /&gt;
 
 ]
 
 
 ---
 
-# Colores, tamaños y formas: orange[constantes]
+# Colores, tamaños y formas: .orange[constantes]
 
 .pull-left[
 
@@ -17792,6 +17763,30 @@ ggplot(gapminder_1997,
 
 .pull-right[
 
+&lt;img src="index_files/figure-html/unnamed-chunk-738-1.png" width="83%" /&gt;
+
+]
+
+---
+
+# Colores, tamaños y formas: .orange[constantes]
+
+.pull-left[
+
+* `stroke = ...`: tamaño del contorno
+
+
+```r
+# Color con palabra reservada
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(color = "red", alpha = 0.2,
+*            size = 4, stroke = 0)
+```
+]
+
+.pull-right[
+
 &lt;img src="index_files/figure-html/unnamed-chunk-740-1.png" width="83%" /&gt;
 
 ]
@@ -17799,7 +17794,7 @@ ggplot(gapminder_1997,
 
 ---
 
-# Colores, tamaños y formas (constantes)
+# Colores, tamaños y formas: .orange[constantes]
 
 .pull-left[
 
@@ -17873,7 +17868,8 @@ Podemos combinarlo con lo que hemos hecho anteriormente:
 ```r
 ggplot(gapminder_1997,
        aes(y = gdpPercap, x = lifeExp,
-*          color = continent, size = pop)) +
+           color = continent,
+           size = pop)) +
   geom_point(alpha = 0.7)
 ```
 ]
@@ -17897,7 +17893,8 @@ En lugar de jugar con el color, también podríamos añadir las variables en fun
 ```r
 ggplot(gapminder_1997,
        aes(y = gdpPercap, x = lifeExp,
-           shape = continent, size = pop)) +
+           shape = continent,
+           size = pop)) +
   geom_point(alpha = 0.7)
 ```
 ]
