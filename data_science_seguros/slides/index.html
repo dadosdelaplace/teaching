@@ -15,10 +15,6 @@
     <script>window.xaringanExtraClipboard(null, {"button":"Click para copiar código","success":"Código copiado","error":"Ctrl+C para copiar"})</script>
     <link href="index_files/panelset-0.2.6/panelset.css" rel="stylesheet" />
     <script src="index_files/panelset-0.2.6/panelset.js"></script>
-    <script src="index_files/mark.js-8.11.1/mark.min.js"></script>
-    <link href="index_files/xaringanExtra-search-0.0.1/search.css" rel="stylesheet" />
-    <script src="index_files/xaringanExtra-search-0.0.1/search.js"></script>
-    <script>window.addEventListener('load', function() { window.xeSearch = new RemarkSearch({"position":"bottom-left","caseSensitive":false,"showIcon":true,"autoSearch":true}) })</script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
   <body>
@@ -28,7 +24,7 @@ class: center, middle, inverse, title-slide
 # Fundamentos de ciencia de datos en R
 ## Especialista Universitario en Ciencia de Datos aplicada a la actividad aseguradora
 ### Javier Álvarez Liébana (Fac. Estudios Estadísticos - UCM)
-### Última actualización: 31-10-2022 18:04:19
+### Última actualización: 03-11-2022 13:29:56
 
 ---
 
@@ -1512,7 +1508,7 @@ Otra de las funcionalidades es obtener automáticamente la **.bg-purple_light[fe
 ```
 
 ```
-&gt; [1] "2022-10-31"
+&gt; [1] "2022-11-03"
 ```
 
 ```r
@@ -1520,7 +1516,7 @@ now()
 ```
 
 ```
-&gt; [1] "2022-10-31 18:04:21 CET"
+&gt; [1] "2022-11-03 13:29:59 CET"
 ```
  
 --
@@ -1863,7 +1859,7 @@ hoy - cumple
 ```
 
 ```
-&gt; Time difference of 12104 days
+&gt; Time difference of 12107 days
 ```
 
 ]
@@ -2612,9 +2608,9 @@ x &lt;- rnorm(1e3) # 1000 elementos aleatorias
 
 ```
 &gt; Unit: microseconds
-&gt;         expr    min      lq     mean  median       uq     max neval cld
-&gt;      sort(x) 54.487 62.2255 85.71489 73.2775 101.6945 383.865  1000   b
-&gt;  x[order(x)] 37.223 43.3745 59.01899 50.4575  68.6395 204.428  1000  a
+&gt;         expr    min     lq     mean  median      uq     max neval cld
+&gt;      sort(x) 44.648 51.507 72.42679 58.6865 83.4135 347.230  1000   b
+&gt;  x[order(x)] 30.615 35.413 50.47443 40.2830 56.4950 215.959  1000  a
 ```
 
 
@@ -3211,12 +3207,12 @@ microbenchmark(x^2,
 
 ```
 &gt; Unit: nanoseconds
-&gt;                                     expr     min        lq        mean
-&gt;                                      x^2     511     694.5    2370.956
-&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 2572350 3245207.0 4278387.929
-&gt;     median      uq      max neval cld
-&gt;     2129.5    2926   295510  1000  a 
-&gt;  3846959.0 4711516 34902486  1000   b
+&gt;                                     expr     min      lq        mean  median
+&gt;                                      x^2     361     459    1458.311    1066
+&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 1726110 2015674 2620382.347 2287289
+&gt;       uq      max neval cld
+&gt;     2036    53680  1000  a 
+&gt;  2780469 16696979  1000   b
 ```
 
 ---
@@ -7085,11 +7081,11 @@ starwars %&gt;% slice_sample(n = 3)
 
 ```
 &gt; # A tibble: 3 × 14
-&gt;   name         height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
-&gt;   &lt;chr&gt;         &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
-&gt; 1 Quarsh Pana…    183    NA black   dark    brown        62 &lt;NA&gt;  &lt;NA&gt;   Naboo  
-&gt; 2 Greedo          173    74 &lt;NA&gt;    green   black        44 male  mascu… Rodia  
-&gt; 3 Captain Pha…     NA    NA unknown unknown unknown      NA &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt;   
+&gt;   name       height  mass hair_co…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
+&gt;   &lt;chr&gt;       &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
+&gt; 1 BB8            NA    NA none      none    black        NA none  mascu… &lt;NA&gt;   
+&gt; 2 R5-D4          97    32 &lt;NA&gt;      white,… red          NA none  mascu… Tatooi…
+&gt; 3 Jango Fett    183    79 black     tan     brown        66 male  mascu… Concor…
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
@@ -7113,8 +7109,8 @@ starwars %&gt;% slice_sample(prop = 0.025)
 &gt; # A tibble: 2 × 14
 &gt;   name         height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
 &gt;   &lt;chr&gt;         &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
-&gt; 1 Yoda             66    17 white   green   brown       896 male  mascu… &lt;NA&gt;   
-&gt; 2 Quarsh Pana…    183    NA black   dark    brown        62 &lt;NA&gt;  &lt;NA&gt;   Naboo  
+&gt; 1 Darth Vader     202   136 none    white   yellow     41.9 male  mascu… Tatooi…
+&gt; 2 Roos Tarpals    224    82 none    grey    orange     NA   male  mascu… Naboo  
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
@@ -7137,8 +7133,8 @@ starwars %&gt;% slice_sample(n = 2, weight_by = c(0.495, 0.495, rep(0.01/85, 85)
 &gt; # A tibble: 2 × 9
 &gt;   name           height  mass hair_color skin_color eye_c…¹ birth…² sex   gender
 &gt;   &lt;chr&gt;           &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
-&gt; 1 Luke Skywalker    172    77 blond      fair       blue         19 male  mascu…
-&gt; 2 C-3PO             167    75 &lt;NA&gt;       gold       yellow      112 none  mascu…
+&gt; 1 C-3PO             167    75 &lt;NA&gt;       gold       yellow      112 none  mascu…
+&gt; 2 Luke Skywalker    172    77 blond      fair       blue         19 male  mascu…
 &gt; # … with abbreviated variable names ¹​eye_color, ²​birth_year
 ```
 
@@ -7152,8 +7148,8 @@ starwars %&gt;% slice_sample(n = 2, weight_by = c(0.495, 0.495, rep(0.01/85, 85)
 &gt; # A tibble: 2 × 9
 &gt;   name           height  mass hair_color skin_color eye_c…¹ birth…² sex   gender
 &gt;   &lt;chr&gt;           &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
-&gt; 1 Luke Skywalker    172    77 blond      fair       blue         19 male  mascu…
-&gt; 2 C-3PO             167    75 &lt;NA&gt;       gold       yellow      112 none  mascu…
+&gt; 1 C-3PO             167    75 &lt;NA&gt;       gold       yellow      112 none  mascu…
+&gt; 2 Luke Skywalker    172    77 blond      fair       blue         19 male  mascu…
 &gt; # … with abbreviated variable names ¹​eye_color, ²​birth_year
 ```
 
@@ -7676,9 +7672,9 @@ starwars %&gt;%
 &gt; # A tibble: 3 × 14
 &gt;   name         height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
 &gt;   &lt;chr&gt;         &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
-&gt; 1 Nien Nunb       160    68 none    grey    black        NA male  mascu… Sullust
-&gt; 2 Tion Medon      206    80 none    grey    black        NA male  mascu… Utapau 
-&gt; 3 Quarsh Pana…    183    NA black   dark    brown        62 &lt;NA&gt;  &lt;NA&gt;   Naboo  
+&gt; 1 Mas Amedda      196    NA none    blue    blue         NA male  mascu… Champa…
+&gt; 2 Zam Wesell      168    55 blonde  fair, … yellow       NA fema… femin… Zolan  
+&gt; 3 Beru Whites…    165    75 brown   light   blue         47 fema… femin… Tatooi…
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
@@ -7695,9 +7691,9 @@ starwars %&gt;%
 &gt; # A tibble: 3 × 14
 &gt;   name         height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
 &gt;   &lt;chr&gt;         &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
-&gt; 1 Plo Koon        188    80 none    orange  black        22 male  mascu… Dorin  
-&gt; 2 Luke Skywal…    172    77 blond   fair    blue         19 male  mascu… Tatooi…
-&gt; 3 Adi Gallia      184    50 none    dark    blue         NA fema… femin… Corusc…
+&gt; 1 R5-D4            97    32 &lt;NA&gt;    white,… red          NA none  mascu… Tatooi…
+&gt; 2 Finn             NA    NA black   dark    dark         NA male  mascu… &lt;NA&gt;   
+&gt; 3 Poggle the …    183    80 none    green   yellow       NA male  mascu… Geonos…
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
@@ -7719,14 +7715,14 @@ starwars %&gt;%
 &gt; # A tibble: 8 × 14
 &gt;   name         height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
 &gt;   &lt;chr&gt;         &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
-&gt; 1 Owen Lars       178   120 brown,… light   blue         52 male  mascu… Tatooi…
-&gt; 2 Yoda             66    17 white   green   brown       896 male  mascu… &lt;NA&gt;   
-&gt; 3 Cliegg Lars     183    NA brown   fair    blue         82 male  mascu… Tatooi…
-&gt; 4 R5-D4            97    32 &lt;NA&gt;    white,… red          NA none  mascu… Tatooi…
-&gt; 5 Mace Windu      188    84 none    dark    brown        72 male  mascu… Haruun…
-&gt; 6 Poe Dameron      NA    NA brown   light   brown        NA male  mascu… &lt;NA&gt;   
-&gt; 7 Qui-Gon Jinn    193    89 brown   fair    blue         92 male  mascu… &lt;NA&gt;   
-&gt; 8 Lando Calri…    177    79 black   dark    brown        31 male  mascu… Socorro
+&gt; 1 Ratts Tyere…     79    15 none    grey, … unknown    NA   male  mascu… Aleen …
+&gt; 2 Poe Dameron      NA    NA brown   light   brown      NA   male  mascu… &lt;NA&gt;   
+&gt; 3 R5-D4            97    32 &lt;NA&gt;    white,… red        NA   none  mascu… Tatooi…
+&gt; 4 C-3PO           167    75 &lt;NA&gt;    gold    yellow    112   none  mascu… Tatooi…
+&gt; 5 Ayla Secura     178    55 none    blue    hazel      48   fema… femin… Ryloth 
+&gt; 6 Mace Windu      188    84 none    dark    brown      72   male  mascu… Haruun…
+&gt; 7 Darth Vader     202   136 none    white   yellow     41.9 male  mascu… Tatooi…
+&gt; 8 Finn             NA    NA black   dark    dark       NA   male  mascu… &lt;NA&gt;   
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
@@ -8593,7 +8589,7 @@ sample(x = 0:1, size = 2)
 ```
 
 ```
-&gt; [1] 1 0
+&gt; [1] 0 1
 ```
 
 **.bg-red_light[IMPORTANTE]**: si no indicamos nada en el vector de probabilidades `prob`, asume que son equiprobables (en este caso, `\(1/2\)` para cada cara).
@@ -8628,7 +8624,7 @@ sample(x = 0:1, size = 30, replace = TRUE)
 ```
 
 ```
-&gt;  [1] 0 0 0 0 1 0 1 1 1 0 1 1 1 0 1 1 1 0 1 1 1 1 1 1 1 0 0 0 0 0
+&gt;  [1] 1 0 0 1 0 0 0 1 1 0 1 0 1 1 0 1 1 0 1 1 0 0 1 1 0 1 0 1 0 1
 ```
 
 ---
@@ -8643,7 +8639,7 @@ sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
 ```
 
 ```
-&gt;  [1] "cara" "cara" "cruz" "cara" "cara" "cara" "cruz" "cara" "cruz" "cruz"
+&gt;  [1] "cruz" "cruz" "cruz" "cruz" "cruz" "cruz" "cara" "cara" "cara" "cruz"
 ```
 
 --
@@ -8656,7 +8652,7 @@ sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
 ```
 
 ```
-&gt;  [1] "cara" "cruz" "cruz" "cara" "cara" "cruz" "cara" "cara" "cara" "cruz"
+&gt;  [1] "cara" "cruz" "cara" "cruz" "cara" "cara" "cruz" "cruz" "cruz" "cruz"
 ```
 
 ---
@@ -9403,7 +9399,7 @@ starwars_nueva
 
 ]
 
-.panel[.panel-name[Sol. Ej. 5]
+.panel[.panel-name[Sol. Ej. 5a]
 
 
 ```r
@@ -9429,6 +9425,11 @@ starwars %&gt;%
 &gt; # … with 27 more rows
 &gt; # ℹ Use `print(n = ...)` to see more rows
 ```
+
+]
+
+.panel[.panel-name[Sol. Ej. 5b]
+
 
 ```r
 starwars %&gt;%
@@ -10607,7 +10608,7 @@ ggplot(gapminder_1997,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-469-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-470-1.png" width="100%" /&gt;
 ]
 
 ---
@@ -10634,7 +10635,7 @@ ggplot(gapminder_1997,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-471-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-472-1.png" width="100%" /&gt;
 ]
 
 ---
@@ -10661,7 +10662,7 @@ ggplot(gapminder_1997,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-473-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-474-1.png" width="100%" /&gt;
 ]
 
 ---
@@ -10683,7 +10684,7 @@ ggplot(gapminder_1997,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-475-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-476-1.png" width="100%" /&gt;
 
 ]
 
@@ -10708,7 +10709,7 @@ ggplot(gapminder_1997,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-477-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-478-1.png" width="100%" /&gt;
 
 ]
 
@@ -10732,7 +10733,7 @@ ggplot(gapminder_1997,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-479-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-480-1.png" width="100%" /&gt;
 
 ]
   
@@ -10759,7 +10760,7 @@ ggplot(gapminder_1997,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-481-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-482-1.png" width="100%" /&gt;
 
 ]
   
@@ -10789,7 +10790,7 @@ ggplot(gapminder_1997,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-483-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-484-1.png" width="100%" /&gt;
 
 ]
   
@@ -10819,7 +10820,7 @@ ggplot(gapminder_1997,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-485-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-486-1.png" width="100%" /&gt;
 
 ]
   
@@ -10843,7 +10844,7 @@ ggplot(gapminder_1997,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-487-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-488-1.png" width="100%" /&gt;
 
 ]
   
@@ -10873,7 +10874,7 @@ ggplot(gapminder_1997,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-489-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-490-1.png" width="100%" /&gt;
 
 ]
   
@@ -10899,7 +10900,7 @@ ggplot(gapminder_1997,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-491-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-492-1.png" width="100%" /&gt;
 
 ]
 
@@ -10931,7 +10932,7 @@ ggplot(gapminder_1997,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-493-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-494-1.png" width="100%" /&gt;
 
 ]
 
@@ -10960,7 +10961,7 @@ ggplot(gapminder_1997,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-495-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-496-1.png" width="100%" /&gt;
 
 ]
 
@@ -10988,7 +10989,7 @@ ggplot(gapminder_1997,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-497-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-498-1.png" width="100%" /&gt;
 
 ]
 
@@ -11016,7 +11017,7 @@ ggplot(gapminder_1997,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-499-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-500-1.png" width="100%" /&gt;
 
 ]
 
@@ -11052,7 +11053,7 @@ ggplot(gapminder_1997,
 &lt;p class="caption"&gt;Paleta basada en la casa Ravenclaw&lt;/p&gt;
 &lt;/div&gt;
 
-&lt;img src="index_files/figure-html/unnamed-chunk-502-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-503-1.png" width="100%" /&gt;
 
 ]
 
@@ -11073,7 +11074,7 @@ library(MetBrewer)
 MetBrewer::met.brewer("Renoir")
 ```
 
-&lt;img src="index_files/figure-html/unnamed-chunk-504-1.png" width="60%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-505-1.png" width="60%" /&gt;
 
 
 ]
@@ -11081,7 +11082,7 @@ MetBrewer::met.brewer("Renoir")
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-505-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-506-1.png" width="100%" /&gt;
 
 ]
 
@@ -11102,14 +11103,14 @@ library(MetBrewer)
 MetBrewer::met.brewer("Klimt")
 ```
 
-&lt;img src="index_files/figure-html/unnamed-chunk-507-1.png" width="60%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-508-1.png" width="60%" /&gt;
 
 ]
 
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-508-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-509-1.png" width="100%" /&gt;
 
 ]
 
@@ -11135,7 +11136,7 @@ ggplot(gapminder_1997,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-510-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-511-1.png" width="100%" /&gt;
 ]
 
 ---
@@ -11161,7 +11162,7 @@ ggplot(gapminder_1997,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-512-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-513-1.png" width="100%" /&gt;
 ]
 
 ---
@@ -11189,7 +11190,7 @@ ggplot(gapminder_1997,
 .pull-right[
 
 
-&lt;img src="index_files/figure-html/unnamed-chunk-514-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-515-1.png" width="100%" /&gt;
 
 ]
 
@@ -11217,7 +11218,7 @@ ggplot(gapminder_1997,
 .pull-right[
 
 
-&lt;img src="index_files/figure-html/unnamed-chunk-516-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-517-1.png" width="100%" /&gt;
 
 ]
 
@@ -11242,7 +11243,7 @@ ggplot(gapminder_1997,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-518-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-519-1.png" width="100%" /&gt;
 
 ]
 
@@ -11267,7 +11268,7 @@ ggplot(gapminder_1997,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-520-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-521-1.png" width="100%" /&gt;
 
 ]
 
@@ -11301,7 +11302,7 @@ ggplot(gapminder %&gt;% filter(year &gt; 1962),
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-522-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-523-1.png" width="100%" /&gt;
 
 ]
 
@@ -11327,7 +11328,7 @@ ggplot(gapminder %&gt;%
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-524-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-525-1.png" width="100%" /&gt;
 
 ]
 
@@ -11357,7 +11358,7 @@ ggplot(gapminder_1997,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-526-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-527-1.png" width="100%" /&gt;
 
 ]
 
@@ -11392,7 +11393,7 @@ ggplot(gapminder_1997,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-528-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-529-1.png" width="100%" /&gt;
 
 ]
 
@@ -11426,7 +11427,7 @@ ggplot(gapminder_1997,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-530-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-531-1.png" width="100%" /&gt;
 
 ]
 
@@ -11460,7 +11461,7 @@ ggplot(gapminder_1997,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-532-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-533-1.png" width="100%" /&gt;
 ]
 
 ---
@@ -11501,7 +11502,7 @@ ggplot(starwars_filtro,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-534-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-535-1.png" width="100%" /&gt;
 
 ]
 
@@ -11522,7 +11523,7 @@ ggplot(starwars_filtro,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-536-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-537-1.png" width="100%" /&gt;
 
 ]
 
@@ -11568,7 +11569,7 @@ ggplot(starwars_filtro,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-539-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-540-1.png" width="100%" /&gt;
 
 ]
 
@@ -11617,7 +11618,7 @@ ggplot(starwars_filtro,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-542-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-543-1.png" width="100%" /&gt;
 
 ]
 
@@ -11667,7 +11668,7 @@ ggplot(starwars_filtro,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-544-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-545-1.png" width="100%" /&gt;
 
 ]
 ]
@@ -11701,7 +11702,7 @@ ggplot(starwars_filtro,
 
 .pull-left[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-546-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-547-1.png" width="100%" /&gt;
 
 ]
 
@@ -11740,7 +11741,7 @@ ggplot(starwars_filtro,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-548-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-549-1.png" width="100%" /&gt;
 
 ]
 
@@ -11749,6 +11750,7 @@ ggplot(starwars_filtro,
 ]
 
 ---
+
 
 # .orange[RECURSOS] y .green[BIBLIOGRAFÍA]
 
