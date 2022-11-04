@@ -24,7 +24,7 @@ class: center, middle, inverse, title-slide
 # Introducción a R
 ## Descripción y exploración de datos
 ### Javier Álvarez Liébana (Fac. Estudios Estadísticos - UCM)
-### Última actualización: 02-11-2022
+### Última actualización: 04-11-2022
 
 ---
 
@@ -1469,7 +1469,7 @@ hoy
 ```
 
 ```
-&gt; [1] "2022-11-02"
+&gt; [1] "2022-11-04"
 ```
 
 --
@@ -1482,7 +1482,7 @@ También podemos obtener el **.bg-purple_light[«hoy y ahora»]** con la funció
 ```
 
 ```
-&gt; [1] "2022-11-02 10:34:12 CET"
+&gt; [1] "2022-11-04 13:09:23 CET"
 ```
  
 ---
@@ -1827,7 +1827,7 @@ hoy - cumple
 ```
 
 ```
-&gt; Time difference of 12106 days
+&gt; Time difference of 12108 days
 ```
 
 ]
@@ -2683,8 +2683,8 @@ x &lt;- rnorm(1e3) # 1000 elementos aleatorias
 ```
 &gt; Unit: microseconds
 &gt;         expr    min      lq     mean  median      uq     max neval cld
-&gt;      sort(x) 42.207 45.7245 55.49711 48.1290 57.4975 175.191  1000   b
-&gt;  x[order(x)] 29.054 31.9130 39.84818 34.7315 40.6025 203.640  1000  a
+&gt;      sort(x) 42.954 50.6870 66.55181 57.2760 82.3535 356.606  1000   b
+&gt;  x[order(x)] 29.488 35.4865 45.63524 39.3405 56.9470 160.467  1000  a
 ```
 
 --
@@ -5441,12 +5441,12 @@ microbenchmark(x^2,
 
 ```
 &gt; Unit: nanoseconds
-&gt;                                     expr     min      lq       mean  median
-&gt;                                      x^2     345     451    1155.41    1021
-&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 1649176 1815828 2196399.28 1976442
-&gt;       uq      max neval cld
-&gt;     1716    19335  1000  a 
-&gt;  2287852 14779979  1000   b
+&gt;                                     expr     min        lq        mean
+&gt;                                      x^2     354     462.5    1236.996
+&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 1692271 1843306.0 2188974.266
+&gt;     median        uq      max neval cld
+&gt;     1074.5    1821.5    22578  1000  a 
+&gt;  1986366.0 2333957.5 15369307  1000   b
 ```
 
 ---
@@ -6861,10 +6861,10 @@ map(x, mean)
 
 ```
 &gt; [[1]]
-&gt; [1] 0.01017055
+&gt; [1] -0.01343428
 &gt; 
 &gt; [[2]]
-&gt; [1] 2.041232
+&gt; [1] 2.026413
 ```
 
 
@@ -6876,11 +6876,11 @@ microbenchmark(map(x, .f = function(x) { mean(x^2) }), lapply(x, FUN = function(
 ```
 &gt; Unit: milliseconds
 &gt;                                            expr      min       lq     mean
-&gt;      map(x, .f = function(x) {     mean(x^2) }) 5.416448 6.601038 8.894889
-&gt;  lapply(x, FUN = function(x) {     mean(x^2) }) 5.331145 6.523271 8.609773
+&gt;      map(x, .f = function(x) {     mean(x^2) }) 5.611868 7.227241 11.42722
+&gt;  lapply(x, FUN = function(x) {     mean(x^2) }) 5.360807 7.084300 11.33867
 &gt;    median       uq      max neval cld
-&gt;  7.699198 9.360569 160.8167  1000   a
-&gt;  7.595048 9.565181 208.1539  1000   a
+&gt;  8.972729 13.87102 199.3372  1000   a
+&gt;  9.916772 14.03851 160.4816  1000   a
 ```
 
 
@@ -9963,9 +9963,9 @@ starwars %&gt;% slice_sample(n = 3)
 &gt; # A tibble: 3 × 14
 &gt;   name         height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
 &gt;   &lt;chr&gt;         &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
-&gt; 1 Lama Su         229    88 none    grey    black        NA male  mascu… Kamino 
+&gt; 1 Finis Valor…    170    NA blond   fair    blue         91 male  mascu… Corusc…
 &gt; 2 Jabba Desil…    175  1358 &lt;NA&gt;    green-… orange      600 herm… mascu… Nal Hu…
-&gt; 3 Lobot           175    79 none    light   blue         37 male  mascu… Bespin 
+&gt; 3 Qui-Gon Jinn    193    89 brown   fair    blue         92 male  mascu… &lt;NA&gt;   
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
@@ -9987,13 +9987,13 @@ starwars %&gt;% slice_sample(prop = 0.025)
 
 ```
 &gt; # A tibble: 2 × 14
-&gt;   name         height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
-&gt;   &lt;chr&gt;         &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
-&gt; 1 Shaak Ti        178    57 none    red, b… black        NA fema… femin… Shili  
-&gt; 2 Quarsh Pana…    183    NA black   dark    brown        62 &lt;NA&gt;  &lt;NA&gt;   Naboo  
+&gt;   name     height  mass hair_color skin_c…¹ eye_c…² birth…³ sex   gender homew…⁴
+&gt;   &lt;chr&gt;     &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;    &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
+&gt; 1 Grievous    216   159 none       brown, … green,…      NA male  mascu… Kalee  
+&gt; 2 Tarfful     234   136 brown      brown    blue         NA male  mascu… Kashyy…
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
-&gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
-&gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​skin_color, ²​eye_color,
+&gt; #   ³​birth_year, ⁴​homeworld
 &gt; # ℹ Use `colnames()` to see all variable names
 ```
 
@@ -10013,8 +10013,8 @@ starwars %&gt;% slice_sample(n = 2, weight_by = c(0.495, 0.495, rep(0.01/85, 85)
 &gt; # A tibble: 2 × 9
 &gt;   name           height  mass hair_color skin_color eye_c…¹ birth…² sex   gender
 &gt;   &lt;chr&gt;           &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
-&gt; 1 Luke Skywalker    172    77 blond      fair       blue         19 male  mascu…
-&gt; 2 C-3PO             167    75 &lt;NA&gt;       gold       yellow      112 none  mascu…
+&gt; 1 C-3PO             167    75 &lt;NA&gt;       gold       yellow      112 none  mascu…
+&gt; 2 Luke Skywalker    172    77 blond      fair       blue         19 male  mascu…
 &gt; # … with abbreviated variable names ¹​eye_color, ²​birth_year
 ```
 
@@ -10028,8 +10028,8 @@ starwars %&gt;% slice_sample(n = 2, weight_by = c(0.495, 0.495, rep(0.01/85, 85)
 &gt; # A tibble: 2 × 9
 &gt;   name           height  mass hair_color skin_color eye_c…¹ birth…² sex   gender
 &gt;   &lt;chr&gt;           &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
-&gt; 1 Luke Skywalker    172    77 blond      fair       blue         19 male  mascu…
-&gt; 2 C-3PO             167    75 &lt;NA&gt;       gold       yellow      112 none  mascu…
+&gt; 1 C-3PO             167    75 &lt;NA&gt;       gold       yellow      112 none  mascu…
+&gt; 2 Luke Skywalker    172    77 blond      fair       blue         19 male  mascu…
 &gt; # … with abbreviated variable names ¹​eye_color, ²​birth_year
 ```
 
@@ -10297,9 +10297,9 @@ starwars %&gt;% slice_sample(n = 3)
 &gt; # A tibble: 3 × 14
 &gt;   name         height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
 &gt;   &lt;chr&gt;         &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
-&gt; 1 Finis Valor…    170    NA blond   fair    blue         91 male  mascu… Corusc…
-&gt; 2 Sly Moore       178    48 none    pale    white        NA &lt;NA&gt;  &lt;NA&gt;   Umbara 
-&gt; 3 Obi-Wan Ken…    182    77 auburn… fair    blue-g…      57 male  mascu… Stewjon
+&gt; 1 Luke Skywal…    172    77 blond   fair    blue         19 male  mascu… Tatooi…
+&gt; 2 Gregar Typho    185    85 black   dark    brown        NA male  mascu… Naboo  
+&gt; 3 Wicket Syst…     88    20 brown   brown   brown         8 male  mascu… Endor  
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
@@ -10315,9 +10315,9 @@ starwars %&gt;% slice_sample(n = 3)
 &gt; # A tibble: 3 × 14
 &gt;   name         height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
 &gt;   &lt;chr&gt;         &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
-&gt; 1 Jek Tono Po…    180   110 brown   fair    blue         NA male  mascu… Bestin…
-&gt; 2 Tarfful         234   136 brown   brown   blue         NA male  mascu… Kashyy…
-&gt; 3 Plo Koon        188    80 none    orange  black        22 male  mascu… Dorin  
+&gt; 1 Anakin Skyw…    188    84 blond   fair    blue       41.9 male  mascu… Tatooi…
+&gt; 2 Saesee Tiin     188    NA none    pale    orange     NA   male  mascu… Iktotch
+&gt; 3 Jabba Desil…    175  1358 &lt;NA&gt;    green-… orange    600   herm… mascu… Nal Hu…
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
@@ -10339,14 +10339,14 @@ starwars %&gt;%
 &gt; # A tibble: 8 × 14
 &gt;   name         height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
 &gt;   &lt;chr&gt;         &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
-&gt; 1 Shmi Skywal…    163    NA black   fair    brown        72 fema… femin… Tatooi…
-&gt; 2 Darth Maul      175    80 none    red     yellow       54 male  mascu… Dathom…
-&gt; 3 Captain Pha…     NA    NA unknown unknown unknown      NA &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt;   
-&gt; 4 Owen Lars       178   120 brown,… light   blue         52 male  mascu… Tatooi…
-&gt; 5 Saesee Tiin     188    NA none    pale    orange       NA male  mascu… Iktotch
-&gt; 6 Ric Olié        183    NA brown   fair    blue         NA &lt;NA&gt;  &lt;NA&gt;   Naboo  
-&gt; 7 Nien Nunb       160    68 none    grey    black        NA male  mascu… Sullust
-&gt; 8 Tion Medon      206    80 none    grey    black        NA male  mascu… Utapau 
+&gt; 1 Taun We         213    NA none    grey    black        NA fema… femin… Kamino 
+&gt; 2 Sebulba         112    40 none    grey, … orange       NA male  mascu… Malast…
+&gt; 3 Wicket Syst…     88    20 brown   brown   brown         8 male  mascu… Endor  
+&gt; 4 Tarfful         234   136 brown   brown   blue         NA male  mascu… Kashyy…
+&gt; 5 Poggle the …    183    80 none    green   yellow       NA male  mascu… Geonos…
+&gt; 6 Captain Pha…     NA    NA unknown unknown unknown      NA &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt;   
+&gt; 7 Ratts Tyere…     79    15 none    grey, … unknown      NA male  mascu… Aleen …
+&gt; 8 Lando Calri…    177    79 black   dark    brown        31 male  mascu… Socorro
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
@@ -12548,10 +12548,267 @@ starwars_nueva %&gt;%
 
 ]
 
+
 ---
 
-class: inverse center middle
-name: bloque-8
+# CONCURSO
+
+Vamos a jugar:
+
+* Se os plantearán **.bg-purple_light[3 ejercicios (con apartados) y deberías encontrar la solución]** correcta y programarla SIGUIENDO LAS INSTRUCCIONES.
+
+--
+
+* Una vez que creáis que la tenéis me llamáis y preguntaré a un **.bg-purple_light[miembro cualquiera del grupo]** que me explique la solución (ergo todos los miembros deberán saber que se ha hecho).
+
+* El **.bg-purple_light[primer grupo]** que me responda correctamente se lleva **.bg-purple_light[2.5 puntos]**, el segundo 1.5, el tercero 1 punto y el cuarto 0.75. Los demás no puntuan.
+
+--
+
+* Ojo: **.bg-purple_light[llamadme cuanto estéis seguros]**. Si me llamáis y la respuesta es incorrecta, se os restará 0.5 puntos.
+
+--
+
+* El grupo con más puntos en cada ejercicio (compuesto de varios apartados) será **.bg-purple_light[invitado a refresco, café, infusión o bebida X (por persona)]** en la cafetería (si un grupo ha ganado un ejercicio, puede volver a ganar el siguiente y se llevaría 2 cada uno)
+
+---
+
+# Ejercicio 2, hoja 2
+
+&gt; En un control de calidad se analiza el número de productos defectuosos de diferentes lotes, obteniendo los siguientes datos
+
+&gt; 6, 7, 8, 4, 6, 7, 7, 5, 6, 4, 8, 11, 3, 6, 7, 4, 3, 5, 5, 4, 2, 3, 3, 3, 4, 5, 8, 6, 4, 8, 5, 5, 5, 4, 2, 5, 3, 4, 4, 8, 6, 7, 5, 5, 5, 5, 2, 11, 10, 8, 4, 8, 3, 4, 7, 2, 4, 6, 9, 10
+
+**.bg-purple_light[Primer paso]**: define nuestra base de datos de la mejor manera posible para su futuro uso.
+
+--
+
+
+```r
+datos &lt;-
+  tibble(x = c(6, 7, 8, 4, 6, 7, 7, 5, 6, 4, 8, 11, 3,
+               6, 7, 4, 3, 5, 5, 4, 2, 3, 3, 3, 4, 5,
+               8, 6, 4, 8, 5, 5, 5, 4, 2, 5, 3, 4, 4,
+               8, 6, 7, 5, 5, 5, 5, 2, 11, 10, 8, 4, 8,
+               3, 4, 7, 2, 4, 6, 9, 10))
+datos
+```
+
+```
+&gt; # A tibble: 60 × 1
+&gt;        x
+&gt;    &lt;dbl&gt;
+&gt;  1     6
+&gt;  2     7
+&gt;  3     8
+&gt;  4     4
+&gt;  5     6
+&gt;  6     7
+&gt;  7     7
+&gt;  8     5
+&gt;  9     6
+&gt; 10     4
+&gt; # … with 50 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
+```
+
+
+---
+
+# Ejercicio 2, hoja 2
+
+&gt; Resume los datos de manera numérica (lo que sea posible)
+
+Nos piden construir la **.bg-purple_light[tabla de frecuencias]** y para ello, como sucede la hacerlas a mano, lo más importante es `\(n\)` (la frecuencia absoluta). Recuerda: la frecuencia absoluta es simplemente un **.bg-purple_light[conteo]** de los valores que tenemos.
+
+--
+
+
+```r
+tabla_frec &lt;- 
+  datos %&gt;% count(x)
+tabla_frec
+```
+
+```
+&gt; # A tibble: 10 × 2
+&gt;        x     n
+&gt;    &lt;dbl&gt; &lt;int&gt;
+&gt;  1     2     4
+&gt;  2     3     7
+&gt;  3     4    12
+&gt;  4     5    12
+&gt;  5     6     7
+&gt;  6     7     6
+&gt;  7     8     7
+&gt;  8     9     1
+&gt;  9    10     2
+&gt; 10    11     2
+```
+
+---
+
+# Ejercicio 2, hoja 2
+
+A partir de esa tabla podremos construir el resto de columnas de la tabla de frecuencias **.bg-purple_light[tabla de frecuencias]** y para ello, como sucede la hacerlas a mano, lo más importante es `\(n\)` (la frecuencia absoluta).
+
+--
+
+
+```r
+tabla_frec &lt;- 
+  tabla_frec %&gt;% 
+  mutate(N = cumsum(n), f_i = n/sum(n), F_i = cumsum(f_i))
+tabla_frec
+```
+
+```
+&gt; # A tibble: 10 × 5
+&gt;        x     n     N    f_i    F_i
+&gt;    &lt;dbl&gt; &lt;int&gt; &lt;int&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+&gt;  1     2     4     4 0.0667 0.0667
+&gt;  2     3     7    11 0.117  0.183 
+&gt;  3     4    12    23 0.2    0.383 
+&gt;  4     5    12    35 0.2    0.583 
+&gt;  5     6     7    42 0.117  0.7   
+&gt;  6     7     6    48 0.1    0.8   
+&gt;  7     8     7    55 0.117  0.917 
+&gt;  8     9     1    56 0.0167 0.933 
+&gt;  9    10     2    58 0.0333 0.967 
+&gt; 10    11     2    60 0.0333 1
+```
+
+---
+
+# Ejercicio 2, hoja 2
+
+¿Cómo añadiríamos las columnas `\(f_i * x_i\)` y `\(f_i* x_{i}^{2}\)` que necesitaríamos si el ejercicio lo hiciésemos a mano?
+
+--
+
+
+```r
+tabla_frec &lt;- 
+  tabla_frec %&gt;% 
+  mutate(f_x = f_i * x, f_x2 = f_i * x^2)
+tabla_frec
+```
+
+```
+&gt; # A tibble: 10 × 7
+&gt;        x     n     N    f_i    F_i   f_x  f_x2
+&gt;    &lt;dbl&gt; &lt;int&gt; &lt;int&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+&gt;  1     2     4     4 0.0667 0.0667 0.133 0.267
+&gt;  2     3     7    11 0.117  0.183  0.35  1.05 
+&gt;  3     4    12    23 0.2    0.383  0.8   3.2  
+&gt;  4     5    12    35 0.2    0.583  1     5    
+&gt;  5     6     7    42 0.117  0.7    0.7   4.2  
+&gt;  6     7     6    48 0.1    0.8    0.7   4.9  
+&gt;  7     8     7    55 0.117  0.917  0.933 7.47 
+&gt;  8     9     1    56 0.0167 0.933  0.15  1.35 
+&gt;  9    10     2    58 0.0333 0.967  0.333 3.33 
+&gt; 10    11     2    60 0.0333 1      0.367 4.03
+```
+
+---
+
+# Ejercicio 2, hoja 2
+
+¿Cómo calcularías, usando la tabla (y sin usar ningún `$` ni corchetes), la media, la varianza, la desviación típica y el CV, como si el ejercicio lo hiciésemos a mano?
+
+--
+
+
+```r
+tabla_frec %&gt;% 
+  summarise(media = sum(f_x), var = sum(f_x2) - media^2,
+            sd = sqrt(var), CV = sd / abs(media))
+```
+
+```
+&gt; # A tibble: 1 × 4
+&gt;   media   var    sd    CV
+&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+&gt; 1  5.47  4.92  2.22 0.406
+```
+
+---
+
+# Ejercicio 2, hoja 2
+
+¿Cómo calcularías la moda (no hace falta ya usar la tabla de frecuencias)? Sin usar dolares ni corchetes
+
+--
+
+
+```r
+datos %&gt;% 
+  count(x) %&gt;% 
+  slice_max(n, n = 1)
+```
+
+```
+&gt; # A tibble: 2 × 2
+&gt;       x     n
+&gt;   &lt;dbl&gt; &lt;int&gt;
+&gt; 1     4    12
+&gt; 2     5    12
+```
+
+---
+
+# Ejercicio 2, hoja 2
+
+Una de las ventajas de usar R: no necesitaremos la tabla de frecuencias, podemos calcular todo con los datos reales (sin resumir). 
+
+¿Y la media, varianza, sd, CV, mediana y los cuartiles `\(q_1,q_2,q_3\)` (todos devueltos en la misma tabla) SIN usar ningún `$` y SIN usar la tabla de frecuencias (usando los datos originales)? Sin usar dolares ni corchetes
+
+--
+
+
+```r
+datos %&gt;% 
+  drop_na(x) %&gt;% 
+  summarise(media = mean(x), cuasi_var = var(x), var = mean(x^2) - mean(x),
+            sd = sqrt(var), CV = sd / abs(media), mediana = median(x),
+            p25 = quantile(x, probs = 0.25), p75 = quantile(x, probs = 0.75))
+```
+
+```
+&gt; # A tibble: 1 × 8
+&gt;   media cuasi_var   var    sd    CV mediana   p25   p75
+&gt;   &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+&gt; 1  5.47      5.00  29.3  5.42 0.991       5     4     7
+```
+
+---
+
+# Ejercicio 2, hoja 2
+
+¿Qué porcentaje de los lotes tienen 7 o menos piezas defectuosas? 
+
+--
+
+
+```r
+datos %&gt;%
+  group_by(x &lt;= 7) %&gt;% 
+  count() %&gt;% 
+  ungroup() %&gt;% 
+  mutate(porc = 100 * n / sum(n))
+```
+
+```
+&gt; # A tibble: 2 × 3
+&gt;   `x &lt;= 7`     n  porc
+&gt;   &lt;lgl&gt;    &lt;int&gt; &lt;dbl&gt;
+&gt; 1 FALSE       12    20
+&gt; 2 TRUE        48    80
+```
+
+
+---
+
 
 # BLOQUE VIII: visualizando datos
 

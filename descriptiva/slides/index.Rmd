@@ -7949,10 +7949,163 @@ starwars_nueva %>%
 
 ]
 
+
 ---
 
-class: inverse center middle
-name: bloque-8
+# CONCURSO
+
+Vamos a jugar:
+
+* Se os plantearán **.bg-purple_light[3 ejercicios (con apartados) y deberías encontrar la solución]** correcta y programarla SIGUIENDO LAS INSTRUCCIONES.
+
+--
+
+* Una vez que creáis que la tenéis me llamáis y preguntaré a un **.bg-purple_light[miembro cualquiera del grupo]** que me explique la solución (ergo todos los miembros deberán saber que se ha hecho).
+
+* El **.bg-purple_light[primer grupo]** que me responda correctamente se lleva **.bg-purple_light[2.5 puntos]**, el segundo 1.5, el tercero 1 punto y el cuarto 0.75. Los demás no puntuan.
+
+--
+
+* Ojo: **.bg-purple_light[llamadme cuanto estéis seguros]**. Si me llamáis y la respuesta es incorrecta, se os restará 0.5 puntos.
+
+--
+
+* El grupo con más puntos en cada ejercicio (compuesto de varios apartados) será **.bg-purple_light[invitado a refresco, café, infusión o bebida X (por persona)]** en la cafetería (si un grupo ha ganado un ejercicio, puede volver a ganar el siguiente y se llevaría 2 cada uno)
+
+---
+
+# Ejercicio 2, hoja 2
+
+> En un control de calidad se analiza el número de productos defectuosos de diferentes lotes, obteniendo los siguientes datos
+
+> 6, 7, 8, 4, 6, 7, 7, 5, 6, 4, 8, 11, 3, 6, 7, 4, 3, 5, 5, 4, 2, 3, 3, 3, 4, 5, 8, 6, 4, 8, 5, 5, 5, 4, 2, 5, 3, 4, 4, 8, 6, 7, 5, 5, 5, 5, 2, 11, 10, 8, 4, 8, 3, 4, 7, 2, 4, 6, 9, 10
+
+**.bg-purple_light[Primer paso]**: define nuestra base de datos de la mejor manera posible para su futuro uso.
+
+--
+
+```{r}
+datos <-
+  tibble(x = c(6, 7, 8, 4, 6, 7, 7, 5, 6, 4, 8, 11, 3,
+               6, 7, 4, 3, 5, 5, 4, 2, 3, 3, 3, 4, 5,
+               8, 6, 4, 8, 5, 5, 5, 4, 2, 5, 3, 4, 4,
+               8, 6, 7, 5, 5, 5, 5, 2, 11, 10, 8, 4, 8,
+               3, 4, 7, 2, 4, 6, 9, 10))
+datos
+```
+
+
+---
+
+# Ejercicio 2, hoja 2
+
+> Resume los datos de manera numérica (lo que sea posible)
+
+Nos piden construir la **.bg-purple_light[tabla de frecuencias]** y para ello, como sucede la hacerlas a mano, lo más importante es $n$ (la frecuencia absoluta). Recuerda: la frecuencia absoluta es simplemente un **.bg-purple_light[conteo]** de los valores que tenemos.
+
+--
+
+```{r}
+tabla_frec <- 
+  datos %>% count(x)
+tabla_frec
+```
+
+---
+
+# Ejercicio 2, hoja 2
+
+A partir de esa tabla podremos construir el resto de columnas de la tabla de frecuencias **.bg-purple_light[tabla de frecuencias]** y para ello, como sucede la hacerlas a mano, lo más importante es $n$ (la frecuencia absoluta).
+
+--
+
+```{r}
+tabla_frec <- 
+  tabla_frec %>% 
+  mutate(N = cumsum(n), f_i = n/sum(n), F_i = cumsum(f_i))
+tabla_frec
+```
+
+---
+
+# Ejercicio 2, hoja 2
+
+¿Cómo añadiríamos las columnas $f_i * x_i$ y $f_i* x_{i}^{2}$ que necesitaríamos si el ejercicio lo hiciésemos a mano?
+
+--
+
+```{r}
+tabla_frec <- 
+  tabla_frec %>% 
+  mutate(f_x = f_i * x, f_x2 = f_i * x^2)
+tabla_frec
+```
+
+---
+
+# Ejercicio 2, hoja 2
+
+¿Cómo calcularías, usando la tabla (y sin usar ningún `$` ni corchetes), la media, la varianza, la desviación típica y el CV, como si el ejercicio lo hiciésemos a mano?
+
+--
+
+```{r}
+tabla_frec %>% 
+  summarise(media = sum(f_x), var = sum(f_x2) - media^2,
+            sd = sqrt(var), CV = sd / abs(media))
+```
+
+---
+
+# Ejercicio 2, hoja 2
+
+¿Cómo calcularías la moda (no hace falta ya usar la tabla de frecuencias)? Sin usar dolares ni corchetes
+
+--
+
+```{r}
+datos %>% 
+  count(x) %>% 
+  slice_max(n, n = 1)
+```
+
+---
+
+# Ejercicio 2, hoja 2
+
+Una de las ventajas de usar R: no necesitaremos la tabla de frecuencias, podemos calcular todo con los datos reales (sin resumir). 
+
+¿Y la media, varianza, sd, CV, mediana y los cuartiles $q_1,q_2,q_3$ (todos devueltos en la misma tabla) SIN usar ningún `$` y SIN usar la tabla de frecuencias (usando los datos originales)? Sin usar dolares ni corchetes
+
+--
+
+```{r}
+datos %>% 
+  drop_na(x) %>% 
+  summarise(media = mean(x), cuasi_var = var(x), var = mean(x^2) - mean(x),
+            sd = sqrt(var), CV = sd / abs(media), mediana = median(x),
+            p25 = quantile(x, probs = 0.25), p75 = quantile(x, probs = 0.75))
+```
+
+---
+
+# Ejercicio 2, hoja 2
+
+¿Qué porcentaje de los lotes tienen 7 o menos piezas defectuosas? 
+
+--
+
+```{r}
+datos %>%
+  group_by(x <= 7) %>% 
+  count() %>% 
+  ungroup() %>% 
+  mutate(porc = 100 * n / sum(n))
+```
+
+
+---
+
 
 # BLOQUE VIII: visualizando datos
 

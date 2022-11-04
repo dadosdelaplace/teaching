@@ -642,6 +642,207 @@ starwars %>%
          F_i = cumsum(N_i))
 ```
 
+## Agrupar: group_by()
+
+
+Una de las funciones más potentes a combinar con `count()` es `group_by()`  que nos permitirá **agrupar nuestros registros**. La idea sería la siguiente
+
+```{r eval = FALSE}
+datos %>%
+  agrupar(var_grupo1, var_grupo2) %>% 
+  contar() %>% 
+  desagrupar()
+```
+
+
+Cuando apliquemos `group_by()` es importante entender que **NO MODIFICA los datos**: nos crea una variable de grupo que **modificará las acciones futuras** que apliquemos, generando una especie de generar **múltiples subtablas**, y las operaciones aplicadas después se **aplicarán a cada una por separado**.
+
+
+Por ejemplo, imagina que queremos saber el **número de registros por sexo]**: primero **agruparemos** por la variable `sex`, y después aplicaremos el **conteo** con `count()` (realiza la acción pedida en cada subtabla).
+
+```{r}
+starwars %>%
+  group_by(sex) %>% #<< 
+  count() %>%
+  ungroup() #<<
+```
+
+**IMPORTANTE**: siempre que agrupes, acuérdate de desagrupar con `ungroup()`.
+
+
+Podemos **agrupar por variables**, por ejemplo vamos a agrupar por `sex` y `gender`, y después aplicaremos `count()` (realiza la acción en cada subtabla).
+
+```{r}
+starwars %>%
+  group_by(sex, gender) %>% #<< 
+  count() %>%
+  ungroup() #<<
+```
+
+## Resumir: summarise()
+
+La agrupación `group_by()` es una idea superpotente porque permite **desagregar cualquier acción posterior**, entre otras, la función `summarise()`, que nos permite **resumir**. La idea sería la siguiente:
+
+```{r eval = FALSE}
+datos %>%
+  agrupar(var_grupo1, var_grupo2) %>% 
+  resumir() %>% 
+  desagrupar()
+```
+
+
+Un ejemplo: vamos a calcular la **media de las alturas**. Si lo hacemos sin `group_by()` se hará de todos los personajes.
+
+```{r}
+starwars %>% drop_na(height) %>%
+  summarise(media_altura = mean(height))
+```
+
+Dentro de `summarise()` podrás definir cada estadístico como el `nombre = ` seguido de la función a aplicar (que exista o tuya propia definida anteriormente).
+
+Si la misma acción la realizamos con un `group_by()` previo, la media de las alturas se **calculará de manera desagregada** (por sexos por ejemplo), de forma independiente en cada subtabla por grupo creada.
+
+```{r}
+starwars %>% 
+  drop_na(height) %>%
+  group_by(sex) %>% 
+  summarise(media = mean(height)) %>%
+  ungroup()
+```
+
+### summarise() + across()
+
+Podemos **resumir varias variables** a la vez combinándolo con la función `across()`: primero indicamos las **variables a recorrer** (por ejemplo, `height:mass`), después la función a aplicar (en este caso, la media `mean()`), y por último argumentos extras si fuesen necesarios (por ejemplo, `na.rm = TRUE`)
+
+```{r}
+starwars %>%
+  group_by(sex) %>% #<<
+  summarise(medias = across(height:mass, mean, na.rm = TRUE)) %>% #<<
+  ungroup()
+```
+
+Además la función `across()` podemos combinarla con un viejo conocido, `where()`, para que **resuma las variables de un tipo**, por ejemplo `where(is.numeric)` selecciona solo las numéricas.
+
+```{r}
+starwars %>%
+  drop_na(height, mass) %>%
+  group_by(sex, gender) %>%
+  summarise(across(where(is.numeric), mean)) %>%
+  ungroup()
+```
+
+Algunas de las funciones más útiles dentro de `summarise()`:
+
+* `sum()`, `mean()`, `median()`
+* `min()`, `which.min()`, `max()`, `which.max()`
+* `n()` (número de registros), `n_distinct()` (número de registros únicos).
+
+```{r}
+starwars %>%
+  summarise(valores_unicos = n_distinct(eye_color))
+```
+
+# Ejercicios de las hojas con R
+
+## Ejercicio 2, hoja 2
+
+### Definir la base de datos
+
+> En un control de calidad se analiza el número de productos defectuosos de diferentes lotes, obteniendo los siguientes datos
+
+> 6, 7, 8, 4, 6, 7, 7, 5, 6, 4, 8, 11, 3, 6, 7, 4, 3, 5, 5, 4, 2, 3, 3, 3, 4, 5, 8, 6, 4, 8, 5, 5, 5, 4, 2, 5, 3, 4, 4, 8, 6, 7, 5, 5, 5, 5, 2, 11, 10, 8, 4, 8, 3, 4, 7, 2, 4, 6, 9, 10
+
+**.bg-purple_light[Primer paso]**: definir nuestra base de datos de la mejor manera posible para su futuro uso.
+
+
+```{r}
+datos <-
+  tibble(x = c(6, 7, 8, 4, 6, 7, 7, 5, 6, 4, 8, 11, 3,
+               6, 7, 4, 3, 5, 5, 4, 2, 3, 3, 3, 4, 5,
+               8, 6, 4, 8, 5, 5, 5, 4, 2, 5, 3, 4, 4,
+               8, 6, 7, 5, 5, 5, 5, 2, 11, 10, 8, 4, 8,
+               3, 4, 7, 2, 4, 6, 9, 10))
+datos
+```
+
+
+### Tabla de frecuencias
+
+> Resume los datos de manera numérica (lo que sea posible)
+
+Nos piden construir la **tabla de frecuencias** y para ello, como sucede la hacerlas a mano, lo más importante es $n$ (la frecuencia absoluta). Recuerda: la frecuencia absoluta es simplemente un **conteo** de los valores que tenemos. A partir de esa tabla podremos construir el resto de columnas de la tabla de frecuencias **tabla de frecuencias** y para ello, como sucede la hacerlas a mano, lo más importante es $n$ (la frecuencia absoluta).
+
+```{r}
+tabla_frec <- 
+  datos %>%
+  count(x) %>%
+  mutate(N = cumsum(n), f_i = n/sum(n), F_i = cumsum(f_i))
+tabla_frec
+```
+
+
+### Añadir columnas
+
+¿Cómo añadiríamos las columnas $f_i * x_i$ y $f_i* x_{i}^{2}$ que necesitaríamos si el ejercicio lo hiciésemos a mano?
+
+
+```{r}
+tabla_frec <- 
+  tabla_frec %>% 
+  mutate(f_x = f_i * x, f_x2 = f_i * x^2)
+tabla_frec
+```
+
+### Media y varianza (con tabla de frec)
+
+¿Cómo calcularías, usando la tabla (y sin usar ningún `$` ni corchetes), la media, la varianza, la desviación típica y el CV, como si el ejercicio lo hiciésemos a mano?
+
+```{r}
+tabla_frec %>% 
+  summarise(media = sum(f_x), var = sum(f_x2) - media^2,
+            sd = sqrt(var), CV = sd / abs(media))
+```
+
+
+¿Cómo calcularías la moda (no hace falta ya usar la tabla de frecuencias)? Sin usar dolares ni corchetes
+
+
+
+```{r}
+datos %>% 
+  count(x) %>% 
+  slice_max(n, n = 1)
+```
+
+### Media, varianza, etc (sin tabla de frecuencias)
+
+Una de las ventajas de usar R: no necesitaremos la tabla de frecuencias, podemos calcular todo con los datos reales (sin resumir). ¿Y la media, varianza, sd, CV, mediana y los cuartiles $q_1,q_2,q_3$ (todos devueltos en la misma tabla) SIN usar ningún `$` y SIN usar la tabla de frecuencias (usando los datos originales)? Sin usar dolares ni corchetes
+
+
+```{r}
+datos %>% 
+  drop_na(x) %>% 
+  summarise(media = mean(x), cuasi_var = var(x),
+            var = mean(x^2) - mean(x),
+            sd = sqrt(var), CV = sd / abs(media),
+            mediana = median(x),
+            p25 = quantile(x, probs = 0.25),
+            p75 = quantile(x, probs = 0.75))
+```
+
+
+¿Qué porcentaje de los lotes tienen 7 o menos piezas defectuosas? 
+
+
+```{r}
+datos %>%
+  group_by(x <= 7) %>% 
+  count() %>% 
+  ungroup() %>% 
+  mutate(porc = 100 * n / sum(n))
+```
+
+
 
 
 
