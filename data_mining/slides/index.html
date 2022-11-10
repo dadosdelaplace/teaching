@@ -24,7 +24,7 @@ class: center, middle, inverse, title-slide
 # Técnicas de minería de datos
 ## Máster en Minería de Datos e Inteligencia de Negocio
 ### Javier Álvarez Liébana (Fac. Estudios Estadísticos - UCM)
-### Última actualización: 31-10-2022
+### Última actualización: 10-11-2022
 
 ---
 
@@ -201,22 +201,30 @@ class: inverse center middle
 
 &amp;nbsp;
 
+.pull-left[
 
 #### [CLASE 1: INTRODUCCIÓN A R](#clase-1)
 
-#### [CLASE 2: PRIMEROS DATOS. PRIMEROS CONCEPTOS](#clase-2)
+#### [CLASE 2: PRIMEROS DATOS Y CONCEPTOS](#clase-2)
 
 #### [CLASE 3: TIDYDATA](#clase-3)
 
 #### [CLASE 4: INTRO A LA MINERÍA (SEMMA)](#clase-4)
 
-#### [CLASE 5: PRIMER ALGORITMO DE CLASIFICACIÓN (KNN)](#clase-5)
-
-#### [CLASE 5: PRIMER ALGORITMO DE CLASIFICACIÓN (KNN)](#clase-5)
+#### [CLASE 5: PRIMER ALGORITMO (KNN)](#clase-5)
 
 #### [CLASE 6: DEPURACIÓN PARA KNN](#clase-6)
 
+]
+
+.pull-right[
+
 #### [CLASE 7: MODELIZANDO CON TIDYMODELS (KNN)](#clase-7)
+
+#### [CLASE 8: PROFUNDIZANDO EN TIDYMODELS (KNN)](#clase-8)
+
+]
+
 
 ---
 
@@ -2012,7 +2020,7 @@ hoy
 ```
 
 ```
-&gt; [1] "2022-10-31"
+&gt; [1] "2022-11-10"
 ```
 
 --
@@ -2025,7 +2033,7 @@ También podemos obtener el **.bg-purple_light[«hoy y ahora»]** con la funció
 ```
 
 ```
-&gt; [1] "2022-10-31 00:31:48 CET"
+&gt; [1] "2022-11-10 17:44:27 CET"
 ```
  
 ---
@@ -2409,7 +2417,7 @@ hoy - cumple
 ```
 
 ```
-&gt; Time difference of 12104 days
+&gt; Time difference of 12114 days
 ```
 
 ]
@@ -3087,8 +3095,8 @@ x &lt;- rnorm(1e3) # 1000 elementos aleatorias
 ```
 &gt; Unit: microseconds
 &gt;         expr    min      lq     mean  median      uq     max neval cld
-&gt;      sort(x) 41.448 48.2835 57.20525 51.6515 59.4690 177.824  1000   b
-&gt;  x[order(x)] 29.609 33.3060 39.58719 36.9235 40.7185 109.338  1000  a
+&gt;      sort(x) 42.176 44.9285 53.35051 48.3740 56.8795 211.101  1000   b
+&gt;  x[order(x)] 29.358 31.5075 36.93866 33.4545 38.9770 155.639  1000  a
 ```
 
 
@@ -6344,12 +6352,12 @@ microbenchmark(x^2,
 
 ```
 &gt; Unit: nanoseconds
-&gt;                                     expr     min      lq        mean    median
-&gt;                                      x^2     347     461    1139.698    1003.5
-&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 1739141 1878165 2130734.069 1968732.0
-&gt;       uq      max neval cld
-&gt;     1610    19014  1000  a 
-&gt;  2148954 15346823  1000   b
+&gt;                                     expr     min      lq        mean  median
+&gt;                                      x^2     345     485    1459.217    1137
+&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 1696287 1967806 2650110.188 2266152
+&gt;         uq      max neval cld
+&gt;     2071.5    31211  1000  a 
+&gt;  2764661.0 69601759  1000   b
 ```
 
 ---
@@ -9814,11 +9822,11 @@ starwars %&gt;% slice_sample(n = 3)
 
 ```
 &gt; # A tibble: 3 × 14
-&gt;   name         height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
-&gt;   &lt;chr&gt;         &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
-&gt; 1 Gregar Typho    185    85 black   dark    brown        NA male  mascu… Naboo  
-&gt; 2 Tion Medon      206    80 none    grey    black        NA male  mascu… Utapau 
-&gt; 3 Jar Jar Bin…    196    66 none    orange  orange       52 male  mascu… Naboo  
+&gt;   name       height  mass hair_co…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
+&gt;   &lt;chr&gt;       &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
+&gt; 1 Wat Tambor    193    48 none      green,… unknown      NA male  mascu… Skako  
+&gt; 2 Mace Windu    188    84 none      dark    brown        72 male  mascu… Haruun…
+&gt; 3 Bossk         190   113 none      green   red          53 male  mascu… Trando…
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
@@ -9841,10 +9849,10 @@ starwars %&gt;% slice_sample(prop = 0.05, replace = TRUE)
 &gt; # A tibble: 4 × 14
 &gt;   name         height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
 &gt;   &lt;chr&gt;         &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
-&gt; 1 Wilhuff Tar…    180    NA auburn… fair    blue         64 male  mascu… Eriadu 
-&gt; 2 Jek Tono Po…    180   110 brown   fair    blue         NA male  mascu… Bestin…
-&gt; 3 Finn             NA    NA black   dark    dark         NA male  mascu… &lt;NA&gt;   
-&gt; 4 Plo Koon        188    80 none    orange  black        22 male  mascu… Dorin  
+&gt; 1 Han Solo        180    80 brown   fair    brown      29   male  mascu… Corell…
+&gt; 2 Taun We         213    NA none    grey    black      NA   fema… femin… Kamino 
+&gt; 3 Mon Mothma      150    NA auburn  fair    blue       48   fema… femin… Chandr…
+&gt; 4 Anakin Skyw…    188    84 blond   fair    blue       41.9 male  mascu… Tatooi…
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
@@ -9867,8 +9875,8 @@ starwars %&gt;% slice_sample(n = 2, weight_by = c(0.495, 0.495, rep(0.01/85, 85)
 &gt; # A tibble: 2 × 9
 &gt;   name           height  mass hair_color skin_color eye_c…¹ birth…² sex   gender
 &gt;   &lt;chr&gt;           &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
-&gt; 1 C-3PO             167    75 &lt;NA&gt;       gold       yellow      112 none  mascu…
-&gt; 2 Luke Skywalker    172    77 blond      fair       blue         19 male  mascu…
+&gt; 1 Luke Skywalker    172    77 blond      fair       blue         19 male  mascu…
+&gt; 2 C-3PO             167    75 &lt;NA&gt;       gold       yellow      112 none  mascu…
 &gt; # … with abbreviated variable names ¹​eye_color, ²​birth_year
 ```
 
@@ -9882,8 +9890,8 @@ starwars %&gt;% slice_sample(n = 2, weight_by = c(0.495, 0.495, rep(0.01/85, 85)
 &gt; # A tibble: 2 × 9
 &gt;   name           height  mass hair_color skin_color eye_c…¹ birth…² sex   gender
 &gt;   &lt;chr&gt;           &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
-&gt; 1 Luke Skywalker    172    77 blond      fair       blue         19 male  mascu…
-&gt; 2 C-3PO             167    75 &lt;NA&gt;       gold       yellow      112 none  mascu…
+&gt; 1 C-3PO             167    75 &lt;NA&gt;       gold       yellow      112 none  mascu…
+&gt; 2 Luke Skywalker    172    77 blond      fair       blue         19 male  mascu…
 &gt; # … with abbreviated variable names ¹​eye_color, ²​birth_year
 ```
 
@@ -10054,16 +10062,16 @@ starwars %&gt;%
 &gt; # A tibble: 38 × 14
 &gt;    name        height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
 &gt;    &lt;chr&gt;        &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
-&gt;  1 Dormé          165  NA   brown   light   brown        NA fema… femin… Naboo  
-&gt;  2 Leia Organa    150  49   brown   light   brown        19 fema… femin… Aldera…
-&gt;  3 Padmé Amid…    165  45   brown   light   brown        46 fema… femin… Naboo  
-&gt;  4 Ayla Secura    178  55   none    blue    hazel        48 fema… femin… Ryloth 
-&gt;  5 Luminara U…    170  56.2 black   yellow  blue         58 fema… femin… Mirial 
-&gt;  6 Zam Wesell     168  55   blonde  fair, … yellow       NA fema… femin… Zolan  
-&gt;  7 Jocasta Nu     167  NA   white   fair    blue         NA fema… femin… Corusc…
-&gt;  8 Mon Mothma     150  NA   auburn  fair    blue         48 fema… femin… Chandr…
-&gt;  9 Bail Prest…    191  NA   black   tan     brown        67 male  mascu… Aldera…
-&gt; 10 Jango Fett     183  79   black   tan     brown        66 male  mascu… Concor…
+&gt;  1 Rey             NA    NA brown   light   hazel        NA fema… femin… &lt;NA&gt;   
+&gt;  2 Barriss Of…    166    50 black   yellow  blue         40 fema… femin… Mirial 
+&gt;  3 Beru White…    165    75 brown   light   blue         47 fema… femin… Tatooi…
+&gt;  4 Taun We        213    NA none    grey    black        NA fema… femin… Kamino 
+&gt;  5 Zam Wesell     168    55 blonde  fair, … yellow       NA fema… femin… Zolan  
+&gt;  6 Adi Gallia     184    50 none    dark    blue         NA fema… femin… Corusc…
+&gt;  7 Shmi Skywa…    163    NA black   fair    brown        72 fema… femin… Tatooi…
+&gt;  8 Dormé          165    NA brown   light   brown        NA fema… femin… Naboo  
+&gt;  9 Dud Bolt        94    45 none    blue, … yellow       NA male  mascu… Vulpter
+&gt; 10 Biggs Dark…    183    84 black   light   brown        24 male  mascu… Tatooi…
 &gt; # … with 28 more rows, 4 more variables: species &lt;chr&gt;, films &lt;list&gt;,
 &gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names
 &gt; #   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
@@ -10434,16 +10442,16 @@ starwars %&gt;%
 &gt; # A tibble: 49 × 15
 &gt;    name        height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
 &gt;    &lt;chr&gt;        &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
-&gt;  1 Bossk          190   113 none    green   red          53 male  mascu… Trando…
-&gt;  2 Dexter Jet…    198   102 none    brown   yellow       NA male  mascu… Ojom   
-&gt;  3 Plo Koon       188    80 none    orange  black        22 male  mascu… Dorin  
-&gt;  4 R4-P17          96    NA none    silver… red, b…      NA none  femin… &lt;NA&gt;   
-&gt;  5 C-3PO          167    75 &lt;NA&gt;    gold    yellow      112 none  mascu… Tatooi…
-&gt;  6 Wat Tambor     193    48 none    green,… unknown      NA male  mascu… Skako  
-&gt;  7 Zam Wesell     168    55 blonde  fair, … yellow       NA fema… femin… Zolan  
-&gt;  8 Eeth Koth      171    NA black   brown   brown        NA male  mascu… Iridon…
-&gt;  9 Jabba Desi…    175  1358 &lt;NA&gt;    green-… orange      600 herm… mascu… Nal Hu…
-&gt; 10 Jar Jar Bi…    196    66 none    orange  orange       52 male  mascu… Naboo  
+&gt;  1 Nien Nunb      160    68 none    grey    black        NA male  mascu… Sullust
+&gt;  2 Watto          137    NA black   blue, … yellow       NA male  mascu… Toydar…
+&gt;  3 IG-88          200   140 none    metal   red          15 none  mascu… &lt;NA&gt;   
+&gt;  4 Yoda            66    17 white   green   brown       896 male  mascu… &lt;NA&gt;   
+&gt;  5 Dud Bolt        94    45 none    blue, … yellow       NA male  mascu… Vulpter
+&gt;  6 Yarael Poof    264    NA none    white   yellow       NA male  mascu… Quermia
+&gt;  7 Dexter Jet…    198   102 none    brown   yellow       NA male  mascu… Ojom   
+&gt;  8 Mas Amedda     196    NA none    blue    blue         NA male  mascu… Champa…
+&gt;  9 Gasgano        122    NA none    white,… black        NA male  mascu… Troiken
+&gt; 10 Zam Wesell     168    55 blonde  fair, … yellow       NA fema… femin… Zolan  
 &gt; # … with 39 more rows, 5 more variables: species &lt;chr&gt;, films &lt;list&gt;,
 &gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, `species == "Human"` &lt;lgl&gt;, and
 &gt; #   abbreviated variable names ¹​hair_color, ²​skin_color, ³​eye_color,
@@ -10466,13 +10474,13 @@ starwars %&gt;%
 
 ```
 &gt; # A tibble: 5 × 14
-&gt;   name        height   mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
-&gt;   &lt;chr&gt;        &lt;int&gt;  &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
-&gt; 1 Luminara U…    170   56.2 black   yellow  blue         58 fema… femin… Mirial 
-&gt; 2 Jabba Desi…    175 1358   &lt;NA&gt;    green-… orange      600 herm… mascu… Nal Hu…
-&gt; 3 Dooku          193   80   white   fair    brown       102 male  mascu… Serenno
-&gt; 4 R5-D4           97   32   &lt;NA&gt;    white,… red          NA none  mascu… Tatooi…
-&gt; 5 Captain Ph…     NA   NA   unknown unknown unknown      NA &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt;   
+&gt;   name         height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
+&gt;   &lt;chr&gt;         &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
+&gt; 1 Zam Wesell      168    55 blonde  fair, … yellow       NA fema… femin… Zolan  
+&gt; 2 Jabba Desil…    175  1358 &lt;NA&gt;    green-… orange      600 herm… mascu… Nal Hu…
+&gt; 3 Wilhuff Tar…    180    NA auburn… fair    blue         64 male  mascu… Eriadu 
+&gt; 4 BB8              NA    NA none    none    black        NA none  mascu… &lt;NA&gt;   
+&gt; 5 Sly Moore       178    48 none    pale    white        NA &lt;NA&gt;  &lt;NA&gt;   Umbara 
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
@@ -14704,16 +14712,16 @@ bake(iris_rec %&gt;% prep(), new_data = NULL)
 &gt; # A tibble: 105 × 4
 &gt;    Sepal.Length Sepal.Width Petal.Width Species
 &gt;           &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;  
-&gt;  1       0.176        0.476      0.0417 setosa 
+&gt;  1       0.235        0.714      0.0417 setosa 
 &gt;  2       0.118        0.571      0.0417 setosa 
-&gt;  3       0.0882       0.524      0.0417 setosa 
-&gt;  4       0.206        0.762      0.0417 setosa 
-&gt;  5       0.206        0.667      0.0417 setosa 
-&gt;  6       0.0294       0.429      0.0417 setosa 
+&gt;  3       0.206        0.762      0.0417 setosa 
+&gt;  4       0.324        0.905      0.125  setosa 
+&gt;  5       0.0882       0.667      0.0833 setosa 
+&gt;  6       0.206        0.667      0.0417 setosa 
 &gt;  7       0.176        0.524      0      setosa 
-&gt;  8       0.147        0.667      0.0417 setosa 
-&gt;  9       0.147        0.476      0      setosa 
-&gt; 10       0            0.476      0      setosa 
+&gt;  8       0.324        0.810      0.0417 setosa 
+&gt;  9       0.147        0.667      0.0417 setosa 
+&gt; 10       0.147        0.476      0      setosa 
 &gt; # … with 95 more rows
 &gt; # ℹ Use `print(n = ...)` to see more rows
 ```
@@ -14848,7 +14856,7 @@ iris_knn_fit
 &gt; kknn::train.kknn(formula = ..y ~ ., data = data, ks = min_rows(10,     data, 5), distance = ~2, kernel = ~"inv")
 &gt; 
 &gt; Type of response variable: nominal
-&gt; Minimal misclassification: 0.1047619
+&gt; Minimal misclassification: 0.07619048
 &gt; Best kernel: inv
 &gt; Best k: 10
 ```
@@ -14930,16 +14938,16 @@ prob_test
 &gt; # A tibble: 45 × 9
 &gt;    Sepal.Length Sepal.…¹ Petal…² Petal…³ Species .pred…⁴ .pred…⁵ .pred…⁶ .pred…⁷
 &gt;           &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;fct&gt;   &lt;fct&gt;     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
-&gt;  1          5.1      3.5     1.4     0.2 setosa  setosa        1       0       0
-&gt;  2          5.4      3.9     1.7     0.4 setosa  setosa        1       0       0
-&gt;  3          4.6      3.4     1.4     0.3 setosa  setosa        1       0       0
-&gt;  4          5.4      3.7     1.5     0.2 setosa  setosa        1       0       0
-&gt;  5          5.1      3.5     1.4     0.3 setosa  setosa        1       0       0
-&gt;  6          5.7      3.8     1.7     0.3 setosa  setosa        1       0       0
+&gt;  1          4.9      3       1.4     0.2 setosa  setosa        1       0       0
+&gt;  2          4.6      3.1     1.5     0.2 setosa  setosa        1       0       0
+&gt;  3          4.4      2.9     1.4     0.2 setosa  setosa        1       0       0
+&gt;  4          5.8      4       1.2     0.2 setosa  setosa        1       0       0
+&gt;  5          5.4      3.9     1.3     0.4 setosa  setosa        1       0       0
+&gt;  6          5.1      3.8     1.5     0.3 setosa  setosa        1       0       0
 &gt;  7          4.6      3.6     1       0.2 setosa  setosa        1       0       0
-&gt;  8          5.1      3.3     1.7     0.5 setosa  setosa        1       0       0
+&gt;  8          5        3       1.6     0.2 setosa  setosa        1       0       0
 &gt;  9          5.2      3.4     1.4     0.2 setosa  setosa        1       0       0
-&gt; 10          5.5      4.2     1.4     0.2 setosa  setosa        1       0       0
+&gt; 10          4.9      3.1     1.5     0.2 setosa  setosa        1       0       0
 &gt; # … with 35 more rows, and abbreviated variable names ¹​Sepal.Width,
 &gt; #   ²​Petal.Length, ³​Petal.Width, ⁴​.pred_class, ⁵​.pred_setosa,
 &gt; #   ⁶​.pred_versicolor, ⁷​.pred_virginica
@@ -14966,8 +14974,8 @@ conf_mat_test
 &gt;             Truth
 &gt; Prediction   setosa versicolor virginica
 &gt;   setosa         15          0         0
-&gt;   versicolor      0         15         0
-&gt;   virginica       0          0        15
+&gt;   versicolor      0         13         0
+&gt;   virginica       0          2        15
 ```
 
 ---
@@ -14985,19 +14993,19 @@ conf_mat_test %&gt;% summary()
 &gt; # A tibble: 13 × 3
 &gt;    .metric              .estimator .estimate
 &gt;    &lt;chr&gt;                &lt;chr&gt;          &lt;dbl&gt;
-&gt;  1 accuracy             multiclass     1    
-&gt;  2 kap                  multiclass     1    
-&gt;  3 sens                 macro          1    
-&gt;  4 spec                 macro          1    
-&gt;  5 ppv                  macro          1    
-&gt;  6 npv                  macro          1    
-&gt;  7 mcc                  multiclass     1    
-&gt;  8 j_index              macro          1    
-&gt;  9 bal_accuracy         macro          1    
+&gt;  1 accuracy             multiclass     0.956
+&gt;  2 kap                  multiclass     0.933
+&gt;  3 sens                 macro          0.956
+&gt;  4 spec                 macro          0.978
+&gt;  5 ppv                  macro          0.961
+&gt;  6 npv                  macro          0.979
+&gt;  7 mcc                  multiclass     0.936
+&gt;  8 j_index              macro          0.933
+&gt;  9 bal_accuracy         macro          0.967
 &gt; 10 detection_prevalence macro          0.333
-&gt; 11 precision            macro          1    
-&gt; 12 recall               macro          1    
-&gt; 13 f_meas               macro          1
+&gt; 11 precision            macro          0.961
+&gt; 12 recall               macro          0.956
+&gt; 13 f_meas               macro          0.955
 ```
 
 ---
@@ -15016,13 +15024,3076 @@ conf_mat_test %&gt;%
 &gt; # A tibble: 3 × 3
 &gt;   .metric  .estimator .estimate
 &gt;   &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
-&gt; 1 accuracy multiclass         1
-&gt; 2 sens     macro              1
-&gt; 3 spec     macro              1
+&gt; 1 accuracy multiclass     0.956
+&gt; 2 sens     macro          0.956
+&gt; 3 spec     macro          0.978
 ```
 
 Fíjate que aunque no sea un problema de clasificación binaria nos proporciona métricas como la sensibilidad y especificidad: lo que es, **.bg-purple_light[para cada clase, construir una matriz de confusión]** (ser setosa vs no serlo, ser virginica vs no serlo, ser versicolor vs no serlo), y devuelve la **.bg-purple_light[media de las tres sensibilidad o especificidades]**
 
+
+---
+
+class: inverse center middle
+name: clase-8
+
+# CLASE 8: profundizando en tidymodels
+
+&amp;nbsp;
+
+### [Repaso knn en iris](#repaso-knn-iris)
+
+### [Complicamos el asunto: hoteles](#knn-hoteles)
+
+### [Fase 2: exploratorio](#fase2-hoteles)
+
+### [Fase 3: modificación](#fase3-hoteles)
+
+### [Fase 4: modelización](#fase4-hoteles)
+
+### [Fase 5: evaluación](#fase5-hoteles)
+
+---
+
+
+# Fase 1: .orange[¿MUESTREO?]
+
+
+```r
+iris %&gt;%
+  count(Species) %&gt;%
+  mutate(porc = 100 * n/sum(n))
+```
+
+```
+&gt; # A tibble: 3 × 3
+&gt;   Species        n  porc
+&gt;   &lt;fct&gt;      &lt;int&gt; &lt;dbl&gt;
+&gt; 1 setosa        50  33.3
+&gt; 2 versicolor    50  33.3
+&gt; 3 virginica     50  33.3
+```
+
+En el caso del `iris` no necesitamos hacerlo ya que tenemos pocas observaciones y, además, la **.bg-purple_light[variable objetivo está balanceada]**
+
+---
+
+# Fase 2: .orange[EXPLORACIÓN]
+
+* **.bg-purple_light[Resumen numérico]**: ausentes, medidas de centralización, medidas de dispersión, problemas de codificación, etc.
+
+.pull-left[
+
+
+```r
+library(skimr)
+iris %&gt;% skim()
+```
+
+]
+
+.pull-right[
+
+&lt;img src="./img/skim.jpg" width="100%" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+
+# Fase 2: .orange[EXPLORACIÓN]
+
+* **.bg-purple_light[Dependencia]**: correlación entre predictoras, **predictoras vs objetivo**
+
+
+```r
+iris %&gt;%
+  group_by(Species) %&gt;% summarise(mean = across(where(is.numeric), mean)) %&gt;% 
+  ungroup()
+```
+
+```
+&gt; # A tibble: 3 × 2
+&gt;   Species    mean$Sepal.Length $Sepal.Width $Petal.Length $Petal.Width
+&gt;   &lt;fct&gt;                  &lt;dbl&gt;        &lt;dbl&gt;         &lt;dbl&gt;        &lt;dbl&gt;
+&gt; 1 setosa                  5.01         3.43          1.46        0.246
+&gt; 2 versicolor              5.94         2.77          4.26        1.33 
+&gt; 3 virginica               6.59         2.97          5.55        2.03
+```
+
+
+```r
+library(corrplot)
+cor_matrix &lt;- iris %&gt;% select(where(is.numeric)) %&gt;% cor()
+cor_matrix
+```
+
+```
+&gt;              Sepal.Length Sepal.Width Petal.Length Petal.Width
+&gt; Sepal.Length    1.0000000  -0.1175698    0.8717538   0.8179411
+&gt; Sepal.Width    -0.1175698   1.0000000   -0.4284401  -0.3661259
+&gt; Petal.Length    0.8717538  -0.4284401    1.0000000   0.9628654
+&gt; Petal.Width     0.8179411  -0.3661259    0.9628654   1.0000000
+```
+
+```r
+# corrplot(iris %&gt;% %&gt;% select(where(is.numeric)) %&gt;% cor())
+```
+
+---
+
+# .orange[PARTICIONES]
+
+
+```r
+# Partición 70-30% de train y test (solo instrucciones)
+iris_split &lt;- initial_split(iris, strata = Species, prop = 0.7)
+iris_split
+```
+
+```
+&gt; &lt;Analysis/Assess/Total&gt;
+&gt; &lt;105/45/150&gt;
+```
+
+```r
+# Aplicamos partición (ejecuta instrucciones)
+iris_train &lt;- training(iris_split)
+iris_test &lt;- testing(iris_split)
+
+# Comprobamos estratos
+iris_train %&gt;% count(Species) %&gt;% mutate(porc = 100 * n / sum(n))
+```
+
+```
+&gt; # A tibble: 3 × 3
+&gt;   Species        n  porc
+&gt;   &lt;fct&gt;      &lt;int&gt; &lt;dbl&gt;
+&gt; 1 setosa        35  33.3
+&gt; 2 versicolor    35  33.3
+&gt; 3 virginica     35  33.3
+```
+
+```r
+iris_test %&gt;% count(Species) %&gt;% mutate(porc = 100 * n / sum(n))
+```
+
+```
+&gt; # A tibble: 3 × 3
+&gt;   Species        n  porc
+&gt;   &lt;fct&gt;      &lt;int&gt; &lt;dbl&gt;
+&gt; 1 setosa        15  33.3
+&gt; 2 versicolor    15  33.3
+&gt; 3 virginica     15  33.3
+```
+
+---
+
+# Fase 3: .orange[MODIFICACIÓN]
+
+
+* **.bg-purple_light[Receta y roles]**: lo primero es **.bg-orange[definir la receta]** (indicando la partición de train y la objetivo vs todas) y los **.bg-orange[roles]** de las variables (permitiendo una depuración personalizada)
+
+
+```r
+# Receta
+iris_rec &lt;-
+  recipe(data = iris_train, Species ~ .) %&gt;%
+  # Roles
+  add_role(starts_with("Sepal"), new_role = "simétrica") %&gt;% 
+  add_role(starts_with("Petal"), new_role = "no simétrica")
+iris_rec
+```
+
+```
+&gt; Recipe
+&gt; 
+&gt; Inputs:
+&gt; 
+&gt;          role #variables
+&gt;  no simétrica          2
+&gt;       outcome          1
+&gt;     predictor          4
+&gt;     simétrica          2
+```
+
+---
+
+# Fase 3: .orange[MODIFICACIÓN]
+
+
+* **.bg-purple_light[Tipología de las variables]** --&gt; todas las predictoras son numéricas (no necesito recategorizar o dummys)
+
+*  **.bg-purple_light[Codificación de las variables]** --&gt; todas mis variables tienen un **.bg-orange[rango coherente]**
+
+* **.bg-purple_light[Atípicos y ausentes]**. ¿Tengo **.bg-orange[valores atípicos (outliers)]**? 
+
+
+
+```r
+iris_rec &lt;-
+  iris_rec %&gt;%
+  # Detectar outliers
+  step_mutate(across(starts_with("Sepal"),
+                     function(x) { ifelse(abs(scores(x, type = "z")) &gt; 2.5, NA, x) }),
+              across(starts_with("Petal"),
+                     function(x) { ifelse(abs(scores(x, type = "mad")) &gt; 3, NA, x) }))
+```
+
+---
+
+# Fase 3: .orange[MODIFICACIÓN]
+
+
+* **.bg-purple_light[Ausentes]**: ¿tengo **.bg-orange[datos ausentes]**? ¿Cómo los imputo?
+
+
+```r
+iris_rec &lt;-
+  iris_rec %&gt;%
+  # Imputar ausentes
+  step_impute_mean(has_role("simétrica")) %&gt;% 
+  step_impute_median(has_role("no simétrica"))
+```
+
+* **.bg-purple_light[Añadir info]** --&gt; en este caso no necesito **crear nuevas variables** que nos aporte info extra
+
+---
+
+# Fase 3: .orange[MODIFICACIÓN]
+
+* **.bg-purple_light[Selección de variables]**. ¿Necesito seleccionar variables? ¿Tengo **.bg-orange[problemas de dependencia o colinealidad]**? ¿Tengo alguna de varianza cero (es decir, sin información)? 
+
+* **.bg-purple_light[Normalizar variables]**. ¿Tengo ya mis variables preparadas (tras tratar lo anterior) para la métrica que vaya usar?
+
+
+
+```r
+iris_rec &lt;-
+  iris_rec %&gt;%
+  # Filtro de correlación
+  step_corr(all_numeric_predictors(), threshold = 0.9)%&gt;% 
+  # Filtro de cero varianza
+  step_zv(all_predictors()) %&gt;%
+  # Normalizar por rango
+  step_range(all_numeric_predictors())
+```
+
+---
+
+# .orange[HORNEADO]
+
+**.bg-purple_light[Horneamos la receta]** sobre las particiones para comprobar que la fase 3 se ha realizado correctamente
+
+
+```r
+bake(iris_rec %&gt;% prep(), new_data = NULL)
+```
+
+```
+&gt; # A tibble: 105 × 4
+&gt;    Sepal.Length Sepal.Width Petal.Width Species
+&gt;           &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;  
+&gt;  1       0.167        0.476      0.0417 setosa 
+&gt;  2       0.111        0.571      0.0417 setosa 
+&gt;  3       0.0833       0.524      0.0417 setosa 
+&gt;  4       0.306        0.905      0.125  setosa 
+&gt;  5       0.0833       0.667      0.0833 setosa 
+&gt;  6       0.0278       0.429      0.0417 setosa 
+&gt;  7       0.167        0.524      0      setosa 
+&gt;  8       0.306        0.810      0.0417 setosa 
+&gt;  9       0.139        0.667      0.0417 setosa 
+&gt; 10       0.139        0.476      0      setosa 
+&gt; # … with 95 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
+```
+
+```r
+bake(iris_rec %&gt;% prep(), new_data = iris_test)
+```
+
+```
+&gt; # A tibble: 45 × 4
+&gt;    Sepal.Length Sepal.Width Petal.Width Species
+&gt;           &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;  
+&gt;  1        0.222       0.714      0.0417 setosa 
+&gt;  2        0.194       0.762      0.0417 setosa 
+&gt;  3        0.194       0.667      0.0417 setosa 
+&gt;  4        0.417       0.952      0.0417 setosa 
+&gt;  5        0.222       0.714      0.0833 setosa 
+&gt;  6        0.222       0.857      0.0833 setosa 
+&gt;  7        0.306       0.667      0.0417 setosa 
+&gt;  8        0.139       0.667      0.0417 setosa 
+&gt;  9        0.194       0.476      0.0417 setosa 
+&gt; 10        0.25        0.714      0.0417 setosa 
+&gt; # … with 35 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
+```
+
+---
+
+# Fase 4: .orange[MODELADO]
+
+Definimos los **.bg-purple_light[parámetros de nuestro modelo]**
+
+
+```r
+# Modelo knn
+knn_model &lt;-
+  nearest_neighbor(mode = "classification", neighbors = 10,
+                   weight_func = "inv", dist_power = 2) %&gt;%
+  set_engine("kknn") # el «motor» que realiza el ajuste
+knn_model
+```
+
+```
+&gt; K-Nearest Neighbor Model Specification (classification)
+&gt; 
+&gt; Main Arguments:
+&gt;   neighbors = 10
+&gt;   weight_func = inv
+&gt;   dist_power = 2
+&gt; 
+&gt; Computational engine: kknn
+```
+
+---
+
+# .orange[FLUJO Y AJUSTE]: receta (fase 3) + modelo (fase 4)
+
+
+```r
+# Flujo
+iris_wflow &lt;-
+  workflow() %&gt;%
+  add_recipe(iris_rec) %&gt;%
+  add_model(knn_model)
+
+# Ajuste
+iris_knn_fit &lt;- iris_wflow %&gt;% fit(data = iris_train)
+```
+
+---
+
+# Fase 5: .orange[PREDICCIÓN/EVALUACIÓN]
+
+Usando `predict()` obtenemos las predicciones (usando el ajuste, y le proporcionamos un archivo a clasificar, en este caso test). Nos **.bg-purple_light[devuelve la clase predicha]** 
+
+
+```r
+# Predecir el conjunto test: devuelve la clase
+predict(iris_knn_fit, iris_test)
+```
+
+```
+&gt; # A tibble: 45 × 1
+&gt;    .pred_class
+&gt;    &lt;fct&gt;      
+&gt;  1 setosa     
+&gt;  2 setosa     
+&gt;  3 setosa     
+&gt;  4 setosa     
+&gt;  5 setosa     
+&gt;  6 setosa     
+&gt;  7 setosa     
+&gt;  8 setosa     
+&gt;  9 setosa     
+&gt; 10 setosa     
+&gt; # … with 35 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
+```
+
+---
+
+# Fase 5: .orange[PREDICCIÓN/EVALUACIÓN]
+
+Con `type = prob` obtenemos la **.bg-purple_light[probabilidad estimada de pertenencia]** a cada clase predicha (recuerda que nuestro objetivo es estimar las probabilidades de pertenencia teóricas que nos daría el clasificador Bayesiano)
+
+
+```r
+# Predecir las probabilidades (las necesitamos para la ROC)
+predict(iris_knn_fit, iris_test, type = "prob")
+```
+
+```
+&gt; # A tibble: 45 × 3
+&gt;    .pred_setosa .pred_versicolor .pred_virginica
+&gt;           &lt;dbl&gt;            &lt;dbl&gt;           &lt;dbl&gt;
+&gt;  1            1                0               0
+&gt;  2            1                0               0
+&gt;  3            1                0               0
+&gt;  4            1                0               0
+&gt;  5            1                0               0
+&gt;  6            1                0               0
+&gt;  7            1                0               0
+&gt;  8            1                0               0
+&gt;  9            1                0               0
+&gt; 10            1                0               0
+&gt; # … with 35 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
+```
+
+
+---
+
+# Fase 5: .orange[PREDICCIÓN/EVALUACIÓN]
+
+Con `augment()` podemos obtener **.bg-purple_light[predicciones y datos en una sola tabla]**
+
+
+```r
+# Incluir predicciones en tabla
+prob_test &lt;- augment(iris_knn_fit, iris_test)
+prob_test
+```
+
+```
+&gt; # A tibble: 45 × 9
+&gt;    Sepal.Length Sepal.…¹ Petal…² Petal…³ Species .pred…⁴ .pred…⁵ .pred…⁶ .pred…⁷
+&gt;           &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;fct&gt;   &lt;fct&gt;     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+&gt;  1          5.1      3.5     1.4     0.2 setosa  setosa        1       0       0
+&gt;  2          5        3.6     1.4     0.2 setosa  setosa        1       0       0
+&gt;  3          5        3.4     1.5     0.2 setosa  setosa        1       0       0
+&gt;  4          5.8      4       1.2     0.2 setosa  setosa        1       0       0
+&gt;  5          5.1      3.5     1.4     0.3 setosa  setosa        1       0       0
+&gt;  6          5.1      3.8     1.5     0.3 setosa  setosa        1       0       0
+&gt;  7          5.4      3.4     1.7     0.2 setosa  setosa        1       0       0
+&gt;  8          4.8      3.4     1.9     0.2 setosa  setosa        1       0       0
+&gt;  9          5        3       1.6     0.2 setosa  setosa        1       0       0
+&gt; 10          5.2      3.5     1.5     0.2 setosa  setosa        1       0       0
+&gt; # … with 35 more rows, and abbreviated variable names ¹​Sepal.Width,
+&gt; #   ²​Petal.Length, ³​Petal.Width, ⁴​.pred_class, ⁵​.pred_setosa,
+&gt; #   ⁶​.pred_versicolor, ⁷​.pred_virginica
+&gt; # ℹ Use `print(n = ...)` to see more rows
+```
+
+
+---
+
+# Fase 5: .orange[PREDICCIÓN/EVALUACIÓN]
+
+* **.bg-purple_light[Matriz de confusión]**: matriz con los valores enfrentando **.bg-orange[etiqueta real vs predicha]** (hay que pasarle la salida del `augment` e indicarle como `truth = ...` la clase real y como `estimate = ...` la clase predicha, que por defecto sale como `.pred_class`
+
+
+```r
+# Matriz de confusión: etiqueta real vs etiqueta predicha
+conf_mat_test &lt;-
+  prob_test %&gt;%
+  conf_mat(truth = Species, estimate = .pred_class)
+conf_mat_test 
+```
+
+```
+&gt;             Truth
+&gt; Prediction   setosa versicolor virginica
+&gt;   setosa         15          0         0
+&gt;   versicolor      0         14         3
+&gt;   virginica       0          1        12
+```
+
+---
+
+# Fase 5: .orange[PREDICCIÓN/EVALUACIÓN]
+
+* **.bg-purple_light[Métricas]**: las obtenemos haciendo un `summary()` a la matriz de confusión
+
+
+```r
+# Métricas en test
+metricas &lt;- conf_mat_test %&gt;% summary()
+metricas
+```
+
+```
+&gt; # A tibble: 13 × 3
+&gt;    .metric              .estimator .estimate
+&gt;    &lt;chr&gt;                &lt;chr&gt;          &lt;dbl&gt;
+&gt;  1 accuracy             multiclass     0.911
+&gt;  2 kap                  multiclass     0.867
+&gt;  3 sens                 macro          0.911
+&gt;  4 spec                 macro          0.956
+&gt;  5 ppv                  macro          0.916
+&gt;  6 npv                  macro          0.957
+&gt;  7 mcc                  multiclass     0.869
+&gt;  8 j_index              macro          0.867
+&gt;  9 bal_accuracy         macro          0.933
+&gt; 10 detection_prevalence macro          0.333
+&gt; 11 precision            macro          0.916
+&gt; 12 recall               macro          0.911
+&gt; 13 f_meas               macro          0.911
+```
+
+---
+
+# ¿Y AHORA?
+
+¿Basta con esto?
+
+--
+
+En realidad no: recuerda que nuestro objetivo es minimizar el error, y para saber si estamos en un modelo óptimo, sobreajustado o bajoajustado, necesitamos **.bg-purple_light[ejecutar el paradigma de aprendizaje con diferentes parámetros]**.
+
+* Diferentes k (`neighbors = ...`),
+                
+* Diferentes métricas (`dist_power = ...`) 
+
+* Diferentes ponderaciones (`weight_func = ...`)
+
+&amp;nbsp;
+
+Dicha evaluación la deberíamos hacer en **.bg-purple_light[validación]** pero vamos a pasar a un ejemplo más complicado con más filas para ello.
+
+---
+
+name: knn-hoteles
+
+
+# Ejemplo real: .orange[HOTELES]
+
+Vamos ir a **ejemplo real**, haciendo uso de un **.bg-purple_light[dataset de reservas de hotel]**
+
+
+```r
+hoteles_bruto &lt;- read_csv(file = "./datos/hoteles.csv")
+```
+
+Los datos forman parte de un **.bg-purple_light[conjunto de reservas de hotel]** elaborado por Antonio et al., 2019 con 50 000 registros de reservas
+
+📚 **Detalle de variables**: &lt;https://linkinghub.elsevier.com/retrieve/pii/S2352340918315191&gt;
+
+---
+
+# Ejemplo real: .orange[HOTELES]
+
+Lo primero es conocer las variables.
+
+
+```r
+glimpse(hoteles_bruto)
+```
+--
+
+* `hotel`: tipo de hotel (urbano o resort)
+* `lead_time`: número de días entre la reserva y la estancia.
+* `stays_in_weekend_nights, stays_in_week_nights`: noches en fin de semana y entre semana
+* `adults`: número de adultos
+* `children`: ¿la reserva tiene niños?
+* `meal`: régimen de comidas
+* `country`: país de origen
+* `market_segment`: segmento de mercado de la reserva
+* `distribution_channel`: canal de distribución de la oferta
+* `is_repeated_guest`: ¿repite como huésped?
+
+---
+
+# Ejemplo real: .orange[HOTELES]
+
+
+Lo primero es conocer las variables.
+
+
+```r
+glimpse(hoteles_bruto)
+```
+
+
+* `previous_cancellations`: cancelaciones previas
+* `previous_bookings_not_canceled`: reservas previas (no canceladas)
+* `reserved_room_type, assigned_room_type`: tipo de habitación reservada/asignada
+* `booking_changes`: cambios en la reserva
+* `deposit_type`: tipo de depósito
+* `days_in_waiting_list`: días en lista de espera
+* `customer_type`: tipo de cliente
+* `average_daily_rate`: tarifa media diaria
+* `required_car_parking_spaces`: ¿parking?
+* `total_of_special_requests`: número de requisitos especiales demandados
+* `arrival_date`: fecha de llegada 
+
+
+---
+
+# Ejemplo real: .orange[HOTELES]
+
+
+
+```r
+glimpse(hoteles_bruto)
+```
+
+El objetivo será **.bg-purple_light[predecir si una reserva incluye niños/as o no]**, por lo que `children` será nuestra variable objetivo. Primer paso: conocer cómo se **.bg-purple_light[distribuyen los niveles de la objetivo]** (es binaria)
+
+
+```r
+hoteles_bruto %&gt;% 
+  count(children) %&gt;%
+  mutate(porc = 100*n/sum(n))
+```
+
+```
+&gt; # A tibble: 2 × 3
+&gt;   children     n  porc
+&gt;   &lt;chr&gt;    &lt;int&gt; &lt;dbl&gt;
+&gt; 1 children  4038  8.08
+&gt; 2 none     45962 91.9
+```
+
+---
+
+name: fase2-hoteles
+
+# Fases 1-2-3: .orange[HOTELES]
+
+Examina los datos y apunta las **.bg-purple_light[decisiones que deberíamos adoptar]**:
+
+&amp;nbsp;
+
+* ¿Necesitamos **.bg-orange[muestreo]**? ¿De qué forma? ¿Podremos permitirnos crear esta vez un dataset de **.bg-orange[validación]**?
+
+* ¿De qué **.bg-orange[tipo]** es cada variable? ¿Tenemos **.bg-orange[problemas de codificación o rango]**?
+
+* ¿Cómo **.bg-orange[afectan las predictoras]** a los niveles de la variable objetivo?
+
+* ¿Hay problemas de **.bg-orange[dependencia]** entre las variables?
+
+* ¿Necesitamos **.bg-orange[recategorizar]** las variables? ¿Tenemos variables de **.bg-orange[fecha]**?
+
+* ¿Tenemos **.bg-orange[datos atípicos]**?  ¿Tenemos **.bg-orange[datos ausentes]**? ¿Cómo imputarlos?
+
+* ¿Todas las variables son **.bg-orange[numéricas]** para poder aplicar la métrica?
+
+&amp;nbsp;
+
+**.bg-purple_light[Filosofía]**: las modificaciones «estructurales» las hacemos fuera de la receta (modificando la base de datos), las modificaciones más concretas para un algoritmo dentro de la receta (sin modificar la base de datos).
+
+
+---
+
+# Factores
+
+* **.bg-purple_light[Factores]**: lo primero que debemos decidir es si las variables de tipo texto son **.bg-purple_light[variables cualitativas]** (factores) o meros id's.
+
+
+```r
+hoteles_bruto %&gt;% select(where(is.character)) %&gt;% glimpse()
+```
+
+```
+&gt; Rows: 50,000
+&gt; Columns: 11
+&gt; $ hotel                       &lt;chr&gt; "City_Hotel", "City_Hotel", "Resort_Hotel"…
+&gt; $ children                    &lt;chr&gt; "none", "none", "none", "none", "none", "n…
+&gt; $ meal                        &lt;chr&gt; "BB", "BB", "BB", "HB", "HB", "SC", "BB", …
+&gt; $ country                     &lt;chr&gt; "DEU", "PRT", "GBR", "ROU", "PRT", "GBR", …
+&gt; $ market_segment              &lt;chr&gt; "Offline_TA/TO", "Direct", "Online_TA", "O…
+&gt; $ distribution_channel        &lt;chr&gt; "TA/TO", "Direct", "TA/TO", "TA/TO", "Dire…
+&gt; $ reserved_room_type          &lt;chr&gt; "A", "D", "A", "A", "F", "A", "C", "B", "D…
+&gt; $ assigned_room_type          &lt;chr&gt; "A", "K", "A", "A", "F", "A", "C", "A", "D…
+&gt; $ deposit_type                &lt;chr&gt; "No_Deposit", "No_Deposit", "No_Deposit", …
+&gt; $ customer_type               &lt;chr&gt; "Transient-Party", "Transient", "Transient…
+&gt; $ required_car_parking_spaces &lt;chr&gt; "none", "none", "none", "none", "none", "n…
+```
+
+---
+
+# Factores
+
+Todas las variables de tipo texto representan **.bg-purple_light[categorías de una cualitativa]** así que las convertimos todas ellas a factor.
+
+--
+
+
+```r
+hoteles &lt;- 
+  hoteles_bruto %&gt;%
+  mutate(across(where(is.character), as_factor))
+hoteles
+```
+
+```
+&gt; # A tibble: 50,000 × 23
+&gt;    hotel    lead_…¹ stays…² stays…³ adults child…⁴ meal  country marke…⁵ distr…⁶
+&gt;    &lt;fct&gt;      &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt; &lt;fct&gt;   &lt;fct&gt; &lt;fct&gt;   &lt;fct&gt;   &lt;fct&gt;  
+&gt;  1 City_Ho…     217       1       3      2 none    BB    DEU     Offlin… TA/TO  
+&gt;  2 City_Ho…       2       0       1      2 none    BB    PRT     Direct  Direct 
+&gt;  3 Resort_…      95       2       5      2 none    BB    GBR     Online… TA/TO  
+&gt;  4 Resort_…     143       2       6      2 none    HB    ROU     Online… TA/TO  
+&gt;  5 Resort_…     136       1       4      2 none    HB    PRT     Direct  Direct 
+&gt;  6 City_Ho…      67       2       2      2 none    SC    GBR     Online… TA/TO  
+&gt;  7 Resort_…      47       0       2      2 childr… BB    ESP     Direct  Direct 
+&gt;  8 City_Ho…      56       0       3      0 childr… BB    ESP     Online… TA/TO  
+&gt;  9 City_Ho…      80       0       4      2 none    BB    FRA     Online… TA/TO  
+&gt; 10 City_Ho…       6       2       2      2 childr… BB    FRA     Online… TA/TO  
+&gt; # … with 49,990 more rows, 13 more variables: is_repeated_guest &lt;dbl&gt;,
+&gt; #   previous_cancellations &lt;dbl&gt;, previous_bookings_not_canceled &lt;dbl&gt;,
+&gt; #   reserved_room_type &lt;fct&gt;, assigned_room_type &lt;fct&gt;, booking_changes &lt;dbl&gt;,
+&gt; #   deposit_type &lt;fct&gt;, days_in_waiting_list &lt;dbl&gt;, customer_type &lt;fct&gt;,
+&gt; #   average_daily_rate &lt;dbl&gt;, required_car_parking_spaces &lt;fct&gt;,
+&gt; #   total_of_special_requests &lt;dbl&gt;, arrival_date &lt;date&gt;, and abbreviated
+&gt; #   variable names ¹​lead_time, ²​stays_in_weekend_nights, …
+&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
+```
+
+---
+
+# Factores
+
+* **.bg-purple_light[Ordinales]**: ¿existe alguna variable que pueda ser ordinal?
+
+--
+
+La variable `meal` si sigue una jerarquía: `SC` (sin nada) &lt; `BB` (Bed &amp; Breakfast) &lt; `HB` (Half board, media pensión) &lt; `FB` (Full board, pensión completa). Además tenemos un nivel para los desconocidos llamado `Undefined`
+
+
+```r
+hoteles %&gt;%
+  count(meal) %&gt;% 
+  mutate(porc = 100*n/sum(n))
+```
+
+```
+&gt; # A tibble: 5 × 3
+&gt;   meal          n   porc
+&gt;   &lt;fct&gt;     &lt;int&gt;  &lt;dbl&gt;
+&gt; 1 BB        38316 76.6  
+&gt; 2 HB         6399 12.8  
+&gt; 3 SC         4494  8.99 
+&gt; 4 Undefined   580  1.16 
+&gt; 5 FB          211  0.422
+```
+
+---
+
+# Factores
+
+* **.bg-purple_light[Ordinales]**: convertimos `meal` a cualitativa pero ordinal.
+
+
+```r
+hoteles &lt;-
+  hoteles %&gt;%
+  mutate(meal = factor(meal, levels = c("Undefined", "SC", "BB", "HB", "FB"),
+                       ordered = TRUE))
+```
+
+--
+
+Ahora podremos hacer **.bg-purple_light[operaciones asociadas a una jerarquía]** como comparar registros
+
+
+```r
+hoteles %&gt;%
+* group_by(meal &lt; "HB") %&gt;%
+  count() %&gt;% 
+  ungroup()
+```
+
+```
+&gt; # A tibble: 2 × 2
+&gt;   `meal &lt; "HB"`     n
+&gt;   &lt;lgl&gt;         &lt;int&gt;
+&gt; 1 FALSE          6610
+&gt; 2 TRUE          43390
+```
+
+
+
+---
+
+# Variable hotel
+
+Una vez convertidas en cualitativas analicemos cada una de ellas. La variable `hotel` es **.bg-purple_light[binaria]**: urbanos vs resort (60% vs 40% aprox)
+
+
+```r
+hoteles %&gt;%
+  count(hotel, sort = TRUE) %&gt;%
+  mutate(porc = 100*n/sum(n))
+```
+
+```
+&gt; # A tibble: 2 × 3
+&gt;   hotel            n  porc
+&gt;   &lt;fct&gt;        &lt;int&gt; &lt;dbl&gt;
+&gt; 1 City_Hotel   30752  61.5
+&gt; 2 Resort_Hotel 19248  38.5
+```
+
+---
+
+# Variable hotel
+
+Parece que cuando hay **.bg-purple_light[niños en la reserva]** se opta ligeramente **.bg-purple_light[más por los resort]**
+
+
+```r
+hoteles %&gt;%
+  group_by(hotel) %&gt;% 
+  count(children) %&gt;%
+  mutate(porc = 100*n/sum(n)) %&gt;% 
+  ungroup()
+```
+
+```
+&gt; # A tibble: 4 × 4
+&gt;   hotel        children     n  porc
+&gt;   &lt;fct&gt;        &lt;fct&gt;    &lt;int&gt; &lt;dbl&gt;
+&gt; 1 City_Hotel   none     28383 92.3 
+&gt; 2 City_Hotel   children  2369  7.70
+&gt; 3 Resort_Hotel none     17579 91.3 
+&gt; 4 Resort_Hotel children  1669  8.67
+```
+
+---
+
+
+# Variable meal
+
+La variable `meal` toma **.bg-purple_light[5 modalidades]**: quizás para algunos algoritmos haga falta reagrupar niveles (por ejemplo `Undefined` con `SC`)
+
+
+```r
+hoteles %&gt;%
+  count(meal, sort = TRUE) %&gt;%
+  mutate(porc = 100*n/sum(n))
+```
+
+```
+&gt; # A tibble: 5 × 3
+&gt;   meal          n   porc
+&gt;   &lt;ord&gt;     &lt;int&gt;  &lt;dbl&gt;
+&gt; 1 BB        38316 76.6  
+&gt; 2 HB         6399 12.8  
+&gt; 3 SC         4494  8.99 
+&gt; 4 Undefined   580  1.16 
+&gt; 5 FB          211  0.422
+```
+
+
+
+
+---
+
+# Variable meal
+
+Parece que **.bg-purple_light[cuando hay niños]** en la reserva hay el **.bg-purple_light[doble de reservas con pensión completa]**: aunque haya pocos registros de `meal = "FB"` pueden ser determinantes. El 11% de la reservas sin niños van sin nada, mientras que solo el 3% de las reservas con niños.
+
+.pull-left[
+
+
+```r
+hoteles %&gt;%
+  group_by(meal) %&gt;% 
+  count(children) %&gt;% 
+  mutate(porc = 100*n/sum(n)) %&gt;% 
+  ungroup()
+```
+
+```
+&gt; # A tibble: 10 × 4
+&gt;    meal      children     n  porc
+&gt;    &lt;ord&gt;     &lt;fct&gt;    &lt;int&gt; &lt;dbl&gt;
+&gt;  1 Undefined none       548 94.5 
+&gt;  2 Undefined children    32  5.52
+&gt;  3 SC        none      4388 97.6 
+&gt;  4 SC        children   106  2.36
+&gt;  5 BB        none     35071 91.5 
+&gt;  6 BB        children  3245  8.47
+&gt;  7 HB        none      5782 90.4 
+&gt;  8 HB        children   617  9.64
+&gt;  9 FB        none       173 82.0 
+&gt; 10 FB        children    38 18.0
+```
+
+]
+
+.pull-right[
+
+
+```r
+hoteles %&gt;%
+  group_by(children) %&gt;% 
+  count(meal) %&gt;% 
+  mutate(porc = 100*n/sum(n)) %&gt;% 
+  ungroup()
+```
+
+```
+&gt; # A tibble: 10 × 4
+&gt;    children meal          n   porc
+&gt;    &lt;fct&gt;    &lt;ord&gt;     &lt;int&gt;  &lt;dbl&gt;
+&gt;  1 none     Undefined   548  1.19 
+&gt;  2 none     SC         4388  9.55 
+&gt;  3 none     BB        35071 76.3  
+&gt;  4 none     HB         5782 12.6  
+&gt;  5 none     FB          173  0.376
+&gt;  6 children Undefined    32  0.792
+&gt;  7 children SC          106  2.63 
+&gt;  8 children BB         3245 80.4  
+&gt;  9 children HB          617 15.3  
+&gt; 10 children FB           38  0.941
+```
+
+]
+
+---
+
+# Variable country
+
+La variable `country` toma **.bg-purple_light[155 modalidades]** pero tan solo **.bg-purple_light[21 modalidades aparecen en más del 0.5% de registros]** (una de ellas es NULL): quizás sea más práctico reagrupar niveles de esos países (representan juntos aprox el 10% del total).
+
+
+```r
+hoteles %&gt;%
+  count(country, sort = TRUE) %&gt;%
+  mutate(porc = 100*n/sum(n), cumul = cumsum(porc))
+```
+
+```
+&gt; # A tibble: 155 × 4
+&gt;    country     n  porc cumul
+&gt;    &lt;fct&gt;   &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;
+&gt;  1 PRT     14046 28.1   28.1
+&gt;  2 GBR      6405 12.8   40.9
+&gt;  3 FRA      5627 11.3   52.2
+&gt;  4 ESP      4298  8.60  60.8
+&gt;  5 DEU      4047  8.09  68.8
+&gt;  6 IRL      1691  3.38  72.2
+&gt;  7 ITA      1607  3.21  75.4
+&gt;  8 BEL      1250  2.5   77.9
+&gt;  9 NLD      1123  2.25  80.2
+&gt; 10 USA      1059  2.12  82.3
+&gt; # … with 145 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
+```
+
+
+---
+
+
+# Variable country
+
+Aunque hay países que representa muy poco de los datos, parece que **.bg-purple_light[algunos son más propensos a reservas con niños]**.
+
+
+```r
+hoteles %&gt;%
+  group_by(country) %&gt;% count(children) %&gt;% 
+  mutate(porc_children = 100*n/sum(n)) %&gt;% 
+  ungroup()
+```
+
+```
+&gt; # A tibble: 237 × 4
+&gt;    country children     n porc_children
+&gt;    &lt;fct&gt;   &lt;fct&gt;    &lt;int&gt;         &lt;dbl&gt;
+&gt;  1 DEU     none      3863         95.5 
+&gt;  2 DEU     children   184          4.55
+&gt;  3 PRT     none     12895         91.8 
+&gt;  4 PRT     children  1151          8.19
+&gt;  5 GBR     none      5997         93.6 
+&gt;  6 GBR     children   408          6.37
+&gt;  7 ROU     none       216         88.5 
+&gt;  8 ROU     children    28         11.5 
+&gt;  9 ESP     none      3824         89.0 
+&gt; 10 ESP     children   474         11.0 
+&gt; # … with 227 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
+```
+
+
+---
+
+# Variable market_segment
+
+La variable `market_segment` toma **.bg-purple_light[7 modalidades]** aunque algunas representan menos del 1% del total.
+
+
+```r
+hoteles %&gt;%
+  count(market_segment, sort = TRUE) %&gt;%
+  mutate(porc = 100*n/sum(n), cumul = cumsum(porc))
+```
+
+```
+&gt; # A tibble: 7 × 4
+&gt;   market_segment     n   porc cumul
+&gt;   &lt;fct&gt;          &lt;int&gt;  &lt;dbl&gt; &lt;dbl&gt;
+&gt; 1 Online_TA      23760 47.5    47.5
+&gt; 2 Offline_TA/TO  10604 21.2    68.7
+&gt; 3 Direct          7131 14.3    83.0
+&gt; 4 Groups          5124 10.2    93.2
+&gt; 5 Corporate       2832  5.66   98.9
+&gt; 6 Complementary    427  0.854  99.8
+&gt; 7 Aviation         122  0.244 100
+```
+
+---
+
+# Variable market_segment
+
+Fíjate que aunque `market_segment = "Aviation"` representa muy pocos registros, el 100% son sin niños (casi similar con `market_segment = "Corporate"` y `market_segment = "Groups"`)
+
+
+```r
+hoteles %&gt;%
+  group_by(market_segment) %&gt;% 
+  count(children) %&gt;% 
+  mutate(porc = 100*n/sum(n)) %&gt;% 
+  ungroup()
+```
+
+```
+&gt; # A tibble: 13 × 4
+&gt;    market_segment children     n    porc
+&gt;    &lt;fct&gt;          &lt;fct&gt;    &lt;int&gt;   &lt;dbl&gt;
+&gt;  1 Offline_TA/TO  none     10202  96.2  
+&gt;  2 Offline_TA/TO  children   402   3.79 
+&gt;  3 Direct         none      6138  86.1  
+&gt;  4 Direct         children   993  13.9  
+&gt;  5 Online_TA      none     21227  89.3  
+&gt;  6 Online_TA      children  2533  10.7  
+&gt;  7 Corporate      none      2799  98.8  
+&gt;  8 Corporate      children    33   1.17 
+&gt;  9 Groups         none      5084  99.2  
+&gt; 10 Groups         children    40   0.781
+&gt; 11 Aviation       none       122 100    
+&gt; 12 Complementary  none       390  91.3  
+&gt; 13 Complementary  children    37   8.67
+```
+
+
+---
+
+# Variable distribution_channel
+
+La variable `distribution_channel` toma **.bg-purple_light[5 modalidades]**  pero solo **.bg-purple_light[3 de ellas agrupan ya más del 99%]** de los registros.
+
+
+```r
+hoteles %&gt;%
+  count(distribution_channel, sort = TRUE) %&gt;%
+  mutate(porc = 100*n/sum(n),
+         cumul = cumsum(porc))
+```
+
+```
+&gt; # A tibble: 5 × 4
+&gt;   distribution_channel     n   porc cumul
+&gt;   &lt;fct&gt;                &lt;int&gt;  &lt;dbl&gt; &lt;dbl&gt;
+&gt; 1 TA/TO                38349 76.7    76.7
+&gt; 2 Direct                8083 16.2    92.9
+&gt; 3 Corporate             3459  6.92   99.8
+&gt; 4 GDS                    108  0.216 100. 
+&gt; 5 Undefined                1  0.002 100
+```
+
+---
+
+# Variable distribution_channel
+
+Fíjate que de `distribution_channel = "Undefined"` y `distribution_channel = "GDS"` representan **.bg-purple_light[muy pocos registros]**, y todos con una sola modalidad en la objetivo (pero solo pesan el 0.2% de los datos)
+
+
+```r
+hoteles %&gt;%
+  group_by(distribution_channel) %&gt;% 
+  count(children) %&gt;% 
+  mutate(porc = 100*n/sum(n)) %&gt;% 
+  ungroup()
+```
+
+```
+&gt; # A tibble: 8 × 4
+&gt;   distribution_channel children     n   porc
+&gt;   &lt;fct&gt;                &lt;fct&gt;    &lt;int&gt;  &lt;dbl&gt;
+&gt; 1 TA/TO                none     35388  92.3 
+&gt; 2 TA/TO                children  2961   7.72
+&gt; 3 Direct               none      7045  87.2 
+&gt; 4 Direct               children  1038  12.8 
+&gt; 5 Corporate            none      3421  98.9 
+&gt; 6 Corporate            children    38   1.10
+&gt; 7 GDS                  none       108 100   
+&gt; 8 Undefined            children     1 100
+```
+
+
+---
+
+# Variable reserved_room_type
+
+La variable `reserved_room_type` toma **.bg-purple_light[9 modalidades]** (no nos especifican si hay jerarquía) pero **.bg-purple_light[solo 5 de ellas tienen un peso superior al 1%]** de los registros.
+
+
+```r
+hoteles %&gt;%
+  count(reserved_room_type, sort = TRUE) %&gt;%
+  mutate(porc = 100*n/sum(n),
+         cumul = cumsum(porc))
+```
+
+```
+&gt; # A tibble: 9 × 4
+&gt;   reserved_room_type     n   porc cumul
+&gt;   &lt;fct&gt;              &lt;int&gt;  &lt;dbl&gt; &lt;dbl&gt;
+&gt; 1 A                  34889 69.8    69.8
+&gt; 2 D                   8675 17.4    87.1
+&gt; 3 E                   3096  6.19   93.3
+&gt; 4 F                   1299  2.60   95.9
+&gt; 5 G                    899  1.80   97.7
+&gt; 6 B                    488  0.976  98.7
+&gt; 7 C                    417  0.834  99.5
+&gt; 8 H                    235  0.47  100. 
+&gt; 9 L                      2  0.004 100
+```
+
+---
+
+# Variable reserved_room_type
+
+Fíjate que `reserved_room_type` será **.bg-purple_light[tremendamente importante]**: si la habitación es de tipo F, el 47% viene con niños (frente al 8% global), del 70% incluso si es de tipo C
+
+
+```r
+hoteles %&gt;%
+  group_by(reserved_room_type) %&gt;% 
+  count(children) %&gt;% 
+  mutate(porc = 100*n/sum(n)) %&gt;% 
+  ungroup()
+```
+
+```
+&gt; # A tibble: 17 × 4
+&gt;    reserved_room_type children     n   porc
+&gt;    &lt;fct&gt;              &lt;fct&gt;    &lt;int&gt;  &lt;dbl&gt;
+&gt;  1 A                  none     33364  95.6 
+&gt;  2 A                  children  1525   4.37
+&gt;  3 D                  none      8210  94.6 
+&gt;  4 D                  children   465   5.36
+&gt;  5 F                  none       677  52.1 
+&gt;  6 F                  children   622  47.9 
+&gt;  7 C                  none       125  30.0 
+&gt;  8 C                  children   292  70.0 
+&gt;  9 B                  none       353  72.3 
+&gt; 10 B                  children   135  27.7 
+&gt; 11 E                  none      2828  91.3 
+&gt; 12 E                  children   268   8.66
+&gt; 13 G                  none       341  37.9 
+&gt; 14 G                  children   558  62.1 
+&gt; 15 H                  none        62  26.4 
+&gt; 16 H                  children   173  73.6 
+&gt; 17 L                  none         2 100
+```
+
+---
+
+# Variable assigned_room_type
+
+La variable `assigned_room_type` toma **.bg-purple_light[10 modalidades]** (no nos especifican si hay jerarquía) pero solo 7 de ellas tienen un peso superior al 1% de los registros.
+
+
+```r
+hoteles %&gt;%
+  count(assigned_room_type, sort = TRUE) %&gt;%
+  mutate(porc = 100*n/sum(n),
+         cumul = cumsum(porc))
+```
+
+```
+&gt; # A tibble: 10 × 4
+&gt;    assigned_room_type     n   porc cumul
+&gt;    &lt;fct&gt;              &lt;int&gt;  &lt;dbl&gt; &lt;dbl&gt;
+&gt;  1 A                  27357 54.7    54.7
+&gt;  2 D                  12577 25.2    79.9
+&gt;  3 E                   3924  7.85   87.7
+&gt;  4 F                   1839  3.68   91.4
+&gt;  5 C                   1305  2.61   94.0
+&gt;  6 G                   1185  2.37   96.4
+&gt;  7 B                   1079  2.16   98.5
+&gt;  8 H                    313  0.626  99.2
+&gt;  9 I                    239  0.478  99.6
+&gt; 10 K                    182  0.364 100
+```
+
+Como sucedía antes `assigned_room_type` será tremendamente importante
+
+---
+
+# Variable reserved_room_type vs assigned_room_type
+
+Quizás sea interesante, al margen del tipo de habitación, ver que sucede cuando la **.bg-purple_light[asignada es distinta de la reservada]**. 
+
+
+```r
+hoteles %&gt;%
+  mutate(same_room = as.character(reserved_room_type) == as.character(assigned_room_type)) %&gt;%
+  group_by(same_room) %&gt;% 
+  count(children) %&gt;% 
+  mutate(porc = 100*n/sum(n)) %&gt;% 
+  ungroup()
+```
+
+```
+&gt; # A tibble: 4 × 4
+&gt;   same_room children     n  porc
+&gt;   &lt;lgl&gt;     &lt;fct&gt;    &lt;int&gt; &lt;dbl&gt;
+&gt; 1 FALSE     none      8601 91.5 
+&gt; 2 FALSE     children   794  8.45
+&gt; 3 TRUE      none     37361 92.0 
+&gt; 4 TRUE      children  3244  7.99
+```
+
+No parece que influya significativamente
+
+---
+
+# Variable deposit_type
+
+La variable `deposit_type` toma **.bg-purple_light[3 modalidades]** pero el 99.6% de los registros es la misma.
+
+
+```r
+hoteles %&gt;%
+  count(deposit_type, sort = TRUE) %&gt;%
+  mutate(porc = 100*n/sum(n), cumul = cumsum(porc))
+```
+
+```
+&gt; # A tibble: 3 × 4
+&gt;   deposit_type     n   porc cumul
+&gt;   &lt;fct&gt;        &lt;int&gt;  &lt;dbl&gt; &lt;dbl&gt;
+&gt; 1 No_Deposit   49839 99.7    99.7
+&gt; 2 Refundable      92  0.184  99.9
+&gt; 3 Non_Refund      69  0.138 100
+```
+
+---
+
+# Variable deposit_type
+
+Además de ser **.bg-purple_light[muy pocos]** los registros que no sean `No_Deposit`, prácticamente su totalidad son **.bg-purple_light[sin niños]** (clase ya mayoritaria en los datos).
+
+
+```r
+hoteles %&gt;%
+  group_by(deposit_type) %&gt;% 
+  count(children) %&gt;% 
+  mutate(porc = 100*n/sum(n)) %&gt;% 
+  ungroup()
+```
+
+```
+&gt; # A tibble: 6 × 4
+&gt;   deposit_type children     n  porc
+&gt;   &lt;fct&gt;        &lt;fct&gt;    &lt;int&gt; &lt;dbl&gt;
+&gt; 1 No_Deposit   none     45803 91.9 
+&gt; 2 No_Deposit   children  4036  8.10
+&gt; 3 Refundable   none        91 98.9 
+&gt; 4 Refundable   children     1  1.09
+&gt; 5 Non_Refund   none        68 98.6 
+&gt; 6 Non_Refund   children     1  1.45
+```
+
+---
+
+# Variable deposit_type
+
+La variable `customer_type` toma **.bg-purple_light[4 modalidades]** pero **.bg-purple_light[dos de ellas representan más del 95%]** de los registros.
+
+
+```r
+hoteles %&gt;%
+  count(customer_type, sort = TRUE) %&gt;%
+  mutate(porc = 100*n/sum(n),
+         cumul = cumsum(porc))
+```
+
+```
+&gt; # A tibble: 4 × 4
+&gt;   customer_type       n   porc cumul
+&gt;   &lt;fct&gt;           &lt;int&gt;  &lt;dbl&gt; &lt;dbl&gt;
+&gt; 1 Transient       35343 70.7    70.7
+&gt; 2 Transient-Party 12430 24.9    95.5
+&gt; 3 Contract         1864  3.73   99.3
+&gt; 4 Group             363  0.726 100
+```
+
+---
+
+# Variable deposit_type
+
+El 88% de las reservas con niños son de tipo `"Transient"`
+
+
+```r
+hoteles %&gt;%
+  group_by(children) %&gt;% 
+  count(customer_type) %&gt;% 
+  mutate(porc = 100*n/sum(n)) %&gt;% 
+  ungroup()
+```
+
+```
+&gt; # A tibble: 8 × 4
+&gt;   children customer_type       n   porc
+&gt;   &lt;fct&gt;    &lt;fct&gt;           &lt;int&gt;  &lt;dbl&gt;
+&gt; 1 none     Transient-Party 12075 26.3  
+&gt; 2 none     Transient       31779 69.1  
+&gt; 3 none     Contract         1762  3.83 
+&gt; 4 none     Group             346  0.753
+&gt; 5 children Transient-Party   355  8.79 
+&gt; 6 children Transient        3564 88.3  
+&gt; 7 children Contract          102  2.53 
+&gt; 8 children Group              17  0.421
+```
+
+
+---
+
+
+# Variable required_car_parking_spaces
+
+La variable `required_car_parking_spaces` es binaria (muy desbalanceada).
+
+
+```r
+hoteles %&gt;%
+  count(required_car_parking_spaces, sort = TRUE) %&gt;%
+  mutate(porc = 100*n/sum(n),
+         cumul = cumsum(porc))
+```
+
+```
+&gt; # A tibble: 2 × 4
+&gt;   required_car_parking_spaces     n  porc cumul
+&gt;   &lt;fct&gt;                       &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;
+&gt; 1 none                        45019 90.0   90.0
+&gt; 2 parking                      4981  9.96 100
+```
+
+---
+
+# Variable required_car_parking_spaces
+
+El % de las reservas con niños es el doble cuando hay parking solicitado.
+
+
+```r
+hoteles %&gt;%
+  group_by(children) %&gt;% 
+  count(required_car_parking_spaces) %&gt;% 
+  mutate(porc = 100*n/sum(n)) %&gt;% 
+  ungroup()
+```
+
+```
+&gt; # A tibble: 4 × 4
+&gt;   children required_car_parking_spaces     n  porc
+&gt;   &lt;fct&gt;    &lt;fct&gt;                       &lt;int&gt; &lt;dbl&gt;
+&gt; 1 none     none                        41708 90.7 
+&gt; 2 none     parking                      4254  9.26
+&gt; 3 children none                         3311 82.0 
+&gt; 4 children parking                       727 18.0
+```
+
+---
+
+# Dependencia entre variables cualitativas
+
+Más allá del análisis exploratorio numérico, podemos ejecutar un **.bg-purple_light[contraste de independencia]** (prueba `\(\chi^2\)` de independencia) para tener mayor certeza de si la predictora es dependiente o no de la variable objetivo (si fuera independiente, no tendría sentido mantenerla)
+
+
+```r
+chisq.test(hoteles$children, hoteles$hotel)
+```
+
+```
+&gt; 
+&gt; 	Pearson's Chi-squared test with Yates' continuity correction
+&gt; 
+&gt; data:  hoteles$children and hoteles$hotel
+&gt; X-squared = 14.796, df = 1, p-value = 0.0001198
+```
+
+Si fijamos `\(\alpha = 0.05\)` (nivel de significación), si p-valor &lt; 0.05 deberíamos rechazar la **.bg-purple_light[hipótesis nula de independencia]** (bajo dicho nivel).
+
+---
+
+# Dependencia entre variables cualitativas
+
+
+Podemos hacerlo con **.bg-purple_light[todas las variables a la vez]** enfrentándola a la objetivo
+
+
+```r
+chisq &lt;-
+  tibble("variable" = hoteles %&gt;% select(where(is.factor)) %&gt;% names(),
+         "p_value" = hoteles %&gt;% select(where(is.factor)) %&gt;%
+           map_dbl(.f = function(x) { chisq.test(hoteles$children, x)$p.value}))
+chisq %&gt;% arrange(desc(p_value))
+```
+
+```
+&gt; # A tibble: 11 × 2
+&gt;    variable                      p_value
+&gt;    &lt;chr&gt;                           &lt;dbl&gt;
+&gt;  1 deposit_type                6.20e-  3
+&gt;  2 hotel                       1.20e-  4
+&gt;  3 country                     1.60e- 40
+&gt;  4 meal                        4.23e- 55
+&gt;  5 required_car_parking_spaces 1.22e- 70
+&gt;  6 distribution_channel        3.17e-107
+&gt;  7 customer_type               4.39e-145
+&gt;  8 market_segment              8.40e-292
+&gt;  9 children                    0        
+&gt; 10 reserved_room_type          0        
+&gt; 11 assigned_room_type          0
+```
+
+---
+
+# Dependencia entre variables cualitativas
+
+
+
+
+```r
+chisq %&gt;% filter(p_value &gt; 0.05)
+```
+
+```
+&gt; # A tibble: 0 × 2
+&gt; # … with 2 variables: variable &lt;chr&gt;, p_value &lt;dbl&gt;
+&gt; # ℹ Use `colnames()` to see all variable names
+```
+
+**.bg-purple_light[No hay evidencia suficiente para decir que existe predictora independiente de la objetivo]** (al 95% de confianza) según la prueba de independencia realizada
+
+---
+
+# Resumen de las variables cuali
+
+* `hotel` --&gt; **.bg-purple_light[no hacer nada]**.
+
+* `meal`: aunque haya pocos registros de `meal = "FB"`, parece que pueden ser determinantes --&gt; **.bg-purple_light[reagrupar "Undefined" con "SC" y dejar "FB"]**.
+
+* `country`: tan solo 21 de ellas aparecen en más del 0.5% de registros (una de ellas es NULL) --&gt; **.bg-purple_light[reagrupar niveles de países minoritarios]** (representan juntos aprox el 10% del total) quedándonos con aquellos que superen en un mínimo de representatividad (más fino: incluir también los que sean más propensos que otros a reservas con niños).
+
+* `market_segment`:  algunas representan menos del 1% del total, aunque para `market_segment = "Aviation"` el 100% son sin niños (casi similar con `market_segment = "Corporate"` y `market_segment = "Groups"`) --&gt; **.bg-purple_light[agrupar los 3 junto con "complementary"]** (pesan muy poco estos últimos) en un `"others"`.
+
+* `distribution_channel`: solo 3 de ellas agrupan ya más del 99% de los registros --&gt; **.bg-purple_light[reagrupar "Corporate" (98.9% no children), "GDS" (100%  no children) y "Undefined" (solo 1 dato)]** en `"others"` (aprox. el 7% de los datos).
+
+---
+
+# Resumen de las variables cuali
+
+
+* `reserved_room_type`: solo 5 de ellas tienen un peso superior al 1% de los registros, si es de tipo **.bg-purple_light[C, H o L]** (juntas suman el 1.3% de los datos aprox.), con niños superan el 70% --&gt; **.bg-purple_light[reagrupamos las 3]** en un `"others"`
+
+* `assigned_room_type`: con el mismo razonamiento que antes podemos **.bg-purple_light[reaagupar las categorías H-I-K]** en `"others"` 
+
+* `deposit_type`: el 99.6% de registros es la misma --&gt;  muy poca varianza y además casi todos de esas clases minoritarias son de la clase mayoritaria de la  objetivo  --&gt; **.bg-purple_light[eliminar]**
+
+* `customer_type` --&gt; **.bg-purple_light[reagrupar "Transient" y "others"]**
+
+* `required_car_parking_spaces` --&gt; **.bg-purple_light[no hacer nada]**
+
+
+---
+
+# Variables de tipo de fecha
+
+Solo tenemos una `arrival_date`: ¿qué parte de la fecha exactamente influye más? ¿El año? ¿El mes? ¿El día como número en sí o el día de la semana? Tras extraer info la eliminaremos.
+
+
+```r
+hoteles &lt;- 
+  hoteles %&gt;% 
+  mutate(m_arr = month(arrival_date), y_arr = year(arrival_date),
+         wday_arr = wday(arrival_date))
+
+hoteles %&gt;% group_by(y_arr) %&gt;% count(children) %&gt;% 
+  mutate(porc = 100*n/sum(n))
+```
+
+```
+&gt; # A tibble: 6 × 4
+&gt; # Groups:   y_arr [3]
+&gt;   y_arr children     n  porc
+&gt;   &lt;dbl&gt; &lt;fct&gt;    &lt;int&gt; &lt;dbl&gt;
+&gt; 1  2015 none      8623 93.9 
+&gt; 2  2015 children   562  6.12
+&gt; 3  2016 none     22161 91.8 
+&gt; 4  2016 children  1981  8.21
+&gt; 5  2017 none     15178 91.0 
+&gt; 6  2017 children  1495  8.97
+```
+
+No parece que el año influya mucho (veremos si influyen los días festivos en sí)
+
+---
+
+# Variables de tipo de fecha
+
+Parece que los meses de julio, agosto y diciembre influye mucho al tener más niños --&gt; podemos agrupar los meses en `"month_holy"` y `"month_no_holy"`
+
+
+```r
+hoteles %&gt;%  group_by(m_arr) %&gt;% count(children) %&gt;% 
+  mutate(porc = 100*n/sum(n))
+```
+
+```
+&gt; # A tibble: 24 × 4
+&gt; # Groups:   m_arr [12]
+&gt;    m_arr children     n  porc
+&gt;    &lt;dbl&gt; &lt;fct&gt;    &lt;int&gt; &lt;dbl&gt;
+&gt;  1     1 none      2586 94.5 
+&gt;  2     1 children   150  5.48
+&gt;  3     2 none      3261 91.5 
+&gt;  4     2 children   302  8.48
+&gt;  5     3 none      4195 94.7 
+&gt;  6     3 children   237  5.35
+&gt;  7     4 none      4022 92.4 
+&gt;  8     4 children   331  7.60
+&gt;  9     5 none      4538 94.8 
+&gt; 10     5 children   249  5.20
+&gt; # … with 14 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
+```
+
+
+---
+
+# Variables de tipo de fecha
+
+Parece que los viernes, sábados y domingos hay más reservas con niños --&gt; podemos agrupar los meses en `"weekend"` y `"workday"`
+
+
+```r
+hoteles %&gt;%  group_by(wday_arr) %&gt;%  count(children) %&gt;% 
+  mutate(porc = 100*n/sum(n))
+```
+
+```
+&gt; # A tibble: 14 × 4
+&gt; # Groups:   wday_arr [7]
+&gt;    wday_arr children     n  porc
+&gt;       &lt;dbl&gt; &lt;fct&gt;    &lt;int&gt; &lt;dbl&gt;
+&gt;  1        1 none      5768 91.5 
+&gt;  2        1 children   537  8.52
+&gt;  3        2 none      7324 92.1 
+&gt;  4        2 children   628  7.90
+&gt;  5        3 none      5777 92.7 
+&gt;  6        3 children   456  7.32
+&gt;  7        4 none      6468 93.7 
+&gt;  8        4 children   432  6.26
+&gt;  9        5 none      6969 92.3 
+&gt; 10        5 children   579  7.67
+&gt; 11        6 none      7094 92.0 
+&gt; 12        6 children   620  8.04
+&gt; 13        7 none      6562 89.3 
+&gt; 14        7 children   786 10.7
+```
+
+---
+
+# Variables numéricas
+
+* `lead_time`: variable con una alta concentración a la izquierda (cola pesada a la derecha), con un máximo de días muy elevado.
+
+
+```r
+hoteles %&gt;% summarise(min_lead = min(lead_time), max_lead = max(lead_time))
+```
+
+```
+&gt; # A tibble: 1 × 2
+&gt;   min_lead max_lead
+&gt;      &lt;dbl&gt;    &lt;dbl&gt;
+&gt; 1        0      709
+```
+
+--
+
+Quizas no tenga sentido tanto número de días entre la reserva y la estancia --&gt; todo lo que **.bg-purple_light[supere 365, imputarle 366]** (representan además el 1.35% solo)
+
+
+```r
+hoteles %&gt;% group_by(lead_time &gt; 365) %&gt;% count()
+```
+
+```
+&gt; # A tibble: 2 × 2
+&gt; # Groups:   lead_time &gt; 365 [2]
+&gt;   `lead_time &gt; 365`     n
+&gt;   &lt;lgl&gt;             &lt;int&gt;
+&gt; 1 FALSE             49326
+&gt; 2 TRUE                674
+```
+
+---
+
+# Variables numéricas
+
+* `stays_in_weekend_nights`: en realidad es una variable cualitativa más que cuantitativa, y a partir de 2 noches en festivo representa menos de 1% --&gt; podríamos probar a **.bg-purple_light[dejarla tal cual o recategorizarla en 4 categorías]** (ninguna - 1 - 2 - más de 2)
+
+
+```r
+hoteles %&gt;%
+  count(stays_in_weekend_nights, sort = TRUE) %&gt;% 
+  mutate(porc = 100*n/sum(n), cumul = cumsum(porc))
+```
+
+```
+&gt; # A tibble: 17 × 4
+&gt;    stays_in_weekend_nights     n   porc cumul
+&gt;                      &lt;dbl&gt; &lt;int&gt;  &lt;dbl&gt; &lt;dbl&gt;
+&gt;  1                       0 21640 43.3    43.3
+&gt;  2                       2 13840 27.7    71.0
+&gt;  3                       1 13031 26.1    97.0
+&gt;  4                       4   826  1.65   98.7
+&gt;  5                       3   564  1.13   99.8
+&gt;  6                       6    41  0.082  99.9
+&gt;  7                       5    22  0.044  99.9
+&gt;  8                       8    18  0.036 100. 
+&gt;  9                      10     4  0.008 100. 
+&gt; 10                       7     2  0.004 100. 
+&gt; 11                       9     2  0.004 100. 
+&gt; 12                      12     2  0.004 100. 
+&gt; 13                      13     2  0.004 100. 
+&gt; 14                      14     2  0.004 100. 
+&gt; 15                      16     2  0.004 100. 
+&gt; 16                      18     1  0.002 100. 
+&gt; 17                      19     1  0.002 100
+```
+
+---
+
+# Variables numéricas
+
+* `stays_in_week_nights`: en realidad es una variable cualitativa más que cuantitativa, y a partir de 5 noches representa menos del 5% --&gt; podríamos probar a **.bg-purple_light[dejarla tal cual o recategorizarla en 7 categorías]** (ninguna - 1 - 2 - 3 - 4 - 5 - más de 5)
+
+
+```r
+hoteles %&gt;%
+  count(stays_in_week_nights, sort = TRUE) %&gt;% 
+  mutate(porc = 100*n/sum(n), cumul = cumsum(porc))
+```
+
+```
+&gt; # A tibble: 31 × 4
+&gt;    stays_in_week_nights     n   porc cumul
+&gt;                   &lt;dbl&gt; &lt;int&gt;  &lt;dbl&gt; &lt;dbl&gt;
+&gt;  1                    1 13619 27.2    27.2
+&gt;  2                    2 12513 25.0    52.3
+&gt;  3                    3  9161 18.3    70.6
+&gt;  4                    5  4779  9.56   80.1
+&gt;  5                    4  4020  8.04   88.2
+&gt;  6                    0  3818  7.64   95.8
+&gt;  7                    6   616  1.23   97.1
+&gt;  8                   10   488  0.976  98.0
+&gt;  9                    7   481  0.962  99.0
+&gt; 10                    8   303  0.606  99.6
+&gt; # … with 21 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
+```
+
+---
+
+# Variables numéricas
+
+* `adults`: en realidad es una variable cualitativa más que cuantitativa --&gt; podríamos probar a **.bg-purple_light[dejarla tal cual o recategorizarla en 4 categorías]** (ninguno - 1 - 2 - más de 2)
+
+
+```r
+hoteles %&gt;% count(adults, sort = TRUE) %&gt;% 
+  mutate(porc = 100*n/sum(n), cumul = cumsum(porc))
+```
+
+```
+&gt; # A tibble: 5 × 4
+&gt;   adults     n   porc cumul
+&gt;    &lt;dbl&gt; &lt;int&gt;  &lt;dbl&gt; &lt;dbl&gt;
+&gt; 1      2 36271 72.5    72.5
+&gt; 2      1 10831 21.7    94.2
+&gt; 3      3  2675  5.35   99.6
+&gt; 4      0   194  0.388  99.9
+&gt; 5      4    29  0.058 100
+```
+
+---
+
+# Variables numéricas
+
+* `is_repeated_guest`: en realidad es **.bg-purple_light[binaria]** --&gt; hay que convertirla a cualitativa (factor)
+
+
+```r
+hoteles %&gt;% count(is_repeated_guest, sort = TRUE) %&gt;% mutate(porc = 100*n/sum(n))
+```
+
+```
+&gt; # A tibble: 2 × 3
+&gt;   is_repeated_guest     n  porc
+&gt;               &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt;
+&gt; 1                 0 47840 95.7 
+&gt; 2                 1  2160  4.32
+```
+
+```r
+hoteles %&gt;% group_by(is_repeated_guest) %&gt;% count(children) %&gt;% 
+  mutate(porc = 100*n/sum(n)) %&gt;% ungroup()
+```
+
+```
+&gt; # A tibble: 4 × 4
+&gt;   is_repeated_guest children     n  porc
+&gt;               &lt;dbl&gt; &lt;fct&gt;    &lt;int&gt; &lt;dbl&gt;
+&gt; 1                 0 none     43863 91.7 
+&gt; 2                 0 children  3977  8.31
+&gt; 3                 1 none      2099 97.2 
+&gt; 4                 1 children    61  2.82
+```
+
+---
+
+# Variables numéricas
+
+* `previous_cancellations`: el 99.238% son 0 (y la mayoría de 1, sin niños) --&gt; **.bg-purple_light[eliminar]**
+
+* `previous_bookings_not_canceled`: el 95.47% son 0, el 1.9% son 1 --&gt; se podría probar a **.bg-purple_light[dejarla tal cual o recategorizar en 3 categorías]**
+
+
+```r
+hoteles %&gt;% count(previous_cancellations == 0, sort = TRUE)
+```
+
+```
+&gt; # A tibble: 2 × 2
+&gt;   `previous_cancellations == 0`     n
+&gt;   &lt;lgl&gt;                         &lt;int&gt;
+&gt; 1 TRUE                          49619
+&gt; 2 FALSE                           381
+```
+
+```r
+hoteles %&gt;% count(previous_bookings_not_canceled, sort = TRUE) %&gt;%
+  mutate(porc = 100*n/sum(n), cumul = cumsum(porc))
+```
+
+```
+&gt; # A tibble: 57 × 4
+&gt;    previous_bookings_not_canceled     n   porc cumul
+&gt;                             &lt;dbl&gt; &lt;int&gt;  &lt;dbl&gt; &lt;dbl&gt;
+&gt;  1                              0 47735 95.5    95.5
+&gt;  2                              1   956  1.91   97.4
+&gt;  3                              2   370  0.74   98.1
+&gt;  4                              3   210  0.42   98.5
+&gt;  5                              4   148  0.296  98.8
+&gt;  6                              5   112  0.224  99.1
+&gt;  7                              6    76  0.152  99.2
+&gt;  8                              7    50  0.1    99.3
+&gt;  9                              9    42  0.084  99.4
+&gt; 10                              8    39  0.078  99.5
+&gt; # … with 47 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
+```
+
+
+---
+
+# Variables numéricas
+
+* `booking_changes`: el 94.194% son 0 o 1 --&gt; se podría probar a **.bg-purple_light[dejarla numérica o recategorizar en 3 categorías]**
+
+
+```r
+hoteles %&gt;% count(booking_changes, sort = TRUE) %&gt;% 
+  mutate(porc = 100*n/sum(n), cumul = cumsum(porc))
+```
+
+```
+&gt; # A tibble: 19 × 4
+&gt;    booking_changes     n   porc cumul
+&gt;              &lt;dbl&gt; &lt;int&gt;  &lt;dbl&gt; &lt;dbl&gt;
+&gt;  1               0 39823 79.6    79.6
+&gt;  2               1  7274 14.5    94.2
+&gt;  3               2  2018  4.04   98.2
+&gt;  4               3   523  1.05   99.3
+&gt;  5               4   212  0.424  99.7
+&gt;  6               5    71  0.142  99.8
+&gt;  7               6    31  0.062  99.9
+&gt;  8               7    13  0.026  99.9
+&gt;  9               8    11  0.022 100. 
+&gt; 10               9     6  0.012 100. 
+&gt; 11              10     4  0.008 100. 
+&gt; 12              13     3  0.006 100. 
+&gt; 13              15     3  0.006 100. 
+&gt; 14              11     2  0.004 100. 
+&gt; 15              17     2  0.004 100. 
+&gt; 16              12     1  0.002 100. 
+&gt; 17              16     1  0.002 100. 
+&gt; 18              18     1  0.002 100. 
+&gt; 19              21     1  0.002 100
+```
+
+---
+
+# Variables numéricas
+
+* `days_in_waiting_list`: el 98% de los registros son 0 (y de los que no son casi todos no tienen niños) --&gt; **.bg-purple_light[eliminar variable]**
+
+
+```r
+hoteles %&gt;% count(days_in_waiting_list, sort = TRUE) %&gt;% 
+  mutate(porc = 100*n/sum(n), cumul = cumsum(porc))
+```
+
+```
+&gt; # A tibble: 92 × 4
+&gt;    days_in_waiting_list     n   porc cumul
+&gt;                   &lt;dbl&gt; &lt;int&gt;  &lt;dbl&gt; &lt;dbl&gt;
+&gt;  1                    0 49116 98.2    98.2
+&gt;  2                   58   114  0.228  98.5
+&gt;  3                   87    47  0.094  98.6
+&gt;  4                   38    34  0.068  98.6
+&gt;  5                   63    34  0.068  98.7
+&gt;  6                  122    33  0.066  98.8
+&gt;  7                   65    26  0.052  98.8
+&gt;  8                  223    26  0.052  98.9
+&gt;  9                   77    25  0.05   98.9
+&gt; 10                   44    22  0.044  99.0
+&gt; # … with 82 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
+```
+
+---
+
+# Variables numéricas
+
+* `average_daily_rate`: es la única numérica continua pero tiene **.bg-purple_light[valores negativos o cero]** (deberían ser estrictamente positivo) --&gt; el 2.33% tiene **.bg-purple_light[problemas de codificación o rango]** que deberemos pasar a ausentes e imputarles un valores luego.
+
+
+```r
+hoteles %&gt;% count(average_daily_rate &lt;= 0) %&gt;% mutate(porc = 100*n/sum(n))
+```
+
+```
+&gt; # A tibble: 2 × 3
+&gt;   `average_daily_rate &lt;= 0`     n  porc
+&gt;   &lt;lgl&gt;                     &lt;int&gt; &lt;dbl&gt;
+&gt; 1 FALSE                     48833 97.7 
+&gt; 2 TRUE                       1167  2.33
+```
+
+---
+
+# Variables numéricas
+
+* `total_of_special_requests`: más del 96% son 0-1-2 --&gt; se podría **.bg-purple_light[dejar numérica o recategorizarla en 4 categorías]**.
+
+
+```r
+hoteles %&gt;% count(total_of_special_requests, sort = TRUE) %&gt;% 
+  mutate(porc = 100*n/sum(n), cumul = cumsum(porc))
+```
+
+```
+&gt; # A tibble: 6 × 4
+&gt;   total_of_special_requests     n   porc cumul
+&gt;                       &lt;dbl&gt; &lt;int&gt;  &lt;dbl&gt; &lt;dbl&gt;
+&gt; 1                         0 24493 49.0    49.0
+&gt; 2                         1 17234 34.5    83.5
+&gt; 3                         2  6679 13.4    96.8
+&gt; 4                         3  1358  2.72   99.5
+&gt; 5                         4   213  0.426 100. 
+&gt; 6                         5    23  0.046 100
+```
+
+---
+
+# .orange[COLINEALIDAD]
+
+Por último, nos falta comprobar los **.bg-purple_light[problemas de  colinealidad]** entre las predictoras numéricas. 
+
+Podemos tratar las **.bg-orange[numéricas por separado]** (aunque tengamos muchas que en realidad hacen más de cuali que de cuanti)
+
+
+```r
+library(corrr)
+cor_matrix &lt;- hoteles %&gt;% select(where(is.numeric)) %&gt;% cor() %&gt;% round(2)
+cor_matrix
+```
+
+```
+&gt;                                lead_time stays_in_weekend_nights
+&gt; lead_time                           1.00                    0.19
+&gt; stays_in_weekend_nights             0.19                    1.00
+&gt; stays_in_week_nights                0.28                    0.51
+&gt; adults                              0.14                    0.13
+&gt; is_repeated_guest                  -0.15                   -0.10
+&gt; previous_cancellations             -0.04                   -0.02
+&gt; previous_bookings_not_canceled     -0.08                   -0.05
+&gt; booking_changes                     0.09                    0.07
+&gt; days_in_waiting_list                0.18                   -0.05
+&gt; average_daily_rate                  0.02                    0.04
+&gt; total_of_special_requests           0.04                    0.07
+&gt; m_arr                               0.10                    0.03
+&gt; y_arr                               0.11                    0.01
+&gt; wday_arr                            0.05                   -0.14
+&gt;                                stays_in_week_nights adults is_repeated_guest
+&gt; lead_time                                      0.28   0.14             -0.15
+&gt; stays_in_weekend_nights                        0.51   0.13             -0.10
+&gt; stays_in_week_nights                           1.00   0.13             -0.11
+&gt; adults                                         0.13   1.00             -0.21
+&gt; is_repeated_guest                             -0.11  -0.21              1.00
+&gt; previous_cancellations                        -0.03  -0.06              0.25
+&gt; previous_bookings_not_canceled                -0.06  -0.15              0.44
+&gt; booking_changes                                0.12  -0.07              0.00
+&gt; days_in_waiting_list                           0.01  -0.01             -0.02
+&gt; average_daily_rate                             0.05   0.33             -0.16
+&gt; total_of_special_requests                      0.06   0.20              0.00
+&gt; m_arr                                          0.03   0.04             -0.05
+&gt; y_arr                                          0.01   0.04              0.06
+&gt; wday_arr                                      -0.01   0.06             -0.05
+&gt;                                previous_cancellations
+&gt; lead_time                                       -0.04
+&gt; stays_in_weekend_nights                         -0.02
+&gt; stays_in_week_nights                            -0.03
+&gt; adults                                          -0.06
+&gt; is_repeated_guest                                0.25
+&gt; previous_cancellations                           1.00
+&gt; previous_bookings_not_canceled                   0.52
+&gt; booking_changes                                  0.00
+&gt; days_in_waiting_list                            -0.01
+&gt; average_daily_rate                              -0.04
+&gt; total_of_special_requests                        0.02
+&gt; m_arr                                           -0.03
+&gt; y_arr                                            0.01
+&gt; wday_arr                                        -0.01
+&gt;                                previous_bookings_not_canceled booking_changes
+&gt; lead_time                                               -0.08            0.09
+&gt; stays_in_weekend_nights                                 -0.05            0.07
+&gt; stays_in_week_nights                                    -0.06            0.12
+&gt; adults                                                  -0.15           -0.07
+&gt; is_repeated_guest                                        0.44            0.00
+&gt; previous_cancellations                                   0.52            0.00
+&gt; previous_bookings_not_canceled                           1.00            0.00
+&gt; booking_changes                                          0.00            1.00
+&gt; days_in_waiting_list                                    -0.01            0.00
+&gt; average_daily_rate                                      -0.09            0.01
+&gt; total_of_special_requests                                0.03            0.00
+&gt; m_arr                                                   -0.03            0.00
+&gt; y_arr                                                    0.04            0.03
+&gt; wday_arr                                                -0.04            0.01
+&gt;                                days_in_waiting_list average_daily_rate
+&gt; lead_time                                      0.18               0.02
+&gt; stays_in_weekend_nights                       -0.05               0.04
+&gt; stays_in_week_nights                           0.01               0.05
+&gt; adults                                        -0.01               0.33
+&gt; is_repeated_guest                             -0.02              -0.16
+&gt; previous_cancellations                        -0.01              -0.04
+&gt; previous_bookings_not_canceled                -0.01              -0.09
+&gt; booking_changes                                0.00               0.01
+&gt; days_in_waiting_list                           1.00              -0.03
+&gt; average_daily_rate                            -0.03               1.00
+&gt; total_of_special_requests                     -0.07               0.22
+&gt; m_arr                                          0.05               0.11
+&gt; y_arr                                         -0.06               0.17
+&gt; wday_arr                                       0.01               0.01
+&gt;                                total_of_special_requests m_arr y_arr wday_arr
+&gt; lead_time                                           0.04  0.10  0.11     0.05
+&gt; stays_in_weekend_nights                             0.07  0.03  0.01    -0.14
+&gt; stays_in_week_nights                                0.06  0.03  0.01    -0.01
+&gt; adults                                              0.20  0.04  0.04     0.06
+&gt; is_repeated_guest                                   0.00 -0.05  0.06    -0.05
+&gt; previous_cancellations                              0.02 -0.03  0.01    -0.01
+&gt; previous_bookings_not_canceled                      0.03 -0.03  0.04    -0.04
+&gt; booking_changes                                     0.00  0.00  0.03     0.01
+&gt; days_in_waiting_list                               -0.07  0.05 -0.06     0.01
+&gt; average_daily_rate                                  0.22  0.11  0.17     0.01
+&gt; total_of_special_requests                           1.00  0.03  0.12     0.01
+&gt; m_arr                                               0.03  1.00 -0.53     0.00
+&gt; y_arr                                               0.12 -0.53  1.00    -0.03
+&gt; wday_arr                                            0.01  0.00 -0.03     1.00
+```
+
+---
+
+# .orange[COLINEALIDAD]
+
+
+```r
+cor_matrix %&gt;%
+  corrplot(method = "number", tl.cex = 0.55, number.cex = 0.7, type = "lower")
+```
+
+&lt;img src="./img/cor_hoteles.jpg" width="40%" style="display: block; margin: auto;" /&gt;
+
+No parece existir una correlación elevada entre ninguna.
+
+---
+
+name: fase3-hoteles
+
+# Fase 3: .orange[MODIFICACIÓN]
+
+Con lo observado en la fase de exploración deberemos tomar **.bg-purple_light[dos tipos decisiones]**:
+
+* las que afectan a la **.bg-orange[base de datos en general]**: pasar a factores, problemas de codificación o rango, variables que no aportan, creación de variables en general, etc
+
+* las que afectan a un **.bg-orange[algoritmo en concreto]**: normalización para la métrica, recategorización, tratamiento de outliers/ausentes, dummyficación, etc.
+
+---
+
+# Fase 1: .orange[MUESTREO]
+
+Pero antes...¿hace falta **.bg-purple_light[muestreo]**? Parece que sí dado que tenemos muchas filas (al menos para hacer pruebas) --&gt; muestreo **.bg-purple_light[estratificado]** (por ej., del 10%)
+
+
+```r
+hoteles_sample &lt;-
+  hoteles %&gt;%
+  group_by(children) %&gt;% 
+  slice_sample(prop = 0.10) %&gt;%
+  ungroup()
+
+hoteles_sample %&gt;%
+  count(children) %&gt;% 
+  mutate(porc = 100*n/sum(n))
+```
+
+```
+&gt; # A tibble: 2 × 3
+&gt;   children     n  porc
+&gt;   &lt;fct&gt;    &lt;int&gt; &lt;dbl&gt;
+&gt; 1 none      4596 91.9 
+&gt; 2 children   403  8.06
+```
+
+¿Hace falta algo más?
+
+
+---
+
+# Fase 3: .orange[MODIFICACIÓN] (fuera receta)
+
+
+```r
+# Muestreo del 10
+hoteles_sample &lt;-
+  hoteles_bruto %&gt;%
+  group_by(children) %&gt;% 
+  slice_sample(prop = 0.10) %&gt;%
+  ungroup()
+
+# Eli%minar variables
+hoteles_sample &lt;-
+  hoteles_sample %&gt;%
+  select(-c(deposit_type, days_in_waiting_list, previous_cancellations))
+```
+
+---
+
+# Fase 3: .orange[MODIFICACIÓN] (fuera receta)
+
+
+```r
+# Convertir a cuali
+hoteles_sample &lt;-
+  hoteles_sample %&gt;% 
+  mutate(across(where(is.character), as_factor)) %&gt;%
+  mutate(meal = factor(meal, levels = c("Undefined", "SC", "BB", "HB", "FB"),
+                       ordered = TRUE))
+
+# Modificaciones de variables existentes
+hoteles_sample &lt;-
+  hoteles_sample %&gt;% 
+  mutate(lead_time = ifelse(lead_time &gt; 365, 366, lead_time),
+         average_daily_rate = ifelse(average_daily_rate &lt;= 0, NA, average_daily_rate),
+         is_repeated_guest = as_factor(is_repeated_guest))
+```
+
+---
+
+# .orange[RECETA]: .green[PARTICIÓN]
+
+Primero dividimos en **.bg-purple_light[test y lo demás]**, con `initial_split()`
+
+
+```r
+# Partición 10% de test
+hoteles_split &lt;- initial_split(hoteles_sample, strata = children, prop = 0.9)
+hoteles_split
+```
+
+```
+&gt; &lt;Analysis/Assess/Total&gt;
+&gt; &lt;4499/500/4999&gt;
+```
+
+```r
+# Aplicamos partición
+hoteles_train &lt;- training(hoteles_split)
+hoteles_test &lt;- testing(hoteles_split)
+
+# Comprobamos estratos
+hoteles_train %&gt;% count(children) %&gt;% mutate(porc = 100 * n / sum(n))
+```
+
+```
+&gt; # A tibble: 2 × 3
+&gt;   children     n  porc
+&gt;   &lt;fct&gt;    &lt;int&gt; &lt;dbl&gt;
+&gt; 1 children   358  7.96
+&gt; 2 none      4141 92.0
+```
+
+```r
+hoteles_test %&gt;% count(children) %&gt;% mutate(porc = 100 * n / sum(n))
+```
+
+```
+&gt; # A tibble: 2 × 3
+&gt;   children     n  porc
+&gt;   &lt;fct&gt;    &lt;int&gt; &lt;dbl&gt;
+&gt; 1 children    45     9
+&gt; 2 none       455    91
+```
+
+---
+
+# .orange[RECETA]: .green[PARTICIÓN]
+
+Tras ello usamos `validation_split()` para **.bg-purple_light[dividir en train-validación]** lo que teníamos en `hoteles_train` (75% del 90% = 67.5% vs 22.5%)
+
+
+```r
+# Validación
+hoteles_val &lt;- validation_split(hoteles_train, strata = children,
+                                prop = 0.75)
+hoteles_val
+```
+
+```
+&gt; # Validation Set Split (0.75/0.25)  using stratification 
+&gt; # A tibble: 1 × 2
+&gt;   splits              id        
+&gt;   &lt;list&gt;              &lt;chr&gt;     
+&gt; 1 &lt;split [3374/1125]&gt; validation
+```
+
+---
+
+# .orange[RECETA]: .green[ROLES]
+
+
+
+```r
+# Receta
+hoteles_rec &lt;-
+  # Fórmula y datos
+  recipe(data = hoteles_train, children ~ .)%&gt;%
+  # Roles
+  add_role(contains("date"), new_role = "date") %&gt;% 
+  add_role(where(is.factor), new_role = "cuali") %&gt;% 
+  add_role(where(is.numeric), new_role = "cuanti") %&gt;% 
+  add_role(c(hotel, required_car_parking_spaces, is_repeated_guest), new_role = "binary") %&gt;% 
+  add_role(where(is.numeric) &amp; !average_daily_rate, new_role = "maybe_cuali")
+```
+
+
+---
+
+# .orange[RECETA]: .green[FECHAS]
+
+* Con `step_date()` podemos indicarle directamente que extraiga de la fecha los elementos que le pidamos (en nuestro caso mes, día de la semana y año).
+
+* Con `listHolidays()` del paquete `{timeDate}` seleccionaremos festivos relevantes internacionalmente, y con `step_holiday()` marcaremos las fechas que lo sean. Tras ello eliminaremos la fecha original con `step_rm()`.
+
+
+```r
+library(timeDate)
+# Receta
+hoteles_rec &lt;-
+  hoteles_rec %&gt;% 
+  step_date(arrival_date, features = c("month", "dow", "year")) %&gt;% 
+  step_holiday(arrival_date,
+               holidays = c(listHolidays("\\Mary"), listHolidays("\\Easter"),
+                            listHolidays("\\Christ"), "NewYearsDay")) %&gt;%
+  # Eliminamos la variable
+  step_rm(arrival_date)
+```
+
+---
+
+
+# .orange[RECETA]: .green[OUTLIERS/AUSENTE]
+
+Tras ello de momento vamos a **.bg-purple_light[detectar outliers a lo bruto]**: detectando por la media e imputando por la media, pero solo de `has_role("cuanti")`, para no incluir a las binarias. Las cuali por la moda en caso de haber ausentes.
+
+
+```r
+library(outliers)
+# Receta
+hoteles_rec &lt;-
+  hoteles_rec %&gt;% 
+  # Detectar outliers
+  step_mutate(across(where(is.numeric), function(x) { ifelse(abs(scores(x, type = "z")) &gt; 2.5 &amp; !is.na(x), NA, x) })) %&gt;% 
+  # Imputar ausentes
+  step_impute_mean(has_role("cuanti")) %&gt;%
+  step_impute_mode(has_role("cuali"))
+```
+
+---
+
+# .orange[RECETA]: .green[TRANSFORMACIONES]
+
+* Aplicamos un filtro de correlación para **.bg-purple_light[prevenir problemas de colinealidad]**.
+
+* **.bg-purple_light[Normalizamos por rango]** para la métrica.
+
+* **.bg-purple_light[Dummyficamos]** las cualitativas: crea k-1 variables binarias por de cada cualitativa de k niveles.
+
+* **.bg-purple_light[Filtro de cero varianza]**.
+
+
+```r
+# Receta
+hoteles_rec &lt;-
+  hoteles_rec %&gt;% 
+  # Filtro de correlación
+  step_corr(has_role("cuanti"), threshold = 0.9) %&gt;% 
+  # Normalizar por rango
+  step_range(all_numeric_predictors()) %&gt;%
+  # Dummyficamos
+  step_dummy(all_nominal(), -all_outcomes()) %&gt;% 
+  # Filtro de cero varianza
+  step_zv(all_predictors())
+```
+
+
+---
+
+name: fase4-hoteles
+
+# Fase 4: .orange[MODELO Y FLUJO]
+
+
+Una vez definida la receta, definimos el **.bg-purple_light[modelo]** y unimos con la receta creando un **.bg-purple_light[flujo de clasificación]**
+
+
+```r
+# Modelo
+knn_model &lt;-
+  nearest_neighbor(mode = "classification", neighbors = 15,
+                   weight_func = "inv", dist_power = 2) %&gt;%
+  set_engine("kknn")
+
+# Flujo de trabajo
+hoteles_wflow &lt;-
+  workflow() %&gt;%
+  add_recipe(hoteles_rec) %&gt;%
+  add_model(knn_model)
+```
+
+---
+
+name: fase5-hoteles
+
+# Fase 5: .orange[EVALUACIÓN] en validación
+
+En este caso tenemos un conjunto de validación guardado en `hoteles_val`. Para realizar el **.bg-purple_light[ajuste en train y después obtener las métricas en validación]** usaremos `fit_resamples()`, pasándole como argumento los conjuntos de validación que tengamos y las **.bg-purple_light[métricas]** que queremos que evaluar (con `metric_set()` y el nombre de la métrica)
+
+
+```r
+# Solo contra un conjunto de validación
+hoteles_knn_fit_val &lt;-
+  hoteles_wflow %&gt;%
+  fit_resamples(hoteles_val,
+                metrics = metric_set(accuracy, sensitivity,
+                                     specificity, roc_auc))
+```
+
+
+---
+
+# Fase 5: .orange[EVALUACIÓN] en validación
+
+
+Con `collect_metrics()` obtenemos las métricas pedidas (dado que solo tenemos un conjunto de validación `n = 1` y `std_err = NA`, ya que no tiene con qué promediar al solor tener uno)
+
+
+```r
+collect_metrics(hoteles_knn_fit_val)
+```
+
+```
+&gt; # A tibble: 4 × 6
+&gt;   .metric     .estimator  mean     n std_err .config             
+&gt;   &lt;chr&gt;       &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;fct&gt;               
+&gt; 1 accuracy    binary     0.922     1      NA Preprocessor1_Model1
+&gt; 2 roc_auc     binary     0.779     1      NA Preprocessor1_Model1
+&gt; 3 sensitivity binary     0.194     1      NA Preprocessor1_Model1
+&gt; 4 specificity binary     0.995     1      NA Preprocessor1_Model1
+```
+
+---
+
+# Fase 5: .orange[EVALUACIÓN] con .green[CURVA ROC]
+
+Si te has fijado amén de la sensibilidad y la especificidad (y la tasa de bien de clasificados o accuracy), le hemos pedido una métrica llamada `roc_auc`: el **.bg-purple_light[área bajo la curva ROC]**
+
+
+```r
+collect_metrics(hoteles_knn_fit_val)
+```
+
+```
+&gt; # A tibble: 4 × 6
+&gt;   .metric     .estimator  mean     n std_err .config             
+&gt;   &lt;chr&gt;       &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;fct&gt;               
+&gt; 1 accuracy    binary     0.922     1      NA Preprocessor1_Model1
+&gt; 2 roc_auc     binary     0.779     1      NA Preprocessor1_Model1
+&gt; 3 sensitivity binary     0.194     1      NA Preprocessor1_Model1
+&gt; 4 specificity binary     0.995     1      NA Preprocessor1_Model1
+```
+
+--
+
+¿Qué es la **.bg-purple_light[curva ROC]**? Si recuerdas, aunque la salida que usamos normalmente es la clase predicha directamente, nuestro objetivo subyacente es **.bg-purple_light[calcular la probabilidad estimada de pertenencia]**
+
+---
+
+# Fase 5: .orange[EVALUACIÓN] con .green[CURVA ROC]
+
+En clasificación binaria, por defecto, estamos estableciendo que la **.bg-purple_light[predicción es 1]** si la probabilidad estimada de serlo es **.bg-purple_light[superior a 0.5]**. 
+
+Imagina que el objetivo es clasificar si una vacuna puede salir al mercado. ¿Es **.bg-purple_light[suficiente exigirle un umbral del 50%]** para asignar un 1?
+
+--
+
+La idea detrás de la curva ROC es **.bg-purple_light[mover dicho umbral de probabilidad]**, desde el 0 hasta el 1, para **.bg-purple_light[cada uno de esos umbrales]** calcular
+
+* **sensibilidad** (% de 1's reales que han sido clasificados como tal)
+
+* **especificidad** (% de 0's reales que han sido clasificados como tal)
+
+Y pintarlos en un gráfico (eje x = 1 - especificidad, eje y = sensibilidad)
+
+---
+
+# Fase 5: .orange[EVALUACIÓN] con .green[CURVA ROC]
+
+.pull-left[
+
+* Eje X: **.bg-purple_light[1 - especificidad]**, conocido como False Positive Rate (FPR), ya que es el % de 0's reales que han sido mal clasificados (como falsos positivos).
+
+* Eje Y: **.bg-purple_light[sensibilidad]**, conocido como True Positive Rate (TPR), ya que es el % de 1's reales que han sido clasificados como tal (verdaders positivos).
+
+* **.bg-purple_light[AUC ROC]**: área bajo la curva ROC, medida que oscila entre 0 (no hay curva) y 1 (la curva es el cuadrado entero). Clasificador dummy aleatorio: 0.5.
+
+]
+
+.pull-right[
+
+
+&lt;img src="./img/roc_curve.jpg" width="110%" style="display: block; margin: auto auto auto 0;" /&gt;
+
+]
+
+---
+
+# Fase 5: .orange[EVALUACIÓN] con .green[CURVA ROC]
+
+
+&lt;img src="./img/pcr_roc_curve.jpg" width="50%" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+# .orange[TUNE]
+
+Hasta ahora solo hemos probado un modelo pero la idea es **.bg-purple_light[entrenar varios modelos]** y **.bg-purple_light[evaluar en validación]** su calidad o conveniencia.
+
+Para ello lo que vamos a hacer al definir el modelo es **.bg-purple_light[no asignar una constante a los parámetros]** sino que los vamos a dejar sin fijar, asignándoles `tune()` (entre paréntesis una **etiqueta** para luego ser usada), para luego indicarle los «diales» en los que queremos que «sintonice»
+
+
+```r
+# Modelo con tune
+knn_model_tune &lt;-
+  nearest_neighbor(mode = "classification", neighbors = tune("k"),
+                   weight_func = tune("weight"), dist_power = tune("dist")) %&gt;%
+  set_engine("kknn")
+```
+
+---
+
+# .orange[TUNE]
+
+
+```r
+# Nuevo flujo (con tune)
+hoteles_wflow &lt;-
+  workflow() %&gt;%
+  add_recipe(hoteles_rec) %&gt;%
+  add_model(knn_model_tune)
+```
+
+El anterior modelo **.bg-purple_light[no tiene parámetros fijados]** a priori: vamos a definir un **.bg-purple_light[grid de parámetros]**
+
+Por ejemplo, podemos definir un grid de 7 valores de `k` (lo demás fijo)
+
+
+```r
+grid_knn &lt;- 
+  tibble("k" = seq(20, 140, by = 20), "weight" = rep("inv", 7),
+         "dist" = rep(2, 7))
+grid_knn
+```
+
+```
+&gt; # A tibble: 7 × 3
+&gt;       k weight  dist
+&gt;   &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt;
+&gt; 1    20 inv        2
+&gt; 2    40 inv        2
+&gt; 3    60 inv        2
+&gt; 4    80 inv        2
+&gt; 5   100 inv        2
+&gt; 6   120 inv        2
+&gt; 7   140 inv        2
+```
+
+---
+
+# .orange[TUNE GRID]
+
+Con `tune_grid()` le indicaremos que **.bg-purple_light[en lugar de entrenar un solo modelo]** entre uno por cada fila de parámetros que tenemos en `grid_knn`, y con `control_grid(verbose = TRUE)` le indicamos que nos informe del proceso. Tras ello con `collect_metrics()` obtendremos de una tacada la métrica de todos.
+
+
+```r
+# Entrenamos y evaluamos los 7 modelos
+hoteles_knn_fit_tune &lt;-
+ hoteles_wflow %&gt;%
+  tune_grid(resamples = hoteles_val, grid = grid_knn,
+            control = control_grid(verbose = TRUE),
+            metrics = metric_set(accuracy, sensitivity,
+                                 specificity, roc_auc))
+hoteles_knn_fit_tune %&gt;% collect_metrics()
+```
+
+```
+&gt; # A tibble: 28 × 9
+&gt;        k weight  dist .metric     .estimator  mean     n std_err .config        
+&gt;    &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;fct&gt;          
+&gt;  1    20 inv        2 accuracy    binary     0.924     1      NA Preprocessor1_…
+&gt;  2    20 inv        2 roc_auc     binary     0.797     1      NA Preprocessor1_…
+&gt;  3    20 inv        2 sensitivity binary     0.223     1      NA Preprocessor1_…
+&gt;  4    20 inv        2 specificity binary     0.995     1      NA Preprocessor1_…
+&gt;  5    40 inv        2 accuracy    binary     0.922     1      NA Preprocessor1_…
+&gt;  6    40 inv        2 roc_auc     binary     0.820     1      NA Preprocessor1_…
+&gt;  7    40 inv        2 sensitivity binary     0.194     1      NA Preprocessor1_…
+&gt;  8    40 inv        2 specificity binary     0.995     1      NA Preprocessor1_…
+&gt;  9    60 inv        2 accuracy    binary     0.909     1      NA Preprocessor1_…
+&gt; 10    60 inv        2 roc_auc     binary     0.835     1      NA Preprocessor1_…
+&gt; # … with 18 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
+```
+
+---
+
+
+# .orange[TUNE GRID]
+
+Ese grid también podemos definirlo para el resto de parámetros, definiendo los **.bg-purple_light[posibles valores para cada parámetro]** y probar **.bg-purple_light[todas las combinaciones entre ellos]**. Para eso haremos uso de `expand_grid()`
+
+
+```r
+expand_grid("x" = 1:3, "y" = 8:9)
+```
+
+```
+&gt; # A tibble: 6 × 2
+&gt;       x     y
+&gt;   &lt;int&gt; &lt;int&gt;
+&gt; 1     1     8
+&gt; 2     1     9
+&gt; 3     2     8
+&gt; 4     2     9
+&gt; 5     3     8
+&gt; 6     3     9
+```
+
+---
+
+# .orange[TUNE GRID]
+
+Con dicha herramienta vamos a **.bg-purple_light[crear 18 modelos]**: 3 valores diferentes de vecinos, 2 tipos de promedios y 3 métricas.
+
+
+```r
+grid_knn &lt;-
+  expand_grid("k" = c(10, 50, 100),
+              "weight" = c("inv", "gaussian"),
+              "dist" = c(0.01, 2, 10))
+grid_knn
+```
+
+```
+&gt; # A tibble: 18 × 3
+&gt;        k weight    dist
+&gt;    &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt;
+&gt;  1    10 inv       0.01
+&gt;  2    10 inv       2   
+&gt;  3    10 inv      10   
+&gt;  4    10 gaussian  0.01
+&gt;  5    10 gaussian  2   
+&gt;  6    10 gaussian 10   
+&gt;  7    50 inv       0.01
+&gt;  8    50 inv       2   
+&gt;  9    50 inv      10   
+&gt; 10    50 gaussian  0.01
+&gt; 11    50 gaussian  2   
+&gt; 12    50 gaussian 10   
+&gt; 13   100 inv       0.01
+&gt; 14   100 inv       2   
+&gt; 15   100 inv      10   
+&gt; 16   100 gaussian  0.01
+&gt; 17   100 gaussian  2   
+&gt; 18   100 gaussian 10
+```
+
+---
+
+# .orange[TUNE GRID]
+
+
+```r
+# Entrenamos y evaluamos los 18 modelos
+hoteles_knn_fit_tune &lt;-
+ hoteles_wflow %&gt;%
+  tune_grid(resamples = hoteles_val, grid = grid_knn,
+            control = control_grid(verbose = TRUE),
+            metrics = metric_set(accuracy, sensitivity,
+                                 specificity, roc_auc))
+hoteles_knn_fit_tune %&gt;% collect_metrics()
+```
+
+```
+&gt; # A tibble: 72 × 9
+&gt;        k weight    dist .metric     .estimator   mean     n std_err .config     
+&gt;    &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;       &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;fct&gt;       
+&gt;  1    10 gaussian  0.01 accuracy    binary     0.926      1      NA Preprocesso…
+&gt;  2    10 gaussian  0.01 roc_auc     binary     0.835      1      NA Preprocesso…
+&gt;  3    10 gaussian  0.01 sensitivity binary     0.233      1      NA Preprocesso…
+&gt;  4    10 gaussian  0.01 specificity binary     0.996      1      NA Preprocesso…
+&gt;  5    50 gaussian  0.01 accuracy    binary     0.916      1      NA Preprocesso…
+&gt;  6    50 gaussian  0.01 roc_auc     binary     0.842      1      NA Preprocesso…
+&gt;  7    50 gaussian  0.01 sensitivity binary     0.0777     1      NA Preprocesso…
+&gt;  8    50 gaussian  0.01 specificity binary     1          1      NA Preprocesso…
+&gt;  9   100 gaussian  0.01 accuracy    binary     0.909      1      NA Preprocesso…
+&gt; 10   100 gaussian  0.01 roc_auc     binary     0.843      1      NA Preprocesso…
+&gt; # … with 62 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
+```
+
+---
+
+# .orange[TUNE GRID]
+
+
+Incluso podemos generar ese grid de una manera más  **.bg-purple_light[automática]** haciendo uso de `update()` y `grid_regular()`, para el mismo número de valores en cada parámetro (por ejemplo 3 en cada uno, siempre que haya tres opciones dadas)
+
+
+```r
+grid_knn &lt;-
+  extract_parameter_set_dials(hoteles_wflow) %&gt;%
+  # Actualizamos
+  update(k = neighbors(range = c(10, 100)),
+         weight = weight_func(values = c("inv", "gaussian")),
+         dist = dist_power(range = c(0.1, 10))) %&gt;%
+  grid_regular(levels = 3) 
+grid_knn # 18 modelos (3 x 2 x 3)
+```
+
+```
+&gt; # A tibble: 18 × 3
+&gt;        k weight    dist
+&gt;    &lt;int&gt; &lt;chr&gt;    &lt;dbl&gt;
+&gt;  1    10 inv       0.1 
+&gt;  2    55 inv       0.1 
+&gt;  3   100 inv       0.1 
+&gt;  4    10 gaussian  0.1 
+&gt;  5    55 gaussian  0.1 
+&gt;  6   100 gaussian  0.1 
+&gt;  7    10 inv       5.05
+&gt;  8    55 inv       5.05
+&gt;  9   100 inv       5.05
+&gt; 10    10 gaussian  5.05
+&gt; 11    55 gaussian  5.05
+&gt; 12   100 gaussian  5.05
+&gt; 13    10 inv      10   
+&gt; 14    55 inv      10   
+&gt; 15   100 inv      10   
+&gt; 16    10 gaussian 10   
+&gt; 17    55 gaussian 10   
+&gt; 18   100 gaussian 10
+```
+
+---
+
+# .orange[TUNE GRID]
+
+
+```r
+# Entrenamos y evaluamos los 18 modelos
+hoteles_knn_fit_tune &lt;-
+ hoteles_wflow %&gt;%
+  tune_grid(resamples = hoteles_val, grid = grid_knn,
+            control = control_grid(verbose = TRUE),
+            metrics = metric_set(accuracy, sensitivity,
+                                 specificity, roc_auc))
+hoteles_knn_fit_tune %&gt;% collect_metrics()
+```
+
+```
+&gt; # A tibble: 72 × 9
+&gt;        k weight    dist .metric     .estimator   mean     n std_err .config     
+&gt;    &lt;int&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;       &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;fct&gt;       
+&gt;  1    10 gaussian   0.1 accuracy    binary     0.926      1      NA Preprocesso…
+&gt;  2    10 gaussian   0.1 roc_auc     binary     0.833      1      NA Preprocesso…
+&gt;  3    10 gaussian   0.1 sensitivity binary     0.233      1      NA Preprocesso…
+&gt;  4    10 gaussian   0.1 specificity binary     0.996      1      NA Preprocesso…
+&gt;  5    55 gaussian   0.1 accuracy    binary     0.916      1      NA Preprocesso…
+&gt;  6    55 gaussian   0.1 roc_auc     binary     0.850      1      NA Preprocesso…
+&gt;  7    55 gaussian   0.1 sensitivity binary     0.0874     1      NA Preprocesso…
+&gt;  8    55 gaussian   0.1 specificity binary     1          1      NA Preprocesso…
+&gt;  9   100 gaussian   0.1 accuracy    binary     0.910      1      NA Preprocesso…
+&gt; 10   100 gaussian   0.1 roc_auc     binary     0.848      1      NA Preprocesso…
+&gt; # … with 62 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
+```
+
+---
+
+# Fase 5: .orange[evaluación]
+
+No solo vamos a poder trastear con tidyverse en esos resultados en validación sino que tenemos **.bg-purple_light[dos funciones especialmente pensadas]** para ello: `show_best()` nos devuelve los mejores modelos según la métrica pedida, `select_best()` nos selecciona el mejor
+
+
+```r
+# Los mejores según accuraccy
+hoteles_knn_fit_tune %&gt;% show_best("accuracy")
+```
+
+```
+&gt; # A tibble: 5 × 9
+&gt;       k weight    dist .metric  .estimator  mean     n std_err .config          
+&gt;   &lt;int&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;fct&gt;            
+&gt; 1    10 gaussian  0.1  accuracy binary     0.926     1      NA Preprocessor1_Mo…
+&gt; 2    55 gaussian  5.05 accuracy binary     0.92      1      NA Preprocessor1_Mo…
+&gt; 3    55 gaussian 10    accuracy binary     0.92      1      NA Preprocessor1_Mo…
+&gt; 4    55 gaussian  0.1  accuracy binary     0.916     1      NA Preprocessor1_Mo…
+&gt; 5    10 gaussian  5.05 accuracy binary     0.916     1      NA Preprocessor1_Mo…
+```
+
+```r
+# Elegir el mejor según ROC
+hoteles_knn_fit_tune %&gt;% select_best("roc_auc")
+```
+
+```
+&gt; # A tibble: 1 × 4
+&gt;       k weight  dist .config              
+&gt;   &lt;int&gt; &lt;chr&gt;  &lt;dbl&gt; &lt;fct&gt;                
+&gt; 1   100 inv      0.1 Preprocessor1_Model12
+```
+
+---
+
+# .orange[SELECCIÓN DEL MEJOR]
+
+
+```r
+# Finalizamos flujo con el mejor modelo (según una métrica)
+best_knn_model_acc &lt;- hoteles_knn_fit_tune %&gt;% select_best("accuracy")
+final_wf &lt;- 
+  hoteles_wflow %&gt;% 
+  finalize_workflow(best_knn_model_acc)
+final_wf
+```
+
+```
+&gt; ══ Workflow ════════════════════════════════════════════════════════════════════
+&gt; Preprocessor: Recipe
+&gt; Model: nearest_neighbor()
+&gt; 
+&gt; ── Preprocessor ────────────────────────────────────────────────────────────────
+&gt; 10 Recipe Steps
+&gt; 
+&gt; • step_date()
+&gt; • step_holiday()
+&gt; • step_rm()
+&gt; • step_mutate()
+&gt; • step_impute_mean()
+&gt; • step_impute_mode()
+&gt; • step_corr()
+&gt; • step_range()
+&gt; • step_dummy()
+&gt; • step_zv()
+&gt; 
+&gt; ── Model ───────────────────────────────────────────────────────────────────────
+&gt; K-Nearest Neighbor Model Specification (classification)
+&gt; 
+&gt; Main Arguments:
+&gt;   neighbors = 10
+&gt;   weight_func = gaussian
+&gt;   dist_power = 0.1
+&gt; 
+&gt; Computational engine: kknn
+```
+
+---
+
+# Fase 5: .orange[EVALUACIÓN EN TEST]
+
+
+```r
+# Ajustamos a test con ese modelo seleccionado en validación
+final_knn_fit &lt;- 
+  final_wf %&gt;%
+  last_fit(hoteles_split) 
+
+# Calculamos métricas en test (las indicadas)
+final_knn_fit %&gt;% collect_metrics()
+```
+
+```
+&gt; # A tibble: 2 × 4
+&gt;   .metric  .estimator .estimate .config             
+&gt;   &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt; &lt;fct&gt;               
+&gt; 1 accuracy binary         0.92  Preprocessor1_Model1
+&gt; 2 roc_auc  binary         0.809 Preprocessor1_Model1
+```
+
+
+---
+
+# Fase 5: .orange[PREDICCIÓN EN TEST]
+
+Podemos volver a usar `predict()`, extrayendo el flujo de ese ajuste final con `extract_workflow(final_knn_fit)`
+
+
+```r
+# Predecir el conjunto test: devuelve la clase
+predict(extract_workflow(final_knn_fit), hoteles_test)
+```
+
+```
+&gt; # A tibble: 500 × 1
+&gt;    .pred_class
+&gt;    &lt;fct&gt;      
+&gt;  1 children   
+&gt;  2 none       
+&gt;  3 none       
+&gt;  4 none       
+&gt;  5 children   
+&gt;  6 none       
+&gt;  7 none       
+&gt;  8 none       
+&gt;  9 none       
+&gt; 10 none       
+&gt; # … with 490 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
+```
+
+---
+
+# Fase 5: .orange[PREDICCIÓN EN TEST]
+
+
+```r
+# Predecir las probabilidades (las necesitamos para la ROC)
+predict(extract_workflow(final_knn_fit), hoteles_test, type = "prob")
+```
+
+```
+&gt; # A tibble: 500 × 2
+&gt;    .pred_children .pred_none
+&gt;             &lt;dbl&gt;      &lt;dbl&gt;
+&gt;  1         1           0    
+&gt;  2         0           1    
+&gt;  3         0.0631      0.937
+&gt;  4         0.112       0.888
+&gt;  5         0.894       0.106
+&gt;  6         0.202       0.798
+&gt;  7         0.190       0.810
+&gt;  8         0           1    
+&gt;  9         0           1    
+&gt; 10         0.122       0.878
+&gt; # … with 490 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
+```
+
+---
+
+# Fase 5: .orange[PREDICCIÓN EN TEST]
+
+
+```r
+# Incluir predicciones en tabla
+prob_test &lt;- augment(extract_workflow(final_knn_fit), hoteles_test)
+
+# Matriz de confusión: etiqueta real vs etiqueta predicha
+conf_mat_test &lt;-
+  prob_test %&gt;%
+  conf_mat(truth = children, estimate = .pred_class)
+conf_mat_test 
+```
+
+```
+&gt;           Truth
+&gt; Prediction children none
+&gt;   children       10    5
+&gt;   none           35  450
+```
+
+---
+
+# Fase 5: .orange[PREDICCIÓN EN TEST]
+
+
+```r
+# todas las métricas en test
+conf_mat_test %&gt;% summary()
+```
+
+```
+&gt; # A tibble: 13 × 3
+&gt;    .metric              .estimator .estimate
+&gt;    &lt;chr&gt;                &lt;chr&gt;          &lt;dbl&gt;
+&gt;  1 accuracy             binary         0.92 
+&gt;  2 kap                  binary         0.302
+&gt;  3 sens                 binary         0.222
+&gt;  4 spec                 binary         0.989
+&gt;  5 ppv                  binary         0.667
+&gt;  6 npv                  binary         0.928
+&gt;  7 mcc                  binary         0.354
+&gt;  8 j_index              binary         0.211
+&gt;  9 bal_accuracy         binary         0.606
+&gt; 10 detection_prevalence binary         0.03 
+&gt; 11 precision            binary         0.667
+&gt; 12 recall               binary         0.222
+&gt; 13 f_meas               binary         0.333
+```
+
+---
+
+# Fase 5: .orange[PREDICCIÓN EN TEST]
+
+Podemos **.bg-purple_light[dibujar la curva ROC]** haciendo uso de `roc_curve()` pasándole el archivo con las predicciones, y usando las probabilidades de ser 1 (guardadas en `.pred_children` en nuestro conjunto). Aprenderemos a dibujarla mejor pero podemos mientras hacerlo con `autoplot()`
+
+
+```r
+roc_data &lt;- prob_test %&gt;% roc_curve(truth = children, .pred_children)
+roc_data %&gt;% autoplot()
+```
+
+&lt;img src="index_files/figure-html/unnamed-chunk-740-1.png" width="100%" /&gt;
+
+
+---
+
+# Computación .orange[EN PARALELO]
+
+Si queremos probar muchos modelos y/o nuestro volumen de datos es elevado, quizás nos lleve demasiado tiempo: vamos a hacer una incursión a la **.bg-purple_light[programación paralelizada]**. 
+
+
+```r
+library(parallel)
+library(doParallel)
+```
+
+--
+
+Ambos paquetes serán los que nos permitan paralelizar de forma sencilla. La idea es **.bg-purple_light[mandar tareas independientes a procesadores distintos]**, de forma que si una tarea tarda 6 minutos en un pc, al mandarlo a otros dos procesadores, el tiempo pueda bajar hasta los 2 minutos (no es del todo lineal ya que hay un tiempo mínimo necesario en cada paso).
+
+---
+
+# Computación .orange[EN PARALELO]
+
+En muchas empresas u organismos de investigación se suele tener a disposición de los usuarios un conjunto de ordenadores (un clúster) común a todos de forma que cada persona pueda mandar sus hilos en paralelo. Pero…no tenemos de eso. ¿Entonces?
+
+&amp;nbsp;
+
+Vamos a **.bg-purple_light[paralelizar en NUESTRO PROPIO ORDENADOR]**: un ordenador suele tener **.bg-purple_light[varios procesadores o cores]** que pueden funcionar de manera «independiente» uno de otro. Vamos a detectar la cantidad de núcleos de los que podemos disponer con `detectCores()`.
+
+
+```r
+# Detectamos los cores que tenemos
+detectCores()
+```
+
+```
+&gt; [1] 8
+```
+
+---
+
+# Computación .orange[EN PARALELO]
+
+A la hora de paralelizar es importante que lo hagamos con cuidado ya que puede que nuestro ordenador se quede colgado: mi consejo es que definas el número de cores a usar como los que tienes menos uno.
+
+Con `makeCluster()` montamos los **.bg-purple_light[clúster en cada nodo]** y con `registerDoParallel()` registramos la paralelización (puedes ver los hilos abiertos con `showConnections()`).
+
+
+```r
+# Iniciamos la paralelización
+clusters &lt;- detectCores() - 1
+make_cluster &lt;- makeCluster(clusters)
+registerDoParallel(make_cluster)
+showConnections()
+```
+
+```
+&gt;    description         class            mode  text     isopen   can read
+&gt; 3  "output"            "textConnection" "wr"  "text"   "opened" "no"    
+&gt; 4  "&lt;-localhost:11392" "sockconn"       "a+b" "binary" "opened" "yes"   
+&gt; 5  "&lt;-localhost:11392" "sockconn"       "a+b" "binary" "opened" "yes"   
+&gt; 6  "&lt;-localhost:11392" "sockconn"       "a+b" "binary" "opened" "yes"   
+&gt; 7  "&lt;-localhost:11392" "sockconn"       "a+b" "binary" "opened" "yes"   
+&gt; 8  "&lt;-localhost:11392" "sockconn"       "a+b" "binary" "opened" "yes"   
+&gt; 9  "&lt;-localhost:11392" "sockconn"       "a+b" "binary" "opened" "yes"   
+&gt; 10 "&lt;-localhost:11392" "sockconn"       "a+b" "binary" "opened" "yes"   
+&gt;    can write
+&gt; 3  "yes"    
+&gt; 4  "yes"    
+&gt; 5  "yes"    
+&gt; 6  "yes"    
+&gt; 7  "yes"    
+&gt; 8  "yes"    
+&gt; 9  "yes"    
+&gt; 10 "yes"
+```
+
+
+---
+
+# Computación .orange[EN PARALELO]
+ 
+El único cambio respecto a antes es indicarle `tune_grid()`  que queremos la **.bg-purple_light[validación paralelizada]**, con `control = control_grid(allow_par = TRUE)`. Para que no queden hilos sueltos es importante que al **.bg-purple_light[acabar la paralelización le indiquemos que cerramos los clúster]**.
+
+
+```r
+# Entrenamos y evaluamos los 18 modelos en paralelo
+hoteles_knn_fit_tune &lt;-
+ hoteles_wflow %&gt;%
+  tune_grid(resamples = hoteles_val, grid = grid_knn,
+            control = control_grid(verbose = TRUE, allow_par = TRUE,
+                                   pkgs = c("outliers")),
+            metrics = metric_set(accuracy, sensitivity,
+                                 specificity, roc_auc))
+# finalizamos clusters
+stopCluster(make_cluster)
+registerDoSEQ()
+
+# Métricas
+hoteles_knn_fit_tune %&gt;% collect_metrics()
+```
+
+```
+&gt; # A tibble: 72 × 9
+&gt;        k weight    dist .metric     .estimator   mean     n std_err .config     
+&gt;    &lt;int&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;       &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;fct&gt;       
+&gt;  1    10 gaussian   0.1 accuracy    binary     0.926      1      NA Preprocesso…
+&gt;  2    10 gaussian   0.1 roc_auc     binary     0.833      1      NA Preprocesso…
+&gt;  3    10 gaussian   0.1 sensitivity binary     0.233      1      NA Preprocesso…
+&gt;  4    10 gaussian   0.1 specificity binary     0.996      1      NA Preprocesso…
+&gt;  5    55 gaussian   0.1 accuracy    binary     0.916      1      NA Preprocesso…
+&gt;  6    55 gaussian   0.1 roc_auc     binary     0.850      1      NA Preprocesso…
+&gt;  7    55 gaussian   0.1 sensitivity binary     0.0874     1      NA Preprocesso…
+&gt;  8    55 gaussian   0.1 specificity binary     1          1      NA Preprocesso…
+&gt;  9   100 gaussian   0.1 accuracy    binary     0.910      1      NA Preprocesso…
+&gt; 10   100 gaussian   0.1 roc_auc     binary     0.848      1      NA Preprocesso…
+&gt; # … with 62 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
+```
+
+
+---
+
+
+# .orange[SOBREMUESTREO] .green[BAJOMUESTREO]
+
+Un paso que hemos obviado: si tenemos la **.bg-purple_light[variable objetivo desbalanceada]** solo aprenderá de la clase mayoritaria. Este desbalanceamiento podemos mitigarlo realizando **.bg-purple_light[sobremuestro/bajomuestreo]**, añadiendo `step_upsample()` (del paquete `{themis}`) a la receta (el parámetro `over_ratio` nos cuantifica el % de la clase minoritaria entre la mayoritaria).
+
+
+```r
+hoteles_rec_oversampling &lt;-
+  hoteles_rec %&gt;% 
+  themis::step_upsample(children, over_ratio = 0.5)
+
+bake(hoteles_rec_oversampling %&gt;% prep(), new_data = NULL) %&gt;%
+  count(children) %&gt;% 
+  mutate(porc = 100*n/sum(n))
+```
+
+```
+&gt; # A tibble: 2 × 3
+&gt;   children     n  porc
+&gt;   &lt;fct&gt;    &lt;int&gt; &lt;dbl&gt;
+&gt; 1 children  2070  33.3
+&gt; 2 none      4141  66.7
+```
+
+---
+
+# .orange[SOBREMUESTREO] .green[BAJOMUESTREO]
+
+Basta con repetir el proceso con la **receta con sobremuestreo**
+
+
+```r
+# Flujo de trabajo
+hoteles_wflow_oversampling &lt;-
+  workflow() %&gt;%
+  add_recipe(hoteles_rec_oversampling) %&gt;%
+  add_model(knn_model_tune)
+
+# Ajuste
+hoteles_knn_fit_tune_oversampling &lt;-
+  hoteles_wflow_oversampling %&gt;%
+  tune_grid(resamples = hoteles_val, grid = grid_knn,
+            control = control_grid(verbose = TRUE,
+                                   allow_par = TRUE,
+                                   pkgs = c("outliers")),
+            metrics = metric_set(accuracy, sensitivity,
+                                 specificity, roc_auc))
+```
+  
+---
+
+class: inverse center middle
+name: clase-9
+
+# CLASE 9: otras validaciones y ggplot
+
+&amp;nbsp;
+
+### [...](#repaso-knn-iris)
+
+---
+
+# Validación .orange[CRUZADA v-folds]
+
+
+* cv v-folds
+
+---
+
+# Validación .orange[BOOTSTRAP]
+
+* Bootstrap Out-of-Bag
 
 ---
 

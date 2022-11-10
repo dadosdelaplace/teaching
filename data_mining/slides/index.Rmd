@@ -252,22 +252,30 @@ class: inverse center middle
 
 &nbsp;
 
+.pull-left[
 
 #### [CLASE 1: INTRODUCCIÓN A R](#clase-1)
 
-#### [CLASE 2: PRIMEROS DATOS. PRIMEROS CONCEPTOS](#clase-2)
+#### [CLASE 2: PRIMEROS DATOS Y CONCEPTOS](#clase-2)
 
 #### [CLASE 3: TIDYDATA](#clase-3)
 
 #### [CLASE 4: INTRO A LA MINERÍA (SEMMA)](#clase-4)
 
-#### [CLASE 5: PRIMER ALGORITMO DE CLASIFICACIÓN (KNN)](#clase-5)
-
-#### [CLASE 5: PRIMER ALGORITMO DE CLASIFICACIÓN (KNN)](#clase-5)
+#### [CLASE 5: PRIMER ALGORITMO (KNN)](#clase-5)
 
 #### [CLASE 6: DEPURACIÓN PARA KNN](#clase-6)
 
+]
+
+.pull-right[
+
 #### [CLASE 7: MODELIZANDO CON TIDYMODELS (KNN)](#clase-7)
+
+#### [CLASE 8: PROFUNDIZANDO EN TIDYMODELS (KNN)](#clase-8)
+
+]
+
 
 ---
 
@@ -10518,6 +10526,1706 @@ conf_mat_test %>%
 
 Fíjate que aunque no sea un problema de clasificación binaria nos proporciona métricas como la sensibilidad y especificidad: lo que es, **.bg-purple_light[para cada clase, construir una matriz de confusión]** (ser setosa vs no serlo, ser virginica vs no serlo, ser versicolor vs no serlo), y devuelve la **.bg-purple_light[media de las tres sensibilidad o especificidades]**
 
+
+---
+
+class: inverse center middle
+name: clase-8
+
+# CLASE 8: profundizando en tidymodels
+
+&nbsp;
+
+### [Repaso knn en iris](#repaso-knn-iris)
+
+### [Complicamos el asunto: hoteles](#knn-hoteles)
+
+### [Fase 2: exploratorio](#fase2-hoteles)
+
+### [Fase 3: modificación](#fase3-hoteles)
+
+### [Fase 4: modelización](#fase4-hoteles)
+
+### [Fase 5: evaluación](#fase5-hoteles)
+
+---
+
+
+# Fase 1: .orange[¿MUESTREO?]
+
+```{r}
+iris %>%
+  count(Species) %>%
+  mutate(porc = 100 * n/sum(n))
+```
+
+En el caso del `iris` no necesitamos hacerlo ya que tenemos pocas observaciones y, además, la **.bg-purple_light[variable objetivo está balanceada]**
+
+---
+
+# Fase 2: .orange[EXPLORACIÓN]
+
+* **.bg-purple_light[Resumen numérico]**: ausentes, medidas de centralización, medidas de dispersión, problemas de codificación, etc.
+
+.pull-left[
+
+```{r eval = FALSE}
+library(skimr)
+iris %>% skim()
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "100%", fig.align = "center"}
+knitr::include_graphics("./img/skim.jpg")
+``` 
+
+]
+
+---
+
+# Fase 2: .orange[EXPLORACIÓN]
+
+* **.bg-purple_light[Dependencia]**: correlación entre predictoras, **predictoras vs objetivo**
+
+```{r}
+iris %>%
+  group_by(Species) %>% summarise(mean = across(where(is.numeric), mean)) %>% 
+  ungroup()
+```
+
+```{r}
+library(corrplot)
+cor_matrix <- iris %>% select(where(is.numeric)) %>% cor()
+cor_matrix
+# corrplot(iris %>% %>% select(where(is.numeric)) %>% cor())
+```
+
+---
+
+# .orange[PARTICIONES]
+
+```{r}
+# Partición 70-30% de train y test (solo instrucciones)
+iris_split <- initial_split(iris, strata = Species, prop = 0.7)
+iris_split
+
+# Aplicamos partición (ejecuta instrucciones)
+iris_train <- training(iris_split)
+iris_test <- testing(iris_split)
+
+# Comprobamos estratos
+iris_train %>% count(Species) %>% mutate(porc = 100 * n / sum(n))
+iris_test %>% count(Species) %>% mutate(porc = 100 * n / sum(n))
+```
+
+---
+
+# Fase 3: .orange[MODIFICACIÓN]
+
+
+* **.bg-purple_light[Receta y roles]**: lo primero es **.bg-orange[definir la receta]** (indicando la partición de train y la objetivo vs todas) y los **.bg-orange[roles]** de las variables (permitiendo una depuración personalizada)
+
+```{r}
+# Receta
+iris_rec <-
+  recipe(data = iris_train, Species ~ .) %>%
+  # Roles
+  add_role(starts_with("Sepal"), new_role = "simétrica") %>% 
+  add_role(starts_with("Petal"), new_role = "no simétrica")
+iris_rec
+```
+
+---
+
+# Fase 3: .orange[MODIFICACIÓN]
+
+
+* **.bg-purple_light[Tipología de las variables]** --> todas las predictoras son numéricas (no necesito recategorizar o dummys)
+
+*  **.bg-purple_light[Codificación de las variables]** --> todas mis variables tienen un **.bg-orange[rango coherente]**
+
+* **.bg-purple_light[Atípicos y ausentes]**. ¿Tengo **.bg-orange[valores atípicos (outliers)]**? 
+
+
+```{r}
+iris_rec <-
+  iris_rec %>%
+  # Detectar outliers
+  step_mutate(across(starts_with("Sepal"),
+                     function(x) { ifelse(abs(scores(x, type = "z")) > 2.5, NA, x) }),
+              across(starts_with("Petal"),
+                     function(x) { ifelse(abs(scores(x, type = "mad")) > 3, NA, x) }))
+```
+
+---
+
+# Fase 3: .orange[MODIFICACIÓN]
+
+
+* **.bg-purple_light[Ausentes]**: ¿tengo **.bg-orange[datos ausentes]**? ¿Cómo los imputo?
+
+```{r}
+iris_rec <-
+  iris_rec %>%
+  # Imputar ausentes
+  step_impute_mean(has_role("simétrica")) %>% 
+  step_impute_median(has_role("no simétrica"))
+```
+
+* **.bg-purple_light[Añadir info]** --> en este caso no necesito **crear nuevas variables** que nos aporte info extra
+
+---
+
+# Fase 3: .orange[MODIFICACIÓN]
+
+* **.bg-purple_light[Selección de variables]**. ¿Necesito seleccionar variables? ¿Tengo **.bg-orange[problemas de dependencia o colinealidad]**? ¿Tengo alguna de varianza cero (es decir, sin información)? 
+
+* **.bg-purple_light[Normalizar variables]**. ¿Tengo ya mis variables preparadas (tras tratar lo anterior) para la métrica que vaya usar?
+
+
+```{r}
+iris_rec <-
+  iris_rec %>%
+  # Filtro de correlación
+  step_corr(all_numeric_predictors(), threshold = 0.9)%>% 
+  # Filtro de cero varianza
+  step_zv(all_predictors()) %>%
+  # Normalizar por rango
+  step_range(all_numeric_predictors())
+```
+
+---
+
+# .orange[HORNEADO]
+
+**.bg-purple_light[Horneamos la receta]** sobre las particiones para comprobar que la fase 3 se ha realizado correctamente
+
+```{r}
+bake(iris_rec %>% prep(), new_data = NULL)
+bake(iris_rec %>% prep(), new_data = iris_test)
+```
+
+---
+
+# Fase 4: .orange[MODELADO]
+
+Definimos los **.bg-purple_light[parámetros de nuestro modelo]**
+
+```{r}
+# Modelo knn
+knn_model <-
+  nearest_neighbor(mode = "classification", neighbors = 10,
+                   weight_func = "inv", dist_power = 2) %>%
+  set_engine("kknn") # el «motor» que realiza el ajuste
+knn_model
+```
+
+---
+
+# .orange[FLUJO Y AJUSTE]: receta (fase 3) + modelo (fase 4)
+
+```{r}
+# Flujo
+iris_wflow <-
+  workflow() %>%
+  add_recipe(iris_rec) %>%
+  add_model(knn_model)
+
+# Ajuste
+iris_knn_fit <- iris_wflow %>% fit(data = iris_train)
+```
+
+---
+
+# Fase 5: .orange[PREDICCIÓN/EVALUACIÓN]
+
+Usando `predict()` obtenemos las predicciones (usando el ajuste, y le proporcionamos un archivo a clasificar, en este caso test). Nos **.bg-purple_light[devuelve la clase predicha]** 
+
+```{r}
+# Predecir el conjunto test: devuelve la clase
+predict(iris_knn_fit, iris_test)
+```
+
+---
+
+# Fase 5: .orange[PREDICCIÓN/EVALUACIÓN]
+
+Con `type = prob` obtenemos la **.bg-purple_light[probabilidad estimada de pertenencia]** a cada clase predicha (recuerda que nuestro objetivo es estimar las probabilidades de pertenencia teóricas que nos daría el clasificador Bayesiano)
+
+```{r}
+# Predecir las probabilidades (las necesitamos para la ROC)
+predict(iris_knn_fit, iris_test, type = "prob")
+```
+
+
+---
+
+# Fase 5: .orange[PREDICCIÓN/EVALUACIÓN]
+
+Con `augment()` podemos obtener **.bg-purple_light[predicciones y datos en una sola tabla]**
+
+```{r}
+# Incluir predicciones en tabla
+prob_test <- augment(iris_knn_fit, iris_test)
+prob_test
+```
+
+
+---
+
+# Fase 5: .orange[PREDICCIÓN/EVALUACIÓN]
+
+* **.bg-purple_light[Matriz de confusión]**: matriz con los valores enfrentando **.bg-orange[etiqueta real vs predicha]** (hay que pasarle la salida del `augment` e indicarle como `truth = ...` la clase real y como `estimate = ...` la clase predicha, que por defecto sale como `.pred_class`
+
+```{r}
+# Matriz de confusión: etiqueta real vs etiqueta predicha
+conf_mat_test <-
+  prob_test %>%
+  conf_mat(truth = Species, estimate = .pred_class)
+conf_mat_test 
+```
+
+---
+
+# Fase 5: .orange[PREDICCIÓN/EVALUACIÓN]
+
+* **.bg-purple_light[Métricas]**: las obtenemos haciendo un `summary()` a la matriz de confusión
+
+```{r}
+# Métricas en test
+metricas <- conf_mat_test %>% summary()
+metricas
+```
+
+---
+
+# ¿Y AHORA?
+
+¿Basta con esto?
+
+--
+
+En realidad no: recuerda que nuestro objetivo es minimizar el error, y para saber si estamos en un modelo óptimo, sobreajustado o bajoajustado, necesitamos **.bg-purple_light[ejecutar el paradigma de aprendizaje con diferentes parámetros]**.
+
+* Diferentes k (`neighbors = ...`),
+                
+* Diferentes métricas (`dist_power = ...`) 
+
+* Diferentes ponderaciones (`weight_func = ...`)
+
+&nbsp;
+
+Dicha evaluación la deberíamos hacer en **.bg-purple_light[validación]** pero vamos a pasar a un ejemplo más complicado con más filas para ello.
+
+---
+
+name: knn-hoteles
+
+
+# Ejemplo real: .orange[HOTELES]
+
+Vamos ir a **ejemplo real**, haciendo uso de un **.bg-purple_light[dataset de reservas de hotel]**
+
+```{r}
+hoteles_bruto <- read_csv(file = "./datos/hoteles.csv")
+```
+
+Los datos forman parte de un **.bg-purple_light[conjunto de reservas de hotel]** elaborado por Antonio et al., 2019 con 50 000 registros de reservas
+
+📚 **Detalle de variables**: <https://linkinghub.elsevier.com/retrieve/pii/S2352340918315191>
+
+---
+
+# Ejemplo real: .orange[HOTELES]
+
+Lo primero es conocer las variables.
+
+```{r eval = FALSE}
+glimpse(hoteles_bruto)
+```
+--
+
+* `hotel`: tipo de hotel (urbano o resort)
+* `lead_time`: número de días entre la reserva y la estancia.
+* `stays_in_weekend_nights, stays_in_week_nights`: noches en fin de semana y entre semana
+* `adults`: número de adultos
+* `children`: ¿la reserva tiene niños?
+* `meal`: régimen de comidas
+* `country`: país de origen
+* `market_segment`: segmento de mercado de la reserva
+* `distribution_channel`: canal de distribución de la oferta
+* `is_repeated_guest`: ¿repite como huésped?
+
+---
+
+# Ejemplo real: .orange[HOTELES]
+
+
+Lo primero es conocer las variables.
+
+```{r eval = FALSE}
+glimpse(hoteles_bruto)
+```
+
+
+* `previous_cancellations`: cancelaciones previas
+* `previous_bookings_not_canceled`: reservas previas (no canceladas)
+* `reserved_room_type, assigned_room_type`: tipo de habitación reservada/asignada
+* `booking_changes`: cambios en la reserva
+* `deposit_type`: tipo de depósito
+* `days_in_waiting_list`: días en lista de espera
+* `customer_type`: tipo de cliente
+* `average_daily_rate`: tarifa media diaria
+* `required_car_parking_spaces`: ¿parking?
+* `total_of_special_requests`: número de requisitos especiales demandados
+* `arrival_date`: fecha de llegada 
+
+
+---
+
+# Ejemplo real: .orange[HOTELES]
+
+
+```{r eval = FALSE}
+glimpse(hoteles_bruto)
+```
+
+El objetivo será **.bg-purple_light[predecir si una reserva incluye niños/as o no]**, por lo que `children` será nuestra variable objetivo. Primer paso: conocer cómo se **.bg-purple_light[distribuyen los niveles de la objetivo]** (es binaria)
+
+```{r}
+hoteles_bruto %>% 
+  count(children) %>%
+  mutate(porc = 100*n/sum(n))
+```
+
+---
+
+name: fase2-hoteles
+
+# Fases 1-2-3: .orange[HOTELES]
+
+Examina los datos y apunta las **.bg-purple_light[decisiones que deberíamos adoptar]**:
+
+&nbsp;
+
+* ¿Necesitamos **.bg-orange[muestreo]**? ¿De qué forma? ¿Podremos permitirnos crear esta vez un dataset de **.bg-orange[validación]**?
+
+* ¿De qué **.bg-orange[tipo]** es cada variable? ¿Tenemos **.bg-orange[problemas de codificación o rango]**?
+
+* ¿Cómo **.bg-orange[afectan las predictoras]** a los niveles de la variable objetivo?
+
+* ¿Hay problemas de **.bg-orange[dependencia]** entre las variables?
+
+* ¿Necesitamos **.bg-orange[recategorizar]** las variables? ¿Tenemos variables de **.bg-orange[fecha]**?
+
+* ¿Tenemos **.bg-orange[datos atípicos]**?  ¿Tenemos **.bg-orange[datos ausentes]**? ¿Cómo imputarlos?
+
+* ¿Todas las variables son **.bg-orange[numéricas]** para poder aplicar la métrica?
+
+&nbsp;
+
+**.bg-purple_light[Filosofía]**: las modificaciones «estructurales» las hacemos fuera de la receta (modificando la base de datos), las modificaciones más concretas para un algoritmo dentro de la receta (sin modificar la base de datos).
+
+
+---
+
+# Factores
+
+* **.bg-purple_light[Factores]**: lo primero que debemos decidir es si las variables de tipo texto son **.bg-purple_light[variables cualitativas]** (factores) o meros id's.
+
+```{r}
+hoteles_bruto %>% select(where(is.character)) %>% glimpse()
+```
+
+---
+
+# Factores
+
+Todas las variables de tipo texto representan **.bg-purple_light[categorías de una cualitativa]** así que las convertimos todas ellas a factor.
+
+--
+
+```{r}
+hoteles <- 
+  hoteles_bruto %>%
+  mutate(across(where(is.character), as_factor))
+hoteles
+```
+
+---
+
+# Factores
+
+* **.bg-purple_light[Ordinales]**: ¿existe alguna variable que pueda ser ordinal?
+
+--
+
+La variable `meal` si sigue una jerarquía: `SC` (sin nada) < `BB` (Bed & Breakfast) < `HB` (Half board, media pensión) < `FB` (Full board, pensión completa). Además tenemos un nivel para los desconocidos llamado `Undefined`
+
+```{r}
+hoteles %>%
+  count(meal) %>% 
+  mutate(porc = 100*n/sum(n))
+```
+
+---
+
+# Factores
+
+* **.bg-purple_light[Ordinales]**: convertimos `meal` a cualitativa pero ordinal.
+
+```{r}
+hoteles <-
+  hoteles %>%
+  mutate(meal = factor(meal, levels = c("Undefined", "SC", "BB", "HB", "FB"),
+                       ordered = TRUE))
+```
+
+--
+
+Ahora podremos hacer **.bg-purple_light[operaciones asociadas a una jerarquía]** como comparar registros
+
+```{r}
+hoteles %>%
+  group_by(meal < "HB") %>% #<<
+  count() %>% 
+  ungroup()
+```
+
+
+
+---
+
+# Variable hotel
+
+Una vez convertidas en cualitativas analicemos cada una de ellas. La variable `hotel` es **.bg-purple_light[binaria]**: urbanos vs resort (60% vs 40% aprox)
+
+```{r}
+hoteles %>%
+  count(hotel, sort = TRUE) %>%
+  mutate(porc = 100*n/sum(n))
+```
+
+---
+
+# Variable hotel
+
+Parece que cuando hay **.bg-purple_light[niños en la reserva]** se opta ligeramente **.bg-purple_light[más por los resort]**
+
+```{r}
+hoteles %>%
+  group_by(hotel) %>% 
+  count(children) %>%
+  mutate(porc = 100*n/sum(n)) %>% 
+  ungroup()
+```
+
+---
+
+
+# Variable meal
+
+La variable `meal` toma **.bg-purple_light[5 modalidades]**: quizás para algunos algoritmos haga falta reagrupar niveles (por ejemplo `Undefined` con `SC`)
+
+```{r}
+hoteles %>%
+  count(meal, sort = TRUE) %>%
+  mutate(porc = 100*n/sum(n))
+```
+
+
+
+
+---
+
+# Variable meal
+
+Parece que **.bg-purple_light[cuando hay niños]** en la reserva hay el **.bg-purple_light[doble de reservas con pensión completa]**: aunque haya pocos registros de `meal = "FB"` pueden ser determinantes. El 11% de la reservas sin niños van sin nada, mientras que solo el 3% de las reservas con niños.
+
+.pull-left[
+
+```{r}
+hoteles %>%
+  group_by(meal) %>% 
+  count(children) %>% 
+  mutate(porc = 100*n/sum(n)) %>% 
+  ungroup()
+```
+
+]
+
+.pull-right[
+
+```{r}
+hoteles %>%
+  group_by(children) %>% 
+  count(meal) %>% 
+  mutate(porc = 100*n/sum(n)) %>% 
+  ungroup()
+```
+
+]
+
+---
+
+# Variable country
+
+La variable `country` toma **.bg-purple_light[155 modalidades]** pero tan solo **.bg-purple_light[21 modalidades aparecen en más del 0.5% de registros]** (una de ellas es NULL): quizás sea más práctico reagrupar niveles de esos países (representan juntos aprox el 10% del total).
+
+```{r}
+hoteles %>%
+  count(country, sort = TRUE) %>%
+  mutate(porc = 100*n/sum(n), cumul = cumsum(porc))
+```
+
+
+---
+
+
+# Variable country
+
+Aunque hay países que representa muy poco de los datos, parece que **.bg-purple_light[algunos son más propensos a reservas con niños]**.
+
+```{r}
+hoteles %>%
+  group_by(country) %>% count(children) %>% 
+  mutate(porc_children = 100*n/sum(n)) %>% 
+  ungroup()
+```
+
+
+---
+
+# Variable market_segment
+
+La variable `market_segment` toma **.bg-purple_light[7 modalidades]** aunque algunas representan menos del 1% del total.
+
+```{r}
+hoteles %>%
+  count(market_segment, sort = TRUE) %>%
+  mutate(porc = 100*n/sum(n), cumul = cumsum(porc))
+```
+
+---
+
+# Variable market_segment
+
+Fíjate que aunque `market_segment = "Aviation"` representa muy pocos registros, el 100% son sin niños (casi similar con `market_segment = "Corporate"` y `market_segment = "Groups"`)
+
+```{r}
+hoteles %>%
+  group_by(market_segment) %>% 
+  count(children) %>% 
+  mutate(porc = 100*n/sum(n)) %>% 
+  ungroup()
+```
+
+
+---
+
+# Variable distribution_channel
+
+La variable `distribution_channel` toma **.bg-purple_light[5 modalidades]**  pero solo **.bg-purple_light[3 de ellas agrupan ya más del 99%]** de los registros.
+
+```{r}
+hoteles %>%
+  count(distribution_channel, sort = TRUE) %>%
+  mutate(porc = 100*n/sum(n),
+         cumul = cumsum(porc))
+```
+
+---
+
+# Variable distribution_channel
+
+Fíjate que de `distribution_channel = "Undefined"` y `distribution_channel = "GDS"` representan **.bg-purple_light[muy pocos registros]**, y todos con una sola modalidad en la objetivo (pero solo pesan el 0.2% de los datos)
+
+```{r}
+hoteles %>%
+  group_by(distribution_channel) %>% 
+  count(children) %>% 
+  mutate(porc = 100*n/sum(n)) %>% 
+  ungroup()
+```
+
+
+---
+
+# Variable reserved_room_type
+
+La variable `reserved_room_type` toma **.bg-purple_light[9 modalidades]** (no nos especifican si hay jerarquía) pero **.bg-purple_light[solo 5 de ellas tienen un peso superior al 1%]** de los registros.
+
+```{r}
+hoteles %>%
+  count(reserved_room_type, sort = TRUE) %>%
+  mutate(porc = 100*n/sum(n),
+         cumul = cumsum(porc))
+```
+
+---
+
+# Variable reserved_room_type
+
+Fíjate que `reserved_room_type` será **.bg-purple_light[tremendamente importante]**: si la habitación es de tipo F, el 47% viene con niños (frente al 8% global), del 70% incluso si es de tipo C
+
+```{r}
+hoteles %>%
+  group_by(reserved_room_type) %>% 
+  count(children) %>% 
+  mutate(porc = 100*n/sum(n)) %>% 
+  ungroup()
+```
+
+---
+
+# Variable assigned_room_type
+
+La variable `assigned_room_type` toma **.bg-purple_light[10 modalidades]** (no nos especifican si hay jerarquía) pero solo 7 de ellas tienen un peso superior al 1% de los registros.
+
+```{r}
+hoteles %>%
+  count(assigned_room_type, sort = TRUE) %>%
+  mutate(porc = 100*n/sum(n),
+         cumul = cumsum(porc))
+```
+
+Como sucedía antes `assigned_room_type` será tremendamente importante
+
+---
+
+# Variable reserved_room_type vs assigned_room_type
+
+Quizás sea interesante, al margen del tipo de habitación, ver que sucede cuando la **.bg-purple_light[asignada es distinta de la reservada]**. 
+
+```{r}
+hoteles %>%
+  mutate(same_room = as.character(reserved_room_type) == as.character(assigned_room_type)) %>%
+  group_by(same_room) %>% 
+  count(children) %>% 
+  mutate(porc = 100*n/sum(n)) %>% 
+  ungroup()
+```
+
+No parece que influya significativamente
+
+---
+
+# Variable deposit_type
+
+La variable `deposit_type` toma **.bg-purple_light[3 modalidades]** pero el 99.6% de los registros es la misma.
+
+```{r}
+hoteles %>%
+  count(deposit_type, sort = TRUE) %>%
+  mutate(porc = 100*n/sum(n), cumul = cumsum(porc))
+```
+
+---
+
+# Variable deposit_type
+
+Además de ser **.bg-purple_light[muy pocos]** los registros que no sean `No_Deposit`, prácticamente su totalidad son **.bg-purple_light[sin niños]** (clase ya mayoritaria en los datos).
+
+```{r}
+hoteles %>%
+  group_by(deposit_type) %>% 
+  count(children) %>% 
+  mutate(porc = 100*n/sum(n)) %>% 
+  ungroup()
+```
+
+---
+
+# Variable deposit_type
+
+La variable `customer_type` toma **.bg-purple_light[4 modalidades]** pero **.bg-purple_light[dos de ellas representan más del 95%]** de los registros.
+
+```{r}
+hoteles %>%
+  count(customer_type, sort = TRUE) %>%
+  mutate(porc = 100*n/sum(n),
+         cumul = cumsum(porc))
+```
+
+---
+
+# Variable deposit_type
+
+El 88% de las reservas con niños son de tipo `"Transient"`
+
+```{r}
+hoteles %>%
+  group_by(children) %>% 
+  count(customer_type) %>% 
+  mutate(porc = 100*n/sum(n)) %>% 
+  ungroup()
+```
+
+
+---
+
+
+# Variable required_car_parking_spaces
+
+La variable `required_car_parking_spaces` es binaria (muy desbalanceada).
+
+```{r}
+hoteles %>%
+  count(required_car_parking_spaces, sort = TRUE) %>%
+  mutate(porc = 100*n/sum(n),
+         cumul = cumsum(porc))
+```
+
+---
+
+# Variable required_car_parking_spaces
+
+El % de las reservas con niños es el doble cuando hay parking solicitado.
+
+```{r}
+hoteles %>%
+  group_by(children) %>% 
+  count(required_car_parking_spaces) %>% 
+  mutate(porc = 100*n/sum(n)) %>% 
+  ungroup()
+```
+
+---
+
+# Dependencia entre variables cualitativas
+
+Más allá del análisis exploratorio numérico, podemos ejecutar un **.bg-purple_light[contraste de independencia]** (prueba $\chi^2$ de independencia) para tener mayor certeza de si la predictora es dependiente o no de la variable objetivo (si fuera independiente, no tendría sentido mantenerla)
+
+```{r warning = FALSE}
+chisq.test(hoteles$children, hoteles$hotel)
+```
+
+Si fijamos $\alpha = 0.05$ (nivel de significación), si p-valor < 0.05 deberíamos rechazar la **.bg-purple_light[hipótesis nula de independencia]** (bajo dicho nivel).
+
+---
+
+# Dependencia entre variables cualitativas
+
+
+Podemos hacerlo con **.bg-purple_light[todas las variables a la vez]** enfrentándola a la objetivo
+
+```{r warning = FALSE}
+chisq <-
+  tibble("variable" = hoteles %>% select(where(is.factor)) %>% names(),
+         "p_value" = hoteles %>% select(where(is.factor)) %>%
+           map_dbl(.f = function(x) { chisq.test(hoteles$children, x)$p.value}))
+chisq %>% arrange(desc(p_value))
+```
+
+---
+
+# Dependencia entre variables cualitativas
+
+
+
+```{r warning = FALSE}
+chisq %>% filter(p_value > 0.05)
+```
+
+**.bg-purple_light[No hay evidencia suficiente para decir que existe predictora independiente de la objetivo]** (al 95% de confianza) según la prueba de independencia realizada
+
+---
+
+# Resumen de las variables cuali
+
+* `hotel` --> **.bg-purple_light[no hacer nada]**.
+
+* `meal`: aunque haya pocos registros de `meal = "FB"`, parece que pueden ser determinantes --> **.bg-purple_light[reagrupar "Undefined" con "SC" y dejar "FB"]**.
+
+* `country`: tan solo 21 de ellas aparecen en más del 0.5% de registros (una de ellas es NULL) --> **.bg-purple_light[reagrupar niveles de países minoritarios]** (representan juntos aprox el 10% del total) quedándonos con aquellos que superen en un mínimo de representatividad (más fino: incluir también los que sean más propensos que otros a reservas con niños).
+
+* `market_segment`:  algunas representan menos del 1% del total, aunque para `market_segment = "Aviation"` el 100% son sin niños (casi similar con `market_segment = "Corporate"` y `market_segment = "Groups"`) --> **.bg-purple_light[agrupar los 3 junto con "complementary"]** (pesan muy poco estos últimos) en un `"others"`.
+
+* `distribution_channel`: solo 3 de ellas agrupan ya más del 99% de los registros --> **.bg-purple_light[reagrupar "Corporate" (98.9% no children), "GDS" (100%  no children) y "Undefined" (solo 1 dato)]** en `"others"` (aprox. el 7% de los datos).
+
+---
+
+# Resumen de las variables cuali
+
+
+* `reserved_room_type`: solo 5 de ellas tienen un peso superior al 1% de los registros, si es de tipo **.bg-purple_light[C, H o L]** (juntas suman el 1.3% de los datos aprox.), con niños superan el 70% --> **.bg-purple_light[reagrupamos las 3]** en un `"others"`
+
+* `assigned_room_type`: con el mismo razonamiento que antes podemos **.bg-purple_light[reaagupar las categorías H-I-K]** en `"others"` 
+
+* `deposit_type`: el 99.6% de registros es la misma -->  muy poca varianza y además casi todos de esas clases minoritarias son de la clase mayoritaria de la  objetivo  --> **.bg-purple_light[eliminar]**
+
+* `customer_type` --> **.bg-purple_light[reagrupar "Transient" y "others"]**
+
+* `required_car_parking_spaces` --> **.bg-purple_light[no hacer nada]**
+
+
+---
+
+# Variables de tipo de fecha
+
+Solo tenemos una `arrival_date`: ¿qué parte de la fecha exactamente influye más? ¿El año? ¿El mes? ¿El día como número en sí o el día de la semana? Tras extraer info la eliminaremos.
+
+```{r}
+hoteles <- 
+  hoteles %>% 
+  mutate(m_arr = month(arrival_date), y_arr = year(arrival_date),
+         wday_arr = wday(arrival_date))
+
+hoteles %>% group_by(y_arr) %>% count(children) %>% 
+  mutate(porc = 100*n/sum(n))
+```
+
+No parece que el año influya mucho (veremos si influyen los días festivos en sí)
+
+---
+
+# Variables de tipo de fecha
+
+Parece que los meses de julio, agosto y diciembre influye mucho al tener más niños --> podemos agrupar los meses en `"month_holy"` y `"month_no_holy"`
+
+```{r}
+hoteles %>%  group_by(m_arr) %>% count(children) %>% 
+  mutate(porc = 100*n/sum(n))
+```
+
+
+---
+
+# Variables de tipo de fecha
+
+Parece que los viernes, sábados y domingos hay más reservas con niños --> podemos agrupar los meses en `"weekend"` y `"workday"`
+
+```{r}
+hoteles %>%  group_by(wday_arr) %>%  count(children) %>% 
+  mutate(porc = 100*n/sum(n))
+```
+
+---
+
+# Variables numéricas
+
+* `lead_time`: variable con una alta concentración a la izquierda (cola pesada a la derecha), con un máximo de días muy elevado.
+
+```{r}
+hoteles %>% summarise(min_lead = min(lead_time), max_lead = max(lead_time))
+```
+
+--
+
+Quizas no tenga sentido tanto número de días entre la reserva y la estancia --> todo lo que **.bg-purple_light[supere 365, imputarle 366]** (representan además el 1.35% solo)
+
+```{r}
+hoteles %>% group_by(lead_time > 365) %>% count()
+```
+
+---
+
+# Variables numéricas
+
+* `stays_in_weekend_nights`: en realidad es una variable cualitativa más que cuantitativa, y a partir de 2 noches en festivo representa menos de 1% --> podríamos probar a **.bg-purple_light[dejarla tal cual o recategorizarla en 4 categorías]** (ninguna - 1 - 2 - más de 2)
+
+```{r}
+hoteles %>%
+  count(stays_in_weekend_nights, sort = TRUE) %>% 
+  mutate(porc = 100*n/sum(n), cumul = cumsum(porc))
+```
+
+---
+
+# Variables numéricas
+
+* `stays_in_week_nights`: en realidad es una variable cualitativa más que cuantitativa, y a partir de 5 noches representa menos del 5% --> podríamos probar a **.bg-purple_light[dejarla tal cual o recategorizarla en 7 categorías]** (ninguna - 1 - 2 - 3 - 4 - 5 - más de 5)
+
+```{r}
+hoteles %>%
+  count(stays_in_week_nights, sort = TRUE) %>% 
+  mutate(porc = 100*n/sum(n), cumul = cumsum(porc))
+```
+
+---
+
+# Variables numéricas
+
+* `adults`: en realidad es una variable cualitativa más que cuantitativa --> podríamos probar a **.bg-purple_light[dejarla tal cual o recategorizarla en 4 categorías]** (ninguno - 1 - 2 - más de 2)
+
+```{r}
+hoteles %>% count(adults, sort = TRUE) %>% 
+  mutate(porc = 100*n/sum(n), cumul = cumsum(porc))
+```
+
+---
+
+# Variables numéricas
+
+* `is_repeated_guest`: en realidad es **.bg-purple_light[binaria]** --> hay que convertirla a cualitativa (factor)
+
+```{r}
+hoteles %>% count(is_repeated_guest, sort = TRUE) %>% mutate(porc = 100*n/sum(n))
+
+hoteles %>% group_by(is_repeated_guest) %>% count(children) %>% 
+  mutate(porc = 100*n/sum(n)) %>% ungroup()
+```
+
+---
+
+# Variables numéricas
+
+* `previous_cancellations`: el 99.238% son 0 (y la mayoría de 1, sin niños) --> **.bg-purple_light[eliminar]**
+
+* `previous_bookings_not_canceled`: el 95.47% son 0, el 1.9% son 1 --> se podría probar a **.bg-purple_light[dejarla tal cual o recategorizar en 3 categorías]**
+
+```{r}
+hoteles %>% count(previous_cancellations == 0, sort = TRUE)
+
+hoteles %>% count(previous_bookings_not_canceled, sort = TRUE) %>%
+  mutate(porc = 100*n/sum(n), cumul = cumsum(porc))
+```
+
+
+---
+
+# Variables numéricas
+
+* `booking_changes`: el 94.194% son 0 o 1 --> se podría probar a **.bg-purple_light[dejarla numérica o recategorizar en 3 categorías]**
+
+```{r}
+hoteles %>% count(booking_changes, sort = TRUE) %>% 
+  mutate(porc = 100*n/sum(n), cumul = cumsum(porc))
+```
+
+---
+
+# Variables numéricas
+
+* `days_in_waiting_list`: el 98% de los registros son 0 (y de los que no son casi todos no tienen niños) --> **.bg-purple_light[eliminar variable]**
+
+```{r}
+hoteles %>% count(days_in_waiting_list, sort = TRUE) %>% 
+  mutate(porc = 100*n/sum(n), cumul = cumsum(porc))
+```
+
+---
+
+# Variables numéricas
+
+* `average_daily_rate`: es la única numérica continua pero tiene **.bg-purple_light[valores negativos o cero]** (deberían ser estrictamente positivo) --> el 2.33% tiene **.bg-purple_light[problemas de codificación o rango]** que deberemos pasar a ausentes e imputarles un valores luego.
+
+```{r}
+hoteles %>% count(average_daily_rate <= 0) %>% mutate(porc = 100*n/sum(n))
+```
+
+---
+
+# Variables numéricas
+
+* `total_of_special_requests`: más del 96% son 0-1-2 --> se podría **.bg-purple_light[dejar numérica o recategorizarla en 4 categorías]**.
+
+```{r}
+hoteles %>% count(total_of_special_requests, sort = TRUE) %>% 
+  mutate(porc = 100*n/sum(n), cumul = cumsum(porc))
+```
+
+---
+
+# .orange[COLINEALIDAD]
+
+Por último, nos falta comprobar los **.bg-purple_light[problemas de  colinealidad]** entre las predictoras numéricas. 
+
+Podemos tratar las **.bg-orange[numéricas por separado]** (aunque tengamos muchas que en realidad hacen más de cuali que de cuanti)
+
+```{r}
+library(corrr)
+cor_matrix <- hoteles %>% select(where(is.numeric)) %>% cor() %>% round(2)
+cor_matrix
+```
+
+---
+
+# .orange[COLINEALIDAD]
+
+```{r eval = FALSE}
+cor_matrix %>%
+  corrplot(method = "number", tl.cex = 0.55, number.cex = 0.7, type = "lower")
+```
+
+```{r echo = FALSE, out.width = "40%", fig.align = "center"}
+knitr::include_graphics("./img/cor_hoteles.jpg")
+``` 
+
+No parece existir una correlación elevada entre ninguna.
+
+---
+
+name: fase3-hoteles
+
+# Fase 3: .orange[MODIFICACIÓN]
+
+Con lo observado en la fase de exploración deberemos tomar **.bg-purple_light[dos tipos decisiones]**:
+
+* las que afectan a la **.bg-orange[base de datos en general]**: pasar a factores, problemas de codificación o rango, variables que no aportan, creación de variables en general, etc
+
+* las que afectan a un **.bg-orange[algoritmo en concreto]**: normalización para la métrica, recategorización, tratamiento de outliers/ausentes, dummyficación, etc.
+
+---
+
+# Fase 1: .orange[MUESTREO]
+
+Pero antes...¿hace falta **.bg-purple_light[muestreo]**? Parece que sí dado que tenemos muchas filas (al menos para hacer pruebas) --> muestreo **.bg-purple_light[estratificado]** (por ej., del 10%)
+
+```{r}
+hoteles_sample <-
+  hoteles %>%
+  group_by(children) %>% 
+  slice_sample(prop = 0.10) %>%
+  ungroup()
+
+hoteles_sample %>%
+  count(children) %>% 
+  mutate(porc = 100*n/sum(n))
+```
+
+¿Hace falta algo más?
+
+
+---
+
+# Fase 3: .orange[MODIFICACIÓN] (fuera receta)
+
+```{r}
+# Muestreo del 10
+hoteles_sample <-
+  hoteles_bruto %>%
+  group_by(children) %>% 
+  slice_sample(prop = 0.10) %>%
+  ungroup()
+
+# Eli%minar variables
+hoteles_sample <-
+  hoteles_sample %>%
+  select(-c(deposit_type, days_in_waiting_list, previous_cancellations))
+```
+
+---
+
+# Fase 3: .orange[MODIFICACIÓN] (fuera receta)
+
+```{r}
+# Convertir a cuali
+hoteles_sample <-
+  hoteles_sample %>% 
+  mutate(across(where(is.character), as_factor)) %>%
+  mutate(meal = factor(meal, levels = c("Undefined", "SC", "BB", "HB", "FB"),
+                       ordered = TRUE))
+
+# Modificaciones de variables existentes
+hoteles_sample <-
+  hoteles_sample %>% 
+  mutate(lead_time = ifelse(lead_time > 365, 366, lead_time),
+         average_daily_rate = ifelse(average_daily_rate <= 0, NA, average_daily_rate),
+         is_repeated_guest = as_factor(is_repeated_guest))
+```
+
+---
+
+# .orange[RECETA]: .green[PARTICIÓN]
+
+Primero dividimos en **.bg-purple_light[test y lo demás]**, con `initial_split()`
+
+```{r}
+# Partición 10% de test
+hoteles_split <- initial_split(hoteles_sample, strata = children, prop = 0.9)
+hoteles_split
+
+# Aplicamos partición
+hoteles_train <- training(hoteles_split)
+hoteles_test <- testing(hoteles_split)
+
+# Comprobamos estratos
+hoteles_train %>% count(children) %>% mutate(porc = 100 * n / sum(n))
+hoteles_test %>% count(children) %>% mutate(porc = 100 * n / sum(n))
+```
+
+---
+
+# .orange[RECETA]: .green[PARTICIÓN]
+
+Tras ello usamos `validation_split()` para **.bg-purple_light[dividir en train-validación]** lo que teníamos en `hoteles_train` (75% del 90% = 67.5% vs 22.5%)
+
+```{r}
+# Validación
+hoteles_val <- validation_split(hoteles_train, strata = children,
+                                prop = 0.75)
+hoteles_val
+```
+
+---
+
+# .orange[RECETA]: .green[ROLES]
+
+
+```{r}
+# Receta
+hoteles_rec <-
+  # Fórmula y datos
+  recipe(data = hoteles_train, children ~ .)%>%
+  # Roles
+  add_role(contains("date"), new_role = "date") %>% 
+  add_role(where(is.factor), new_role = "cuali") %>% 
+  add_role(where(is.numeric), new_role = "cuanti") %>% 
+  add_role(c(hotel, required_car_parking_spaces, is_repeated_guest), new_role = "binary") %>% 
+  add_role(where(is.numeric) & !average_daily_rate, new_role = "maybe_cuali")
+```
+
+
+---
+
+# .orange[RECETA]: .green[FECHAS]
+
+* Con `step_date()` podemos indicarle directamente que extraiga de la fecha los elementos que le pidamos (en nuestro caso mes, día de la semana y año).
+
+* Con `listHolidays()` del paquete `{timeDate}` seleccionaremos festivos relevantes internacionalmente, y con `step_holiday()` marcaremos las fechas que lo sean. Tras ello eliminaremos la fecha original con `step_rm()`.
+
+```{r}
+library(timeDate)
+# Receta
+hoteles_rec <-
+  hoteles_rec %>% 
+  step_date(arrival_date, features = c("month", "dow", "year")) %>% 
+  step_holiday(arrival_date,
+               holidays = c(listHolidays("\\Mary"), listHolidays("\\Easter"),
+                            listHolidays("\\Christ"), "NewYearsDay")) %>%
+  # Eliminamos la variable
+  step_rm(arrival_date)
+```
+
+---
+
+
+# .orange[RECETA]: .green[OUTLIERS/AUSENTE]
+
+Tras ello de momento vamos a **.bg-purple_light[detectar outliers a lo bruto]**: detectando por la media e imputando por la media, pero solo de `has_role("cuanti")`, para no incluir a las binarias. Las cuali por la moda en caso de haber ausentes.
+
+```{r}
+library(outliers)
+# Receta
+hoteles_rec <-
+  hoteles_rec %>% 
+  # Detectar outliers
+  step_mutate(across(where(is.numeric), function(x) { ifelse(abs(scores(x, type = "z")) > 2.5 & !is.na(x), NA, x) })) %>% 
+  # Imputar ausentes
+  step_impute_mean(has_role("cuanti")) %>%
+  step_impute_mode(has_role("cuali"))
+```
+
+---
+
+# .orange[RECETA]: .green[TRANSFORMACIONES]
+
+* Aplicamos un filtro de correlación para **.bg-purple_light[prevenir problemas de colinealidad]**.
+
+* **.bg-purple_light[Normalizamos por rango]** para la métrica.
+
+* **.bg-purple_light[Dummyficamos]** las cualitativas: crea k-1 variables binarias por de cada cualitativa de k niveles.
+
+* **.bg-purple_light[Filtro de cero varianza]**.
+
+```{r}
+# Receta
+hoteles_rec <-
+  hoteles_rec %>% 
+  # Filtro de correlación
+  step_corr(has_role("cuanti"), threshold = 0.9) %>% 
+  # Normalizar por rango
+  step_range(all_numeric_predictors()) %>%
+  # Dummyficamos
+  step_dummy(all_nominal(), -all_outcomes()) %>% 
+  # Filtro de cero varianza
+  step_zv(all_predictors())
+```
+
+
+---
+
+name: fase4-hoteles
+
+# Fase 4: .orange[MODELO Y FLUJO]
+
+
+Una vez definida la receta, definimos el **.bg-purple_light[modelo]** y unimos con la receta creando un **.bg-purple_light[flujo de clasificación]**
+
+```{r}
+# Modelo
+knn_model <-
+  nearest_neighbor(mode = "classification", neighbors = 15,
+                   weight_func = "inv", dist_power = 2) %>%
+  set_engine("kknn")
+
+# Flujo de trabajo
+hoteles_wflow <-
+  workflow() %>%
+  add_recipe(hoteles_rec) %>%
+  add_model(knn_model)
+```
+
+---
+
+name: fase5-hoteles
+
+# Fase 5: .orange[EVALUACIÓN] en validación
+
+En este caso tenemos un conjunto de validación guardado en `hoteles_val`. Para realizar el **.bg-purple_light[ajuste en train y después obtener las métricas en validación]** usaremos `fit_resamples()`, pasándole como argumento los conjuntos de validación que tengamos y las **.bg-purple_light[métricas]** que queremos que evaluar (con `metric_set()` y el nombre de la métrica)
+
+```{r}
+# Solo contra un conjunto de validación
+hoteles_knn_fit_val <-
+  hoteles_wflow %>%
+  fit_resamples(hoteles_val,
+                metrics = metric_set(accuracy, sensitivity,
+                                     specificity, roc_auc))
+```
+
+
+---
+
+# Fase 5: .orange[EVALUACIÓN] en validación
+
+
+Con `collect_metrics()` obtenemos las métricas pedidas (dado que solo tenemos un conjunto de validación `n = 1` y `std_err = NA`, ya que no tiene con qué promediar al solor tener uno)
+
+```{r}
+collect_metrics(hoteles_knn_fit_val)
+```
+
+---
+
+# Fase 5: .orange[EVALUACIÓN] con .green[CURVA ROC]
+
+Si te has fijado amén de la sensibilidad y la especificidad (y la tasa de bien de clasificados o accuracy), le hemos pedido una métrica llamada `roc_auc`: el **.bg-purple_light[área bajo la curva ROC]**
+
+```{r}
+collect_metrics(hoteles_knn_fit_val)
+```
+
+--
+
+¿Qué es la **.bg-purple_light[curva ROC]**? Si recuerdas, aunque la salida que usamos normalmente es la clase predicha directamente, nuestro objetivo subyacente es **.bg-purple_light[calcular la probabilidad estimada de pertenencia]**
+
+---
+
+# Fase 5: .orange[EVALUACIÓN] con .green[CURVA ROC]
+
+En clasificación binaria, por defecto, estamos estableciendo que la **.bg-purple_light[predicción es 1]** si la probabilidad estimada de serlo es **.bg-purple_light[superior a 0.5]**. 
+
+Imagina que el objetivo es clasificar si una vacuna puede salir al mercado. ¿Es **.bg-purple_light[suficiente exigirle un umbral del 50%]** para asignar un 1?
+
+--
+
+La idea detrás de la curva ROC es **.bg-purple_light[mover dicho umbral de probabilidad]**, desde el 0 hasta el 1, para **.bg-purple_light[cada uno de esos umbrales]** calcular
+
+* **sensibilidad** (% de 1's reales que han sido clasificados como tal)
+
+* **especificidad** (% de 0's reales que han sido clasificados como tal)
+
+Y pintarlos en un gráfico (eje x = 1 - especificidad, eje y = sensibilidad)
+
+---
+
+# Fase 5: .orange[EVALUACIÓN] con .green[CURVA ROC]
+
+.pull-left[
+
+* Eje X: **.bg-purple_light[1 - especificidad]**, conocido como False Positive Rate (FPR), ya que es el % de 0's reales que han sido mal clasificados (como falsos positivos).
+
+* Eje Y: **.bg-purple_light[sensibilidad]**, conocido como True Positive Rate (TPR), ya que es el % de 1's reales que han sido clasificados como tal (verdaders positivos).
+
+* **.bg-purple_light[AUC ROC]**: área bajo la curva ROC, medida que oscila entre 0 (no hay curva) y 1 (la curva es el cuadrado entero). Clasificador dummy aleatorio: 0.5.
+
+]
+
+.pull-right[
+
+
+```{r echo = FALSE,  out.width = "110%", fig.align = "left"}
+knitr::include_graphics("./img/roc_curve.jpg")
+``` 
+
+]
+
+---
+
+# Fase 5: .orange[EVALUACIÓN] con .green[CURVA ROC]
+
+
+```{r echo = FALSE,  out.width = "50%", fig.align = "center"}
+knitr::include_graphics("./img/pcr_roc_curve.jpg")
+``` 
+
+
+---
+
+# .orange[TUNE]
+
+Hasta ahora solo hemos probado un modelo pero la idea es **.bg-purple_light[entrenar varios modelos]** y **.bg-purple_light[evaluar en validación]** su calidad o conveniencia.
+
+Para ello lo que vamos a hacer al definir el modelo es **.bg-purple_light[no asignar una constante a los parámetros]** sino que los vamos a dejar sin fijar, asignándoles `tune()` (entre paréntesis una **etiqueta** para luego ser usada), para luego indicarle los «diales» en los que queremos que «sintonice»
+
+```{r}
+# Modelo con tune
+knn_model_tune <-
+  nearest_neighbor(mode = "classification", neighbors = tune("k"),
+                   weight_func = tune("weight"), dist_power = tune("dist")) %>%
+  set_engine("kknn")
+```
+
+---
+
+# .orange[TUNE]
+
+```{r}
+# Nuevo flujo (con tune)
+hoteles_wflow <-
+  workflow() %>%
+  add_recipe(hoteles_rec) %>%
+  add_model(knn_model_tune)
+```
+
+El anterior modelo **.bg-purple_light[no tiene parámetros fijados]** a priori: vamos a definir un **.bg-purple_light[grid de parámetros]**
+
+Por ejemplo, podemos definir un grid de 7 valores de `k` (lo demás fijo)
+
+```{r}
+grid_knn <- 
+  tibble("k" = seq(20, 140, by = 20), "weight" = rep("inv", 7),
+         "dist" = rep(2, 7))
+grid_knn
+```
+
+---
+
+# .orange[TUNE GRID]
+
+Con `tune_grid()` le indicaremos que **.bg-purple_light[en lugar de entrenar un solo modelo]** entre uno por cada fila de parámetros que tenemos en `grid_knn`, y con `control_grid(verbose = TRUE)` le indicamos que nos informe del proceso. Tras ello con `collect_metrics()` obtendremos de una tacada la métrica de todos.
+
+```{r}
+# Entrenamos y evaluamos los 7 modelos
+hoteles_knn_fit_tune <-
+ hoteles_wflow %>%
+  tune_grid(resamples = hoteles_val, grid = grid_knn,
+            control = control_grid(verbose = TRUE),
+            metrics = metric_set(accuracy, sensitivity,
+                                 specificity, roc_auc))
+hoteles_knn_fit_tune %>% collect_metrics()
+```
+
+---
+
+
+# .orange[TUNE GRID]
+
+Ese grid también podemos definirlo para el resto de parámetros, definiendo los **.bg-purple_light[posibles valores para cada parámetro]** y probar **.bg-purple_light[todas las combinaciones entre ellos]**. Para eso haremos uso de `expand_grid()`
+
+```{r}
+expand_grid("x" = 1:3, "y" = 8:9)
+```
+
+---
+
+# .orange[TUNE GRID]
+
+Con dicha herramienta vamos a **.bg-purple_light[crear 18 modelos]**: 3 valores diferentes de vecinos, 2 tipos de promedios y 3 métricas.
+
+```{r}
+grid_knn <-
+  expand_grid("k" = c(10, 50, 100),
+              "weight" = c("inv", "gaussian"),
+              "dist" = c(0.01, 2, 10))
+grid_knn
+```
+
+---
+
+# .orange[TUNE GRID]
+
+```{r}
+# Entrenamos y evaluamos los 18 modelos
+hoteles_knn_fit_tune <-
+ hoteles_wflow %>%
+  tune_grid(resamples = hoteles_val, grid = grid_knn,
+            control = control_grid(verbose = TRUE),
+            metrics = metric_set(accuracy, sensitivity,
+                                 specificity, roc_auc))
+hoteles_knn_fit_tune %>% collect_metrics()
+```
+
+---
+
+# .orange[TUNE GRID]
+
+
+Incluso podemos generar ese grid de una manera más  **.bg-purple_light[automática]** haciendo uso de `update()` y `grid_regular()`, para el mismo número de valores en cada parámetro (por ejemplo 3 en cada uno, siempre que haya tres opciones dadas)
+
+```{r}
+grid_knn <-
+  extract_parameter_set_dials(hoteles_wflow) %>%
+  # Actualizamos
+  update(k = neighbors(range = c(10, 100)),
+         weight = weight_func(values = c("inv", "gaussian")),
+         dist = dist_power(range = c(0.1, 10))) %>%
+  grid_regular(levels = 3) 
+grid_knn # 18 modelos (3 x 2 x 3)
+```
+
+---
+
+# .orange[TUNE GRID]
+
+```{r}
+# Entrenamos y evaluamos los 18 modelos
+hoteles_knn_fit_tune <-
+ hoteles_wflow %>%
+  tune_grid(resamples = hoteles_val, grid = grid_knn,
+            control = control_grid(verbose = TRUE),
+            metrics = metric_set(accuracy, sensitivity,
+                                 specificity, roc_auc))
+hoteles_knn_fit_tune %>% collect_metrics()
+```
+
+---
+
+# Fase 5: .orange[evaluación]
+
+No solo vamos a poder trastear con tidyverse en esos resultados en validación sino que tenemos **.bg-purple_light[dos funciones especialmente pensadas]** para ello: `show_best()` nos devuelve los mejores modelos según la métrica pedida, `select_best()` nos selecciona el mejor
+
+```{r}
+# Los mejores según accuraccy
+hoteles_knn_fit_tune %>% show_best("accuracy")
+
+# Elegir el mejor según ROC
+hoteles_knn_fit_tune %>% select_best("roc_auc")
+```
+
+---
+
+# .orange[SELECCIÓN DEL MEJOR]
+
+```{r}
+# Finalizamos flujo con el mejor modelo (según una métrica)
+best_knn_model_acc <- hoteles_knn_fit_tune %>% select_best("accuracy")
+final_wf <- 
+  hoteles_wflow %>% 
+  finalize_workflow(best_knn_model_acc)
+final_wf
+```
+
+---
+
+# Fase 5: .orange[EVALUACIÓN EN TEST]
+
+```{r}
+# Ajustamos a test con ese modelo seleccionado en validación
+final_knn_fit <- 
+  final_wf %>%
+  last_fit(hoteles_split) 
+
+# Calculamos métricas en test (las indicadas)
+final_knn_fit %>% collect_metrics()
+```
+
+
+---
+
+# Fase 5: .orange[PREDICCIÓN EN TEST]
+
+Podemos volver a usar `predict()`, extrayendo el flujo de ese ajuste final con `extract_workflow(final_knn_fit)`
+
+```{r}
+# Predecir el conjunto test: devuelve la clase
+predict(extract_workflow(final_knn_fit), hoteles_test)
+```
+
+---
+
+# Fase 5: .orange[PREDICCIÓN EN TEST]
+
+```{r}
+# Predecir las probabilidades (las necesitamos para la ROC)
+predict(extract_workflow(final_knn_fit), hoteles_test, type = "prob")
+```
+
+---
+
+# Fase 5: .orange[PREDICCIÓN EN TEST]
+
+```{r}
+# Incluir predicciones en tabla
+prob_test <- augment(extract_workflow(final_knn_fit), hoteles_test)
+
+# Matriz de confusión: etiqueta real vs etiqueta predicha
+conf_mat_test <-
+  prob_test %>%
+  conf_mat(truth = children, estimate = .pred_class)
+conf_mat_test 
+```
+
+---
+
+# Fase 5: .orange[PREDICCIÓN EN TEST]
+
+```{r}
+# todas las métricas en test
+conf_mat_test %>% summary()
+```
+
+---
+
+# Fase 5: .orange[PREDICCIÓN EN TEST]
+
+Podemos **.bg-purple_light[dibujar la curva ROC]** haciendo uso de `roc_curve()` pasándole el archivo con las predicciones, y usando las probabilidades de ser 1 (guardadas en `.pred_children` en nuestro conjunto). Aprenderemos a dibujarla mejor pero podemos mientras hacerlo con `autoplot()`
+
+```{r}
+roc_data <- prob_test %>% roc_curve(truth = children, .pred_children)
+roc_data %>% autoplot()
+```
+
+
+---
+
+# Computación .orange[EN PARALELO]
+
+Si queremos probar muchos modelos y/o nuestro volumen de datos es elevado, quizás nos lleve demasiado tiempo: vamos a hacer una incursión a la **.bg-purple_light[programación paralelizada]**. 
+
+```{r}
+library(parallel)
+library(doParallel)
+```
+
+--
+
+Ambos paquetes serán los que nos permitan paralelizar de forma sencilla. La idea es **.bg-purple_light[mandar tareas independientes a procesadores distintos]**, de forma que si una tarea tarda 6 minutos en un pc, al mandarlo a otros dos procesadores, el tiempo pueda bajar hasta los 2 minutos (no es del todo lineal ya que hay un tiempo mínimo necesario en cada paso).
+
+---
+
+# Computación .orange[EN PARALELO]
+
+En muchas empresas u organismos de investigación se suele tener a disposición de los usuarios un conjunto de ordenadores (un clúster) común a todos de forma que cada persona pueda mandar sus hilos en paralelo. Pero…no tenemos de eso. ¿Entonces?
+
+&nbsp;
+
+Vamos a **.bg-purple_light[paralelizar en NUESTRO PROPIO ORDENADOR]**: un ordenador suele tener **.bg-purple_light[varios procesadores o cores]** que pueden funcionar de manera «independiente» uno de otro. Vamos a detectar la cantidad de núcleos de los que podemos disponer con `detectCores()`.
+
+```{r}
+# Detectamos los cores que tenemos
+detectCores()
+```
+
+---
+
+# Computación .orange[EN PARALELO]
+
+A la hora de paralelizar es importante que lo hagamos con cuidado ya que puede que nuestro ordenador se quede colgado: mi consejo es que definas el número de cores a usar como los que tienes menos uno.
+
+Con `makeCluster()` montamos los **.bg-purple_light[clúster en cada nodo]** y con `registerDoParallel()` registramos la paralelización (puedes ver los hilos abiertos con `showConnections()`).
+
+```{r}
+# Iniciamos la paralelización
+clusters <- detectCores() - 1
+make_cluster <- makeCluster(clusters)
+registerDoParallel(make_cluster)
+showConnections()
+```
+
+
+---
+
+# Computación .orange[EN PARALELO]
+ 
+El único cambio respecto a antes es indicarle `tune_grid()`  que queremos la **.bg-purple_light[validación paralelizada]**, con `control = control_grid(allow_par = TRUE)`. Para que no queden hilos sueltos es importante que al **.bg-purple_light[acabar la paralelización le indiquemos que cerramos los clúster]**.
+
+```{r}
+# Entrenamos y evaluamos los 18 modelos en paralelo
+hoteles_knn_fit_tune <-
+ hoteles_wflow %>%
+  tune_grid(resamples = hoteles_val, grid = grid_knn,
+            control = control_grid(verbose = TRUE, allow_par = TRUE,
+                                   pkgs = c("outliers")),
+            metrics = metric_set(accuracy, sensitivity,
+                                 specificity, roc_auc))
+# finalizamos clusters
+stopCluster(make_cluster)
+registerDoSEQ()
+
+# Métricas
+hoteles_knn_fit_tune %>% collect_metrics()
+```
+
+
+---
+
+
+# .orange[SOBREMUESTREO] .green[BAJOMUESTREO]
+
+Un paso que hemos obviado: si tenemos la **.bg-purple_light[variable objetivo desbalanceada]** solo aprenderá de la clase mayoritaria. Este desbalanceamiento podemos mitigarlo realizando **.bg-purple_light[sobremuestro/bajomuestreo]**, añadiendo `step_upsample()` (del paquete `{themis}`) a la receta (el parámetro `over_ratio` nos cuantifica el % de la clase minoritaria entre la mayoritaria).
+
+```{r}
+hoteles_rec_oversampling <-
+  hoteles_rec %>% 
+  themis::step_upsample(children, over_ratio = 0.5)
+
+bake(hoteles_rec_oversampling %>% prep(), new_data = NULL) %>%
+  count(children) %>% 
+  mutate(porc = 100*n/sum(n))
+```
+
+---
+
+# .orange[SOBREMUESTREO] .green[BAJOMUESTREO]
+
+Basta con repetir el proceso con la **receta con sobremuestreo**
+
+```{r eval = FALSE}
+# Flujo de trabajo
+hoteles_wflow_oversampling <-
+  workflow() %>%
+  add_recipe(hoteles_rec_oversampling) %>%
+  add_model(knn_model_tune)
+
+# Ajuste
+hoteles_knn_fit_tune_oversampling <-
+  hoteles_wflow_oversampling %>%
+  tune_grid(resamples = hoteles_val, grid = grid_knn,
+            control = control_grid(verbose = TRUE,
+                                   allow_par = TRUE,
+                                   pkgs = c("outliers")),
+            metrics = metric_set(accuracy, sensitivity,
+                                 specificity, roc_auc))
+```
+  
+---
+
+class: inverse center middle
+name: clase-9
+
+# CLASE 9: otras validaciones y ggplot
+
+&nbsp;
+
+### [...](#repaso-knn-iris)
+
+---
+
+# Validación .orange[CRUZADA v-folds]
+
+
+* cv v-folds
+
+---
+
+# Validación .orange[BOOTSTRAP]
+
+* Bootstrap Out-of-Bag
 
 ---
 

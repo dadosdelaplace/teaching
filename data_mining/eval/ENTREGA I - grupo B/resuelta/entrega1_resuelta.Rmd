@@ -1,0 +1,465 @@
+---
+title: "Entrega I resuelta(grupo B)"
+description: |
+  Primeros pasos en tidyvrese
+author:
+  - name: C. Tangana (DNI 0000000-A)
+    affiliation: Universidad Complutense de Madrid
+    affiliation_url: 
+date: "`r Sys.Date()`"
+output:
+    distill::distill_article:
+        highlight: kate
+        colorlinks: true
+        code_folding: false
+        toc: true            
+        toc_depth: 3     
+---
+
+```{r setup, include = FALSE}
+# Ajuste comunes de los chunk
+knitr::opts_chunk$set(fig.width = 9, fig.asp = 1, out.width = "100%",
+                      message = FALSE, warning = FALSE,
+                      echo = TRUE, res = 400)
+```
+
+# Instrucciones (leer antes de empezar)
+
+* Modifica dentro del documento `.Rmd` tus datos personales (nombre y DNI) ubicados en la cabecera del archivo.
+
+* Asegúrate, **ANTES de seguir editando** el documento, que el archivo `.Rmd` se teje correctamente (botón Knit) y se genera el `.html` correspondiente.
+
+* Los chunks (cajas de código) creados están o vacíos o incompletos, de ahí que la mayoría tengan la opción `eval = FALSE`. Una vez que edites lo que consideres debes ir cambiando cada chunck a `eval = FALSE` para que se ejecuten.
+
+* Recuerda que puedes ejecutar chunk a chunk con el botón _play_ o ejecutar todos los chunk hasta uno dado (con el botón a la izquierda del anterior).
+
+* Los dos primeros ejercicios serán evaluados únicamente con lo realizado durante la clase.
+
+
+# Paquetes necesarios
+
+Necesitaremos los siguientes paquetes (ejecuta el chunk antes de seguir):
+
+```{r paquetes}
+# Borramos variables del environment
+rm(list = ls())
+library(glue)
+library(gapminder)
+library(tidyverse)
+```
+
+
+# Caso práctico I: análisis de Star Wars
+
+## Carga de datos
+
+El archivo de datos a usar lo cargaremos del paquete`{dplyr}` dentro de `{tidyverse}`
+
+```{r}
+starwars
+```
+
+En él tenemos diferentes variables de los **personajes de Star Wars**, con características de su pelo, piel, altura, nombre, etc.
+
+## Ejercicio 1:
+
+
+
+> Determina la dimensión de nuestros datos. ¿Cuántos personajes hay incluidos en la base de datos? ¿Cuántas variables tenemos de cada personaje? ¿Qué variables son de tipo texto? ¿Qué variables hay de tipo numéricas?
+
+```{r}
+# Hay varias formas pero una de ellas
+dim(starwars) # dimensión
+starwars |> nrow() # personajes
+starwars |> ncol() # variables
+
+# variables de tipo texto 
+starwars |>  
+  select(where(is.character)) |> 
+  ncol()
+
+# variables de tipo numéricas
+starwars |>  
+  select(where(is.numeric)) |> 
+  ncol()
+```
+
+
+## Ejercicio 2:
+
+> Completa el código inferior y cambia el nombre a las variables traduciendo los nombres a castellano (sin tildes ni caracteres extraños)
+
+```{r}
+# NUNCA uses tildes, eñes, espacios, etc
+starwars <-
+  starwars %>% 
+  rename(nombre = name, estatura = height, peso = mass,
+         color_pelo = hair_color, color_piel = skin_color,
+         color_ojos = eye_color, edad = birth_year, sexo = sex,
+         genero = gender, lugar_natal = homeworld,
+         especie = species, peliculas = films,
+         vehiculos = vehicles, naves = starships)
+starwars
+```
+
+
+## Ejercicio 3:
+
+
+> Completa el código inferior y quédate solo con las variables que sean de tipo numéricas o de tipo texto. Guarda dicha selección en el conjunto nuevo_starwars
+
+```{r}
+nuevo_starwars <-
+  starwars %>% 
+  select(where(is.numeric) | where(is.character))
+nuevo_starwars
+```
+
+
+## Ejercicio 4:
+
+> Usando nuevo_starwars filtra solo aquellos personajes que no tenga ausentes ni en peso ni en estatura. Tras ello modifica la variable del nombre de forma que todos estén en minúscula
+
+```{r}
+nuevo_starwars %>%
+  drop_na(peso, estatura) %>% 
+  mutate(nombre = str_to_lower(nombre)) 
+```
+
+
+## Ejercicio 5:
+
+> Del conjunto original, incluye una nueva variable que nos indique cuántas naves (starships) conduce cada personaje. Añade otra que incluye el número de películas en las que aparece cada personaje. Incluye otra variable de tipo lógico que nos diga si conduce o no algún vehículo (vehicle). Tras ello quédate solo con aquellos personajes que hayan conducido la nave "Millennium Falcon".
+
+```{r}
+starwars <- dplyr::starwars # el original
+nuevo_starwars <- 
+  starwars |> 
+  mutate(n_films = films |> map_int(length),
+         n_vehi = vehicles |> map_int(length),
+         n_starships = starships |> map_int(length),
+         conduce = n_vehi > 0) |> 
+  filter(str_detect(starships, "Millennium Falcon"))
+nuevo_starwars
+```
+
+## Ejercicio 6:
+
+
+> Ordena los registros en función de su edad de mayor a menor. Después de menor a mayor.
+
+```{r}
+# mayor a menor
+starwars |> arrange(desc(birth_year))
+
+# menor a mayor 
+starwars |> arrange(birth_year)
+```
+
+
+# Caso práctico II: análisis de gapminder
+
+## Carga de datos
+
+El archivo de datos a usar lo cargaremos del paquete`{gapminder}` 
+
+```{r}
+gapminder
+```
+
+En él tenemos diferentes **variables de económicas de distintos países en distintos años**.
+
+
+
+## Ejercicio 1:
+
+> Completa el código inferior y añade una nueva variable de texto llamada `id` que, para cada registro, una `pais-continente-año` (por ejemplo, "Afghanistan-Asia-1952").
+
+```{r}
+library(glue)
+gapminder1 <-
+  gapminder %>% 
+  mutate(id = glue("{country}-{continent}-{year}"))
+gapminder1
+```
+
+## Ejercicio 2:
+
+> Tras la creación del id del ejercicio anterior, guarda en `gapminder_filtro` una nueva tabla en la que se eliminen la variable de nombre del país y continente, y filtra solo registros del siglo XXI (años 2002 y 2007)
+
+```{r}
+gapminder_filtro <-
+  gapminder1 %>% 
+  filter(year %in% c(2002, 2007)) %>% 
+  select(-c(country, continent))
+gapminder_filtro
+```
+
+
+## Ejercicio 3:
+
+> Del conjunto `gapminder` original, considerando los datos de los año 1952 y otro el año 2007, ¿existe algún país que haya empeorado su esperanza de vida? Ejecuta el código que consideres para responder a esa pregunta
+
+```{r}
+gapminder_1952 <- gapminder %>% filter(year == 1952)
+gapminder_2007 <- gapminder %>% filter(year == 2007)
+gapminder_dif <- gapminder_2007
+gapminder_dif$lifeExp <-
+  gapminder_2007$lifeExp - gapminder_1952$lifeExp
+
+gapminder_dif %>% filter(lifeExp < 0)
+```
+
+
+## Ejercicio 4:
+
+> Calcula la media para cada continente de la esperanza de vida en 2007. Haz lo mismo para 1952.
+
+```{r}
+# 2007
+gapminder |>
+  filter(year == 2007) |>
+  group_by(continent) |>
+  summarise(mean_life_exp = mean(lifeExp, na.rm = TRUE)) |> 
+  ungroup()
+
+# 1952
+gapminder |>
+  filter(year == 1952) |>
+  group_by(continent) |>
+  summarise(mean_life_exp = mean(lifeExp, na.rm = TRUE)) |> 
+  ungroup()
+```
+
+
+## Ejercicio 5:
+
+> Calcula la media para cada continente de la población en 2007. Haz lo mismo para 1952.
+
+
+```{r}
+# 2007
+gapminder |>
+  filter(year == 2007) |>
+  group_by(continent) |>
+  summarise(mean_pop = mean(pop, na.rm = TRUE)) |> 
+  ungroup()
+
+# 1952
+gapminder|>
+  filter(year == 1952) |>
+  group_by(continent) |>
+  summarise(mean_pop = mean(pop, na.rm = TRUE)) |> 
+  ungroup()
+```
+
+
+## Ejercicio 6:
+
+> Determina el número de países que en 2007 temnían más de 40 millones de habitantes.
+
+```{r}
+gapminder |>
+  filter(year == 2007 & pop > 4e7) |> 
+  nrow()
+```
+
+## Ejercicio 7:
+
+> Suponiendo que todas las fechas fuesen del 1 de enero del año contenido en la variable `year`, crea una nueva variable de tipo fecha en formato `dd-mm-yyyy`.
+
+
+```{r}
+library(glue)
+library(lubridate)
+gapminder <-
+  gapminder %>% 
+  mutate(date = as_date(glue("{year}-01-01")))
+gapminder
+```
+
+
+
+# Caso práctico III: billboard
+
+
+
+## Carga de datos
+
+El archivo de datos a usar lo cargaremos del paquete`{tidyr}` dentro de `{tidyverse}`
+
+```{r}
+billboard
+```
+
+En él tenemos el ranking que ocupaba en la lista billboard distintas canciones durante las semanas principios del siglo XX. Busca en la ayuda `? billboard` más info para hacer un análisis correcto.
+
+
+
+
+## Ejercicio 1:
+
+> Selecciona solo las primeras 52 semanas haciendo uso de `num_range()`
+
+```{r}
+billboard_1 <- 
+  billboard %>% 
+  select(-contains("wk"), num_range("wk", 1:52))
+billboard_1
+```
+
+
+## Ejercicio 2:
+
+
+> Convierte el dataset a tidydata, ausentes incluidos (deberías obtener 16 484 filas y 5 columnas).  Convierte de nuevo el dataset a tidydata pero eliminando ausentes (deberías obtener 5280 filas y 5 columnas).
+
+```{r}
+billboard_1 |>
+  pivot_longer(cols = 'wk1':'wk52',
+               names_to = 'week',
+               values_to = 'rank')
+
+billboard_tidy <-
+  billboard_1 |>
+  pivot_longer(cols = 'wk1':'wk52',
+               names_to = 'week',
+               values_to = 'rank') |> 
+  drop_na(rank)
+billboard_tidy
+```
+
+
+## Ejercicio 3:
+
+>  La variable `week` procésala para que sea numérica
+
+```{r}
+billboard_tidy <-
+  billboard_tidy |> 
+  mutate(week = as.numeric(str_remove_all(week, "wk")))
+billboard_tidy
+```
+
+
+## Ejercicio 4:
+
+>  Crea una nueva variable llamada `quarter` que nos codifique el cuatrimestre de cada registro (usando date.entered)
+
+```{r}
+billboard_tidy <-
+  billboard_tidy |>
+  mutate(quarter = quarter(date.entered))
+billboard_tidy
+```
+
+
+## Ejercicio 5:
+
+>   Extrae la lista de artistas distintos que aparecen en la tabla. ¿Cuántas veces aparece cada uno en la tabla?
+
+```{r}
+# extraer
+billboard_tidy |>
+  distinct(artist) |>
+  pull()
+
+# contar
+billboard_tidy |> 
+  count(artist)
+```
+
+
+## Ejercicio 6:
+
+>  Determina las canciones que más semanas aparecen en la lista de éxitos. Extrae las 10 que más semanas aparecen
+
+```{r}
+billboard_tidy |>
+  count(track) |> 
+  slice_max(n, n = 10)
+```
+
+
+## Ejercicio 7:
+
+>   Extrae los 10 artistas cuya canción aparece más semanas (cuidado: un artista tiene varias canciones)
+
+```{r}
+billboard_tidy |>
+  count(artist, track) |> 
+  slice_max(n, n = 10)
+```
+
+
+## Ejercicio 8:
+
+> Determina el artista con más canciones en la lista
+
+```{r}
+billboard_tidy |>
+  distinct(artist, track) |> 
+  count(artist) |> 
+  slice_max(n)
+```
+
+
+## Ejercicio 9:
+
+> Calcula el número de canciones distintas que aparecen en la lista
+
+```{r}
+billboard_tidy |>
+  count(track) |>
+  nrow()
+```
+
+
+
+
+## Ejercicio 10:
+
+> Calcula la posición más alta en la que ha estado un artista
+
+```{r}
+billboard_tidy |>
+  group_by(artist) |> 
+  slice_min(rank, n = 1, with_ties = FALSE) |> 
+  ungroup()
+```
+
+
+## Ejercicio 11:
+
+> Obtén una sola tabla con el ranking medio de cada artista (contando solo el ranking más alto alcanzado por sus canciones), así como el número de canciones (distintas) que ha colocado en el top 100
+
+```{r}
+billboard_tidy |>
+  group_by(artist, track) |> 
+  slice_min(rank, n = 1, with_ties = FALSE) |> 
+  ungroup(track) |> 
+  summarise(mean_rank = mean(rank), n_tracks = n_distinct(track)) |> 
+  ungroup()
+```
+
+
+## Ejercicio 12:
+
+>    Realiza un muestreo extrayendo solo los registros de Enrique Iglesias y The Backstreet Boys.
+
+```{r}
+billboard_tidy |>
+  filter(str_detect(artist, "Backstreet|Iglesias"))
+```
+
+
+## Ejercicio 14:
+
+> Obtén una tabla con el número de registros por quatrimestre (y su proporción respecto al total). Realiza un muestreo aleatorio estratificado, extrayendo el 50% de los datos pero manteniendo la proporción de datos entre los distintos cuatrimestres.
+
+```{r}
+billboard_tidy |>
+  group_by(quarter) |> 
+  slice_sample(prop = 0.5) |> 
+  ungroup()
+```

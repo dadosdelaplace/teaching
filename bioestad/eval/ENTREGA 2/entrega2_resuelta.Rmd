@@ -1,0 +1,375 @@
+---
+title: "Entrega II"
+description: |
+  Profundizando en tidyverse
+author:
+  - name: C. Tangana (DNI 0000000-A)
+    affiliation: Universidad Complutense de Madrid
+    affiliation_url: 
+date: "`r Sys.Date()`"
+output:
+    distill::distill_article:
+        highlight: kate
+        colorlinks: true
+        code_folding: false
+        toc: true            
+        toc_depth: 3     
+---
+
+```{r setup, include = FALSE}
+# Ajuste comunes de los chunk
+knitr::opts_chunk$set(fig.width = 9, fig.asp = 1, out.width = "100%",
+                      message = FALSE, warning = FALSE,
+                      echo = TRUE, res = 400)
+```
+
+# Instrucciones (leer antes de empezar)
+
+* Modifica dentro del documento `.Rmd` tus datos personales (nombre y DNI) ubicados en la cabecera del archivo.
+
+* Asegúrate, **ANTES de seguir editando** el documento, que el archivo `.Rmd` se teje correctamente (botón Knit) y se genera el `.html` correspondiente.
+
+* Los chunks (cajas de código) creados están o vacíos o incompletos, de ahí que la mayoría tengan la opción `eval = FALSE`. Una vez que edites lo que consideres debes ir cambiando cada chunck a `eval = TRUE` para que se ejecuten.
+
+* Recuerda que puedes ejecutar chunk a chunk con el botón _play_ o ejecutar todos los chunk hasta uno dado (con el botón a la izquierda del anterior).
+
+# Caso práctico: datos de covid del ISCIII
+
+## Paquetes necesarios
+
+Necesitaremos los siguientes paquetes:
+
+```{r paquetes}
+# Borramos variables del environment
+rm(list = ls())
+library(readr)
+library(tidyverse)
+```
+
+
+
+## Ejercicio 1:
+
+> Acude a la web <https://cnecovid.isciii.es/covid19/#documentaci%C3%B3n-y-datos> e importa el fichero `casos_hosp_uci_def_sexo_edad_provres.csv`. Tienes la documentación de los datos en <https://cnecovid.isciii.es/covid19/resources/metadata_casos_hosp_uci_def_sexo_edad_provres.pdf>
+
+```{r}
+# Completa lo que consideres y cambia a eval = TRUE 
+covid_bruto <- read_csv(file = "https://cnecovid.isciii.es/covid19/resources/casos_hosp_uci_def_sexo_edad_provres.csv")
+covid_bruto
+```
+
+
+> Tras analizar la tabla, ejecuta el código que consideres que nos permita conocer a) el nombre de las variables, b) el tipo de cada una, c) las modalidades (valores únicos) que toma cada variable cualitativa y d) el número de registros totales. Detalla lo que consideres en texto.
+
+```{r}
+# Hay muchas formas, pero una de ellas
+names(covid_bruto) # a) nombres
+glimpse(covid_bruto) # b) tipos
+
+# valores únicos
+covid_bruto %>% count(provincia_iso)
+covid_bruto %>% count(sexo)
+covid_bruto %>% count(grupo_edad)
+
+# registros totales
+covid_bruto %>% nrow()
+```
+
+
+## Ejercicio 2:
+
+> Detecta cómo están codificados los ausentes en la variable referente a la edad,  calcula cuantos casos hay notificados para dicho valor de edad, y calcula el porcentaje respecto al número de casos total que representa. Pista: deberías obtener 9878 casos, que representan solo el 0.08529% de los casos.
+
+```{r}
+# En la edad (como dice además la documentación) tenemos "NC"
+covid_bruto %>%
+  group_by(grupo_edad == "NC") %>%
+  # Siempre que queramos hacer resúmenes --> summarise
+  # Mutate es un error: nos pondrá una constante en cada grupo_edad fijo
+  summarise(total_casos = sum(num_casos)) %>% 
+  ungroup() %>% 
+  mutate(prop = 100*total_casos / sum(total_casos))
+```
+
+> Dado su escaso peso en el total, genera una nueva base de datos en la que borremos aquellos registros con franja de edad desconocida. Pista: deberías obtener una tabla de 1 169 127 registros y 8 variables.
+
+```{r}
+covid <-
+  covid_bruto %>%
+  filter(grupo_edad != "NC")
+covid
+```
+
+## Ejercicio 3:
+
+> Con la base de datos generada en el ejercicio anterior, repite el proceso para los desconocidos/ausentes en la variable sexo, y para los desconocidos/ausentes en la variable provincia (detecta antes como están codificados los ausentes en dichas variables). Elimina dichos registros si el número de casos representa menos de 1% en cada caso.
+
+```{r}
+# En sexo también está como NC
+covid %>%
+  group_by(sexo == "NC") %>%
+  summarise(total_casos = sum(num_casos)) %>% 
+  ungroup() %>% 
+  mutate(prop = 100*total_casos / sum(total_casos))
+
+# lo que deberíamos haber hecho bien antes de nada con navarra
+# pero para nosotros NA --> ausente
+# covid <-
+#   covid %>%
+#   mutate(provincia_iso =
+#            ifelse(is.na(provincia_iso), "NA", provincia_iso))
+covid %>%
+  group_by(is.na(provincia_iso)) %>%
+  summarise(total_casos = sum(num_casos)) %>%
+  ungroup() %>%
+  mutate(prop = 100*total_casos / sum(total_casos))
+
+covid %>%
+  group_by(is.na(provincia_iso)) %>%
+  summarise(total_casos = sum(num_casos)) %>% 
+  ungroup() %>% 
+  mutate(prop = 100*total_casos / sum(total_casos))
+
+# En sexo solo representan el 0.02489% de casos covid,
+# así que los eliminaremos	
+# En provincia el 1.993906% así que no eliminamos
+covid <-
+  covid %>%
+  filter(sexo != "NC")
+covid
+```
+
+## Ejercicio 4:
+
+> Modifica la base de datos generada en el ejercicio anterior para convertir a factor las variables que consideres que deban serlo. Determina además en cada caso si deben estar ordenados (ordinales), y especifica el orden en ese caso. 
+
+```{r}
+edades <- covid %>% distinct(grupo_edad) %>% pull(grupo_edad)
+covid_factores <-
+  covid %>%
+  mutate(provincia_iso = as_factor(provincia_iso), # nominal
+         sexo = as_factor(sexo), # nominal
+         grupo_edad = # ordinal
+           factor(grupo_edad, levels = edades,
+                  ordered = TRUE))
+covid_factores
+```
+
+> Con la tabla anterior, crea un nivel explícito para ausentes en las variables que contengan dichos valores desconocidos, y llama a dicho nivel `"desconocido"`
+
+
+```{r}
+# Recategorizamos provincia_iso (un mutate porque es modificar una
+# variable ya existinte: donde ponga NA --> "desconocido")
+covid_factores <-
+  covid_factores %>%
+  mutate(provincia_iso =
+           fct_explicit_na(provincia_iso, na_level = "desconocido"))
+covid_factores
+```
+
+## Ejercicio 5:
+
+> De la tabla anterior, elimina la variables de hospitalizados y UCI. Tras ello renombra las columnas de casos y fallecidos por casos_diarios y fallec_diarios, respectivamente. Tras ello crea dos nuevas variables llamadas casos_acum y otra fallec_acum, que contengan los casos acumulados y fallecidos acumulados para cada fecha,  (por provincia, tramo etario y sexo). Para saber si lo tienes bien, comprueba que en Burgos (BU) había 1976 casos acumulados a fecha de 11 de mayo de 2021, para hombres y tramo etario de 60 a 69 años
+
+```{r}
+# Completa lo que consideres y cambia a eval = TRUE 
+covid_final <-
+  covid_factores %>%
+  select(-c(num_hosp, num_uci)) %>% 
+  rename(casos_diarios = num_casos, fallec_diarios = num_def) %>% 
+  group_by(provincia_iso, sexo, grupo_edad) %>% 
+  # no podemos agrupar por fecha: si lo hiciésemos,
+  # el acumulado no acumularía el pasado, porque lo haría día a día
+  # es decir, el acumulado del 1 de mayo de 2021 sería...tal
+  # cual los datos de 1 de mayo de 2021 (sin acumular el pasado)
+  mutate(casos_acum = cumsum(casos_diarios),
+         fallec_acum = cumsum(fallec_diarios)) %>%
+  ungroup()
+covid_final
+
+# Comprobación
+covid_final %>% 
+  filter(provincia_iso == "BU" & fecha == "2021-05-11" &
+           sexo == "H" & grupo_edad == "60-69")
+```
+
+## Ejercicio 6:
+
+> Sin guardarlo en ninguna tabla nueva: selecciona solo las variables que reporten datos diarios (con sufijo _diarios). Haz lo mismo con las variables que reporten datos acumulados.
+
+```{r}
+covid_final %>% select(ends_with("diarios"))
+covid_final %>% select(ends_with("acum"))
+```
+
+
+## Ejercicio 7:
+
+> ¿Cuáles fueron las 7 provincias con más casos a lo largo de toda la pandemia (hasta el último registrado en la base de datos)? ¿Y las 5 provincias con menos fallecidos? Pista: en la primera pregunta debería estar Zaragoza (Z) con	295 052 casos; en la segunda pregunta debería estar Lugo (LU) con 328 fallecidos. 
+
+```{r}
+# Antes tendrá que calcular el total de casos y fallecidos
+# en cada provincia (sin importar sexo y edad). No hace falta
+# agrupar por fecha porque vamos a quedarnos con el total 
+# tras sumar todas las fechas
+covid_final %>%
+  group_by(provincia_iso) %>%
+  summarise(total_casos = sum(casos_diarios),
+            total_fallec = sum(fallec_diarios)) %>% 
+  ungroup() %>% 
+  slice_max(n = 7, total_casos)
+
+covid_final %>%
+  group_by(provincia_iso) %>%
+  summarise(total_casos = sum(casos_diarios),
+            total_fallec = sum(fallec_diarios)) %>% 
+  ungroup() %>% 
+  slice_min(n = 5, total_fallec)
+```
+
+
+## Ejercicio 8:
+
+> De la tabla obtenida en el ejercicio 5, crea una nueva variable que represente la letalidad (definida como el % de casos que han fallecido, de maner acumulada en cada fecha), en cada grupo de edad, sexo y provincia. Tras ello, determina las 5 provincias con mayor letalidad en mujeres mayores de 80 años a fecha 01 de marzo de 2022. Pista: Soria (SO) debería aparecer con un 17%.
+
+```{r}
+# No hace falta el group siquiera porque en el cálculo de fallec_acum y
+# casos_acum ya tenemos un valor por cada (sexo, edad, provincia)
+covid_letal <- 
+  covid_final %>%
+  mutate(letalidad = 100 * fallec_acum / casos_acum)
+
+# 5 con menos letalidad
+covid_letal %>% 
+  filter(grupo_edad == "80+" &
+           sexo == "M" & fecha == "2022-03-01") %>% 
+  slice_max(letalidad, n = 5)
+```
+
+
+
+## Ejercicio 9:
+
+> Construye una tabla que nos proporcione estadísticas globales de toda españa, con casos y fallecidos diarios (así como sus datos acumulados) juntando todas las provincias, todas las edades y todos los sexos. Pista: si lo has hecho bien deberías obtener una tabla de 817 registros y 5 variables, con 11 568 576	casos totales acumulados a 27 de marzo de 2022 y 103 398 fallecidos acumulados.
+
+```{r}
+# Para datos de toda españa debemos de, dada una fecha, sumar todos
+# los casos, sin importar provincia, sexo o edad
+# Debemos usar los casos diarios.
+covid_esp <-
+  covid_final %>% 
+  group_by(fecha) %>% 
+  summarise(casos_diarios = sum(casos_diarios),
+            fallec_diarios = sum(fallec_diarios)) %>% 
+  ungroup()
+
+# los acumulados ya no los queremos agrupados por fecha
+# si hacemos group_by(fecha) el acumulado no acumulará nada
+covid_esp <-
+  covid_esp %>% 
+  mutate(casos_acum = cumsum(casos_diarios),
+         fallec_acum = cumsum(fallec_diarios))
+covid_esp
+```
+
+> Añade una columna con la letalidad (acumulada) en cada fecha, y determina la letalidad acumulada en el último día que hay registros (deberías obtener 0.894%) y el día que la letalidad acumulada fue mayor (deberías obtener 10 de mayo de 2020 con 12.2%)
+
+```{r}
+# No podemos usar la letal_acum que teníamos antes ya calculada
+# porque esa era desagregada por (sexo, provincia, edad)
+# necesitamos hacerlo con los fallec_acum y casos_acum pero de
+# toda españa
+covid_esp <- 
+  covid_esp %>% 
+  mutate(letalidad = 100 * fallec_acum / casos_acum)
+covid_esp
+
+covid_esp %>% slice_max(fecha) # último día
+covid_esp %>% slice_max(letalidad) # máxima letalidad
+```
+
+> ¿Cuál fue el día que más casos diarios se notificaron en España? ¿Y fallecidos diarios?
+
+```{r}
+covid_esp %>% slice_max(casos_diarios)
+covid_esp %>% slice_max(fallec_diarios)
+```
+
+## Ejercicio 10:
+
+> Nos vamos a descargar los datos mundiales de covid de la web Our World in Data
+
+```{r}
+owid_data <- read_csv(file = "https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/owid-covid-data.csv")
+owid_data
+```
+
+> Quédate solo en una tabla con los datos de España (ESP como código ISO). Quédate además solo con las variables iso_code, date y aquellas relacionadas con vacunas (vaccines, vaccinations, etc)
+
+
+```{r}
+# Filtramos registros de España y nos quedamos con las columnas 
+# de país, fecha y las que tienen "vaccin" en su nombre (vaccines, vaccinations, etc)
+owid_data_esp <-
+  owid_data %>% 
+  filter(iso_code == "ESP") %>% 
+  select(iso_code, date, contains("vaccin"))
+owid_data_esp
+```
+ 
+> Extrae la primera fecha en la que España contaba con más del 50% de personas con al menos una dosis, y guárdala en `date_half_vaccinated`
+
+```{r}
+# El % de personas vacunadas está en people_vaccinated_per_hundre
+# y en  people_fully_vaccinated_per_hundred. Como nos dicen con 
+# al menos una dosis, no necesitamos el fully (pauta completa)
+date_half_vaccinated <- 
+  owid_data_esp %>% 
+  filter(people_vaccinated_per_hundred > 50) %>% 
+  # Después de filtrar solo los que tengan > 50%, nos quedamos
+  # con la fecha más pronto (más pequeña)
+  slice_min(date) %>%
+  pull(date) # la extraemos para ser usada luego
+date_half_vaccinated
+```
+
+## Ejercicio 11:
+
+> Calcula en una sola tabla la letalidad acumulada en España contando solo los casos y fallecidos hasta esa fecha, y la letalidad en España acumulada hasta su último registro, y compáralas
+
+```{r}
+# Agrupo: antes de la fecha y después (reminder que podemos)
+# meter condiciones en el group para que haga el TRUE y el FALSE
+covid_esp %>%
+  group_by(fecha <= date_half_vaccinated) %>%
+  slice_max(fecha) %>% # la última fecha de cada grupo
+  # la letalidad en esa última fecha (en cada grupo)
+  summarise(letalidad = 100 * fallec_acum / casos_acum) %>% 
+  ungroup()
+```
+
+> Repite el ejercicio anterior (y el 9) pero contando solo los datos totales de España de personas de 60 años o más (deberías obtener 5% acumulada global y 9.06% antes de dicha fecha de mitad de vacunados)
+
+```{r}
+covid_esp_mayores <-
+  covid_final %>% 
+  # Fíjate que podemos hacerlo así y no con %in% c("60-69", "70-79", "80+")
+  # por haber definido grupo_edad como factor y además ordered = TRUE
+  filter(grupo_edad >= "60-69") %>% 
+  # Repetimos el cálculo total de España de datos diarios y acum
+  group_by(fecha) %>% 
+  summarise(casos_diarios = sum(casos_diarios),
+            fallec_diarios = sum(fallec_diarios)) %>% 
+  ungroup() %>% 
+  mutate(casos_acum = cumsum(casos_diarios),
+         fallec_acum = cumsum(fallec_diarios))
+covid_esp_mayores
+
+# Repetimos la comaprativa con el corte de la fecha
+covid_esp_mayores %>%
+  group_by(fecha <= date_half_vaccinated) %>%
+  slice_max(fecha) %>% 
+  summarise(letalidad = 100 * fallec_acum / casos_acum)
+```
+

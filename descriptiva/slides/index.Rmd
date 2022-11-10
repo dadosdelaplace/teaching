@@ -8106,6 +8106,216 @@ datos %>%
 
 ---
 
+# Ejercicio 4, hoja 2
+
+En una estación meteorológica se han recogido muestras de valores de concentración de polen en el aire a lo largo de los días,  obteniendo los siguientes datos.
+
+> 174, 185, 166, 176, 145, 167, 191, 174, 159, 155, 181, 160, 170, 198, 180, 150, 161, 183, 172, 163, 147, 176, 141, 170, 171, 158, 184, 173, 169, 162, 172, 181, 187, 177, 164, 171, 193, 183, 173, 179, 167, 178, 180, 168, 173
+
+**.bg-purple_light[Primer paso]**: define nuestra base de datos, **.bg-purple_light[define nuestro tibble]**
+
+--
+
+```{r}
+datos <-
+  tibble(x = c(174, 185, 166, 176, 145, 167, 191, 174, 159,
+               155, 181, 160, 170, 198, 180, 150, 161, 183,
+               172, 163, 147, 176, 141, 170, 171, 158, 184,
+               173, 169, 162, 172, 181, 187, 177, 164, 171,
+               193, 183, 173, 179, 167, 178, 180, 168, 173))
+datos
+```
+
+---
+
+# Ejercicio 4, hoja 2
+
+¿Qué porcentaje de los días se superó los 180 de concentración de polen?
+
+--
+
+```{r}
+datos %>%
+  group_by(x > 180) %>% 
+  count() %>% 
+  ungroup() %>% 
+  mutate(porc = 100 * n / sum(n))
+```
+
+---
+
+
+# Ejercicio 4, hoja 2
+
+Crea una nueva variable llamada `I_i` que nos recategorice la variable agrupándola en intervalos de amplitud 10 (abierto por la izquierda, cerrado por la derecha, empezando desde `"(140, 150]"` el primero y `"(190, 200]"` el último). Necesitamos una tabla de dos columnas: `x` e `I_i` (su categoría)
+
+--
+
+```{r}
+datos_recat <- 
+  datos %>% 
+  mutate(I_i = case_when(x <= 150 ~ "(140, 150]",
+                         x <= 160 ~ "(150, 160]",
+                         x <= 170 ~ "(160, 170]",
+                         x <= 180 ~ "(170, 180]",
+                         x <= 190 ~ "(180, 190]",
+                         TRUE ~ "(190, 200]"))
+datos_recat
+```
+
+---
+
+# Ejercicio 4, hoja 2
+               
+Inicia una tabla de frecuencias agrupada con tres columnas: I_i (categoría, intervalo) y x_i (marca de clase) y n (frecuencia absoluta). Saca la tabla además con las columnas en ese orden.
+
+--
+
+```{r}
+tabla_frec <- 
+  datos_recat %>% 
+  count(I_i) %>% 
+  mutate(x_i = case_when(I_i == "(140, 150]" ~ 145,
+                         I_i == "(150, 160]" ~ 155,
+                         I_i == "(160, 170]" ~ 165,
+                         I_i == "(170, 180]" ~ 175,
+                         I_i == "(180, 190]" ~ 185,
+                         TRUE ~ 195)) %>% 
+  relocate(x_i, .after = I_i)
+tabla_frec
+```
+
+
+
+---
+
+# Ejercicio 4, hoja 2
+
+Esto era solo para practicar: por suerte no necesitaremos perder información agrupando. Usando los datos originales (del primer apartado), calcula la media y mediana, los cuartiles, y las 3 medidas de dispersión en una sola tabla resumen.
+
+--
+
+```{r}
+datos %>% 
+  summarise(media = mean(x), mediana = median(x),
+            var = mean(x^2) - mean(x)^2, sd = sqrt(var),
+            CV = sd / abs(mean(x)), q1 = quantile(x, probs = 0.25),
+            q2 = quantile(x, probs = 0.5),
+            q1 = quantile(x, probs = 0.75))
+```
+
+
+---
+
+# Ejercicio 7, hoja 3
+
+> En la tabla inferior se han recopilado (del año 2013 al 2022) la temperatura media en el mes de abril en Madrid (variable X, en ºC) y el número de días (variable Y) en el que el nivel de ozono superó las 0.20 ppm (partes por millón).
+
+> X: 16.0, 17.2, 18.0, 17.2, 16.9, 17.1, 18.2, 17.3, 17.5, 16.6
+> Y: 58, 82, 81, 65, 61, 48, 61, 43, 33, 36
+
+Construye la base de datos
+
+--
+
+```{r}
+datos <- tibble(x = c(16.0, 17.2, 18.0, 17.2, 16.9, 17.1,
+                      18.2, 17.3, 17.5, 16.6),
+                y = c(58, 82, 81, 65, 61, 48, 61, 43, 33, 36))
+datos
+```
+
+---
+
+# Ejercicio 7, hoja 3
+
+¿Cuál fue la media de días en los que se superó el umbral de ozono de 0.20 ppm? (media de la variable Y)
+
+--
+
+```{r}
+datos %>% 
+  summarise(media_Y = mean(y))
+```
+
+---
+
+# Ejercicio 7, hoja 3
+
+Calcula la media de ambas variables, usando solo una vez la orden `mean()` y sin nombrar a las variables.
+
+--
+
+```{r}
+datos %>% 
+  drop_na(x, y) %>% # por si acaso
+  summarise(across(everything(), mean))
+```
+
+---
+
+# Ejercicio 7, hoja 3
+
+¿Cuál fue la temperatura media en los años en los que hubo más de 60 días superando el umbral de ozono? (media de X condicionada a Y > 60)
+
+--
+
+```{r}
+datos %>% 
+  filter(y > 60) %>% 
+  summarise(media_X = mean(x))
+```
+
+---
+
+# Ejercicio 7, hoja 3
+
+¿Cuál fue la media de días en los que se superó el umbral de ozono en los años que la temperatura media en marzo superó los 17.4ºC? (media de Y condicionada a X > 17.4)
+
+--
+
+```{r}
+datos %>% 
+  filter(x > 17.4) %>% 
+  summarise(media_Y = mean(y))
+```
+
+---
+
+# Ejercicio 7, hoja 3
+
+Calcula a la vez la temperatura media en los años en los que hubo más de 60 días superando el umbral de ozono, y en los que hubo 60 o menos (todo sacado en la misma tabla)
+
+--
+
+```{r}
+datos %>% 
+  group_by(y > 60) %>% 
+  summarise(medias = mean(x)) %>% 
+  ungroup()
+```
+
+---
+
+# Ejercicio 7, hoja 3
+
+
+¿Existe alguna relación de dependencia entre las variables? ¿De qué tipo? ¿Cómo de fuerte o débil es dicha relación? ¿En qué dirección es dicha relación? Analiza la dependencia y causalidad entre las variables
+
+--
+
+```{r}
+datos %>% 
+  summarise(cov = cov(x, y), cor = cor(x, y))
+```
+
+Dependencia lineal muy débil (en caso de existir, positiva), pero no sabemos si puede existir otro tipo de dependencia no lineal. No podemos concluir nada de la causalidad sin combinar la estadística con el conocimiento experto
+
+---
+
+
+class: inverse center middle
+name: bloque-8
 
 # BLOQUE VIII: visualizando datos
 

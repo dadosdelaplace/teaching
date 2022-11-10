@@ -1,0 +1,272 @@
+---
+title: "Entrega II"
+description: |
+  Profundizando en tidyverse
+author:
+  - name: C. Tangana (DNI 0000000-A)
+    affiliation: Universidad Complutense de Madrid
+    affiliation_url: 
+date: "`r Sys.Date()`"
+output:
+    distill::distill_article:
+        highlight: kate
+        colorlinks: true
+        code_folding: false
+        toc: true            
+        toc_depth: 3     
+---
+
+```{r setup, include = FALSE}
+# Ajuste comunes de los chunk
+knitr::opts_chunk$set(fig.width = 9, fig.asp = 1, out.width = "100%",
+                      message = FALSE, warning = FALSE,
+                      echo = TRUE, res = 400)
+```
+
+# Instrucciones (leer antes de empezar)
+
+* Modifica dentro del documento `.Rmd` tus datos personales (nombre y DNI) ubicados en la cabecera del archivo.
+
+* Asegúrate, **ANTES de seguir editando** el documento, que el archivo `.Rmd` se teje correctamente (botón Knit) y se genera el `.html` correspondiente.
+
+* Los chunks (cajas de código) creados están o vacíos o incompletos, de ahí que la mayoría tengan la opción `eval = FALSE`. Una vez que edites lo que consideres debes ir cambiando cada chunck a `eval = TRUE` para que se ejecuten.
+
+* Recuerda que puedes ejecutar chunk a chunk con el botón _play_ o ejecutar todos los chunk hasta uno dado (con el botón a la izquierda del anterior).
+
+# Caso práctico: datos de covid del ISCIII
+
+## Paquetes necesarios
+
+Necesitaremos los siguientes paquetes:
+
+```{r paquetes}
+# Borramos variables del environment
+rm(list = ls())
+library(readr)
+library(tidyverse)
+```
+
+
+
+## Ejercicio 1:
+
+> Acude a la web <https://cnecovid.isciii.es/covid19/#documentaci%C3%B3n-y-datos> e importa el fichero `casos_hosp_uci_def_sexo_edad_provres.csv`. Tienes la documentación de los datos en <https://cnecovid.isciii.es/covid19/resources/metadata_casos_hosp_uci_def_sexo_edad_provres.pdf>
+
+```{r eval = FALSE}
+# Completa lo que consideres y cambia a eval = TRUE 
+covid_bruto <- read_csv(file = ...)
+covid_bruto
+```
+
+
+> Tras analizar la tabla, ejecuta el código que consideres que nos permita conocer a) el nombre de las variables, b) el tipo de cada una, c) las modalidades (valores únicos) que toma cada variable cualitativa y d) el número de registros totales. Detalla lo que consideres en texto.
+
+```{r eval = FALSE}
+# Completa lo que consideres y cambia a eval = TRUE 
+```
+
+[Detalla aquí lo que consideres]
+
+## Ejercicio 2:
+
+> Detecta cómo están codificados los ausentes en la variable referente a la edad. Tras ello completa el código inferior y calcula cuantos casos hay notificados para dicho valor desconocido de edad, y calcula el porcentaje respecto al número de casos total. Pista: deberías obtener 9878 casos, que representan solo el 0.08529% de los casos.
+
+```{r eval = FALSE}
+# Completa lo que consideres y cambia a eval = TRUE 
+covid_bruto %>%
+  group_by(...) %>%
+  summarise(total_casos = ...) %>% 
+  ungroup() %>% 
+  mutate(porc = ...)
+```
+
+> Dado su escaso peso en el total, genera una nueva base de datos en la que borremos aquellos registros con franja de edad desconocida. Pista: deberías obtener una tabla de 1 169 127 registros y 8 variables.
+
+```{r eval = FALSE}
+# Completa lo que consideres y cambia a eval = TRUE 
+covid <-
+  covid_bruto %>%
+  filter(grupo_edad != ...)
+covid
+```
+
+## Ejercicio 3:
+
+> Con la base de datos generada en el ejercicio anterior, repite el proceso para los desconocidos/ausentes en la variable sexo, y para los desconocidos/ausentes en la variable provincia (detecta antes como están codificados los ausentes en dichas variables). Elimina dichos registros si el número de casos representa menos de 1% en cada caso.
+
+```{r eval = FALSE}
+# Completa lo que consideres y cambia a eval = TRUE 
+covid %>%
+  group_by(sexo == ...) %>%
+  summarise(total_casos = ...) %>% 
+  ungroup() %>% 
+  mutate(porc = ...)
+
+covid %>%
+  group_by(...) %>%
+  summarise(...) %>% 
+  ungroup() %>% 
+  mutate(...)
+
+covid <-
+  covid %>%
+  filter(...)
+covid
+```
+
+## Ejercicio 4:
+
+> Modifica la base de datos generada en el ejercicio anterior para convertir a factor las variables que consideres que deban serlo. Determina además en cada caso si deben estar ordenados (ordinales), y especifica el orden en ese caso. 
+
+```{r eval = FALSE}
+# Completa lo que consideres y cambia a eval = TRUE 
+covid_factores <-
+  covid %>%
+  mutate(...)
+covid_factores
+```
+
+> Con la tabla anterior, crea un nivel explícito para ausentes en las variables que contengan dichos valores desconocidos, y llama a dicho nivel `"desconocido"`
+
+
+```{r eval = FALSE}
+# Completa lo que consideres y cambia a eval = TRUE 
+covid_factores <-
+  covid_factores %>%
+  mutate(...)
+covid_factores
+```
+
+## Ejercicio 5:
+
+> De la tabla anterior, elimina la variables de hospitalizados y UCI. Tras ello renombra las columnas de casos y fallecidos por casos_diarios y fallec_diarios, respectivamente. Tras ello crea dos nuevas variables llamadas casos_acum y otra fallec_acum, que contengan los casos acumulados y fallecidos acumulados para cada fecha,  (por provincia, tramo etario y sexo). Para saber si lo tienes bien, comprueba que en Burgos (BU) había 1976 casos acumulados a fecha de 11 de mayo de 2021, para hombres y tramo etario de 60 a 69 años
+
+```{r eval = FALSE}
+# Completa lo que consideres y cambia a eval = TRUE 
+covid_final <-
+  covid_factores %>%
+  ... %>% 
+  ... %>% 
+  group_by(...) %>% 
+  mutate(...) %>%
+  ungroup()
+covid_final
+```
+
+## Ejercicio 6:
+
+> Sin guardarlo en ninguna tabla nueva: selecciona solo las variables que reporten datos diarios (con sufijo _diarios). Haz lo mismo con las variables que reporten datos acumulados.
+
+```{r eval = FALSE}
+# Completa lo que consideres y cambia a eval = TRUE 
+covid_final %>% select(...)
+covid_final %>% select(...)
+```
+
+
+## Ejercicio 7:
+
+> ¿Cuáles fueron las 7 provincias con más casos a lo largo de toda la pandemia (hasta el último registrado en la base de datos)? ¿Y las 5 provincias con menos fallecidos? Pista: en la primera pregunta debería estar Zaragoza (Z) con	295 052 casos; en la segunda pregunta debería estar Lugo (LU) con 328 fallecidos. 
+
+```{r eval = FALSE}
+# Completa lo que consideres y cambia a eval = TRUE 
+covid_final %>%
+  ... # se acabó tanta ayuda :P
+
+covid_final %>%
+  ...
+```
+
+
+## Ejercicio 8:
+
+> De la tabla obtenida en el ejercicio 5, crea una nueva variable que represente la letalidad (definida como el % de casos que han fallecido, de maner acumulada en cada fecha), en cada grupo de edad, sexo y provincia. Tras ello, determina las 5 provincias con mayor letalidad en mujeres mayores de 80 años a fecha 01 de marzo de 2022. Pista: Soria (SO) debería aparecer con un 17%.
+
+```{r eval = FALSE}
+# Completa lo que consideres y cambia a eval = TRUE 
+covid_final %>% 
+  ...
+```
+
+
+
+## Ejercicio 9:
+
+> Construye una tabla que nos proporcione estadísticas globales de toda españa, con casos y fallecidos diarios (así como sus datos acumulados) juntando todas las provincias, todas las edades y todos los sexos. Pista: si lo has hecho bien deberías obtener una tabla de 817 registros y 5 variables, con 11 568 576	casos totales acumulados a 27 de marzo de 2022 y 103 398 fallecidos acumulados.
+
+```{r eval = FALSE}
+# Completa lo que consideres y cambia a eval = TRUE 
+covid_esp <-
+  covid_final %>% 
+  ...
+covid_esp
+```
+
+> Añade una columna con la letalidad (acumulada) en cada fecha, y determina la letalidad acumulada en el último día que hay registros (deberías obtener 0.894%) y el día que la letalidad acumulada fue mayor (deberías obtener 10 de mayo de 2020 con 12.2%)
+
+```{r eval = FALSE}
+# Completa lo que consideres y cambia a eval = TRUE 
+covid_esp <- 
+  covid_esp %>% 
+  mutate(letalidad = ...)
+covid_esp
+
+covid_esp %>% slice_...(...)
+covid_esp %>% slice_...(...)
+```
+
+> ¿Cuál fue el día que más casos diarios se notificaron en España? ¿Y fallecidos diarios?
+
+```{r eval = FALSE}
+# Completa lo que consideres y cambia a eval = TRUE 
+```
+
+## Ejercicio 10:
+
+> Nos vamos a descargar los datos mundiales de covid de la web Our World in Data
+
+```{r}
+# Completa lo que consideres y cambia a eval = TRUE 
+owid_data <- read_csv(file = "https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/owid-covid-data.csv")
+owid_data
+```
+
+> Quédate solo en una tabla con los datos de España (ESP como código ISO). Quédate además solo con las variables iso_code, date y aquellas relacionadas con vacunas (vaccines, vaccinations, etc)
+
+
+```{r eval = FALSE}
+# Completa lo que consideres y cambia a eval = TRUE 
+owid_data_esp <-
+  owid_data %>%
+  ...
+owid_data_esp
+```
+ 
+> Extrae la primera fecha en la que España contaba con más del 50% de personas con al menos una dosis, y guárdala en `date_half_vaccinated`
+
+```{r eval = FALSE}
+# Completa lo que consideres y cambia a eval = TRUE 
+date_half_vaccinated <- 
+  owid_data_esp %>% 
+  ...
+date_half_vaccinated
+```
+
+## Ejercicio 11:
+
+> Calcula en una sola tabla la letalidad acumulada en España contando solo los casos y fallecidos hasta esa fecha, y la letalidad en España acumulada hasta su último registro, y compáralas
+
+```{r eval = FALSE}
+# Completa lo que consideres y cambia a eval = TRUE 
+covid_esp %>%
+  group_by(...) %>%
+  ... %>% 
+  summarise(...)
+```
+
+> Repite el ejercicio anterior (y el 9) pero contando solo los datos totales de España de personas de 60 años o más (deberías obtener 5% acumulada global y 9.06% antes de dicha fecha de mitad de vacunados)
+
+```{r eval = FALSE}
+# Completa lo que consideres y cambia a eval = TRUE 
+```
+
