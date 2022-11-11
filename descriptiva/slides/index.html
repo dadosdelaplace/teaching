@@ -1482,7 +1482,7 @@ También podemos obtener el **.bg-purple_light[«hoy y ahora»]** con la funció
 ```
 
 ```
-&gt; [1] "2022-11-11 08:19:44 CET"
+&gt; [1] "2022-11-11 08:21:19 CET"
 ```
  
 ---
@@ -2682,9 +2682,9 @@ x &lt;- rnorm(1e3) # 1000 elementos aleatorias
 
 ```
 &gt; Unit: microseconds
-&gt;         expr    min      lq     mean  median      uq     max neval cld
-&gt;      sort(x) 42.409 45.6230 56.21790 49.1235 60.0245 139.421  1000   b
-&gt;  x[order(x)] 28.902 31.5005 38.52106 34.2035 40.1595 146.696  1000  a
+&gt;         expr    min      lq     mean median     uq     max neval cld
+&gt;      sort(x) 46.541 49.1135 53.68411 51.407 54.334 141.469  1000   b
+&gt;  x[order(x)] 32.426 34.2310 37.24612 35.290 38.562 126.533  1000  a
 ```
 
 --
@@ -5441,12 +5441,12 @@ microbenchmark(x^2,
 
 ```
 &gt; Unit: nanoseconds
-&gt;                                     expr     min      lq       mean    median
-&gt;                                      x^2     374     490    1273.16    1225.5
-&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 1785844 1951386 2221696.36 2037599.5
-&gt;       uq      max neval cld
-&gt;     1934     6006  1000  a 
-&gt;  2247250 16975385  1000   b
+&gt;                                     expr     min        lq        mean
+&gt;                                      x^2     405     538.5    1462.719
+&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 1968535 2154782.0 2579372.591
+&gt;     median        uq      max neval cld
+&gt;     1310.5    2146.5    12235  1000  a 
+&gt;  2334818.0 2707103.0 17434086  1000   b
 ```
 
 ---
@@ -6861,10 +6861,10 @@ map(x, mean)
 
 ```
 &gt; [[1]]
-&gt; [1] -0.01992371
+&gt; [1] -0.003840616
 &gt; 
 &gt; [[2]]
-&gt; [1] 1.975494
+&gt; [1] 2.008368
 ```
 
 
@@ -6876,11 +6876,11 @@ microbenchmark(map(x, .f = function(x) { mean(x^2) }), lapply(x, FUN = function(
 ```
 &gt; Unit: milliseconds
 &gt;                                            expr      min       lq     mean
-&gt;      map(x, .f = function(x) {     mean(x^2) }) 5.409526 6.592586 8.737807
-&gt;  lapply(x, FUN = function(x) {     mean(x^2) }) 5.326814 6.397106 8.740488
+&gt;      map(x, .f = function(x) {     mean(x^2) }) 5.530663 6.818844 9.293123
+&gt;  lapply(x, FUN = function(x) {     mean(x^2) }) 5.239647 6.553987 8.921634
 &gt;    median       uq      max neval cld
-&gt;  7.693590 9.775108 156.2235  1000   a
-&gt;  7.504592 8.980878 214.8350  1000   a
+&gt;  7.943650 10.48760 206.0047  1000   a
+&gt;  7.698676  9.34678 161.2607  1000   a
 ```
 
 
@@ -9961,11 +9961,11 @@ starwars %&gt;% slice_sample(n = 3)
 
 ```
 &gt; # A tibble: 3 × 14
-&gt;   name         height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
-&gt;   &lt;chr&gt;         &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
-&gt; 1 Arvel Crynyd     NA    NA brown   fair    brown        NA male  mascu… &lt;NA&gt;   
-&gt; 2 Rugor Nass      206    NA none    green   orange       NA male  mascu… Naboo  
-&gt; 3 Finn             NA    NA black   dark    dark         NA male  mascu… &lt;NA&gt;   
+&gt;   name        height  mass hair_c…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
+&gt;   &lt;chr&gt;        &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
+&gt; 1 Cliegg Lars    183    NA brown    fair    blue         82 male  mascu… Tatooi…
+&gt; 2 Adi Gallia     184    50 none     dark    blue         NA fema… femin… Corusc…
+&gt; 3 Owen Lars      178   120 brown, … light   blue         52 male  mascu… Tatooi…
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
@@ -9987,10 +9987,10 @@ starwars %&gt;% slice_sample(prop = 0.025)
 
 ```
 &gt; # A tibble: 2 × 14
-&gt;   name         height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
-&gt;   &lt;chr&gt;         &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
-&gt; 1 Wedge Antil…    170    77 brown   fair    hazel        21 male  mascu… Corell…
-&gt; 2 Mas Amedda      196    NA none    blue    blue         NA male  mascu… Champa…
+&gt;   name        height  mass hair_c…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
+&gt;   &lt;chr&gt;        &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
+&gt; 1 Ayla Secura    178    55 none     blue    hazel        48 fema… femin… Ryloth 
+&gt; 2 Dud Bolt        94    45 none     blue, … yellow       NA male  mascu… Vulpter
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
@@ -10013,8 +10013,8 @@ starwars %&gt;% slice_sample(n = 2, weight_by = c(0.495, 0.495, rep(0.01/85, 85)
 &gt; # A tibble: 2 × 9
 &gt;   name           height  mass hair_color skin_color eye_c…¹ birth…² sex   gender
 &gt;   &lt;chr&gt;           &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
-&gt; 1 Luke Skywalker    172    77 blond      fair       blue         19 male  mascu…
-&gt; 2 C-3PO             167    75 &lt;NA&gt;       gold       yellow      112 none  mascu…
+&gt; 1 C-3PO             167    75 &lt;NA&gt;       gold       yellow      112 none  mascu…
+&gt; 2 Luke Skywalker    172    77 blond      fair       blue         19 male  mascu…
 &gt; # … with abbreviated variable names ¹​eye_color, ²​birth_year
 ```
 
@@ -10297,9 +10297,9 @@ starwars %&gt;% slice_sample(n = 3)
 &gt; # A tibble: 3 × 14
 &gt;   name         height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
 &gt;   &lt;chr&gt;         &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
-&gt; 1 Taun We         213    NA none    grey    black        NA fema… femin… Kamino 
-&gt; 2 Grievous        216   159 none    brown,… green,…      NA male  mascu… Kalee  
-&gt; 3 Ratts Tyere…     79    15 none    grey, … unknown      NA male  mascu… Aleen …
+&gt; 1 Han Solo        180    80 brown   fair    brown        29 male  mascu… Corell…
+&gt; 2 Jek Tono Po…    180   110 brown   fair    blue         NA male  mascu… Bestin…
+&gt; 3 Owen Lars       178   120 brown,… light   blue         52 male  mascu… Tatooi…
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
@@ -10313,11 +10313,11 @@ starwars %&gt;% slice_sample(n = 3)
 
 ```
 &gt; # A tibble: 3 × 14
-&gt;   name       height  mass hair_co…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
-&gt;   &lt;chr&gt;       &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
-&gt; 1 Rey            NA    NA brown     light   hazel        NA fema… femin… &lt;NA&gt;   
-&gt; 2 Jango Fett    183    79 black     tan     brown        66 male  mascu… Concor…
-&gt; 3 Grievous      216   159 none      brown,… green,…      NA male  mascu… Kalee  
+&gt;   name         height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
+&gt;   &lt;chr&gt;         &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
+&gt; 1 Nute Gunray     191    90 none    mottle… red          NA male  mascu… Cato N…
+&gt; 2 Gregar Typho    185    85 black   dark    brown        NA male  mascu… Naboo  
+&gt; 3 Dud Bolt         94    45 none    blue, … yellow       NA male  mascu… Vulpter
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
@@ -10339,14 +10339,14 @@ starwars %&gt;%
 &gt; # A tibble: 8 × 14
 &gt;   name         height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
 &gt;   &lt;chr&gt;         &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
-&gt; 1 Wicket Syst…     88    20 brown   brown   brown         8 male  mascu… Endor  
-&gt; 2 Finn             NA    NA black   dark    dark         NA male  mascu… &lt;NA&gt;   
-&gt; 3 Lando Calri…    177    79 black   dark    brown        31 male  mascu… Socorro
-&gt; 4 Tarfful         234   136 brown   brown   blue         NA male  mascu… Kashyy…
-&gt; 5 IG-88           200   140 none    metal   red          15 none  mascu… &lt;NA&gt;   
-&gt; 6 Eeth Koth       171    NA black   brown   brown        NA male  mascu… Iridon…
-&gt; 7 Zam Wesell      168    55 blonde  fair, … yellow       NA fema… femin… Zolan  
-&gt; 8 Shmi Skywal…    163    NA black   fair    brown        72 fema… femin… Tatooi…
+&gt; 1 Han Solo        180    80 brown   fair    brown        29 male  mascu… Corell…
+&gt; 2 Wedge Antil…    170    77 brown   fair    hazel        21 male  mascu… Corell…
+&gt; 3 Cliegg Lars     183    NA brown   fair    blue         82 male  mascu… Tatooi…
+&gt; 4 Darth Maul      175    80 none    red     yellow       54 male  mascu… Dathom…
+&gt; 5 Adi Gallia      184    50 none    dark    blue         NA fema… femin… Corusc…
+&gt; 6 Cordé           157    NA brown   light   brown        NA fema… femin… Naboo  
+&gt; 7 Sebulba         112    40 none    grey, … orange       NA male  mascu… Malast…
+&gt; 8 Kit Fisto       196    87 none    green   black        NA male  mascu… Glee A…
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
@@ -12809,6 +12809,350 @@ datos %&gt;%
 
 ---
 
+# Ejercicio 4, hoja 2
+
+En una estación meteorológica se han recogido muestras de valores de concentración de polen en el aire a lo largo de los días,  obteniendo los siguientes datos.
+
+&gt; 174, 185, 166, 176, 145, 167, 191, 174, 159, 155, 181, 160, 170, 198, 180, 150, 161, 183, 172, 163, 147, 176, 141, 170, 171, 158, 184, 173, 169, 162, 172, 181, 187, 177, 164, 171, 193, 183, 173, 179, 167, 178, 180, 168, 173
+
+**.bg-purple_light[Primer paso]**: define nuestra base de datos, **.bg-purple_light[define nuestro tibble]**
+
+--
+
+
+```r
+datos &lt;-
+  tibble(x = c(174, 185, 166, 176, 145, 167, 191, 174, 159,
+               155, 181, 160, 170, 198, 180, 150, 161, 183,
+               172, 163, 147, 176, 141, 170, 171, 158, 184,
+               173, 169, 162, 172, 181, 187, 177, 164, 171,
+               193, 183, 173, 179, 167, 178, 180, 168, 173))
+datos
+```
+
+```
+&gt; # A tibble: 45 × 1
+&gt;        x
+&gt;    &lt;dbl&gt;
+&gt;  1   174
+&gt;  2   185
+&gt;  3   166
+&gt;  4   176
+&gt;  5   145
+&gt;  6   167
+&gt;  7   191
+&gt;  8   174
+&gt;  9   159
+&gt; 10   155
+&gt; # … with 35 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
+```
+
+---
+
+# Ejercicio 4, hoja 2
+
+¿Qué porcentaje de los días se superó los 180 de concentración de polen?
+
+--
+
+
+```r
+datos %&gt;%
+  group_by(x &gt; 180) %&gt;% 
+  count() %&gt;% 
+  ungroup() %&gt;% 
+  mutate(porc = 100 * n / sum(n))
+```
+
+```
+&gt; # A tibble: 2 × 3
+&gt;   `x &gt; 180`     n  porc
+&gt;   &lt;lgl&gt;     &lt;int&gt; &lt;dbl&gt;
+&gt; 1 FALSE        35  77.8
+&gt; 2 TRUE         10  22.2
+```
+
+---
+
+
+# Ejercicio 4, hoja 2
+
+Crea una nueva variable llamada `I_i` que nos recategorice la variable agrupándola en intervalos de amplitud 10 (abierto por la izquierda, cerrado por la derecha, empezando desde `"(140, 150]"` el primero y `"(190, 200]"` el último). Necesitamos una tabla de dos columnas: `x` e `I_i` (su categoría)
+
+--
+
+
+```r
+datos_recat &lt;- 
+  datos %&gt;% 
+  mutate(I_i = case_when(x &lt;= 150 ~ "(140, 150]",
+                         x &lt;= 160 ~ "(150, 160]",
+                         x &lt;= 170 ~ "(160, 170]",
+                         x &lt;= 180 ~ "(170, 180]",
+                         x &lt;= 190 ~ "(180, 190]",
+                         TRUE ~ "(190, 200]"))
+datos_recat
+```
+
+```
+&gt; # A tibble: 45 × 2
+&gt;        x I_i       
+&gt;    &lt;dbl&gt; &lt;chr&gt;     
+&gt;  1   174 (170, 180]
+&gt;  2   185 (180, 190]
+&gt;  3   166 (160, 170]
+&gt;  4   176 (170, 180]
+&gt;  5   145 (140, 150]
+&gt;  6   167 (160, 170]
+&gt;  7   191 (190, 200]
+&gt;  8   174 (170, 180]
+&gt;  9   159 (150, 160]
+&gt; 10   155 (150, 160]
+&gt; # … with 35 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
+```
+
+---
+
+# Ejercicio 4, hoja 2
+               
+Inicia una tabla de frecuencias agrupada con tres columnas: I_i (categoría, intervalo) y x_i (marca de clase) y n (frecuencia absoluta). Saca la tabla además con las columnas en ese orden.
+
+--
+
+
+```r
+tabla_frec &lt;- 
+  datos_recat %&gt;% 
+  count(I_i) %&gt;% 
+  mutate(x_i = case_when(I_i == "(140, 150]" ~ 145,
+                         I_i == "(150, 160]" ~ 155,
+                         I_i == "(160, 170]" ~ 165,
+                         I_i == "(170, 180]" ~ 175,
+                         I_i == "(180, 190]" ~ 185,
+                         TRUE ~ 195)) %&gt;% 
+  relocate(x_i, .after = I_i)
+tabla_frec
+```
+
+```
+&gt; # A tibble: 6 × 3
+&gt;   I_i          x_i     n
+&gt;   &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;
+&gt; 1 (140, 150]   145     4
+&gt; 2 (150, 160]   155     4
+&gt; 3 (160, 170]   165    11
+&gt; 4 (170, 180]   175    16
+&gt; 5 (180, 190]   185     7
+&gt; 6 (190, 200]   195     3
+```
+
+
+
+---
+
+# Ejercicio 4, hoja 2
+
+Esto era solo para practicar: por suerte no necesitaremos perder información agrupando. Usando los datos originales (del primer apartado), calcula la media y mediana, los cuartiles, y las 3 medidas de dispersión en una sola tabla resumen.
+
+--
+
+
+```r
+datos %&gt;% 
+  summarise(media = mean(x), mediana = median(x),
+            var = mean(x^2) - mean(x)^2, sd = sqrt(var),
+            CV = sd / abs(mean(x)), q1 = quantile(x, probs = 0.25),
+            q2 = quantile(x, probs = 0.5),
+            q1 = quantile(x, probs = 0.75))
+```
+
+```
+&gt; # A tibble: 1 × 7
+&gt;   media mediana   var    sd     CV    q1    q2
+&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+&gt; 1  171.     172  150.  12.3 0.0716   180   172
+```
+
+
+---
+
+# Ejercicio 7, hoja 3
+
+&gt; En la tabla inferior se han recopilado (del año 2013 al 2022) la temperatura media en el mes de abril en Madrid (variable X, en ºC) y el número de días (variable Y) en el que el nivel de ozono superó las 0.20 ppm (partes por millón).
+
+&gt; X: 16.0, 17.2, 18.0, 17.2, 16.9, 17.1, 18.2, 17.3, 17.5, 16.6
+&gt; Y: 58, 82, 81, 65, 61, 48, 61, 43, 33, 36
+
+Construye la base de datos
+
+--
+
+
+```r
+datos &lt;- tibble(x = c(16.0, 17.2, 18.0, 17.2, 16.9, 17.1,
+                      18.2, 17.3, 17.5, 16.6),
+                y = c(58, 82, 81, 65, 61, 48, 61, 43, 33, 36))
+datos
+```
+
+```
+&gt; # A tibble: 10 × 2
+&gt;        x     y
+&gt;    &lt;dbl&gt; &lt;dbl&gt;
+&gt;  1  16      58
+&gt;  2  17.2    82
+&gt;  3  18      81
+&gt;  4  17.2    65
+&gt;  5  16.9    61
+&gt;  6  17.1    48
+&gt;  7  18.2    61
+&gt;  8  17.3    43
+&gt;  9  17.5    33
+&gt; 10  16.6    36
+```
+
+---
+
+# Ejercicio 7, hoja 3
+
+¿Cuál fue la media de días en los que se superó el umbral de ozono de 0.20 ppm? (media de la variable Y)
+
+--
+
+
+```r
+datos %&gt;% 
+  summarise(media_Y = mean(y))
+```
+
+```
+&gt; # A tibble: 1 × 1
+&gt;   media_Y
+&gt;     &lt;dbl&gt;
+&gt; 1    56.8
+```
+
+---
+
+# Ejercicio 7, hoja 3
+
+Calcula la media de ambas variables, usando solo una vez la orden `mean()` y sin nombrar a las variables.
+
+--
+
+
+```r
+datos %&gt;% 
+  drop_na(x, y) %&gt;% # por si acaso
+  summarise(across(everything(), mean))
+```
+
+```
+&gt; # A tibble: 1 × 2
+&gt;       x     y
+&gt;   &lt;dbl&gt; &lt;dbl&gt;
+&gt; 1  17.2  56.8
+```
+
+---
+
+# Ejercicio 7, hoja 3
+
+¿Cuál fue la temperatura media en los años en los que hubo más de 60 días superando el umbral de ozono? (media de X condicionada a Y &gt; 60)
+
+--
+
+
+```r
+datos %&gt;% 
+  filter(y &gt; 60) %&gt;% 
+  summarise(media_X = mean(x))
+```
+
+```
+&gt; # A tibble: 1 × 1
+&gt;   media_X
+&gt;     &lt;dbl&gt;
+&gt; 1    17.5
+```
+
+---
+
+# Ejercicio 7, hoja 3
+
+¿Cuál fue la media de días en los que se superó el umbral de ozono en los años que la temperatura media en marzo superó los 17.4ºC? (media de Y condicionada a X &gt; 17.4)
+
+--
+
+
+```r
+datos %&gt;% 
+  filter(x &gt; 17.4) %&gt;% 
+  summarise(media_Y = mean(y))
+```
+
+```
+&gt; # A tibble: 1 × 1
+&gt;   media_Y
+&gt;     &lt;dbl&gt;
+&gt; 1    58.3
+```
+
+---
+
+# Ejercicio 7, hoja 3
+
+Calcula a la vez la temperatura media en los años en los que hubo más de 60 días superando el umbral de ozono, y en los que hubo 60 o menos (todo sacado en la misma tabla)
+
+--
+
+
+```r
+datos %&gt;% 
+  group_by(y &gt; 60) %&gt;% 
+  summarise(medias = mean(x)) %&gt;% 
+  ungroup()
+```
+
+```
+&gt; # A tibble: 2 × 2
+&gt;   `y &gt; 60` medias
+&gt;   &lt;lgl&gt;     &lt;dbl&gt;
+&gt; 1 FALSE      16.9
+&gt; 2 TRUE       17.5
+```
+
+---
+
+# Ejercicio 7, hoja 3
+
+
+¿Existe alguna relación de dependencia entre las variables? ¿De qué tipo? ¿Cómo de fuerte o débil es dicha relación? ¿En qué dirección es dicha relación? Analiza la dependencia y causalidad entre las variables
+
+--
+
+
+```r
+datos %&gt;% 
+  summarise(cov = cov(x, y), cor = cor(x, y))
+```
+
+```
+&gt; # A tibble: 1 × 2
+&gt;     cov   cor
+&gt;   &lt;dbl&gt; &lt;dbl&gt;
+&gt; 1  2.86 0.265
+```
+
+Dependencia lineal muy débil (en caso de existir, positiva), pero no sabemos si puede existir otro tipo de dependencia no lineal. No podemos concluir nada de la causalidad sin combinar la estadística con el conocimiento experto
+
+---
+
+
+class: inverse center middle
+name: bloque-8
 
 # BLOQUE VIII: visualizando datos
 
