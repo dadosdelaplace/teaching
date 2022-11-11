@@ -223,6 +223,8 @@ class: inverse center middle
 
 #### [CLASE 8: PROFUNDIZANDO EN TIDYMODELS (KNN)](#clase-8)
 
+#### [CLASE 9: VALIDACIÓN CRUZADA, SOBREMUESTREO Y DATAVIZ](#clase-9)
+
 ]
 
 
@@ -2033,7 +2035,7 @@ También podemos obtener el **.bg-purple_light[«hoy y ahora»]** con la funció
 ```
 
 ```
-&gt; [1] "2022-11-10 17:44:27 CET"
+&gt; [1] "2022-11-10 22:01:23 CET"
 ```
  
 ---
@@ -3094,9 +3096,9 @@ x &lt;- rnorm(1e3) # 1000 elementos aleatorias
 
 ```
 &gt; Unit: microseconds
-&gt;         expr    min      lq     mean  median      uq     max neval cld
-&gt;      sort(x) 42.176 44.9285 53.35051 48.3740 56.8795 211.101  1000   b
-&gt;  x[order(x)] 29.358 31.5075 36.93866 33.4545 38.9770 155.639  1000  a
+&gt;         expr    min     lq     mean median      uq     max neval cld
+&gt;      sort(x) 42.390 45.663 55.03590 50.658 57.3510 227.164  1000   b
+&gt;  x[order(x)] 29.886 32.330 40.10945 37.097 41.0775 179.524  1000  a
 ```
 
 
@@ -6352,12 +6354,12 @@ microbenchmark(x^2,
 
 ```
 &gt; Unit: nanoseconds
-&gt;                                     expr     min      lq        mean  median
-&gt;                                      x^2     345     485    1459.217    1137
-&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 1696287 1967806 2650110.188 2266152
-&gt;         uq      max neval cld
-&gt;     2071.5    31211  1000  a 
-&gt;  2764661.0 69601759  1000   b
+&gt;                                     expr     min        lq        mean  median
+&gt;                                      x^2     351     464.5    1340.852    1105
+&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 1692570 1882357.5 2224004.849 2028913
+&gt;         uq     max neval cld
+&gt;     1892.5   32796  1000  a 
+&gt;  2362500.5 8981247  1000   b
 ```
 
 ---
@@ -9822,11 +9824,11 @@ starwars %&gt;% slice_sample(n = 3)
 
 ```
 &gt; # A tibble: 3 × 14
-&gt;   name       height  mass hair_co…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
-&gt;   &lt;chr&gt;       &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
-&gt; 1 Wat Tambor    193    48 none      green,… unknown      NA male  mascu… Skako  
-&gt; 2 Mace Windu    188    84 none      dark    brown        72 male  mascu… Haruun…
-&gt; 3 Bossk         190   113 none      green   red          53 male  mascu… Trando…
+&gt;   name         height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
+&gt;   &lt;chr&gt;         &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
+&gt; 1 Taun We         213    NA none    grey    black        NA fema… femin… Kamino 
+&gt; 2 Poggle the …    183    80 none    green   yellow       NA male  mascu… Geonos…
+&gt; 3 Shaak Ti        178    57 none    red, b… black        NA fema… femin… Shili  
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
@@ -9849,10 +9851,10 @@ starwars %&gt;% slice_sample(prop = 0.05, replace = TRUE)
 &gt; # A tibble: 4 × 14
 &gt;   name         height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
 &gt;   &lt;chr&gt;         &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
-&gt; 1 Han Solo        180    80 brown   fair    brown      29   male  mascu… Corell…
-&gt; 2 Taun We         213    NA none    grey    black      NA   fema… femin… Kamino 
-&gt; 3 Mon Mothma      150    NA auburn  fair    blue       48   fema… femin… Chandr…
-&gt; 4 Anakin Skyw…    188    84 blond   fair    blue       41.9 male  mascu… Tatooi…
+&gt; 1 Shaak Ti        178    57 none    red, b… black        NA fema… femin… Shili  
+&gt; 2 R5-D4            97    32 &lt;NA&gt;    white,… red          NA none  mascu… Tatooi…
+&gt; 3 Roos Tarpals    224    82 none    grey    orange       NA male  mascu… Naboo  
+&gt; 4 San Hill        191    NA none    grey    gold         NA male  mascu… Muunil…
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
@@ -9875,8 +9877,8 @@ starwars %&gt;% slice_sample(n = 2, weight_by = c(0.495, 0.495, rep(0.01/85, 85)
 &gt; # A tibble: 2 × 9
 &gt;   name           height  mass hair_color skin_color eye_c…¹ birth…² sex   gender
 &gt;   &lt;chr&gt;           &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
-&gt; 1 Luke Skywalker    172    77 blond      fair       blue         19 male  mascu…
-&gt; 2 C-3PO             167    75 &lt;NA&gt;       gold       yellow      112 none  mascu…
+&gt; 1 C-3PO             167    75 &lt;NA&gt;       gold       yellow      112 none  mascu…
+&gt; 2 Luke Skywalker    172    77 blond      fair       blue         19 male  mascu…
 &gt; # … with abbreviated variable names ¹​eye_color, ²​birth_year
 ```
 
@@ -10062,16 +10064,16 @@ starwars %&gt;%
 &gt; # A tibble: 38 × 14
 &gt;    name        height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
 &gt;    &lt;chr&gt;        &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
-&gt;  1 Rey             NA    NA brown   light   hazel        NA fema… femin… &lt;NA&gt;   
-&gt;  2 Barriss Of…    166    50 black   yellow  blue         40 fema… femin… Mirial 
-&gt;  3 Beru White…    165    75 brown   light   blue         47 fema… femin… Tatooi…
-&gt;  4 Taun We        213    NA none    grey    black        NA fema… femin… Kamino 
-&gt;  5 Zam Wesell     168    55 blonde  fair, … yellow       NA fema… femin… Zolan  
-&gt;  6 Adi Gallia     184    50 none    dark    blue         NA fema… femin… Corusc…
-&gt;  7 Shmi Skywa…    163    NA black   fair    brown        72 fema… femin… Tatooi…
-&gt;  8 Dormé          165    NA brown   light   brown        NA fema… femin… Naboo  
-&gt;  9 Dud Bolt        94    45 none    blue, … yellow       NA male  mascu… Vulpter
-&gt; 10 Biggs Dark…    183    84 black   light   brown        24 male  mascu… Tatooi…
+&gt;  1 Adi Gallia     184    50 none    dark    blue         NA fema… femin… Corusc…
+&gt;  2 Leia Organa    150    49 brown   light   brown        19 fema… femin… Aldera…
+&gt;  3 Shmi Skywa…    163    NA black   fair    brown        72 fema… femin… Tatooi…
+&gt;  4 Rey             NA    NA brown   light   hazel        NA fema… femin… &lt;NA&gt;   
+&gt;  5 Taun We        213    NA none    grey    black        NA fema… femin… Kamino 
+&gt;  6 Zam Wesell     168    55 blonde  fair, … yellow       NA fema… femin… Zolan  
+&gt;  7 Dormé          165    NA brown   light   brown        NA fema… femin… Naboo  
+&gt;  8 Jocasta Nu     167    NA white   fair    blue         NA fema… femin… Corusc…
+&gt;  9 Finis Valo…    170    NA blond   fair    blue         91 male  mascu… Corusc…
+&gt; 10 Jek Tono P…    180   110 brown   fair    blue         NA male  mascu… Bestin…
 &gt; # … with 28 more rows, 4 more variables: species &lt;chr&gt;, films &lt;list&gt;,
 &gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names
 &gt; #   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
@@ -10442,16 +10444,16 @@ starwars %&gt;%
 &gt; # A tibble: 49 × 15
 &gt;    name        height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
 &gt;    &lt;chr&gt;        &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
-&gt;  1 Nien Nunb      160    68 none    grey    black        NA male  mascu… Sullust
-&gt;  2 Watto          137    NA black   blue, … yellow       NA male  mascu… Toydar…
-&gt;  3 IG-88          200   140 none    metal   red          15 none  mascu… &lt;NA&gt;   
-&gt;  4 Yoda            66    17 white   green   brown       896 male  mascu… &lt;NA&gt;   
-&gt;  5 Dud Bolt        94    45 none    blue, … yellow       NA male  mascu… Vulpter
-&gt;  6 Yarael Poof    264    NA none    white   yellow       NA male  mascu… Quermia
-&gt;  7 Dexter Jet…    198   102 none    brown   yellow       NA male  mascu… Ojom   
-&gt;  8 Mas Amedda     196    NA none    blue    blue         NA male  mascu… Champa…
-&gt;  9 Gasgano        122    NA none    white,… black        NA male  mascu… Troiken
-&gt; 10 Zam Wesell     168    55 blonde  fair, … yellow       NA fema… femin… Zolan  
+&gt;  1 Taun We        213  NA   none    grey    black        NA fema… femin… Kamino 
+&gt;  2 Ratts Tyer…     79  15   none    grey, … unknown      NA male  mascu… Aleen …
+&gt;  3 Eeth Koth      171  NA   black   brown   brown        NA male  mascu… Iridon…
+&gt;  4 Poggle the…    183  80   none    green   yellow       NA male  mascu… Geonos…
+&gt;  5 Lama Su        229  88   none    grey    black        NA male  mascu… Kamino 
+&gt;  6 Shaak Ti       178  57   none    red, b… black        NA fema… femin… Shili  
+&gt;  7 Jar Jar Bi…    196  66   none    orange  orange       52 male  mascu… Naboo  
+&gt;  8 Roos Tarpa…    224  82   none    grey    orange       NA male  mascu… Naboo  
+&gt;  9 Luminara U…    170  56.2 black   yellow  blue         58 fema… femin… Mirial 
+&gt; 10 Ben Quadin…    163  65   none    grey, … orange       NA male  mascu… Tund   
 &gt; # … with 39 more rows, 5 more variables: species &lt;chr&gt;, films &lt;list&gt;,
 &gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, `species == "Human"` &lt;lgl&gt;, and
 &gt; #   abbreviated variable names ¹​hair_color, ²​skin_color, ³​eye_color,
@@ -10476,10 +10478,10 @@ starwars %&gt;%
 &gt; # A tibble: 5 × 14
 &gt;   name         height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
 &gt;   &lt;chr&gt;         &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
-&gt; 1 Zam Wesell      168    55 blonde  fair, … yellow       NA fema… femin… Zolan  
+&gt; 1 Beru Whites…    165    75 brown   light   blue         47 fema… femin… Tatooi…
 &gt; 2 Jabba Desil…    175  1358 &lt;NA&gt;    green-… orange      600 herm… mascu… Nal Hu…
-&gt; 3 Wilhuff Tar…    180    NA auburn… fair    blue         64 male  mascu… Eriadu 
-&gt; 4 BB8              NA    NA none    none    black        NA none  mascu… &lt;NA&gt;   
+&gt; 3 Wat Tambor      193    48 none    green,… unknown      NA male  mascu… Skako  
+&gt; 4 R5-D4            97    32 &lt;NA&gt;    white,… red          NA none  mascu… Tatooi…
 &gt; 5 Sly Moore       178    48 none    pale    white        NA &lt;NA&gt;  &lt;NA&gt;   Umbara 
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
@@ -14712,16 +14714,16 @@ bake(iris_rec %&gt;% prep(), new_data = NULL)
 &gt; # A tibble: 105 × 4
 &gt;    Sepal.Length Sepal.Width Petal.Width Species
 &gt;           &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;  
-&gt;  1       0.235        0.714      0.0417 setosa 
-&gt;  2       0.118        0.571      0.0417 setosa 
-&gt;  3       0.206        0.762      0.0417 setosa 
-&gt;  4       0.324        0.905      0.125  setosa 
-&gt;  5       0.0882       0.667      0.0833 setosa 
-&gt;  6       0.206        0.667      0.0417 setosa 
-&gt;  7       0.176        0.524      0      setosa 
-&gt;  8       0.324        0.810      0.0417 setosa 
-&gt;  9       0.147        0.667      0.0417 setosa 
-&gt; 10       0.147        0.476      0      setosa 
+&gt;  1       0.118        0.571      0.0417 setosa 
+&gt;  2       0.206        0.762      0.0417 setosa 
+&gt;  3       0.0882       0.667      0.0833 setosa 
+&gt;  4       0.206        0.667      0.0417 setosa 
+&gt;  5       0.176        0.524      0      setosa 
+&gt;  6       0.324        0.810      0.0417 setosa 
+&gt;  7       0.147        0.667      0.0417 setosa 
+&gt;  8       0.147        0.476      0      setosa 
+&gt;  9       0            0.476      0      setosa 
+&gt; 10       0.412        0.495      0.125  setosa 
 &gt; # … with 95 more rows
 &gt; # ℹ Use `print(n = ...)` to see more rows
 ```
@@ -14856,7 +14858,7 @@ iris_knn_fit
 &gt; kknn::train.kknn(formula = ..y ~ ., data = data, ks = min_rows(10,     data, 5), distance = ~2, kernel = ~"inv")
 &gt; 
 &gt; Type of response variable: nominal
-&gt; Minimal misclassification: 0.07619048
+&gt; Minimal misclassification: 0.05714286
 &gt; Best kernel: inv
 &gt; Best k: 10
 ```
@@ -14938,16 +14940,16 @@ prob_test
 &gt; # A tibble: 45 × 9
 &gt;    Sepal.Length Sepal.…¹ Petal…² Petal…³ Species .pred…⁴ .pred…⁵ .pred…⁶ .pred…⁷
 &gt;           &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;fct&gt;   &lt;fct&gt;     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
-&gt;  1          4.9      3       1.4     0.2 setosa  setosa        1       0       0
-&gt;  2          4.6      3.1     1.5     0.2 setosa  setosa        1       0       0
-&gt;  3          4.4      2.9     1.4     0.2 setosa  setosa        1       0       0
-&gt;  4          5.8      4       1.2     0.2 setosa  setosa        1       0       0
-&gt;  5          5.4      3.9     1.3     0.4 setosa  setosa        1       0       0
-&gt;  6          5.1      3.8     1.5     0.3 setosa  setosa        1       0       0
-&gt;  7          4.6      3.6     1       0.2 setosa  setosa        1       0       0
-&gt;  8          5        3       1.6     0.2 setosa  setosa        1       0       0
-&gt;  9          5.2      3.4     1.4     0.2 setosa  setosa        1       0       0
-&gt; 10          4.9      3.1     1.5     0.2 setosa  setosa        1       0       0
+&gt;  1          5.1      3.5     1.4     0.2 setosa  setosa        1       0       0
+&gt;  2          4.9      3       1.4     0.2 setosa  setosa        1       0       0
+&gt;  3          4.6      3.1     1.5     0.2 setosa  setosa        1       0       0
+&gt;  4          5.4      3.9     1.7     0.4 setosa  setosa        1       0       0
+&gt;  5          4.4      2.9     1.4     0.2 setosa  setosa        1       0       0
+&gt;  6          5.8      4       1.2     0.2 setosa  setosa        1       0       0
+&gt;  7          5.4      3.4     1.7     0.2 setosa  setosa        1       0       0
+&gt;  8          5.1      3.7     1.5     0.4 setosa  setosa        1       0       0
+&gt;  9          5.1      3.3     1.7     0.5 setosa  setosa        1       0       0
+&gt; 10          5.2      3.5     1.5     0.2 setosa  setosa        1       0       0
 &gt; # … with 35 more rows, and abbreviated variable names ¹​Sepal.Width,
 &gt; #   ²​Petal.Length, ³​Petal.Width, ⁴​.pred_class, ⁵​.pred_setosa,
 &gt; #   ⁶​.pred_versicolor, ⁷​.pred_virginica
@@ -14974,8 +14976,8 @@ conf_mat_test
 &gt;             Truth
 &gt; Prediction   setosa versicolor virginica
 &gt;   setosa         15          0         0
-&gt;   versicolor      0         13         0
-&gt;   virginica       0          2        15
+&gt;   versicolor      0         14         2
+&gt;   virginica       0          1        13
 ```
 
 ---
@@ -14993,19 +14995,19 @@ conf_mat_test %&gt;% summary()
 &gt; # A tibble: 13 × 3
 &gt;    .metric              .estimator .estimate
 &gt;    &lt;chr&gt;                &lt;chr&gt;          &lt;dbl&gt;
-&gt;  1 accuracy             multiclass     0.956
-&gt;  2 kap                  multiclass     0.933
-&gt;  3 sens                 macro          0.956
-&gt;  4 spec                 macro          0.978
-&gt;  5 ppv                  macro          0.961
-&gt;  6 npv                  macro          0.979
-&gt;  7 mcc                  multiclass     0.936
-&gt;  8 j_index              macro          0.933
-&gt;  9 bal_accuracy         macro          0.967
+&gt;  1 accuracy             multiclass     0.933
+&gt;  2 kap                  multiclass     0.9  
+&gt;  3 sens                 macro          0.933
+&gt;  4 spec                 macro          0.967
+&gt;  5 ppv                  macro          0.935
+&gt;  6 npv                  macro          0.967
+&gt;  7 mcc                  multiclass     0.901
+&gt;  8 j_index              macro          0.9  
+&gt;  9 bal_accuracy         macro          0.95 
 &gt; 10 detection_prevalence macro          0.333
-&gt; 11 precision            macro          0.961
-&gt; 12 recall               macro          0.956
-&gt; 13 f_meas               macro          0.955
+&gt; 11 precision            macro          0.935
+&gt; 12 recall               macro          0.933
+&gt; 13 f_meas               macro          0.933
 ```
 
 ---
@@ -15024,9 +15026,9 @@ conf_mat_test %&gt;%
 &gt; # A tibble: 3 × 3
 &gt;   .metric  .estimator .estimate
 &gt;   &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
-&gt; 1 accuracy multiclass     0.956
-&gt; 2 sens     macro          0.956
-&gt; 3 spec     macro          0.978
+&gt; 1 accuracy multiclass     0.933
+&gt; 2 sens     macro          0.933
+&gt; 3 spec     macro          0.967
 ```
 
 Fíjate que aunque no sea un problema de clasificación binaria nos proporciona métricas como la sensibilidad y especificidad: lo que es, **.bg-purple_light[para cada clase, construir una matriz de confusión]** (ser setosa vs no serlo, ser virginica vs no serlo, ser versicolor vs no serlo), y devuelve la **.bg-purple_light[media de las tres sensibilidad o especificidades]**
@@ -15293,16 +15295,16 @@ bake(iris_rec %&gt;% prep(), new_data = NULL)
 &gt; # A tibble: 105 × 4
 &gt;    Sepal.Length Sepal.Width Petal.Width Species
 &gt;           &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;  
-&gt;  1       0.167        0.476      0.0417 setosa 
-&gt;  2       0.111        0.571      0.0417 setosa 
-&gt;  3       0.0833       0.524      0.0417 setosa 
-&gt;  4       0.306        0.905      0.125  setosa 
-&gt;  5       0.0833       0.667      0.0833 setosa 
-&gt;  6       0.0278       0.429      0.0417 setosa 
-&gt;  7       0.167        0.524      0      setosa 
-&gt;  8       0.306        0.810      0.0417 setosa 
-&gt;  9       0.139        0.667      0.0417 setosa 
-&gt; 10       0.139        0.476      0      setosa 
+&gt;  1       0.176        0.444      0.0417 setosa 
+&gt;  2       0.0882       0.5        0.0417 setosa 
+&gt;  3       0.206        0.778      0.0417 setosa 
+&gt;  4       0.324        0.944      0.125  setosa 
+&gt;  5       0.0882       0.667      0.0833 setosa 
+&gt;  6       0.206        0.667      0.0417 setosa 
+&gt;  7       0.0294       0.389      0.0417 setosa 
+&gt;  8       0.324        0.833      0.0417 setosa 
+&gt;  9       0.147        0.667      0.0417 setosa 
+&gt; 10       0            0.444      0      setosa 
 &gt; # … with 95 more rows
 &gt; # ℹ Use `print(n = ...)` to see more rows
 ```
@@ -15315,16 +15317,16 @@ bake(iris_rec %&gt;% prep(), new_data = iris_test)
 &gt; # A tibble: 45 × 4
 &gt;    Sepal.Length Sepal.Width Petal.Width Species
 &gt;           &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;  
-&gt;  1        0.222       0.714      0.0417 setosa 
-&gt;  2        0.194       0.762      0.0417 setosa 
-&gt;  3        0.194       0.667      0.0417 setosa 
-&gt;  4        0.417       0.952      0.0417 setosa 
-&gt;  5        0.222       0.714      0.0833 setosa 
-&gt;  6        0.222       0.857      0.0833 setosa 
-&gt;  7        0.306       0.667      0.0417 setosa 
-&gt;  8        0.139       0.667      0.0417 setosa 
-&gt;  9        0.194       0.476      0.0417 setosa 
-&gt; 10        0.25        0.714      0.0417 setosa 
+&gt;  1        0.235       0.722      0.0417 setosa 
+&gt;  2        0.118       0.556      0.0417 setosa 
+&gt;  3        0.176       0.5        0      setosa 
+&gt;  4        0.147       0.444      0      setosa 
+&gt;  5        0.235       0.833      0.125  setosa 
+&gt;  6        0.206       0.667      0.125  setosa 
+&gt;  7        0.265       0.667      0.0417 setosa 
+&gt;  8        0.324       0.667      0.125  setosa 
+&gt;  9        0.265       1          0      setosa 
+&gt; 10        0.353       1          0.0417 setosa 
 &gt; # … with 35 more rows
 &gt; # ℹ Use `print(n = ...)` to see more rows
 ```
@@ -15451,15 +15453,15 @@ prob_test
 &gt;    Sepal.Length Sepal.…¹ Petal…² Petal…³ Species .pred…⁴ .pred…⁵ .pred…⁶ .pred…⁷
 &gt;           &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;fct&gt;   &lt;fct&gt;     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
 &gt;  1          5.1      3.5     1.4     0.2 setosa  setosa        1       0       0
-&gt;  2          5        3.6     1.4     0.2 setosa  setosa        1       0       0
-&gt;  3          5        3.4     1.5     0.2 setosa  setosa        1       0       0
-&gt;  4          5.8      4       1.2     0.2 setosa  setosa        1       0       0
-&gt;  5          5.1      3.5     1.4     0.3 setosa  setosa        1       0       0
-&gt;  6          5.1      3.8     1.5     0.3 setosa  setosa        1       0       0
-&gt;  7          5.4      3.4     1.7     0.2 setosa  setosa        1       0       0
-&gt;  8          4.8      3.4     1.9     0.2 setosa  setosa        1       0       0
-&gt;  9          5        3       1.6     0.2 setosa  setosa        1       0       0
-&gt; 10          5.2      3.5     1.5     0.2 setosa  setosa        1       0       0
+&gt;  2          4.7      3.2     1.3     0.2 setosa  setosa        1       0       0
+&gt;  3          4.9      3.1     1.5     0.1 setosa  setosa        1       0       0
+&gt;  4          4.8      3       1.4     0.1 setosa  setosa        1       0       0
+&gt;  5          5.1      3.7     1.5     0.4 setosa  setosa        1       0       0
+&gt;  6          5        3.4     1.6     0.4 setosa  setosa        1       0       0
+&gt;  7          5.2      3.4     1.4     0.2 setosa  setosa        1       0       0
+&gt;  8          5.4      3.4     1.5     0.4 setosa  setosa        1       0       0
+&gt;  9          5.2      4.1     1.5     0.1 setosa  setosa        1       0       0
+&gt; 10          5.5      4.2     1.4     0.2 setosa  setosa        1       0       0
 &gt; # … with 35 more rows, and abbreviated variable names ¹​Sepal.Width,
 &gt; #   ²​Petal.Length, ³​Petal.Width, ⁴​.pred_class, ⁵​.pred_setosa,
 &gt; #   ⁶​.pred_versicolor, ⁷​.pred_virginica
@@ -15485,9 +15487,9 @@ conf_mat_test
 ```
 &gt;             Truth
 &gt; Prediction   setosa versicolor virginica
-&gt;   setosa         15          0         0
-&gt;   versicolor      0         14         3
-&gt;   virginica       0          1        12
+&gt;   setosa         14          0         0
+&gt;   versicolor      1         15         1
+&gt;   virginica       0          0        14
 ```
 
 ---
@@ -15507,19 +15509,19 @@ metricas
 &gt; # A tibble: 13 × 3
 &gt;    .metric              .estimator .estimate
 &gt;    &lt;chr&gt;                &lt;chr&gt;          &lt;dbl&gt;
-&gt;  1 accuracy             multiclass     0.911
-&gt;  2 kap                  multiclass     0.867
-&gt;  3 sens                 macro          0.911
-&gt;  4 spec                 macro          0.956
-&gt;  5 ppv                  macro          0.916
-&gt;  6 npv                  macro          0.957
-&gt;  7 mcc                  multiclass     0.869
-&gt;  8 j_index              macro          0.867
-&gt;  9 bal_accuracy         macro          0.933
+&gt;  1 accuracy             multiclass     0.956
+&gt;  2 kap                  multiclass     0.933
+&gt;  3 sens                 macro          0.956
+&gt;  4 spec                 macro          0.978
+&gt;  5 ppv                  macro          0.961
+&gt;  6 npv                  macro          0.978
+&gt;  7 mcc                  multiclass     0.935
+&gt;  8 j_index              macro          0.933
+&gt;  9 bal_accuracy         macro          0.967
 &gt; 10 detection_prevalence macro          0.333
-&gt; 11 precision            macro          0.916
-&gt; 12 recall               macro          0.911
-&gt; 13 f_meas               macro          0.911
+&gt; 11 precision            macro          0.961
+&gt; 12 recall               macro          0.956
+&gt; 13 f_meas               macro          0.956
 ```
 
 ---
@@ -17144,8 +17146,8 @@ hoteles_train %&gt;% count(children) %&gt;% mutate(porc = 100 * n / sum(n))
 &gt; # A tibble: 2 × 3
 &gt;   children     n  porc
 &gt;   &lt;fct&gt;    &lt;int&gt; &lt;dbl&gt;
-&gt; 1 children   358  7.96
-&gt; 2 none      4141 92.0
+&gt; 1 children   364  8.09
+&gt; 2 none      4135 91.9
 ```
 
 ```r
@@ -17156,8 +17158,8 @@ hoteles_test %&gt;% count(children) %&gt;% mutate(porc = 100 * n / sum(n))
 &gt; # A tibble: 2 × 3
 &gt;   children     n  porc
 &gt;   &lt;fct&gt;    &lt;int&gt; &lt;dbl&gt;
-&gt; 1 children    45     9
-&gt; 2 none       455    91
+&gt; 1 children    39   7.8
+&gt; 2 none       461  92.2
 ```
 
 ---
@@ -17331,10 +17333,10 @@ collect_metrics(hoteles_knn_fit_val)
 &gt; # A tibble: 4 × 6
 &gt;   .metric     .estimator  mean     n std_err .config             
 &gt;   &lt;chr&gt;       &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;fct&gt;               
-&gt; 1 accuracy    binary     0.922     1      NA Preprocessor1_Model1
-&gt; 2 roc_auc     binary     0.779     1      NA Preprocessor1_Model1
-&gt; 3 sensitivity binary     0.194     1      NA Preprocessor1_Model1
-&gt; 4 specificity binary     0.995     1      NA Preprocessor1_Model1
+&gt; 1 accuracy    binary     0.947     1      NA Preprocessor1_Model1
+&gt; 2 roc_auc     binary     0.806     1      NA Preprocessor1_Model1
+&gt; 3 sensitivity binary     0.410     1      NA Preprocessor1_Model1
+&gt; 4 specificity binary     0.987     1      NA Preprocessor1_Model1
 ```
 
 ---
@@ -17352,10 +17354,10 @@ collect_metrics(hoteles_knn_fit_val)
 &gt; # A tibble: 4 × 6
 &gt;   .metric     .estimator  mean     n std_err .config             
 &gt;   &lt;chr&gt;       &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;fct&gt;               
-&gt; 1 accuracy    binary     0.922     1      NA Preprocessor1_Model1
-&gt; 2 roc_auc     binary     0.779     1      NA Preprocessor1_Model1
-&gt; 3 sensitivity binary     0.194     1      NA Preprocessor1_Model1
-&gt; 4 specificity binary     0.995     1      NA Preprocessor1_Model1
+&gt; 1 accuracy    binary     0.947     1      NA Preprocessor1_Model1
+&gt; 2 roc_auc     binary     0.806     1      NA Preprocessor1_Model1
+&gt; 3 sensitivity binary     0.410     1      NA Preprocessor1_Model1
+&gt; 4 specificity binary     0.987     1      NA Preprocessor1_Model1
 ```
 
 --
@@ -17486,16 +17488,16 @@ hoteles_knn_fit_tune %&gt;% collect_metrics()
 &gt; # A tibble: 28 × 9
 &gt;        k weight  dist .metric     .estimator  mean     n std_err .config        
 &gt;    &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;fct&gt;          
-&gt;  1    20 inv        2 accuracy    binary     0.924     1      NA Preprocessor1_…
-&gt;  2    20 inv        2 roc_auc     binary     0.797     1      NA Preprocessor1_…
-&gt;  3    20 inv        2 sensitivity binary     0.223     1      NA Preprocessor1_…
-&gt;  4    20 inv        2 specificity binary     0.995     1      NA Preprocessor1_…
-&gt;  5    40 inv        2 accuracy    binary     0.922     1      NA Preprocessor1_…
-&gt;  6    40 inv        2 roc_auc     binary     0.820     1      NA Preprocessor1_…
-&gt;  7    40 inv        2 sensitivity binary     0.194     1      NA Preprocessor1_…
-&gt;  8    40 inv        2 specificity binary     0.995     1      NA Preprocessor1_…
-&gt;  9    60 inv        2 accuracy    binary     0.909     1      NA Preprocessor1_…
-&gt; 10    60 inv        2 roc_auc     binary     0.835     1      NA Preprocessor1_…
+&gt;  1    20 inv        2 accuracy    binary     0.948     1      NA Preprocessor1_…
+&gt;  2    20 inv        2 roc_auc     binary     0.818     1      NA Preprocessor1_…
+&gt;  3    20 inv        2 sensitivity binary     0.410     1      NA Preprocessor1_…
+&gt;  4    20 inv        2 specificity binary     0.989     1      NA Preprocessor1_…
+&gt;  5    40 inv        2 accuracy    binary     0.947     1      NA Preprocessor1_…
+&gt;  6    40 inv        2 roc_auc     binary     0.834     1      NA Preprocessor1_…
+&gt;  7    40 inv        2 sensitivity binary     0.346     1      NA Preprocessor1_…
+&gt;  8    40 inv        2 specificity binary     0.991     1      NA Preprocessor1_…
+&gt;  9    60 inv        2 accuracy    binary     0.937     1      NA Preprocessor1_…
+&gt; 10    60 inv        2 roc_auc     binary     0.841     1      NA Preprocessor1_…
 &gt; # … with 18 more rows
 &gt; # ℹ Use `print(n = ...)` to see more rows
 ```
@@ -17583,16 +17585,16 @@ hoteles_knn_fit_tune %&gt;% collect_metrics()
 &gt; # A tibble: 72 × 9
 &gt;        k weight    dist .metric     .estimator   mean     n std_err .config     
 &gt;    &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;       &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;fct&gt;       
-&gt;  1    10 gaussian  0.01 accuracy    binary     0.926      1      NA Preprocesso…
-&gt;  2    10 gaussian  0.01 roc_auc     binary     0.835      1      NA Preprocesso…
-&gt;  3    10 gaussian  0.01 sensitivity binary     0.233      1      NA Preprocesso…
-&gt;  4    10 gaussian  0.01 specificity binary     0.996      1      NA Preprocesso…
-&gt;  5    50 gaussian  0.01 accuracy    binary     0.916      1      NA Preprocesso…
-&gt;  6    50 gaussian  0.01 roc_auc     binary     0.842      1      NA Preprocesso…
-&gt;  7    50 gaussian  0.01 sensitivity binary     0.0777     1      NA Preprocesso…
+&gt;  1    10 gaussian  0.01 accuracy    binary     0.941      1      NA Preprocesso…
+&gt;  2    10 gaussian  0.01 roc_auc     binary     0.817      1      NA Preprocesso…
+&gt;  3    10 gaussian  0.01 sensitivity binary     0.218      1      NA Preprocesso…
+&gt;  4    10 gaussian  0.01 specificity binary     0.995      1      NA Preprocesso…
+&gt;  5    50 gaussian  0.01 accuracy    binary     0.932      1      NA Preprocesso…
+&gt;  6    50 gaussian  0.01 roc_auc     binary     0.858      1      NA Preprocesso…
+&gt;  7    50 gaussian  0.01 sensitivity binary     0.0128     1      NA Preprocesso…
 &gt;  8    50 gaussian  0.01 specificity binary     1          1      NA Preprocesso…
-&gt;  9   100 gaussian  0.01 accuracy    binary     0.909      1      NA Preprocesso…
-&gt; 10   100 gaussian  0.01 roc_auc     binary     0.843      1      NA Preprocesso…
+&gt;  9   100 gaussian  0.01 accuracy    binary     0.931      1      NA Preprocesso…
+&gt; 10   100 gaussian  0.01 roc_auc     binary     0.857      1      NA Preprocesso…
 &gt; # … with 62 more rows
 &gt; # ℹ Use `print(n = ...)` to see more rows
 ```
@@ -17660,21 +17662,44 @@ hoteles_knn_fit_tune %&gt;% collect_metrics()
 &gt; # A tibble: 72 × 9
 &gt;        k weight    dist .metric     .estimator   mean     n std_err .config     
 &gt;    &lt;int&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;       &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;fct&gt;       
-&gt;  1    10 gaussian   0.1 accuracy    binary     0.926      1      NA Preprocesso…
-&gt;  2    10 gaussian   0.1 roc_auc     binary     0.833      1      NA Preprocesso…
-&gt;  3    10 gaussian   0.1 sensitivity binary     0.233      1      NA Preprocesso…
-&gt;  4    10 gaussian   0.1 specificity binary     0.996      1      NA Preprocesso…
-&gt;  5    55 gaussian   0.1 accuracy    binary     0.916      1      NA Preprocesso…
-&gt;  6    55 gaussian   0.1 roc_auc     binary     0.850      1      NA Preprocesso…
-&gt;  7    55 gaussian   0.1 sensitivity binary     0.0874     1      NA Preprocesso…
+&gt;  1    10 gaussian   0.1 accuracy    binary     0.942      1      NA Preprocesso…
+&gt;  2    10 gaussian   0.1 roc_auc     binary     0.814      1      NA Preprocesso…
+&gt;  3    10 gaussian   0.1 sensitivity binary     0.231      1      NA Preprocesso…
+&gt;  4    10 gaussian   0.1 specificity binary     0.995      1      NA Preprocesso…
+&gt;  5    55 gaussian   0.1 accuracy    binary     0.933      1      NA Preprocesso…
+&gt;  6    55 gaussian   0.1 roc_auc     binary     0.860      1      NA Preprocesso…
+&gt;  7    55 gaussian   0.1 sensitivity binary     0.0385     1      NA Preprocesso…
 &gt;  8    55 gaussian   0.1 specificity binary     1          1      NA Preprocesso…
-&gt;  9   100 gaussian   0.1 accuracy    binary     0.910      1      NA Preprocesso…
-&gt; 10   100 gaussian   0.1 roc_auc     binary     0.848      1      NA Preprocesso…
+&gt;  9   100 gaussian   0.1 accuracy    binary     0.932      1      NA Preprocesso…
+&gt; 10   100 gaussian   0.1 roc_auc     binary     0.863      1      NA Preprocesso…
 &gt; # … with 62 more rows
 &gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 ---
+
+
+class: inverse center middle
+name: clase-9
+
+
+# CLASE 9: otras validaciones y ggplot
+
+&amp;nbsp;
+
+### [Mejor modelo en validación](#show-best)
+
+### [Modelización paralelizada](#parallel)
+
+### [Sobremuestreo](#oversampling)
+
+### [Validación cruzada y bootstrap](#cv-hoteles)
+
+### [Visualización de datos](#dataviz)
+
+---
+
+name: show-best
 
 # Fase 5: .orange[evaluación]
 
@@ -17690,11 +17715,11 @@ hoteles_knn_fit_tune %&gt;% show_best("accuracy")
 &gt; # A tibble: 5 × 9
 &gt;       k weight    dist .metric  .estimator  mean     n std_err .config          
 &gt;   &lt;int&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;fct&gt;            
-&gt; 1    10 gaussian  0.1  accuracy binary     0.926     1      NA Preprocessor1_Mo…
-&gt; 2    55 gaussian  5.05 accuracy binary     0.92      1      NA Preprocessor1_Mo…
-&gt; 3    55 gaussian 10    accuracy binary     0.92      1      NA Preprocessor1_Mo…
-&gt; 4    55 gaussian  0.1  accuracy binary     0.916     1      NA Preprocessor1_Mo…
-&gt; 5    10 gaussian  5.05 accuracy binary     0.916     1      NA Preprocessor1_Mo…
+&gt; 1    55 gaussian  5.05 accuracy binary     0.946     1      NA Preprocessor1_Mo…
+&gt; 2    10 inv       5.05 accuracy binary     0.944     1      NA Preprocessor1_Mo…
+&gt; 3    10 gaussian  5.05 accuracy binary     0.943     1      NA Preprocessor1_Mo…
+&gt; 4    10 gaussian 10    accuracy binary     0.943     1      NA Preprocessor1_Mo…
+&gt; 5    55 gaussian 10    accuracy binary     0.943     1      NA Preprocessor1_Mo…
 ```
 
 ```r
@@ -17746,9 +17771,9 @@ final_wf
 &gt; K-Nearest Neighbor Model Specification (classification)
 &gt; 
 &gt; Main Arguments:
-&gt;   neighbors = 10
+&gt;   neighbors = 55
 &gt;   weight_func = gaussian
-&gt;   dist_power = 0.1
+&gt;   dist_power = 5.05
 &gt; 
 &gt; Computational engine: kknn
 ```
@@ -17772,8 +17797,8 @@ final_knn_fit %&gt;% collect_metrics()
 &gt; # A tibble: 2 × 4
 &gt;   .metric  .estimator .estimate .config             
 &gt;   &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt; &lt;fct&gt;               
-&gt; 1 accuracy binary         0.92  Preprocessor1_Model1
-&gt; 2 roc_auc  binary         0.809 Preprocessor1_Model1
+&gt; 1 accuracy binary         0.93  Preprocessor1_Model1
+&gt; 2 roc_auc  binary         0.803 Preprocessor1_Model1
 ```
 
 
@@ -17793,15 +17818,15 @@ predict(extract_workflow(final_knn_fit), hoteles_test)
 &gt; # A tibble: 500 × 1
 &gt;    .pred_class
 &gt;    &lt;fct&gt;      
-&gt;  1 children   
+&gt;  1 none       
 &gt;  2 none       
-&gt;  3 none       
-&gt;  4 none       
-&gt;  5 children   
-&gt;  6 none       
+&gt;  3 children   
+&gt;  4 children   
+&gt;  5 none       
+&gt;  6 children   
 &gt;  7 none       
 &gt;  8 none       
-&gt;  9 none       
+&gt;  9 children   
 &gt; 10 none       
 &gt; # … with 490 more rows
 &gt; # ℹ Use `print(n = ...)` to see more rows
@@ -17821,16 +17846,16 @@ predict(extract_workflow(final_knn_fit), hoteles_test, type = "prob")
 &gt; # A tibble: 500 × 2
 &gt;    .pred_children .pred_none
 &gt;             &lt;dbl&gt;      &lt;dbl&gt;
-&gt;  1         1           0    
-&gt;  2         0           1    
-&gt;  3         0.0631      0.937
-&gt;  4         0.112       0.888
-&gt;  5         0.894       0.106
-&gt;  6         0.202       0.798
-&gt;  7         0.190       0.810
-&gt;  8         0           1    
-&gt;  9         0           1    
-&gt; 10         0.122       0.878
+&gt;  1         0.0410      0.959
+&gt;  2         0.0999      0.900
+&gt;  3         0.602       0.398
+&gt;  4         0.628       0.372
+&gt;  5         0.0701      0.930
+&gt;  6         0.817       0.183
+&gt;  7         0.110       0.890
+&gt;  8         0.0714      0.929
+&gt;  9         0.639       0.361
+&gt; 10         0.127       0.873
 &gt; # … with 490 more rows
 &gt; # ℹ Use `print(n = ...)` to see more rows
 ```
@@ -17854,8 +17879,8 @@ conf_mat_test
 ```
 &gt;           Truth
 &gt; Prediction children none
-&gt;   children       10    5
-&gt;   none           35  450
+&gt;   children       10    6
+&gt;   none           29  455
 ```
 
 ---
@@ -17872,19 +17897,19 @@ conf_mat_test %&gt;% summary()
 &gt; # A tibble: 13 × 3
 &gt;    .metric              .estimator .estimate
 &gt;    &lt;chr&gt;                &lt;chr&gt;          &lt;dbl&gt;
-&gt;  1 accuracy             binary         0.92 
-&gt;  2 kap                  binary         0.302
-&gt;  3 sens                 binary         0.222
-&gt;  4 spec                 binary         0.989
-&gt;  5 ppv                  binary         0.667
-&gt;  6 npv                  binary         0.928
-&gt;  7 mcc                  binary         0.354
-&gt;  8 j_index              binary         0.211
-&gt;  9 bal_accuracy         binary         0.606
-&gt; 10 detection_prevalence binary         0.03 
-&gt; 11 precision            binary         0.667
-&gt; 12 recall               binary         0.222
-&gt; 13 f_meas               binary         0.333
+&gt;  1 accuracy             binary         0.93 
+&gt;  2 kap                  binary         0.333
+&gt;  3 sens                 binary         0.256
+&gt;  4 spec                 binary         0.987
+&gt;  5 ppv                  binary         0.625
+&gt;  6 npv                  binary         0.940
+&gt;  7 mcc                  binary         0.371
+&gt;  8 j_index              binary         0.243
+&gt;  9 bal_accuracy         binary         0.622
+&gt; 10 detection_prevalence binary         0.032
+&gt; 11 precision            binary         0.625
+&gt; 12 recall               binary         0.256
+&gt; 13 f_meas               binary         0.364
 ```
 
 ---
@@ -17903,6 +17928,8 @@ roc_data %&gt;% autoplot()
 
 
 ---
+
+name: parallel
 
 # Computación .orange[EN PARALELO]
 
@@ -17958,13 +17985,13 @@ showConnections()
 ```
 &gt;    description         class            mode  text     isopen   can read
 &gt; 3  "output"            "textConnection" "wr"  "text"   "opened" "no"    
-&gt; 4  "&lt;-localhost:11392" "sockconn"       "a+b" "binary" "opened" "yes"   
-&gt; 5  "&lt;-localhost:11392" "sockconn"       "a+b" "binary" "opened" "yes"   
-&gt; 6  "&lt;-localhost:11392" "sockconn"       "a+b" "binary" "opened" "yes"   
-&gt; 7  "&lt;-localhost:11392" "sockconn"       "a+b" "binary" "opened" "yes"   
-&gt; 8  "&lt;-localhost:11392" "sockconn"       "a+b" "binary" "opened" "yes"   
-&gt; 9  "&lt;-localhost:11392" "sockconn"       "a+b" "binary" "opened" "yes"   
-&gt; 10 "&lt;-localhost:11392" "sockconn"       "a+b" "binary" "opened" "yes"   
+&gt; 4  "&lt;-localhost:11833" "sockconn"       "a+b" "binary" "opened" "yes"   
+&gt; 5  "&lt;-localhost:11833" "sockconn"       "a+b" "binary" "opened" "yes"   
+&gt; 6  "&lt;-localhost:11833" "sockconn"       "a+b" "binary" "opened" "yes"   
+&gt; 7  "&lt;-localhost:11833" "sockconn"       "a+b" "binary" "opened" "yes"   
+&gt; 8  "&lt;-localhost:11833" "sockconn"       "a+b" "binary" "opened" "yes"   
+&gt; 9  "&lt;-localhost:11833" "sockconn"       "a+b" "binary" "opened" "yes"   
+&gt; 10 "&lt;-localhost:11833" "sockconn"       "a+b" "binary" "opened" "yes"   
 &gt;    can write
 &gt; 3  "yes"    
 &gt; 4  "yes"    
@@ -18005,16 +18032,16 @@ hoteles_knn_fit_tune %&gt;% collect_metrics()
 &gt; # A tibble: 72 × 9
 &gt;        k weight    dist .metric     .estimator   mean     n std_err .config     
 &gt;    &lt;int&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;       &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;fct&gt;       
-&gt;  1    10 gaussian   0.1 accuracy    binary     0.926      1      NA Preprocesso…
-&gt;  2    10 gaussian   0.1 roc_auc     binary     0.833      1      NA Preprocesso…
-&gt;  3    10 gaussian   0.1 sensitivity binary     0.233      1      NA Preprocesso…
-&gt;  4    10 gaussian   0.1 specificity binary     0.996      1      NA Preprocesso…
-&gt;  5    55 gaussian   0.1 accuracy    binary     0.916      1      NA Preprocesso…
-&gt;  6    55 gaussian   0.1 roc_auc     binary     0.850      1      NA Preprocesso…
-&gt;  7    55 gaussian   0.1 sensitivity binary     0.0874     1      NA Preprocesso…
+&gt;  1    10 gaussian   0.1 accuracy    binary     0.942      1      NA Preprocesso…
+&gt;  2    10 gaussian   0.1 roc_auc     binary     0.814      1      NA Preprocesso…
+&gt;  3    10 gaussian   0.1 sensitivity binary     0.231      1      NA Preprocesso…
+&gt;  4    10 gaussian   0.1 specificity binary     0.995      1      NA Preprocesso…
+&gt;  5    55 gaussian   0.1 accuracy    binary     0.933      1      NA Preprocesso…
+&gt;  6    55 gaussian   0.1 roc_auc     binary     0.860      1      NA Preprocesso…
+&gt;  7    55 gaussian   0.1 sensitivity binary     0.0385     1      NA Preprocesso…
 &gt;  8    55 gaussian   0.1 specificity binary     1          1      NA Preprocesso…
-&gt;  9   100 gaussian   0.1 accuracy    binary     0.910      1      NA Preprocesso…
-&gt; 10   100 gaussian   0.1 roc_auc     binary     0.848      1      NA Preprocesso…
+&gt;  9   100 gaussian   0.1 accuracy    binary     0.932      1      NA Preprocesso…
+&gt; 10   100 gaussian   0.1 roc_auc     binary     0.863      1      NA Preprocesso…
 &gt; # … with 62 more rows
 &gt; # ℹ Use `print(n = ...)` to see more rows
 ```
@@ -18022,6 +18049,7 @@ hoteles_knn_fit_tune %&gt;% collect_metrics()
 
 ---
 
+name: oversampling
 
 # .orange[SOBREMUESTREO] .green[BAJOMUESTREO]
 
@@ -18042,8 +18070,8 @@ bake(hoteles_rec_oversampling %&gt;% prep(), new_data = NULL) %&gt;%
 &gt; # A tibble: 2 × 3
 &gt;   children     n  porc
 &gt;   &lt;fct&gt;    &lt;int&gt; &lt;dbl&gt;
-&gt; 1 children  2070  33.3
-&gt; 2 none      4141  66.7
+&gt; 1 children  2067  33.3
+&gt; 2 none      4135  66.7
 ```
 
 ---
@@ -18073,16 +18101,9 @@ hoteles_knn_fit_tune_oversampling &lt;-
   
 ---
 
-class: inverse center middle
-name: clase-9
-
-# CLASE 9: otras validaciones y ggplot
-
-&amp;nbsp;
-
-### [...](#repaso-knn-iris)
-
 ---
+
+names: cv-hoteles
 
 # Validación .orange[CRUZADA v-folds]
 
@@ -18091,9 +18112,17 @@ name: clase-9
 
 ---
 
+names: bootstrap-val-hoteles
+
 # Validación .orange[BOOTSTRAP]
 
 * Bootstrap Out-of-Bag
+
+---
+
+name: dataviz
+
+# .orange[VISUALIZACIÓN] de datos
 
 ---
 

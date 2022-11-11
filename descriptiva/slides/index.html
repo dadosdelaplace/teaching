@@ -24,7 +24,7 @@ class: center, middle, inverse, title-slide
 # Introducción a R
 ## Descripción y exploración de datos
 ### Javier Álvarez Liébana (Fac. Estudios Estadísticos - UCM)
-### Última actualización: 04-11-2022
+### Última actualización: 11-11-2022
 
 ---
 
@@ -1469,7 +1469,7 @@ hoy
 ```
 
 ```
-&gt; [1] "2022-11-04"
+&gt; [1] "2022-11-11"
 ```
 
 --
@@ -1482,7 +1482,7 @@ También podemos obtener el **.bg-purple_light[«hoy y ahora»]** con la funció
 ```
 
 ```
-&gt; [1] "2022-11-04 13:09:23 CET"
+&gt; [1] "2022-11-11 08:19:44 CET"
 ```
  
 ---
@@ -1827,7 +1827,7 @@ hoy - cumple
 ```
 
 ```
-&gt; Time difference of 12108 days
+&gt; Time difference of 12115 days
 ```
 
 ]
@@ -2683,8 +2683,8 @@ x &lt;- rnorm(1e3) # 1000 elementos aleatorias
 ```
 &gt; Unit: microseconds
 &gt;         expr    min      lq     mean  median      uq     max neval cld
-&gt;      sort(x) 42.954 50.6870 66.55181 57.2760 82.3535 356.606  1000   b
-&gt;  x[order(x)] 29.488 35.4865 45.63524 39.3405 56.9470 160.467  1000  a
+&gt;      sort(x) 42.409 45.6230 56.21790 49.1235 60.0245 139.421  1000   b
+&gt;  x[order(x)] 28.902 31.5005 38.52106 34.2035 40.1595 146.696  1000  a
 ```
 
 --
@@ -5441,12 +5441,12 @@ microbenchmark(x^2,
 
 ```
 &gt; Unit: nanoseconds
-&gt;                                     expr     min        lq        mean
-&gt;                                      x^2     354     462.5    1236.996
-&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 1692271 1843306.0 2188974.266
-&gt;     median        uq      max neval cld
-&gt;     1074.5    1821.5    22578  1000  a 
-&gt;  1986366.0 2333957.5 15369307  1000   b
+&gt;                                     expr     min      lq       mean    median
+&gt;                                      x^2     374     490    1273.16    1225.5
+&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 1785844 1951386 2221696.36 2037599.5
+&gt;       uq      max neval cld
+&gt;     1934     6006  1000  a 
+&gt;  2247250 16975385  1000   b
 ```
 
 ---
@@ -6861,10 +6861,10 @@ map(x, mean)
 
 ```
 &gt; [[1]]
-&gt; [1] -0.01343428
+&gt; [1] -0.01992371
 &gt; 
 &gt; [[2]]
-&gt; [1] 2.026413
+&gt; [1] 1.975494
 ```
 
 
@@ -6876,11 +6876,11 @@ microbenchmark(map(x, .f = function(x) { mean(x^2) }), lapply(x, FUN = function(
 ```
 &gt; Unit: milliseconds
 &gt;                                            expr      min       lq     mean
-&gt;      map(x, .f = function(x) {     mean(x^2) }) 5.611868 7.227241 11.42722
-&gt;  lapply(x, FUN = function(x) {     mean(x^2) }) 5.360807 7.084300 11.33867
+&gt;      map(x, .f = function(x) {     mean(x^2) }) 5.409526 6.592586 8.737807
+&gt;  lapply(x, FUN = function(x) {     mean(x^2) }) 5.326814 6.397106 8.740488
 &gt;    median       uq      max neval cld
-&gt;  8.972729 13.87102 199.3372  1000   a
-&gt;  9.916772 14.03851 160.4816  1000   a
+&gt;  7.693590 9.775108 156.2235  1000   a
+&gt;  7.504592 8.980878 214.8350  1000   a
 ```
 
 
@@ -9963,9 +9963,9 @@ starwars %&gt;% slice_sample(n = 3)
 &gt; # A tibble: 3 × 14
 &gt;   name         height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
 &gt;   &lt;chr&gt;         &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
-&gt; 1 Finis Valor…    170    NA blond   fair    blue         91 male  mascu… Corusc…
-&gt; 2 Jabba Desil…    175  1358 &lt;NA&gt;    green-… orange      600 herm… mascu… Nal Hu…
-&gt; 3 Qui-Gon Jinn    193    89 brown   fair    blue         92 male  mascu… &lt;NA&gt;   
+&gt; 1 Arvel Crynyd     NA    NA brown   fair    brown        NA male  mascu… &lt;NA&gt;   
+&gt; 2 Rugor Nass      206    NA none    green   orange       NA male  mascu… Naboo  
+&gt; 3 Finn             NA    NA black   dark    dark         NA male  mascu… &lt;NA&gt;   
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
@@ -9987,13 +9987,13 @@ starwars %&gt;% slice_sample(prop = 0.025)
 
 ```
 &gt; # A tibble: 2 × 14
-&gt;   name     height  mass hair_color skin_c…¹ eye_c…² birth…³ sex   gender homew…⁴
-&gt;   &lt;chr&gt;     &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;    &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
-&gt; 1 Grievous    216   159 none       brown, … green,…      NA male  mascu… Kalee  
-&gt; 2 Tarfful     234   136 brown      brown    blue         NA male  mascu… Kashyy…
+&gt;   name         height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
+&gt;   &lt;chr&gt;         &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
+&gt; 1 Wedge Antil…    170    77 brown   fair    hazel        21 male  mascu… Corell…
+&gt; 2 Mas Amedda      196    NA none    blue    blue         NA male  mascu… Champa…
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
-&gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​skin_color, ²​eye_color,
-&gt; #   ³​birth_year, ⁴​homeworld
+&gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
+&gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
 &gt; # ℹ Use `colnames()` to see all variable names
 ```
 
@@ -10013,8 +10013,8 @@ starwars %&gt;% slice_sample(n = 2, weight_by = c(0.495, 0.495, rep(0.01/85, 85)
 &gt; # A tibble: 2 × 9
 &gt;   name           height  mass hair_color skin_color eye_c…¹ birth…² sex   gender
 &gt;   &lt;chr&gt;           &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
-&gt; 1 C-3PO             167    75 &lt;NA&gt;       gold       yellow      112 none  mascu…
-&gt; 2 Luke Skywalker    172    77 blond      fair       blue         19 male  mascu…
+&gt; 1 Luke Skywalker    172    77 blond      fair       blue         19 male  mascu…
+&gt; 2 C-3PO             167    75 &lt;NA&gt;       gold       yellow      112 none  mascu…
 &gt; # … with abbreviated variable names ¹​eye_color, ²​birth_year
 ```
 
@@ -10297,9 +10297,9 @@ starwars %&gt;% slice_sample(n = 3)
 &gt; # A tibble: 3 × 14
 &gt;   name         height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
 &gt;   &lt;chr&gt;         &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
-&gt; 1 Luke Skywal…    172    77 blond   fair    blue         19 male  mascu… Tatooi…
-&gt; 2 Gregar Typho    185    85 black   dark    brown        NA male  mascu… Naboo  
-&gt; 3 Wicket Syst…     88    20 brown   brown   brown         8 male  mascu… Endor  
+&gt; 1 Taun We         213    NA none    grey    black        NA fema… femin… Kamino 
+&gt; 2 Grievous        216   159 none    brown,… green,…      NA male  mascu… Kalee  
+&gt; 3 Ratts Tyere…     79    15 none    grey, … unknown      NA male  mascu… Aleen …
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
@@ -10313,11 +10313,11 @@ starwars %&gt;% slice_sample(n = 3)
 
 ```
 &gt; # A tibble: 3 × 14
-&gt;   name         height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
-&gt;   &lt;chr&gt;         &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
-&gt; 1 Anakin Skyw…    188    84 blond   fair    blue       41.9 male  mascu… Tatooi…
-&gt; 2 Saesee Tiin     188    NA none    pale    orange     NA   male  mascu… Iktotch
-&gt; 3 Jabba Desil…    175  1358 &lt;NA&gt;    green-… orange    600   herm… mascu… Nal Hu…
+&gt;   name       height  mass hair_co…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
+&gt;   &lt;chr&gt;       &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
+&gt; 1 Rey            NA    NA brown     light   hazel        NA fema… femin… &lt;NA&gt;   
+&gt; 2 Jango Fett    183    79 black     tan     brown        66 male  mascu… Concor…
+&gt; 3 Grievous      216   159 none      brown,… green,…      NA male  mascu… Kalee  
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
@@ -10339,14 +10339,14 @@ starwars %&gt;%
 &gt; # A tibble: 8 × 14
 &gt;   name         height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
 &gt;   &lt;chr&gt;         &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
-&gt; 1 Taun We         213    NA none    grey    black        NA fema… femin… Kamino 
-&gt; 2 Sebulba         112    40 none    grey, … orange       NA male  mascu… Malast…
-&gt; 3 Wicket Syst…     88    20 brown   brown   brown         8 male  mascu… Endor  
+&gt; 1 Wicket Syst…     88    20 brown   brown   brown         8 male  mascu… Endor  
+&gt; 2 Finn             NA    NA black   dark    dark         NA male  mascu… &lt;NA&gt;   
+&gt; 3 Lando Calri…    177    79 black   dark    brown        31 male  mascu… Socorro
 &gt; 4 Tarfful         234   136 brown   brown   blue         NA male  mascu… Kashyy…
-&gt; 5 Poggle the …    183    80 none    green   yellow       NA male  mascu… Geonos…
-&gt; 6 Captain Pha…     NA    NA unknown unknown unknown      NA &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt;   
-&gt; 7 Ratts Tyere…     79    15 none    grey, … unknown      NA male  mascu… Aleen …
-&gt; 8 Lando Calri…    177    79 black   dark    brown        31 male  mascu… Socorro
+&gt; 5 IG-88           200   140 none    metal   red          15 none  mascu… &lt;NA&gt;   
+&gt; 6 Eeth Koth       171    NA black   brown   brown        NA male  mascu… Iridon…
+&gt; 7 Zam Wesell      168    55 blonde  fair, … yellow       NA fema… femin… Zolan  
+&gt; 8 Shmi Skywal…    163    NA black   fair    brown        72 fema… femin… Tatooi…
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld

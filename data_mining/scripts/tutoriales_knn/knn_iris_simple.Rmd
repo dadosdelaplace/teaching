@@ -737,7 +737,7 @@ iris_rec <-
   recipe(data = iris_train, Species ~ .)%>%
   # Roles
   add_role(starts_with("Sepal"), new_role = "sepal") %>% 
-  add_role(starts_with("Petal"), new_role = "petal")%>% 
+  add_role(starts_with("Petal"), new_role = "petal")%> % 
   # Detectar outliers
   step_mutate(across(starts_with("Sepal"),
                      function(x) { ifelse(abs(scores(x, type = "z")) > 2.5, NA, x) }),

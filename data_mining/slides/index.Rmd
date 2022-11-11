@@ -274,6 +274,8 @@ class: inverse center middle
 
 #### [CLASE 8: PROFUNDIZANDO EN TIDYMODELS (KNN)](#clase-8)
 
+#### [CLASE 9: VALIDACIÓN CRUZADA, SOBREMUESTREO Y DATAVIZ](#clase-9)
+
 ]
 
 
@@ -11995,6 +11997,29 @@ hoteles_knn_fit_tune %>% collect_metrics()
 
 ---
 
+
+class: inverse center middle
+name: clase-9
+
+
+# CLASE 9: otras validaciones y ggplot
+
+&nbsp;
+
+### [Mejor modelo en validación](#show-best)
+
+### [Modelización paralelizada](#parallel)
+
+### [Sobremuestreo](#oversampling)
+
+### [Validación cruzada y bootstrap](#cv-hoteles)
+
+### [Visualización de datos](#dataviz)
+
+---
+
+name: show-best
+
 # Fase 5: .orange[evaluación]
 
 No solo vamos a poder trastear con tidyverse en esos resultados en validación sino que tenemos **.bg-purple_light[dos funciones especialmente pensadas]** para ello: `show_best()` nos devuelve los mejores modelos según la métrica pedida, `select_best()` nos selecciona el mejor
@@ -12093,6 +12118,8 @@ roc_data %>% autoplot()
 
 ---
 
+name: parallel
+
 # Computación .orange[EN PARALELO]
 
 Si queremos probar muchos modelos y/o nuestro volumen de datos es elevado, quizás nos lleve demasiado tiempo: vamos a hacer una incursión a la **.bg-purple_light[programación paralelizada]**. 
@@ -12164,6 +12191,7 @@ hoteles_knn_fit_tune %>% collect_metrics()
 
 ---
 
+name: oversampling
 
 # .orange[SOBREMUESTREO] .green[BAJOMUESTREO]
 
@@ -12205,16 +12233,9 @@ hoteles_knn_fit_tune_oversampling <-
   
 ---
 
-class: inverse center middle
-name: clase-9
-
-# CLASE 9: otras validaciones y ggplot
-
-&nbsp;
-
-### [...](#repaso-knn-iris)
-
 ---
+
+names: cv-hoteles
 
 # Validación .orange[CRUZADA v-folds]
 
@@ -12223,9 +12244,17 @@ name: clase-9
 
 ---
 
+names: bootstrap-val-hoteles
+
 # Validación .orange[BOOTSTRAP]
 
 * Bootstrap Out-of-Bag
+
+---
+
+name: dataviz
+
+# .orange[VISUALIZACIÓN] de datos
 
 ---
 
