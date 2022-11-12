@@ -54,6 +54,7 @@ $$\\[2.7in]$$
 
 .left[Pulsa <kbd-black>O</kbd-black> para ver el panel de diapositivas]
 .left[Pulsa <kbd-black>H</kbd-black> para ver otros atajos]
+.left[Pulsa <kbd-black>Ctrl+F</kbd-black> tras <kbd-black>O</kbd-black> para buscar en las diapositivas]
 
 ---
 
@@ -91,6 +92,26 @@ knitr::include_graphics("./img/portada_master.jpg")
 
 ---
 
+# Material de las clases
+
+
+* Tutorial sobre **covarianzas/correlaciones**:
+<https://github.com/dadosdelaplace/teaching/blob/main/bdba-pca-clustering-2022/scripts/cor_cov.Rmd>
+
+* Tutorial sobre **PCA con R**:
+<https://github.com/dadosdelaplace/teaching/blob/main/bdba-pca-clustering-2022/scripts/pca_con_R.Rmd>
+
+
+* Tutorial introductorio sobre **tidyverse**:
+<https://github.com/dadosdelaplace/teaching/blob/main/bdba-pca-clustering-2022/scripts/intro_tidyverse.Rmd>
+
+* Curso más **avanzado de tidyverse** (está para bioestadística pero sirve) con ejercicios <https://github.com/dadosdelaplace/teaching/tree/main/bioestad>
+
+* Curso más **avanzado de minería de datos en R**  con ejercicios <https://github.com/dadosdelaplace/teaching/tree/main/data_mining>
+
+
+---
+
 # Me presento: la turra
 
 .pull-left[
@@ -118,7 +139,7 @@ knitr::include_graphics("./img/me.jpeg")
 
 &nbsp;
 
-Intentando la **divulgación** por `Twitter (@dadosdelaplace)` e `Instagram (@javieralvarezliebana)`. Tengo una newsletter: <https://cartasdelaplace.substack.com/>
+Intentando la **divulgación** por `Twitter (@dadosdelaplace)` e `Instagram (@javieralvarezliebana)`. Mail: <javalv09@ucm.es>
 
 ---
 
@@ -175,18 +196,6 @@ Para el presente curso los únicos **requisitos** serán:
 
 ---
 
-# Datos: de la celda a la tabla
-
-<img src = "https://raw.githubusercontent.com/dadosdelaplace/slides-ECI-2022/main/img/celdas.jpg" alt = "celdas" align = "center" width = "850" style = "margin-top: 1vh;">
-
-
-* **Celda**: un **dato individual** de un tipo concreto.
-* **Variable**: **concatenación de datos** del mismo tipo.
-* **Matriz**: **concatenación de variables** del **mismo tipo** y longitud.
-* **Tabla**: **concatenación de variables** de **distinto tipo** pero igual longitud.
-
----
-
 class: inverse center middle
 
 # BLOQUE I. Selección de variables: PCA
@@ -198,7 +207,7 @@ class: inverse center middle
 
 ### [Teoría: análisis de componentes principales](#teoria-PCA)
 
-### [Práctica: PCA en R (visualización)](#practica-PCA)
+### [Práctica: PCA en R (y visualización)](#practica-PCA)
 
 ---
 
@@ -573,17 +582,14 @@ knitr::include_graphics("./img/pca_words_23.jpg")
 
 .pull-left[
 
-Vamos a empezar por un **ejemplo sencillo (bidimensional)** tomando de `{iris}` solo las variables del pétalo.
+Vamos a empezar por un **ejemplo sencillo (bidimensional)** tomando de `{iris}` solo las variables del pétalo (y la specie)
 
-```{r echo = FALSE}
-iris_bi <-
-  tibble(iris) %>%
-  select(contains("Petal"))
+```{r}
+library(tidyverse)
+iris_tb <- as_tibble(iris)
+iris_bi <- iris_tb[, 3:5]
 ```
 
-```{r echo = FALSE}
-iris_bi
-```
 
 ]
 
@@ -867,9 +873,9 @@ class: center, middle
 Volvemos a nuestro **ejemplo sencillo (bidimensional)** tomando de `{iris}` solo las variables del pétalo.
 
 ```{r}
-iris_bi <- 
-  tibble(iris) %>%
-  select(contains("Petal"))
+library(tidyverse)
+iris_tb <- as_tibble(iris)
+iris_bi <- iris_tb[, 3:5]
 iris_bi
 ```
 
@@ -878,14 +884,12 @@ iris_bi
 # PCA en R: caso «manual»
 
 
-**Primer paso**: **estandarizar** los datos.
+**Primer paso**: **estandarizar** los datos
 
 ```{r}
-iris_bi_std <-
-  iris_bi %>%
-  mutate(Petal.Length = (Petal.Length - mean(Petal.Length)) /  sd(Petal.Length),
-         Petal.Width = (Petal.Width - mean(Petal.Width)) / sd(Petal.Width))
-
+iris_bi_std <- tibble(as_tibble(scale(iris_bi[, 1:2])),
+                      "Species" = iris_bi$Species)
+names(iris_bi_std) <- names(iris_bi)
 iris_bi_std
 ```
 
@@ -906,6 +910,7 @@ ggplot(iris_bi, aes(x = Petal.Width, y = Petal.Length)) +
 ]
 
 .pull-right[
+
 ```{r echo = FALSE}
 ggplot(iris_bi_std, aes(x = Petal.Width, y = Petal.Length)) +
   geom_point(size = 5, color = "darkolivegreen") +
@@ -922,18 +927,18 @@ ggplot(iris_bi_std, aes(x = Petal.Width, y = Petal.Length)) +
 
 # PCA en R: caso «manual»
 
-**Segundo paso**: calcular la **matriz de covarianzas**
+**Segundo paso**: calcular la **matriz de covarianzas** (solo con las numéricas)
 
 ```{r}
-cov_mat <- cov(iris_bi_std)
+cov_mat <- cov(iris_bi_std[, 1:2])
 cov_mat
 ```
 
-Al estar estandarizados los datos, es equivalente a calcular la matriz de correlaciones
+Al estar estandarizados los datos, es equivalente a calcular la **matriz de correlaciones**
 
 ```{r}
-library(corrr)
-iris_bi_std %>% correlate(diagonal = 1)
+cor_mat <- cor(iris_bi_std[, 1:2])
+cor_mat
 ```
 
 ---
@@ -943,8 +948,8 @@ iris_bi_std %>% correlate(diagonal = 1)
 **Tercer paso**: calcular los **autovalores y autovectores** de la matriz de covarianzas
 
 ```{r}
-autoelementos <- eigen(cov_mat)
-autoelementos
+autocosas <- eigen(cor_mat)
+autocosas
 ```
 
 **IMPORTANTE** al tener las **variables estandarizadas**, la **suma de los autovalores** es $p$ (ya que será la suma de las varianzas de las variables que tenemos).
@@ -953,20 +958,18 @@ autoelementos
 
 # PCA en R: caso «manual»
 
-**Cuarto paso**: **ordenar** autovectores segun autovalores (de mayor a menor)
+**Cuarto paso**: comprobar que están **ordenados** los autovectores segun autovalores (de mayor a menor).
 
 ```{r}
-order_lambda <-
-  order(autoelementos$values, decreasing = TRUE)
-lambda <- autoelementos$values[order_lambda]
-PC <- autoelementos$vectors[, order_lambda]
-lambda # autovalores ordenadores
+lambda <- autocosas$values
+lambda
 ```
 
 La **varianza capturada** por $\boldsymbol{\Phi}_1$ es $1.963$ y $0.037$ para la segunda componente $\boldsymbol{\Phi}_2$.
 
 ```{r}
-PC # autovectores asociados --> direcciones principales
+# los llamados loadings
+autocosas$vectors 
 ```
 
 ---
@@ -977,7 +980,8 @@ PC # autovectores asociados --> direcciones principales
 **Quinto paso**: calcular la **varianza explicada acumulada** por cada componente (una vez ordenadas)
 
 ```{r}
-cumsum(lambda) / sum(lambda)
+cumsum_var <- cumsum(lambda) / sum(lambda)
+cumsum_var
 ```
 
 La **primera componente captura el 98.14% de la información (de la varianza)** y la segunda el 1.86% restante.
@@ -986,23 +990,24 @@ La **primera componente captura el 98.14% de la información (de la varianza)** 
 
 # PCA en R: caso «manual»
 
-* **Sexto paso**: proyectar en las nuevas componentes para obtener las **nuevas coordenadas** (¡respecto a la nueva base, a las nuevas componentes!)
+* **Sexto paso**: proyectar en las nuevas componentes para obtener las **nuevas coordenadas** (¡respecto a la nueva base!), los llamados **scores**
  
 
 ```{r}
-iris_pca <- iris_bi_std * t(PC)
-names(iris_pca) <- c("PC_1", "PC_2")
-iris_pca
+scores <- tibble(as_tibble(as.matrix(iris_bi_std[, -3]) %*% autocosas$vectors),
+                 "Species" = iris_bi_std$Species)
+names(scores) <- c("PC1", "PC2", "Species")
+scores
 ```
 
 ---
 
 # PCA en R: con prcomp
 
-Dentro de los paquete básicos cargados por `R` tenemos `prcomp` que nos permite realizar los cálculos anteriores de manera automática (`scale. = TRUE` debe ser indicado si los han datos no entran estandarizados previamente).
+Dentro de los paquete básicos cargados por `R` tenemos `prcomp` que nos permite realizar los cálculos anteriores de manera automática (`scale. = TRUE` y `center = TRUE` debe ser indicado si los han datos no entran estandarizados previamente).
 
 ```{r}
-pca <- prcomp(iris_bi, scale. = TRUE)
+pca <- prcomp(iris_bi[, -3], scale. = TRUE, center = TRUE)
 pca
 ```
 
@@ -1019,7 +1024,7 @@ pca$sdev^2 # autovalores
 # PCA en R: con prcomp
 
 ```{r}
-pca <- prcomp(iris_bi, scale. = TRUE)
+pca <- prcomp(iris_bi[, -3], scale. = TRUE)
 pca
 ```
 
@@ -1051,8 +1056,7 @@ as_tibble(pca$x)
 También podemos calcularlas nosotros mismos **proyectando los datos en las nuevas componentes**
 
 ```{r}
-as_tibble(as.matrix(iris_bi_std) %*%
-            pca$rotation)
+as_tibble(as.matrix(iris_bi_std[, -3]) %*% pca$rotation)
 ```
 
 ]
@@ -1098,7 +1102,7 @@ Si ahora pintamos los datos **codificando el color en función de la especie** p
 .pull-left[
 
 ```{r echo = FALSE}
-ggplot(tibble(iris_bi_std, Species = iris$Species),
+ggplot(iris_bi_std,
        aes(x = Petal.Width, y = Petal.Length,
            color = Species)) +
   geom_point(size = 5) +
@@ -1134,12 +1138,9 @@ ggplot(tibble(as_tibble(pca$x), Species = iris$Species),
 Ahora que controlamos un poco cómo se calculan y qué significan, vamos a ampliar al dataset entero de iris `{iris}` con sus **4 variables numéricas**
 
 ```{r}
-iris_full <- iris %>% select(-Species)
-
-# Covarianza y correlación sin estandarizar antes
-library(corrr)
-cov(iris_full)
-iris_full %>% correlate(diagonal = 1) %>% fashion()
+# Covarianza y correlación sin estandarizar antes (solo numéricas)
+cov(iris_tb[, -5])
+cor(iris_tb[, -5])
 ```
 
 ---
@@ -1152,13 +1153,20 @@ Las correlaciones también podemos **visualizarlas** con el paquete `{corrplot}`
 
 Las variables con mayor correlación (positiva además) es entre la longitud y la anchura del pétalo.
 
+```{r eval = FALSE}
+library(corrplot)
+corrplot(cor(iris_tb[, -5]),
+         type = "upper",
+         tl.col = "black")
+```
+
 ]
 
 .pull-right[
 
-```{r}
+```{r echo = FALSE}
 library(corrplot)
-corrplot(cor(iris_full), type = "upper", tl.col = "black")
+corrplot(cor(iris_tb[, -5]), type = "upper", tl.col = "black")
 ```
 ]
 
@@ -1173,45 +1181,92 @@ Con `{FactoMineR}` podemos calcular con `PCA()` de forma muy sencilla, indicánd
 library(FactoMineR)
 library(factoextra)
 pca_fit <-
-  PCA(iris_full, scale.unit = TRUE,
-      ncp = ncol(iris_full), graph = FALSE)
+  PCA(iris_tb[, -5], scale.unit = TRUE, ncp = 4, graph = FALSE)
+```
+
+En `ncp = ...` le indicamos las componentes que queremos que calcule
+
+---
+
+# PCA en R: con factominer y factoextra
+
+* **Autovalores**: para mostrar los autovalores (**varianza explicada** por cada componente) basta con llamar `pca_fit$eig` (ya nos los da ordenados y con la varianza acumulada). 
+
+```{r}
+pca_fit$eig 
 ```
 
 --
 
-Para mostrar los autovalores basta con `pca_fit$eig` (ya nos los da ordenados y con la varianza explicada, tanto componente a componente como acumulada). También se obtienen con `get_eig(pca_fit)`
+También se obtienen con `get_eig(pca_fit)`
 
 ```{r}
-pca_fit$eig # Alternativa: get_eig(pca_fit)
+get_eig(pca_fit)
 ```
 
 ---
 
 # PCA en R: con factominer y factoextra
 
-En `pca_fit$svd$V` se guardan los **autovectores o componentes principales (de nuevo por columnas)** asociados a los autovalores que ya tenemos ordenados
+* **Autovalores**:  el % de varianza explicada por cada componente (es decir, los autovalores) podemos visualizarlos con `fviz_eig`:
 
-```{r}
-pca_fit$svd$V
+.pull-left[
+
+* `addlabels = TRUE` -> para añadir el % de varianza explicada
+* `barfill = ...`, `barcolor = ...` -> color de relleno y de contorno (puedes usar cualquier código hexadecimal buscándolo en <https://htmlcolorcodes.com/>)
+* `xlab = ...`, `ylab = ...`: títulos de ejes X e Y.
+* `main = ...`: título de la gráfica
+
+```{r eval = FALSE}
+# Varianza explicada (autovalores)
+fviz_eig(pca_fit, addlabels = TRUE, barfill = "#5190CE", 
+         barcolor = "#E35E51", xlab = "Componentes",
+         ylab = "% de varianza explicada",
+         main = "Varianza explicada por componentes")
+
 ```
 
-Además con `pca_fit$var$contrib` nos muestra en **porcentaje lo que aporta cada variable** a la varianza explicada por cada componente (la suma de cada columna es el 100%)
+]
 
-```{r}
-pca_fit$var$contrib
+.pull-right[
+
+```{r echo = FALSE}
+# Varianza explicada (autovalores)
+fviz_eig(pca_fit, addlabels = TRUE, barfill = "#5190CE", 
+         barcolor = "#E35E51", xlab = "Componentes",
+         ylab = "% de varianza explicada",
+         main = "Varianza explicada por componentes")
+
 ```
+]
 
 ---
 
 # PCA en R: con factominer y factoextra
 
+
+* **Autovectores (componentes principales)**: sus coordenadas respecto a las variables originales (**loadings**) podemos cargarlos de `pca_fit$svd$V` (guardados por columnas).
+
+```{r}
+# autovectores (loadings)
+pca_fit$svd$V 
+```
+
+Dichos vectores serán ortonormales (la suma por columnas de sus valores al cuadrado serán 1)
+
+```{r}
+apply(pca_fit$svd$V^2, MARGIN = 2, sum)
+```
+
+---
+
+# PCA en R: con factominer y factoextra
 
 Así que darían expresadas los **loadings de las nuevas componentes principales** en función de las variables originales (estandarizadas $^*$)
 
 ```{r echo = FALSE}
 knitr::kable(pca_fit$svd$V,
-             col.names = c("Phi_1", "Phi_2",
-                           "Phi_3", "Phi_4"),
+             col.names = c("Phi_1", "Phi_2", "Phi_3", "Phi_4"),
              digits = 3)
 ```
 
@@ -1224,106 +1279,126 @@ $$\boldsymbol{\Phi}_3 = -0.719 * Sepal.Length^*  + 0.244 * Sepal.Width^*  + 0.14
 
 $$\boldsymbol{\Phi}_4 = -0.261 * Sepal.Length^*  + 0.124 * Sepal.Width^*  + 0.801 * Petal.Length^*  - 0.524 * Petal.Width^*$$
 
----
 
+---
 
 # PCA en R: con factominer y factoextra
 
-En `pca_fit$ind$coord` tenemos guardados los **scores**, las **nuevas coordenadas de los datos** (los **datos proyectados** en las nuevas direcciones).
+* **Scores**: las coordenadas en la nueva base de componentes principales de los individuos (ligeramente diferentes a los obtenidos por `prcomp()` por el método usado para la descomposición en autovectores y autovalores). Serán los **datos proyectados** en las nuevas direcciones.
 
 ```{r}
-pca_scores <- as_tibble(pca_fit$ind$coord)
-names(pca_scores) <- c("PC_1", "PC_2", "PC_3", "PC_4")
-pca_scores # Nuevas coordenadas
+pca_fit$ind$coord
 ```
 
 ---
 
 # PCA en R: con factominer y factoextra
 
+Fíjate que todo lo que haga referencia a individuos está en `$ind` y a variables en `$var`
 
-Podemos también calcular las **covarianzas entre cada componente principal y las variables originales**, tal que $Cov(\boldsymbol{\Phi}_i, \boldsymbol{x}_j ) = \lambda_i z_{i,j}$, donde $z_{i,j}$ es el coeficiente $j$-ésimo de la componente $i$-ésima (el peso de la variable $\boldsymbol{x}_j$ en la componente $\boldsymbol{\Phi}_i$)
+Además las nuevas variables o componentes tienen **media cero y varianza** igual a los autovalores
 
-La correlación será calculada como ${\rm Cor}(\boldsymbol{\Phi}_i, \boldsymbol{x}_j ) = \frac{Cov (\boldsymbol{\Phi}_i, \boldsymbol{x}_j )}{s_{\boldsymbol{\Phi}_i} s_{\boldsymbol{x}_j}} = \frac{\lambda_i z_{i,j}}{\sqrt{\lambda_i} s_{\boldsymbol{x}_j}} = \frac{\sqrt{\lambda_i}}{s_{x_j}} z_{i,j}$
+```{r}
+apply(pca_fit$ind$coord, MARGIN = 2, mean)
+apply(pca_fit$ind$coord, MARGIN = 2, function(x) { mean(x^2) - mean(x)^2}) 
+pca_fit$eig[, 1]
+```
 
-Dichas correlaciones las tenemos guardadas en `pca_fit$var$cor` y representan las **coordenadas de cada variable en cada componente** 
+
+---
+
+# PCA en R: con factominer y factoextra
+
+* **Contribución de individuos**: guardado en `pca_fit$ind$contrib`, cada columna suma el 100%, de forma que nos indica lo que contribuye (en %) cada individuo/registro a cada componente. Así, **individuos/registros con contribuciones similares** serán observaciones con características parecidas.
+
+```{r}
+apply(pca_fit$ind$contrib, MARGIN = 2, sum)
+```
+
+---
+
+# PCA en R: con factominer y factoextra
+
+* **Correlaciones**: la idea será interpretar las componentes principales analizanod la **correlación de cada variable con ellas**, es decir, $cor(\Phi_i, X_j)$, guardado en `pca_fit$var$cor`. Para cada componente buscaremos **variables muy correlacionadas** con ellas, de forma que variables fuertemente correladas positivamente estarán agrupadas en las mismas componente (y viceversa en negativo).
 
 ```{r}
 pca_fit$var$cor
 ```
 
+Es lo mismo que tenemos guardado en `pca_fit$var$coord` ya que es lo que vamos llamar **coordenadas de una variable en una componente**:
+
+```{r}
+pca_fit$var$coord
+```
+
 ---
 
+# PCA en R: con factominer y factoextra
+
+* **Correlaciones**: fíjate que dichas correlaciones se define como
+$cor(\boldsymbol{\Phi}_i, \boldsymbol{X}_j) = \sqrt{\lambda_i} z_{i,j}$ con $z_{j, i}$ siendo el loading j-ésimo para la componente i, es decir,  el peso de la variable $\boldsymbol{X}_j$ en la componente $\boldsymbol{\Phi}_i$
+
+```{r}
+pca_fit$var$cor
+```
+
+```{r}
+sqrt(pca_fit$eig[, 1]) * pca_fit$svd$V[, 1]
+```
+
+---
 
 # PCA en R: con factominer y factoextra
 
 .pull-left[
 
-En `pca_fit$var$cos2` tenemos las **correlaciones al cuadrado**, que expresan la **proporción de varianza de cada variable explicada por cada componente**
+* **Correlaciones al cuadrado**: si la correlación es la coordenada de cada variable respecto a cada componente, su **cuadrado** representará su peso (en magnitud), que tenemos en `pca_fit$var$coord^2` o directamente en `pca_fit$var$cos2` (la suma de cada fila es 100%)
 
 ```{r}
-round(pca_fit$var$cos2, 3)
+pca_fit$var$coord^2
 ```
 
-Con `fviz_pca_var` podemos **visualizar de forma bidimensional** como se relacionan las variables originales con las dos componentes que mayor cantidad de varianza capturan.
+```{r}
+pca_fit$var$cos2
+```
 
-La **primera componente captura** sobre todo las **dos variables del pétalo** (dichas variables prácticamente están sobre la horizontal de la primera componente). La **segunda componente** captura ligeramente el sépalo, aunque longitud del sépalo es la peor variable representada de todas.
+Con `fviz_cos2()` podemos visualizar dichos pesos (con `axes = ...` le decimos que queremos hacer la suma de los pesos de las n primeras componentes)
+
+```{r eval = FALSE}
+fviz_cos2(pca_fit, choice = "var", axes = 1:2)
+```
 
 ]
 
 .pull-right[
 
-```{r out.width = "93%"}
-col <- c("#00AFBB", "#E7B800", "#FC4E07")
+```{r echo = FALSE}
+fviz_cos2(pca_fit, choice = "var", axes = 1:2)
+```
+
+]
+
+---
+
+# PCA en R: con factominer y factoextra
+
+Con `fviz_pca_var()` podemos **visualizar de forma bidimensional** como se relacionan las variables originales con las dos componentes que mayor cantidad de varianza capturan.
+
+.pull-left[
+
+* La **posición** de la flecha representa `pca_fit$var$cor` (coordendas de cada variable en las componentes)
+
+* La **magnitud de la flecha (y color)** representa la suma `pca_fit$var$cos2` de las dos primeras componentes (su peso total en esas componentes)
+
+La **magnitud** nos mide la **calidad de las variables** en nuestras componentes (un valor alto indica que la info de dicha variable está bien capturada en dichas componentes)
+
+```{r eval = FALSE}
 fviz_pca_var(pca_fit, col.var = "cos2",
-             gradient.cols = col,
+             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"), 
              repel = TRUE) +
   theme_minimal() + 
   labs(title = "Coordenadas de las variables",
-       color = "Prop. var. explicada")
-```
-]
-
-
-
----
-
-
-# PCA en R: con factominer y factoextra
-
-.pull-left[
-
-Con `fviz_cos2()` podemos mostrar el **porcentaje de la varianza de las variables que es explicada** por las componentes que le indiquemos en `axes`
-
-Así podemos apreciar que todas las 
-**dos primeras componentes ya son capaces de capturar** al menos el 75% de la varianza de todas y cada una de las variables, rozando el 100% en las variables `Sepal.Width` y `Petal.Length`
-
-]
-
-.pull-right[
-
-```{r out.width = "93%"}
-fviz_cos2(pca_fit, choice = "var",
-          axes = 1:2)
-```
-]
-
----
-
-# PCA en R: con factominer y factoextra
-
-.pull-left[
-
-Con `fviz_eig()` podemos visualizar la varianza explicada por cada componente
-
-```{r eval = FALSE}
-fviz_eig(pca_fit,
-         barfill = "darkolivegreen",
-         addlabels = TRUE) +
-  theme_minimal() +
-  labs(x = "Componente", 
-       y = "% varianza explicada",
-       title = "Porcentaje de varianza explicada")
+       color = "Peso")
 ```
 
 ]
@@ -1331,39 +1406,34 @@ fviz_eig(pca_fit,
 .pull-right[
 
 ```{r echo = FALSE}
-fviz_eig(pca_fit,
-         barfill = "darkolivegreen",
-         addlabels = TRUE) +
-  theme_minimal() +
-  labs(x = "Componente", 
-       y = "% varianza explicada",
-       title = "Porcentaje de varianza explicada")
+fviz_pca_var(pca_fit, col.var = "cos2",
+             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"), 
+             repel = TRUE) +
+  theme_minimal() + 
+  labs(title = "Coordenadas de las variables",
+       color = "Peso")
 ```
-
 ]
 
 ---
 
+
 # PCA en R: con factominer y factoextra
-
-
 
 .pull-left[
 
-También podemos visualizar la **varianza acumulada** de forma manual
+
+* **Contribuciones**: por último en `pca_fit$var$contrib` tenemos la **contribución (en %) de cada variable** en cada componente en relativo, calculada como el peso de cada una entre la suma de pesos totales
+
+```{r}
+pca_fit$var$contrib
+pca_fit$var$cos2[, 1] / sum(pca_fit$var$cos2[, 1])
+```
+
+Con `fviz_contrib()` medimos la contribución de variables (`choice = "var"`) o individuos (`choice = "ind"`), con `top = ...` le digo cuantas quiero calcular, y con `axes = ...` el número de componentes a sumar.
 
 ```{r eval = FALSE}
-cumvar <- as_tibble(pca_fit$eig)
-names(cumvar) <- c("lambda", "var", "cumvar")
-
-ggplot(cumvar, aes(x = 1:4, y = cumvar)) +
-  geom_col(fill = "pink") +
-  geom_hline(yintercept = 90,
-             linetype = "dashed") +
-  theme_minimal() +
-  labs(x = "Componente", 
-       y = "% varianza explicada",
-       title = "% varianza acumulada")
+fviz_contrib(pca_fit, choice = "var", axes = 1:2, top = 4)
 ```
 
 ]
@@ -1371,17 +1441,7 @@ ggplot(cumvar, aes(x = 1:4, y = cumvar)) +
 .pull-right[
 
 ```{r echo = FALSE}
-cumvar <- as_tibble(pca_fit$eig)
-names(cumvar) <- c("autovalor", "var", "cumvar")
-
-ggplot(cumvar, aes(x = 1:4, y = cumvar)) +
-  geom_col(fill = "pink") +
-  geom_hline(yintercept = 90,
-             linetype = "dashed") +
-  theme_minimal() +
-  labs(x = "Componente", 
-       y = "% varianza explicada",
-       title = "% varianza acumulada")
+fviz_contrib(pca_fit, choice = "var", axes = 1:2)
 ```
 
 ]
@@ -1392,7 +1452,7 @@ ggplot(cumvar, aes(x = 1:4, y = cumvar)) +
 
 .pull-left[
 
-Por último `fviz_pca_biplot()` nos permite visualizar en las dos dimensiones que más varianza capturan, e incluso nos permite **visualizar clústers** de observaciones con las elipses definidas por las matrices de covarianza de cada uno de los grupos.
+Con `fviz_pca_biplot()` podemos visualizar en las dos dimensiones que más varianza capturan, e incluso nos permite **visualizar clústers** de observaciones con las elipses definidas por las matrices de covarianza de cada uno de los grupos.
 
 ```{r eval = FALSE}
 fviz_pca_biplot(pca_fit,
@@ -1405,7 +1465,7 @@ fviz_pca_biplot(pca_fit,
                 legend.title = "Especies")
 ```
 
-Observamos de nuevo como la componente determinante es la primera, que nos discrimina perfectamente la especie de Setosa.
+Importante: las coordenadas de los individuos y las de las variables no están definidas en el mismo espacio, así que de las segunda podremos usar la dirección (para ver variables con características similares).
 
 ]
 
@@ -1455,483 +1515,13 @@ knitr::include_graphics("https://www.tmwr.org/premade/recipes-process.svg")
 
 ---
 
-# Ejemplo tidymodels: algoritmo knn
-
-.pull-left[
-
-Los datos utilizados forman parte de un cojunto de reservas de hotel elaborado por [Antonio et al., 2019](https://www.sciencedirect.com/science/article/pii/S2352340918315191?via%3Dihub). El **conjunto utilizado tiene 50 000 registros de reservas**, con algunas de las siguientes [variables](https://linkinghub.elsevier.com/retrieve/pii/S2352340918315191)
-
-* `hotel`: nombre del hotel.
-* `lead_time`: lapso de tiempo entre la reserva y la estancia.
-* `children`: si la reserva tiene niños o no.
-* `meal`: régimen de comidas.
-* `country`: país de origen.
-* `average_daily_rate`: tarifa media diaria.
-* `arrival_date`: fecha de llegada.
-
-]
-
-.pull-right[
-
-El **objetivo es predecir si una serva incluye niños/as o no**.
-
-```{r carga-datos}
-hoteles_raw <- read_csv("./DATOS/hotels.csv")
-glimpse(hoteles_raw)
-```
-
-]
-
----
-
-# Ejemplo tidymodels: algoritmo knn
-
-
-### **Muestreo inicial**
-
-Una de las primeras acciones que quizás queremos realizar es un **muestreo inicial** de los datos
-
-* **Muestreo inicial**: `slice_sample` realiza un **muestreo aleatorio**, indicándole en `prop` el porcentaje de datos a extraer (**reminder**: los que no selecciones no continuan a lo largo del flujo).
-
-
-```{r warning = FALSE}
-# Sample inicial: nos quedamos el 15% de los datos
-hoteles <- hoteles_raw %>% slice_sample(prop = 0.15)
-dim(hoteles_raw)
-dim(hoteles)
-```
-
----
-
-# Ejemplo tidymodels: algoritmo knn
-
-
-### **Partición train/test**
-
-Otra acción habitual será obtener varios **subconjuntos**:
-
-* `train`: para entrenar el algoritmo.
-* `validation`: para validar el modelo (quizás haya que volver a `train`)
-* `test`: para puntuar nuestro algoritmo (con datos que no han sido usados ni para entrenar ni para validar)
-
-Dado que **tenemos muy pocos 1's en nuestra variable objetivo**, debemos intentar preservar los máximos posibles (para que no nos quede un conjunto aún más desbalanceado).
-
-```{r}
-# Objetivo: predecir si la reserva tiene niños o no
-hoteles_raw %>%
-  count(children) %>%
-  mutate(porc = 100 * n / sum(n))
-```
-
----
-
-# Ejemplo tidymodels: algoritmo knn
-
-
-### **Partición train/test**
-
-Realizaremos una **partición train-test** estratificado por la variable `children`: repartiremos en **80-20%** los datos **PERO asegurándonos de que la proporción de 0's-1's se preserva**.
-
-```{r}
-# Partición 80-20%: estratificada para que mantenga 1/0
-hoteles_split <- initial_split(hoteles, strata = children, prop = 0.8)
-hoteles_split
-```
-
-&nbsp;
-
-En `hoteles_split` tenemos **guardada las instrucciones** de lo que queremos hacer cuando lo apliquemos, pero hasta que no se aplique no realiza ninguna acción.
-
-```{r split}
-hotel_train <- training(hoteles_split)
-hotel_test <- testing(hoteles_split)
-```
-
----
-
-# Ejemplo tidymodels: algoritmo knn
-
-### **Receta sencilla (recipe)**
-
-* Asignar roles a variables
-* Recategorizar
-* Procesar outliers
-* Datos ausentes
-* Fechas
-* Estandarización por rango y/o normalización (tipificación)
-
-La lista de arriba son **algunas de las opciones que quizás querramos hacer** con nuestras variables antes de poder aplicar un modelo.
-
-&nbsp;
-
-Lo que haremos será indicarle una **lista de instrucciones**, algo así como la **receta escrita que tenemos guardada en un cajón** para preparar un plato. La receta por sí sola no se pone a cocinarte menús, simplemente es una lista de instrucciones, lista para cuando la necesites.
-
-Las funciones que empiezan por `step_` tienen implementadas muchas de las funcionalidades que podemos realizar en depuración con `{tidyverse}`. La diferencia al incluirlo en la receta es que **se ejecutará cada vez que dicha receta se aplique (tanto a train como a test)**.
-
----
-
-# Ejemplo tidymodels: algoritmo knn
-
-### **Receta sencilla (recipe)**
-
-
-* **Variable objetivo**: `children` será nuestra outcome (variable objetivo).
-
-```{r}
-receta <-
-  recipe(data = hotel_train, children ~ .)
-```
-
----
-
-# Ejemplo tidymodels: algoritmo knn
-
-### **Receta sencilla (recipe)**
-
-
-* **Variable objetivo**: `children` será nuestra outcome (variable objetivo).
-* **Convertimos a cualitativa** las variables de texto.
-
-```{r}
-receta <-
-  recipe(data = hotel_train, children ~ .) %>% 
-  step_mutate(across(where(is.character), as.factor))
-```
-
----
-
-# Ejemplo tidymodels: algoritmo knn
-
-### **Receta sencilla (recipe)**
-
-
-* **Variable objetivo**: `children` será nuestra outcome (variable objetivo).
-* **Convertimos a cualitativa** las variables de texto.
-* **Roles de variables**: actualizar rol de la variable (`update_role()`), añadir rol amén del existente (`add_role()`), eliminar rol (`remove_role()`)
-
-```{r}
-receta <-
-  recipe(data = hotel_train, children ~ .) %>% 
-  step_mutate(across(where(is.character), as.factor)) %>%
-  add_role(hotel, new_role = "type_hotel") 
-```
-
-
----
-
-# Ejemplo tidymodels: algoritmo knn
-
-### **Receta sencilla (recipe)**
-
-
-* **Variable objetivo**: `children` será nuestra outcome (variable objetivo).
-* **Convertimos a cualitativa** las variables de texto.
-* **Roles de variables**: actualizar rol de la variable (`update_role()`), añadir rol amén del existente (`add_role()`), eliminar rol (`remove_role()`).
-* **Recategorizar variables**: vamos a pasar a binaria `is_repeated_guest` y convertiremos a factor `previous_cancellations`, `reserved_room_type`, `assigned_room_type`, `booking_changes`, `deposit_type` y `days_in_waiting_list`. Con `step_other()` además le vamos a indicar que si en una **variable cualitativa hay algún nivel en proporciones ínfimas (por ejemplo, representa menos del 0.5% del total) las reagrupe** en una categoría llamada «others».
-
-```{r}
-receta <-
-  recipe(data = hotel_train, children ~ .) %>% 
-  step_mutate(across(where(is.character), as.factor)) %>%
-  add_role(hotel, new_role = "type_hotel") %>%
-  step_mutate(is_repeated_guest = (is_repeated_guest == 1),
-              across(previous_cancellations:days_in_waiting_list,
-                     as.factor)) %>%
-  # Indicamos % mínimo en categoría (si < 0.5%, reagrupa a others)
-  step_other(all_nominal_predictors(), threshold = 0.005)
-```
-
----
-
-# Ejemplo tidymodels: algoritmo knn
-
-### **Receta sencilla (recipe)**
-
-
-* **Variable objetivo**: `children` será nuestra outcome (variable objetivo).
-* **Convertimos a cualitativa** las variables de texto.
-* **Roles de variables**: actualizar rol de la variable (`update_role()`), añadir rol amén del existente (`add_role()`), eliminar rol (`remove_role()`).
-* **Recategorizar variables**.
-* **Estandarizar por rango** con `step_range()` (siempre entre 0 y 1, aunque podríamos asignarle otro rango dando valores a `max` y `min`). Con `step_normalize()` normalizaríamos (media nula y varianza unitaria).
-
-
-```{r}
-receta <-
-  recipe(data = hotel_train, children ~ .) %>% 
-  step_mutate(across(where(is.character), as.factor)) %>%
-  add_role(hotel, new_role = "type_hotel")  %>%
-  step_mutate(is_repeated_guest = (is_repeated_guest == 1),
-              across(previous_cancellations:days_in_waiting_list,
-                     as.factor)) %>%
-  # Indicamos % mínimo en categoría (si < 0.5%, reagrupa a others)
-  step_other(all_nominal_predictors(), threshold = 0.005) %>% 
-  step_range(all_numeric_predictors(), min = 0, max = 1)
-```
-
----
-
-# Ejemplo tidymodels: algoritmo knn
-
-### **Receta sencilla (recipe)**
-
-
-* **Variable objetivo**: `children` será nuestra outcome (variable objetivo).
-* **Convertimos a cualitativa** las variables de texto.
-* **Roles de variables**.
-* **Recategorizar variables**.
-* **Estandarizar por rango**.
-* **Rebalancear objetivo**: en nuestros datos tan solo tenemos cerca del 8% de registros con `children = children` (1's). Usaremos el **sobremuestreo**: duplicar algunos registros con 1 en la variable objetivo para que **equilibrar** la proporción de 0's vs 1's. Para ello basta con añadir en nuestra receta el paso `step_upsample` del paquete `{themis}`, indicándole en `over_ratio` la relación que queremos entre la clase minoritaria y la mayoritaria.
-
-
-```{r}
-receta <-
-  recipe(data = hotel_train, children ~ .) %>% 
-  step_mutate(across(where(is.character), as.factor)) %>%
-  add_role(hotel, new_role = "type_hotel")  %>%
-  step_mutate(is_repeated_guest = (is_repeated_guest == 1),
-              across(previous_cancellations:days_in_waiting_list,
-                     as.factor)) %>%
-  # Indicamos % mínimo en categoría (si < 0.5%, reagrupa a others)
-  step_other(all_nominal_predictors(), threshold = 0.005) %>% 
-  step_range(all_numeric_predictors(), min = 0, max = 1) %>%
-  themis::step_upsample(children, over_ratio = 0.5)
-```
-
----
-
-# Ejemplo tidymodels: algoritmo knn
-
-### **Receta sencilla (recipe)**
-
-
-* **Variable objetivo**: `children` será nuestra outcome (variable objetivo). **Convertimos a cualitativa** las variables de texto.
-* **Roles de variables**. **Recategorizar variables**.
-* **Estandarizar** por rango. **Rebalancear** objetivo.
-* **Tratar datos atípicos y missings**.
-
-```{r}
-receta <-
-  recipe(data = hotel_train, children ~ .) %>% 
-  step_mutate(across(where(is.character), as.factor)) %>%
-  add_role(hotel, new_role = "type_hotel")  %>%
-  step_mutate(is_repeated_guest = (is_repeated_guest == 1),
-              across(previous_cancellations:days_in_waiting_list,
-                     as.factor)) %>%
-  # Indicamos % mínimo en categoría (si < 0.5%, reagrupa a others)
-  step_other(all_nominal_predictors(), threshold = 0.005) %>% 
-  step_range(all_numeric_predictors(), min = 0, max = 1) %>%
-  themis::step_upsample(children, over_ratio = 0.5) %>%
-  step_mutate_at(all_numeric_predictors(),
-                 fn = function(x) { ifelse(abs(x - mean(x, na.rm = TRUE)) > 5 * sd(x, na.rm = TRUE), NA, x)}) %>%
-  # Imputamos por la media las numéricas, por la moda las cuali
-  step_impute_mean(all_numeric_predictors()) %>%
-  step_impute_mode(all_nominal_predictors())
-```
-
----
-
-# Ejemplo tidymodels: algoritmo knn
-
-### **Receta sencilla (recipe)**
-
-
-* **Variable objetivo**: `children` será nuestra outcome (variable objetivo). **Convertimos a cualitativa** las variables de texto.
-* **Roles de variables**. **Recategorizar variables**.
-* **Estandarizar** por rango. **Rebalancear** objetivo.
-* **Tratar datos atípicos y missings**. Convertimos **cualitativas a dummy**.
-
-```{r}
-receta <-
-  recipe(data = hotel_train, children ~ .) %>% 
-  step_mutate(across(where(is.character), as.factor)) %>%
-  add_role(hotel, new_role = "type_hotel")  %>%
-  step_mutate(is_repeated_guest = (is_repeated_guest == 1),
-              across(previous_cancellations:days_in_waiting_list,
-                     as.factor)) %>%
-  # Indicamos % mínimo en categoría (si < 0.5%, reagrupa a others)
-  step_other(all_nominal_predictors(), threshold = 0.005) %>% 
-  step_range(all_numeric_predictors(), min = 0, max = 1) %>%
-  themis::step_upsample(children, over_ratio = 0.5) %>%
-  step_mutate_at(all_numeric_predictors(),
-                 fn = function(x) { ifelse(abs(x - mean(x, na.rm = TRUE)) > 5 * sd(x, na.rm = TRUE), NA, x)}) %>%
-  # Imputamos por la media las numéricas, por la moda las cuali
-  step_impute_mean(all_numeric_predictors()) %>%
-  step_impute_mode(all_nominal_predictors()) %>% 
-  # nominales las pasemos a dummy 1/0 (country también)
-  step_dummy(all_nominal(), -all_outcomes())
-```
-
----
-
-# Ejemplo tidymodels: algoritmo knn
-
-### **Receta sencilla (recipe)**
-
-```{r}
-receta
-```
-
----
-
-# Ejemplo tidymodels: algoritmo knn
-
-### **Horneado (bake)**
-
-Tras escribir la receta vamos a **prepararla** y a **hornear los datos** con `bake()`: para hornearla en el conjunto de train, basta con poner `new_data = NULL`.
-
-```{r bake}
-# Aplicado a train
-bake(receta %>% prep(), new_data = NULL)
-```
-
----
-
-# Ejemplo tidymodels: algoritmo knn
-
-### **Horneado (bake)**
-
-Para hornearla en el conjunto de test basta con poner `new_data = hotel_test`. Nuestra receta, aplicada a nuestros ingredientes, está lista. Este «horneado» con `bake()` solo lo necesitamos **si queremos ya aplicar la receta a nuestros datos**.
-
-```{r bake-est}
-bake(receta %>% prep(), new_data = hotel_test)
-```
-
----
-
-# Ejemplo tidymodels: algoritmo knn
-
-### **Utensilios (modelo)**
-
-Una vez que tenemos nuestra lista de instrucciones, lo siguiente que haríamos al **cocinar un plato** es buscar los utensilios: cuchillos, cacerolas, batidora, etc. En nuestro caso los **utensilios serán nuestro modelo (en este caso de clasificación)**, con `nearest_neighbor()` (echa un vistazo a los modelos del paquete `{parsnip}`). 
-
-- `mode`: admite dos opciones, `mode = "classification"` o `mode = "regression"`.
-- `neighbors`: el número de vecinos `k` que consideramos como entorno de vecindad.
-- `weight_func`: función (kernel) para promedir distancias (`weight_func = "inv"` nos promedia por el inverso de la distancia; ver opciones en <https://epub.ub.uni-muenchen.de/1769/>)
-- `dist_power`: número $p$ de la distancia de Minkowski
-
-```{r knn}
-knn_model <-
-  nearest_neighbor(mode = "classification", neighbors = 10,
-                   weight_func = "inv", dist_power = 2) %>%
-  set_engine("kknn") # el «motor» que realiza el ajuste
-knn_model
-```
-
----
-
-# Ejemplo tidymodels: algoritmo knn
-
-### **Flujo de trabajo**
-
-
-Con dichos ingredientes podemos crear ya un **flujo de trabajo** con `workflow()`
-
-```{r flujo}
-# Flujo de trabajo
-hoteles_wflow <-
-  workflow() %>%
-  add_recipe(receta) %>%
-  add_model(knn_model)
-hoteles_wflow
-```
-
----
-
-# Ejemplo tidymodels: algoritmo knn
-
-### **Ajuste y predicción**
-
-Dichos pasos vamos a **proporcionárselos a nuestro conjunto de entrenamiento** para que nos **aplique el flujo de trabajo** que hemos construido, usando `fit(data = hotel_train)`.
-
-```{r fit-knn-1}
-# Aplicamos flujo
-library("kknn")
-hoteles_knn_fit <-
-  hoteles_wflow %>% fit(data = hotel_train)
-hoteles_knn_fit
-```
-
----
-
-# Ejemplo tidymodels: algoritmo knn
-
-### **Ajuste y predicción**
-
-Dicho ajuste guardado en `hoteles_knn_fit` podemos usarlo para **predecir el conjunto test** de dos maneras:
-
-* **Clase**
-* **Probabilidades** (de pertenencia a dichas clases, necesario para el cálculo de la **curva ROC**)
-
-Ambas se hacen con `predict()` pasándole un argumento de `type` diferente. **Reminder**: al tenerlo todo integrado en un flujo, **aplicará el procesamiento que necesite al conjunto de test**, tal cual lo hemos indicado en las instrucciones.
-
-```{r predict-knn-1}
-# Predecir el conjunto test: devuelve la clase
-predict(hoteles_knn_fit, hotel_test)
-
-# Predecir las probabilidades (las necesitamos para la ROC)
-predict(hoteles_knn_fit, hotel_test, type = "prob")
-```
-
----
-
-# Ejemplo tidymodels: algoritmo knn
-
-### **Ajuste y predicción**
-
-Dentro del paquete `{parsnip}` que hemos cargado dentro de `{tidymodels}` tenemos a nuestra disposición una función llamada `augment()` que nos permite **incluir en una misma tabla las predicciones de la clase, de las probabilidades y los datos de test originales** (añadiendo columnas).
-
-```{r augment}
-# Para obtener las probabilidades en los datos (con variables)
-prob_test <- augment(hoteles_knn_fit, hotel_test)
-print(prob_test, width = Inf)
-```
-
----
-
-# Ejemplo tidymodels: algoritmo knn
-
-### **Evaluación**
-
-En realidad el conjunto de test solo deberíamos usarlo al final del proceso, no como evaluación intermedia de los hiperparámetros, ya que dicho rol le corresponde a un **tercer conjunto de validación**, pero de momento vamos a simplificarlo en train-test.
-
-Una de las formas más sencillas de **evaluar un método de clasificación es con una matriz de confusión**: una matriz que nos cruce las frecuencias de las etiquetas reales frente a las predichas.
-
-```{r}
-# Matriz de confusión: etiqueta real vs etiqueta predicha
-conf_mat_test <-
-  prob_test %>% conf_mat(truth = children, estimate = .pred_class)
-
-# La guardamos en una tabla
-conf_mat_test <- as_tibble(conf_mat_test$table)
-conf_mat_test 
-```
-
----
-
-
-# Ejemplo tidymodels: algoritmo knn
-
-### **Evaluación**
-
-Muchas de las **métricas las podemos obtener automáticamente** de la matriz de confusión.
-
-```{r}
-# Matriz de confusión + resumen: etiqueta real vs etiqueta predicha
-metricas <-
-  prob_test %>% conf_mat(truth = children, estimate = .pred_class) %>%
-  summary()
-metricas
-```
-
----
-
 # PCA con tidymodels
 
 Ahora que hemos visto por encima la idea de `{tidymodels}` vamos a calcular las componentes principales del conjunto `iris` con dicha idea.
 
 
-```{r iris-cor, out.width = "3%"}
-iris_ful7 <- iris %>% select(-Species)
+```{r iris-cor, out.width = "30%"}
+iris_full <- iris %>% select(-Species)
 library(corrplot)
 iris_full %>% cor() %>% 
   corrplot(tl.col = "black", method = "ellipse")
@@ -1945,8 +1535,7 @@ La receta tendrá los siguientes pasos:
 
 * Indicar la **variable objetivo** (`Species`)
 * Imputamos **datos ausentes**
-* **Estandarizar/normalizar** los datos
-* Eliminamos variables de **cero varianza**
+* **Estandarizar** los datos numéricos
 
 ```{r}
 receta <- 
@@ -1955,9 +1544,7 @@ receta <-
   step_impute_mean(all_numeric_predictors()) %>%
   step_impute_mode(all_nominal_predictors()) %>%
   # Estandarizamos
-  step_normalize(all_numeric_predictors()) %>%
-  # Filtro cero varianza
-  step_zv(all_numeric_predictors())
+  step_normalize(all_numeric_predictors())
 receta
 ```
 
@@ -1965,7 +1552,7 @@ receta
 
 # PCA con tidymodels
 
-Para añadir el **análisis de componentes principales** basta con añadir `step_pca()`
+Para añadir el **análisis de componentes principales** basta con añadir `step_pca()` aplicado a todas las numéricas
 
 ```{r}
 receta <-

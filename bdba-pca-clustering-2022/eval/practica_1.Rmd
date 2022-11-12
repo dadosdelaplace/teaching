@@ -200,7 +200,7 @@ pca_fit$...
 
 > Explícita además la expresión de la primera componente en función de las variables originales.
 
-$$\Phi_1 = x * Superficie + y * Densidad + ... $$
+$$\Phi_1 = x * Superficie + y * Densidad + ...$$
 
 > Obtén los scores (las nuevas coordenadas de los datos, s proyectados en las nuevas direcciones).
 
@@ -245,7 +245,8 @@ ggplot(...) +
   labs(...)
 ```
 
-> Mostrar los coeficientes (scores) para obtener las componentes principales. ¿Cuál es la expresión para calcular la primera componente en función de las variables originales?
+> Mostrar los coeficientes (scores) para obtener las componentes principales. ¿Cuál es
+la expresión para calcular la primera componente en función de las variables originales?
 
 
 ```{r eval = FALSE}
@@ -294,7 +295,8 @@ fviz_pca_biplot(...,
 
 
 
-> ¿Qué valor tiene el distrito de Salamanca en la Componente 1? ¿Y Villaverde? ¿Qué distrito tiene un valor más alto de la Componente 4?
+> ¿Qué valor tiene el distrito de Salamanca en la Componente 1? ¿Y Villaverde? ¿Qué
+distrito tiene un valor más alto de la Componente 4?
 
 
 # Ejercicio 5

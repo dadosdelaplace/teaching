@@ -12110,7 +12110,7 @@ conf_mat_test %>% summary()
 
 Podemos **.bg-purple_light[dibujar la curva ROC]** haciendo uso de `roc_curve()` pasándole el archivo con las predicciones, y usando las probabilidades de ser 1 (guardadas en `.pred_children` en nuestro conjunto). Aprenderemos a dibujarla mejor pero podemos mientras hacerlo con `autoplot()`
 
-```{r}
+```{r, out.width = "40%"}
 roc_data <- prob_test %>% roc_curve(truth = children, .pred_children)
 roc_data %>% autoplot()
 ```
@@ -12169,17 +12169,15 @@ showConnections()
 
 # Computación .orange[EN PARALELO]
  
-El único cambio respecto a antes es indicarle `tune_grid()`  que queremos la **.bg-purple_light[validación paralelizada]**, con `control = control_grid(allow_par = TRUE)`. Para que no queden hilos sueltos es importante que al **.bg-purple_light[acabar la paralelización le indiquemos que cerramos los clúster]**.
+El único cambio respecto a antes es indicarle `tune_grid()`  que queremos la **.bg-purple_light[validación paralelizada]**, con `control = control_grid(allow_par = TRUE)`. Es importante que al **.bg-purple_light[acabar la paralelización le indiquemos que cerramos los clúster]**.
 
 ```{r}
-# Entrenamos y evaluamos los 18 modelos en paralelo
 hoteles_knn_fit_tune <-
  hoteles_wflow %>%
   tune_grid(resamples = hoteles_val, grid = grid_knn,
-            control = control_grid(verbose = TRUE, allow_par = TRUE,
+            control = control_grid(verbose = TRUE, allow_par = TRUE, #<<
                                    pkgs = c("outliers")),
-            metrics = metric_set(accuracy, sensitivity,
-                                 specificity, roc_auc))
+            metrics = metric_set(accuracy, sensitivity, specificity, roc_auc))
 # finalizamos clusters
 stopCluster(make_cluster)
 registerDoSEQ()
@@ -12200,7 +12198,7 @@ Un paso que hemos obviado: si tenemos la **.bg-purple_light[variable objetivo de
 ```{r}
 hoteles_rec_oversampling <-
   hoteles_rec %>% 
-  themis::step_upsample(children, over_ratio = 0.5)
+  themis::step_upsample(children, over_ratio = 0.5) #<<
 
 bake(hoteles_rec_oversampling %>% prep(), new_data = NULL) %>%
   count(children) %>% 
