@@ -24,7 +24,7 @@ class: center, middle, inverse, title-slide
 # GESTIÓN DE BASES DE DATOS
 ## Máster en Bioestadística
 ### Javier Álvarez Liébana (Fac. Estudios Estadísticos - UCM)
-### Última actualización: 01-11-2022
+### Última actualización: 14-11-2022
 
 ---
 
@@ -1756,7 +1756,7 @@ hoy
 ```
 
 ```
-&gt; [1] "2022-11-01"
+&gt; [1] "2022-11-14"
 ```
 
 --
@@ -1769,7 +1769,7 @@ También podemos obtener el **.bg-purple_light[«hoy y ahora»]** con la funció
 ```
 
 ```
-&gt; [1] "2022-11-01 23:14:12 CET"
+&gt; [1] "2022-11-14 13:32:15 CET"
 ```
  
 ---
@@ -2153,7 +2153,7 @@ hoy - cumple
 ```
 
 ```
-&gt; Time difference of 12105 days
+&gt; Time difference of 12118 days
 ```
 
 ]
@@ -3075,9 +3075,9 @@ x &lt;- rnorm(1e3) # 1000 elementos aleatorias
 
 ```
 &gt; Unit: microseconds
-&gt;         expr    min      lq     mean median      uq     max neval cld
-&gt;      sort(x) 43.169 50.9695 76.53932 64.108 93.8880 384.346  1000   b
-&gt;  x[order(x)] 29.831 35.1235 50.78894 41.555 61.7455 173.622  1000  a
+&gt;         expr    min      lq     mean  median     uq     max neval cld
+&gt;      sort(x) 50.728 57.4300 73.23293 62.9075 79.152 299.211  1000   b
+&gt;  x[order(x)] 34.904 39.5665 49.75956 43.6660 54.776 175.424  1000  a
 ```
 
 --
@@ -6326,11 +6326,11 @@ microbenchmark(x^2,
 ```
 &gt; Unit: nanoseconds
 &gt;                                     expr     min        lq        mean
-&gt;                                      x^2     427     723.5    2163.667
-&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 2073224 3008863.5 5674847.955
-&gt;     median      uq       max neval cld
-&gt;     1937.5    3002     93489  1000  a 
-&gt;  3745632.0 4812104 119068265  1000   b
+&gt;                                      x^2     360     549.5    1689.433
+&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 1738312 2163820.5 2790116.444
+&gt;     median      uq      max neval cld
+&gt;     1170.5    2369    20205  1000  a 
+&gt;  2499665.0 3113904 12356706  1000   b
 ```
 
 ---
@@ -6643,7 +6643,7 @@ sample(x = 0:1, size = 30, replace = TRUE)
 ```
 
 ```
-&gt;  [1] 0 1 0 0 0 1 1 1 0 0 0 1 1 0 1 0 0 1 1 1 1 1 1 1 0 0 0 0 0 1
+&gt;  [1] 0 0 0 0 1 0 1 1 1 0 0 1 1 0 0 0 0 0 1 0 0 1 1 0 0 0 1 0 1 1
 ```
 
 ---
@@ -6658,7 +6658,7 @@ sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
 ```
 
 ```
-&gt;  [1] "cruz" "cruz" "cara" "cara" "cara" "cara" "cara" "cara" "cruz" "cruz"
+&gt;  [1] "cara" "cara" "cruz" "cruz" "cara" "cara" "cruz" "cara" "cara" "cara"
 ```
 
 --
@@ -6671,7 +6671,7 @@ sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
 ```
 
 ```
-&gt;  [1] "cruz" "cruz" "cara" "cruz" "cara" "cruz" "cruz" "cara" "cara" "cruz"
+&gt;  [1] "cara" "cruz" "cara" "cruz" "cara" "cara" "cara" "cara" "cruz" "cara"
 ```
 
 ---
@@ -8671,12 +8671,12 @@ microbenchmark(sqrt(x), for (i in 1:700) { y[i] &lt;- sqrt(x[i]) }, times = 1e3)
 
 ```
 &gt; Unit: microseconds
-&gt;                                         expr      min        lq       mean
-&gt;                                      sqrt(x)    1.798    2.3635    3.23169
-&gt;  for (i in 1:700) {     y[i] &lt;- sqrt(x[i]) } 1836.806 1995.6315 2258.01005
-&gt;    median       uq      max neval cld
-&gt;     3.098    3.733   15.232  1000  a 
-&gt;  2080.284 2245.918 9300.595  1000   b
+&gt;                                         expr      min        lq        mean
+&gt;                                      sqrt(x)    1.771    2.5595    3.890028
+&gt;  for (i in 1:700) {     y[i] &lt;- sqrt(x[i]) } 1765.478 2014.7735 2458.494052
+&gt;     median        uq       max neval cld
+&gt;     3.3175    4.1645    46.264  1000  a 
+&gt;  2259.1115 2626.4320 12864.101  1000   b
 ```
 
 
@@ -8759,12 +8759,12 @@ microbenchmark(map(x, .f = function(x) { mean(x^2) }), lapply(x, FUN = function(
 
 ```
 &gt; Unit: milliseconds
-&gt;                                            expr      min       lq      mean
-&gt;      map(x, .f = function(x) {     mean(x^2) }) 5.535758 7.003163 10.079688
-&gt;  lapply(x, FUN = function(x) {     mean(x^2) }) 5.513930 6.852196  9.862827
-&gt;    median       uq      max neval cld
-&gt;  7.869746 9.472039 205.2818  1000   a
-&gt;  7.758710 9.407550 150.8870  1000   a
+&gt;                                            expr      min       lq     mean
+&gt;      map(x, .f = function(x) {     mean(x^2) }) 5.731899 7.140093 9.312803
+&gt;  lapply(x, FUN = function(x) {     mean(x^2) }) 5.630477 6.875818 8.790086
+&gt;    median       uq       max neval cld
+&gt;  7.918654 9.004134 223.41935  1000   a
+&gt;  7.705138 8.795914  39.89723  1000   a
 ```
 
 
@@ -14996,16 +14996,16 @@ momo_datos
 &gt; # A tibble: 500,000 × 15
 &gt;    ambito   cod_amb…¹ cod_i…² nombr…³ cod_s…⁴ nombr…⁵ cod_g…⁶ nombr…⁷ fecha_de…⁸
 &gt;    &lt;chr&gt;    &lt;chr&gt;       &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;date&gt;    
-&gt;  1 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   all     todos   2022-11-06
-&gt;  2 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   +85     edad &gt;… 2022-11-06
-&gt;  3 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   0-14    edad 0… 2022-11-06
-&gt;  4 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   15-44   edad 1… 2022-11-06
-&gt;  5 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   45-64   edad 4… 2022-11-06
-&gt;  6 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   65-74   edad 6… 2022-11-06
-&gt;  7 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   75-84   edad 7… 2022-11-06
-&gt;  8 nacional &lt;NA&gt;           NA &lt;NA&gt;    1       hombres all     todos   2022-11-06
-&gt;  9 nacional &lt;NA&gt;           NA &lt;NA&gt;    1       hombres +85     edad &gt;… 2022-11-06
-&gt; 10 nacional &lt;NA&gt;           NA &lt;NA&gt;    1       hombres 0-14    edad 0… 2022-11-06
+&gt;  1 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   all     todos   2022-11-19
+&gt;  2 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   +85     edad &gt;… 2022-11-19
+&gt;  3 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   0-14    edad 0… 2022-11-19
+&gt;  4 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   15-44   edad 1… 2022-11-19
+&gt;  5 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   45-64   edad 4… 2022-11-19
+&gt;  6 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   65-74   edad 6… 2022-11-19
+&gt;  7 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   75-84   edad 7… 2022-11-19
+&gt;  8 nacional &lt;NA&gt;           NA &lt;NA&gt;    1       hombres all     todos   2022-11-19
+&gt;  9 nacional &lt;NA&gt;           NA &lt;NA&gt;    1       hombres +85     edad &gt;… 2022-11-19
+&gt; 10 nacional &lt;NA&gt;           NA &lt;NA&gt;    1       hombres 0-14    edad 0… 2022-11-19
 &gt; # … with 499,990 more rows, 6 more variables: defunciones_observadas &lt;dbl&gt;,
 &gt; #   defunciones_estimadas_base &lt;dbl&gt;, defunciones_estimadas_base_q01 &lt;dbl&gt;,
 &gt; #   defunciones_estimadas_base_q99 &lt;dbl&gt;, defunciones_atrib_exc_temp &lt;dbl&gt;,
@@ -15363,7 +15363,7 @@ owid_covid()
 ```
 
 ```
-&gt; # A tibble: 231,638 × 67
+&gt; # A tibble: 234,734 × 67
 &gt;    iso_code continent locat…¹ date       total…² new_c…³ new_c…⁴ total…⁵ new_d…⁶
 &gt;    &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;   &lt;date&gt;       &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
 &gt;  1 AFG      Asia      Afghan… 2020-02-24       5       5  NA          NA      NA
@@ -15376,7 +15376,7 @@ owid_covid()
 &gt;  8 AFG      Asia      Afghan… 2020-03-02       5       0   0          NA      NA
 &gt;  9 AFG      Asia      Afghan… 2020-03-03       5       0   0          NA      NA
 &gt; 10 AFG      Asia      Afghan… 2020-03-04       5       0   0          NA      NA
-&gt; # … with 231,628 more rows, 58 more variables: new_deaths_smoothed &lt;dbl&gt;,
+&gt; # … with 234,724 more rows, 58 more variables: new_deaths_smoothed &lt;dbl&gt;,
 &gt; #   total_cases_per_million &lt;dbl&gt;, new_cases_per_million &lt;dbl&gt;,
 &gt; #   new_cases_smoothed_per_million &lt;dbl&gt;, total_deaths_per_million &lt;dbl&gt;,
 &gt; #   new_deaths_per_million &lt;dbl&gt;, new_deaths_smoothed_per_million &lt;dbl&gt;,
@@ -15492,29 +15492,30 @@ aemet_last_obs("0076")
 
 |idema |      lon|fint                | prec| alt| vmax|  vv|  dv|      lat| dmax|ubi                  |   pres| hr| stdvv|   ts| pres_nmar| tamin|   ta| tamax|  tpr|  vis| stddv| inso|
 |:-----|--------:|:-------------------|----:|---:|----:|---:|---:|--------:|----:|:--------------------|------:|--:|-----:|----:|---------:|-----:|----:|-----:|----:|----:|-----:|----:|
-|0076  | 2.069995|2022-10-31 23:00:00 |    0|   4|  3.6| 2.7| 240| 41.29278|  250|BARCELONA/AEROPUERTO | 1019.7| 84|   0.1| 20.7|    1020.3|  21.4| 21.6|  21.7| 18.8| 14.5|     4|    0|
-|0076  | 2.069995|2022-11-01 00:00:00 |    0|   4|  3.6| 2.9| 260| 41.29278|  260|BARCELONA/AEROPUERTO | 1019.6| 85|   0.2| 20.4|    1020.2|  21.2| 21.2|  21.6| 18.5| 12.6|     5|    0|
-|0076  | 2.069995|2022-11-01 01:00:00 |    0|   4|  3.1| 2.4| 310| 41.29278|  300|BARCELONA/AEROPUERTO | 1019.6| 86|   0.2| 19.8|    1020.2|  20.8| 21.0|  21.2| 18.5| 11.9|    14|    0|
-|0076  | 2.069995|2022-11-01 02:00:00 |    0|   4|  4.6| 2.7|  10| 41.29278|  350|BARCELONA/AEROPUERTO | 1019.4| 86|   0.3| 19.1|    1020.0|  19.7| 19.7|  20.8| 17.3| 13.0|   112|    0|
-|0076  | 2.069995|2022-11-01 03:00:00 |    0|   4|  3.1| 0.3| 360| 41.29278|  360|BARCELONA/AEROPUERTO | 1019.2| 85|   0.5| 17.6|    1019.8|  19.1| 19.2|  19.7| 16.6| 14.1|   112|    0|
-|0076  | 2.069995|2022-11-01 04:00:00 |    0|   4|  3.6| 2.1|  10| 41.29278|  360|BARCELONA/AEROPUERTO | 1019.4| 83|   0.2| 17.3|    1020.0|  18.3| 18.4|  19.1| 15.4| 20.8|   171|    0|
-|0076  | 2.069995|2022-11-01 05:00:00 |    0|   4|  3.1| 1.6| 350| 41.29278|   20|BARCELONA/AEROPUERTO | 1019.8| 86|   0.3| 16.4|    1020.4|  17.7| 17.7|  18.4| 15.3| 16.8|   110|    0|
-|0076  | 2.069995|2022-11-01 06:00:00 |    0|   4|  5.7| 4.0|  10| 41.29278|   10|BARCELONA/AEROPUERTO | 1020.2| 86|   0.2| 16.8|    1020.8|  17.3| 17.5|  17.6| 15.2| 16.5|     3|    0|
-|0076  | 2.069995|2022-11-01 07:00:00 |    0|   4|  6.2| 2.6|  10| 41.29278|  360|BARCELONA/AEROPUERTO | 1020.8| 85|   0.4| 17.0|    1021.4|  17.3| 17.5|  17.6| 15.0| 17.7|     5|    7|
-|0076  | 2.069995|2022-11-01 08:00:00 |    0|   4|  5.7| 4.4|  10| 41.29278|   10|BARCELONA/AEROPUERTO | 1021.4| 77|   0.2| 19.3|    1022.0|  17.6| 18.7|  18.8| 14.6| 17.9|     2|   60|
-|0076  | 2.069995|2022-11-01 09:00:00 |    0|   4|  5.7| 4.0| 360| 41.29278|   10|BARCELONA/AEROPUERTO | 1021.8| 68|   0.3| 22.2|    1022.4|  18.8| 21.0|  21.1| 14.9| 22.0|   172|   60|
-|0076  | 2.069995|2022-11-01 10:00:00 |    0|   4|  6.2| 5.2|  10| 41.29278|   10|BARCELONA/AEROPUERTO | 1022.2| 57|   0.4| 25.2|    1022.8|  20.9| 23.0|  23.2| 14.0| 27.4|     3|   60|
-|0076  | 2.069995|2022-11-01 11:00:00 |    0|   4| 10.3| 3.1|  50| 41.29278|   20|BARCELONA/AEROPUERTO | 1022.2| 47|   0.8| 28.3|    1022.8|  23.3| 24.8|  24.9| 12.7| 29.8|    28|   60|
-|0076  | 2.069995|2022-11-01 12:00:00 |    0|   4|  8.2| 6.5|  80| 41.29278|  100|BARCELONA/AEROPUERTO | 1022.0| 64|   0.3| 26.1|    1022.6|  22.7| 22.9|  24.9| 15.7| 26.8|     5|   60|
-|0076  | 2.069995|2022-11-01 13:00:00 |    0|   4|  8.8| 6.6| 110| 41.29278|  110|BARCELONA/AEROPUERTO | 1021.7| 74|   0.5| 25.2|    1022.3|  22.3| 22.5|  23.0| 17.6| 23.0|     8|   60|
-|0076  | 2.069995|2022-11-01 14:00:00 |    0|   4|  8.8| 5.7| 100| 41.29278|  110|BARCELONA/AEROPUERTO | 1021.5| 71|   0.5| 24.5|    1022.1|  22.2| 22.3|  22.5| 16.8| 28.3|     9|   60|
-|0076  | 2.069995|2022-11-01 15:00:00 |    0|   4|  7.7| 4.5| 110| 41.29278|  110|BARCELONA/AEROPUERTO | 1021.6| 72|   0.4| 23.3|    1022.2|  21.7| 21.8|  22.3| 16.6| 29.3|    12|   52|
-|0076  | 2.069995|2022-11-01 16:00:00 |    0|   4|  5.7| 3.9| 100| 41.29278|  110|BARCELONA/AEROPUERTO | 1021.8| 75|   0.2| 21.8|    1022.4|  21.2| 21.3|  21.9| 16.7| 30.0|     6|    0|
-|0076  | 2.069995|2022-11-01 17:00:00 |    0|   4|  5.1| 3.6| 100| 41.29278|   80|BARCELONA/AEROPUERTO | 1022.0| 80|   0.1| 20.3|    1022.6|  20.5| 20.6|  21.3| 17.1| 29.3|     6|    0|
-|0076  | 2.069995|2022-11-01 18:00:00 |    0|   4|  4.1| 2.6|  60| 41.29278|   40|BARCELONA/AEROPUERTO | 1022.7| 83|   0.5| 20.1|    1023.3|  20.0| 20.2|  20.4| 17.2| 25.7|    13|    0|
-|0076  | 2.069995|2022-11-01 19:00:00 |    0|   4|  3.6| 2.2|  70| 41.29278|   70|BARCELONA/AEROPUERTO | 1023.1| 82|   0.2| 19.4|    1023.7|  20.0| 20.1|  20.2| 16.9| 28.3|     6|    0|
-|0076  | 2.069995|2022-11-01 20:00:00 |    0|   4|  3.1| 1.4|  20| 41.29278|  100|BARCELONA/AEROPUERTO | 1023.0| 85|   0.1| 17.8|    1023.6|  19.1| 19.1|  20.1| 16.5| 20.8|     7|    0|
-|0076  | 2.069995|2022-11-01 21:00:00 |    0|   4|  3.6| 3.0| 360| 41.29278|  360|BARCELONA/AEROPUERTO | 1023.1| 85|   0.2| 17.6|    1023.7|  18.1| 18.1|  19.1| 15.5| 21.0|   181|    0|
+|0076  | 2.069995|2022-11-13 13:00:00 |    0|   4|  6.7| 4.4| 220| 41.29278|  220|BARCELONA/AEROPUERTO | 1018.4| 74|   0.3| 24.5|    1019.0|  20.1| 20.4|  20.5| 15.6| 26.6|     9|   60|
+|0076  | 2.069995|2022-11-13 14:00:00 |    0|   4|  7.7| 4.9| 220| 41.29278|  220|BARCELONA/AEROPUERTO | 1018.0| 76|   0.5| 23.3|    1018.6|  20.1| 20.3|  20.4| 16.0| 26.3|     7|   50|
+|0076  | 2.069995|2022-11-13 15:00:00 |    0|   4|  6.7| 3.5| 200| 41.29278|  220|BARCELONA/AEROPUERTO | 1018.0| 77|   0.4| 21.8|    1018.6|  20.2| 20.3|  20.4| 16.1| 25.2|     4|    0|
+|0076  | 2.069995|2022-11-13 16:00:00 |    0|   4|  5.7| 2.9| 200| 41.29278|  230|BARCELONA/AEROPUERTO | 1018.3| 80|   0.3| 19.7|    1018.9|  19.4| 19.5|  20.3| 16.0| 26.9|     8|    0|
+|0076  | 2.069995|2022-11-13 17:00:00 |    0|   4|  4.6| 2.8| 180| 41.29278|  200|BARCELONA/AEROPUERTO | 1018.5| 79|   0.2| 19.1|    1019.1|  19.2| 19.3|  19.4| 15.5| 30.0|     7|    0|
+|0076  | 2.069995|2022-11-13 18:00:00 |    0|   4|  4.6| 3.5| 140| 41.29278|  150|BARCELONA/AEROPUERTO | 1019.0| 81|   0.4| 19.1|    1019.6|  19.2| 19.2|  19.3| 15.9| 27.7|     8|    0|
+|0076  | 2.069995|2022-11-13 19:00:00 |    0|   4|  5.1| 2.6| 130| 41.29278|  150|BARCELONA/AEROPUERTO | 1019.2| 80|   0.3| 18.2|    1019.8|  18.8| 18.8|  19.2| 15.3| 30.0|     8|    0|
+|0076  | 2.069995|2022-11-13 20:00:00 |    0|   4|  3.6| 2.6| 120| 41.29278|  130|BARCELONA/AEROPUERTO | 1019.2| 79|   0.3| 18.5|    1019.8|  18.8| 18.9|  19.0| 15.2| 30.0|     8|    0|
+|0076  | 2.069995|2022-11-13 21:00:00 |    0|   4|  3.6| 0.0|   0| 41.29278|  120|BARCELONA/AEROPUERTO | 1019.1| 82|   0.1| 16.1|    1019.7|  17.8| 17.8|  19.0| 14.7| 30.0|   114|    0|
+|0076  | 2.069995|2022-11-13 22:00:00 |    0|   4|  2.6| 2.1| 340| 41.29278|  330|BARCELONA/AEROPUERTO | 1019.0| 87|   0.1| 15.4|    1019.6|  16.4| 16.5|  17.9| 14.3| 15.2|     2|    0|
+|0076  | 2.069995|2022-11-13 23:00:00 |    0|   4|  3.1| 2.8|  10| 41.29278|   20|BARCELONA/AEROPUERTO | 1018.7| 88|   0.2| 15.6|    1019.3|  16.3| 16.4|  16.6| 14.4| 15.4|     3|    0|
+|0076  | 2.069995|2022-11-14 00:00:00 |    0|   4|  3.6| 2.6| 360| 41.29278|  360|BARCELONA/AEROPUERTO | 1018.1| 90|   0.2| 15.9|    1018.7|  16.2| 16.2|  16.3| 14.5| 13.2|   149|    0|
+|0076  | 2.069995|2022-11-14 01:00:00 |    0|   4|  6.7| 2.9| 360| 41.29278|   30|BARCELONA/AEROPUERTO | 1017.8| 90|   0.1| 15.2|    1018.4|  15.7| 15.8|  16.2| 14.1| 13.9|   179|    0|
+|0076  | 2.069995|2022-11-14 02:00:00 |    0|   4|  4.1| 2.9|  10| 41.29278|   20|BARCELONA/AEROPUERTO | 1017.4| 90|   0.5| 15.4|    1018.0|  15.6| 15.8|  15.8| 14.1| 12.6|     5|    0|
+|0076  | 2.069995|2022-11-14 03:00:00 |    0|   4|  4.1| 3.2| 360| 41.29278|  360|BARCELONA/AEROPUERTO | 1016.9| 90|   0.5| 15.1|    1017.5|  15.5| 15.5|  15.8| 13.9| 11.6|   180|    0|
+|0076  | 2.069995|2022-11-14 04:00:00 |    0|   4|  5.7| 2.1|  10| 41.29278|  350|BARCELONA/AEROPUERTO | 1016.5| 91|   0.3| 15.5|    1017.1|  15.4| 15.8|  15.8| 14.3|  8.4|   181|    0|
+|0076  | 2.069995|2022-11-14 05:00:00 |    0|   4|  4.1| 2.9| 360| 41.29278|  360|BARCELONA/AEROPUERTO | 1016.3| 90|   0.3| 15.7|    1016.9|  15.8| 15.9|  16.1| 14.2| 11.1|   184|    0|
+|0076  | 2.069995|2022-11-14 06:00:00 |    0|   4|  4.1| 0.7|  50| 41.29278|   20|BARCELONA/AEROPUERTO | 1016.6| 90|   0.4| 15.0|    1017.2|  15.4| 15.4|  15.8| 13.8|  8.4|   100|    0|
+|0076  | 2.069995|2022-11-14 07:00:00 |    0|   4|  4.6| 2.2|  10| 41.29278|   10|BARCELONA/AEROPUERTO | 1016.5| 90|   0.3| 15.0|    1017.1|  15.4| 15.5|  15.6| 13.9|  8.1|     6|    0|
+|0076  | 2.069995|2022-11-14 08:00:00 |    0|   4|  4.6| 3.3|  10| 41.29278|   10|BARCELONA/AEROPUERTO | 1017.0| 89|   0.3| 15.6|    1017.6|  15.3| 15.8|  15.8| 13.9|  7.6|   111|    0|
+|0076  | 2.069995|2022-11-14 09:00:00 |    0|   4|  4.1| 3.0| 360| 41.29278|  360|BARCELONA/AEROPUERTO | 1017.4| 86|   0.4| 17.5|    1018.0|  15.8| 17.0|  17.4| 14.6| 10.0|   183|   12|
+|0076  | 2.069995|2022-11-14 10:00:00 |    0|   4|  2.6| 0.4| 110| 41.29278|   30|BARCELONA/AEROPUERTO | 1017.4| 74|   0.5| 21.5|    1018.0|  17.5| 20.0|  20.4| 15.3| 17.4|   118|   54|
+|0076  | 2.069995|2022-11-14 11:00:00 |    0|   4|  6.7| 3.5| 200| 41.29278|  220|BARCELONA/AEROPUERTO | 1017.1| 74|   0.4| 24.7|    1017.7|  20.4| 20.9|  20.9| 16.0| 21.8|    15|   60|
+|0076  | 2.069995|2022-11-14 12:00:00 |    0|   4|  8.2| 5.9| 220| 41.29278|  240|BARCELONA/AEROPUERTO | 1016.5| 76|   0.6| 24.6|    1017.1|  20.8| 21.2|  21.4| 16.8| 23.1|     6|   60|
 
 ---
 
@@ -16740,7 +16741,7 @@ No es hasta la Edad Media, cuando la **.bg-purple_light[navegación y la astrono
 
 
 &lt;div class="figure" style="text-align: center"&gt;
-&lt;img src="./img/dataviz_historico_1.webp" alt="Gráfica extraída de Beniger y Robyn (1978)" width="110%" /&gt;
+&lt;img src="./img/dataviz_historico_1.png" alt="Gráfica extraída de Beniger y Robyn (1978)" width="110%" /&gt;
 &lt;p class="caption"&gt;Gráfica extraída de Beniger y Robyn (1978)&lt;/p&gt;
 &lt;/div&gt;
 
@@ -16845,7 +16846,7 @@ No hay  **.bg-purple_light[ninguna INFORMACIÓN]** representada
 
 --
 
-No hay **.bg-purple_light[ningún PROCESO DE MEDIDA]** representado, no cuantifica nada.
+No hay **.bg-purple_light[ningún PROCESO DE MEDIDA]** representado, no cuantifica nada (real).
 
 
 ---
@@ -16895,7 +16896,7 @@ No hay **.bg-purple_light[ningún DATO]** representado en él, es una magnitud f
 
 --
 
-El proceso de representación **.bg-purple_light[no es REVERSIBLE]** ni comparable (al menos no fácilmente): es una infografía, no un gráfico estadístico o dataviz.
+El proceso de representación **.bg-purple_light[no es REVERSIBLE]** ni comparable (al menos no fácilmente): es una infografía, no un gráfico estadístico.
 
 
 
@@ -16907,11 +16908,11 @@ Esas mismas preguntas se hizo **Joaquín Sevilla** &lt;sup&gt;1&lt;/sup&gt;, pro
 
 .pull-left[
 
-1. Que se base en el esquema de composición de **.bg-purple_light[eje métrico]** (proceso de medida) debe **.bg-orange[medir algo]**.
+1. Que se base en el esquema de composición de **.bg-purple_light[eje métrico]** (proceso de medida): debe **.bg-orange[medir algo]**.
 
-2. Debe incluir **.bg-purple_light[información (datos)]** (medible o simulada),
+2. Debe incluir **.bg-purple_light[información (datos)]**
 
-3. La **.bg-purple_light[relación de representatividad]** debería ser **.bg-purple_light[reversible]**: los datos deberían poder «recuperarse» a partir de la gráfica (es un tipo particular de **.bg-orange[«biyección» matemática]**).
+3. La **.bg-purple_light[relación de representatividad]** debe ser **.bg-purple_light[reversible]**: los datos deberían poder «recuperarse» a partir de la gráfica (es un tipo particular de **.bg-orange[«aplicación» matemática]**).
 
 ]
 
@@ -16943,7 +16944,7 @@ Hay muchas formas de hacer una gráfica estadística, y no suele pasar por hacer
 
 .pull-right[
 
-&lt;img src="./img/sectores_muchas_categorías.webp" width="99%" style="display: block; margin: auto;" /&gt;
+&lt;img src="./img/sectores_muchas_categorías.png" width="99%" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -16957,7 +16958,7 @@ El principal problema de un diagrama de sectores es que la posible información 
 .pull-left[
 
 
-Algo similar sucede con los mal llamados **.bg-purple_light[gráficos tridimensionales]** (son bidimensionales con perspectiva en realidad): los valores más cercanos aparecen sobredimensionados, siendo prácticamente imposible la reversibilidad.
+Algo similar sucede con los mal llamados **.bg-purple_light[gráficos tridimensionales]** (son bidimensionales con perspectiva en realidad): los valores más cercanos aparecen sobredimensionados, siendo prácticamente imposible la reversibilidad por la **.bg-purple_light[distorsión]**.
 
 ]
 
@@ -16969,16 +16970,17 @@ Algo similar sucede con los mal llamados **.bg-purple_light[gráficos tridimensi
 
 ---
 
-# Vizfail
+# .orange[VIZFAILS]: ejempos mal
+
 
 &lt;div class="figure" style="text-align: center"&gt;
-&lt;img src="./img/persona_dataviz.jpg" alt="Ejemplo de metáfora visual mal ejecutada" width="55%" /&gt;
+&lt;img src="./img/persona_dataviz.jpg" alt="Ejemplo de metáfora visual mal ejecutada" width="99%" /&gt;
 &lt;p class="caption"&gt;Ejemplo de metáfora visual mal ejecutada&lt;/p&gt;
 &lt;/div&gt;
 
 ---
 
-# Vizfail
+# .orange[VIZFAILS]: ejempos mal
 
 .pull-left[
 
@@ -16991,49 +16993,51 @@ Algo similar sucede con los mal llamados **.bg-purple_light[gráficos tridimensi
 
 .pull-right[
 
-* La figura elegida (una persona caminando) no guarda relación alguna con lo que se pretende representar: **.bg-purple_light[mala metáfora]**.
+* La figura elegida (persona caminando) sin relación con lo visualizado: **.bg-purple_light[mala metáfora visual]**.
 
-* Los sectores señalados no tienen relación con el ítem a representar, lo que dificulta su interpretación
+* Los **.bg-purple_light[sectores señalados sin relación con el ítem]** a representar, lo que dificulta su interpretación.
 
-* Los colores no dan información de ningún tipo.
+* Los **.bg-purple_light[colores sin codificar]**: no dan información de ningún tipo.
 
-* La forma hace **.bg-purple_light[imposible la comparación entre áreas]**, amén de que la suma total supera el 100% (¿?)
+* Las **.bg-purple_light[formas irregulares impiden la comparación]** de las áreas (amén de que la suma total supera el 100%).
 
-* Sin aportar **fuente** de los datos.
+* **.bg-purple_light[Sin fuente]** de la procedencia de los datos.
 
 ]
 
+
 ---
 
-# Vizfail
+# .orange[VIZFAILS]: ejempos mal
+
 
 &lt;div class="figure" style="text-align: center"&gt;
-&lt;img src="./img/viz_fail_covid.jpg" alt="Ejemplo de una buena idea mal ejecutada" width="70%" /&gt;
-&lt;p class="caption"&gt;Ejemplo de una buena idea mal ejecutada&lt;/p&gt;
+&lt;img src="./img/viz_fail_covid.jpg" alt="Ejemplo de una buena idea mal ejecutada (de un vicerrector de tecnología...)" width="100%" /&gt;
+&lt;p class="caption"&gt;Ejemplo de una buena idea mal ejecutada (de un vicerrector de tecnología...)&lt;/p&gt;
 &lt;/div&gt;
 
 ---
 
-# Vizfail
+# .orange[VIZFAILS]: ejempos mal
 
 .pull-left[
 
 &lt;div class="figure" style="text-align: center"&gt;
-&lt;img src="./img/viz_fail_covid.jpg" alt="Ejemplo de una buena idea mal ejecutada" width="100%" /&gt;
-&lt;p class="caption"&gt;Ejemplo de una buena idea mal ejecutada&lt;/p&gt;
+&lt;img src="./img/viz_fail_covid.jpg" alt="Ejemplo de una buena idea mal ejecutada (de un vicerrector de tecnología...)" width="100%" /&gt;
+&lt;p class="caption"&gt;Ejemplo de una buena idea mal ejecutada (de un vicerrector de tecnología...)&lt;/p&gt;
 &lt;/div&gt;
 
 ]
 
 .pull-right[
 
-* Intenta usar dos ejes (a izquierda para mortalidad, a derecha para letalidad) pero no lo indica adecuadamente. Cuidado con los dos ejes: puede ser confuso
+* **.bg-purple_light[Uso de dos ejes]** (a izquierda para mortalidad, a derecha para letalidad) **.bg-purple_light[sin indicarlo]** adecuadamente. Cuidado con los dos ejes: puede ser confuso.
 
-* Leyenda pequeña y muy mal referenciada
+* **.bg-purple_light[Leyenda mal referenciada]** y muy pequeña.
 
-* Tamaño de la línea totalmente desproporcionada que **.bg-purple_light[impide la reversibilidad y la comparación]**
+* **.bg-purple_light[Tamaño de la línea desproporcionado]** que impide la reversibilidad y la comparación.
 
-* Además compara celdas geográficas no comparables (por tamaño y contexto): ¿Galicia vs Alemania?
+* **.bg-purple_light[Compara celdas geográficas incomparables]** por tamaño y contexto: ¿Galicia vs Alemania?
 
 ]
 
@@ -17041,7 +17045,18 @@ Algo similar sucede con los mal llamados **.bg-purple_light[gráficos tridimensi
 
 ---
 
-# Vizfail
+# .orange[VIZFAILS]: ejempos mal
+
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/viz_fail_uk.jpg" alt="Ejemplo de una mala codificación" width="100%" /&gt;
+&lt;p class="caption"&gt;Ejemplo de una mala codificación&lt;/p&gt;
+&lt;/div&gt;
+
+
+---
+
+# .orange[VIZFAILS]: ejempos mal
 
 .pull-left[
 
@@ -17054,9 +17069,9 @@ Algo similar sucede con los mal llamados **.bg-purple_light[gráficos tridimensi
 
 .pull-right[
 
-* La elección previa de la desagregación es incorrecta: áreas muy grandes que se podrían representar en una tabla de 9 filas
+* **.bg-purple_light[Desagregación incorrecta]**: distritos geográficos muy grandes que se podrían representar en una tabla de 9 filas.
 
-* Leyenda tan grande que atrae la atención más que el propio gráfico.
+* **.bg-purple_light[Leyenda desproporcionada]** que atrae la atención más que el propio gráfico.
 
 * Ejemplo de los **.bg-purple_light[colores no son algo meramente estético]**: hay que codificarlos adecuadamente. El gradiente de una paleta de colores puede convertir una buena idea en una pésima visualización.
 
@@ -17064,7 +17079,8 @@ Algo similar sucede con los mal llamados **.bg-purple_light[gráficos tridimensi
 
 ---
 
-# Vizfail
+# .orange[VIZFAILS]: ejempos mal
+
 
 &lt;div class="figure" style="text-align: center"&gt;
 &lt;img src="./img/espiral_nyt.jpg" alt="Fuente: https://www.nytimes.com/2022/01/06/opinion/omicron-covid-us.html" width="30%" /&gt;
@@ -17073,7 +17089,8 @@ Algo similar sucede con los mal llamados **.bg-purple_light[gráficos tridimensi
 
 ---
 
-# Vizfail
+# .orange[VIZFAILS]: ejempos mal
+
 
 .pull-left[
 
@@ -17086,11 +17103,11 @@ Algo similar sucede con los mal llamados **.bg-purple_light[gráficos tridimensi
 
 .pull-right[
 
-* En su momento se dijo que era novedosa: no lo es (la novedad tampoco debería ser un argumento a favor per se)
+* Se dijo que era novedosa: no es novedad (la **.bg-purple_light[novedad tampoco debería algo bueno]** per se)
 
-* **.bg-purple_light[No respeta la reversibilidad]**: es una ilustración, no una gráfica estadística. La forma de llevarlo a cabo infraestima los datos actuales y, por su **.bg-purple_light[distorsión de la realidad]**, no permite **medir** precisamente la estacional que se propone visualizar con coordenadas polares
+* **.bg-purple_light[No respeta la reversibilidad]**: es una ilustración, no una gráfica estadística. La forma de llevarlo a cabo infraestima los datos actuales y, por su **.bg-purple_light[distorsión de la realidad]**,  **.bg-purple_light[impide medir la estacionalidad]** que se propone visualizar con coordenadas polares
 
-* El **eje que recorre la espiral no aporta**, distrae de los datos a representar, **aumenta la distorsión producida** por la no linealidad de la espiral y duplica información.
+* El **.bg-purple_light[eje que recorre la espiral no aporta]**, distrae de los datos a representar, aumenta la distorsión por la no linealidad de la espiral y duplica información.
 
 
 ]
@@ -17098,10 +17115,10 @@ Algo similar sucede con los mal llamados **.bg-purple_light[gráficos tridimensi
 
 ---
 
-# Vizfail
+# .orange[VIZFAILS]: ejempos mal
 
 
-El **.bg-purple_light[uso de colores]** no es solo algo estético: es una variable más, y la paleta elegida así como su uso es fundamental (por ejemplo, la inclusión de colores nos permite centrarnos en los oscuros, y comparar entre tonalidades), así como la **.bg-purple_light[escala de la geometría]** elegida.
+El **.bg-purple_light[uso de colores]** no es solo algo estético: es una variable más: la inclusión de una **.bg-purple_light[gradiente de colores]** permite centrarnos en los oscuros, y comparar entre tonalidades, así como la **.bg-purple_light[escala de la geometría]** elegida.
 
 
 &lt;img src="./img/espiral_covid_bien.jpg_large" width="75%" style="display: block; margin: auto;" /&gt;
@@ -17109,17 +17126,17 @@ El **.bg-purple_light[uso de colores]** no es solo algo estético: es una variab
 
 ---
 
-# Vizfail
+# .orange[VIZFAILS]: ejempos mal
 
 
-El **.bg-purple_light[uso de colores]** no es solo algo estético: es una variable más, y la paleta elegida así como su uso es fundamental (por ejemplo, la inclusión de colores nos permite centrarnos en los oscuros, y comparar entre tonalidades), así como la **.bg-purple_light[escala de la geometría]** elegida.
+El **.bg-purple_light[uso de colores]** no es solo algo estético: es una variable más: la inclusión de una **.bg-purple_light[gradiente de colores]** permite centrarnos en los oscuros, y comparar entre tonalidades, así como la **.bg-purple_light[escala de la geometría]** elegida.
 
 
 .pull-left[
 
 &lt;div class="figure" style="text-align: center"&gt;
-&lt;img src="./img/espirales_colores.webp" alt="Fuente: https://www.reddit.com/r/dataisbeautiful" width="90%" /&gt;
-&lt;p class="caption"&gt;Fuente: https://www.reddit.com/r/dataisbeautiful&lt;/p&gt;
+&lt;img src="./img/espirales_colores.png" alt="Fuente: @dataisbeautiful (Reddit)" width="95%" /&gt;
+&lt;p class="caption"&gt;Fuente: @dataisbeautiful (Reddit)&lt;/p&gt;
 &lt;/div&gt;
 
 ]
@@ -17127,7 +17144,7 @@ El **.bg-purple_light[uso de colores]** no es solo algo estético: es una variab
 .pull-right[
 
 &lt;div class="figure" style="text-align: center"&gt;
-&lt;img src="./img/espirales_covid_2.jpg" alt="Fuente: https://twitter.com/victimofmaths/status/1480550926066847749" width="78%" /&gt;
+&lt;img src="./img/espirales_covid_2.jpg" alt="Fuente: https://twitter.com/victimofmaths/status/1480550926066847749" width="80%" /&gt;
 &lt;p class="caption"&gt;Fuente: https://twitter.com/victimofmaths/status/1480550926066847749&lt;/p&gt;
 &lt;/div&gt;
 
@@ -17137,7 +17154,7 @@ El **.bg-purple_light[uso de colores]** no es solo algo estético: es una variab
 
 # La importancia del .orange[CONTEXTO]
 
-Una **buena idea** puede estar mejor o peor ejecutada, y la forma de llevarla a cabo es importante
+Una **buena idea** puede estar mal ejecutada: la forma de llevarla a cabo es importante
 
 &lt;div class="figure" style="text-align: center"&gt;
 &lt;img src="./img/semaforos.jpg" alt="Ejemplo de buena idea mal ejecutada" width="30%" /&gt;
@@ -17262,7 +17279,7 @@ Playfair además fue el primero en **.bg-purple_light[combinar gráficos en la m
 .pull-right[
 
 &lt;div class="figure" style="text-align: center"&gt;
-&lt;img src="./img/playfair_8.webp" alt="Time-line histórico, extraída de https://friendly.github.io/HistDataVis." width="85%" /&gt;
+&lt;img src="./img/playfair_8.png" alt="Time-line histórico, extraída de https://friendly.github.io/HistDataVis." width="85%" /&gt;
 &lt;p class="caption"&gt;Time-line histórico, extraída de https://friendly.github.io/HistDataVis.&lt;/p&gt;
 &lt;/div&gt;
 
@@ -17308,6 +17325,39 @@ La **.bg-purple_light[primera pirámide de población]** (doble histograma de po
 
 ---
 
+# .orange[FLORENCE NIGTHINGALE]: una revolución
+
+.pull-left[
+
+
+* El 21 de octubre de 1854 **.bg-purple_light[Florence Nigthingale]** fue enviada para mejorar las **condiciones sanitarias** de los soldados británicos en la guerra de Crimea. 
+
+* A su regreso se dedicó a demostrar que los **.bg-purple_light[soldados fallecían por las condiciones sanitarias]**: eran **muertes evitables**. Nigthingale es la creadora del famoso y pionero **.bg-purple_light[diagrama de rosa]**, permitiendo pintar tres variables a la vez y su estacionalidad.
+
+* El 8 de febrero de 1955, The Times la describió como la **«ángel guardián» de los hospitales**, y al finalizar la contienda, fue recibida como una heroína, conocida como **.bg-purple_light[«The Lady with the Lamp»]** tras un poema de H. W. Longfellow publicado en 1857.
+
+* Años después se convirtió en la **.bg-purple_light[primera mujer en la Royal Statistical Society]** y renunció a su puesto para crear las primeras escuelas de enfermería.
+
+]
+
+.pull-right[
+
+&lt;img src="./img/the_lady_with_the_lamp.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+
+# .orange[DIAGRAMA DE ROSA]
+
+Florence Nigthingale es la creadora del famoso **.bg-purple_light[diagrama de rosa]**, permitiendo pintar **.bg-purple_light[tres variables a la vez y su estacionalidad]**: **tiempo** (cada **gajo** es un mes), **nº de muertes** (**área** del gajo) y **causa** de la muerte (**color** del gajo: azules enfermedades infecciosas, rojas por heridas, negras otras causas).
+
+
+&lt;img src="./img/rosa_nightingale.jpg" width="75%" style="display: block; margin: auto;" /&gt;
+
+---
+
+
 # .orange[RECURSOS] de dataviz
 
 
@@ -17338,12 +17388,13 @@ name: intro-ggplot2
 
 .pull-left[
 
-El paquete `{ggplot2}` se basa en la idea propuesta por Wilkinson en **.bg-purple_light[«Grammar of graphics»]**: dotar a los gráficos de una gramática propia. Una de las **.bg-purple_light[principales fortalezas]** de `R` no solo la **flexibilidad y rapidez** de `{tidyverse}`, también la **.bg-purple_light[visualización]** con el paquete `{ggplot2}`.
+El paquete `{ggplot2}` se basa en la idea propuesta por Wilkinson en **.bg-purple_light[«Grammar of graphics»]**: dotar a los gráficos de una gramática propia. Una de las principales fortalezas de `R` no solo es la flexibilidad y rapidez de `{tidyverse}`, también la **.bg-purple_light[visualización]** con el paquete `{ggplot2}`.
 
 
 ```r
 library(ggplot2)
 ```
+
 
 La **.bg-purple_light[visualización de datos]** debería ser una parte fundamental de todo análisis de datos. No es solo una cuestión estética, es fundamental para **.bg-purple_light[convertir el dato en información]**.
 
@@ -17428,11 +17479,7 @@ Un gráfico se podrá componer de las siguientes **.bg-purple_light[capas]**
 
 # Primer intento: .orange[SCATTER PLOT]
 
-Veamos un **primer intento** para entender la filosofía. Imagina que queremos dibujar un **.bg-purple_light[scatter plot]** o **diagrama de dispersión** (de puntos).
-
-&amp;nbsp;
-
-Para ello vamos a usar el conjunto de datos `gapminder`, del paquete homónimo: un fichero con **datos de esperanzas de vida, poblaciones y renta per cápita** de distintos países en distintos momentos temporales.
+Veamos un **primer intento** para entender la filosofía ggplot. Imagina que queremos dibujar un **.bg-purple_light[scatter plot]** (diagrama de dispersión de puntos). Para ello vamos a usar el conjunto de datos `gapminder`, del paquete homónimo: un fichero con **datos de esperanzas de vida, poblaciones y renta per cápita** de distintos países en distintos momentos temporales.
 
 
 ```r
@@ -17487,33 +17534,14 @@ Para empezar con algo sencillo **.bg-purple_light[filtraremos solo los datos de 
 
 ```r
 gapminder_1997 &lt;- gapminder %&gt;% filter(year == 1997)
-gapminder_1997
-```
-
-```
-&gt; # A tibble: 142 × 6
-&gt;    country     continent  year lifeExp       pop gdpPercap
-&gt;    &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;     &lt;int&gt;     &lt;dbl&gt;
-&gt;  1 Afghanistan Asia       1997    41.8  22227415      635.
-&gt;  2 Albania     Europe     1997    73.0   3428038     3193.
-&gt;  3 Algeria     Africa     1997    69.2  29072015     4797.
-&gt;  4 Angola      Africa     1997    41.0   9875024     2277.
-&gt;  5 Argentina   Americas   1997    73.3  36203463    10967.
-&gt;  6 Australia   Oceania    1997    78.8  18565243    26998.
-&gt;  7 Austria     Europe     1997    77.5   8069876    29096.
-&gt;  8 Bahrain     Asia       1997    73.9    598561    20292.
-&gt;  9 Bangladesh  Asia       1997    59.4 123315288      973.
-&gt; 10 Belgium     Europe     1997    77.5  10199787    27561.
-&gt; # … with 132 more rows
-&gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 ---
 
-# .orange[SCATTER PLOT]: .green[(x, y)]
+# .orange[INGREDIENTES]: .green[(x, y)]
 
 
-¿Qué **.bg-purple_light[elementos necesitamos]** para realizar un diagrama de puntos?
+¿Qué **.bg-purple_light[elementos necesitamos]** para realizar un diagrama de puntos? Para iniciar el lienzo necesitamos una base de datos y dos variables a representar.
 
 --
 
@@ -17521,7 +17549,7 @@ gapminder_1997
 
 * **.bg-purple_light[Datos (data)]**: conjunto `gapminder_1997`.
 
-* **.bg-purple_light[Mapeado (aes)]**: indicarle dentro de `aes()` (aesthetics) las variables en cada coordenada. Todo lo que esté **.bg-purple_light[dentro de aes() dependerá de los datos]**
+* **.bg-purple_light[Mapeado (aes)]**: indicarle dentro de `aes()` (aesthetics) las variables en cada coordenada. Todo lo que esté **.bg-purple_light[dentro de aes() serán mapeados de los datos]**
 
 
 ```r
@@ -17529,38 +17557,52 @@ ggplot(data = gapminder_1997,
 *      aes(x = gdpPercap, y = pop))
 ```
 
-* **.bg-purple_light[Geometría (geom)]**: optaremos por **.bg-orange[puntos]** usando `geom_point()`.
-
-
-```r
-ggplot(gapminder_1997, aes(x = gdpPercap, y = pop)) +
-* geom_point()
-```
-
 ]
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-720-1.png" width="83%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-722-1.png" width="80%" /&gt;
 ]
 
 ---
 
 
-# .orange[SCATTER PLOT]: .green[(x, y)]
+# .orange[PRIMERA GEOMETRÍA]: .green[geom_point()]
 
-Vamos a profundizar en ese mapeado: ¿cómo **.bg-purple_light[cambiar el rol]** de los ejes?
-
---
 
 .pull-left[
 
-Ahora queremos
+* **.bg-purple_light[Geometría (geom)]**: optaremos por **.bg-orange[puntos]** usando `geom_point()`.
+
+
+```r
+ggplot(gapminder_1997,
+       aes(x = gdpPercap, y = pop)) +
+* geom_point()
+```
+
+]
+
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-724-1.png" width="93%" /&gt;
+
+]
+
+---
+
+# .orange[ROL DE LOS EJES]: .green[(x, y)]
+
+
+
+.pull-left[
+
+Vamos a profundizar en ese mapeado: ¿cómo **.bg-purple_light[cambiar el rol]** de los ejes (población en el eje X y renta per cápita en el eje Y)? 
 
 * **Eje X**: población (variable `pop`)
 * **Eje Y**: renta per cápita (variable `gdpPercap`)
 
-Es decir, el mapeado para que **enlace** coordenadas a datos será con `aes(y = gdpPercap, x = pop)`
 
 
 ```r
@@ -17573,20 +17615,20 @@ ggplot(gapminder_1997,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-722-1.png" width="83%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-726-1.png" width="93%" /&gt;
 
 ]
 
 ---
 
+# .orange[ROL DE LOS EJES]: .green[(x, y)]
 
-# .orange[SCATTER PLOT]: .green[(x, y)]
 
-¿Cómo se pintaría un scatter plot con la **esperanza de vida** en el eje X frente a la **renta per cápita**?
-
---
 
 .pull-left[
+
+¿Y un scatter plot con **esperanza de vida** en eje X frente a **renta per cápita**?
+
 
 * **Eje X**: esperanza de vida (variable `lifeExp`)
 * **Eje Y**: renta per cápita (variable `gdpPercap`)
@@ -17603,52 +17645,30 @@ ggplot(gapminder_1997,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-724-1.png" width="83%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-728-1.png" width="91%" /&gt;
 ]
 
 ---
 
 
-# Colores, tamaños y formas: .orange[constantes]
+# .orange[COLOR], .green[SIZE], .purple[SHAPE]: fijos
+
 
 .pull-left[
 
 Dentro de `geom_point()` tenemos varios argumentos a usar:
 
-* `na.rm = ...`: si queremos que nos quite los ausentes antes de representar la variable.
 
-* `show.legend = ...`: si queremos que se muestre o no en la leyenda (por defecto, no muestra si solo hay una capa).
+* `na.rm = ...`: si queremos que nos quite ausentes.
 
+* `color = ...`: color (si tiene dimensión, color del contorno)
 
-```r
-# Color con palabra reservada
-ggplot(gapminder_1997,
-       aes(y = gdpPercap, x = lifeExp)) +
-* geom_point(show.legend = TRUE)
-```
-]
-
-.pull-right[
-
-&lt;img src="index_files/figure-html/unnamed-chunk-726-1.png" width="83%" /&gt;
-
-]
-
----
-
-# Colores, tamaños y formas: .orange[constantes]
-
-.pull-left[
-
-* `colour = ...`: color (en el caso del punto se entiende que es algo sin dimensión, así que es el color del punto; en otros casos, será el color del contorno)
-
-* `fill = ...`: color relleno (para objetos con relleno y contorno)
+* `fill = ...`: color el relleno.
 
 Empezaremos por un **color fijo**, por ejemplo `"red"` (existen otros como `"blue"`, `"black"`, `"yellow"`, etc)
 
 
 ```r
-# Color con palabra reservada
 ggplot(gapminder_1997,
        aes(y = gdpPercap, x = lifeExp)) +
 * geom_point(color = "red")
@@ -17657,93 +17677,15 @@ ggplot(gapminder_1997,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-728-1.png" width="83%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-730-1.png" width="91%" /&gt;
 
 ]
 
 ---
 
-# Colores, tamaños y formas: .orange[constantes]
-
-.pull-left[
-
-* `alpha = ...`: grado de opacidad del color (1 totalmente opaco, 0 totalmente transparente)
+# .orange[COLOR], .green[SIZE], .purple[SHAPE]: fijos
 
 
-```r
-# Color con palabra reservada
-ggplot(gapminder_1997,
-       aes(y = gdpPercap, x = lifeExp)) +
-* geom_point(color = "red", alpha = 0.3)
-```
-]
-
-.pull-right[
-
-&lt;img src="index_files/figure-html/unnamed-chunk-730-1.png" width="83%" /&gt;
-
-]
-
----
-
-# Colores, tamaños y formas: .orange[constantes]
-
-.pull-left[
-
-* `shape = ...`: forma de la geometría, en este caso del «punto» (ver todas las opciones en `vignette("ggplot2-specs")`)
-
-
-&lt;img src="./img/shape_ggplot.jpg" width="40%" style="display: block; margin: auto auto auto 0;" /&gt;
-
-
-
-```r
-# Color con palabra reservada
-ggplot(gapminder_1997,
-       aes(y = gdpPercap, x = lifeExp)) +
-  geom_point(color = "red", alpha = 0.3,
-*            shape = 5)
-```
-]
-
-.pull-right[
-
-&lt;img src="index_files/figure-html/unnamed-chunk-733-1.png" width="83%" /&gt;
-
-]
-
----
-
-# Colores, tamaños y formas: .orange[constantes]
-
-.pull-left[
-
-* `shape = ...`: forma de la geometría, en este caso del «punto» (ver todas las opciones en `vignette("ggplot2-specs")`)
-
-
-&lt;img src="./img/shape_ggplot.jpg" width="24%" style="display: block; margin: auto;" /&gt;
-
-
-
-```r
-# Color con palabra reservada
-ggplot(gapminder_1997,
-       aes(y = gdpPercap, x = lifeExp)) +
-  geom_point(color = "red", alpha = 0.5,
-*            shape = 22, fill = "black")
-```
-]
-
-.pull-right[
-
-&lt;img src="index_files/figure-html/unnamed-chunk-736-1.png" width="83%" /&gt;
-
-]
-
-
----
-
-# Colores, tamaños y formas: .orange[constantes]
 
 .pull-left[
 
@@ -17755,21 +17697,106 @@ ggplot(gapminder_1997,
 # Color con palabra reservada
 ggplot(gapminder_1997,
        aes(y = gdpPercap, x = lifeExp)) +
-  geom_point(color = "red", alpha = 0.5,
-*            size = 5)
+  geom_point(color = "red",
+*            size = 7)
 ```
 
 ]
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-738-1.png" width="83%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-732-1.png" width="91%" /&gt;
 
 ]
 
 ---
 
-# Colores, tamaños y formas: .orange[constantes]
+# .orange[COLOR], .green[SIZE], .purple[SHAPE]: fijos
+
+
+.pull-left[
+
+* `alpha = ...`: grado de opacidad del color (1 totalmente opaco, 0 totalmente transparente)
+
+
+```r
+# Color con palabra reservada
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(color = "red", size = 7,
+*            alpha = 0.4)
+```
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-734-1.png" width="91%" /&gt;
+
+]
+
+---
+
+# .orange[COLOR], .green[SIZE], .purple[SHAPE]: fijos
+
+
+.pull-left[
+
+* `shape = ...`: forma de la geometría, en este caso del «punto» (ver todas las opciones en `vignette("ggplot2-specs")`)
+
+
+&lt;img src="./img/shape_ggplot.jpg" width="32%" style="display: block; margin: auto;" /&gt;
+
+
+
+```r
+# Color con palabra reservada
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(color = "red", size = 7,
+*            alpha = 0.4, shape = 5)
+```
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-737-1.png" width="91%" /&gt;
+
+]
+
+---
+
+# .orange[COLOR], .green[SIZE], .purple[SHAPE]: fijos
+
+
+.pull-left[
+
+* `shape = ...`: forma de la geometría, en este caso del «punto» (ver todas las opciones en `vignette("ggplot2-specs")`)
+
+
+&lt;img src="./img/shape_ggplot.jpg" width="32%" style="display: block; margin: auto;" /&gt;
+
+
+
+```r
+# Color con palabra reservada
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(color = "red", size = 7, alpha = 0.4,
+*            shape = 22, fill = "black")
+```
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-740-1.png" width="91%" /&gt;
+
+]
+
+
+---
+
+# .orange[COLOR], .green[SIZE], .purple[SHAPE]: fijos
+
 
 .pull-left[
 
@@ -17780,21 +17807,22 @@ ggplot(gapminder_1997,
 # Color con palabra reservada
 ggplot(gapminder_1997,
        aes(y = gdpPercap, x = lifeExp)) +
-  geom_point(color = "red", alpha = 0.2,
-*            size = 4, stroke = 0)
+  geom_point(color = "red", size = 7,
+*            alpha = 0.4, stroke = 0)
 ```
 ]
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-740-1.png" width="83%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-742-1.png" width="91%" /&gt;
 
 ]
 
 
 ---
 
-# Colores, tamaños y formas: .orange[constantes]
+# .orange[COLOR], .green[SIZE], .purple[SHAPE]: fijos
+
 
 .pull-left[
 
@@ -17807,29 +17835,27 @@ Los colores también podemos asignárselos por su **código hexadecimal**, consu
 # https://htmlcolorcodes.com/es/
 ggplot(gapminder_1997,
        aes(y = gdpPercap, x = lifeExp)) +
-* geom_point(color = "#2EA2D8",
-             alpha = 0.5, size = 5) 
+* geom_point(color = "#A02B85",
+             alpha = 0.4, size = 7) 
 ```
 ]
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-742-1.png" width="83%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-744-1.png" width="91%" /&gt;
 
 ]
 
   
 ---
 
-# .orange[SCATTER PLOT]: .green[aes(size, color, shape)]
+# Mapeado de atributos estéticos: .orange[aes()]
 
 .pull-left[
 
-Hasta ahora los **parámetros estéticos** se los hemos pasado fijos y **constantes**.  Pero la verdadera potencia y versatilidad de `ggplot` es que podemos **.bg-purple_light[mapear los atributos estéticos]** en `aes()` para que dependan de variables de los datos
+Hasta ahora los **atributos estéticos** se los hemos pasado fijos y **constantes**.  Pero la verdadera potencia y versatilidad de `ggplot` es que podemos **.bg-purple_light[mapear los atributos estéticos en función de los datos]** en `aes()` para que dependan de variables de los datos
 
-&amp;nbsp;
-
-Por ejemplo, vamos a asignar un **.bg-purple_light[color a cada dato en función de su continente]**.
+Por ejemplo, vamos a asignar un **.bg-purple_light[color a cada dato en función de su continente]** con `aes(color = continent)`
 
 
 ```r
@@ -17838,20 +17864,20 @@ Por ejemplo, vamos a asignar un **.bg-purple_light[color a cada dato en función
 ggplot(gapminder_1997,
        aes(y = gdpPercap, x = lifeExp,
 *          color = continent)) +
-  geom_point(size = 5)
+  geom_point(size = 7)
 ```
 
 ]
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-744-1.png" width="83%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-746-1.png" width="91%" /&gt;
 
 ]
 
 ---
 
-# .orange[SCATTER PLOT]: .green[aes(size, color, shape)]
+# Mapeado de atributos estéticos: .orange[aes()]
 
 
 .pull-left[
@@ -17862,7 +17888,7 @@ Podemos combinarlo con lo que hemos hecho anteriormente:
 
 * **.bg-purple_light[tamaño]** en función de la **.bg-orange[población]**.
 
-* **.bg-purple_light[transparencia]** la fijamos  **.bg-orange[constante]** del 70%.
+* **.bg-purple_light[transparencia]** la fijamos  **.bg-orange[constante]** del 50%.
 
 
 ```r
@@ -17872,36 +17898,14 @@ ggplot(gapminder_1997,
            size = pop)) +
   geom_point(alpha = 0.7)
 ```
+
+A este scatter plot particular se le conoce **.bg-purple_light[bubble chart]**
+
 ]
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-746-1.png" width="83%" /&gt;
-
-]
-
-
----
-
-# .orange[SCATTER PLOT]: .green[aes(size, color, shape)]
-
-.pull-left[
-  
-En lugar de jugar con el color, también podríamos añadir las variables en función de la **forma de la geometría** (en este caso la forma de los «puntos») con `shape = ...`.
-
-
-```r
-ggplot(gapminder_1997,
-       aes(y = gdpPercap, x = lifeExp,
-           shape = continent,
-           size = pop)) +
-  geom_point(alpha = 0.7)
-```
-]
-
-.pull-right[
-
-&lt;img src="index_files/figure-html/unnamed-chunk-748-1.png" width="83%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-748-1.png" width="91%" /&gt;
 
 ]
 
@@ -17915,9 +17919,9 @@ Reflexionemos sobre el gráfico anterior:
 
 * **color** en función del **continente**.
 * **tamaño** en función de la **población**
-* **transparencia** fija del 70%
+* **transparencia** fija del 50%
 
-Usando los datos hemos conseguido dibujar en un **.bg-purple_light[gráfico bidimensional 4 variables]**: `lifeExp` y `gdpPercap` en los ejes `\((X, Y)\)`), `continent` como color y `pop` como tamaño de la geometría, con muy pocas líneas de código.
+Usando los datos hemos conseguido dibujar en un **.bg-purple_light[gráfico bidimensional 4 variables]**: `lifeExp` y `gdpPercap` en los ejes , `continent` como color y `pop` como tamaño de la geometría, con muy pocas líneas de código.
 
 
 ```r
@@ -17930,9 +17934,1364 @@ ggplot(gapminder_1997,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-750-1.png" width="83%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-750-1.png" width="91%" /&gt;
 
 ]
+
+---
+
+# .orange[GEOMETRÍA]: .green[geom()]
+
+Vamos a modificar la **.bg-purple_light[capa de geometría]** (al igual que hemos usado `geom_point()`)
+
+.pull-left[
+
+* **.bg-purple_light[líneas]**: la geometrías como línea con `geom_line()`.
+
+
+```r
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_line(alpha = 0.8, size = 1.5)
+```
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-752-1.png" width="85%" /&gt;
+
+]
+  
+---
+
+# .orange[GEOMETRÍA]: .green[geom()]
+
+
+
+Vamos a modificar la **.bg-purple_light[capa de geometría]** (al igual que hemos usado `geom_point()`)
+
+.pull-left[
+
+Asignado los  **.bg-purple_light[colores a la variable continent]**, automáticamente obtenemos automáticamente una **.bg-purple_light[curva por continente]**.
+
+* **.bg-purple_light[líneas]**: la geometrías como línea con `geom_line()`.
+
+
+```r
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent)) +
+  geom_line(alpha = 0.8, size = 1.5)
+```
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-754-1.png" width="85%" /&gt;
+
+]
+
+---
+
+
+# .orange[GEOMETRÍA]: .green[geom()]
+
+
+Vamos a modificar la **.bg-purple_light[capa de geometría]** (al igual que hemos usado `geom_point()`)
+
+.pull-left[
+
+* **.bg-purple_light[hexágonos]**: la geometrías como hexágonos con `geom_hex()`. Dado que ahora nuestra geometría tiene **.bg-purple_light[volumen]** tendremos dos parámetros: `color`  para el contorno y `fill` para el relleno.
+
+
+```r
+ggplot(gapminder_1997 %&gt;%
+         filter(continent != "Oceania"),
+       aes(y = gdpPercap, x = lifeExp,
+           fill = continent, size = pop)) +
+  geom_hex(alpha = 0.8)
+```
+
+]
+
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-756-1.png" width="85%" /&gt;
+
+]
+
+
+---
+
+# .orange[GEOMETRÍA]: .green[geom()]
+
+
+Vamos a modificar la **.bg-purple_light[capa de geometría]** (al igual que hemos usado `geom_point()`)
+
+.pull-left[
+
+* **.bg-purple_light[textos]**: la geometrías como textos con `geom_text()` (aparezcan textos que tengamos en alguna variable, que mapearemos en `aes()` por el parámetro `label = ...`
+
+
+
+```r
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop,
+*          label = country)) +
+  geom_text(alpha = 0.8)
+```
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-758-1.png" width="85%" /&gt;
+
+]
+
+---
+
+# .orange[ESCALAS (scale)]: .green[coordenadas]
+
+A veces querremos representar alguna de las variables usando **.bg-purple_light[escalas que no sean la lineal]**.
+
+
+.pull-left[
+
+Una muy habitual es la **.bg-purple_light[escala logarítmica]** (importante indicarlo en el gráfico), lo que podemos hacer facilmente con `scale_x_log10()` y `scale_y_log10()`.
+
+
+```r
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  # Eje Y con escala logarítmica
+* scale_y_log10()
+```
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-760-1.png" width="85%" /&gt;
+
+]
+  
+---
+
+# .orange[ESCALAS (scale)]: .green[coordenadas]
+
+A veces querremos mantener la escala pero **.bg-purple_light[fijar límites en los ejes]**.
+
+
+.pull-left[
+
+Eso lo podemos hacer dentro de las funciones `scale_x_...()` y `scale_y_...()` con `limits = ...`
+
+
+```r
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() + 
+  scale_x_continuous(
+*   limits = c(0, 100))
+```
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-762-1.png" width="85%" /&gt;
+
+]
+
+---
+
+# .orange[ESCALAS (scale)]: .green[coordenadas]
+
+La capa de escalas también nos sirve para **.bg-purple_light[formatear los ejes]**
+
+
+.pull-left[
+
+Por ejemplo, con `breaks = ...` podemos determinar el **.bg-purple_light[espaciado exacto]** que queremos en la gráfica.
+
+
+```r
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() + 
+  scale_x_continuous(
+*   breaks = seq(35, 85, by = 5))
+```
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-764-1.png" width="85%" /&gt;
+
+]
+
+---
+
+# .orange[ESCALAS (scale)]: .green[coordenadas]
+
+La capa de escalas también nos sirve para **.bg-purple_light[formatear los ejes]**
+
+.pull-left[
+
+Haciendo uso del paquete `{scales}` podemos añadir **.bg-purple_light[prefijo/sufijo a las etiquetas]** mostradas en los ejes, asignándoselo al parámetro `labels = ...`
+
+
+```r
+library(scales)
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() + 
+  scale_x_continuous(
+    breaks = seq(35, 85, by = 5),
+    labels =
+*     label_number(suffix = " años"))
+```
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-766-1.png" width="85%" /&gt;
+
+]
+
+---
+
+# .orange[ESCALAS (scale)]: .green[coordenadas]
+
+.pull-left[
+
+Tenemos funciones concretas para **.bg-purple_light[formatear ejes]** como fechas (`scale_x_date()`), porcentajes (`labels = label_percent()`) o incluso **unidades monetarias** (`labels = label_dollar()`).
+
+
+```r
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10(
+    labels =
+      label_dollar(big.mark = ".",
+                   accuracy = 3,
+                   prefix = "",
+                   suffix = "$")) + 
+  scale_x_continuous(
+    breaks = seq(35, 85, by = 5),
+    labels =
+*     label_number(suffix = " años"))
+```
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-768-1.png" width="85%" /&gt;
+
+]
+
+---
+
+# .orange[ESCALAS (scale)]: .green[colores]
+
+La capa de escalas también nos sirve para **.bg-purple_light[proporcionar una paleta de colores]**
+
+.pull-left[
+
+ggplot selecciona automáticamente una paleta de colores, pero podemos indicarle alguna concreta. La primera y más inmediata es indicarle los **.bg-purple_light[colores manualmente]** con `scale_color_manual()`.
+
+
+```r
+pal &lt;- c("#A02B85", "#2DE86B", "#4FB2CA",
+         "#E8DA2D", "#E84C2D")
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+* scale_color_manual(values = pal)
+```
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-770-1.png" width="85%" /&gt;
+
+]
+
+---
+
+# .orange[ESCALAS (scale)]: .green[colores]
+
+La capa de escalas también nos sirve para **.bg-purple_light[proporcionar una paleta de colores]**
+
+.pull-left[
+
+Otra opción es elegir alguna de las **.bg-purple_light[paletas de colores diseñadas]** en el paquete `{ggthemes}`:
+
+* `scale_color_economist()`: paleta de colores basada en los colores de **.bg-purple_light[The Economist]**.
+
+
+```r
+library(ggthemes)
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+* scale_color_economist()
+```
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-772-1.png" width="85%" /&gt;
+
+]
+
+---
+
+# .orange[ESCALAS (scale)]: .green[colores]
+
+La capa de escalas también nos sirve para **.bg-purple_light[proporcionar una paleta de colores]**
+
+.pull-left[
+
+Otra opción es elegir alguna de las **.bg-purple_light[paletas de colores diseñadas]** en el paquete `{ggthemes}`:
+
+* `scale_color_excel()`: paleta de colores basada en los colores del **.bg-purple_light[Excel]**.
+
+
+
+```r
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+* scale_color_excel()
+```
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-774-1.png" width="85%" /&gt;
+
+]
+
+---
+
+# .orange[ESCALAS (scale)]: .green[colores]
+
+La capa de escalas también nos sirve para **.bg-purple_light[proporcionar una paleta de colores]**
+
+.pull-left[
+
+Otra opción es elegir alguna de las **.bg-purple_light[paletas de colores diseñadas]** en el paquete `{ggthemes}`:
+
+* `scale_color_tableau()`: paleta de colores basada en los colores de  **.bg-purple_light[Tableau]**.
+
+
+
+```r
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+* scale_color_tableau()
+```
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-776-1.png" width="85%" /&gt;
+
+]
+
+
+---
+
+# .orange[ESCALAS (scale)]: .green[colores]
+
+
+También existen **múltiples paquetes** que nos proporcionan **paletas de colores** 
+
+
+.pull-left[
+
+* **.bg-purple_light[películas]**: paquete `{harrypotter}` (repositorio de Github `aljrico/harrypotter`) usando `scale_color_hp_d()`.
+
+
+```r
+library(devtools)
+repo &lt;- "aljrico/harrypotter"
+*install_github(repo = repo)
+
+library(harrypotter)
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.9) +
+  scale_y_log10() +
+  scale_color_hp_d(
+*   option = "ravenclaw")
+```
+
+]
+
+.pull-right[
+
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="https://raw.githubusercontent.com/aljrico/harrypotter/master/readme_raw_files/palettes/ravenclaw.png" alt="Paleta basada en la casa Ravenclaw" width="15%" /&gt;
+&lt;p class="caption"&gt;Paleta basada en la casa Ravenclaw&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;img src="index_files/figure-html/unnamed-chunk-779-1.png" width="70%" /&gt;
+
+]
+
+---
+
+# .orange[ESCALAS (scale)]: .green[colores]
+
+
+.pull-left[
+
+* **.bg-purple_light[cuadros]**: paquete `{MetBrewer}` (repositorio de Github `BlakeRMills/MetBrewer`) usando `scale_colour_manual(values = met.brewer(...))`.
+
+
+```r
+repo &lt;- "BlakeRMills/MetBrewer"
+*install_github(repo = repo)
+
+library(MetBrewer)
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.9) +
+  scale_y_log10() +
+  scale_color_manual(
+*   values = met.brewer("Hokusai"))
+```
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-781-1.png" width="85%" /&gt;
+
+]
+
+
+
+---
+
+
+# .orange[ESCALAS (scale)]: .green[colores]
+
+
+.pull-left[
+
+* **.bg-purple_light[discos]**: paquete `{peRReo}` (repositorio de Github `jbgb13/peRReo`) usando `scale_colour_manual(values = latin_palette())`.
+
+
+
+```r
+library(devtools)
+repo &lt;- "jbgb13/peRReo"
+*install_github(repo = repo)
+
+library(peRReo)
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.9) +
+  scale_y_log10() +
+  scale_color_manual(
+*   values = latin_palette("rosalia"))
+```
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-783-1.png" width="85%" /&gt;
+
+]
+
+
+---
+
+# .orange[COMPONER]: .green[facet()]
+
+También podemos **.bg-purple_light[dividir/desagregar los gráficos (facetar)]** por variables.
+
+.pull-left[
+
+Por ejemplo, vamos a crear un **.bg-purple_light[gráfico por continente]**, mostrando todos los gráficos a la vez pero por separado, con `facet_wrap(~continent)`.
+
+
+```r
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(alpha = 0.9) +
+  scale_y_log10() +
+* facet_wrap(~continent)
+```
+
+
+]
+
+.pull-right[
+
+
+&lt;img src="index_files/figure-html/unnamed-chunk-785-1.png" width="85%" /&gt;
+
+]
+
+---
+
+# .orange[COMPONER]: .green[facet()]
+
+También podemos **.bg-purple_light[dividir/desagregar los gráficos (facetar)]** por variables.
+
+.pull-left[
+
+También le podemos pasar argumentos opcionales para indicarle el **.bg-purple_light[número de columnas o filas]** que queremos.
+
+
+
+```r
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(alpha = 0.9) +
+  scale_y_log10() +
+* facet_wrap(~continent, nrow = 3)
+```
+
+
+]
+
+.pull-right[
+
+
+&lt;img src="index_files/figure-html/unnamed-chunk-787-1.png" width="85%" /&gt;
+
+]
+
+---
+
+# .orange[COMPONER]: .green[facet()]
+
+También podemos **.bg-purple_light[dividir/desagregar los gráficos (facetar)]** por variables.
+
+.pull-left[
+
+También le podemos pasar dos argumentos (variables) para formar un **.bg-purple_light[grid de gráficas]**
+
+
+
+```r
+*ggplot(gapminder,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(alpha = 0.9) +
+  scale_y_log10() +
+* facet_grid(continent ~ year)
+```
+
+
+]
+
+.pull-right[
+
+
+&lt;img src="index_files/figure-html/unnamed-chunk-789-1.png" width="85%" /&gt;
+
+]
+
+
+---
+
+# .orange[ESTADÍSTICA]: .green[stat_...()]
+
+También podemos añadir **.bg-purple_light[capas estadísticas]**
+
+.pull-left[
+
+* `stat_smooth()`: visualiza un **.bg-purple_light[ajuste suavizado]** (con glm, loess, o regresión lineal por ejemplo).
+
+
+```r
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(alpha = 0.7, size = 5) +
+  scale_y_log10() +
+  scale_color_tableau() +
+* stat_smooth(method = "lm")
+```
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-791-1.png" width="85%" /&gt;
+
+]
+
+---
+
+
+# .orange[ESTADÍSTICA]: .green[stat_...()]
+
+También podemos añadir **.bg-purple_light[capas estadísticas]**
+
+.pull-left[
+
+Podemos indicarle en `se = FALSE` que no pinte los intervalos de confianza.
+
+
+```r
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(alpha = 0.7, size = 5) +
+  scale_y_log10() +
+  scale_color_tableau() +
+  stat_smooth(method = "lm",
+*             se = FALSE)
+```
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-793-1.png" width="85%" /&gt;
+
+]
+
+---
+
+
+# .orange[ESTADÍSTICA]: .green[stat_...()]
+
+También podemos añadir **.bg-purple_light[capas estadísticas]**
+
+.pull-left[
+
+Si las trazas están separadas realizada el suavizado de todas ellas. 
+
+
+```r
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent)) +
+  geom_point(alpha = 0.7, size = 5) +
+  scale_y_log10() +
+  scale_color_tableau() +
+  stat_smooth(method = "lm",
+              se = FALSE)
+```
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-795-1.png" width="85%" /&gt;
+
+]
+
+
+
+---
+
+
+# .orange[ETIQUETAR]: .green[geom_text()]
+
+.pull-left[
+
+Podemos combinarlo con `geom_text()` para  **.bg-purple_light[añadir la ecuación del ajuste]**
+
+
+```r
+lm_fit &lt;-
+  lm(data = gapminder_1997,
+     formula = gdpPercap ~ lifeExp)
+a &lt;- round(coef(lm_fit)[1], 2)
+b &lt;- round(coef(lm_fit)[2], 2)
+
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(alpha = 0.7, size = 5) +
+  scale_y_log10() +
+  stat_smooth(method = "lm",
+              se = FALSE) +
+  geom_text(x = 45, y = log10(30000),
+            label =
+              glue("Y = {a} + {b}X"),
+            size = 5)
+```
+
+]
+
+.pull-right[
+
+
+&lt;img src="index_files/figure-html/unnamed-chunk-797-1.png" width="85%" /&gt;
+
+
+]
+
+---
+
+# .orange[ESTADÍSTICA]: .green[stat_...()]
+
+También podemos añadir **.bg-purple_light[capas estadísticas]**
+
+.pull-left[
+
+Con `stat_summary()` podemos incluso añadir estadísticas por grupos, como la media o mediana.
+
+
+```r
+ggplot(gapminder,
+       aes(y = gdpPercap, x = year)) +
+  geom_point(alpha = 0.7, size = 3) +
+  stat_summary(fun = "mean", size = 0.3,
+               color = "coral") + 
+  stat_summary(fun = "median", size = 0.3,
+               color = "darkcyan")
+```
+
+]
+
+.pull-right[
+
+
+&lt;img src="index_files/figure-html/unnamed-chunk-799-1.png" width="85%" /&gt;
+
+]
+
+---
+
+# .orange[ESTADÍSTICA]: .green[stat_...()]
+
+También podemos añadir **.bg-purple_light[capas estadísticas]**
+
+.pull-left[
+
+Fíjate que si no tenemos una variable cuali, la media la hace con `n = 1` (es decir, es el propio punto).
+
+
+```r
+ggplot(gapminder,
+       aes(y = gdpPercap, x = lifeExp, color = continent)) +
+  geom_point(alpha = 0.7, size = 3) +
+  stat_summary(fun = "mean",
+               size = 0.2,
+               color = "black")
+```
+
+]
+
+.pull-right[
+
+
+&lt;img src="index_files/figure-html/unnamed-chunk-801-1.png" width="85%" /&gt;
+
+]
+
+
+---
+
+
+# .orange[TEMA]: .green[theme()]
+
+
+Por último podemos **.bg-purple_light[personalizar el tema]** de los gráficos.
+
+.pull-left[
+
+Por ejemplo, podemos **.bg-purple_light[añadir títulos,  subtítulos y pie de gráfica]** con `labs()`,
+
+
+```r
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau() +
+  labs(
+    title = "Primer scatter plot",
+    subtitle = "Datos de 1997",
+    caption = "Autor: J. Álvarez")
+```
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-803-1.png" width="85%" /&gt;
+
+]
+
+---
+
+# .orange[TEMA]: .green[theme()]
+
+
+También podemos personalizar el **.bg-purple_light[título de los ejes]** o el **.bg-purple_light[título de las leyendas]**.
+
+.pull-left[
+
+
+```r
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau() +
+  labs(
+    title = "Primer scatter plot",
+    subtitle = "Datos de 1997",
+    caption = "Autor: J. Álvarez",
+    x = "Esperanza de vida",
+    y = "Renta per cápita",
+    color = "Continente",
+    size = "Población")
+```
+
+]
+
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-805-1.png" width="85%" /&gt;
+
+]
+
+---
+
+# .orange[TEMA]: .green[theme()]
+
+
+También podemos **.bg-purple_light[ocultar el nombre de la leyenda]** asignándole un `NULL`.
+
+.pull-left[
+
+
+
+```r
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau() +
+  labs(
+    title = "Primer scatter plot",
+    subtitle = "Datos de 1997",
+    caption = "Autor: J. Álvarez",
+    x = "Esperanza de vida",
+    y = "Renta per cápita",
+    color = NULL, size = "Población")
+```
+
+]
+
+.pull-right[
+
+
+&lt;img src="index_files/figure-html/unnamed-chunk-807-1.png" width="85%" /&gt;
+
+]
+
+---
+
+
+# .orange[TEMA]: .green[theme()]
+
+
+Incluso podemos **.bg-purple_light[ocultar la leyenda]** de alguna de las variables con `guides()`
+
+
+.pull-left[
+
+
+```r
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau() +
+* guides(size = "none") +
+  labs(
+    title = "Primer scatter plot",
+    subtitle = "Datos de 1997",
+    caption = "Autor: J. Álvarez",
+    x = "Esperanza de vida",
+    y = "Renta per cápita",
+    color = NULL)
+```
+
+]
+
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-809-1.png" width="85%" /&gt;
+
+]
+
+---
+
+
+# .orange[TEMA]: .green[theme()]
+
+Tenemos además algunos temas ya predefinidos en el paquete `{ggthemes}`
+
+
+
+.pull-left[
+
+
+```r
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau() +
+  guides(size = "none") + 
+  labs(
+    title = "Primer scatter plot",
+    subtitle = "Datos de 1997",
+    caption = "Autor: J. Álvarez",
+    x = "Esperanza de vida",
+    y = "Renta per cápita",
+    color = NULL) +
+* theme_excel()
+```
+
+]
+
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-811-1.png" width="85%" /&gt;
+
+]
+
+---
+
+
+
+# .orange[TEMA]: .green[theme()]
+
+Tenemos además algunos temas ya predefinidos en el paquete `{ggthemes}`
+
+
+
+.pull-left[
+
+
+```r
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau() +
+  guides(size = "none") + 
+  labs(
+    title = "Primer scatter plot",
+    subtitle = "Datos de 1997",
+    caption = "Autor: J. Álvarez",
+    x = "Esperanza de vida",
+    y = "Renta per cápita",
+    color = NULL) +
+* theme_fivethirtyeight()
+```
+
+]
+
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-813-1.png" width="85%" /&gt;
+
+]
+
+
+---
+
+# .orange[TEMA]: .green[theme()]
+
+Tenemos además algunos temas ya predefinidos en el paquete `{ggthemes}`
+
+
+
+.pull-left[
+
+
+```r
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau() +
+  guides(size = "none") + 
+  labs(
+    title = "Primer scatter plot",
+    subtitle = "Datos de 1997",
+    caption = "Autor: J. Álvarez",
+    x = "Esperanza de vida",
+    y = "Renta per cápita",
+    color = NULL) +
+* theme_economist()
+```
+
+]
+
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-815-1.png" width="85%" /&gt;
+
+]
+
+---
+
+
+# .orange[TEMA]: .green[theme()]
+
+Tenemos además algunos temas ya predefinidos en el paquete `{ggthemes}`
+
+
+
+.pull-left[
+
+
+```r
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau() +
+  guides(size = "none") + 
+  labs(
+    title = "Primer scatter plot",
+    subtitle = "Datos de 1997",
+    caption = "Autor: J. Álvarez",
+    x = "Esperanza de vida",
+    y = "Renta per cápita",
+    color = NULL) +
+* theme_bw()
+```
+
+]
+
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-817-1.png" width="85%" /&gt;
+
+]
+
+
+---
+
+
+# .orange[TEMA]: .green[theme()]
+
+Una opción muy habitual es usar `theme_minimal()`, ya que es un tema muy limpio, y luego con `theme_update()` configurarlo a nuestro gusto.
+
+
+.pull-left[
+
+
+```r
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau() +
+  guides(size = "none") + 
+  labs(
+    title = "Primer scatter plot",
+    subtitle = "Datos de 1997",
+    caption = "Autor: J. Álvarez",
+    x = "Esperanza de vida",
+    y = "Renta per cápita",
+    color = NULL) +
+* theme_minimal()
+```
+
+]
+
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-819-1.png" width="83%" /&gt;
+
+]
+
+
+---
+
+# .orange[TEMA]: .green[theme()]
+
+* `sysfonts::font_add_google()`: le indicaremos la tipografía de &lt;https://fonts.google.com/&gt;
+
+* `showtext_auto()` del paquete `{showtext}` nos permite su posterior uso.
+
+* `theme_set()`: inicializamos el tema con la fuente
+
+* `theme_update()`: configuramos cada elemento a nuestro gusto (mira `? theme`).
+
+
+
+```r
+sysfonts::font_add_google(name = "Roboto") # Fuente de google
+# Usar fuentes a futuro
+library(showtext)
+showtext_auto()
+
+theme_set(theme_minimal(base_family = "Roboto")) # Definir tema base
+
+# Configurar tema
+theme_update(
+  plot.title = element_text(color = "#C34539", face = "bold", size = 27),
+  plot.subtitle = element_text(color = "#3E6FCB", face = "bold", size = 17))
+```
+
+---
+
+
+# .orange[TEMA]: .green[theme()]
+
+Una vez definido el tema, **.bg-purple_light[todas las gráficas que hagas lo tendrán incluido]**, y así evitas programarlo en cada una
+
+.pull-left[
+
+
+```r
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau() +
+  guides(size = "none") + 
+  labs(
+    title = "Primer scatter plot",
+    subtitle = "Datos de 1997",
+    caption = "Autor: J. Álvarez",
+    x = "Esperanza de vida",
+    y = "Renta per cápita",
+    color = NULL)
+```
+
+]
+
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-822-1.png" width="85%" /&gt;
+
+]
+
+---
+
+# .orange[UNIR] gráficas
+
+Con el paquete `{patchwork}` podremos **.bg-purple_light[combinar varias gráficas]** (ver documentación en &lt;https://patchwork.data-imaginist.com/&gt;)
+
+
+Por ejemplo, vamos a combinar en una gráfica los datos de 1987, de 2007 y la media en todos los años
+
+--
+
+
+```r
+gapminder_1987 &lt;-
+  gapminder %&gt;% filter(year == 1987)
+
+gapminder_2007 &lt;-
+  gapminder %&gt;% filter(year == 2007)
+
+gapminder_mean &lt;-
+  gapminder %&gt;% 
+  group_by(continent, country) %&gt;% 
+  summarise(gdpPercap = mean(gdpPercap),
+            lifeExp = mean(lifeExp),
+            pop = pop) %&gt;% 
+  ungroup()
+```
+
+
+---
+
+# .orange[UNIR] gráficas
+
+Tras ello vamos a definir cada gráfica por separado
+
+
+```r
+plot_1987 &lt;-
+  ggplot(gapminder_1987, aes(y = gdpPercap, x = lifeExp, color = continent)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau() +
+  labs(x = "Esperanza de vida", y = "Renta per cápita", subtitle = "1987")
+
+plot_2007 &lt;-
+  ggplot(gapminder_2007, aes(y = gdpPercap, x = lifeExp, color = continent)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau() +
+  labs(x = "Esperanza de vida", y = "Renta per cápita", subtitle = "2007")
+
+plot_mean &lt;-
+  ggplot(gapminder_mean, aes(y = gdpPercap, x = lifeExp, color = continent)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau() +
+  labs(x = "Esperanza de vida", y = "Renta per cápita", subtitle = "Media (1952-2007)")
+```
+
+---
+
+# .orange[UNIR] gráficas
+
+Por último con `{patchwork}` podemos combinar las gráficas sumándolas `+` (con `|` podremos poner una al lado de la otra), y con `&amp;` podremos modificar aspectos de las mismas, de todas ellas a la vez.
+
+.pull-left[
+
+Con `plot_layout(guides = "collect")` le indicamos que unifique leyenda y con `plot_annotation()` anotaciones globales.
+
+
+```r
+library(patchwork)
+plot_combined &lt;-
+  (plot_mean | (plot_1987 + plot_2007)) &amp;
+  theme(legend.position = "bottom") &amp;
+  labs(color = "continente")
+
+plot_combined + 
+  plot_annotation(
+    title = "Unión de gráficas",
+    caption = "Autor: J. Álvarez") +
+  plot_layout(guides = "collect")
+```
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-826-1.png" width="85%" /&gt;
+
+]
+
+---
+
+# .orange[EXPORTAR] gráficas
+
+Con `ggsave()` podemos además **.bg-purple_light[exportar nuestros gráficos]**
+
+
+```r
+plot_combined &lt;-
+  (plot_mean | (plot_1987 + plot_2007)) &amp;
+  theme(legend.position = "bottom") &amp;
+  labs(color = "continente")
+
+plot_combined &lt;-
+  plot_combined + 
+  plot_annotation(
+    title = "Unión de gráficas",
+    caption = "Autor: J. Álvarez") +
+  plot_layout(guides = "collect")
+
+*ggsave("./gapminder.pdf")
+*ggsave("./gapminder.png")
+```
+
+
+
+
+---
+
+
+# .orange[ANIMAR] gráficas
+
+Por último, podemos incluso **.bg-purple_light[animar gráficas]**, con el paquete `{gganimate}`
+
+
+```r
+library(gganimate)
+
+p &lt;-
+  ggplot(gapminder,
+       aes(y = gdpPercap, x = lifeExp,
+           size = pop, color = country)) +
+  geom_point(alpha = 0.7) +
+  scale_y_log10() +
+  scale_colour_manual(values = country_colors) +
+  facet_wrap(~continent) +
+  theme(legend.position = 'none') +
+  labs(title = 'Año: {frame_time}',
+       x = "Esperanza de vida",
+       y = "Renta per cápita") +
+  transition_time(year) +
+  ease_aes('linear')
+
+animate(p, 100, 10)
+```
+
+---
+
+
+
+* barras (verticales/horizontales, stacked, grouped, bullets bar)
+* histograma y densidades
+* dumbell
+* flujo (acumulativos) area chart
+* flujo de partidos
+* boxplot y alternativas
+* tablas
+* election donut
+* circulos climáticos y florence (coordenadas polares)
+* ¿mapas?
+
 
 ---
 
