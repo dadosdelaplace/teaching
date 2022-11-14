@@ -13348,62 +13348,7 @@ ggsave("./gapminder.png") #<<
 Por último, podemos incluso **.bg-purple_light[animar gráficas]**, con el paquete `{gganimate}`
 
 ```{r eval = FALSE}
-library(gganimate)
-
-p <-
-  ggplot(gapminder,
-       aes(y = gdpPercap, x = lifeExp,
-           size = pop, color = country)) +
-  geom_point(alpha = 0.7) +
-  scale_y_log10() +
-  scale_colour_manual(values = country_colors) +
-  facet_wrap(~continent) +
-  theme(legend.position = 'none') +
-  labs(title = 'Año: {frame_time}',
-       x = "Esperanza de vida",
-       y = "Renta per cápita") +
-  transition_time(year) +
-  ease_aes('linear')
-
-animate(p, 100, 10)
-```
-
----
-
-
-
-* barras (verticales/horizontales, stacked, grouped, bullets bar)
-* histograma y densidades
-* dumbell
-* flujo (acumulativos) area chart
-* flujo de partidos
-* boxplot y alternativas
-* tablas
-* election donut
-* circulos climáticos y florence (coordenadas polares)
-* ¿mapas?
-
-
----
-
-
-class: inverse center middle
-name: clase-15
-
-# CLASE 15: profundizando en ggplot
-
-
----
-
-class: inverse center middle
-name: clase-16
-
-# CLASE 16: profundizando en ggplot
-
-
----
-
-class: inverse center middle
+libnter middle
 name: clase-17
 
 # CLASE 17: entrega III
