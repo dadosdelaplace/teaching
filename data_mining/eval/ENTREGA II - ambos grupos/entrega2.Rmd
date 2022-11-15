@@ -1,0 +1,125 @@
+---
+title: "Entrega II"
+description: |
+  Aplicando knn a hoteles
+author:
+  - name: C. Tangana (DNI 0000000-A)
+    affiliation: Universidad Complutense de Madrid
+    affiliation_url: 
+date: "`r Sys.Date()`"
+output:
+    distill::distill_article:
+        highlight: kate
+        colorlinks: true
+        code_folding: false
+        toc: true            
+        toc_depth: 3     
+---
+
+```{r setup, include = FALSE}
+# Ajuste comunes de los chunk
+knitr::opts_chunk$set(fig.width = 9, fig.asp = 1, out.width = "100%",
+                      message = FALSE, warning = FALSE,
+                      echo = TRUE, res = 400)
+```
+
+# Instrucciones (leer antes de empezar)
+
+* Modifica dentro del documento `.Rmd` tus datos personales (nombre y DNI) ubicados en la cabecera del archivo.
+
+* Asegúrate, **ANTES de seguir editando** el documento, que el archivo `.Rmd` se teje correctamente (botón Knit) y se genera el `.html` correspondiente.
+
+* Los chunks (cajas de código) creados están o vacíos o incompletos, de ahí que la mayoría tengan la opción `eval = FALSE`. Una vez que edites lo que consideres debes ir cambiando cada chunck a `eval = TRUE` para que se ejecuten.
+
+* Recuerda que puedes ejecutar chunk a chunk con el botón _play_ o ejecutar todos los chunk hasta uno dado (con el botón a la izquierda del anterior).
+
+## Obligatorio
+
+Deberás implementar un modelo de clasificación knn al conjunto hoteles. Tienes total libertad de decisión pero los siguientes ítems son obligatorios
+
+* Cualquier decisión no justificada/argumentada de forma correcta no será tenida en cuenta.
+
+* Será obligatorio un muestreo inicial.
+
+* Deberás implementar y detallar una fase 2-3 lo más completa posible
+
+* Deberás proponer al menos dos recetas distintas.
+
+* Deberás probar al menos una validación simple (haciendo uso de tune), asegurándote de que el mallado de parámetros es adecuado para afinar la búsqueda de ese punto mínimo d la curva sesgo-varianza
+
+* Deberás probar al menos una validación cruzada v-folds paralelizada
+
+
+# Datos {#datos}
+
+Debes hacer uso del **dataset de reservas de hotel**
+
+```{r}
+library(tidyverse)
+library(tidymodels)
+hoteles_bruto <- read_csv(file = "./hoteles.csv")
+```
+
+Los datos forman parte de un **conjunto de reservas de hotel** elaborado por Antonio et al., 2019 con 50 000 registros de reservas
+
+📚 **Detalle de variables**: <https://linkinghub.elsevier.com/retrieve/pii/S2352340918315191>
+
+## Análisis exploratorio inicial (numérico)
+
+Antes de tomar ninguna decisión con los datos lo primero que deberíamos hacer es **echar un vistazo numérico** a cómo se comportan las variables. Dado que vamos a clasificar, lo primero que deberíamos observar es como se distribuyen los niveles de nuestra variable objetivo.
+
+### Variables
+
+Lo primero es conocer las variables
+
+```{r}
+glimpse(hoteles_bruto)
+```
+
+* `hotel`: tipo de hotel (urbano o resort)
+* `lead_time`: número de días entre la reserva y la estancia.
+* `stays_in_weekend_nights, stays_in_week_nights`: noches en fin de semana y entre semana
+* `adults`: número de adultos
+* `children`: ¿la reserva tiene niños?
+* `meal`: régimen de comidas
+* `country`: país de origen
+* `market_segment`: segmento de mercado de la reserva
+* `distribution_channel`: canal de distribución de la oferta
+* `is_repeated_guest`: ¿repite como huésped?
+* `previous_cancellations`: cancelaciones previas
+* `previous_bookings_not_canceled`: reservas previas (no canceladas)
+* `reserved_room_type, assigned_room_type`: tipo de habitación reservada/asignada
+* `booking_changes`: cambios en la reserva
+* `deposit_type`: tipo de depósito
+* `days_in_waiting_list`: días en lista de espera
+* `customer_type`: tipo de cliente
+* `average_daily_rate`: tarifa media diaria
+* `required_car_parking_spaces`: ¿parking?
+* `total_of_special_requests`: número de requisitos especiales demandados
+* `arrival_date`: fecha de llegada 
+
+### Balance la variable objetivo
+
+El objetivo será **predecir si una reserva incluye niños/as o no**, por lo que `children` será nuestra variable objetivo. Primer paso: conocer cómo se **istribuyen los niveles de la objetivo** (es binaria)
+
+
+```{r}
+# Objetivo: predecir si la reserva viene o no con niños
+hoteles_bruto %>% 
+  count(children) %>%
+  mutate(porc = 100*n/sum(n))
+```
+
+### skim()
+
+Además con la función `skim()` del paquete `{skimr}` podemos **extraer algunas estadísticas básicas** de nuestros datos.
+
+```{r skim}
+library(skimr)
+# Resumen numérico
+hoteles_bruto %>% skim()
+```
+
+[Continua a partir de aquí creando las secciones que consideres]
+
+

@@ -11589,30 +11589,26 @@ hoteles_sample %>%
   mutate(porc = 100*n/sum(n))
 ```
 
-¿Hace falta algo más?
 
 
 ---
 
 # Fase 3: .orange[MODIFICACIÓN] (fuera receta)
 
-```{r}
-# Muestreo del 10
-hoteles_sample <-
-  hoteles_bruto %>%
-  group_by(children) %>% 
-  slice_sample(prop = 0.10) %>%
-  ungroup()
+* **.bg-purple_light[Selección de variables]**: eliminamos aquellas cuya varianza es tan ínfima (y sin influencia real en la variable objetivo a nivel globla) que solo nos aporta ruido
 
-# Eli%minar variables
+```{r}
+# Eliminar variables
 hoteles_sample <-
   hoteles_sample %>%
-  select(-c(deposit_type, days_in_waiting_list, previous_cancellations))
+  select(-c(deposit_type, days_in_waiting_list, previous_cancellations)) #<<
 ```
 
 ---
 
 # Fase 3: .orange[MODIFICACIÓN] (fuera receta)
+
+* **.bg-purple_light[Convertimos a cuali]**: debemos siempre de tratar a cada variable como lo que es, así que toda variable de tipo texto que sea una variable estadística cualitativa deberá ser convertida a factor (y de manera ordinal en caso de lo que sean)
 
 ```{r}
 # Convertir a cuali
@@ -11621,7 +11617,15 @@ hoteles_sample <-
   mutate(across(where(is.character), as_factor)) %>%
   mutate(meal = factor(meal, levels = c("Undefined", "SC", "BB", "HB", "FB"),
                        ordered = TRUE))
+```
 
+---
+
+# Fase 3: .orange[MODIFICACIÓN] (fuera receta)
+
+* **.bg-purple_light[Modificamos variables existentes]**: resolvemos fuera de la receta problemas de codificación o rango ya que son errores intrínsecos de la tabla.
+
+```{r}
 # Modificaciones de variables existentes
 hoteles_sample <-
   hoteles_sample %>% 
@@ -11634,7 +11638,7 @@ hoteles_sample <-
 
 # .orange[RECETA]: .green[PARTICIÓN]
 
-Primero dividimos en **.bg-purple_light[test y lo demás]**, con `initial_split()`
+Tras resolver esos problemas fuera de la receta dividimos en **.bg-purple_light[test y lo demás]**, con `initial_split()`
 
 ```{r}
 # Partición 10% de test
@@ -11644,7 +11648,16 @@ hoteles_split
 # Aplicamos partición
 hoteles_train <- training(hoteles_split)
 hoteles_test <- testing(hoteles_split)
+```
 
+---
+
+# .orange[RECETA]: .green[PARTICIÓN]
+
+
+Podemos comprobar que los estratos se han mantenido.
+
+```{r}
 # Comprobamos estratos
 hoteles_train %>% count(children) %>% mutate(porc = 100 * n / sum(n))
 hoteles_test %>% count(children) %>% mutate(porc = 100 * n / sum(n))
@@ -11776,7 +11789,7 @@ hoteles_wflow <-
 
 name: fase5-hoteles
 
-# Fase 5: .orange[EVALUACIÓN] en validación
+# Fase 5: .orange[EVALUACIÓN/PREDICCIÓN] (validación)
 
 En este caso tenemos un conjunto de validación guardado en `hoteles_val`. Para realizar el **.bg-purple_light[ajuste en train y después obtener las métricas en validación]** usaremos `fit_resamples()`, pasándole como argumento los conjuntos de validación que tengamos y las **.bg-purple_light[métricas]** que queremos que evaluar (con `metric_set()` y el nombre de la métrica)
 
@@ -11792,8 +11805,7 @@ hoteles_knn_fit_val <-
 
 ---
 
-# Fase 5: .orange[EVALUACIÓN] en validación
-
+# Fase 5: .orange[EVALUACIÓN/PREDICCIÓN] (validación)
 
 Con `collect_metrics()` obtenemos las métricas pedidas (dado que solo tenemos un conjunto de validación `n = 1` y `std_err = NA`, ya que no tiene con qué promediar al solor tener uno)
 
@@ -11865,26 +11877,202 @@ knitr::include_graphics("./img/roc_curve.jpg")
 knitr::include_graphics("./img/pcr_roc_curve.jpg")
 ``` 
 
+---
+
+class: inverse center middle
+name: clase-9
+
+# CLASE 9: validación y ggplot
+
+&nbsp;
+
+### [Resumen](#resumen)
+
+### [Validación con tune y paralelizada](#tune)
+
+### [Sobremuestreo](#oversampling)
+
+### [Validación cruzada y bootstrap](#cv-hoteles)
+
+### [Visualización de datos](#dataviz)
 
 ---
+
+name: resumen
+
+# .orange[RESUMEN]
+
+
+* **.bg-purple_light[Fase 1: muestreo]** (si fuese necesario)
+
+```{r eval = FALSE}
+# Muestreo
+data_sample <-
+  raw_data %>% group_by(var_outcome) %>%  slice_sample(prop = ...) %>% ungroup()
+```
+
+--
+
+* **.bg-purple_light[Fase 2: exploración]**: analizar problemas, relaciones entre variables y modificaciones a llevar a cabo (outliers, ausentes, colinealidad, variables independientes de la objetivo, recategorizaciones, problemas de codificación y rango, dummyficación si se necesita, nuevas variables, etc)
+
+--
+
+* **.bg-purple_light[Particiones otros-test]**
+
+```{r eval = FALSE}
+# por ejemplo 10% para test
+data_split <-
+  initial_split(data, strata = var_outcome, prop = 0.9)
+data_train <- training(data_split)
+data_test <- testing(data_split)
+```
+
+---
+
+# .orange[RESUMEN]
+
+* **.bg-purple_light[Particiones train-validacion]**: sobre lo que no es test, volvemos a dividir (se guardará en dicho conjunto las instrucciones para cuando hagamos a futuro el ajuste)
+
+```{r eval = FALSE}
+# Validación
+data_val <- validation_split(data_train, strata = var_outcome, prop = 0.75)
+```
+
+--
+
+* **.bg-purple_light[Inicio de receta]**: definir la objetivo y roles para usarlos a futiro
+
+```{r eval = FALSE}
+# Receta
+model_rec <-
+  # Fórmula y datos
+  recipe(data = data_train, var_outcome ~ .)%>%
+  # Roles
+  add_role(..., new_role = ...) %>% # Añade rol (a otros existentes)
+  update_role(..., new_role = ...) %>% # Modifica (machaca) rol
+  remove_role(..., old_role = ...) # Eliminar roles
+```
+
+---
+
+# .orange[RESUMEN]
+
+* **.bg-purple_light[Fase 3: modificación]**
+
+```{r eval = FALSE}
+model_rec <-
+  model_rec %>% 
+  step_...(...) %>% # funciones a usar
+  step_mutate(...) %>% # equivalente a mutate
+  step_rm(...) %>% # eliminar variables
+  step_impute_...(...) %>% # imputar ausentes
+  step_corr(...) %>% # Filtro correlaciones
+  step_range(...) %>% # Estandarizar por rango
+  step_other(...) %>% # Colapsar niveles poco representados
+  step_dummy(...) %>% # Dummyficar
+  step_zv(...) # Filtro cero varianza
+```
+  
+---
+
+# .orange[RESUMEN]
+
+* **.bg-purple_light[Fase 4: modelización]**
+
+```{r eval = FALSE}
+# Modelo
+knn_model <-
+  nearest_neighbor(mode = "classification", neighbors = ...,
+                   weight_func = ..., dist_power = ...) %>%
+  set_engine("kknn")
+
+# Flujo de trabajo
+wflow <- workflow() %>% add_recipe(rec) %>% add_model(knn_model)
+```
+
+---
+
+# .orange[RESUMEN]
+
+* **.bg-purple_light[Fase 5: evaluación]** (en validación)
+
+```{r eval = FALSE}
+data_model_fit_val <-
+  wflow %>%
+  fit_resamples(data_val,
+                metrics = metric_set(accuracy, sensitivity,
+                                     specificity, roc_auc))
+# Recopilamos métricas (EN VALIDACIÓN) dadas en metrics
+collect_metrics(data_model_fit_val)
+```
+
+---
+
+# .orange[RESUMEN]
+
+**.bg-purple_light[Testeo]**
+
+* `predict()`: nos permite obtener las predicciones, bien de la clase que ha asignado a cada registro, bien la probabilidad estimada de pertenencia a cada clase
+
+```{r eval = FALSE}
+predict(data_model_fit_val, new_data)
+predict(data_model_fit_val, new_data, type = "prob")
+```
+
+* `augment()`: nos permite juntar en una sola tabla los datos originales y las predicciones con `augment()`
+
+```{r eval = FALSE}
+prob_data <- augment(data_model_fit_val, new_data)
+```
+
+---
+
+# .orange[RESUMEN]
+
+**.bg-purple_light[Testeo]**
+
+* `conf_mat()`: matriz de confusión (realidad vs predicción), indicándole la columna con la clase real y la columna con la clase predicha (por defecto es `.pred_class`). Con `summary()` obtenemos las métricas.
+
+```{r eval = FALSE}
+conf_mat <- prob_data %>% conf_mat(truth = ..., estimate = .pred_class)
+conf_mat %>% summary()
+```
+
+* `roc_curve()`: curva roc (debemos indicarle las probabilidades de pertenencia, no la clase predicha.
+
+```{r eval = FALSE}
+roc_data <- prob_data %>% roc_curve(truth = ..., ...)
+roc_data %>% autoplot() # ya aprenderemos a hacerlo mejor
+```
+
+---
+
+name: tune
 
 # .orange[TUNE]
 
 Hasta ahora solo hemos probado un modelo pero la idea es **.bg-purple_light[entrenar varios modelos]** y **.bg-purple_light[evaluar en validación]** su calidad o conveniencia.
 
-Para ello lo que vamos a hacer al definir el modelo es **.bg-purple_light[no asignar una constante a los parámetros]** sino que los vamos a dejar sin fijar, asignándoles `tune()` (entre paréntesis una **etiqueta** para luego ser usada), para luego indicarle los «diales» en los que queremos que «sintonice»
+Para ello lo que vamos a hacer al definir el modelo es **.bg-purple_light[no asignar una constante a los parámetros]** sino que los vamos a dejar libres, asignándoles `tune()`, para luego indicarle los «diales» en los que queremos que «sintonice»
+
+* `neighbors = tune("k")`: dejamos libre el parámetro y asignamos la etiqueta `"k"`
+* `weight_func = tune("weight")`: dejamos libre y asignamos la etiqueta `"weight"`
+* `dist_power = tune("dist")`: dejamos libre y asignamos la etiqueta `"dist"`
 
 ```{r}
 # Modelo con tune
 knn_model_tune <-
   nearest_neighbor(mode = "classification", neighbors = tune("k"),
-                   weight_func = tune("weight"), dist_power = tune("dist")) %>%
+                   weight_func = tune("weight"),
+                   dist_power = tune("dist")) %>%
   set_engine("kknn")
 ```
 
 ---
 
 # .orange[TUNE]
+
+La ventaja de tener receta y modelo por separado es que solo necesitamos **.bg-purple_light[unir el nuevo modelo a la anterior receta]**
 
 ```{r}
 # Nuevo flujo (con tune)
@@ -11894,9 +12082,14 @@ hoteles_wflow <-
   add_model(knn_model_tune)
 ```
 
-El anterior modelo **.bg-purple_light[no tiene parámetros fijados]** a priori: vamos a definir un **.bg-purple_light[grid de parámetros]**
 
-Por ejemplo, podemos definir un grid de 7 valores de `k` (lo demás fijo)
+El anterior modelo **.bg-purple_light[no tiene parámetros fijados]** a priori: vamos a definir un **.bg-purple_light[grid de parámetros]** posibles, de forma que ejecutaremos todos ellos para entrenar en train y validar en validación.
+
+---
+
+# .orange[TUNE]: .green[GRID MANUAL]
+
+Por ejemplo, vamos definir **.bg-purple_light[manualmente]** un grid de 7 valores de `k` (el resto de parámetros los dejamos constantes)
 
 ```{r}
 grid_knn <- 
@@ -11907,27 +12100,69 @@ grid_knn
 
 ---
 
-# .orange[TUNE GRID]
+# .orange[TUNE]: .green[GRID MANUAL]
 
-Con `tune_grid()` le indicaremos que **.bg-purple_light[en lugar de entrenar un solo modelo]** entre uno por cada fila de parámetros que tenemos en `grid_knn`, y con `control_grid(verbose = TRUE)` le indicamos que nos informe del proceso. Tras ello con `collect_metrics()` obtendremos de una tacada la métrica de todos.
+Una vez definido el grid manual, con `tune_grid()` le indicaremos que **.bg-purple_light[en lugar de entrenar un solo modelo]** entre uno por cada fila que tenemos en `grid_knn` (cada fila representa una configuración de parámetros), y con `control_grid(verbose = TRUE)` le indicamos que nos informe del proceso.
 
-```{r}
+.pull-left[
+
+**.bg-orange[ANTES]** (solo un modelo)
+
+```{r eval = FALSE}
+metricas <-
+  metric_set(accuracy, sensitivity,
+             specificity, roc_auc)
+hoteles_knn_fit_tune <-
+ hoteles_wflow %>%
+  fit_resamples(hoteles_val,
+                metrics = metricas)
+```
+
+]
+
+.pull-right[
+
+**.bg-green_light[AHORA]** (muchos modelos a la vez)
+
+```{r eval = FALSE}
 # Entrenamos y evaluamos los 7 modelos
 hoteles_knn_fit_tune <-
  hoteles_wflow %>%
-  tune_grid(resamples = hoteles_val, grid = grid_knn,
+  tune_grid(resamples = hoteles_val, #<<
+            grid = grid_knn, #<<
+            control =
+              control_grid(verbose = TRUE),
+            metrics = metricas)
+```
+
+]
+
+```{r echo = FALSE}
+# Entrenamos y evaluamos los 7 modelos
+hoteles_knn_fit_tune <-
+ hoteles_wflow %>%
+  tune_grid(resamples = hoteles_val, 
+            grid = grid_knn,
             control = control_grid(verbose = TRUE),
             metrics = metric_set(accuracy, sensitivity,
                                  specificity, roc_auc))
+```
+
+---
+
+# .orange[TUNE]: .green[GRID MANUAL]
+
+Tras ello,  con `collect_metrics()` obtendremos de una sola vez la métrica (en validación) de todos ellos.
+
+```{r}
 hoteles_knn_fit_tune %>% collect_metrics()
 ```
 
 ---
 
+# .orange[TUNE]: .green[GRID EXPANDIDO]
 
-# .orange[TUNE GRID]
-
-Ese grid también podemos definirlo para el resto de parámetros, definiendo los **.bg-purple_light[posibles valores para cada parámetro]** y probar **.bg-purple_light[todas las combinaciones entre ellos]**. Para eso haremos uso de `expand_grid()`
+Ese grid también podemos definirlo para el resto de parámetros, definiendo los **.bg-purple_light[posibles valores para cada parámetro]** y probar **.bg-purple_light[todas las combinaciones]** entre ellos. Para eso haremos uso de `expand_grid()`
 
 ```{r}
 expand_grid("x" = 1:3, "y" = 8:9)
@@ -11935,7 +12170,7 @@ expand_grid("x" = 1:3, "y" = 8:9)
 
 ---
 
-# .orange[TUNE GRID]
+# .orange[TUNE]: .green[GRID EXPANDIDO]
 
 Con dicha herramienta vamos a **.bg-purple_light[crear 18 modelos]**: 3 valores diferentes de vecinos, 2 tipos de promedios y 3 métricas.
 
@@ -11949,13 +12184,15 @@ grid_knn
 
 ---
 
-# .orange[TUNE GRID]
+# .orange[TUNE]: .green[GRID EXPANDIDO]
 
-```{r}
+La forma de definir el grid cambia pero una vez definido, todo es igual que el ejemplo anterior
+
+```{r eval = FALSE}
 # Entrenamos y evaluamos los 18 modelos
 hoteles_knn_fit_tune <-
  hoteles_wflow %>%
-  tune_grid(resamples = hoteles_val, grid = grid_knn,
+  tune_grid(resamples = hoteles_val, grid = grid_knn, #<<
             control = control_grid(verbose = TRUE),
             metrics = metric_set(accuracy, sensitivity,
                                  specificity, roc_auc))
@@ -11964,16 +12201,16 @@ hoteles_knn_fit_tune %>% collect_metrics()
 
 ---
 
-# .orange[TUNE GRID]
+# .orange[TUNE]: .green[GRID AUTOMÁTICO]
 
 
-Incluso podemos generar ese grid de una manera más  **.bg-purple_light[automática]** haciendo uso de `update()` y `grid_regular()`, para el mismo número de valores en cada parámetro (por ejemplo 3 en cada uno, siempre que haya tres opciones dadas)
+Incluso podemos generar ese grid de una manera más  **.bg-purple_light[automática]**: primero extraemos los parámetros con `extract_parameter_set_dials()`, luego los actualizamos con `update()` indicándole solo los rangos máximos y mínimos, y con `grid_regular()` le indicamos cuantos niveles queremos en cada parámetro (fijo en todos).
 
 ```{r}
 grid_knn <-
   extract_parameter_set_dials(hoteles_wflow) %>%
   # Actualizamos
-  update(k = neighbors(range = c(10, 100)),
+  update(k = neighbors(range = c(5, 70)),
          weight = weight_func(values = c("inv", "gaussian")),
          dist = dist_power(range = c(0.1, 10))) %>%
   grid_regular(levels = 3) 
@@ -11982,7 +12219,10 @@ grid_knn # 18 modelos (3 x 2 x 3)
 
 ---
 
-# .orange[TUNE GRID]
+# .orange[TUNE]: .green[GRID AUTOMÁTICO]
+
+La forma de definir el grid cambia pero una vez definido, todo es igual que el ejemplo anterior
+
 
 ```{r}
 # Entrenamos y evaluamos los 18 modelos
@@ -11997,47 +12237,24 @@ hoteles_knn_fit_tune %>% collect_metrics()
 
 ---
 
-
-class: inverse center middle
-name: clase-9
-
-
-# CLASE 9: otras validaciones y ggplot
-
-&nbsp;
-
-### [Mejor modelo en validación](#show-best)
-
-### [Modelización paralelizada](#parallel)
-
-### [Sobremuestreo](#oversampling)
-
-### [Validación cruzada y bootstrap](#cv-hoteles)
-
-### [Visualización de datos](#dataviz)
-
----
-
 name: show-best
 
-# Fase 5: .orange[evaluación]
+# .orange[SELECCIÓN DEL MEJOR]
 
 No solo vamos a poder trastear con tidyverse en esos resultados en validación sino que tenemos **.bg-purple_light[dos funciones especialmente pensadas]** para ello: `show_best()` nos devuelve los mejores modelos según la métrica pedida, `select_best()` nos selecciona el mejor
 
 ```{r}
-# Los mejores según accuraccy
-hoteles_knn_fit_tune %>% show_best("accuracy")
-
-# Elegir el mejor según ROC
-hoteles_knn_fit_tune %>% select_best("roc_auc")
+hoteles_knn_fit_tune %>% show_best("roc_auc")
+hoteles_knn_fit_tune %>% select_best("accuracy")
 ```
 
 ---
 
 # .orange[SELECCIÓN DEL MEJOR]
 
+Una vez elegido **.bg-purple_light[finalizamos flujo con el mejor modelo]** (según una métrica)
+
 ```{r}
-# Finalizamos flujo con el mejor modelo (según una métrica)
 best_knn_model_acc <- hoteles_knn_fit_tune %>% select_best("accuracy")
 final_wf <- 
   hoteles_wflow %>% 
@@ -12049,8 +12266,10 @@ final_wf
 
 # Fase 5: .orange[EVALUACIÓN EN TEST]
 
+
+Con `last_fit()` **.bg-purple_light[ajustamos a test]** con ese mejor modelo seleccionado en validación, y calculamos métricas en test.
+
 ```{r}
-# Ajustamos a test con ese modelo seleccionado en validación
 final_knn_fit <- 
   final_wf %>%
   last_fit(hoteles_split) 
@@ -12064,7 +12283,7 @@ final_knn_fit %>% collect_metrics()
 
 # Fase 5: .orange[PREDICCIÓN EN TEST]
 
-Podemos volver a usar `predict()`, extrayendo el flujo de ese ajuste final con `extract_workflow(final_knn_fit)`
+Podemos volver a usar `predict()`, extrayendo antes el flujo de ese ajuste final con `extract_workflow(final_knn_fit)`, para calcular las **.bg-purple_light[clases predichas]** en test.
 
 ```{r}
 # Predecir el conjunto test: devuelve la clase
@@ -12084,6 +12303,9 @@ predict(extract_workflow(final_knn_fit), hoteles_test, type = "prob")
 
 # Fase 5: .orange[PREDICCIÓN EN TEST]
 
+Con `augment()` podemos incluir en una sola tabla los datos en test y las predicciones, y con `conf_mat()` obtenemos la **.bg-purple_light[matriz de confusión]**
+
+
 ```{r}
 # Incluir predicciones en tabla
 prob_test <- augment(extract_workflow(final_knn_fit), hoteles_test)
@@ -12101,7 +12323,8 @@ conf_mat_test
 
 ```{r}
 # todas las métricas en test
-conf_mat_test %>% summary()
+conf_mat_test %>%
+  summary() #<<
 ```
 
 ---
@@ -12110,9 +12333,9 @@ conf_mat_test %>% summary()
 
 Podemos **.bg-purple_light[dibujar la curva ROC]** haciendo uso de `roc_curve()` pasándole el archivo con las predicciones, y usando las probabilidades de ser 1 (guardadas en `.pred_children` en nuestro conjunto). Aprenderemos a dibujarla mejor pero podemos mientras hacerlo con `autoplot()`
 
-```{r, out.width = "40%"}
+```{r}
 roc_data <- prob_test %>% roc_curve(truth = children, .pred_children)
-roc_data %>% autoplot()
+roc_data
 ```
 
 
@@ -12209,9 +12432,25 @@ bake(hoteles_rec_oversampling %>% prep(), new_data = NULL) %>%
 
 # .orange[SOBREMUESTREO] .green[BAJOMUESTREO]
 
+Es importante advertir que por defecto `themis::step_upsample()` tiene un parámetro opcional `skip` puesto en `TRUE` (si te fijas en el resto de funciones tipo `step_...()` la mayoría lo tienen en `FALSE`).
+
+&nbsp;
+
+Si `skip = TRUE`, lo que indicamos ese que ese **.bg-purple_light[paso de la receta lo ignore cuando lo vayamos a aplicar a test]** (recuerda que la ventaja de tidymodels es que cuando le pides predecir en test, el solo aplica la receta de train a test, para calcular la predicción). De esta manera, el conjunto de test no será sobre/bajomuestreado, ya que sería incorrecto "modificar" el conjunto de test dado (recuerda siempre que simula un conjunto nuevo que alguien te da).
+
+Puedes poder `skip = TRUE` siempre que quieras que un paso se lo salte luego en test.
+
+---
+
+# .orange[SOBREMUESTREO] .green[BAJOMUESTREO]
+
 Basta con repetir el proceso con la **receta con sobremuestreo**
 
-```{r eval = FALSE}
+```{r chunk-IMPORTANTE}
+clusters <- detectCores() - 1
+make_cluster <- makeCluster(clusters)
+registerDoParallel(make_cluster)
+
 # Flujo de trabajo
 hoteles_wflow_oversampling <-
   workflow() %>%
@@ -12227,18 +12466,156 @@ hoteles_knn_fit_tune_oversampling <-
                                    pkgs = c("outliers")),
             metrics = metric_set(accuracy, sensitivity,
                                  specificity, roc_auc))
+# finalizamos clusters
+stopCluster(make_cluster)
+registerDoSEQ()
 ```
   
 ---
+
+# .orange[SOBREMUESTREO] .green[BAJOMUESTREO]
+
+Tras ello volvemos a elegir el mejor modelo según accuracy para compararlo
+
+```{r}
+best_knn_model_over_acc <-
+  hoteles_knn_fit_tune_oversampling %>% select_best("accuracy")
+```
+
+Y con ese modelo seleccionado finalizamos flujo y ajustamos a test
+
+```{r}
+# Finalizamos flujo con el mejor modelo (según una métrica)
+final_wf_over <- 
+  hoteles_wflow %>% 
+  finalize_workflow(best_knn_model_over_acc)
+
+# Ajustamos a test con ese modelo seleccionado en validación
+final_knn_fit_over <- 
+  final_wf_over %>%
+  last_fit(hoteles_split) 
+```
+
+---
+
+# .orange[SOBREMUESTREO] .green[BAJOMUESTREO]
+
+```{r}
+# Calculamos métricas en test (las indicadas)
+final_knn_fit_over %>% collect_metrics()
+```
+
 
 ---
 
 names: cv-hoteles
 
-# Validación .orange[CRUZADA v-folds]
+# Validación .orange[CRUZADA]
+
+Hasta ahora, hemos probado **.bg-purple_light[varios modelos]** sobre el **.bg-orange[mismo conjunto de validación]**. Ese conjunto de validación se ha hecho de manera aleatoria, así que nuestro resultado podría estar condicionado a la **buena o mala suerte** de esa partición.
+
+En realidad cuando hemos hablado de **.bg-purple_light[sesgo y varianza]** no era exactamente esto, ya que para tener una media de lo que nos equivocamos y una varianza de las predicciones, necesitaremos no solo varios modelos sino, en cada una, **.bg-purple_light[varios conjuntos de validación]**
+
+&nbsp;
 
 
-* cv v-folds
+**.bg-red_light[Problema]**: si necesitamos hacer muchas particiones de los datos, puede que nos quedemos sin tamaño muestral suficiente.
+
+---
+
+
+# Validación .orange[CRUZADA] aleatoria
+
+
+* **.bg-purple_light[Validación cruzada aleatoria]**: la forma más simple (pero menos eficiente) es generar un «bucle» de k iteraciones, de forma que repitamos el proceso k veces, con conjuntos de validación distintos, promediando las métricas.
+
+```{r echo = FALSE,  out.width = "55%", fig.align = "center"}
+knitr::include_graphics("./img/val_cruzada_aleatoria.jpg")
+``` 
+
+La **.bg-red_light[principal crítica]** a este método no solo es la ineficiencia sino que además en cada iteración podemos tener solapamiento: nada nos garantiza que el conjunto de validación sea el mismo en dos iteraciones.
+
+---
+
+# Validación .orange[CRUZADA] v-folds
+
+
+* **.bg-purple_light[Validación cruzada v-folds]**: la forma más habitual es mediante validación cruzada v-folds, basada en **.bg-purple_light[generar artificialmente conjuntos de validación]** a partir de los datos originales.
+
+```{r echo = FALSE,  out.width = "51%", fig.align = "center"}
+knitr::include_graphics("./img/val_cruzad_vfolds.jpg")
+``` 
+
+Los datos se dividen en **.bg-purple_light[v subsubconjuntos de igual tamaño]**: en cada iteración i (de 1 a v) se usa como
+**.bg-purple_light[conjunto train todo menos el subconjunto i-ésimo]**, el cual es usado para validar (obteniendo un promedio de v iteraciones).
+
+
+---
+
+
+# Validación .orange[CRUZADA] v-folds
+
+* **Iteración i**: entrenamos el modelo con los **conjuntos {1,...,i-1, i+1, ..., v}** y validamos con el **conjunto i-ésimo**.
+
+
+En muchas ocasiones ese proceso se **.bg-purple_light[repite un número k de veces]** con el objetivo de **.bg-purple_light[eliminar el efecto de la forma de subdivisión]** en v subconjuntos, obteniendo un promedio de $k*v$ conjuntos de validación, y tomar decisiones sobre los parámetros.
+
+```{r}
+hoteles_split <- initial_split(hoteles_sample, strata = children, prop = 0.9)
+hoteles_train <- training(hoteles_split)
+hoteles_test <- testing(hoteles_split)
+
+hoteles_cv_folds <- vfold_cv(data = hoteles_train, v = 4, repeats = 2, strata = children) #<<
+hoteles_cv_folds
+```
+
+---
+
+# Validación .orange[CRUZADA] v-folds
+
+Todo igual salvo el conjunto de `resamples` que le pasamos
+
+```{r}
+clusters <- detectCores() - 1
+make_cluster <- makeCluster(clusters)
+registerDoParallel(make_cluster)
+
+hoteles_knn_fit_tune <-
+ hoteles_wflow %>%
+  tune_grid(resamples = hoteles_cv_folds,#<<
+            grid = grid_knn,
+            control = control_grid(verbose = TRUE, allow_par = TRUE, #<<
+                                   pkgs = c("outliers")),
+            metrics = metric_set(accuracy, sensitivity, specificity, roc_auc))
+# finalizamos clusters
+stopCluster(make_cluster)
+registerDoSEQ()
+```
+
+---
+
+# Validación .orange[CRUZADA] v-folds
+
+
+Ahora tendremos una métrica media con su desviación típica.
+
+```{r}
+hoteles_knn_fit_tune
+```
+
+---
+
+# Validación .orange[CRUZADA] v-folds
+
+Incluso podemos usar `select_by_one_std_err()` para elegir el **.bg-purple_light[mejor modelo según sesgo-varianza]**, siguiendo la one-standard error rule propuesta por Breiman et al.  (1984). Ver <https://www.cs.ubc.ca/~murphyk/Teaching/CS340-Fall07/L4_knn.pdf>
+
+
+
+```{r}
+hoteles_knn_fit_tune %>% select_by_one_std_err(metric = "accuracy", k)  
+hoteles_knn_fit_tune %>% collect_metrics()
+```
+
 
 ---
 
@@ -12246,13 +12623,2748 @@ names: bootstrap-val-hoteles
 
 # Validación .orange[BOOTSTRAP]
 
-* Bootstrap Out-of-Bag
+Cuando los **.bg-purple_light[datos son tan escasos que incluso la validación v-folds]** nos dejaría conjuntos muy poco representativos por su tamaño, podemos aplicar un **.bg-purple_light[remuestreo con reemplazamiento (bootstrap)]**.
+
+En este caso, en cada iteración, realizaremos un **.bg-purple_light[remuestreo con reemplazamiento pero SOLO de una parte de los datos]**, obteniendo un conjunto de igual tamaño al inicial. Con los datos que no entraron en el remuestreo con reemplazamiento anterior construimos el **.bg-purple_light[conjunto para la validación (Out-of-Bag - OOB - sample)]**.
+
+```{r}
+hoteles_boots <- bootstraps(hoteles_train, times = 7)
+hoteles_boots
+```
 
 ---
 
 name: dataviz
 
-# .orange[VISUALIZACIÓN] de datos
+# .orange[DATAVIZ]: .green[HISTORIA]
+
+
+La aparición de gráficos estadísticos es **.bg-purple_light[relativamente reciente en la ciencia]** ya que hasta la Edad Media la única visualización de datos estaba en los **.bg-purple_light[mapas]** (representación de nuestra realidad en superficies bidimensionales).
+
+De hecho las propias palabras _chart_ y _cartography_ derivan del mismo origen latino, _charta_, aunque el primer uso datado de coordenadas parece venir de los egipcios. <sup>2,3</sup>
+
+
+.footnote[[1] [«Gramática de las gráficas: pistas para mejorar las representaciones de datos» de Joaquín Sevilla](http://academica-e.unavarra.es/bitstream/handle/2454/15785/Gram%C3%A1tica.pdf)
+
+[2] [«Presentation Graphics» de Leland Wilkinson. International Encyclopedia of the Social & Behavioral Sciences](https://www.cs.uic.edu/~wilkinson/Publications/iesbs.pdf)
+
+[3] [«Quantitative Graphics in Statistics: A Brief History» de James R. Beniger y Dorothy L. Robyn. The American Statistician (1978)](https://www.jstor.org/stable/2683467)]
+
+---
+
+
+# .orange[NAVEGACIÓN] y .green[ASTRONOMÍA]
+
+.pull-left[
+
+No es hasta la Edad Media, cuando la **.bg-purple_light[navegación y la astronomía]** empezaban a tomar relevancia científica, cuando aparece la que se considera la primera gráfica (aunque no propiamente estadística) <sup>3</sup>, representando el **movimiento cíclico de los planetas** (entre los siglos X y XI)
+
+]
+
+.pull-right[
+
+
+```{r echo = FALSE,  out.width = "110%", fig.align = "center", fig.cap = "Gráfica extraída de Beniger y Robyn (1978)"}
+knitr::include_graphics("./img/dataviz_historico_1.png")
+``` 
+
+]
+
+[3] [«Quantitative Graphics in Statistics: A Brief History» de James R. Beniger y Dorothy L. Robyn. The American Statistician (1978)](https://www.jstor.org/stable/2683467)
+
+
+---
+
+# .orange[PRIMER] gráfico estadístico
+
+La mayoría de expertos, como Tufte <sup>6,7</sup>, consideran este gráfico casi longitudinal como la **.bg-purple_light[primera visualización de datos]** de la historia, hecha por **Van Langren** en 1644, representando la **.bg-purple_light[distancia entre Toledo y Roma]** (un poco mal medida ya que la distancia real es de 16.5º).
+
+.pull-left[
+
+```{r echo = FALSE,  out.width = "100%", fig.align = "center", fig.cap = "Extraída de Friendly y Valero-Mora (2010)"}
+knitr::include_graphics("./img/longitud_dataviz.jpg")
+``` 
+
+]
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "100%", fig.align = "center", fig.cap = "Extraída de Friendly y Valero-Mora (2010)"}
+knitr::include_graphics("./img/dataviz_historico_3.jpeg")
+``` 
+
+]
+
+[6] [«Visual explanations: images and quantities, evidence and narrative» de E. Tufte](https://archive.org/details/visualexplanatio00tuft)
+
+[7] [«PowerPoint is evil» de E. Tufte](https://www.wired.com/2003/09/ppt2/)
+
+---
+
+# ¿Qué es una .orange[GRÁFICA] estadística?
+
+¿Por qué ese gráfico se considera la primera visualización estadística de la historia? ¿Qué es lo que hace que una visualización sea una gráfica estadística y no las anteriores? ¿Cuál es la **.bg-purple_light[frontera entre una ilustración y una gráfica]** (de datos)?
+
+
+.pull-left[
+
+¿Es una gráfica estadística? ¿Por qué sí o por qué no?
+
+]
+
+.pull-right[
+
+
+```{r echo = FALSE,  out.width = "45%", fig.align = "center"}
+knitr::include_graphics("./img/cuadro_dataviz.jpg")
+``` 
+
+]
+
+--
+
+No hay  **.bg-purple_light[ninguna INFORMACIÓN]** representada
+
+
+---
+
+# ¿Qué es una .orange[GRÁFICA] estadística?
+
+¿Por qué ese gráfico se considera la primera visualización estadística de la historia? ¿Qué es lo que hace que una visualización sea una gráfica estadística y no las anteriores? ¿Cuál es la **.bg-purple_light[frontera entre una ilustración y una gráfica]** (de datos)?
+
+.pull-left[
+
+¿Es una gráfica estadística? ¿Por qué sí o por qué no?
+
+]
+
+.pull-right[
+
+
+```{r echo = FALSE,  out.width = "65%", fig.align = "center"}
+knitr::include_graphics("./img/horoscopo_dataviz.jpg")
+``` 
+
+]
+
+--
+
+No hay **.bg-purple_light[ningún PROCESO DE MEDIDA]** representado, no cuantifica nada (real).
+
+
+---
+
+# ¿Qué es una .orange[GRÁFICA] estadística?
+
+¿Por qué ese gráfico se considera la primera visualización estadística de la historia? ¿Qué es lo que hace que una visualización sea una gráfica estadística y no las anteriores? ¿Cuál es la **.bg-purple_light[frontera entre una ilustración y una gráfica]** (de datos)?
+
+
+.pull-left[
+
+¿Es una gráfica estadística? ¿Por qué sí o por qué no?
+
+]
+
+.pull-right[
+
+
+```{r echo = FALSE,  out.width = "110%", fig.align = "center"}
+knitr::include_graphics("./img/celsius_dataviz.jpg")
+``` 
+
+]
+
+--
+
+No hay **.bg-purple_light[ningún DATO]** representado en él, es una magnitud física teórica, no un dato (medido empíricamente o simulado).
+
+
+---
+
+# ¿Qué es una .orange[GRÁFICA] estadística?
+
+¿Por qué ese gráfico se considera la primera visualización estadística de la historia? ¿Qué es lo que hace que una visualización sea una gráfica estadística y no las anteriores? ¿Cuál es la **.bg-purple_light[frontera entre una ilustración y una gráfica]** (de datos)?
+
+
+.pull-left[
+
+¿Es una gráfica estadística? ¿Por qué sí o por qué no?
+
+]
+
+.pull-right[
+
+
+```{r echo = FALSE,  out.width = "60%", fig.align = "center"}
+knitr::include_graphics("./img/mapa_infografia_dataviz.jpg")
+``` 
+
+]
+
+--
+
+El proceso de representación **.bg-purple_light[no es REVERSIBLE]** ni comparable (al menos no fácilmente): es una infografía, no un gráfico estadístico.
+
+
+
+---
+
+# ¿Qué es una .orange[GRÁFICA] estadística?
+
+Esas mismas preguntas se hizo **Joaquín Sevilla** <sup>1</sup>, proporcionando **.bg-purple_light[3 requisitos]**:
+
+.pull-left[
+
+1. Que se base en el esquema de composición de **.bg-purple_light[eje métrico]** (proceso de medida): debe **.bg-orange[medir algo]**.
+
+2. Debe incluir **.bg-purple_light[información (datos)]**
+
+3. La **.bg-purple_light[relación de representatividad]** debe ser **.bg-purple_light[reversible]**: los datos deberían poder «recuperarse» a partir de la gráfica (es un tipo particular de **.bg-orange[«aplicación» matemática]**).
+
+]
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "70%", fig.align = "center", fig.cap = "Ejemplo de metáfora visual bien ejecutada (extraída del manual de J. Sevilla)"}
+knitr::include_graphics("./img/grafica_dinero_sevilla.jpg")
+``` 
+
+]
+
+[1] [«Gramática de las gráficas: pistas para mejorar las representaciones de datos» de Joaquín Sevilla](http://academica-e.unavarra.es/bitstream/handle/2454/15785/Gram%C3%A1tica.pdf)
+
+
+---
+
+# Abolición de .orange[DIAGRAMAS DE TARTAS]
+
+Hay muchas formas de hacer una gráfica estadística, y no suele pasar por hacer un **.bg-purple_light[gráfico de tartas o sectores]** ya que tienen un grave **.bg-purple_light[problema de reversibilidad]**:
+
+.pull-left[
+
+* Si hay **muchas variables**: salvo que conozcas el montante total y tengas un transportador de ángulos a mano, es **.bg-purple_light[imposible que tus ojos midan ángulos]**
+
+* Si hay **pocas variables**: ¿aporta algo distinto (y/o mejor) que una tabla?
+
+]
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "99%", fig.align = "center"}
+knitr::include_graphics("./img/sectores_3D.jpg")
+``` 
+
+]
+
+---
+
+# .orange[VIZFAILS]: ejempos mal
+
+
+```{r echo = FALSE,  out.width = "50%", fig.align = "center", fig.cap = "Ejemplo de metáfora visual mal ejecutada"}
+knitr::include_graphics("./img/persona_dataviz.jpg")
+```
+
+---
+
+# .orange[VIZFAILS]: ejempos mal
+
+.pull-left[
+
+```{r echo = FALSE,  out.width = "99%", fig.align = "center", fig.cap = "Ejemplo de metáfora visual mal ejecutada"}
+knitr::include_graphics("./img/persona_dataviz.jpg")
+``` 
+
+]
+
+.pull-right[
+
+* La figura elegida (persona caminando) sin relación con lo visualizado: **.bg-purple_light[mala metáfora visual]**.
+
+* Los **.bg-purple_light[sectores señalados sin relación con el ítem]** a representar, lo que dificulta su interpretación.
+
+* Los **.bg-purple_light[colores sin codificar]**: no dan información de ningún tipo.
+
+* Las **.bg-purple_light[formas irregulares impiden la comparación]** de las áreas (amén de que la suma total supera el 100%).
+
+* **.bg-purple_light[Sin fuente]** de la procedencia de los datos.
+
+]
+
+
+---
+
+# .orange[VIZFAILS]: ejempos mal
+
+
+```{r echo = FALSE,  out.width = "50%", fig.align = "center", fig.cap = "Ejemplo de una buena idea mal ejecutada (de un vicerrector de tecnología...)"}
+knitr::include_graphics("./img/viz_fail_covid.jpg")
+``` 
+
+---
+
+# .orange[VIZFAILS]: ejempos mal
+
+.pull-left[
+
+```{r echo = FALSE,  out.width = "100%", fig.align = "center", fig.cap = "Ejemplo de una buena idea mal ejecutada (de un vicerrector de tecnología...)"}
+knitr::include_graphics("./img/viz_fail_covid.jpg")
+``` 
+
+]
+
+.pull-right[
+
+* **.bg-purple_light[Uso de dos ejes]** (a izquierda para mortalidad, a derecha para letalidad) **.bg-purple_light[sin indicarlo]** adecuadamente. Cuidado con los dos ejes: puede ser confuso.
+
+* **.bg-purple_light[Leyenda mal referenciada]** y muy pequeña.
+
+* **.bg-purple_light[Tamaño de la línea desproporcionado]** que impide la reversibilidad y la comparación.
+
+* **.bg-purple_light[Compara celdas geográficas incomparables]** por tamaño y contexto: ¿Galicia vs Alemania?
+
+]
+
+
+
+---
+
+# .orange[VIZFAILS]: ejempos mal
+
+
+```{r echo = FALSE,  out.width = "40%", fig.align = "center", fig.cap = "Ejemplo de una mala codificación"}
+knitr::include_graphics("./img/viz_fail_uk.jpg")
+``` 
+
+
+---
+
+# .orange[VIZFAILS]: ejempos mal
+
+.pull-left[
+
+```{r echo = FALSE,  out.width = "60%", fig.align = "center", fig.cap = "Ejemplo de una mala codificación"}
+knitr::include_graphics("./img/viz_fail_uk.jpg")
+``` 
+
+]
+
+.pull-right[
+
+* **.bg-purple_light[Desagregación incorrecta]**: distritos geográficos muy grandes que se podrían representar en una tabla de 9 filas.
+
+* **.bg-purple_light[Leyenda desproporcionada]** que atrae la atención más que el propio gráfico.
+
+* Ejemplo de los **.bg-purple_light[colores no son algo meramente estético]**: hay que codificarlos adecuadamente. El gradiente de una paleta de colores puede convertir una buena idea en una pésima visualización.
+
+]
+
+---
+
+# La importancia del .orange[CONTEXTO]
+
+Una **buena idea** puede estar mal ejecutada: la forma de llevarla a cabo es importante
+
+```{r echo = FALSE, out.width = "28%", fig.align = "center", fig.cap = "Ejemplo de buena idea mal ejecutada"}
+knitr::include_graphics("./img/semaforos.jpg")
+``` 
+
+---
+
+# Dataviz: .orange[HISTORIA]
+
+En el siglo XVII hubo un boom de la estadística al empezar a aplicarse en **.bg-purple_light[demografía]**. Uno de los autores más importantes fue **.bg-purple_light[J. Graunt]**, autor de «Natural and Political Observations Made upon the Bills of Mortality» (1662), estimando la población de Londres con las **.bg-purple_light[primeras tablas de natalidad y mortalidad]**.
+
+.pull-left[
+
+Son precisamente las tablas de Graunt las que usó **.bg-purple_light[Christiaan Huygens]** para generar la **.bg-purple_light[primera gráfica de densidad]** de una distribución continua (esperanza de vida vs edad).
+
+]
+
+.pull-right[
+
+
+```{r echo = FALSE,  out.width = "100%", fig.align = "center", fig.cap = "Primera función de densidad, extraída de https://omeka.lehigh.edu/exhibits/show/data_visualization/vital_statistics/huygen"}
+knitr::include_graphics("./img/primera_densidad.jpg")
+``` 
+
+]
+
+---
+
+# Los gráficos de .orange[Playfair]
+
+La figura que cambió el dataviz fue, sin lugar a dudas, el economista y político **.bg-purple_light[William Playfair (1759-1823)]**, publicando en 1786 el **«Atlas político y comercial»** con 44 gráficas (43 series temporales y el diagrama de barras más famoso de la historia).
+
+.pull-left[
+
+```{r echo = FALSE, out.width = "70%", fig.align = "center", fig.cap = "Extraídas de Funkhouser y Walker (1935)"}
+knitr::include_graphics("./img/playfair_1.jpg")
+``` 
+
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "25%", fig.align = "center", fig.cap = "Extraídas de Funkhouser y Walker (1935)"}
+knitr::include_graphics("./img/playfair_2.jpg")
+``` 
+
+]
+
+[10] [«Atlas político y comercial» de William Playfair (1786)](https://www.amazon.es/Playfairs-Commercial-Political-Statistical-Breviary/dp/0521855543)
+
+[11] [«Playfair and his charts» de H. Gray Funkhouser and  Helen M. Walker (1935)](https://www.jstor.org/stable/45366440)
+
+---
+
+
+# Los gráficos de .orange[Playfair]
+
+Playfair no solo fue el primero en usar el dataviz para entender (y no solo describir): fue el primero en usar **.bg-purple_light[conceptos modernos]** como _grid_, tema o color
+
+.pull-left[
+
+```{r echo = FALSE, out.width = "90%", fig.align = "center", fig.cap = "Extraída de https://friendly.github.io/HistDataVis"}
+knitr::include_graphics("./img/playfair_3.jpg")
+``` 
+
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "90%", fig.align = "center", fig.cap = "Extraída de la wikipedia."}
+knitr::include_graphics("./img/playfair_4.png")
+``` 
+
+]
+
+---
+
+# Los gráficos de .orange[Playfair]
+
+Playfair es además el autor del **.bg-purple_light[gráfico de barras más famoso]** (no fue el primero pero sí quien lo hizo _mainstream_).
+
+.pull-left[
+
+```{r echo = FALSE, out.width = "90%", fig.align = "center", fig.cap = "Gráficas de Playfair de importaciones (barras grises) y exportaciones (negras) de Escocia en 1781, extraídas de la wikipedia."}
+knitr::include_graphics("./img/playfair_5.jpg")
+``` 
+
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "90%", fig.align = "center", fig.cap = "Primer diagrama de barras (P. Buache y G. de L’Isle), visualizando los niveles del Sena (1732 - 1766), extraída de https://friendly.github.io/HistDataVis"}
+knitr::include_graphics("./img/playfair_6.jpg")
+``` 
+
+]
+
+---
+
+# Los gráficos de .orange[Playfair]
+
+
+Playfair además fue el primero en **.bg-purple_light[combinar gráficos en la misma visualización]**
+
+.pull-left[
+
+```{r echo = FALSE, out.width = "85%", fig.align = "center", fig.cap = "Visualiza 3 series temporales: precios (barras) del trigo, salarios (línea) y time-line con reinados, extraída de https://friendly.github.io/HistDataVis."}
+knitr::include_graphics("./img/playfair_7.jpg")
+``` 
+
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "85%", fig.align = "center", fig.cap = "Time-line histórico, extraída de https://friendly.github.io/HistDataVis."}
+knitr::include_graphics("./img/playfair_8.png")
+``` 
+
+]
+
+[12] [«A Letter on Our Agricultural Distresses, Their Causes and Remedies» de W. Playfair (1821)](http://onlinebooks.library.upenn.edu/webbin/book/lookupid?key=ha009726110)
+
+[13] [«An Inquiry Into the Permanent Causes of the Decline and Fall of Powerful and Wealthy Nations» de William Playfair (1821)](https://www.amazon.com/Permanent-Powerful-Nations-Prosperity-Prolonged/dp/140691830X)
+
+---
+
+# Mapas de .orange[Minard]
+
+Otro pionero en **.bg-purple_light[combinar visualizaciones]** fue Minard, autor del famoso «Carte figurative des pertes successives en hommes de l'Armée Française dans la campagne de Russie 1812-1813», según Tufte **.bg-purple_light[«el mejor gráfico estadístico jamás dibujado»]**, publicado en 1869 sobre la desastrosa campaña rusa de Napoleón en 1812 (3 variables en un gráfico bidimensional)
+
+```{r echo = FALSE, out.width = "60%", fig.align = "center", fig.cap = "Extraída de https://friendly.github.io/HistDataVis."}
+knitr::include_graphics("./img/minard_2.png")
+```
+
+---
+
+# Primer .orange[SCATTER PLOT]
+
+Según Sevilla <sup>1</sup>, se considera al astrónomo británico **John Frederick William Herschel** el autor del **.bg-purple_light[primer diagrama de dispersión o scatterplot]** en 1833, visualizando el movimiento de la estrella doble Virginis (tiempo en el eje horizontal, posición angular en el eje vertical)
+
+
+```{r echo = FALSE, out.width = "35%", fig.align = "center", fig.cap = "Extraído de https://friendly.github.io/HistDataVis."}
+knitr::include_graphics("./img/herschel.jpg")
+``` 
+
+---
+
+# Primera .orange[PIRÁMIDE POBLACIONAL]
+
+La **.bg-purple_light[primera pirámide de población]** (doble histograma de población), fue publicada por **Francis Amasa Walker**, superintendente del censo de EE.UU., en 1874.
+
+```{r echo = FALSE, out.width = "45%", fig.align = "center", fig.cap = "Extraída de https://www.depauw.edu/learn/dew/wpaper/workingpapers/DePauw2016-02-Barreto-DemographyEconomics.pdf"}
+knitr::include_graphics("./img/walker_piramide.jpg")
+``` 
+
+---
+
+# .orange[FLORENCE NIGTHINGALE]
+
+.pull-left[
+
+
+* El 21 de octubre de 1854 **.bg-purple_light[Florence Nigthingale]** fue enviada para mejorar las **condiciones sanitarias** de los soldados británicos en la guerra de Crimea. 
+
+* A su regreso se dedicó a demostrar que los **.bg-purple_light[soldados fallecían por las condiciones sanitarias]**: eran **muertes evitables**. Nigthingale es la creadora del famoso y pionero **.bg-purple_light[diagrama de rosa]**, permitiendo pintar tres variables a la vez y su estacionalidad.
+
+* El 8 de febrero de 1955, The Times la describió como la **«ángel guardián» de los hospitales**, y al finalizar la contienda, fue recibida como una heroína, conocida como **.bg-purple_light[«The Lady with the Lamp»]**.
+
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "75%", fig.align = "center"}
+knitr::include_graphics("./img/the_lady_with_the_lamp.png")
+``` 
+
+]
+
+---
+
+# .orange[DIAGRAMA DE ROSA]
+
+Florence Nigthingale es la creadora del famoso **.bg-purple_light[diagrama de rosa]**, permitiendo pintar **.bg-purple_light[tres variables a la vez y su estacionalidad]**: **tiempo** (cada **gajo** es un mes), **nº de muertes** (**área** del gajo) y **causa** de la muerte (**color** del gajo: azules enfermedades infecciosas, rojas por heridas, negras otras causas).
+
+
+```{r echo = FALSE, out.width = "60%", fig.align = "center"}
+knitr::include_graphics("./img/rosa_nightingale.jpg")
+``` 
+
+---
+
+
+# .orange[RECURSOS] de dataviz
+
+
+📚 [«The Functional Art: an introduction to information graphics and visualization» de Alberto Cairo](https://www.amazon.es/Functional-Art-Voices-That-Matter/dp/0321834739)
+
+
+📚 [«Gramática de las gráficas: pistas para mejorar las representaciones de datos» de Joaquín Sevilla](https://academica-e.unavarra.es/bitstream/handle/2454/15785/Gram%C3%A1tica.pdf)
+
+
+📚 [«A Brief History of Visualization» de Friendly et al. (2008)](https://www.researchgate.net/publication/226400313_A_Brief_History_of_Data_Visualization)
+
+📚 [«Quantitative Graphics in Statistics: A Brief History» de James R. Beniger y Dorothy L. Robyn. The American Statistician (1978)](https://www.jstor.org/stable/2683467)]
+
+📚 [«Presentation Graphics» de Leland Wilkinson. International Encyclopedia of the Social & Behavioral Sciences](https://www.cs.uic.edu/~wilkinson/Publications/iesbs.pdf)
+
+📚 [«The Grammar of Graphics» de Leland Wilkinson](https://www.amazon.es/Grammar-Graphics-Statistics-Computing/dp/0387245448)
+
+
+📚 [«The Minard System: The Graphical Works of Charles-Joseph Minard» de Sandra Rendgen](https://www.amazon.es/gp/product/1616896337/ref=sw_img_1?smid=A1AT7YVPFBWXBL&psc=1)
+
+📚 [«The Visual Display of Quantitative Information» de E. W. Tufte](https://www.amazon.es/Visual-Display-Quantitative-Information/dp/0961392142)
+
+---
+
+name: intro-ggplot2
+
+
+
+# Dataviz en R: .orange[ggplot2]
+
+.pull-left[
+
+El paquete `{ggplot2}` se basa en la idea propuesta por Wilkinson en **.bg-purple_light[«Grammar of graphics»]**: dotar a los gráficos de una gramática propia. Una de las principales fortalezas de `R` no solo es la flexibilidad y rapidez de `{tidyverse}`, también la **.bg-purple_light[visualización]** con el paquete `{ggplot2}`.
+
+```{r}
+library(ggplot2)
+```
+
+
+La **.bg-purple_light[visualización de datos]** debería ser una parte fundamental de todo análisis de datos. No es solo una cuestión estética, es fundamental para **.bg-purple_light[convertir el dato en información]**.
+
+]
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "71%", fig.align = "center", fig.cap = "Imagen extraída de Reddit"}
+knitr::include_graphics("./img/telling_dataviz.jpg")
+``` 
+
+]
+
+
+---
+
+# Dataviz en R: .orange[ggplot2]
+
+
+.pull-left[
+
+La filosofía detrás de `{ggplot2}` es entender los **.bg-purple_light[gráficos como parte del flujo]** de trabajo, dotándoles de una **.bg-purple_light[gramática]**, basándose en la idea de Wilkinson.
+
+El objetivo es empezar con un lienzo en blanco e ir **.bg-purple_light[añadiendo capas a tu gráfico]**. La ventaja de `{ggplot2}` es poder **.bg-purple_light[mapear atributos estéticos]** (color, forma, tamaño) de objetos geométricos (puntos, barras, líneas) en función de los datos.
+
+&nbsp;
+
+
+La **documentación** del paquete puedes consultarla en <https://ggplot2-book.org/introduction.html> 
+
+]
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "100%", fig.align = "center", fig.cap = "Idea detrás de la «Grammar of graphics» de Wilkinson"}
+knitr::include_graphics("./img/grammar_ggplot2.jpg")
+``` 
+
+]
+
+---
+
+# Dataviz en R: .orange[ggplot2]
+
+```{r echo = FALSE,  out.width = "75%", fig.align = "center", fig.cap = "Extraída de https://twitter.com/tanya_shapiro"}
+knitr::include_graphics("./img/tarta_ggplot2.png")
+``` 
+
+---
+
+# Dataviz en R: .orange[ggplot2]
+
+.pull-left[
+
+
+```{r echo = FALSE,  out.width = "80%", fig.align = "center", fig.cap = "Extraída de https://twitter.com/tanya_shapiro"}
+knitr::include_graphics("./img/tarta_recortada_ggplot2.jpg")
+``` 
+
+]
+
+.pull-right[
+
+Un gráfico se podrá componer de las siguientes **.bg-purple_light[capas]**
+
+* **.bg-purple_light[Datos (data)]**
+* **.bg-purple_light[Mapeado (aesthetics)]** de elementos estéticos: ejes, color, forma, tamaño, etc (en función de los datos)
+* **.bg-purple_light[Geometría (geom)]**: puntos, líneas, barras, polígonos, etc.
+* **.bg-purple_light[Componer gráficas (facet)]**: visualizar varias gráficas a la vez.
+* **.bg-purple_light[Transformaciones (stat)]**: ordenar, resumir, agrupar, etc.
+* **.bg-purple_light[Coordenadas (coord)]**: coordenadas cartesianas, polares, grids, etc.
+* **.bg-purple_light[Temas (theme)]**: fuente, tamaño de letra, subtítulos, captions, leyenda, ejes, etc.
+
+]
+
+
+---
+
+# Primer intento: .orange[SCATTER PLOT]
+
+Veamos un **primer intento** para entender la filosofía ggplot. Imagina que queremos dibujar un **.bg-purple_light[scatter plot]** (diagrama de dispersión de puntos). Para ello vamos a usar el conjunto de datos `gapminder`, del paquete homónimo: un fichero con **datos de esperanzas de vida, poblaciones y renta per cápita** de distintos países en distintos momentos temporales.
+
+```{r}
+library(gapminder)
+gapminder
+```
+
+---
+
+# Primer intento: .orange[SCATTER PLOT]
+
+El fichero consta de 1704 registros y 6 variables: `country`, `continent`, `year`, `lifeExp` (esperanza de vida), `pop` (población)  y `gdpPercap` (renta per cápita).
+
+```{r}
+glimpse(gapminder)
+```
+
+Para empezar con algo sencillo **.bg-purple_light[filtraremos solo los datos de 1997]**
+
+--
+
+```{r}
+gapminder_1997 <- gapminder %>% filter(year == 1997)
+```
+
+---
+
+# .orange[INGREDIENTES]: .green[(x, y)]
+
+
+¿Qué **.bg-purple_light[elementos necesitamos]** para realizar un diagrama de puntos? Para iniciar el lienzo necesitamos una base de datos y dos variables a representar.
+
+--
+
+.pull-left[
+
+* **.bg-purple_light[Datos (data)]**: conjunto `gapminder_1997`.
+
+* **.bg-purple_light[Mapeado (aes)]**: indicarle dentro de `aes()` (aesthetics) las variables en cada coordenada. Todo lo que esté **.bg-purple_light[dentro de aes() serán mapeados de los datos]**
+
+```{r eval = FALSE}
+ggplot(data = gapminder_1997,
+       aes(x = gdpPercap, y = pop)) #<<
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "80%"}
+ggplot(gapminder_1997, aes(x = gdpPercap, y = pop))
+```
+]
+
+---
+
+
+# .orange[PRIMERA GEOMETRÍA]: .green[geom_point()]
+
+
+.pull-left[
+
+* **.bg-purple_light[Geometría (geom)]**: optaremos por **.bg-orange[puntos]** usando `geom_point()`.
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(x = gdpPercap, y = pop)) +
+  geom_point() #<<
+```
+
+]
+
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "93%"}
+ggplot(gapminder_1997, aes(x = gdpPercap, y = pop)) +
+  geom_point()
+```
+
+]
+
+---
+
+# .orange[ROL DE LOS EJES]: .green[(x, y)]
+
+
+
+.pull-left[
+
+Vamos a profundizar en ese mapeado: ¿cómo **.bg-purple_light[cambiar el rol]** de los ejes (población en el eje X y renta per cápita en el eje Y)? 
+
+* **Eje X**: población (variable `pop`)
+* **Eje Y**: renta per cápita (variable `gdpPercap`)
+
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = pop)) + #<<
+  geom_point() 
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "93%"}
+ggplot(gapminder_1997, aes(y = gdpPercap, x = pop)) +
+  geom_point() 
+```
+
+]
+
+---
+
+# .orange[ROL DE LOS EJES]: .green[(x, y)]
+
+
+
+.pull-left[
+
+¿Y un scatter plot con **esperanza de vida** en eje X frente a **renta per cápita**?
+
+
+* **Eje X**: esperanza de vida (variable `lifeExp`)
+* **Eje Y**: renta per cápita (variable `gdpPercap`)
+
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) + #<<
+  geom_point()
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "91%"}
+ggplot(gapminder_1997, aes(y = gdpPercap, x = lifeExp)) +
+  geom_point()
+```
+]
+
+---
+
+
+# .orange[COLOR], .green[SIZE], .purple[SHAPE]: fijos
+
+
+.pull-left[
+
+Dentro de `geom_point()` tenemos varios argumentos a usar:
+
+
+* `na.rm = ...`: si queremos que nos quite ausentes.
+
+* `color = ...`: color (si tiene dimensión, color del contorno)
+
+* `fill = ...`: color el relleno.
+
+Empezaremos por un **color fijo**, por ejemplo `"red"` (existen otros como `"blue"`, `"black"`, `"yellow"`, etc)
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(color = "red") #<<
+```
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "91%"}
+ggplot(gapminder_1997, aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(color = "red")
+```
+
+]
+
+---
+
+# .orange[COLOR], .green[SIZE], .purple[SHAPE]: fijos
+
+
+
+.pull-left[
+
+* `size = ...`: tamaño  de la geometría (en este caso el **tamaño de los punto**), cuanto mayor sea el número, mayor será el tamaño de la geometría.
+
+  
+```{r eval = FALSE}
+# Color con palabra reservada
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(color = "red",
+             size = 7) #<<
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "91%"}
+ggplot(gapminder_1997, aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(color = "red", size = 7)
+```
+
+]
+
+---
+
+# .orange[COLOR], .green[SIZE], .purple[SHAPE]: fijos
+
+
+.pull-left[
+
+* `alpha = ...`: grado de opacidad del color (1 totalmente opaco, 0 totalmente transparente)
+
+```{r eval = FALSE}
+# Color con palabra reservada
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(color = "red", size = 7,
+             alpha = 0.4) #<<
+```
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "91%"}
+ggplot(gapminder_1997, aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(color = "red", size = 7, alpha = 0.4)
+```
+
+]
+
+---
+
+# .orange[COLOR], .green[SIZE], .purple[SHAPE]: fijos
+
+
+.pull-left[
+
+* `shape = ...`: forma de la geometría, en este caso del «punto» (ver todas las opciones en `vignette("ggplot2-specs")`)
+
+
+```{r echo = FALSE,  out.width = "32%", fig.align = "center"}
+knitr::include_graphics("./img/shape_ggplot.jpg")
+``` 
+
+
+```{r eval = FALSE}
+# Color con palabra reservada
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(color = "red", size = 7,
+             alpha = 0.4, shape = 5) #<<
+```
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "91%"}
+ggplot(gapminder_1997, aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(color = "red", size = 7, alpha = 0.4, shape = 5)
+```
+
+]
+
+---
+
+# .orange[COLOR], .green[SIZE], .purple[SHAPE]: fijos
+
+
+.pull-left[
+
+* `shape = ...`: forma de la geometría, en este caso del «punto» (ver todas las opciones en `vignette("ggplot2-specs")`)
+
+
+```{r echo = FALSE,  out.width = "32%", fig.align = "center"}
+knitr::include_graphics("./img/shape_ggplot.jpg")
+``` 
+
+
+```{r eval = FALSE}
+# Color con palabra reservada
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(color = "red", size = 7, alpha = 0.4,
+             shape = 22, fill = "black") #<<
+```
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "91%"}
+ggplot(gapminder_1997, aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(color = "red", size = 7, alpha = 0.4, shape = 22, fill = "black")
+```
+
+]
+
+
+---
+
+# .orange[COLOR], .green[SIZE], .purple[SHAPE]: fijos
+
+
+.pull-left[
+
+* `stroke = ...`: tamaño del contorno
+
+```{r eval = FALSE}
+# Color con palabra reservada
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(color = "red", size = 7,
+             alpha = 0.4, stroke = 0) #<<
+```
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "91%"}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(color = "red", alpha = 0.4,
+             size = 7, stroke = 0)
+```
+
+]
+
+
+---
+
+# .orange[COLOR], .green[SIZE], .purple[SHAPE]: fijos
+
+
+.pull-left[
+
+Los colores también podemos asignárselos por su **código hexadecimal**, consultando en la página <https://htmlcolorcodes.com/es/>, eligiendo el color que queramos. El código hexadecimal siempre comenzará con `#`
+
+
+```{r eval = FALSE}
+# Color en hexadecimal
+# https://htmlcolorcodes.com/es/
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(color = "#A02B85", #<<
+             alpha = 0.4, size = 7) 
+```
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "91%"}
+ggplot(gapminder_1997, aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(color = "#A02B85", alpha = 0.4, size = 7)
+```
+
+]
+
+  
+---
+
+# Mapeado de atributos estéticos: .orange[aes()]
+
+.pull-left[
+
+Hasta ahora los **atributos estéticos** se los hemos pasado fijos y **constantes**.  Pero la verdadera potencia y versatilidad de `ggplot` es que podemos **.bg-purple_light[mapear los atributos estéticos en función de los datos]** en `aes()` para que dependan de variables de los datos
+
+Por ejemplo, vamos a asignar un **.bg-purple_light[color a cada dato en función de su continente]** con `aes(color = continent)`
+
+```{r eval = FALSE}
+# Tamaño fijo
+# Color por continentes
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent)) + #<<
+  geom_point(size = 7)
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "91%"}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp, color = continent)) +
+  geom_point(size = 5)
+```
+
+]
+
+---
+
+# Mapeado de atributos estéticos: .orange[aes()]
+
+
+.pull-left[
+  
+Podemos combinarlo con lo que hemos hecho anteriormente:
+
+* **.bg-purple_light[color]** en función del **.bg-orange[continente]**.
+
+* **.bg-purple_light[tamaño]** en función de la **.bg-orange[población]**.
+
+* **.bg-purple_light[transparencia]** la fijamos  **.bg-orange[constante]** del 50%.
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent,
+           size = pop)) +
+  geom_point(alpha = 0.7)
+```
+
+A este scatter plot particular se le conoce **.bg-purple_light[bubble chart]**
+
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "91%"}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.7)
+```
+
+]
+
+---
+
+# Visualización .orange[MULTIVARIANTE]
+
+.pull-left[
+  
+Reflexionemos sobre el gráfico anterior:
+
+* **color** en función del **continente**.
+* **tamaño** en función de la **población**
+* **transparencia** fija del 50%
+
+Usando los datos hemos conseguido dibujar en un **.bg-purple_light[gráfico bidimensional 4 variables]**: `lifeExp` y `gdpPercap` en los ejes , `continent` como color y `pop` como tamaño de la geometría, con muy pocas líneas de código.
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.7)
+```
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "91%"}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.7)
+```
+
+]
+
+---
+
+# .orange[GEOMETRÍA]: .green[geom()]
+
+Vamos a modificar la **.bg-purple_light[capa de geometría]** (al igual que hemos usado `geom_point()`)
+
+.pull-left[
+
+* **.bg-purple_light[líneas]**: la geometrías como línea con `geom_line()`.
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_line(alpha = 0.8, size = 1.5)
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "85%"}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_line(alpha = 0.8, size = 1.5)
+```
+
+]
+  
+---
+
+# .orange[GEOMETRÍA]: .green[geom()]
+
+
+
+Vamos a modificar la **.bg-purple_light[capa de geometría]** (al igual que hemos usado `geom_point()`)
+
+.pull-left[
+
+Asignado los  **.bg-purple_light[colores a la variable continent]**, automáticamente obtenemos automáticamente una **.bg-purple_light[curva por continente]**.
+
+* **.bg-purple_light[líneas]**: la geometrías como línea con `geom_line()`.
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent)) +
+  geom_line(alpha = 0.8, size = 1.5)
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "85%"}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp, color = continent)) +
+  geom_line(alpha = 0.8, size = 1.5)
+```
+
+]
+
+---
+
+
+# .orange[GEOMETRÍA]: .green[geom()]
+
+
+Vamos a modificar la **.bg-purple_light[capa de geometría]** (al igual que hemos usado `geom_point()`)
+
+.pull-left[
+
+* **.bg-purple_light[hexágonos]**: la geometrías como hexágonos con `geom_hex()`. Dado que ahora nuestra geometría tiene **.bg-purple_light[volumen]** tendremos dos parámetros: `color`  para el contorno y `fill` para el relleno.
+
+```{r eval = FALSE}
+ggplot(gapminder_1997 %>%
+         filter(continent != "Oceania"),
+       aes(y = gdpPercap, x = lifeExp,
+           fill = continent, size = pop)) +
+  geom_hex(alpha = 0.8)
+```
+
+]
+
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "85%"}
+ggplot(gapminder_1997 %>%
+         filter(continent != "Oceania"),
+       aes(y = gdpPercap, x = lifeExp,
+           fill = continent, size = pop)) +
+  geom_hex(alpha = 0.8)
+```
+
+]
+
+
+---
+
+# .orange[GEOMETRÍA]: .green[geom()]
+
+
+Vamos a modificar la **.bg-purple_light[capa de geometría]** (al igual que hemos usado `geom_point()`)
+
+.pull-left[
+
+* **.bg-purple_light[textos]**: la geometrías como textos con `geom_text()` (aparezcan textos que tengamos en alguna variable, que mapearemos en `aes()` por el parámetro `label = ...`
+
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop,
+           label = country)) + #<<
+  geom_text(alpha = 0.8)
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "85%"}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop,
+           label = country)) + #<<
+  geom_text(alpha = 0.8)
+```
+
+]
+
+---
+
+# .orange[ESCALAS (scale)]: .green[coordenadas]
+
+A veces querremos representar alguna de las variables usando **.bg-purple_light[escalas que no sean la lineal]**.
+
+
+.pull-left[
+
+Una muy habitual es la **.bg-purple_light[escala logarítmica]** (importante indicarlo en el gráfico), lo que podemos hacer facilmente con `scale_x_log10()` y `scale_y_log10()`.
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  # Eje Y con escala logarítmica
+  scale_y_log10() #<<
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "85%"}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  # Eje Y con escala logarítmica
+  scale_y_log10() #<<
+```
+
+]
+  
+---
+
+# .orange[ESCALAS (scale)]: .green[coordenadas]
+
+A veces querremos mantener la escala pero **.bg-purple_light[fijar límites en los ejes]**.
+
+
+.pull-left[
+
+Eso lo podemos hacer dentro de las funciones `scale_x_...()` y `scale_y_...()` con `limits = ...`
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() + 
+  scale_x_continuous(
+    limits = c(0, 100)) #<<
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "85%"}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() + 
+  scale_x_continuous(
+    limits = c(0, 100)) 
+```
+
+]
+
+---
+
+# .orange[ESCALAS (scale)]: .green[coordenadas]
+
+La capa de escalas también nos sirve para **.bg-purple_light[formatear los ejes]**
+
+
+.pull-left[
+
+Por ejemplo, con `breaks = ...` podemos determinar el **.bg-purple_light[espaciado exacto]** que queremos en la gráfica.
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() + 
+  scale_x_continuous(
+    breaks = seq(35, 85, by = 5)) #<<
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "85%"}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() + 
+  scale_x_continuous(breaks = seq(35, 85, by = 5))
+```
+
+]
+
+---
+
+# .orange[ESCALAS (scale)]: .green[coordenadas]
+
+La capa de escalas también nos sirve para **.bg-purple_light[formatear los ejes]**
+
+.pull-left[
+
+Haciendo uso del paquete `{scales}` podemos añadir **.bg-purple_light[prefijo/sufijo a las etiquetas]** mostradas en los ejes, asignándoselo al parámetro `labels = ...`
+
+```{r eval = FALSE}
+library(scales)
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() + 
+  scale_x_continuous(
+    breaks = seq(35, 85, by = 5),
+    labels =
+      label_number(suffix = " años")) #<<
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "85%"}
+library(scales)
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() + 
+  scale_x_continuous(breaks = seq(35, 85, by = 5),
+                     labels =
+                       label_number(suffix = " años"))
+```
+
+]
+
+---
+
+# .orange[ESCALAS (scale)]: .green[coordenadas]
+
+.pull-left[
+
+Tenemos funciones concretas para **.bg-purple_light[formatear ejes]** como fechas (`scale_x_date()`), porcentajes (`labels = label_percent()`) o incluso **unidades monetarias** (`labels = label_dollar()`).
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10(
+    labels =
+      label_dollar(big.mark = ".",
+                   accuracy = 3,
+                   prefix = "",
+                   suffix = "$")) + 
+  scale_x_continuous(
+    breaks = seq(35, 85, by = 5),
+    labels =
+      label_number(suffix = " años")) #<<
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "85%"}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10(labels =
+                  label_dollar(big.mark = ".",
+                               accuracy = 1,
+                               prefix = "",
+                               suffix = "$")) + 
+  scale_x_continuous(breaks = seq(35, 85, by = 5),
+                     labels =
+                       label_number(suffix = " años"))
+```
+
+]
+
+---
+
+# .orange[ESCALAS (scale)]: .green[colores]
+
+La capa de escalas también nos sirve para **.bg-purple_light[proporcionar una paleta de colores]**
+
+.pull-left[
+
+ggplot selecciona automáticamente una paleta de colores, pero podemos indicarle alguna concreta. La primera y más inmediata es indicarle los **.bg-purple_light[colores manualmente]** con `scale_color_manual()`.
+
+```{r eval = FALSE}
+pal <- c("#A02B85", "#2DE86B", "#4FB2CA",
+         "#E8DA2D", "#E84C2D")
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_manual(values = pal) #<<
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "85%"}
+pal <- c("#A02B85", "#2DE86B", "#4FB2CA",
+         "#E8DA2D", "#E84C2D")
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_manual(values = pal) #<<
+```
+
+]
+
+---
+
+# .orange[ESCALAS (scale)]: .green[colores]
+
+La capa de escalas también nos sirve para **.bg-purple_light[proporcionar una paleta de colores]**
+
+.pull-left[
+
+Otra opción es elegir alguna de las **.bg-purple_light[paletas de colores diseñadas]** en el paquete `{ggthemes}`:
+
+* `scale_color_economist()`: paleta de colores basada en los colores de **.bg-purple_light[The Economist]**.
+
+```{r eval = FALSE}
+library(ggthemes)
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_economist() #<<
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "85%"}
+library(ggthemes)
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_economist()
+```
+
+]
+
+---
+
+# .orange[ESCALAS (scale)]: .green[colores]
+
+La capa de escalas también nos sirve para **.bg-purple_light[proporcionar una paleta de colores]**
+
+.pull-left[
+
+Otra opción es elegir alguna de las **.bg-purple_light[paletas de colores diseñadas]** en el paquete `{ggthemes}`:
+
+* `scale_color_excel()`: paleta de colores basada en los colores del **.bg-purple_light[Excel]**.
+
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_excel() #<<
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "85%"}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_excel()
+```
+
+]
+
+---
+
+# .orange[ESCALAS (scale)]: .green[colores]
+
+La capa de escalas también nos sirve para **.bg-purple_light[proporcionar una paleta de colores]**
+
+.pull-left[
+
+Otra opción es elegir alguna de las **.bg-purple_light[paletas de colores diseñadas]** en el paquete `{ggthemes}`:
+
+* `scale_color_tableau()`: paleta de colores basada en los colores de  **.bg-purple_light[Tableau]**.
+
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau() #<<
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "85%"}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau()
+```
+
+]
+
+
+---
+
+# .orange[ESCALAS (scale)]: .green[colores]
+
+
+También existen **múltiples paquetes** que nos proporcionan **paletas de colores** 
+
+
+.pull-left[
+
+* **.bg-purple_light[películas]**: paquete `{harrypotter}` (repositorio de Github `aljrico/harrypotter`) usando `scale_color_hp_d()`.
+
+```{r eval = FALSE}
+library(devtools)
+repo <- "aljrico/harrypotter"
+install_github(repo = repo) #<<
+
+library(harrypotter)
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.9) +
+  scale_y_log10() +
+  scale_color_hp_d(
+    option = "ravenclaw") #<<
+```
+
+]
+
+.pull-right[
+
+
+```{r echo = FALSE,  out.width = "15%", fig.align = "center", fig.cap = "Paleta basada en la casa Ravenclaw"}
+knitr::include_graphics("https://raw.githubusercontent.com/aljrico/harrypotter/master/readme_raw_files/palettes/ravenclaw.png")
+``` 
+
+```{r echo = FALSE, out.width = "70%"}
+library(harrypotter)
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.9) +
+  scale_y_log10() +
+  scale_color_hp_d(option = "ravenclaw")
+```
+
+]
+
+---
+
+# .orange[ESCALAS (scale)]: .green[colores]
+
+
+.pull-left[
+
+* **.bg-purple_light[cuadros]**: paquete `{MetBrewer}` (repositorio de Github `BlakeRMills/MetBrewer`) usando `scale_colour_manual(values = met.brewer(...))`.
+
+```{r eval = FALSE}
+repo <- "BlakeRMills/MetBrewer"
+install_github(repo = repo) #<<
+
+library(MetBrewer)
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.9) +
+  scale_y_log10() +
+  scale_color_manual(
+    values = met.brewer("Hokusai")) #<<
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "85%"}
+library(MetBrewer)
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.9) +
+  scale_y_log10() +
+  scale_color_manual(values =
+                       met.brewer("Hokusai"))
+```
+
+]
+
+
+
+---
+
+
+# .orange[ESCALAS (scale)]: .green[colores]
+
+
+.pull-left[
+
+* **.bg-purple_light[discos]**: paquete `{peRReo}` (repositorio de Github `jbgb13/peRReo`) usando `scale_colour_manual(values = latin_palette())`.
+
+
+```{r eval = FALSE}
+library(devtools)
+repo <- "jbgb13/peRReo"
+install_github(repo = repo) #<<
+
+library(peRReo)
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.9) +
+  scale_y_log10() +
+  scale_color_manual(
+    values = latin_palette("rosalia")) #<<
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "85%"}
+library(peRReo)
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.9) +
+  scale_y_log10() +
+  scale_color_manual(values =
+                       latin_palette("rosalia"))
+```
+
+]
+
+
+---
+
+# .orange[COMPONER]: .green[facet()]
+
+También podemos **.bg-purple_light[dividir/desagregar los gráficos (facetar)]** por variables.
+
+.pull-left[
+
+Por ejemplo, vamos a crear un **.bg-purple_light[gráfico por continente]**, mostrando todos los gráficos a la vez pero por separado, con `facet_wrap(~continent)`.
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(alpha = 0.9) +
+  scale_y_log10() +
+  facet_wrap(~continent) #<<
+```
+
+
+]
+
+.pull-right[
+
+
+```{r echo = FALSE, out.width = "85%"}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(alpha = 0.9) +
+  scale_y_log10() +
+  facet_wrap(~continent)
+```
+
+]
+
+---
+
+# .orange[COMPONER]: .green[facet()]
+
+También podemos **.bg-purple_light[dividir/desagregar los gráficos (facetar)]** por variables.
+
+.pull-left[
+
+También le podemos pasar argumentos opcionales para indicarle el **.bg-purple_light[número de columnas o filas]** que queremos.
+
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(alpha = 0.9) +
+  scale_y_log10() +
+  facet_wrap(~continent, nrow = 3) #<<
+```
+
+
+]
+
+.pull-right[
+
+
+```{r echo = FALSE, out.width = "85%"}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(alpha = 0.9) +
+  scale_y_log10() +
+  facet_wrap(~continent,
+             nrow = 3)
+```
+
+]
+
+---
+
+# .orange[COMPONER]: .green[facet()]
+
+También podemos **.bg-purple_light[dividir/desagregar los gráficos (facetar)]** por variables.
+
+.pull-left[
+
+También le podemos pasar dos argumentos (variables) para formar un **.bg-purple_light[grid de gráficas]**
+
+
+```{r eval = FALSE}
+ggplot(gapminder, #<<
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(alpha = 0.9) +
+  scale_y_log10() +
+  facet_grid(continent ~ year) #<<
+```
+
+
+]
+
+.pull-right[
+
+
+```{r echo = FALSE, out.width = "85%"}
+ggplot(gapminder, #<<
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(alpha = 0.9) +
+  scale_y_log10() +
+  facet_grid(continent ~ year)
+```
+
+]
+
+
+---
+
+# .orange[ESTADÍSTICA]: .green[stat_...()]
+
+También podemos añadir **.bg-purple_light[capas estadísticas]**
+
+.pull-left[
+
+* `stat_smooth()`: visualiza un **.bg-purple_light[ajuste suavizado]** (con glm, loess, o regresión lineal por ejemplo).
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(alpha = 0.7, size = 5) +
+  scale_y_log10() +
+  scale_color_tableau() +
+  stat_smooth(method = "lm") #<<
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "85%"}
+ggplot(gapminder_1997, #<<
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(alpha = 0.7, size = 5) +
+  scale_y_log10() +
+  scale_color_tableau() +
+  stat_smooth(method = "lm")
+```
+
+]
+
+---
+
+
+# .orange[ESTADÍSTICA]: .green[stat_...()]
+
+También podemos añadir **.bg-purple_light[capas estadísticas]**
+
+.pull-left[
+
+Podemos indicarle en `se = FALSE` que no pinte los intervalos de confianza.
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(alpha = 0.7, size = 5) +
+  scale_y_log10() +
+  scale_color_tableau() +
+  stat_smooth(method = "lm",
+              se = FALSE) #<<
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "85%"}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(alpha = 0.7, size = 5) +
+  scale_y_log10() +
+  scale_color_tableau() +
+  stat_smooth(method = "lm",
+              se = FALSE) #<<
+```
+
+]
+
+---
+
+
+# .orange[ESTADÍSTICA]: .green[stat_...()]
+
+También podemos añadir **.bg-purple_light[capas estadísticas]**
+
+.pull-left[
+
+Si las trazas están separadas realizada el suavizado de todas ellas. 
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent)) +
+  geom_point(alpha = 0.7, size = 5) +
+  scale_y_log10() +
+  scale_color_tableau() +
+  stat_smooth(method = "lm",
+              se = FALSE)
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "85%"}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent)) +
+  geom_point(alpha = 0.7, size = 5) +
+  scale_y_log10() +
+  scale_color_tableau() +
+  stat_smooth(method = "lm",
+              se = FALSE)
+```
+
+]
+
+
+
+---
+
+
+# .orange[ETIQUETAR]: .green[geom_text()]
+
+.pull-left[
+
+Podemos combinarlo con `geom_text()` para  **.bg-purple_light[añadir la ecuación del ajuste]**
+
+```{r eval = FALSE}
+lm_fit <-
+  lm(data = gapminder_1997,
+     formula = gdpPercap ~ lifeExp)
+a <- round(coef(lm_fit)[1], 2)
+b <- round(coef(lm_fit)[2], 2)
+
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(alpha = 0.7, size = 5) +
+  scale_y_log10() +
+  stat_smooth(method = "lm",
+              se = FALSE) +
+  geom_text(x = 45, y = log10(30000),
+            label =
+              glue("Y = {a} + {b}X"),
+            size = 5)
+```
+
+]
+
+.pull-right[
+
+
+```{r echo = FALSE, out.width = "85%"}
+lm_fit <-
+  lm(data = gapminder_1997,
+     formula = gdpPercap ~ lifeExp)
+a <- round(coef(lm_fit)[1], 2)
+b <- round(coef(lm_fit)[2], 2)
+
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(alpha = 0.7, size = 5) +
+  scale_y_log10() +
+  stat_smooth(method = "lm",
+              se = FALSE) +
+  geom_text(x = 45, y = log10(30000),
+            label =
+              glue("Y = {a} + {b}X"),
+            size = 5)
+```
+
+
+]
+
+---
+
+# .orange[ESTADÍSTICA]: .green[stat_...()]
+
+También podemos añadir **.bg-purple_light[capas estadísticas]**
+
+.pull-left[
+
+Con `stat_summary()` podemos incluso añadir estadísticas por grupos, como la media o mediana.
+
+```{r eval = FALSE}
+ggplot(gapminder,
+       aes(y = gdpPercap, x = year)) +
+  geom_point(alpha = 0.7, size = 3) +
+  stat_summary(fun = "mean", size = 0.3,
+               color = "coral") + 
+  stat_summary(fun = "median", size = 0.3,
+               color = "darkcyan")
+```
+
+]
+
+.pull-right[
+
+
+```{r echo = FALSE, out.width = "85%"}
+ggplot(gapminder,
+       aes(y = gdpPercap, x = year)) +
+  geom_point(alpha = 0.7, size = 3) +
+  stat_summary(fun = "mean", size = 0.3,
+               color = "coral") + 
+  stat_summary(fun = "median", size = 0.3,
+               color = "darkcyan")
+```
+
+]
+
+---
+
+# .orange[ESTADÍSTICA]: .green[stat_...()]
+
+También podemos añadir **.bg-purple_light[capas estadísticas]**
+
+.pull-left[
+
+Fíjate que si no tenemos una variable cuali, la media la hace con `n = 1` (es decir, es el propio punto).
+
+```{r eval = FALSE}
+ggplot(gapminder,
+       aes(y = gdpPercap, x = lifeExp, color = continent)) +
+  geom_point(alpha = 0.7, size = 3) +
+  stat_summary(fun = "mean",
+               size = 0.2,
+               color = "black")
+```
+
+]
+
+.pull-right[
+
+
+```{r echo = FALSE, out.width = "85%"}
+ggplot(gapminder,
+       aes(y = gdpPercap, x = lifeExp, color = continent)) +
+  geom_point(alpha = 0.7, size = 3) +
+  stat_summary(fun = "mean", size = 0.2,
+               color = "black")
+```
+
+]
+
+
+---
+
+
+# .orange[TEMA]: .green[theme()]
+
+
+Por último podemos **.bg-purple_light[personalizar el tema]** de los gráficos.
+
+.pull-left[
+
+Por ejemplo, podemos **.bg-purple_light[añadir títulos,  subtítulos y pie de gráfica]** con `labs()`,
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau() +
+  labs(
+    title = "Primer scatter plot",
+    subtitle = "Datos de 1997",
+    caption = "Autor: J. Álvarez")
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "85%"}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau() +
+  labs(
+    title = "Primer scatter plot",
+    subtitle = "Datos de 1997",
+    caption = "Autor: J. Álvarez")
+```
+
+]
+
+---
+
+# .orange[TEMA]: .green[theme()]
+
+
+También podemos personalizar el **.bg-purple_light[título de los ejes]** o el **.bg-purple_light[título de las leyendas]**.
+
+.pull-left[
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau() +
+  labs(
+    title = "Primer scatter plot",
+    subtitle = "Datos de 1997",
+    caption = "Autor: J. Álvarez",
+    x = "Esperanza de vida",
+    y = "Renta per cápita",
+    color = "Continente",
+    size = "Población")
+```
+
+]
+
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "85%"}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau() +
+  labs(
+    title = "Primer scatter plot",
+    subtitle = "Datos de 1997",
+    caption = "Autor: J. Álvarez",
+    x = "Esperanza de vida",
+    y = "Renta per cápita",
+    color = "Continente",
+    size = "Población")
+```
+
+]
+
+---
+
+# .orange[TEMA]: .green[theme()]
+
+
+También podemos **.bg-purple_light[ocultar el nombre de la leyenda]** asignándole un `NULL`.
+
+.pull-left[
+
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau() +
+  labs(
+    title = "Primer scatter plot",
+    subtitle = "Datos de 1997",
+    caption = "Autor: J. Álvarez",
+    x = "Esperanza de vida",
+    y = "Renta per cápita",
+    color = NULL, size = "Población")
+```
+
+]
+
+.pull-right[
+
+
+```{r echo = FALSE, out.width = "85%"}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau() +
+  labs(
+    title = "Primer scatter plot",
+    subtitle = "Datos de 1997",
+    caption = "Autor: J. Álvarez",
+    x = "Esperanza de vida",
+    y = "Renta per cápita",
+    color = NULL, size = "Población")
+```
+
+]
+
+---
+
+
+# .orange[TEMA]: .green[theme()]
+
+
+Incluso podemos **.bg-purple_light[ocultar la leyenda]** de alguna de las variables con `guides()`
+
+
+.pull-left[
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau() +
+  guides(size = "none") + #<<
+  labs(
+    title = "Primer scatter plot",
+    subtitle = "Datos de 1997",
+    caption = "Autor: J. Álvarez",
+    x = "Esperanza de vida",
+    y = "Renta per cápita",
+    color = NULL)
+```
+
+]
+
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "85%"}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau() +
+  guides(size = "none") + #<<
+  labs(
+    title = "Primer scatter plot",
+    subtitle = "Datos de 1997",
+    caption = "Autor: J. Álvarez",
+    x = "Esperanza de vida",
+    y = "Renta per cápita",
+    color = NULL)
+```
+
+]
+
+---
+
+
+# .orange[TEMA]: .green[theme()]
+
+Tenemos además algunos temas ya predefinidos en el paquete `{ggthemes}`
+
+
+
+.pull-left[
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau() +
+  guides(size = "none") + 
+  labs(
+    title = "Primer scatter plot",
+    subtitle = "Datos de 1997",
+    caption = "Autor: J. Álvarez",
+    x = "Esperanza de vida",
+    y = "Renta per cápita",
+    color = NULL) +
+  theme_excel() #<<
+```
+
+]
+
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "85%"}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau() +
+  guides(size = "none") + 
+  labs(
+    title = "Primer scatter plot",
+    subtitle = "Datos de 1997",
+    caption = "Autor: J. Álvarez",
+    x = "Esperanza de vida",
+    y = "Renta per cápita",
+    color = NULL) +
+  theme_excel() 
+```
+
+]
+
+---
+
+
+
+# .orange[TEMA]: .green[theme()]
+
+Tenemos además algunos temas ya predefinidos en el paquete `{ggthemes}`
+
+
+
+.pull-left[
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau() +
+  guides(size = "none") + 
+  labs(
+    title = "Primer scatter plot",
+    subtitle = "Datos de 1997",
+    caption = "Autor: J. Álvarez",
+    x = "Esperanza de vida",
+    y = "Renta per cápita",
+    color = NULL) +
+  theme_fivethirtyeight() #<<
+```
+
+]
+
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "85%"}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau() +
+  guides(size = "none") + 
+  labs(
+    title = "Primer scatter plot",
+    subtitle = "Datos de 1997",
+    caption = "Autor: J. Álvarez",
+    x = "Esperanza de vida",
+    y = "Renta per cápita",
+    color = NULL) +
+  theme_fivethirtyeight() 
+```
+
+]
+
+
+---
+
+# .orange[TEMA]: .green[theme()]
+
+Tenemos además algunos temas ya predefinidos en el paquete `{ggthemes}`
+
+
+
+.pull-left[
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau() +
+  guides(size = "none") + 
+  labs(
+    title = "Primer scatter plot",
+    subtitle = "Datos de 1997",
+    caption = "Autor: J. Álvarez",
+    x = "Esperanza de vida",
+    y = "Renta per cápita",
+    color = NULL) +
+  theme_economist() #<<
+```
+
+]
+
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "85%"}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau() +
+  guides(size = "none") + 
+  labs(
+    title = "Primer scatter plot",
+    subtitle = "Datos de 1997",
+    caption = "Autor: J. Álvarez",
+    x = "Esperanza de vida",
+    y = "Renta per cápita",
+    color = NULL) +
+  theme_economist() 
+```
+
+]
+
+---
+
+
+# .orange[TEMA]: .green[theme()]
+
+Tenemos además algunos temas ya predefinidos en el paquete `{ggthemes}`
+
+
+
+.pull-left[
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau() +
+  guides(size = "none") + 
+  labs(
+    title = "Primer scatter plot",
+    subtitle = "Datos de 1997",
+    caption = "Autor: J. Álvarez",
+    x = "Esperanza de vida",
+    y = "Renta per cápita",
+    color = NULL) +
+  theme_bw() #<<
+```
+
+]
+
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "85%"}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau() +
+  guides(size = "none") + 
+  labs(
+    title = "Primer scatter plot",
+    subtitle = "Datos de 1997",
+    caption = "Autor: J. Álvarez",
+    x = "Esperanza de vida",
+    y = "Renta per cápita",
+    color = NULL) +
+  theme_bw()
+```
+
+]
+
+
+---
+
+
+# .orange[TEMA]: .green[theme()]
+
+Una opción muy habitual es usar `theme_minimal()`, ya que es un tema muy limpio, y luego con `theme_update()` configurarlo a nuestro gusto.
+
+
+.pull-left[
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau() +
+  guides(size = "none") + 
+  labs(
+    title = "Primer scatter plot",
+    subtitle = "Datos de 1997",
+    caption = "Autor: J. Álvarez",
+    x = "Esperanza de vida",
+    y = "Renta per cápita",
+    color = NULL) +
+  theme_minimal() #<<
+```
+
+]
+
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "83%"}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau() +
+  guides(size = "none") + 
+  labs(
+    title = "Primer scatter plot",
+    subtitle = "Datos de 1997",
+    caption = "Autor: J. Álvarez",
+    x = "Esperanza de vida",
+    y = "Renta per cápita",
+    color = NULL) +
+  theme_minimal()
+```
+
+]
+
+
+---
+
+# .orange[TEMA]: .green[theme()]
+
+* `sysfonts::font_add_google()`: le indicaremos la tipografía de <https://fonts.google.com/>
+
+* `showtext_auto()` del paquete `{showtext}` nos permite su posterior uso.
+
+* `theme_set()`: inicializamos el tema con la fuente
+
+* `theme_update()`: configuramos cada elemento a nuestro gusto (mira `? theme`).
+
+
+```{r}
+sysfonts::font_add_google(name = "Roboto") # Fuente de google
+# Usar fuentes a futuro
+library(showtext)
+showtext_auto()
+
+theme_set(theme_minimal(base_family = "Roboto")) # Definir tema base
+
+# Configurar tema
+theme_update(
+  plot.title = element_text(color = "#C34539", face = "bold", size = 27),
+  plot.subtitle = element_text(color = "#3E6FCB", face = "bold", size = 17))
+
+```
+
+---
+
+
+# .orange[TEMA]: .green[theme()]
+
+Una vez definido el tema, **.bg-purple_light[todas las gráficas que hagas lo tendrán incluido]**, y así evitas programarlo en cada una
+
+.pull-left[
+
+```{r eval = FALSE}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau() +
+  guides(size = "none") + 
+  labs(
+    title = "Primer scatter plot",
+    subtitle = "Datos de 1997",
+    caption = "Autor: J. Álvarez",
+    x = "Esperanza de vida",
+    y = "Renta per cápita",
+    color = NULL)
+```
+
+]
+
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "85%"}
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau() +
+  guides(size = "none") + 
+  labs(
+    title = "Primer scatter plot",
+    subtitle = "Datos de 1997",
+    caption = "Autor: J. Álvarez",
+    x = "Esperanza de vida",
+    y = "Renta per cápita",
+    color = NULL)
+```
+
+]
+
+---
+
+# .orange[UNIR] gráficas
+
+Con el paquete `{patchwork}` podremos **.bg-purple_light[combinar varias gráficas]** (ver documentación en <https://patchwork.data-imaginist.com/>)
+
+
+Por ejemplo, vamos a combinar en una gráfica los datos de 1987, de 2007 y la media en todos los años
+
+--
+
+```{r}
+gapminder_1987 <-
+  gapminder %>% filter(year == 1987)
+
+gapminder_2007 <-
+  gapminder %>% filter(year == 2007)
+
+gapminder_mean <-
+  gapminder %>% 
+  group_by(continent, country) %>% 
+  summarise(gdpPercap = mean(gdpPercap),
+            lifeExp = mean(lifeExp),
+            pop = pop) %>% 
+  ungroup()
+```
+
+
+---
+
+# .orange[UNIR] gráficas
+
+Tras ello vamos a definir cada gráfica por separado
+
+```{r}
+plot_1987 <-
+  ggplot(gapminder_1987, aes(y = gdpPercap, x = lifeExp, color = continent)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau() +
+  labs(x = "Esperanza de vida", y = "Renta per cápita", subtitle = "1987")
+
+plot_2007 <-
+  ggplot(gapminder_2007, aes(y = gdpPercap, x = lifeExp, color = continent)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau() +
+  labs(x = "Esperanza de vida", y = "Renta per cápita", subtitle = "2007")
+
+plot_mean <-
+  ggplot(gapminder_mean, aes(y = gdpPercap, x = lifeExp, color = continent)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau() +
+  labs(x = "Esperanza de vida", y = "Renta per cápita", subtitle = "Media (1952-2007)")
+```
+
+---
+
+# .orange[UNIR] gráficas
+
+Por último con `{patchwork}` podemos combinar las gráficas sumándolas `+` (con `|` podremos poner una al lado de la otra), y con `&` podremos modificar aspectos de las mismas, de todas ellas a la vez.
+
+.pull-left[
+
+Con `plot_layout(guides = "collect")` le indicamos que unifique leyenda y con `plot_annotation()` anotaciones globales.
+
+```{r eval = FALSE}
+library(patchwork)
+plot_combined <-
+  (plot_mean | (plot_1987 + plot_2007)) &
+  theme(legend.position = "bottom") &
+  labs(color = "continente")
+
+plot_combined + 
+  plot_annotation(
+    title = "Unión de gráficas",
+    caption = "Autor: J. Álvarez") +
+  plot_layout(guides = "collect")
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "85%"}
+library(patchwork)
+plot_combined <-
+  (plot_mean | (plot_1987 + plot_2007)) &
+  theme(legend.position = "bottom") &
+  labs(color = "continente")
+
+plot_combined + 
+  plot_annotation(
+    title = "Unión de gráficas",
+    caption = "Autor: J. Álvarez") +
+  plot_layout(guides = "collect")
+```
+
+]
+
+---
+
+# .orange[EXPORTAR] gráficas
+
+Con `ggsave()` podemos además **.bg-purple_light[exportar nuestros gráficos]**
+
+```{r}
+plot_combined <-
+  (plot_mean | (plot_1987 + plot_2007)) &
+  theme(legend.position = "bottom") &
+  labs(color = "continente")
+
+plot_combined <-
+  plot_combined + 
+  plot_annotation(
+    title = "Unión de gráficas",
+    caption = "Autor: J. Álvarez") +
+  plot_layout(guides = "collect")
+
+ggsave("./gapminder.pdf") #<<
+ggsave("./gapminder.png") #<<
+```
+
+
 
 ---
 

@@ -24,7 +24,7 @@ class: center, middle, inverse, title-slide
 # Técnicas de minería de datos
 ## Máster en Minería de Datos e Inteligencia de Negocio
 ### Javier Álvarez Liébana (Fac. Estudios Estadísticos - UCM)
-### Última actualización: 11-11-2022
+### Última actualización: 15-11-2022
 
 ---
 
@@ -2022,7 +2022,7 @@ hoy
 ```
 
 ```
-&gt; [1] "2022-11-11"
+&gt; [1] "2022-11-15"
 ```
 
 --
@@ -2035,7 +2035,7 @@ También podemos obtener el **.bg-purple_light[«hoy y ahora»]** con la funció
 ```
 
 ```
-&gt; [1] "2022-11-11 12:50:55 CET"
+&gt; [1] "2022-11-15 23:19:13 CET"
 ```
  
 ---
@@ -2419,7 +2419,7 @@ hoy - cumple
 ```
 
 ```
-&gt; Time difference of 12115 days
+&gt; Time difference of 12119 days
 ```
 
 ]
@@ -3096,9 +3096,9 @@ x &lt;- rnorm(1e3) # 1000 elementos aleatorias
 
 ```
 &gt; Unit: microseconds
-&gt;         expr    min      lq    mean  median     uq      max neval cld
-&gt;      sort(x) 43.590 50.6095 83.0086 67.0455 98.995 1782.268  1000   b
-&gt;  x[order(x)] 30.497 34.2605 53.3300 41.3830 62.848  785.284  1000  a
+&gt;         expr    min      lq     mean  median      uq     max neval cld
+&gt;      sort(x) 43.950 50.0875 65.61233 56.4565 68.7905 571.429  1000   b
+&gt;  x[order(x)] 30.463 35.7885 45.79802 39.4035 47.7245 155.134  1000  a
 ```
 
 
@@ -6354,12 +6354,12 @@ microbenchmark(x^2,
 
 ```
 &gt; Unit: nanoseconds
-&gt;                                     expr     min      lq        mean    median
-&gt;                                      x^2     389     508    1433.868    1391.5
-&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 1896650 2100502 2500105.211 2256816.5
+&gt;                                     expr     min        lq        mean  median
+&gt;                                      x^2     380     512.5    1410.871    1209
+&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 1841072 2094220.5 2579814.021 2320901
 &gt;         uq      max neval cld
-&gt;     2132.5    13287  1000  a 
-&gt;  2637538.5 10055628  1000   b
+&gt;     2046.5    11468  1000  a 
+&gt;  2788669.0 15073546  1000   b
 ```
 
 ---
@@ -9824,14 +9824,14 @@ starwars %&gt;% slice_sample(n = 3)
 
 ```
 &gt; # A tibble: 3 × 14
-&gt;   name       height  mass hair_co…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
-&gt;   &lt;chr&gt;       &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
-&gt; 1 Jocasta Nu    167    NA white     fair    blue         NA fema… femin… Corusc…
-&gt; 2 Cordé         157    NA brown     light   brown        NA fema… femin… Naboo  
-&gt; 3 San Hill      191    NA none      grey    gold         NA male  mascu… Muunil…
+&gt;   name    height  mass hair_color skin_co…¹ eye_c…² birth…³ sex   gender homew…⁴
+&gt;   &lt;chr&gt;    &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
+&gt; 1 Lama Su    229    88 none       grey      black        NA male  mascu… Kamino 
+&gt; 2 Sebulba    112    40 none       grey, red orange       NA male  mascu… Malast…
+&gt; 3 Tarfful    234   136 brown      brown     blue         NA male  mascu… Kashyy…
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
-&gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
-&gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​skin_color, ²​eye_color,
+&gt; #   ³​birth_year, ⁴​homeworld
 &gt; # ℹ Use `colnames()` to see all variable names
 ```
 
@@ -9849,12 +9849,12 @@ starwars %&gt;% slice_sample(prop = 0.05, replace = TRUE)
 
 ```
 &gt; # A tibble: 4 × 14
-&gt;   name         height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
-&gt;   &lt;chr&gt;         &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
-&gt; 1 Roos Tarpals    224    82 none    grey    orange       NA male  mascu… Naboo  
-&gt; 2 Wicket Syst…     88    20 brown   brown   brown         8 male  mascu… Endor  
-&gt; 3 Raymus Anti…    188    79 brown   light   brown        NA male  mascu… Aldera…
-&gt; 4 Cliegg Lars     183    NA brown   fair    blue         82 male  mascu… Tatooi…
+&gt;   name       height  mass hair_co…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
+&gt;   &lt;chr&gt;       &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
+&gt; 1 Jango Fett    183    79 black     tan     brown        66 male  mascu… Concor…
+&gt; 2 Ackbar        180    83 none      brown … orange       41 male  mascu… Mon Ca…
+&gt; 3 Plo Koon      188    80 none      orange  black        22 male  mascu… Dorin  
+&gt; 4 C-3PO         167    75 &lt;NA&gt;      gold    yellow      112 none  mascu… Tatooi…
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
@@ -9877,8 +9877,8 @@ starwars %&gt;% slice_sample(n = 2, weight_by = c(0.495, 0.495, rep(0.01/85, 85)
 &gt; # A tibble: 2 × 9
 &gt;   name           height  mass hair_color skin_color eye_c…¹ birth…² sex   gender
 &gt;   &lt;chr&gt;           &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
-&gt; 1 C-3PO             167    75 &lt;NA&gt;       gold       yellow      112 none  mascu…
-&gt; 2 Luke Skywalker    172    77 blond      fair       blue         19 male  mascu…
+&gt; 1 Luke Skywalker    172    77 blond      fair       blue         19 male  mascu…
+&gt; 2 C-3PO             167    75 &lt;NA&gt;       gold       yellow      112 none  mascu…
 &gt; # … with abbreviated variable names ¹​eye_color, ²​birth_year
 ```
 
@@ -9892,8 +9892,8 @@ starwars %&gt;% slice_sample(n = 2, weight_by = c(0.495, 0.495, rep(0.01/85, 85)
 &gt; # A tibble: 2 × 9
 &gt;   name           height  mass hair_color skin_color eye_c…¹ birth…² sex   gender
 &gt;   &lt;chr&gt;           &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
-&gt; 1 C-3PO             167    75 &lt;NA&gt;       gold       yellow      112 none  mascu…
-&gt; 2 Luke Skywalker    172    77 blond      fair       blue         19 male  mascu…
+&gt; 1 Luke Skywalker    172    77 blond      fair       blue         19 male  mascu…
+&gt; 2 C-3PO             167    75 &lt;NA&gt;       gold       yellow      112 none  mascu…
 &gt; # … with abbreviated variable names ¹​eye_color, ²​birth_year
 ```
 
@@ -10064,16 +10064,16 @@ starwars %&gt;%
 &gt; # A tibble: 38 × 14
 &gt;    name        height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
 &gt;    &lt;chr&gt;        &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
-&gt;  1 Adi Gallia     184  50   none    dark    blue         NA fema… femin… Corusc…
-&gt;  2 Ayla Secura    178  55   none    blue    hazel        48 fema… femin… Ryloth 
-&gt;  3 Dormé          165  NA   brown   light   brown        NA fema… femin… Naboo  
-&gt;  4 Shmi Skywa…    163  NA   black   fair    brown        72 fema… femin… Tatooi…
-&gt;  5 Jocasta Nu     167  NA   white   fair    blue         NA fema… femin… Corusc…
-&gt;  6 Luminara U…    170  56.2 black   yellow  blue         58 fema… femin… Mirial 
-&gt;  7 Shaak Ti       178  57   none    red, b… black        NA fema… femin… Shili  
-&gt;  8 Rey             NA  NA   brown   light   hazel        NA fema… femin… &lt;NA&gt;   
-&gt;  9 Bail Prest…    191  NA   black   tan     brown        67 male  mascu… Aldera…
-&gt; 10 Lando Calr…    177  79   black   dark    brown        31 male  mascu… Socorro
+&gt;  1 Shaak Ti       178  57   none    red, b… black      NA   fema… femin… Shili  
+&gt;  2 Jocasta Nu     167  NA   white   fair    blue       NA   fema… femin… Corusc…
+&gt;  3 Dormé          165  NA   brown   light   brown      NA   fema… femin… Naboo  
+&gt;  4 Luminara U…    170  56.2 black   yellow  blue       58   fema… femin… Mirial 
+&gt;  5 Cordé          157  NA   brown   light   brown      NA   fema… femin… Naboo  
+&gt;  6 Leia Organa    150  49   brown   light   brown      19   fema… femin… Aldera…
+&gt;  7 Mon Mothma     150  NA   auburn  fair    blue       48   fema… femin… Chandr…
+&gt;  8 Ayla Secura    178  55   none    blue    hazel      48   fema… femin… Ryloth 
+&gt;  9 Anakin Sky…    188  84   blond   fair    blue       41.9 male  mascu… Tatooi…
+&gt; 10 Arvel Cryn…     NA  NA   brown   fair    brown      NA   male  mascu… &lt;NA&gt;   
 &gt; # … with 28 more rows, 4 more variables: species &lt;chr&gt;, films &lt;list&gt;,
 &gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names
 &gt; #   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
@@ -10444,16 +10444,16 @@ starwars %&gt;%
 &gt; # A tibble: 49 × 15
 &gt;    name        height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
 &gt;    &lt;chr&gt;        &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
-&gt;  1 C-3PO          167  75   &lt;NA&gt;    gold    yellow      112 none  mascu… Tatooi…
-&gt;  2 Luminara U…    170  56.2 black   yellow  blue         58 fema… femin… Mirial 
-&gt;  3 Tarfful        234 136   brown   brown   blue         NA male  mascu… Kashyy…
-&gt;  4 R4-P17          96  NA   none    silver… red, b…      NA none  femin… &lt;NA&gt;   
-&gt;  5 Nute Gunray    191  90   none    mottle… red          NA male  mascu… Cato N…
-&gt;  6 Ratts Tyer…     79  15   none    grey, … unknown      NA male  mascu… Aleen …
-&gt;  7 Dud Bolt        94  45   none    blue, … yellow       NA male  mascu… Vulpter
-&gt;  8 Tion Medon     206  80   none    grey    black        NA male  mascu… Utapau 
-&gt;  9 Sebulba        112  40   none    grey, … orange       NA male  mascu… Malast…
-&gt; 10 IG-88          200 140   none    metal   red          15 none  mascu… &lt;NA&gt;   
+&gt;  1 IG-88          200   140 none    metal   red          15 none  mascu… &lt;NA&gt;   
+&gt;  2 Roos Tarpa…    224    82 none    grey    orange       NA male  mascu… Naboo  
+&gt;  3 Wicket Sys…     88    20 brown   brown   brown         8 male  mascu… Endor  
+&gt;  4 Saesee Tiin    188    NA none    pale    orange       NA male  mascu… Iktotch
+&gt;  5 R2-D2           96    32 &lt;NA&gt;    white,… red          33 none  mascu… Naboo  
+&gt;  6 Lama Su        229    88 none    grey    black        NA male  mascu… Kamino 
+&gt;  7 C-3PO          167    75 &lt;NA&gt;    gold    yellow      112 none  mascu… Tatooi…
+&gt;  8 Sebulba        112    40 none    grey, … orange       NA male  mascu… Malast…
+&gt;  9 Kit Fisto      196    87 none    green   black        NA male  mascu… Glee A…
+&gt; 10 Yarael Poof    264    NA none    white   yellow       NA male  mascu… Quermia
 &gt; # … with 39 more rows, 5 more variables: species &lt;chr&gt;, films &lt;list&gt;,
 &gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, `species == "Human"` &lt;lgl&gt;, and
 &gt; #   abbreviated variable names ¹​hair_color, ²​skin_color, ³​eye_color,
@@ -10478,11 +10478,11 @@ starwars %&gt;%
 &gt; # A tibble: 5 × 14
 &gt;   name         height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
 &gt;   &lt;chr&gt;         &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
-&gt; 1 Adi Gallia      184    50 none    dark    blue         NA fema… femin… Corusc…
+&gt; 1 Shmi Skywal…    163    NA black   fair    brown        72 fema… femin… Tatooi…
 &gt; 2 Jabba Desil…    175  1358 &lt;NA&gt;    green-… orange      600 herm… mascu… Nal Hu…
-&gt; 3 Qui-Gon Jinn    193    89 brown   fair    blue         92 male  mascu… &lt;NA&gt;   
-&gt; 4 R2-D2            96    32 &lt;NA&gt;    white,… red          33 none  mascu… Naboo  
-&gt; 5 Ric Olié        183    NA brown   fair    blue         NA &lt;NA&gt;  &lt;NA&gt;   Naboo  
+&gt; 3 Chewbacca       228   112 brown   unknown blue        200 male  mascu… Kashyy…
+&gt; 4 R4-P17           96    NA none    silver… red, b…      NA none  femin… &lt;NA&gt;   
+&gt; 5 Sly Moore       178    48 none    pale    white        NA &lt;NA&gt;  &lt;NA&gt;   Umbara 
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
@@ -14714,16 +14714,16 @@ bake(iris_rec %&gt;% prep(), new_data = NULL)
 &gt; # A tibble: 105 × 4
 &gt;    Sepal.Length Sepal.Width Petal.Width Species
 &gt;           &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;  
-&gt;  1       0.167        0.444      0.0417 setosa 
-&gt;  2       0.0833       0.5        0.0417 setosa 
-&gt;  3       0.306        0.944      0.125  setosa 
-&gt;  4       0.194        0.667      0.0417 setosa 
-&gt;  5       0.0278       0.389      0.0417 setosa 
-&gt;  6       0.167        0.5        0      setosa 
-&gt;  7       0.306        0.833      0.0417 setosa 
-&gt;  8       0.139        0.667      0.0417 setosa 
-&gt;  9       0            0.444      0      setosa 
-&gt; 10       0.417        1          0.0417 setosa 
+&gt;  1       0.235        0.789      0.0417 setosa 
+&gt;  2       0.176        0.526      0.0417 setosa 
+&gt;  3       0.118        0.632      0.0417 setosa 
+&gt;  4       0.0882       0.579      0.0417 setosa 
+&gt;  5       0.324        1          0.125  setosa 
+&gt;  6       0.206        0.737      0.0417 setosa 
+&gt;  7       0.0294       0.474      0.0417 setosa 
+&gt;  8       0.176        0.579      0      setosa 
+&gt;  9       0.324        0.895      0.0417 setosa 
+&gt; 10       0.147        0.737      0.0417 setosa 
 &gt; # … with 95 more rows
 &gt; # ℹ Use `print(n = ...)` to see more rows
 ```
@@ -14858,7 +14858,7 @@ iris_knn_fit
 &gt; kknn::train.kknn(formula = ..y ~ ., data = data, ks = min_rows(10,     data, 5), distance = ~2, kernel = ~"inv")
 &gt; 
 &gt; Type of response variable: nominal
-&gt; Minimal misclassification: 0.04761905
+&gt; Minimal misclassification: 0.08571429
 &gt; Best kernel: inv
 &gt; Best k: 10
 ```
@@ -14912,9 +14912,9 @@ predict(iris_knn_fit, iris_test, type = "prob")
 &gt;  1        1               0                    0
 &gt;  2        1               0                    0
 &gt;  3        1               0                    0
-&gt;  4        1               0                    0
+&gt;  4        0.919           0.0808               0
 &gt;  5        1               0                    0
-&gt;  6        0.906           0.0945               0
+&gt;  6        1               0                    0
 &gt;  7        1               0                    0
 &gt;  8        1               0                    0
 &gt;  9        1               0                    0
@@ -14940,16 +14940,16 @@ prob_test
 &gt; # A tibble: 45 × 9
 &gt;    Sepal.Length Sepal.…¹ Petal…² Petal…³ Species .pred…⁴ .pred…⁵ .pred…⁶ .pred…⁷
 &gt;           &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;fct&gt;   &lt;fct&gt;     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
-&gt;  1          5.1      3.5     1.4     0.2 setosa  setosa    1      0            0
-&gt;  2          4.7      3.2     1.3     0.2 setosa  setosa    1      0            0
-&gt;  3          5        3.6     1.4     0.2 setosa  setosa    1      0            0
-&gt;  4          4.6      3.4     1.4     0.3 setosa  setosa    1      0            0
-&gt;  5          4.8      3       1.4     0.1 setosa  setosa    1      0            0
-&gt;  6          5.7      4.4     1.5     0.4 setosa  setosa    0.906  0.0945       0
-&gt;  7          5.1      3.5     1.4     0.3 setosa  setosa    1      0            0
-&gt;  8          4.6      3.6     1       0.2 setosa  setosa    1      0            0
-&gt;  9          5.2      4.1     1.5     0.1 setosa  setosa    1      0            0
-&gt; 10          5.5      4.2     1.4     0.2 setosa  setosa    1      0            0
+&gt;  1          5        3.6     1.4     0.2 setosa  setosa    1      0            0
+&gt;  2          4.6      3.4     1.4     0.3 setosa  setosa    1      0            0
+&gt;  3          5.8      4       1.2     0.2 setosa  setosa    1      0            0
+&gt;  4          5.7      4.4     1.5     0.4 setosa  setosa    0.919  0.0808       0
+&gt;  5          5.4      3.4     1.7     0.2 setosa  setosa    1      0            0
+&gt;  6          4.6      3.6     1       0.2 setosa  setosa    1      0            0
+&gt;  7          4.8      3.4     1.9     0.2 setosa  setosa    1      0            0
+&gt;  8          5        3.4     1.6     0.4 setosa  setosa    1      0            0
+&gt;  9          5.2      3.5     1.5     0.2 setosa  setosa    1      0            0
+&gt; 10          5.2      3.4     1.4     0.2 setosa  setosa    1      0            0
 &gt; # … with 35 more rows, and abbreviated variable names ¹​Sepal.Width,
 &gt; #   ²​Petal.Length, ³​Petal.Width, ⁴​.pred_class, ⁵​.pred_setosa,
 &gt; #   ⁶​.pred_versicolor, ⁷​.pred_virginica
@@ -14976,8 +14976,8 @@ conf_mat_test
 &gt;             Truth
 &gt; Prediction   setosa versicolor virginica
 &gt;   setosa         15          0         0
-&gt;   versicolor      0         15         3
-&gt;   virginica       0          0        12
+&gt;   versicolor      0         13         1
+&gt;   virginica       0          2        14
 ```
 
 ---
@@ -14999,13 +14999,13 @@ conf_mat_test %&gt;% summary()
 &gt;  2 kap                  multiclass     0.9  
 &gt;  3 sens                 macro          0.933
 &gt;  4 spec                 macro          0.967
-&gt;  5 ppv                  macro          0.944
-&gt;  6 npv                  macro          0.970
-&gt;  7 mcc                  multiclass     0.906
+&gt;  5 ppv                  macro          0.935
+&gt;  6 npv                  macro          0.967
+&gt;  7 mcc                  multiclass     0.901
 &gt;  8 j_index              macro          0.9  
 &gt;  9 bal_accuracy         macro          0.95 
 &gt; 10 detection_prevalence macro          0.333
-&gt; 11 precision            macro          0.944
+&gt; 11 precision            macro          0.935
 &gt; 12 recall               macro          0.933
 &gt; 13 f_meas               macro          0.933
 ```
@@ -15295,16 +15295,16 @@ bake(iris_rec %&gt;% prep(), new_data = NULL)
 &gt; # A tibble: 105 × 4
 &gt;    Sepal.Length Sepal.Width Petal.Width Species
 &gt;           &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;  
-&gt;  1       0.222        0.789      0.0417 setosa 
-&gt;  2       0.111        0.632      0.0417 setosa 
-&gt;  3       0.0833       0.579      0.0417 setosa 
-&gt;  4       0.194        0.842      0.0417 setosa 
-&gt;  5       0.306        1          0.125  setosa 
-&gt;  6       0.0833       0.737      0.0833 setosa 
-&gt;  7       0.194        0.737      0.0417 setosa 
-&gt;  8       0.0278       0.474      0.0417 setosa 
-&gt;  9       0.306        0.895      0.0417 setosa 
-&gt; 10       0.139        0.737      0.0417 setosa 
+&gt;  1       0.235         0.75      0.0417 setosa 
+&gt;  2       0.176         0.5       0.0417 setosa 
+&gt;  3       0.118         0.6       0.0417 setosa 
+&gt;  4       0.206         0.8       0.0417 setosa 
+&gt;  5       0.0294        0.45      0.0417 setosa 
+&gt;  6       0.176         0.55      0      setosa 
+&gt;  7       0.147         0.7       0.0417 setosa 
+&gt;  8       0.147         0.5       0      setosa 
+&gt;  9       0             0.5       0      setosa 
+&gt; 10       0.441         1         0.0417 setosa 
 &gt; # … with 95 more rows
 &gt; # ℹ Use `print(n = ...)` to see more rows
 ```
@@ -15317,16 +15317,16 @@ bake(iris_rec %&gt;% prep(), new_data = iris_test)
 &gt; # A tibble: 45 × 4
 &gt;    Sepal.Length Sepal.Width Petal.Width Species
 &gt;           &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;  
-&gt;  1       0.167        0.526      0.0417 setosa 
-&gt;  2       0.167        0.579      0      setosa 
-&gt;  3       0.139        0.526      0      setosa 
-&gt;  4       0.417        1          0.0417 setosa 
-&gt;  5       0.306        0.737      0.0417 setosa 
-&gt;  6       0.222        0.895      0.125  setosa 
-&gt;  7       0.0833       0.842      0.0417 setosa 
-&gt;  8       0.194        0.526      0.0417 setosa 
-&gt;  9       0.25         0.737      0.0417 setosa 
-&gt; 10       0.111        0.632      0.0417 setosa 
+&gt;  1       0.0882        0.55      0.0417 setosa 
+&gt;  2       0.324         0.95      0.125  setosa 
+&gt;  3       0.0882        0.7       0.0833 setosa 
+&gt;  4       0.206         0.7       0.0417 setosa 
+&gt;  5       0.324         0.85      0.0417 setosa 
+&gt;  6       0.324         0.95      0.125  setosa 
+&gt;  7       0.235         0.75      0.0833 setosa 
+&gt;  8       0.324         0.7       0.0417 setosa 
+&gt;  9       0.235         0.65      0.167  setosa 
+&gt; 10       0.265         1         0      setosa 
 &gt; # … with 35 more rows
 &gt; # ℹ Use `print(n = ...)` to see more rows
 ```
@@ -15452,16 +15452,16 @@ prob_test
 &gt; # A tibble: 45 × 9
 &gt;    Sepal.Length Sepal.…¹ Petal…² Petal…³ Species .pred…⁴ .pred…⁵ .pred…⁶ .pred…⁷
 &gt;           &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;fct&gt;   &lt;fct&gt;     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
-&gt;  1          4.9      3       1.4     0.2 setosa  setosa        1       0       0
-&gt;  2          4.9      3.1     1.5     0.1 setosa  setosa        1       0       0
-&gt;  3          4.8      3       1.4     0.1 setosa  setosa        1       0       0
-&gt;  4          5.8      4       1.2     0.2 setosa  setosa        1       0       0
-&gt;  5          5.4      3.4     1.7     0.2 setosa  setosa        1       0       0
-&gt;  6          5.1      3.7     1.5     0.4 setosa  setosa        1       0       0
-&gt;  7          4.6      3.6     1       0.2 setosa  setosa        1       0       0
-&gt;  8          5        3       1.6     0.2 setosa  setosa        1       0       0
-&gt;  9          5.2      3.4     1.4     0.2 setosa  setosa        1       0       0
-&gt; 10          4.7      3.2     1.6     0.2 setosa  setosa        1       0       0
+&gt;  1          4.6      3.1     1.5     0.2 setosa  setosa        1       0       0
+&gt;  2          5.4      3.9     1.7     0.4 setosa  setosa        1       0       0
+&gt;  3          4.6      3.4     1.4     0.3 setosa  setosa        1       0       0
+&gt;  4          5        3.4     1.5     0.2 setosa  setosa        1       0       0
+&gt;  5          5.4      3.7     1.5     0.2 setosa  setosa        1       0       0
+&gt;  6          5.4      3.9     1.3     0.4 setosa  setosa        1       0       0
+&gt;  7          5.1      3.5     1.4     0.3 setosa  setosa        1       0       0
+&gt;  8          5.4      3.4     1.7     0.2 setosa  setosa        1       0       0
+&gt;  9          5.1      3.3     1.7     0.5 setosa  setosa        1       0       0
+&gt; 10          5.2      4.1     1.5     0.1 setosa  setosa        1       0       0
 &gt; # … with 35 more rows, and abbreviated variable names ¹​Sepal.Width,
 &gt; #   ²​Petal.Length, ³​Petal.Width, ⁴​.pred_class, ⁵​.pred_setosa,
 &gt; #   ⁶​.pred_versicolor, ⁷​.pred_virginica
@@ -15487,9 +15487,9 @@ conf_mat_test
 ```
 &gt;             Truth
 &gt; Prediction   setosa versicolor virginica
-&gt;   setosa         15          0         0
-&gt;   versicolor      0         15         3
-&gt;   virginica       0          0        12
+&gt;   setosa         14          0         0
+&gt;   versicolor      1         14         2
+&gt;   virginica       0          1        13
 ```
 
 ---
@@ -15509,19 +15509,19 @@ metricas
 &gt; # A tibble: 13 × 3
 &gt;    .metric              .estimator .estimate
 &gt;    &lt;chr&gt;                &lt;chr&gt;          &lt;dbl&gt;
-&gt;  1 accuracy             multiclass     0.933
-&gt;  2 kap                  multiclass     0.9  
-&gt;  3 sens                 macro          0.933
-&gt;  4 spec                 macro          0.967
-&gt;  5 ppv                  macro          0.944
-&gt;  6 npv                  macro          0.970
-&gt;  7 mcc                  multiclass     0.906
-&gt;  8 j_index              macro          0.9  
-&gt;  9 bal_accuracy         macro          0.95 
+&gt;  1 accuracy             multiclass     0.911
+&gt;  2 kap                  multiclass     0.867
+&gt;  3 sens                 macro          0.911
+&gt;  4 spec                 macro          0.956
+&gt;  5 ppv                  macro          0.917
+&gt;  6 npv                  macro          0.956
+&gt;  7 mcc                  multiclass     0.869
+&gt;  8 j_index              macro          0.867
+&gt;  9 bal_accuracy         macro          0.933
 &gt; 10 detection_prevalence macro          0.333
-&gt; 11 precision            macro          0.944
-&gt; 12 recall               macro          0.933
-&gt; 13 f_meas               macro          0.933
+&gt; 11 precision            macro          0.917
+&gt; 12 recall               macro          0.911
+&gt; 13 f_meas               macro          0.912
 ```
 
 ---
@@ -17072,31 +17072,27 @@ hoteles_sample %&gt;%
 &gt; 2 children   403  8.06
 ```
 
-¿Hace falta algo más?
 
 
 ---
 
 # Fase 3: .orange[MODIFICACIÓN] (fuera receta)
 
+* **.bg-purple_light[Selección de variables]**: eliminamos aquellas cuya varianza es tan ínfima (y sin influencia real en la variable objetivo a nivel globla) que solo nos aporta ruido
+
 
 ```r
-# Muestreo del 10
-hoteles_sample &lt;-
-  hoteles_bruto %&gt;%
-  group_by(children) %&gt;% 
-  slice_sample(prop = 0.10) %&gt;%
-  ungroup()
-
-# Eli%minar variables
+# Eliminar variables
 hoteles_sample &lt;-
   hoteles_sample %&gt;%
-  select(-c(deposit_type, days_in_waiting_list, previous_cancellations))
+* select(-c(deposit_type, days_in_waiting_list, previous_cancellations))
 ```
 
 ---
 
 # Fase 3: .orange[MODIFICACIÓN] (fuera receta)
+
+* **.bg-purple_light[Convertimos a cuali]**: debemos siempre de tratar a cada variable como lo que es, así que toda variable de tipo texto que sea una variable estadística cualitativa deberá ser convertida a factor (y de manera ordinal en caso de lo que sean)
 
 
 ```r
@@ -17106,7 +17102,16 @@ hoteles_sample &lt;-
   mutate(across(where(is.character), as_factor)) %&gt;%
   mutate(meal = factor(meal, levels = c("Undefined", "SC", "BB", "HB", "FB"),
                        ordered = TRUE))
+```
 
+---
+
+# Fase 3: .orange[MODIFICACIÓN] (fuera receta)
+
+* **.bg-purple_light[Modificamos variables existentes]**: resolvemos fuera de la receta problemas de codificación o rango ya que son errores intrínsecos de la tabla.
+
+
+```r
 # Modificaciones de variables existentes
 hoteles_sample &lt;-
   hoteles_sample %&gt;% 
@@ -17119,7 +17124,7 @@ hoteles_sample &lt;-
 
 # .orange[RECETA]: .green[PARTICIÓN]
 
-Primero dividimos en **.bg-purple_light[test y lo demás]**, con `initial_split()`
+Tras resolver esos problemas fuera de la receta dividimos en **.bg-purple_light[test y lo demás]**, con `initial_split()`
 
 
 ```r
@@ -17137,7 +17142,17 @@ hoteles_split
 # Aplicamos partición
 hoteles_train &lt;- training(hoteles_split)
 hoteles_test &lt;- testing(hoteles_split)
+```
 
+---
+
+# .orange[RECETA]: .green[PARTICIÓN]
+
+
+Podemos comprobar que los estratos se han mantenido.
+
+
+```r
 # Comprobamos estratos
 hoteles_train %&gt;% count(children) %&gt;% mutate(porc = 100 * n / sum(n))
 ```
@@ -17146,8 +17161,8 @@ hoteles_train %&gt;% count(children) %&gt;% mutate(porc = 100 * n / sum(n))
 &gt; # A tibble: 2 × 3
 &gt;   children     n  porc
 &gt;   &lt;fct&gt;    &lt;int&gt; &lt;dbl&gt;
-&gt; 1 children   367  8.16
-&gt; 2 none      4132 91.8
+&gt; 1 none      4137 92.0 
+&gt; 2 children   362  8.05
 ```
 
 ```r
@@ -17158,8 +17173,8 @@ hoteles_test %&gt;% count(children) %&gt;% mutate(porc = 100 * n / sum(n))
 &gt; # A tibble: 2 × 3
 &gt;   children     n  porc
 &gt;   &lt;fct&gt;    &lt;int&gt; &lt;dbl&gt;
-&gt; 1 children    36   7.2
-&gt; 2 none       464  92.8
+&gt; 1 none       459  91.8
+&gt; 2 children    41   8.2
 ```
 
 ---
@@ -17302,7 +17317,7 @@ hoteles_wflow &lt;-
 
 name: fase5-hoteles
 
-# Fase 5: .orange[EVALUACIÓN] en validación
+# Fase 5: .orange[EVALUACIÓN/PREDICCIÓN] (validación)
 
 En este caso tenemos un conjunto de validación guardado en `hoteles_val`. Para realizar el **.bg-purple_light[ajuste en train y después obtener las métricas en validación]** usaremos `fit_resamples()`, pasándole como argumento los conjuntos de validación que tengamos y las **.bg-purple_light[métricas]** que queremos que evaluar (con `metric_set()` y el nombre de la métrica)
 
@@ -17319,8 +17334,7 @@ hoteles_knn_fit_val &lt;-
 
 ---
 
-# Fase 5: .orange[EVALUACIÓN] en validación
-
+# Fase 5: .orange[EVALUACIÓN/PREDICCIÓN] (validación)
 
 Con `collect_metrics()` obtenemos las métricas pedidas (dado que solo tenemos un conjunto de validación `n = 1` y `std_err = NA`, ya que no tiene con qué promediar al solor tener uno)
 
@@ -17333,10 +17347,10 @@ collect_metrics(hoteles_knn_fit_val)
 &gt; # A tibble: 4 × 6
 &gt;   .metric     .estimator  mean     n std_err .config             
 &gt;   &lt;chr&gt;       &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;fct&gt;               
-&gt; 1 accuracy    binary     0.919     1      NA Preprocessor1_Model1
-&gt; 2 roc_auc     binary     0.722     1      NA Preprocessor1_Model1
-&gt; 3 sensitivity binary     0.101     1      NA Preprocessor1_Model1
-&gt; 4 specificity binary     0.998     1      NA Preprocessor1_Model1
+&gt; 1 accuracy    binary     0.933     1      NA Preprocessor1_Model1
+&gt; 2 roc_auc     binary     0.789     1      NA Preprocessor1_Model1
+&gt; 3 sensitivity binary     0.986     1      NA Preprocessor1_Model1
+&gt; 4 specificity binary     0.322     1      NA Preprocessor1_Model1
 ```
 
 ---
@@ -17354,10 +17368,10 @@ collect_metrics(hoteles_knn_fit_val)
 &gt; # A tibble: 4 × 6
 &gt;   .metric     .estimator  mean     n std_err .config             
 &gt;   &lt;chr&gt;       &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;fct&gt;               
-&gt; 1 accuracy    binary     0.919     1      NA Preprocessor1_Model1
-&gt; 2 roc_auc     binary     0.722     1      NA Preprocessor1_Model1
-&gt; 3 sensitivity binary     0.101     1      NA Preprocessor1_Model1
-&gt; 4 specificity binary     0.998     1      NA Preprocessor1_Model1
+&gt; 1 accuracy    binary     0.933     1      NA Preprocessor1_Model1
+&gt; 2 roc_auc     binary     0.789     1      NA Preprocessor1_Model1
+&gt; 3 sensitivity binary     0.986     1      NA Preprocessor1_Model1
+&gt; 4 specificity binary     0.322     1      NA Preprocessor1_Model1
 ```
 
 --
@@ -17410,27 +17424,214 @@ Y pintarlos en un gráfico (eje x = 1 - especificidad, eje y = sensibilidad)
 
 &lt;img src="./img/pcr_roc_curve.jpg" width="50%" style="display: block; margin: auto;" /&gt;
 
+---
+
+class: inverse center middle
+name: clase-9
+
+# CLASE 9: validación y ggplot
+
+&amp;nbsp;
+
+### [Resumen](#resumen)
+
+### [Validación con tune y paralelizada](#tune)
+
+### [Sobremuestreo](#oversampling)
+
+### [Validación cruzada y bootstrap](#cv-hoteles)
+
+### [Visualización de datos](#dataviz)
 
 ---
+
+name: resumen
+
+# .orange[RESUMEN]
+
+
+* **.bg-purple_light[Fase 1: muestreo]** (si fuese necesario)
+
+
+```r
+# Muestreo
+data_sample &lt;-
+  raw_data %&gt;% group_by(var_outcome) %&gt;%  slice_sample(prop = ...) %&gt;% ungroup()
+```
+
+--
+
+* **.bg-purple_light[Fase 2: exploración]**: analizar problemas, relaciones entre variables y modificaciones a llevar a cabo (outliers, ausentes, colinealidad, variables independientes de la objetivo, recategorizaciones, problemas de codificación y rango, dummyficación si se necesita, nuevas variables, etc)
+
+--
+
+* **.bg-purple_light[Particiones otros-test]**
+
+
+```r
+# por ejemplo 10% para test
+data_split &lt;-
+  initial_split(data, strata = var_outcome, prop = 0.9)
+data_train &lt;- training(data_split)
+data_test &lt;- testing(data_split)
+```
+
+---
+
+# .orange[RESUMEN]
+
+* **.bg-purple_light[Particiones train-validacion]**: sobre lo que no es test, volvemos a dividir (se guardará en dicho conjunto las instrucciones para cuando hagamos a futuro el ajuste)
+
+
+```r
+# Validación
+data_val &lt;- validation_split(data_train, strata = var_outcome, prop = 0.75)
+```
+
+--
+
+* **.bg-purple_light[Inicio de receta]**: definir la objetivo y roles para usarlos a futiro
+
+
+```r
+# Receta
+model_rec &lt;-
+  # Fórmula y datos
+  recipe(data = data_train, var_outcome ~ .)%&gt;%
+  # Roles
+  add_role(..., new_role = ...) %&gt;% # Añade rol (a otros existentes)
+  update_role(..., new_role = ...) %&gt;% # Modifica (machaca) rol
+  remove_role(..., old_role = ...) # Eliminar roles
+```
+
+---
+
+# .orange[RESUMEN]
+
+* **.bg-purple_light[Fase 3: modificación]**
+
+
+```r
+model_rec &lt;-
+  model_rec %&gt;% 
+  step_...(...) %&gt;% # funciones a usar
+  step_mutate(...) %&gt;% # equivalente a mutate
+  step_rm(...) %&gt;% # eliminar variables
+  step_impute_...(...) %&gt;% # imputar ausentes
+  step_corr(...) %&gt;% # Filtro correlaciones
+  step_range(...) %&gt;% # Estandarizar por rango
+  step_other(...) %&gt;% # Colapsar niveles poco representados
+  step_dummy(...) %&gt;% # Dummyficar
+  step_zv(...) # Filtro cero varianza
+```
+  
+---
+
+# .orange[RESUMEN]
+
+* **.bg-purple_light[Fase 4: modelización]**
+
+
+```r
+# Modelo
+knn_model &lt;-
+  nearest_neighbor(mode = "classification", neighbors = ...,
+                   weight_func = ..., dist_power = ...) %&gt;%
+  set_engine("kknn")
+
+# Flujo de trabajo
+wflow &lt;- workflow() %&gt;% add_recipe(rec) %&gt;% add_model(knn_model)
+```
+
+---
+
+# .orange[RESUMEN]
+
+* **.bg-purple_light[Fase 5: evaluación]** (en validación)
+
+
+```r
+data_model_fit_val &lt;-
+  wflow %&gt;%
+  fit_resamples(data_val,
+                metrics = metric_set(accuracy, sensitivity,
+                                     specificity, roc_auc))
+# Recopilamos métricas (EN VALIDACIÓN) dadas en metrics
+collect_metrics(data_model_fit_val)
+```
+
+---
+
+# .orange[RESUMEN]
+
+**.bg-purple_light[Testeo]**
+
+* `predict()`: nos permite obtener las predicciones, bien de la clase que ha asignado a cada registro, bien la probabilidad estimada de pertenencia a cada clase
+
+
+```r
+predict(data_model_fit_val, new_data)
+predict(data_model_fit_val, new_data, type = "prob")
+```
+
+* `augment()`: nos permite juntar en una sola tabla los datos originales y las predicciones con `augment()`
+
+
+```r
+prob_data &lt;- augment(data_model_fit_val, new_data)
+```
+
+---
+
+# .orange[RESUMEN]
+
+**.bg-purple_light[Testeo]**
+
+* `conf_mat()`: matriz de confusión (realidad vs predicción), indicándole la columna con la clase real y la columna con la clase predicha (por defecto es `.pred_class`). Con `summary()` obtenemos las métricas.
+
+
+```r
+conf_mat &lt;- prob_data %&gt;% conf_mat(truth = ..., estimate = .pred_class)
+conf_mat %&gt;% summary()
+```
+
+* `roc_curve()`: curva roc (debemos indicarle las probabilidades de pertenencia, no la clase predicha.
+
+
+```r
+roc_data &lt;- prob_data %&gt;% roc_curve(truth = ..., ...)
+roc_data %&gt;% autoplot() # ya aprenderemos a hacerlo mejor
+```
+
+---
+
+name: tune
 
 # .orange[TUNE]
 
 Hasta ahora solo hemos probado un modelo pero la idea es **.bg-purple_light[entrenar varios modelos]** y **.bg-purple_light[evaluar en validación]** su calidad o conveniencia.
 
-Para ello lo que vamos a hacer al definir el modelo es **.bg-purple_light[no asignar una constante a los parámetros]** sino que los vamos a dejar sin fijar, asignándoles `tune()` (entre paréntesis una **etiqueta** para luego ser usada), para luego indicarle los «diales» en los que queremos que «sintonice»
+Para ello lo que vamos a hacer al definir el modelo es **.bg-purple_light[no asignar una constante a los parámetros]** sino que los vamos a dejar libres, asignándoles `tune()`, para luego indicarle los «diales» en los que queremos que «sintonice»
+
+* `neighbors = tune("k")`: dejamos libre el parámetro y asignamos la etiqueta `"k"`
+* `weight_func = tune("weight")`: dejamos libre y asignamos la etiqueta `"weight"`
+* `dist_power = tune("dist")`: dejamos libre y asignamos la etiqueta `"dist"`
 
 
 ```r
 # Modelo con tune
 knn_model_tune &lt;-
   nearest_neighbor(mode = "classification", neighbors = tune("k"),
-                   weight_func = tune("weight"), dist_power = tune("dist")) %&gt;%
+                   weight_func = tune("weight"),
+                   dist_power = tune("dist")) %&gt;%
   set_engine("kknn")
 ```
 
 ---
 
 # .orange[TUNE]
+
+La ventaja de tener receta y modelo por separado es que solo necesitamos **.bg-purple_light[unir el nuevo modelo a la anterior receta]**
 
 
 ```r
@@ -17441,9 +17642,14 @@ hoteles_wflow &lt;-
   add_model(knn_model_tune)
 ```
 
-El anterior modelo **.bg-purple_light[no tiene parámetros fijados]** a priori: vamos a definir un **.bg-purple_light[grid de parámetros]**
 
-Por ejemplo, podemos definir un grid de 7 valores de `k` (lo demás fijo)
+El anterior modelo **.bg-purple_light[no tiene parámetros fijados]** a priori: vamos a definir un **.bg-purple_light[grid de parámetros]** posibles, de forma que ejecutaremos todos ellos para entrenar en train y validar en validación.
+
+---
+
+# .orange[TUNE]: .green[GRID MANUAL]
+
+Por ejemplo, vamos definir **.bg-purple_light[manualmente]** un grid de 7 valores de `k` (el resto de parámetros los dejamos constantes)
 
 
 ```r
@@ -17468,46 +17674,81 @@ grid_knn
 
 ---
 
-# .orange[TUNE GRID]
+# .orange[TUNE]: .green[GRID MANUAL]
 
-Con `tune_grid()` le indicaremos que **.bg-purple_light[en lugar de entrenar un solo modelo]** entre uno por cada fila de parámetros que tenemos en `grid_knn`, y con `control_grid(verbose = TRUE)` le indicamos que nos informe del proceso. Tras ello con `collect_metrics()` obtendremos de una tacada la métrica de todos.
+Una vez definido el grid manual, con `tune_grid()` le indicaremos que **.bg-purple_light[en lugar de entrenar un solo modelo]** entre uno por cada fila que tenemos en `grid_knn` (cada fila representa una configuración de parámetros), y con `control_grid(verbose = TRUE)` le indicamos que nos informe del proceso.
+
+.pull-left[
+
+**.bg-orange[ANTES]** (solo un modelo)
+
+
+```r
+metricas &lt;-
+  metric_set(accuracy, sensitivity,
+             specificity, roc_auc)
+hoteles_knn_fit_tune &lt;-
+ hoteles_wflow %&gt;%
+  fit_resamples(hoteles_val,
+                metrics = metricas)
+```
+
+]
+
+.pull-right[
+
+**.bg-green_light[AHORA]** (muchos modelos a la vez)
 
 
 ```r
 # Entrenamos y evaluamos los 7 modelos
 hoteles_knn_fit_tune &lt;-
  hoteles_wflow %&gt;%
-  tune_grid(resamples = hoteles_val, grid = grid_knn,
-            control = control_grid(verbose = TRUE),
-            metrics = metric_set(accuracy, sensitivity,
-                                 specificity, roc_auc))
+* tune_grid(resamples = hoteles_val,
+*           grid = grid_knn,
+            control =
+              control_grid(verbose = TRUE),
+            metrics = metricas)
+```
+
+]
+
+
+
+---
+
+# .orange[TUNE]: .green[GRID MANUAL]
+
+Tras ello,  con `collect_metrics()` obtendremos de una sola vez la métrica (en validación) de todos ellos.
+
+
+```r
 hoteles_knn_fit_tune %&gt;% collect_metrics()
 ```
 
 ```
 &gt; # A tibble: 28 × 9
-&gt;        k weight  dist .metric     .estimator   mean     n std_err .config       
-&gt;    &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;       &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;fct&gt;         
-&gt;  1    20 inv        2 accuracy    binary     0.919      1      NA Preprocessor1…
-&gt;  2    20 inv        2 roc_auc     binary     0.740      1      NA Preprocessor1…
-&gt;  3    20 inv        2 sensitivity binary     0.101      1      NA Preprocessor1…
-&gt;  4    20 inv        2 specificity binary     0.998      1      NA Preprocessor1…
-&gt;  5    40 inv        2 accuracy    binary     0.914      1      NA Preprocessor1…
-&gt;  6    40 inv        2 roc_auc     binary     0.768      1      NA Preprocessor1…
-&gt;  7    40 inv        2 sensitivity binary     0.0202     1      NA Preprocessor1…
-&gt;  8    40 inv        2 specificity binary     1          1      NA Preprocessor1…
-&gt;  9    60 inv        2 accuracy    binary     0.912      1      NA Preprocessor1…
-&gt; 10    60 inv        2 roc_auc     binary     0.781      1      NA Preprocessor1…
+&gt;        k weight  dist .metric     .estimator  mean     n std_err .config        
+&gt;    &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;fct&gt;          
+&gt;  1    20 inv        2 accuracy    binary     0.932     1      NA Preprocessor1_…
+&gt;  2    20 inv        2 roc_auc     binary     0.788     1      NA Preprocessor1_…
+&gt;  3    20 inv        2 sensitivity binary     0.986     1      NA Preprocessor1_…
+&gt;  4    20 inv        2 specificity binary     0.311     1      NA Preprocessor1_…
+&gt;  5    40 inv        2 accuracy    binary     0.924     1      NA Preprocessor1_…
+&gt;  6    40 inv        2 roc_auc     binary     0.812     1      NA Preprocessor1_…
+&gt;  7    40 inv        2 sensitivity binary     0.990     1      NA Preprocessor1_…
+&gt;  8    40 inv        2 specificity binary     0.167     1      NA Preprocessor1_…
+&gt;  9    60 inv        2 accuracy    binary     0.926     1      NA Preprocessor1_…
+&gt; 10    60 inv        2 roc_auc     binary     0.838     1      NA Preprocessor1_…
 &gt; # … with 18 more rows
 &gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 ---
 
+# .orange[TUNE]: .green[GRID EXPANDIDO]
 
-# .orange[TUNE GRID]
-
-Ese grid también podemos definirlo para el resto de parámetros, definiendo los **.bg-purple_light[posibles valores para cada parámetro]** y probar **.bg-purple_light[todas las combinaciones entre ellos]**. Para eso haremos uso de `expand_grid()`
+Ese grid también podemos definirlo para el resto de parámetros, definiendo los **.bg-purple_light[posibles valores para cada parámetro]** y probar **.bg-purple_light[todas las combinaciones]** entre ellos. Para eso haremos uso de `expand_grid()`
 
 
 ```r
@@ -17528,7 +17769,7 @@ expand_grid("x" = 1:3, "y" = 8:9)
 
 ---
 
-# .orange[TUNE GRID]
+# .orange[TUNE]: .green[GRID EXPANDIDO]
 
 Con dicha herramienta vamos a **.bg-purple_light[crear 18 modelos]**: 3 valores diferentes de vecinos, 2 tipos de promedios y 3 métricas.
 
@@ -17567,51 +17808,35 @@ grid_knn
 
 ---
 
-# .orange[TUNE GRID]
+# .orange[TUNE]: .green[GRID EXPANDIDO]
+
+La forma de definir el grid cambia pero una vez definido, todo es igual que el ejemplo anterior
 
 
 ```r
 # Entrenamos y evaluamos los 18 modelos
 hoteles_knn_fit_tune &lt;-
  hoteles_wflow %&gt;%
-  tune_grid(resamples = hoteles_val, grid = grid_knn,
+* tune_grid(resamples = hoteles_val, grid = grid_knn,
             control = control_grid(verbose = TRUE),
             metrics = metric_set(accuracy, sensitivity,
                                  specificity, roc_auc))
 hoteles_knn_fit_tune %&gt;% collect_metrics()
 ```
 
-```
-&gt; # A tibble: 72 × 9
-&gt;        k weight    dist .metric     .estimator   mean     n std_err .config     
-&gt;    &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;       &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;fct&gt;       
-&gt;  1    10 gaussian  0.01 accuracy    binary     0.92       1      NA Preprocesso…
-&gt;  2    10 gaussian  0.01 roc_auc     binary     0.771      1      NA Preprocesso…
-&gt;  3    10 gaussian  0.01 sensitivity binary     0.172      1      NA Preprocesso…
-&gt;  4    10 gaussian  0.01 specificity binary     0.992      1      NA Preprocesso…
-&gt;  5    50 gaussian  0.01 accuracy    binary     0.917      1      NA Preprocesso…
-&gt;  6    50 gaussian  0.01 roc_auc     binary     0.826      1      NA Preprocesso…
-&gt;  7    50 gaussian  0.01 sensitivity binary     0.0606     1      NA Preprocesso…
-&gt;  8    50 gaussian  0.01 specificity binary     1          1      NA Preprocesso…
-&gt;  9   100 gaussian  0.01 accuracy    binary     0.912      1      NA Preprocesso…
-&gt; 10   100 gaussian  0.01 roc_auc     binary     0.834      1      NA Preprocesso…
-&gt; # … with 62 more rows
-&gt; # ℹ Use `print(n = ...)` to see more rows
-```
-
 ---
 
-# .orange[TUNE GRID]
+# .orange[TUNE]: .green[GRID AUTOMÁTICO]
 
 
-Incluso podemos generar ese grid de una manera más  **.bg-purple_light[automática]** haciendo uso de `update()` y `grid_regular()`, para el mismo número de valores en cada parámetro (por ejemplo 3 en cada uno, siempre que haya tres opciones dadas)
+Incluso podemos generar ese grid de una manera más  **.bg-purple_light[automática]**: primero extraemos los parámetros con `extract_parameter_set_dials()`, luego los actualizamos con `update()` indicándole solo los rangos máximos y mínimos, y con `grid_regular()` le indicamos cuantos niveles queremos en cada parámetro (fijo en todos).
 
 
 ```r
 grid_knn &lt;-
   extract_parameter_set_dials(hoteles_wflow) %&gt;%
   # Actualizamos
-  update(k = neighbors(range = c(10, 100)),
+  update(k = neighbors(range = c(5, 70)),
          weight = weight_func(values = c("inv", "gaussian")),
          dist = dist_power(range = c(0.1, 10))) %&gt;%
   grid_regular(levels = 3) 
@@ -17622,29 +17847,32 @@ grid_knn # 18 modelos (3 x 2 x 3)
 &gt; # A tibble: 18 × 3
 &gt;        k weight    dist
 &gt;    &lt;int&gt; &lt;chr&gt;    &lt;dbl&gt;
-&gt;  1    10 inv       0.1 
-&gt;  2    55 inv       0.1 
-&gt;  3   100 inv       0.1 
-&gt;  4    10 gaussian  0.1 
-&gt;  5    55 gaussian  0.1 
-&gt;  6   100 gaussian  0.1 
-&gt;  7    10 inv       5.05
-&gt;  8    55 inv       5.05
-&gt;  9   100 inv       5.05
-&gt; 10    10 gaussian  5.05
-&gt; 11    55 gaussian  5.05
-&gt; 12   100 gaussian  5.05
-&gt; 13    10 inv      10   
-&gt; 14    55 inv      10   
-&gt; 15   100 inv      10   
-&gt; 16    10 gaussian 10   
-&gt; 17    55 gaussian 10   
-&gt; 18   100 gaussian 10
+&gt;  1     5 inv       0.1 
+&gt;  2    37 inv       0.1 
+&gt;  3    70 inv       0.1 
+&gt;  4     5 gaussian  0.1 
+&gt;  5    37 gaussian  0.1 
+&gt;  6    70 gaussian  0.1 
+&gt;  7     5 inv       5.05
+&gt;  8    37 inv       5.05
+&gt;  9    70 inv       5.05
+&gt; 10     5 gaussian  5.05
+&gt; 11    37 gaussian  5.05
+&gt; 12    70 gaussian  5.05
+&gt; 13     5 inv      10   
+&gt; 14    37 inv      10   
+&gt; 15    70 inv      10   
+&gt; 16     5 gaussian 10   
+&gt; 17    37 gaussian 10   
+&gt; 18    70 gaussian 10
 ```
 
 ---
 
-# .orange[TUNE GRID]
+# .orange[TUNE]: .green[GRID AUTOMÁTICO]
+
+La forma de definir el grid cambia pero una vez definido, todo es igual que el ejemplo anterior
+
 
 
 ```r
@@ -17662,85 +17890,63 @@ hoteles_knn_fit_tune %&gt;% collect_metrics()
 &gt; # A tibble: 72 × 9
 &gt;        k weight    dist .metric     .estimator   mean     n std_err .config     
 &gt;    &lt;int&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;       &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;fct&gt;       
-&gt;  1    10 gaussian   0.1 accuracy    binary     0.921      1      NA Preprocesso…
-&gt;  2    10 gaussian   0.1 roc_auc     binary     0.775      1      NA Preprocesso…
-&gt;  3    10 gaussian   0.1 sensitivity binary     0.182      1      NA Preprocesso…
-&gt;  4    10 gaussian   0.1 specificity binary     0.992      1      NA Preprocesso…
-&gt;  5    55 gaussian   0.1 accuracy    binary     0.916      1      NA Preprocesso…
-&gt;  6    55 gaussian   0.1 roc_auc     binary     0.830      1      NA Preprocesso…
-&gt;  7    55 gaussian   0.1 sensitivity binary     0.0404     1      NA Preprocesso…
-&gt;  8    55 gaussian   0.1 specificity binary     1          1      NA Preprocesso…
-&gt;  9   100 gaussian   0.1 accuracy    binary     0.913      1      NA Preprocesso…
-&gt; 10   100 gaussian   0.1 roc_auc     binary     0.836      1      NA Preprocesso…
+&gt;  1     5 gaussian   0.1 accuracy    binary     0.92       1      NA Preprocesso…
+&gt;  2     5 gaussian   0.1 roc_auc     binary     0.686      1      NA Preprocesso…
+&gt;  3     5 gaussian   0.1 sensitivity binary     0.996      1      NA Preprocesso…
+&gt;  4     5 gaussian   0.1 specificity binary     0.0444     1      NA Preprocesso…
+&gt;  5    37 gaussian   0.1 accuracy    binary     0.92       1      NA Preprocesso…
+&gt;  6    37 gaussian   0.1 roc_auc     binary     0.830      1      NA Preprocesso…
+&gt;  7    37 gaussian   0.1 sensitivity binary     1          1      NA Preprocesso…
+&gt;  8    37 gaussian   0.1 specificity binary     0          1      NA Preprocesso…
+&gt;  9    70 gaussian   0.1 accuracy    binary     0.92       1      NA Preprocesso…
+&gt; 10    70 gaussian   0.1 roc_auc     binary     0.835      1      NA Preprocesso…
 &gt; # … with 62 more rows
 &gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 ---
 
-
-class: inverse center middle
-name: clase-9
-
-
-# CLASE 9: otras validaciones y ggplot
-
-&amp;nbsp;
-
-### [Mejor modelo en validación](#show-best)
-
-### [Modelización paralelizada](#parallel)
-
-### [Sobremuestreo](#oversampling)
-
-### [Validación cruzada y bootstrap](#cv-hoteles)
-
-### [Visualización de datos](#dataviz)
-
----
-
 name: show-best
 
-# Fase 5: .orange[evaluación]
+# .orange[SELECCIÓN DEL MEJOR]
 
 No solo vamos a poder trastear con tidyverse en esos resultados en validación sino que tenemos **.bg-purple_light[dos funciones especialmente pensadas]** para ello: `show_best()` nos devuelve los mejores modelos según la métrica pedida, `select_best()` nos selecciona el mejor
 
 
 ```r
-# Los mejores según accuraccy
-hoteles_knn_fit_tune %&gt;% show_best("accuracy")
+hoteles_knn_fit_tune %&gt;% show_best("roc_auc")
 ```
 
 ```
 &gt; # A tibble: 5 × 9
-&gt;       k weight    dist .metric  .estimator  mean     n std_err .config          
-&gt;   &lt;int&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;fct&gt;            
-&gt; 1    10 gaussian  0.1  accuracy binary     0.921     1      NA Preprocessor1_Mo…
-&gt; 2    55 gaussian  0.1  accuracy binary     0.916     1      NA Preprocessor1_Mo…
-&gt; 3   100 inv       0.1  accuracy binary     0.916     1      NA Preprocessor1_Mo…
-&gt; 4    10 inv       5.05 accuracy binary     0.916     1      NA Preprocessor1_Mo…
-&gt; 5    10 gaussian  5.05 accuracy binary     0.915     1      NA Preprocessor1_Mo…
+&gt;       k weight    dist .metric .estimator  mean     n std_err .config           
+&gt;   &lt;int&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;fct&gt;             
+&gt; 1    70 gaussian  0.1  roc_auc binary     0.835     1      NA Preprocessor1_Mod…
+&gt; 2    37 gaussian  0.1  roc_auc binary     0.830     1      NA Preprocessor1_Mod…
+&gt; 3    70 inv       0.1  roc_auc binary     0.797     1      NA Preprocessor1_Mod…
+&gt; 4    37 inv       0.1  roc_auc binary     0.796     1      NA Preprocessor1_Mod…
+&gt; 5    70 inv       5.05 roc_auc binary     0.795     1      NA Preprocessor1_Mod…
 ```
 
 ```r
-# Elegir el mejor según ROC
-hoteles_knn_fit_tune %&gt;% select_best("roc_auc")
+hoteles_knn_fit_tune %&gt;% select_best("accuracy")
 ```
 
 ```
 &gt; # A tibble: 1 × 4
 &gt;       k weight    dist .config              
 &gt;   &lt;int&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;fct&gt;                
-&gt; 1   100 gaussian   0.1 Preprocessor1_Model03
+&gt; 1    37 gaussian    10 Preprocessor1_Model08
 ```
 
 ---
 
 # .orange[SELECCIÓN DEL MEJOR]
 
+Una vez elegido **.bg-purple_light[finalizamos flujo con el mejor modelo]** (según una métrica)
+
 
 ```r
-# Finalizamos flujo con el mejor modelo (según una métrica)
 best_knn_model_acc &lt;- hoteles_knn_fit_tune %&gt;% select_best("accuracy")
 final_wf &lt;- 
   hoteles_wflow %&gt;% 
@@ -17771,9 +17977,9 @@ final_wf
 &gt; K-Nearest Neighbor Model Specification (classification)
 &gt; 
 &gt; Main Arguments:
-&gt;   neighbors = 10
+&gt;   neighbors = 37
 &gt;   weight_func = gaussian
-&gt;   dist_power = 0.1
+&gt;   dist_power = 10
 &gt; 
 &gt; Computational engine: kknn
 ```
@@ -17783,8 +17989,10 @@ final_wf
 # Fase 5: .orange[EVALUACIÓN EN TEST]
 
 
+Con `last_fit()` **.bg-purple_light[ajustamos a test]** con ese mejor modelo seleccionado en validación, y calculamos métricas en test.
+
+
 ```r
-# Ajustamos a test con ese modelo seleccionado en validación
 final_knn_fit &lt;- 
   final_wf %&gt;%
   last_fit(hoteles_split) 
@@ -17797,8 +18005,8 @@ final_knn_fit %&gt;% collect_metrics()
 &gt; # A tibble: 2 × 4
 &gt;   .metric  .estimator .estimate .config             
 &gt;   &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt; &lt;fct&gt;               
-&gt; 1 accuracy binary         0.944 Preprocessor1_Model1
-&gt; 2 roc_auc  binary         0.805 Preprocessor1_Model1
+&gt; 1 accuracy binary         0.934 Preprocessor1_Model1
+&gt; 2 roc_auc  binary         0.819 Preprocessor1_Model1
 ```
 
 
@@ -17806,7 +18014,7 @@ final_knn_fit %&gt;% collect_metrics()
 
 # Fase 5: .orange[PREDICCIÓN EN TEST]
 
-Podemos volver a usar `predict()`, extrayendo el flujo de ese ajuste final con `extract_workflow(final_knn_fit)`
+Podemos volver a usar `predict()`, extrayendo antes el flujo de ese ajuste final con `extract_workflow(final_knn_fit)`, para calcular las **.bg-purple_light[clases predichas]** en test.
 
 
 ```r
@@ -17821,12 +18029,12 @@ predict(extract_workflow(final_knn_fit), hoteles_test)
 &gt;  1 none       
 &gt;  2 none       
 &gt;  3 none       
-&gt;  4 children   
+&gt;  4 none       
 &gt;  5 none       
 &gt;  6 none       
-&gt;  7 children   
-&gt;  8 children   
-&gt;  9 children   
+&gt;  7 none       
+&gt;  8 none       
+&gt;  9 none       
 &gt; 10 none       
 &gt; # … with 490 more rows
 &gt; # ℹ Use `print(n = ...)` to see more rows
@@ -17844,18 +18052,18 @@ predict(extract_workflow(final_knn_fit), hoteles_test, type = "prob")
 
 ```
 &gt; # A tibble: 500 × 2
-&gt;    .pred_children .pred_none
-&gt;             &lt;dbl&gt;      &lt;dbl&gt;
-&gt;  1          0.465      0.535
-&gt;  2          0          1    
-&gt;  3          0.170      0.830
-&gt;  4          0.525      0.475
-&gt;  5          0.382      0.618
-&gt;  6          0.108      0.892
-&gt;  7          0.605      0.395
-&gt;  8          0.602      0.398
-&gt;  9          0.872      0.128
-&gt; 10          0          1    
+&gt;    .pred_none .pred_children
+&gt;         &lt;dbl&gt;          &lt;dbl&gt;
+&gt;  1      1             0     
+&gt;  2      0.957         0.0434
+&gt;  3      0.947         0.0529
+&gt;  4      0.914         0.0859
+&gt;  5      0.977         0.0228
+&gt;  6      0.957         0.0430
+&gt;  7      0.860         0.140 
+&gt;  8      1             0     
+&gt;  9      0.915         0.0852
+&gt; 10      0.953         0.0473
 &gt; # … with 490 more rows
 &gt; # ℹ Use `print(n = ...)` to see more rows
 ```
@@ -17863,6 +18071,9 @@ predict(extract_workflow(final_knn_fit), hoteles_test, type = "prob")
 ---
 
 # Fase 5: .orange[PREDICCIÓN EN TEST]
+
+Con `augment()` podemos incluir en una sola tabla los datos en test y las predicciones, y con `conf_mat()` obtenemos la **.bg-purple_light[matriz de confusión]**
+
 
 
 ```r
@@ -17878,9 +18089,9 @@ conf_mat_test
 
 ```
 &gt;           Truth
-&gt; Prediction children none
-&gt;   children        8    0
-&gt;   none           28  464
+&gt; Prediction none children
+&gt;   none      456       30
+&gt;   children    3       11
 ```
 
 ---
@@ -17890,26 +18101,27 @@ conf_mat_test
 
 ```r
 # todas las métricas en test
-conf_mat_test %&gt;% summary()
+conf_mat_test %&gt;%
+* summary()
 ```
 
 ```
 &gt; # A tibble: 13 × 3
 &gt;    .metric              .estimator .estimate
 &gt;    &lt;chr&gt;                &lt;chr&gt;          &lt;dbl&gt;
-&gt;  1 accuracy             binary         0.944
-&gt;  2 kap                  binary         0.347
-&gt;  3 sens                 binary         0.222
-&gt;  4 spec                 binary         1    
-&gt;  5 ppv                  binary         1    
-&gt;  6 npv                  binary         0.943
-&gt;  7 mcc                  binary         0.458
-&gt;  8 j_index              binary         0.222
-&gt;  9 bal_accuracy         binary         0.611
-&gt; 10 detection_prevalence binary         0.016
-&gt; 11 precision            binary         1    
-&gt; 12 recall               binary         0.222
-&gt; 13 f_meas               binary         0.364
+&gt;  1 accuracy             binary         0.934
+&gt;  2 kap                  binary         0.374
+&gt;  3 sens                 binary         0.993
+&gt;  4 spec                 binary         0.268
+&gt;  5 ppv                  binary         0.938
+&gt;  6 npv                  binary         0.786
+&gt;  7 mcc                  binary         0.435
+&gt;  8 j_index              binary         0.262
+&gt;  9 bal_accuracy         binary         0.631
+&gt; 10 detection_prevalence binary         0.972
+&gt; 11 precision            binary         0.938
+&gt; 12 recall               binary         0.993
+&gt; 13 f_meas               binary         0.965
 ```
 
 ---
@@ -17921,10 +18133,26 @@ Podemos **.bg-purple_light[dibujar la curva ROC]** haciendo uso de `roc_curve()`
 
 ```r
 roc_data &lt;- prob_test %&gt;% roc_curve(truth = children, .pred_children)
-roc_data %&gt;% autoplot()
+roc_data
 ```
 
-&lt;img src="index_files/figure-html/unnamed-chunk-740-1.png" width="40%" /&gt;
+```
+&gt; # A tibble: 379 × 3
+&gt;    .threshold specificity sensitivity
+&gt;         &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;
+&gt;  1 -Inf            0            1    
+&gt;  2    0            0            1    
+&gt;  3    0.00423      0.0732       0.741
+&gt;  4    0.00428      0.0732       0.739
+&gt;  5    0.00797      0.0732       0.736
+&gt;  6    0.00843      0.0732       0.734
+&gt;  7    0.0101       0.0732       0.732
+&gt;  8    0.0102       0.0732       0.730
+&gt;  9    0.0103       0.0732       0.728
+&gt; 10    0.0114       0.0732       0.725
+&gt; # … with 369 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
+```
 
 
 ---
@@ -17985,13 +18213,13 @@ showConnections()
 ```
 &gt;    description         class            mode  text     isopen   can read
 &gt; 3  "output"            "textConnection" "wr"  "text"   "opened" "no"    
-&gt; 4  "&lt;-localhost:11667" "sockconn"       "a+b" "binary" "opened" "yes"   
-&gt; 5  "&lt;-localhost:11667" "sockconn"       "a+b" "binary" "opened" "yes"   
-&gt; 6  "&lt;-localhost:11667" "sockconn"       "a+b" "binary" "opened" "yes"   
-&gt; 7  "&lt;-localhost:11667" "sockconn"       "a+b" "binary" "opened" "yes"   
-&gt; 8  "&lt;-localhost:11667" "sockconn"       "a+b" "binary" "opened" "yes"   
-&gt; 9  "&lt;-localhost:11667" "sockconn"       "a+b" "binary" "opened" "yes"   
-&gt; 10 "&lt;-localhost:11667" "sockconn"       "a+b" "binary" "opened" "yes"   
+&gt; 4  "&lt;-localhost:11117" "sockconn"       "a+b" "binary" "opened" "yes"   
+&gt; 5  "&lt;-localhost:11117" "sockconn"       "a+b" "binary" "opened" "yes"   
+&gt; 6  "&lt;-localhost:11117" "sockconn"       "a+b" "binary" "opened" "yes"   
+&gt; 7  "&lt;-localhost:11117" "sockconn"       "a+b" "binary" "opened" "yes"   
+&gt; 8  "&lt;-localhost:11117" "sockconn"       "a+b" "binary" "opened" "yes"   
+&gt; 9  "&lt;-localhost:11117" "sockconn"       "a+b" "binary" "opened" "yes"   
+&gt; 10 "&lt;-localhost:11117" "sockconn"       "a+b" "binary" "opened" "yes"   
 &gt;    can write
 &gt; 3  "yes"    
 &gt; 4  "yes"    
@@ -18030,16 +18258,16 @@ hoteles_knn_fit_tune %&gt;% collect_metrics()
 &gt; # A tibble: 72 × 9
 &gt;        k weight    dist .metric     .estimator   mean     n std_err .config     
 &gt;    &lt;int&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;       &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;fct&gt;       
-&gt;  1    10 gaussian   0.1 accuracy    binary     0.921      1      NA Preprocesso…
-&gt;  2    10 gaussian   0.1 roc_auc     binary     0.775      1      NA Preprocesso…
-&gt;  3    10 gaussian   0.1 sensitivity binary     0.182      1      NA Preprocesso…
-&gt;  4    10 gaussian   0.1 specificity binary     0.992      1      NA Preprocesso…
-&gt;  5    55 gaussian   0.1 accuracy    binary     0.916      1      NA Preprocesso…
-&gt;  6    55 gaussian   0.1 roc_auc     binary     0.830      1      NA Preprocesso…
-&gt;  7    55 gaussian   0.1 sensitivity binary     0.0404     1      NA Preprocesso…
-&gt;  8    55 gaussian   0.1 specificity binary     1          1      NA Preprocesso…
-&gt;  9   100 gaussian   0.1 accuracy    binary     0.913      1      NA Preprocesso…
-&gt; 10   100 gaussian   0.1 roc_auc     binary     0.836      1      NA Preprocesso…
+&gt;  1     5 gaussian   0.1 accuracy    binary     0.92       1      NA Preprocesso…
+&gt;  2     5 gaussian   0.1 roc_auc     binary     0.686      1      NA Preprocesso…
+&gt;  3     5 gaussian   0.1 sensitivity binary     0.996      1      NA Preprocesso…
+&gt;  4     5 gaussian   0.1 specificity binary     0.0444     1      NA Preprocesso…
+&gt;  5    37 gaussian   0.1 accuracy    binary     0.92       1      NA Preprocesso…
+&gt;  6    37 gaussian   0.1 roc_auc     binary     0.830      1      NA Preprocesso…
+&gt;  7    37 gaussian   0.1 sensitivity binary     1          1      NA Preprocesso…
+&gt;  8    37 gaussian   0.1 specificity binary     0          1      NA Preprocesso…
+&gt;  9    70 gaussian   0.1 accuracy    binary     0.92       1      NA Preprocesso…
+&gt; 10    70 gaussian   0.1 roc_auc     binary     0.835      1      NA Preprocesso…
 &gt; # … with 62 more rows
 &gt; # ℹ Use `print(n = ...)` to see more rows
 ```
@@ -18068,9 +18296,21 @@ bake(hoteles_rec_oversampling %&gt;% prep(), new_data = NULL) %&gt;%
 &gt; # A tibble: 2 × 3
 &gt;   children     n  porc
 &gt;   &lt;fct&gt;    &lt;int&gt; &lt;dbl&gt;
-&gt; 1 children  2066  33.3
-&gt; 2 none      4132  66.7
+&gt; 1 none      4137  66.7
+&gt; 2 children  2068  33.3
 ```
+
+---
+
+# .orange[SOBREMUESTREO] .green[BAJOMUESTREO]
+
+Es importante advertir que por defecto `themis::step_upsample()` tiene un parámetro opcional `skip` puesto en `TRUE` (si te fijas en el resto de funciones tipo `step_...()` la mayoría lo tienen en `FALSE`).
+
+&amp;nbsp;
+
+Si `skip = TRUE`, lo que indicamos ese que ese **.bg-purple_light[paso de la receta lo ignore cuando lo vayamos a aplicar a test]** (recuerda que la ventaja de tidymodels es que cuando le pides predecir en test, el solo aplica la receta de train a test, para calcular la predicción). De esta manera, el conjunto de test no será sobre/bajomuestreado, ya que sería incorrecto "modificar" el conjunto de test dado (recuerda siempre que simula un conjunto nuevo que alguien te da).
+
+Puedes poder `skip = TRUE` siempre que quieras que un paso se lo salte luego en test.
 
 ---
 
@@ -18080,6 +18320,10 @@ Basta con repetir el proceso con la **receta con sobremuestreo**
 
 
 ```r
+clusters &lt;- detectCores() - 1
+make_cluster &lt;- makeCluster(clusters)
+registerDoParallel(make_cluster)
+
 # Flujo de trabajo
 hoteles_wflow_oversampling &lt;-
   workflow() %&gt;%
@@ -18095,18 +18339,233 @@ hoteles_knn_fit_tune_oversampling &lt;-
                                    pkgs = c("outliers")),
             metrics = metric_set(accuracy, sensitivity,
                                  specificity, roc_auc))
+# finalizamos clusters
+stopCluster(make_cluster)
+registerDoSEQ()
 ```
   
 ---
+
+# .orange[SOBREMUESTREO] .green[BAJOMUESTREO]
+
+Tras ello volvemos a elegir el mejor modelo según accuracy para compararlo
+
+
+```r
+best_knn_model_over_acc &lt;-
+  hoteles_knn_fit_tune_oversampling %&gt;% select_best("accuracy")
+```
+
+Y con ese modelo seleccionado finalizamos flujo y ajustamos a test
+
+
+```r
+# Finalizamos flujo con el mejor modelo (según una métrica)
+final_wf_over &lt;- 
+  hoteles_wflow %&gt;% 
+  finalize_workflow(best_knn_model_over_acc)
+
+# Ajustamos a test con ese modelo seleccionado en validación
+final_knn_fit_over &lt;- 
+  final_wf_over %&gt;%
+  last_fit(hoteles_split) 
+```
+
+---
+
+# .orange[SOBREMUESTREO] .green[BAJOMUESTREO]
+
+
+```r
+# Calculamos métricas en test (las indicadas)
+final_knn_fit_over %&gt;% collect_metrics()
+```
+
+```
+&gt; # A tibble: 2 × 4
+&gt;   .metric  .estimator .estimate .config             
+&gt;   &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt; &lt;fct&gt;               
+&gt; 1 accuracy binary         0.918 Preprocessor1_Model1
+&gt; 2 roc_auc  binary         0.831 Preprocessor1_Model1
+```
+
 
 ---
 
 names: cv-hoteles
 
-# Validación .orange[CRUZADA v-folds]
+# Validación .orange[CRUZADA]
+
+Hasta ahora, hemos probado **.bg-purple_light[varios modelos]** sobre el **.bg-orange[mismo conjunto de validación]**. Ese conjunto de validación se ha hecho de manera aleatoria, así que nuestro resultado podría estar condicionado a la **buena o mala suerte** de esa partición.
+
+En realidad cuando hemos hablado de **.bg-purple_light[sesgo y varianza]** no era exactamente esto, ya que para tener una media de lo que nos equivocamos y una varianza de las predicciones, necesitaremos no solo varios modelos sino, en cada una, **.bg-purple_light[varios conjuntos de validación]**
+
+&amp;nbsp;
 
 
-* cv v-folds
+**.bg-red_light[Problema]**: si necesitamos hacer muchas particiones de los datos, puede que nos quedemos sin tamaño muestral suficiente.
+
+---
+
+
+# Validación .orange[CRUZADA] aleatoria
+
+
+* **.bg-purple_light[Validación cruzada aleatoria]**: la forma más simple (pero menos eficiente) es generar un «bucle» de k iteraciones, de forma que repitamos el proceso k veces, con conjuntos de validación distintos, promediando las métricas.
+
+&lt;img src="./img/val_cruzada_aleatoria.jpg" width="55%" style="display: block; margin: auto;" /&gt;
+
+La **.bg-red_light[principal crítica]** a este método no solo es la ineficiencia sino que además en cada iteración podemos tener solapamiento: nada nos garantiza que el conjunto de validación sea el mismo en dos iteraciones.
+
+---
+
+# Validación .orange[CRUZADA] v-folds
+
+
+* **.bg-purple_light[Validación cruzada v-folds]**: la forma más habitual es mediante validación cruzada v-folds, basada en **.bg-purple_light[generar artificialmente conjuntos de validación]** a partir de los datos originales.
+
+&lt;img src="./img/val_cruzad_vfolds.jpg" width="51%" style="display: block; margin: auto;" /&gt;
+
+Los datos se dividen en **.bg-purple_light[v subsubconjuntos de igual tamaño]**: en cada iteración i (de 1 a v) se usa como
+**.bg-purple_light[conjunto train todo menos el subconjunto i-ésimo]**, el cual es usado para validar (obteniendo un promedio de v iteraciones).
+
+
+---
+
+
+# Validación .orange[CRUZADA] v-folds
+
+* **Iteración i**: entrenamos el modelo con los **conjuntos {1,...,i-1, i+1, ..., v}** y validamos con el **conjunto i-ésimo**.
+
+
+En muchas ocasiones ese proceso se **.bg-purple_light[repite un número k de veces]** con el objetivo de **.bg-purple_light[eliminar el efecto de la forma de subdivisión]** en v subconjuntos, obteniendo un promedio de `\(k*v\)` conjuntos de validación, y tomar decisiones sobre los parámetros.
+
+
+```r
+hoteles_split &lt;- initial_split(hoteles_sample, strata = children, prop = 0.9)
+hoteles_train &lt;- training(hoteles_split)
+hoteles_test &lt;- testing(hoteles_split)
+
+*hoteles_cv_folds &lt;- vfold_cv(data = hoteles_train, v = 4, repeats = 2, strata = children)
+hoteles_cv_folds
+```
+
+```
+&gt; #  4-fold cross-validation repeated 2 times using stratification 
+&gt; # A tibble: 8 × 3
+&gt;   splits              id      id2  
+&gt;   &lt;list&gt;              &lt;chr&gt;   &lt;chr&gt;
+&gt; 1 &lt;split [3374/1125]&gt; Repeat1 Fold1
+&gt; 2 &lt;split [3374/1125]&gt; Repeat1 Fold2
+&gt; 3 &lt;split [3374/1125]&gt; Repeat1 Fold3
+&gt; 4 &lt;split [3375/1124]&gt; Repeat1 Fold4
+&gt; 5 &lt;split [3374/1125]&gt; Repeat2 Fold1
+&gt; 6 &lt;split [3374/1125]&gt; Repeat2 Fold2
+&gt; 7 &lt;split [3374/1125]&gt; Repeat2 Fold3
+&gt; 8 &lt;split [3375/1124]&gt; Repeat2 Fold4
+```
+
+---
+
+# Validación .orange[CRUZADA] v-folds
+
+Todo igual salvo el conjunto de `resamples` que le pasamos
+
+
+```r
+clusters &lt;- detectCores() - 1
+make_cluster &lt;- makeCluster(clusters)
+registerDoParallel(make_cluster)
+
+hoteles_knn_fit_tune &lt;-
+ hoteles_wflow %&gt;%
+* tune_grid(resamples = hoteles_cv_folds,
+            grid = grid_knn,
+*           control = control_grid(verbose = TRUE, allow_par = TRUE,
+                                   pkgs = c("outliers")),
+            metrics = metric_set(accuracy, sensitivity, specificity, roc_auc))
+# finalizamos clusters
+stopCluster(make_cluster)
+registerDoSEQ()
+```
+
+---
+
+# Validación .orange[CRUZADA] v-folds
+
+
+Ahora tendremos una métrica media con su desviación típica.
+
+
+```r
+hoteles_knn_fit_tune
+```
+
+```
+&gt; # Tuning results
+&gt; # 4-fold cross-validation repeated 2 times using stratification 
+&gt; # A tibble: 8 × 5
+&gt;   splits              id      id2   .metrics          .notes          
+&gt;   &lt;list&gt;              &lt;chr&gt;   &lt;chr&gt; &lt;list&gt;            &lt;list&gt;          
+&gt; 1 &lt;split [3374/1125]&gt; Repeat1 Fold1 &lt;tibble [72 × 7]&gt; &lt;tibble [1 × 3]&gt;
+&gt; 2 &lt;split [3374/1125]&gt; Repeat1 Fold2 &lt;tibble [72 × 7]&gt; &lt;tibble [1 × 3]&gt;
+&gt; 3 &lt;split [3374/1125]&gt; Repeat1 Fold3 &lt;tibble [72 × 7]&gt; &lt;tibble [1 × 3]&gt;
+&gt; 4 &lt;split [3375/1124]&gt; Repeat1 Fold4 &lt;tibble [72 × 7]&gt; &lt;tibble [1 × 3]&gt;
+&gt; 5 &lt;split [3374/1125]&gt; Repeat2 Fold1 &lt;tibble [72 × 7]&gt; &lt;tibble [1 × 3]&gt;
+&gt; 6 &lt;split [3374/1125]&gt; Repeat2 Fold2 &lt;tibble [72 × 7]&gt; &lt;tibble [1 × 3]&gt;
+&gt; 7 &lt;split [3374/1125]&gt; Repeat2 Fold3 &lt;tibble [72 × 7]&gt; &lt;tibble [1 × 3]&gt;
+&gt; 8 &lt;split [3375/1124]&gt; Repeat2 Fold4 &lt;tibble [72 × 7]&gt; &lt;tibble [1 × 3]&gt;
+&gt; 
+&gt; There were issues with some computations:
+&gt; 
+&gt;   - Warning(s) x8: The correlation matrix has missing values. 1 columns were exclude...
+&gt; 
+&gt; Use `collect_notes(object)` for more information.
+```
+
+---
+
+# Validación .orange[CRUZADA] v-folds
+
+Incluso podemos usar `select_by_one_std_err()` para elegir el **.bg-purple_light[mejor modelo según sesgo-varianza]**, siguiendo la one-standard error rule propuesta por Breiman et al.  (1984). Ver &lt;https://www.cs.ubc.ca/~murphyk/Teaching/CS340-Fall07/L4_knn.pdf&gt;
+
+
+
+
+```r
+hoteles_knn_fit_tune %&gt;% select_by_one_std_err(metric = "accuracy", k)  
+```
+
+```
+&gt; # A tibble: 1 × 11
+&gt;       k weight    dist .metric  .esti…¹  mean     n std_err .config .best .bound
+&gt;   &lt;int&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;   &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;fct&gt;   &lt;dbl&gt;  &lt;dbl&gt;
+&gt; 1    37 gaussian  5.05 accuracy binary  0.930     8 0.00257 Prepro… 0.930  0.928
+&gt; # … with abbreviated variable name ¹​.estimator
+```
+
+```r
+hoteles_knn_fit_tune %&gt;% collect_metrics()
+```
+
+```
+&gt; # A tibble: 72 × 9
+&gt;        k weight    dist .metric     .estimator   mean     n  std_err .config    
+&gt;    &lt;int&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;       &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt; &lt;fct&gt;      
+&gt;  1     5 gaussian   0.1 accuracy    binary     0.925      8 0.00249  Preprocess…
+&gt;  2     5 gaussian   0.1 roc_auc     binary     0.707      8 0.0111   Preprocess…
+&gt;  3     5 gaussian   0.1 sensitivity binary     0.996      8 0.000385 Preprocess…
+&gt;  4     5 gaussian   0.1 specificity binary     0.0830     8 0.0120   Preprocess…
+&gt;  5    37 gaussian   0.1 accuracy    binary     0.922      8 0.00209  Preprocess…
+&gt;  6    37 gaussian   0.1 roc_auc     binary     0.798      8 0.00879  Preprocess…
+&gt;  7    37 gaussian   0.1 sensitivity binary     1          8 0        Preprocess…
+&gt;  8    37 gaussian   0.1 specificity binary     0          8 0        Preprocess…
+&gt;  9    70 gaussian   0.1 accuracy    binary     0.922      8 0.00209  Preprocess…
+&gt; 10    70 gaussian   0.1 roc_auc     binary     0.813      8 0.00676  Preprocess…
+&gt; # … with 62 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
+```
+
 
 ---
 
@@ -18114,13 +18573,2453 @@ names: bootstrap-val-hoteles
 
 # Validación .orange[BOOTSTRAP]
 
-* Bootstrap Out-of-Bag
+Cuando los **.bg-purple_light[datos son tan escasos que incluso la validación v-folds]** nos dejaría conjuntos muy poco representativos por su tamaño, podemos aplicar un **.bg-purple_light[remuestreo con reemplazamiento (bootstrap)]**.
+
+En este caso, en cada iteración, realizaremos un **.bg-purple_light[remuestreo con reemplazamiento pero SOLO de una parte de los datos]**, obteniendo un conjunto de igual tamaño al inicial. Con los datos que no entraron en el remuestreo con reemplazamiento anterior construimos el **.bg-purple_light[conjunto para la validación (Out-of-Bag - OOB - sample)]**.
+
+
+```r
+hoteles_boots &lt;- bootstraps(hoteles_train, times = 7)
+hoteles_boots
+```
+
+```
+&gt; # Bootstrap sampling 
+&gt; # A tibble: 7 × 2
+&gt;   splits              id        
+&gt;   &lt;list&gt;              &lt;chr&gt;     
+&gt; 1 &lt;split [4499/1647]&gt; Bootstrap1
+&gt; 2 &lt;split [4499/1657]&gt; Bootstrap2
+&gt; 3 &lt;split [4499/1656]&gt; Bootstrap3
+&gt; 4 &lt;split [4499/1645]&gt; Bootstrap4
+&gt; 5 &lt;split [4499/1706]&gt; Bootstrap5
+&gt; 6 &lt;split [4499/1650]&gt; Bootstrap6
+&gt; 7 &lt;split [4499/1636]&gt; Bootstrap7
+```
 
 ---
 
 name: dataviz
 
-# .orange[VISUALIZACIÓN] de datos
+# .orange[DATAVIZ]: .green[HISTORIA]
+
+
+La aparición de gráficos estadísticos es **.bg-purple_light[relativamente reciente en la ciencia]** ya que hasta la Edad Media la única visualización de datos estaba en los **.bg-purple_light[mapas]** (representación de nuestra realidad en superficies bidimensionales).
+
+De hecho las propias palabras _chart_ y _cartography_ derivan del mismo origen latino, _charta_, aunque el primer uso datado de coordenadas parece venir de los egipcios. &lt;sup&gt;2,3&lt;/sup&gt;
+
+
+.footnote[[1] [«Gramática de las gráficas: pistas para mejorar las representaciones de datos» de Joaquín Sevilla](http://academica-e.unavarra.es/bitstream/handle/2454/15785/Gram%C3%A1tica.pdf)
+
+[2] [«Presentation Graphics» de Leland Wilkinson. International Encyclopedia of the Social &amp; Behavioral Sciences](https://www.cs.uic.edu/~wilkinson/Publications/iesbs.pdf)
+
+[3] [«Quantitative Graphics in Statistics: A Brief History» de James R. Beniger y Dorothy L. Robyn. The American Statistician (1978)](https://www.jstor.org/stable/2683467)]
+
+---
+
+
+# .orange[NAVEGACIÓN] y .green[ASTRONOMÍA]
+
+.pull-left[
+
+No es hasta la Edad Media, cuando la **.bg-purple_light[navegación y la astronomía]** empezaban a tomar relevancia científica, cuando aparece la que se considera la primera gráfica (aunque no propiamente estadística) &lt;sup&gt;3&lt;/sup&gt;, representando el **movimiento cíclico de los planetas** (entre los siglos X y XI)
+
+]
+
+.pull-right[
+
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/dataviz_historico_1.png" alt="Gráfica extraída de Beniger y Robyn (1978)" width="110%" /&gt;
+&lt;p class="caption"&gt;Gráfica extraída de Beniger y Robyn (1978)&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+[3] [«Quantitative Graphics in Statistics: A Brief History» de James R. Beniger y Dorothy L. Robyn. The American Statistician (1978)](https://www.jstor.org/stable/2683467)
+
+
+---
+
+# .orange[PRIMER] gráfico estadístico
+
+La mayoría de expertos, como Tufte &lt;sup&gt;6,7&lt;/sup&gt;, consideran este gráfico casi longitudinal como la **.bg-purple_light[primera visualización de datos]** de la historia, hecha por **Van Langren** en 1644, representando la **.bg-purple_light[distancia entre Toledo y Roma]** (un poco mal medida ya que la distancia real es de 16.5º).
+
+.pull-left[
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/longitud_dataviz.jpg" alt="Extraída de Friendly y Valero-Mora (2010)" width="100%" /&gt;
+&lt;p class="caption"&gt;Extraída de Friendly y Valero-Mora (2010)&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+.pull-right[
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/dataviz_historico_3.jpeg" alt="Extraída de Friendly y Valero-Mora (2010)" width="100%" /&gt;
+&lt;p class="caption"&gt;Extraída de Friendly y Valero-Mora (2010)&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+[6] [«Visual explanations: images and quantities, evidence and narrative» de E. Tufte](https://archive.org/details/visualexplanatio00tuft)
+
+[7] [«PowerPoint is evil» de E. Tufte](https://www.wired.com/2003/09/ppt2/)
+
+---
+
+# ¿Qué es una .orange[GRÁFICA] estadística?
+
+¿Por qué ese gráfico se considera la primera visualización estadística de la historia? ¿Qué es lo que hace que una visualización sea una gráfica estadística y no las anteriores? ¿Cuál es la **.bg-purple_light[frontera entre una ilustración y una gráfica]** (de datos)?
+
+
+.pull-left[
+
+¿Es una gráfica estadística? ¿Por qué sí o por qué no?
+
+]
+
+.pull-right[
+
+
+&lt;img src="./img/cuadro_dataviz.jpg" width="45%" style="display: block; margin: auto;" /&gt;
+
+]
+
+--
+
+No hay  **.bg-purple_light[ninguna INFORMACIÓN]** representada
+
+
+---
+
+# ¿Qué es una .orange[GRÁFICA] estadística?
+
+¿Por qué ese gráfico se considera la primera visualización estadística de la historia? ¿Qué es lo que hace que una visualización sea una gráfica estadística y no las anteriores? ¿Cuál es la **.bg-purple_light[frontera entre una ilustración y una gráfica]** (de datos)?
+
+.pull-left[
+
+¿Es una gráfica estadística? ¿Por qué sí o por qué no?
+
+]
+
+.pull-right[
+
+
+&lt;img src="./img/horoscopo_dataviz.jpg" width="65%" style="display: block; margin: auto;" /&gt;
+
+]
+
+--
+
+No hay **.bg-purple_light[ningún PROCESO DE MEDIDA]** representado, no cuantifica nada (real).
+
+
+---
+
+# ¿Qué es una .orange[GRÁFICA] estadística?
+
+¿Por qué ese gráfico se considera la primera visualización estadística de la historia? ¿Qué es lo que hace que una visualización sea una gráfica estadística y no las anteriores? ¿Cuál es la **.bg-purple_light[frontera entre una ilustración y una gráfica]** (de datos)?
+
+
+.pull-left[
+
+¿Es una gráfica estadística? ¿Por qué sí o por qué no?
+
+]
+
+.pull-right[
+
+
+&lt;img src="./img/celsius_dataviz.jpg" width="110%" style="display: block; margin: auto;" /&gt;
+
+]
+
+--
+
+No hay **.bg-purple_light[ningún DATO]** representado en él, es una magnitud física teórica, no un dato (medido empíricamente o simulado).
+
+
+---
+
+# ¿Qué es una .orange[GRÁFICA] estadística?
+
+¿Por qué ese gráfico se considera la primera visualización estadística de la historia? ¿Qué es lo que hace que una visualización sea una gráfica estadística y no las anteriores? ¿Cuál es la **.bg-purple_light[frontera entre una ilustración y una gráfica]** (de datos)?
+
+
+.pull-left[
+
+¿Es una gráfica estadística? ¿Por qué sí o por qué no?
+
+]
+
+.pull-right[
+
+
+&lt;img src="./img/mapa_infografia_dataviz.jpg" width="60%" style="display: block; margin: auto;" /&gt;
+
+]
+
+--
+
+El proceso de representación **.bg-purple_light[no es REVERSIBLE]** ni comparable (al menos no fácilmente): es una infografía, no un gráfico estadístico.
+
+
+
+---
+
+# ¿Qué es una .orange[GRÁFICA] estadística?
+
+Esas mismas preguntas se hizo **Joaquín Sevilla** &lt;sup&gt;1&lt;/sup&gt;, proporcionando **.bg-purple_light[3 requisitos]**:
+
+.pull-left[
+
+1. Que se base en el esquema de composición de **.bg-purple_light[eje métrico]** (proceso de medida): debe **.bg-orange[medir algo]**.
+
+2. Debe incluir **.bg-purple_light[información (datos)]**
+
+3. La **.bg-purple_light[relación de representatividad]** debe ser **.bg-purple_light[reversible]**: los datos deberían poder «recuperarse» a partir de la gráfica (es un tipo particular de **.bg-orange[«aplicación» matemática]**).
+
+]
+
+.pull-right[
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/grafica_dinero_sevilla.jpg" alt="Ejemplo de metáfora visual bien ejecutada (extraída del manual de J. Sevilla)" width="70%" /&gt;
+&lt;p class="caption"&gt;Ejemplo de metáfora visual bien ejecutada (extraída del manual de J. Sevilla)&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+[1] [«Gramática de las gráficas: pistas para mejorar las representaciones de datos» de Joaquín Sevilla](http://academica-e.unavarra.es/bitstream/handle/2454/15785/Gram%C3%A1tica.pdf)
+
+
+---
+
+# Abolición de .orange[DIAGRAMAS DE TARTAS]
+
+Hay muchas formas de hacer una gráfica estadística, y no suele pasar por hacer un **.bg-purple_light[gráfico de tartas o sectores]** ya que tienen un grave **.bg-purple_light[problema de reversibilidad]**:
+
+.pull-left[
+
+* Si hay **muchas variables**: salvo que conozcas el montante total y tengas un transportador de ángulos a mano, es **.bg-purple_light[imposible que tus ojos midan ángulos]**
+
+* Si hay **pocas variables**: ¿aporta algo distinto (y/o mejor) que una tabla?
+
+]
+
+.pull-right[
+
+&lt;img src="./img/sectores_3D.jpg" width="99%" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+
+# .orange[VIZFAILS]: ejempos mal
+
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/persona_dataviz.jpg" alt="Ejemplo de metáfora visual mal ejecutada" width="50%" /&gt;
+&lt;p class="caption"&gt;Ejemplo de metáfora visual mal ejecutada&lt;/p&gt;
+&lt;/div&gt;
+
+---
+
+# .orange[VIZFAILS]: ejempos mal
+
+.pull-left[
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/persona_dataviz.jpg" alt="Ejemplo de metáfora visual mal ejecutada" width="99%" /&gt;
+&lt;p class="caption"&gt;Ejemplo de metáfora visual mal ejecutada&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+.pull-right[
+
+* La figura elegida (persona caminando) sin relación con lo visualizado: **.bg-purple_light[mala metáfora visual]**.
+
+* Los **.bg-purple_light[sectores señalados sin relación con el ítem]** a representar, lo que dificulta su interpretación.
+
+* Los **.bg-purple_light[colores sin codificar]**: no dan información de ningún tipo.
+
+* Las **.bg-purple_light[formas irregulares impiden la comparación]** de las áreas (amén de que la suma total supera el 100%).
+
+* **.bg-purple_light[Sin fuente]** de la procedencia de los datos.
+
+]
+
+
+---
+
+# .orange[VIZFAILS]: ejempos mal
+
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/viz_fail_covid.jpg" alt="Ejemplo de una buena idea mal ejecutada (de un vicerrector de tecnología...)" width="50%" /&gt;
+&lt;p class="caption"&gt;Ejemplo de una buena idea mal ejecutada (de un vicerrector de tecnología...)&lt;/p&gt;
+&lt;/div&gt;
+
+---
+
+# .orange[VIZFAILS]: ejempos mal
+
+.pull-left[
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/viz_fail_covid.jpg" alt="Ejemplo de una buena idea mal ejecutada (de un vicerrector de tecnología...)" width="100%" /&gt;
+&lt;p class="caption"&gt;Ejemplo de una buena idea mal ejecutada (de un vicerrector de tecnología...)&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+.pull-right[
+
+* **.bg-purple_light[Uso de dos ejes]** (a izquierda para mortalidad, a derecha para letalidad) **.bg-purple_light[sin indicarlo]** adecuadamente. Cuidado con los dos ejes: puede ser confuso.
+
+* **.bg-purple_light[Leyenda mal referenciada]** y muy pequeña.
+
+* **.bg-purple_light[Tamaño de la línea desproporcionado]** que impide la reversibilidad y la comparación.
+
+* **.bg-purple_light[Compara celdas geográficas incomparables]** por tamaño y contexto: ¿Galicia vs Alemania?
+
+]
+
+
+
+---
+
+# .orange[VIZFAILS]: ejempos mal
+
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/viz_fail_uk.jpg" alt="Ejemplo de una mala codificación" width="40%" /&gt;
+&lt;p class="caption"&gt;Ejemplo de una mala codificación&lt;/p&gt;
+&lt;/div&gt;
+
+
+---
+
+# .orange[VIZFAILS]: ejempos mal
+
+.pull-left[
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/viz_fail_uk.jpg" alt="Ejemplo de una mala codificación" width="60%" /&gt;
+&lt;p class="caption"&gt;Ejemplo de una mala codificación&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+.pull-right[
+
+* **.bg-purple_light[Desagregación incorrecta]**: distritos geográficos muy grandes que se podrían representar en una tabla de 9 filas.
+
+* **.bg-purple_light[Leyenda desproporcionada]** que atrae la atención más que el propio gráfico.
+
+* Ejemplo de los **.bg-purple_light[colores no son algo meramente estético]**: hay que codificarlos adecuadamente. El gradiente de una paleta de colores puede convertir una buena idea en una pésima visualización.
+
+]
+
+---
+
+# La importancia del .orange[CONTEXTO]
+
+Una **buena idea** puede estar mal ejecutada: la forma de llevarla a cabo es importante
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/semaforos.jpg" alt="Ejemplo de buena idea mal ejecutada" width="28%" /&gt;
+&lt;p class="caption"&gt;Ejemplo de buena idea mal ejecutada&lt;/p&gt;
+&lt;/div&gt;
+
+---
+
+# Dataviz: .orange[HISTORIA]
+
+En el siglo XVII hubo un boom de la estadística al empezar a aplicarse en **.bg-purple_light[demografía]**. Uno de los autores más importantes fue **.bg-purple_light[J. Graunt]**, autor de «Natural and Political Observations Made upon the Bills of Mortality» (1662), estimando la población de Londres con las **.bg-purple_light[primeras tablas de natalidad y mortalidad]**.
+
+.pull-left[
+
+Son precisamente las tablas de Graunt las que usó **.bg-purple_light[Christiaan Huygens]** para generar la **.bg-purple_light[primera gráfica de densidad]** de una distribución continua (esperanza de vida vs edad).
+
+]
+
+.pull-right[
+
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/primera_densidad.jpg" alt="Primera función de densidad, extraída de https://omeka.lehigh.edu/exhibits/show/data_visualization/vital_statistics/huygen" width="100%" /&gt;
+&lt;p class="caption"&gt;Primera función de densidad, extraída de https://omeka.lehigh.edu/exhibits/show/data_visualization/vital_statistics/huygen&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+---
+
+# Los gráficos de .orange[Playfair]
+
+La figura que cambió el dataviz fue, sin lugar a dudas, el economista y político **.bg-purple_light[William Playfair (1759-1823)]**, publicando en 1786 el **«Atlas político y comercial»** con 44 gráficas (43 series temporales y el diagrama de barras más famoso de la historia).
+
+.pull-left[
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/playfair_1.jpg" alt="Extraídas de Funkhouser y Walker (1935)" width="70%" /&gt;
+&lt;p class="caption"&gt;Extraídas de Funkhouser y Walker (1935)&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+.pull-right[
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/playfair_2.jpg" alt="Extraídas de Funkhouser y Walker (1935)" width="25%" /&gt;
+&lt;p class="caption"&gt;Extraídas de Funkhouser y Walker (1935)&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+[10] [«Atlas político y comercial» de William Playfair (1786)](https://www.amazon.es/Playfairs-Commercial-Political-Statistical-Breviary/dp/0521855543)
+
+[11] [«Playfair and his charts» de H. Gray Funkhouser and  Helen M. Walker (1935)](https://www.jstor.org/stable/45366440)
+
+---
+
+
+# Los gráficos de .orange[Playfair]
+
+Playfair no solo fue el primero en usar el dataviz para entender (y no solo describir): fue el primero en usar **.bg-purple_light[conceptos modernos]** como _grid_, tema o color
+
+.pull-left[
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/playfair_3.jpg" alt="Extraída de https://friendly.github.io/HistDataVis" width="90%" /&gt;
+&lt;p class="caption"&gt;Extraída de https://friendly.github.io/HistDataVis&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+.pull-right[
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/playfair_4.png" alt="Extraída de la wikipedia." width="90%" /&gt;
+&lt;p class="caption"&gt;Extraída de la wikipedia.&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+---
+
+# Los gráficos de .orange[Playfair]
+
+Playfair es además el autor del **.bg-purple_light[gráfico de barras más famoso]** (no fue el primero pero sí quien lo hizo _mainstream_).
+
+.pull-left[
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/playfair_5.jpg" alt="Gráficas de Playfair de importaciones (barras grises) y exportaciones (negras) de Escocia en 1781, extraídas de la wikipedia." width="90%" /&gt;
+&lt;p class="caption"&gt;Gráficas de Playfair de importaciones (barras grises) y exportaciones (negras) de Escocia en 1781, extraídas de la wikipedia.&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+.pull-right[
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/playfair_6.jpg" alt="Primer diagrama de barras (P. Buache y G. de L’Isle), visualizando los niveles del Sena (1732 - 1766), extraída de https://friendly.github.io/HistDataVis" width="90%" /&gt;
+&lt;p class="caption"&gt;Primer diagrama de barras (P. Buache y G. de L’Isle), visualizando los niveles del Sena (1732 - 1766), extraída de https://friendly.github.io/HistDataVis&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+---
+
+# Los gráficos de .orange[Playfair]
+
+
+Playfair además fue el primero en **.bg-purple_light[combinar gráficos en la misma visualización]**
+
+.pull-left[
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/playfair_7.jpg" alt="Visualiza 3 series temporales: precios (barras) del trigo, salarios (línea) y time-line con reinados, extraída de https://friendly.github.io/HistDataVis." width="85%" /&gt;
+&lt;p class="caption"&gt;Visualiza 3 series temporales: precios (barras) del trigo, salarios (línea) y time-line con reinados, extraída de https://friendly.github.io/HistDataVis.&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+.pull-right[
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/playfair_8.png" alt="Time-line histórico, extraída de https://friendly.github.io/HistDataVis." width="85%" /&gt;
+&lt;p class="caption"&gt;Time-line histórico, extraída de https://friendly.github.io/HistDataVis.&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+[12] [«A Letter on Our Agricultural Distresses, Their Causes and Remedies» de W. Playfair (1821)](http://onlinebooks.library.upenn.edu/webbin/book/lookupid?key=ha009726110)
+
+[13] [«An Inquiry Into the Permanent Causes of the Decline and Fall of Powerful and Wealthy Nations» de William Playfair (1821)](https://www.amazon.com/Permanent-Powerful-Nations-Prosperity-Prolonged/dp/140691830X)
+
+---
+
+# Mapas de .orange[Minard]
+
+Otro pionero en **.bg-purple_light[combinar visualizaciones]** fue Minard, autor del famoso «Carte figurative des pertes successives en hommes de l'Armée Française dans la campagne de Russie 1812-1813», según Tufte **.bg-purple_light[«el mejor gráfico estadístico jamás dibujado»]**, publicado en 1869 sobre la desastrosa campaña rusa de Napoleón en 1812 (3 variables en un gráfico bidimensional)
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/minard_2.png" alt="Extraída de https://friendly.github.io/HistDataVis." width="60%" /&gt;
+&lt;p class="caption"&gt;Extraída de https://friendly.github.io/HistDataVis.&lt;/p&gt;
+&lt;/div&gt;
+
+---
+
+# Primer .orange[SCATTER PLOT]
+
+Según Sevilla &lt;sup&gt;1&lt;/sup&gt;, se considera al astrónomo británico **John Frederick William Herschel** el autor del **.bg-purple_light[primer diagrama de dispersión o scatterplot]** en 1833, visualizando el movimiento de la estrella doble Virginis (tiempo en el eje horizontal, posición angular en el eje vertical)
+
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/herschel.jpg" alt="Extraído de https://friendly.github.io/HistDataVis." width="35%" /&gt;
+&lt;p class="caption"&gt;Extraído de https://friendly.github.io/HistDataVis.&lt;/p&gt;
+&lt;/div&gt;
+
+---
+
+# Primera .orange[PIRÁMIDE POBLACIONAL]
+
+La **.bg-purple_light[primera pirámide de población]** (doble histograma de población), fue publicada por **Francis Amasa Walker**, superintendente del censo de EE.UU., en 1874.
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/walker_piramide.jpg" alt="Extraída de https://www.depauw.edu/learn/dew/wpaper/workingpapers/DePauw2016-02-Barreto-DemographyEconomics.pdf" width="45%" /&gt;
+&lt;p class="caption"&gt;Extraída de https://www.depauw.edu/learn/dew/wpaper/workingpapers/DePauw2016-02-Barreto-DemographyEconomics.pdf&lt;/p&gt;
+&lt;/div&gt;
+
+---
+
+# .orange[FLORENCE NIGTHINGALE]
+
+.pull-left[
+
+
+* El 21 de octubre de 1854 **.bg-purple_light[Florence Nigthingale]** fue enviada para mejorar las **condiciones sanitarias** de los soldados británicos en la guerra de Crimea. 
+
+* A su regreso se dedicó a demostrar que los **.bg-purple_light[soldados fallecían por las condiciones sanitarias]**: eran **muertes evitables**. Nigthingale es la creadora del famoso y pionero **.bg-purple_light[diagrama de rosa]**, permitiendo pintar tres variables a la vez y su estacionalidad.
+
+* El 8 de febrero de 1955, The Times la describió como la **«ángel guardián» de los hospitales**, y al finalizar la contienda, fue recibida como una heroína, conocida como **.bg-purple_light[«The Lady with the Lamp»]**.
+
+]
+
+.pull-right[
+
+&lt;img src="./img/the_lady_with_the_lamp.png" width="75%" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+
+# .orange[DIAGRAMA DE ROSA]
+
+Florence Nigthingale es la creadora del famoso **.bg-purple_light[diagrama de rosa]**, permitiendo pintar **.bg-purple_light[tres variables a la vez y su estacionalidad]**: **tiempo** (cada **gajo** es un mes), **nº de muertes** (**área** del gajo) y **causa** de la muerte (**color** del gajo: azules enfermedades infecciosas, rojas por heridas, negras otras causas).
+
+
+&lt;img src="./img/rosa_nightingale.jpg" width="60%" style="display: block; margin: auto;" /&gt;
+
+---
+
+
+# .orange[RECURSOS] de dataviz
+
+
+📚 [«The Functional Art: an introduction to information graphics and visualization» de Alberto Cairo](https://www.amazon.es/Functional-Art-Voices-That-Matter/dp/0321834739)
+
+
+📚 [«Gramática de las gráficas: pistas para mejorar las representaciones de datos» de Joaquín Sevilla](https://academica-e.unavarra.es/bitstream/handle/2454/15785/Gram%C3%A1tica.pdf)
+
+
+📚 [«A Brief History of Visualization» de Friendly et al. (2008)](https://www.researchgate.net/publication/226400313_A_Brief_History_of_Data_Visualization)
+
+📚 [«Quantitative Graphics in Statistics: A Brief History» de James R. Beniger y Dorothy L. Robyn. The American Statistician (1978)](https://www.jstor.org/stable/2683467)]
+
+📚 [«Presentation Graphics» de Leland Wilkinson. International Encyclopedia of the Social &amp; Behavioral Sciences](https://www.cs.uic.edu/~wilkinson/Publications/iesbs.pdf)
+
+📚 [«The Grammar of Graphics» de Leland Wilkinson](https://www.amazon.es/Grammar-Graphics-Statistics-Computing/dp/0387245448)
+
+
+📚 [«The Minard System: The Graphical Works of Charles-Joseph Minard» de Sandra Rendgen](https://www.amazon.es/gp/product/1616896337/ref=sw_img_1?smid=A1AT7YVPFBWXBL&amp;psc=1)
+
+📚 [«The Visual Display of Quantitative Information» de E. W. Tufte](https://www.amazon.es/Visual-Display-Quantitative-Information/dp/0961392142)
+
+---
+
+name: intro-ggplot2
+
+
+
+# Dataviz en R: .orange[ggplot2]
+
+.pull-left[
+
+El paquete `{ggplot2}` se basa en la idea propuesta por Wilkinson en **.bg-purple_light[«Grammar of graphics»]**: dotar a los gráficos de una gramática propia. Una de las principales fortalezas de `R` no solo es la flexibilidad y rapidez de `{tidyverse}`, también la **.bg-purple_light[visualización]** con el paquete `{ggplot2}`.
+
+
+```r
+library(ggplot2)
+```
+
+
+La **.bg-purple_light[visualización de datos]** debería ser una parte fundamental de todo análisis de datos. No es solo una cuestión estética, es fundamental para **.bg-purple_light[convertir el dato en información]**.
+
+]
+
+.pull-right[
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/telling_dataviz.jpg" alt="Imagen extraída de Reddit" width="71%" /&gt;
+&lt;p class="caption"&gt;Imagen extraída de Reddit&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+
+---
+
+# Dataviz en R: .orange[ggplot2]
+
+
+.pull-left[
+
+La filosofía detrás de `{ggplot2}` es entender los **.bg-purple_light[gráficos como parte del flujo]** de trabajo, dotándoles de una **.bg-purple_light[gramática]**, basándose en la idea de Wilkinson.
+
+El objetivo es empezar con un lienzo en blanco e ir **.bg-purple_light[añadiendo capas a tu gráfico]**. La ventaja de `{ggplot2}` es poder **.bg-purple_light[mapear atributos estéticos]** (color, forma, tamaño) de objetos geométricos (puntos, barras, líneas) en función de los datos.
+
+&amp;nbsp;
+
+
+La **documentación** del paquete puedes consultarla en &lt;https://ggplot2-book.org/introduction.html&gt; 
+
+]
+
+.pull-right[
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/grammar_ggplot2.jpg" alt="Idea detrás de la «Grammar of graphics» de Wilkinson" width="100%" /&gt;
+&lt;p class="caption"&gt;Idea detrás de la «Grammar of graphics» de Wilkinson&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+---
+
+# Dataviz en R: .orange[ggplot2]
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/tarta_ggplot2.png" alt="Extraída de https://twitter.com/tanya_shapiro" width="75%" /&gt;
+&lt;p class="caption"&gt;Extraída de https://twitter.com/tanya_shapiro&lt;/p&gt;
+&lt;/div&gt;
+
+---
+
+# Dataviz en R: .orange[ggplot2]
+
+.pull-left[
+
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./img/tarta_recortada_ggplot2.jpg" alt="Extraída de https://twitter.com/tanya_shapiro" width="80%" /&gt;
+&lt;p class="caption"&gt;Extraída de https://twitter.com/tanya_shapiro&lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+.pull-right[
+
+Un gráfico se podrá componer de las siguientes **.bg-purple_light[capas]**
+
+* **.bg-purple_light[Datos (data)]**
+* **.bg-purple_light[Mapeado (aesthetics)]** de elementos estéticos: ejes, color, forma, tamaño, etc (en función de los datos)
+* **.bg-purple_light[Geometría (geom)]**: puntos, líneas, barras, polígonos, etc.
+* **.bg-purple_light[Componer gráficas (facet)]**: visualizar varias gráficas a la vez.
+* **.bg-purple_light[Transformaciones (stat)]**: ordenar, resumir, agrupar, etc.
+* **.bg-purple_light[Coordenadas (coord)]**: coordenadas cartesianas, polares, grids, etc.
+* **.bg-purple_light[Temas (theme)]**: fuente, tamaño de letra, subtítulos, captions, leyenda, ejes, etc.
+
+]
+
+
+---
+
+# Primer intento: .orange[SCATTER PLOT]
+
+Veamos un **primer intento** para entender la filosofía ggplot. Imagina que queremos dibujar un **.bg-purple_light[scatter plot]** (diagrama de dispersión de puntos). Para ello vamos a usar el conjunto de datos `gapminder`, del paquete homónimo: un fichero con **datos de esperanzas de vida, poblaciones y renta per cápita** de distintos países en distintos momentos temporales.
+
+
+```r
+library(gapminder)
+gapminder
+```
+
+```
+&gt; # A tibble: 1,704 × 6
+&gt;    country     continent  year lifeExp      pop gdpPercap
+&gt;    &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;
+&gt;  1 Afghanistan Asia       1952    28.8  8425333      779.
+&gt;  2 Afghanistan Asia       1957    30.3  9240934      821.
+&gt;  3 Afghanistan Asia       1962    32.0 10267083      853.
+&gt;  4 Afghanistan Asia       1967    34.0 11537966      836.
+&gt;  5 Afghanistan Asia       1972    36.1 13079460      740.
+&gt;  6 Afghanistan Asia       1977    38.4 14880372      786.
+&gt;  7 Afghanistan Asia       1982    39.9 12881816      978.
+&gt;  8 Afghanistan Asia       1987    40.8 13867957      852.
+&gt;  9 Afghanistan Asia       1992    41.7 16317921      649.
+&gt; 10 Afghanistan Asia       1997    41.8 22227415      635.
+&gt; # … with 1,694 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
+```
+
+---
+
+# Primer intento: .orange[SCATTER PLOT]
+
+El fichero consta de 1704 registros y 6 variables: `country`, `continent`, `year`, `lifeExp` (esperanza de vida), `pop` (población)  y `gdpPercap` (renta per cápita).
+
+
+```r
+glimpse(gapminder)
+```
+
+```
+&gt; Rows: 1,704
+&gt; Columns: 6
+&gt; $ country   &lt;fct&gt; "Afghanistan", "Afghanistan", "Afghanistan", "Afghanistan", …
+&gt; $ continent &lt;fct&gt; Asia, Asia, Asia, Asia, Asia, Asia, Asia, Asia, Asia, Asia, …
+&gt; $ year      &lt;int&gt; 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, …
+&gt; $ lifeExp   &lt;dbl&gt; 28.801, 30.332, 31.997, 34.020, 36.088, 38.438, 39.854, 40.8…
+&gt; $ pop       &lt;int&gt; 8425333, 9240934, 10267083, 11537966, 13079460, 14880372, 12…
+&gt; $ gdpPercap &lt;dbl&gt; 779.4453, 820.8530, 853.1007, 836.1971, 739.9811, 786.1134, …
+```
+
+Para empezar con algo sencillo **.bg-purple_light[filtraremos solo los datos de 1997]**
+
+--
+
+
+```r
+gapminder_1997 &lt;- gapminder %&gt;% filter(year == 1997)
+```
+
+---
+
+# .orange[INGREDIENTES]: .green[(x, y)]
+
+
+¿Qué **.bg-purple_light[elementos necesitamos]** para realizar un diagrama de puntos? Para iniciar el lienzo necesitamos una base de datos y dos variables a representar.
+
+--
+
+.pull-left[
+
+* **.bg-purple_light[Datos (data)]**: conjunto `gapminder_1997`.
+
+* **.bg-purple_light[Mapeado (aes)]**: indicarle dentro de `aes()` (aesthetics) las variables en cada coordenada. Todo lo que esté **.bg-purple_light[dentro de aes() serán mapeados de los datos]**
+
+
+```r
+ggplot(data = gapminder_1997,
+*      aes(x = gdpPercap, y = pop))
+```
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-811-1.png" width="80%" /&gt;
+]
+
+---
+
+
+# .orange[PRIMERA GEOMETRÍA]: .green[geom_point()]
+
+
+.pull-left[
+
+* **.bg-purple_light[Geometría (geom)]**: optaremos por **.bg-orange[puntos]** usando `geom_point()`.
+
+
+```r
+ggplot(gapminder_1997,
+       aes(x = gdpPercap, y = pop)) +
+* geom_point()
+```
+
+]
+
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-813-1.png" width="93%" /&gt;
+
+]
+
+---
+
+# .orange[ROL DE LOS EJES]: .green[(x, y)]
+
+
+
+.pull-left[
+
+Vamos a profundizar en ese mapeado: ¿cómo **.bg-purple_light[cambiar el rol]** de los ejes (población en el eje X y renta per cápita en el eje Y)? 
+
+* **Eje X**: población (variable `pop`)
+* **Eje Y**: renta per cápita (variable `gdpPercap`)
+
+
+
+```r
+ggplot(gapminder_1997,
+*      aes(y = gdpPercap, x = pop)) +
+  geom_point() 
+```
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-815-1.png" width="93%" /&gt;
+
+]
+
+---
+
+# .orange[ROL DE LOS EJES]: .green[(x, y)]
+
+
+
+.pull-left[
+
+¿Y un scatter plot con **esperanza de vida** en eje X frente a **renta per cápita**?
+
+
+* **Eje X**: esperanza de vida (variable `lifeExp`)
+* **Eje Y**: renta per cápita (variable `gdpPercap`)
+
+
+
+```r
+ggplot(gapminder_1997,
+*      aes(y = gdpPercap, x = lifeExp)) +
+  geom_point()
+```
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-817-1.png" width="91%" /&gt;
+]
+
+---
+
+
+# .orange[COLOR], .green[SIZE], .purple[SHAPE]: fijos
+
+
+.pull-left[
+
+Dentro de `geom_point()` tenemos varios argumentos a usar:
+
+
+* `na.rm = ...`: si queremos que nos quite ausentes.
+
+* `color = ...`: color (si tiene dimensión, color del contorno)
+
+* `fill = ...`: color el relleno.
+
+Empezaremos por un **color fijo**, por ejemplo `"red"` (existen otros como `"blue"`, `"black"`, `"yellow"`, etc)
+
+
+```r
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+* geom_point(color = "red")
+```
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-819-1.png" width="91%" /&gt;
+
+]
+
+---
+
+# .orange[COLOR], .green[SIZE], .purple[SHAPE]: fijos
+
+
+
+.pull-left[
+
+* `size = ...`: tamaño  de la geometría (en este caso el **tamaño de los punto**), cuanto mayor sea el número, mayor será el tamaño de la geometría.
+
+  
+
+```r
+# Color con palabra reservada
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(color = "red",
+*            size = 7)
+```
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-821-1.png" width="91%" /&gt;
+
+]
+
+---
+
+# .orange[COLOR], .green[SIZE], .purple[SHAPE]: fijos
+
+
+.pull-left[
+
+* `alpha = ...`: grado de opacidad del color (1 totalmente opaco, 0 totalmente transparente)
+
+
+```r
+# Color con palabra reservada
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(color = "red", size = 7,
+*            alpha = 0.4)
+```
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-823-1.png" width="91%" /&gt;
+
+]
+
+---
+
+# .orange[COLOR], .green[SIZE], .purple[SHAPE]: fijos
+
+
+.pull-left[
+
+* `shape = ...`: forma de la geometría, en este caso del «punto» (ver todas las opciones en `vignette("ggplot2-specs")`)
+
+
+&lt;img src="./img/shape_ggplot.jpg" width="32%" style="display: block; margin: auto;" /&gt;
+
+
+
+```r
+# Color con palabra reservada
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(color = "red", size = 7,
+*            alpha = 0.4, shape = 5)
+```
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-826-1.png" width="91%" /&gt;
+
+]
+
+---
+
+# .orange[COLOR], .green[SIZE], .purple[SHAPE]: fijos
+
+
+.pull-left[
+
+* `shape = ...`: forma de la geometría, en este caso del «punto» (ver todas las opciones en `vignette("ggplot2-specs")`)
+
+
+&lt;img src="./img/shape_ggplot.jpg" width="32%" style="display: block; margin: auto;" /&gt;
+
+
+
+```r
+# Color con palabra reservada
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(color = "red", size = 7, alpha = 0.4,
+*            shape = 22, fill = "black")
+```
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-829-1.png" width="91%" /&gt;
+
+]
+
+
+---
+
+# .orange[COLOR], .green[SIZE], .purple[SHAPE]: fijos
+
+
+.pull-left[
+
+* `stroke = ...`: tamaño del contorno
+
+
+```r
+# Color con palabra reservada
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(color = "red", size = 7,
+*            alpha = 0.4, stroke = 0)
+```
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-831-1.png" width="91%" /&gt;
+
+]
+
+
+---
+
+# .orange[COLOR], .green[SIZE], .purple[SHAPE]: fijos
+
+
+.pull-left[
+
+Los colores también podemos asignárselos por su **código hexadecimal**, consultando en la página &lt;https://htmlcolorcodes.com/es/&gt;, eligiendo el color que queramos. El código hexadecimal siempre comenzará con `#`
+
+
+
+```r
+# Color en hexadecimal
+# https://htmlcolorcodes.com/es/
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+* geom_point(color = "#A02B85",
+             alpha = 0.4, size = 7) 
+```
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-833-1.png" width="91%" /&gt;
+
+]
+
+  
+---
+
+# Mapeado de atributos estéticos: .orange[aes()]
+
+.pull-left[
+
+Hasta ahora los **atributos estéticos** se los hemos pasado fijos y **constantes**.  Pero la verdadera potencia y versatilidad de `ggplot` es que podemos **.bg-purple_light[mapear los atributos estéticos en función de los datos]** en `aes()` para que dependan de variables de los datos
+
+Por ejemplo, vamos a asignar un **.bg-purple_light[color a cada dato en función de su continente]** con `aes(color = continent)`
+
+
+```r
+# Tamaño fijo
+# Color por continentes
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+*          color = continent)) +
+  geom_point(size = 7)
+```
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-835-1.png" width="91%" /&gt;
+
+]
+
+---
+
+# Mapeado de atributos estéticos: .orange[aes()]
+
+
+.pull-left[
+  
+Podemos combinarlo con lo que hemos hecho anteriormente:
+
+* **.bg-purple_light[color]** en función del **.bg-orange[continente]**.
+
+* **.bg-purple_light[tamaño]** en función de la **.bg-orange[población]**.
+
+* **.bg-purple_light[transparencia]** la fijamos  **.bg-orange[constante]** del 50%.
+
+
+```r
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent,
+           size = pop)) +
+  geom_point(alpha = 0.7)
+```
+
+A este scatter plot particular se le conoce **.bg-purple_light[bubble chart]**
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-837-1.png" width="91%" /&gt;
+
+]
+
+---
+
+# Visualización .orange[MULTIVARIANTE]
+
+.pull-left[
+  
+Reflexionemos sobre el gráfico anterior:
+
+* **color** en función del **continente**.
+* **tamaño** en función de la **población**
+* **transparencia** fija del 50%
+
+Usando los datos hemos conseguido dibujar en un **.bg-purple_light[gráfico bidimensional 4 variables]**: `lifeExp` y `gdpPercap` en los ejes , `continent` como color y `pop` como tamaño de la geometría, con muy pocas líneas de código.
+
+
+```r
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.7)
+```
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-839-1.png" width="91%" /&gt;
+
+]
+
+---
+
+# .orange[GEOMETRÍA]: .green[geom()]
+
+Vamos a modificar la **.bg-purple_light[capa de geometría]** (al igual que hemos usado `geom_point()`)
+
+.pull-left[
+
+* **.bg-purple_light[líneas]**: la geometrías como línea con `geom_line()`.
+
+
+```r
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_line(alpha = 0.8, size = 1.5)
+```
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-841-1.png" width="85%" /&gt;
+
+]
+  
+---
+
+# .orange[GEOMETRÍA]: .green[geom()]
+
+
+
+Vamos a modificar la **.bg-purple_light[capa de geometría]** (al igual que hemos usado `geom_point()`)
+
+.pull-left[
+
+Asignado los  **.bg-purple_light[colores a la variable continent]**, automáticamente obtenemos automáticamente una **.bg-purple_light[curva por continente]**.
+
+* **.bg-purple_light[líneas]**: la geometrías como línea con `geom_line()`.
+
+
+```r
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent)) +
+  geom_line(alpha = 0.8, size = 1.5)
+```
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-843-1.png" width="85%" /&gt;
+
+]
+
+---
+
+
+# .orange[GEOMETRÍA]: .green[geom()]
+
+
+Vamos a modificar la **.bg-purple_light[capa de geometría]** (al igual que hemos usado `geom_point()`)
+
+.pull-left[
+
+* **.bg-purple_light[hexágonos]**: la geometrías como hexágonos con `geom_hex()`. Dado que ahora nuestra geometría tiene **.bg-purple_light[volumen]** tendremos dos parámetros: `color`  para el contorno y `fill` para el relleno.
+
+
+```r
+ggplot(gapminder_1997 %&gt;%
+         filter(continent != "Oceania"),
+       aes(y = gdpPercap, x = lifeExp,
+           fill = continent, size = pop)) +
+  geom_hex(alpha = 0.8)
+```
+
+]
+
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-845-1.png" width="85%" /&gt;
+
+]
+
+
+---
+
+# .orange[GEOMETRÍA]: .green[geom()]
+
+
+Vamos a modificar la **.bg-purple_light[capa de geometría]** (al igual que hemos usado `geom_point()`)
+
+.pull-left[
+
+* **.bg-purple_light[textos]**: la geometrías como textos con `geom_text()` (aparezcan textos que tengamos en alguna variable, que mapearemos en `aes()` por el parámetro `label = ...`
+
+
+
+```r
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop,
+*          label = country)) +
+  geom_text(alpha = 0.8)
+```
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-847-1.png" width="85%" /&gt;
+
+]
+
+---
+
+# .orange[ESCALAS (scale)]: .green[coordenadas]
+
+A veces querremos representar alguna de las variables usando **.bg-purple_light[escalas que no sean la lineal]**.
+
+
+.pull-left[
+
+Una muy habitual es la **.bg-purple_light[escala logarítmica]** (importante indicarlo en el gráfico), lo que podemos hacer facilmente con `scale_x_log10()` y `scale_y_log10()`.
+
+
+```r
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  # Eje Y con escala logarítmica
+* scale_y_log10()
+```
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-849-1.png" width="85%" /&gt;
+
+]
+  
+---
+
+# .orange[ESCALAS (scale)]: .green[coordenadas]
+
+A veces querremos mantener la escala pero **.bg-purple_light[fijar límites en los ejes]**.
+
+
+.pull-left[
+
+Eso lo podemos hacer dentro de las funciones `scale_x_...()` y `scale_y_...()` con `limits = ...`
+
+
+```r
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() + 
+  scale_x_continuous(
+*   limits = c(0, 100))
+```
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-851-1.png" width="85%" /&gt;
+
+]
+
+---
+
+# .orange[ESCALAS (scale)]: .green[coordenadas]
+
+La capa de escalas también nos sirve para **.bg-purple_light[formatear los ejes]**
+
+
+.pull-left[
+
+Por ejemplo, con `breaks = ...` podemos determinar el **.bg-purple_light[espaciado exacto]** que queremos en la gráfica.
+
+
+```r
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() + 
+  scale_x_continuous(
+*   breaks = seq(35, 85, by = 5))
+```
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-853-1.png" width="85%" /&gt;
+
+]
+
+---
+
+# .orange[ESCALAS (scale)]: .green[coordenadas]
+
+La capa de escalas también nos sirve para **.bg-purple_light[formatear los ejes]**
+
+.pull-left[
+
+Haciendo uso del paquete `{scales}` podemos añadir **.bg-purple_light[prefijo/sufijo a las etiquetas]** mostradas en los ejes, asignándoselo al parámetro `labels = ...`
+
+
+```r
+library(scales)
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() + 
+  scale_x_continuous(
+    breaks = seq(35, 85, by = 5),
+    labels =
+*     label_number(suffix = " años"))
+```
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-855-1.png" width="85%" /&gt;
+
+]
+
+---
+
+# .orange[ESCALAS (scale)]: .green[coordenadas]
+
+.pull-left[
+
+Tenemos funciones concretas para **.bg-purple_light[formatear ejes]** como fechas (`scale_x_date()`), porcentajes (`labels = label_percent()`) o incluso **unidades monetarias** (`labels = label_dollar()`).
+
+
+```r
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10(
+    labels =
+      label_dollar(big.mark = ".",
+                   accuracy = 3,
+                   prefix = "",
+                   suffix = "$")) + 
+  scale_x_continuous(
+    breaks = seq(35, 85, by = 5),
+    labels =
+*     label_number(suffix = " años"))
+```
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-857-1.png" width="85%" /&gt;
+
+]
+
+---
+
+# .orange[ESCALAS (scale)]: .green[colores]
+
+La capa de escalas también nos sirve para **.bg-purple_light[proporcionar una paleta de colores]**
+
+.pull-left[
+
+ggplot selecciona automáticamente una paleta de colores, pero podemos indicarle alguna concreta. La primera y más inmediata es indicarle los **.bg-purple_light[colores manualmente]** con `scale_color_manual()`.
+
+
+```r
+pal &lt;- c("#A02B85", "#2DE86B", "#4FB2CA",
+         "#E8DA2D", "#E84C2D")
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+* scale_color_manual(values = pal)
+```
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-859-1.png" width="85%" /&gt;
+
+]
+
+---
+
+# .orange[ESCALAS (scale)]: .green[colores]
+
+La capa de escalas también nos sirve para **.bg-purple_light[proporcionar una paleta de colores]**
+
+.pull-left[
+
+Otra opción es elegir alguna de las **.bg-purple_light[paletas de colores diseñadas]** en el paquete `{ggthemes}`:
+
+* `scale_color_economist()`: paleta de colores basada en los colores de **.bg-purple_light[The Economist]**.
+
+
+```r
+library(ggthemes)
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+* scale_color_economist()
+```
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-861-1.png" width="85%" /&gt;
+
+]
+
+---
+
+# .orange[ESCALAS (scale)]: .green[colores]
+
+La capa de escalas también nos sirve para **.bg-purple_light[proporcionar una paleta de colores]**
+
+.pull-left[
+
+Otra opción es elegir alguna de las **.bg-purple_light[paletas de colores diseñadas]** en el paquete `{ggthemes}`:
+
+* `scale_color_excel()`: paleta de colores basada en los colores del **.bg-purple_light[Excel]**.
+
+
+
+```r
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+* scale_color_excel()
+```
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-863-1.png" width="85%" /&gt;
+
+]
+
+---
+
+# .orange[ESCALAS (scale)]: .green[colores]
+
+La capa de escalas también nos sirve para **.bg-purple_light[proporcionar una paleta de colores]**
+
+.pull-left[
+
+Otra opción es elegir alguna de las **.bg-purple_light[paletas de colores diseñadas]** en el paquete `{ggthemes}`:
+
+* `scale_color_tableau()`: paleta de colores basada en los colores de  **.bg-purple_light[Tableau]**.
+
+
+
+```r
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+* scale_color_tableau()
+```
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-865-1.png" width="85%" /&gt;
+
+]
+
+
+---
+
+# .orange[ESCALAS (scale)]: .green[colores]
+
+
+También existen **múltiples paquetes** que nos proporcionan **paletas de colores** 
+
+
+.pull-left[
+
+* **.bg-purple_light[películas]**: paquete `{harrypotter}` (repositorio de Github `aljrico/harrypotter`) usando `scale_color_hp_d()`.
+
+
+```r
+library(devtools)
+repo &lt;- "aljrico/harrypotter"
+*install_github(repo = repo)
+
+library(harrypotter)
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.9) +
+  scale_y_log10() +
+  scale_color_hp_d(
+*   option = "ravenclaw")
+```
+
+]
+
+.pull-right[
+
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="https://raw.githubusercontent.com/aljrico/harrypotter/master/readme_raw_files/palettes/ravenclaw.png" alt="Paleta basada en la casa Ravenclaw" width="15%" /&gt;
+&lt;p class="caption"&gt;Paleta basada en la casa Ravenclaw&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;img src="index_files/figure-html/unnamed-chunk-868-1.png" width="70%" /&gt;
+
+]
+
+---
+
+# .orange[ESCALAS (scale)]: .green[colores]
+
+
+.pull-left[
+
+* **.bg-purple_light[cuadros]**: paquete `{MetBrewer}` (repositorio de Github `BlakeRMills/MetBrewer`) usando `scale_colour_manual(values = met.brewer(...))`.
+
+
+```r
+repo &lt;- "BlakeRMills/MetBrewer"
+*install_github(repo = repo)
+
+library(MetBrewer)
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.9) +
+  scale_y_log10() +
+  scale_color_manual(
+*   values = met.brewer("Hokusai"))
+```
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-870-1.png" width="85%" /&gt;
+
+]
+
+
+
+---
+
+
+# .orange[ESCALAS (scale)]: .green[colores]
+
+
+.pull-left[
+
+* **.bg-purple_light[discos]**: paquete `{peRReo}` (repositorio de Github `jbgb13/peRReo`) usando `scale_colour_manual(values = latin_palette())`.
+
+
+
+```r
+library(devtools)
+repo &lt;- "jbgb13/peRReo"
+*install_github(repo = repo)
+
+library(peRReo)
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.9) +
+  scale_y_log10() +
+  scale_color_manual(
+*   values = latin_palette("rosalia"))
+```
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-872-1.png" width="85%" /&gt;
+
+]
+
+
+---
+
+# .orange[COMPONER]: .green[facet()]
+
+También podemos **.bg-purple_light[dividir/desagregar los gráficos (facetar)]** por variables.
+
+.pull-left[
+
+Por ejemplo, vamos a crear un **.bg-purple_light[gráfico por continente]**, mostrando todos los gráficos a la vez pero por separado, con `facet_wrap(~continent)`.
+
+
+```r
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(alpha = 0.9) +
+  scale_y_log10() +
+* facet_wrap(~continent)
+```
+
+
+]
+
+.pull-right[
+
+
+&lt;img src="index_files/figure-html/unnamed-chunk-874-1.png" width="85%" /&gt;
+
+]
+
+---
+
+# .orange[COMPONER]: .green[facet()]
+
+También podemos **.bg-purple_light[dividir/desagregar los gráficos (facetar)]** por variables.
+
+.pull-left[
+
+También le podemos pasar argumentos opcionales para indicarle el **.bg-purple_light[número de columnas o filas]** que queremos.
+
+
+
+```r
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(alpha = 0.9) +
+  scale_y_log10() +
+* facet_wrap(~continent, nrow = 3)
+```
+
+
+]
+
+.pull-right[
+
+
+&lt;img src="index_files/figure-html/unnamed-chunk-876-1.png" width="85%" /&gt;
+
+]
+
+---
+
+# .orange[COMPONER]: .green[facet()]
+
+También podemos **.bg-purple_light[dividir/desagregar los gráficos (facetar)]** por variables.
+
+.pull-left[
+
+También le podemos pasar dos argumentos (variables) para formar un **.bg-purple_light[grid de gráficas]**
+
+
+
+```r
+*ggplot(gapminder,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(alpha = 0.9) +
+  scale_y_log10() +
+* facet_grid(continent ~ year)
+```
+
+
+]
+
+.pull-right[
+
+
+&lt;img src="index_files/figure-html/unnamed-chunk-878-1.png" width="85%" /&gt;
+
+]
+
+
+---
+
+# .orange[ESTADÍSTICA]: .green[stat_...()]
+
+También podemos añadir **.bg-purple_light[capas estadísticas]**
+
+.pull-left[
+
+* `stat_smooth()`: visualiza un **.bg-purple_light[ajuste suavizado]** (con glm, loess, o regresión lineal por ejemplo).
+
+
+```r
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(alpha = 0.7, size = 5) +
+  scale_y_log10() +
+  scale_color_tableau() +
+* stat_smooth(method = "lm")
+```
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-880-1.png" width="85%" /&gt;
+
+]
+
+---
+
+
+# .orange[ESTADÍSTICA]: .green[stat_...()]
+
+También podemos añadir **.bg-purple_light[capas estadísticas]**
+
+.pull-left[
+
+Podemos indicarle en `se = FALSE` que no pinte los intervalos de confianza.
+
+
+```r
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(alpha = 0.7, size = 5) +
+  scale_y_log10() +
+  scale_color_tableau() +
+  stat_smooth(method = "lm",
+*             se = FALSE)
+```
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-882-1.png" width="85%" /&gt;
+
+]
+
+---
+
+
+# .orange[ESTADÍSTICA]: .green[stat_...()]
+
+También podemos añadir **.bg-purple_light[capas estadísticas]**
+
+.pull-left[
+
+Si las trazas están separadas realizada el suavizado de todas ellas. 
+
+
+```r
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent)) +
+  geom_point(alpha = 0.7, size = 5) +
+  scale_y_log10() +
+  scale_color_tableau() +
+  stat_smooth(method = "lm",
+              se = FALSE)
+```
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-884-1.png" width="85%" /&gt;
+
+]
+
+
+
+---
+
+
+# .orange[ETIQUETAR]: .green[geom_text()]
+
+.pull-left[
+
+Podemos combinarlo con `geom_text()` para  **.bg-purple_light[añadir la ecuación del ajuste]**
+
+
+```r
+lm_fit &lt;-
+  lm(data = gapminder_1997,
+     formula = gdpPercap ~ lifeExp)
+a &lt;- round(coef(lm_fit)[1], 2)
+b &lt;- round(coef(lm_fit)[2], 2)
+
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp)) +
+  geom_point(alpha = 0.7, size = 5) +
+  scale_y_log10() +
+  stat_smooth(method = "lm",
+              se = FALSE) +
+  geom_text(x = 45, y = log10(30000),
+            label =
+              glue("Y = {a} + {b}X"),
+            size = 5)
+```
+
+]
+
+.pull-right[
+
+
+&lt;img src="index_files/figure-html/unnamed-chunk-886-1.png" width="85%" /&gt;
+
+
+]
+
+---
+
+# .orange[ESTADÍSTICA]: .green[stat_...()]
+
+También podemos añadir **.bg-purple_light[capas estadísticas]**
+
+.pull-left[
+
+Con `stat_summary()` podemos incluso añadir estadísticas por grupos, como la media o mediana.
+
+
+```r
+ggplot(gapminder,
+       aes(y = gdpPercap, x = year)) +
+  geom_point(alpha = 0.7, size = 3) +
+  stat_summary(fun = "mean", size = 0.3,
+               color = "coral") + 
+  stat_summary(fun = "median", size = 0.3,
+               color = "darkcyan")
+```
+
+]
+
+.pull-right[
+
+
+&lt;img src="index_files/figure-html/unnamed-chunk-888-1.png" width="85%" /&gt;
+
+]
+
+---
+
+# .orange[ESTADÍSTICA]: .green[stat_...()]
+
+También podemos añadir **.bg-purple_light[capas estadísticas]**
+
+.pull-left[
+
+Fíjate que si no tenemos una variable cuali, la media la hace con `n = 1` (es decir, es el propio punto).
+
+
+```r
+ggplot(gapminder,
+       aes(y = gdpPercap, x = lifeExp, color = continent)) +
+  geom_point(alpha = 0.7, size = 3) +
+  stat_summary(fun = "mean",
+               size = 0.2,
+               color = "black")
+```
+
+]
+
+.pull-right[
+
+
+&lt;img src="index_files/figure-html/unnamed-chunk-890-1.png" width="85%" /&gt;
+
+]
+
+
+---
+
+
+# .orange[TEMA]: .green[theme()]
+
+
+Por último podemos **.bg-purple_light[personalizar el tema]** de los gráficos.
+
+.pull-left[
+
+Por ejemplo, podemos **.bg-purple_light[añadir títulos,  subtítulos y pie de gráfica]** con `labs()`,
+
+
+```r
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau() +
+  labs(
+    title = "Primer scatter plot",
+    subtitle = "Datos de 1997",
+    caption = "Autor: J. Álvarez")
+```
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-892-1.png" width="85%" /&gt;
+
+]
+
+---
+
+# .orange[TEMA]: .green[theme()]
+
+
+También podemos personalizar el **.bg-purple_light[título de los ejes]** o el **.bg-purple_light[título de las leyendas]**.
+
+.pull-left[
+
+
+```r
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau() +
+  labs(
+    title = "Primer scatter plot",
+    subtitle = "Datos de 1997",
+    caption = "Autor: J. Álvarez",
+    x = "Esperanza de vida",
+    y = "Renta per cápita",
+    color = "Continente",
+    size = "Población")
+```
+
+]
+
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-894-1.png" width="85%" /&gt;
+
+]
+
+---
+
+# .orange[TEMA]: .green[theme()]
+
+
+También podemos **.bg-purple_light[ocultar el nombre de la leyenda]** asignándole un `NULL`.
+
+.pull-left[
+
+
+
+```r
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau() +
+  labs(
+    title = "Primer scatter plot",
+    subtitle = "Datos de 1997",
+    caption = "Autor: J. Álvarez",
+    x = "Esperanza de vida",
+    y = "Renta per cápita",
+    color = NULL, size = "Población")
+```
+
+]
+
+.pull-right[
+
+
+&lt;img src="index_files/figure-html/unnamed-chunk-896-1.png" width="85%" /&gt;
+
+]
+
+---
+
+
+# .orange[TEMA]: .green[theme()]
+
+
+Incluso podemos **.bg-purple_light[ocultar la leyenda]** de alguna de las variables con `guides()`
+
+
+.pull-left[
+
+
+```r
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau() +
+* guides(size = "none") +
+  labs(
+    title = "Primer scatter plot",
+    subtitle = "Datos de 1997",
+    caption = "Autor: J. Álvarez",
+    x = "Esperanza de vida",
+    y = "Renta per cápita",
+    color = NULL)
+```
+
+]
+
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-898-1.png" width="85%" /&gt;
+
+]
+
+---
+
+
+# .orange[TEMA]: .green[theme()]
+
+Tenemos además algunos temas ya predefinidos en el paquete `{ggthemes}`
+
+
+
+.pull-left[
+
+
+```r
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau() +
+  guides(size = "none") + 
+  labs(
+    title = "Primer scatter plot",
+    subtitle = "Datos de 1997",
+    caption = "Autor: J. Álvarez",
+    x = "Esperanza de vida",
+    y = "Renta per cápita",
+    color = NULL) +
+* theme_excel()
+```
+
+]
+
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-900-1.png" width="85%" /&gt;
+
+]
+
+---
+
+
+
+# .orange[TEMA]: .green[theme()]
+
+Tenemos además algunos temas ya predefinidos en el paquete `{ggthemes}`
+
+
+
+.pull-left[
+
+
+```r
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau() +
+  guides(size = "none") + 
+  labs(
+    title = "Primer scatter plot",
+    subtitle = "Datos de 1997",
+    caption = "Autor: J. Álvarez",
+    x = "Esperanza de vida",
+    y = "Renta per cápita",
+    color = NULL) +
+* theme_fivethirtyeight()
+```
+
+]
+
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-902-1.png" width="85%" /&gt;
+
+]
+
+
+---
+
+# .orange[TEMA]: .green[theme()]
+
+Tenemos además algunos temas ya predefinidos en el paquete `{ggthemes}`
+
+
+
+.pull-left[
+
+
+```r
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau() +
+  guides(size = "none") + 
+  labs(
+    title = "Primer scatter plot",
+    subtitle = "Datos de 1997",
+    caption = "Autor: J. Álvarez",
+    x = "Esperanza de vida",
+    y = "Renta per cápita",
+    color = NULL) +
+* theme_economist()
+```
+
+]
+
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-904-1.png" width="85%" /&gt;
+
+]
+
+---
+
+
+# .orange[TEMA]: .green[theme()]
+
+Tenemos además algunos temas ya predefinidos en el paquete `{ggthemes}`
+
+
+
+.pull-left[
+
+
+```r
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau() +
+  guides(size = "none") + 
+  labs(
+    title = "Primer scatter plot",
+    subtitle = "Datos de 1997",
+    caption = "Autor: J. Álvarez",
+    x = "Esperanza de vida",
+    y = "Renta per cápita",
+    color = NULL) +
+* theme_bw()
+```
+
+]
+
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-906-1.png" width="85%" /&gt;
+
+]
+
+
+---
+
+
+# .orange[TEMA]: .green[theme()]
+
+Una opción muy habitual es usar `theme_minimal()`, ya que es un tema muy limpio, y luego con `theme_update()` configurarlo a nuestro gusto.
+
+
+.pull-left[
+
+
+```r
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau() +
+  guides(size = "none") + 
+  labs(
+    title = "Primer scatter plot",
+    subtitle = "Datos de 1997",
+    caption = "Autor: J. Álvarez",
+    x = "Esperanza de vida",
+    y = "Renta per cápita",
+    color = NULL) +
+* theme_minimal()
+```
+
+]
+
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-908-1.png" width="83%" /&gt;
+
+]
+
+
+---
+
+# .orange[TEMA]: .green[theme()]
+
+* `sysfonts::font_add_google()`: le indicaremos la tipografía de &lt;https://fonts.google.com/&gt;
+
+* `showtext_auto()` del paquete `{showtext}` nos permite su posterior uso.
+
+* `theme_set()`: inicializamos el tema con la fuente
+
+* `theme_update()`: configuramos cada elemento a nuestro gusto (mira `? theme`).
+
+
+
+```r
+sysfonts::font_add_google(name = "Roboto") # Fuente de google
+# Usar fuentes a futuro
+library(showtext)
+showtext_auto()
+
+theme_set(theme_minimal(base_family = "Roboto")) # Definir tema base
+
+# Configurar tema
+theme_update(
+  plot.title = element_text(color = "#C34539", face = "bold", size = 27),
+  plot.subtitle = element_text(color = "#3E6FCB", face = "bold", size = 17))
+```
+
+---
+
+
+# .orange[TEMA]: .green[theme()]
+
+Una vez definido el tema, **.bg-purple_light[todas las gráficas que hagas lo tendrán incluido]**, y así evitas programarlo en cada una
+
+.pull-left[
+
+
+```r
+ggplot(gapminder_1997,
+       aes(y = gdpPercap, x = lifeExp,
+           color = continent, size = pop)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau() +
+  guides(size = "none") + 
+  labs(
+    title = "Primer scatter plot",
+    subtitle = "Datos de 1997",
+    caption = "Autor: J. Álvarez",
+    x = "Esperanza de vida",
+    y = "Renta per cápita",
+    color = NULL)
+```
+
+]
+
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-911-1.png" width="85%" /&gt;
+
+]
+
+---
+
+# .orange[UNIR] gráficas
+
+Con el paquete `{patchwork}` podremos **.bg-purple_light[combinar varias gráficas]** (ver documentación en &lt;https://patchwork.data-imaginist.com/&gt;)
+
+
+Por ejemplo, vamos a combinar en una gráfica los datos de 1987, de 2007 y la media en todos los años
+
+--
+
+
+```r
+gapminder_1987 &lt;-
+  gapminder %&gt;% filter(year == 1987)
+
+gapminder_2007 &lt;-
+  gapminder %&gt;% filter(year == 2007)
+
+gapminder_mean &lt;-
+  gapminder %&gt;% 
+  group_by(continent, country) %&gt;% 
+  summarise(gdpPercap = mean(gdpPercap),
+            lifeExp = mean(lifeExp),
+            pop = pop) %&gt;% 
+  ungroup()
+```
+
+
+---
+
+# .orange[UNIR] gráficas
+
+Tras ello vamos a definir cada gráfica por separado
+
+
+```r
+plot_1987 &lt;-
+  ggplot(gapminder_1987, aes(y = gdpPercap, x = lifeExp, color = continent)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau() +
+  labs(x = "Esperanza de vida", y = "Renta per cápita", subtitle = "1987")
+
+plot_2007 &lt;-
+  ggplot(gapminder_2007, aes(y = gdpPercap, x = lifeExp, color = continent)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau() +
+  labs(x = "Esperanza de vida", y = "Renta per cápita", subtitle = "2007")
+
+plot_mean &lt;-
+  ggplot(gapminder_mean, aes(y = gdpPercap, x = lifeExp, color = continent)) +
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  scale_color_tableau() +
+  labs(x = "Esperanza de vida", y = "Renta per cápita", subtitle = "Media (1952-2007)")
+```
+
+---
+
+# .orange[UNIR] gráficas
+
+Por último con `{patchwork}` podemos combinar las gráficas sumándolas `+` (con `|` podremos poner una al lado de la otra), y con `&amp;` podremos modificar aspectos de las mismas, de todas ellas a la vez.
+
+.pull-left[
+
+Con `plot_layout(guides = "collect")` le indicamos que unifique leyenda y con `plot_annotation()` anotaciones globales.
+
+
+```r
+library(patchwork)
+plot_combined &lt;-
+  (plot_mean | (plot_1987 + plot_2007)) &amp;
+  theme(legend.position = "bottom") &amp;
+  labs(color = "continente")
+
+plot_combined + 
+  plot_annotation(
+    title = "Unión de gráficas",
+    caption = "Autor: J. Álvarez") +
+  plot_layout(guides = "collect")
+```
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-915-1.png" width="85%" /&gt;
+
+]
+
+---
+
+# .orange[EXPORTAR] gráficas
+
+Con `ggsave()` podemos además **.bg-purple_light[exportar nuestros gráficos]**
+
+
+```r
+plot_combined &lt;-
+  (plot_mean | (plot_1987 + plot_2007)) &amp;
+  theme(legend.position = "bottom") &amp;
+  labs(color = "continente")
+
+plot_combined &lt;-
+  plot_combined + 
+  plot_annotation(
+    title = "Unión de gráficas",
+    caption = "Autor: J. Álvarez") +
+  plot_layout(guides = "collect")
+
+*ggsave("./gapminder.pdf")
+*ggsave("./gapminder.png")
+```
+
+
 
 ---
 
