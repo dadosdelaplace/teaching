@@ -24,7 +24,7 @@ class: center, middle, inverse, title-slide
 # Introducción a R
 ## Descripción y exploración de datos
 ### Javier Álvarez Liébana (Fac. Estudios Estadísticos - UCM)
-### Última actualización: 11-11-2022
+### Última actualización: 18-11-2022
 
 ---
 
@@ -102,7 +102,9 @@ class: inverse center middle
 
 #### [Bloque VII: depurando, ordenando y resumiendo datos (tidyverse)](#bloque-7)
 
-#### [Bloque VIII: visualizando datos](#bloque-8)
+#### [Bloque VIII: análisis de regresión con R](#bloque-8)
+
+#### [Bloque IX: visualizando datos](#bloque-9)
 
 ]
 
@@ -1469,7 +1471,7 @@ hoy
 ```
 
 ```
-&gt; [1] "2022-11-11"
+&gt; [1] "2022-11-18"
 ```
 
 --
@@ -1482,7 +1484,7 @@ También podemos obtener el **.bg-purple_light[«hoy y ahora»]** con la funció
 ```
 
 ```
-&gt; [1] "2022-11-11 08:21:19 CET"
+&gt; [1] "2022-11-18 12:20:33 CET"
 ```
  
 ---
@@ -1827,7 +1829,7 @@ hoy - cumple
 ```
 
 ```
-&gt; Time difference of 12115 days
+&gt; Time difference of 12122 days
 ```
 
 ]
@@ -2682,9 +2684,9 @@ x &lt;- rnorm(1e3) # 1000 elementos aleatorias
 
 ```
 &gt; Unit: microseconds
-&gt;         expr    min      lq     mean median     uq     max neval cld
-&gt;      sort(x) 46.541 49.1135 53.68411 51.407 54.334 141.469  1000   b
-&gt;  x[order(x)] 32.426 34.2310 37.24612 35.290 38.562 126.533  1000  a
+&gt;         expr    min     lq     mean  median      uq     max neval cld
+&gt;      sort(x) 42.411 45.460 55.42055 50.7010 56.9695 246.040  1000   b
+&gt;  x[order(x)] 29.359 32.065 39.03260 35.3735 39.5635 178.879  1000  a
 ```
 
 --
@@ -5441,12 +5443,12 @@ microbenchmark(x^2,
 
 ```
 &gt; Unit: nanoseconds
-&gt;                                     expr     min        lq        mean
-&gt;                                      x^2     405     538.5    1462.719
-&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 1968535 2154782.0 2579372.591
-&gt;     median        uq      max neval cld
-&gt;     1310.5    2146.5    12235  1000  a 
-&gt;  2334818.0 2707103.0 17434086  1000   b
+&gt;                                     expr     min        lq        mean  median
+&gt;                                      x^2     337     449.5    1158.166    1004
+&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 1663885 1805902.5 2144354.835 1937064
+&gt;       uq      max neval cld
+&gt;     1745    24435  1000  a 
+&gt;  2246914 13672985  1000   b
 ```
 
 ---
@@ -6861,10 +6863,10 @@ map(x, mean)
 
 ```
 &gt; [[1]]
-&gt; [1] -0.003840616
+&gt; [1] -0.02682394
 &gt; 
 &gt; [[2]]
-&gt; [1] 2.008368
+&gt; [1] 2.049795
 ```
 
 
@@ -6876,11 +6878,11 @@ microbenchmark(map(x, .f = function(x) { mean(x^2) }), lapply(x, FUN = function(
 ```
 &gt; Unit: milliseconds
 &gt;                                            expr      min       lq     mean
-&gt;      map(x, .f = function(x) {     mean(x^2) }) 5.530663 6.818844 9.293123
-&gt;  lapply(x, FUN = function(x) {     mean(x^2) }) 5.239647 6.553987 8.921634
+&gt;      map(x, .f = function(x) {     mean(x^2) }) 5.578854 6.817787 8.996732
+&gt;  lapply(x, FUN = function(x) {     mean(x^2) }) 5.436916 6.604185 8.699875
 &gt;    median       uq      max neval cld
-&gt;  7.943650 10.48760 206.0047  1000   a
-&gt;  7.698676  9.34678 161.2607  1000   a
+&gt;  7.809764 9.837034 178.9587  1000   a
+&gt;  7.617736 8.803847 161.8768  1000   a
 ```
 
 
@@ -9961,11 +9963,11 @@ starwars %&gt;% slice_sample(n = 3)
 
 ```
 &gt; # A tibble: 3 × 14
-&gt;   name        height  mass hair_c…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
-&gt;   &lt;chr&gt;        &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
-&gt; 1 Cliegg Lars    183    NA brown    fair    blue         82 male  mascu… Tatooi…
-&gt; 2 Adi Gallia     184    50 none     dark    blue         NA fema… femin… Corusc…
-&gt; 3 Owen Lars      178   120 brown, … light   blue         52 male  mascu… Tatooi…
+&gt;   name         height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
+&gt;   &lt;chr&gt;         &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
+&gt; 1 Jocasta Nu      167    NA white   fair    blue         NA fema… femin… Corusc…
+&gt; 2 Quarsh Pana…    183    NA black   dark    brown        62 &lt;NA&gt;  &lt;NA&gt;   Naboo  
+&gt; 3 Padmé Amida…    165    45 brown   light   brown        46 fema… femin… Naboo  
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
@@ -9987,13 +9989,13 @@ starwars %&gt;% slice_sample(prop = 0.025)
 
 ```
 &gt; # A tibble: 2 × 14
-&gt;   name        height  mass hair_c…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
-&gt;   &lt;chr&gt;        &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
-&gt; 1 Ayla Secura    178    55 none     blue    hazel        48 fema… femin… Ryloth 
-&gt; 2 Dud Bolt        94    45 none     blue, … yellow       NA male  mascu… Vulpter
+&gt;   name      height  mass hair_color skin_…¹ eye_c…² birth…³ sex   gender homew…⁴
+&gt;   &lt;chr&gt;      &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
+&gt; 1 Sly Moore    178    48 none       pale    white        NA &lt;NA&gt;  &lt;NA&gt;   Umbara 
+&gt; 2 Grievous     216   159 none       brown,… green,…      NA male  mascu… Kalee  
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
-&gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
-&gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
+&gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​skin_color, ²​eye_color,
+&gt; #   ³​birth_year, ⁴​homeworld
 &gt; # ℹ Use `colnames()` to see all variable names
 ```
 
@@ -10026,11 +10028,10 @@ starwars %&gt;% slice_sample(n = 2, weight_by = c(0.495, 0.495, rep(0.01/85, 85)
 
 ```
 &gt; # A tibble: 2 × 9
-&gt;   name           height  mass hair_color skin_color eye_c…¹ birth…² sex   gender
-&gt;   &lt;chr&gt;           &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
-&gt; 1 C-3PO             167    75 &lt;NA&gt;       gold       yellow      112 none  mascu…
-&gt; 2 Luke Skywalker    172    77 blond      fair       blue         19 male  mascu…
-&gt; # … with abbreviated variable names ¹​eye_color, ²​birth_year
+&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender   
+&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;    
+&gt; 1 C-3PO    167    75 &lt;NA&gt;       gold       yellow           112 none  masculine
+&gt; 2 Bossk    190   113 none       green      red               53 male  masculine
 ```
 
 ---
@@ -10295,11 +10296,11 @@ starwars %&gt;% slice_sample(n = 3)
 
 ```
 &gt; # A tibble: 3 × 14
-&gt;   name         height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
-&gt;   &lt;chr&gt;         &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
-&gt; 1 Han Solo        180    80 brown   fair    brown        29 male  mascu… Corell…
-&gt; 2 Jek Tono Po…    180   110 brown   fair    blue         NA male  mascu… Bestin…
-&gt; 3 Owen Lars       178   120 brown,… light   blue         52 male  mascu… Tatooi…
+&gt;   name       height  mass hair_co…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
+&gt;   &lt;chr&gt;       &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
+&gt; 1 Grievous      216   159 none      brown,… green,…      NA male  mascu… Kalee  
+&gt; 2 Mace Windu    188    84 none      dark    brown        72 male  mascu… Haruun…
+&gt; 3 R5-D4          97    32 &lt;NA&gt;      white,… red          NA none  mascu… Tatooi…
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
@@ -10313,11 +10314,11 @@ starwars %&gt;% slice_sample(n = 3)
 
 ```
 &gt; # A tibble: 3 × 14
-&gt;   name         height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
-&gt;   &lt;chr&gt;         &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
-&gt; 1 Nute Gunray     191    90 none    mottle… red          NA male  mascu… Cato N…
-&gt; 2 Gregar Typho    185    85 black   dark    brown        NA male  mascu… Naboo  
-&gt; 3 Dud Bolt         94    45 none    blue, … yellow       NA male  mascu… Vulpter
+&gt;   name        height  mass hair_c…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
+&gt;   &lt;chr&gt;        &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
+&gt; 1 Shaak Ti       178    57 none     red, b… black        NA fema… femin… Shili  
+&gt; 2 Bib Fortuna    180    NA none     pale    pink         NA male  mascu… Ryloth 
+&gt; 3 Yoda            66    17 white    green   brown       896 male  mascu… &lt;NA&gt;   
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
@@ -10339,14 +10340,14 @@ starwars %&gt;%
 &gt; # A tibble: 8 × 14
 &gt;   name         height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
 &gt;   &lt;chr&gt;         &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
-&gt; 1 Han Solo        180    80 brown   fair    brown        29 male  mascu… Corell…
-&gt; 2 Wedge Antil…    170    77 brown   fair    hazel        21 male  mascu… Corell…
-&gt; 3 Cliegg Lars     183    NA brown   fair    blue         82 male  mascu… Tatooi…
-&gt; 4 Darth Maul      175    80 none    red     yellow       54 male  mascu… Dathom…
-&gt; 5 Adi Gallia      184    50 none    dark    blue         NA fema… femin… Corusc…
-&gt; 6 Cordé           157    NA brown   light   brown        NA fema… femin… Naboo  
-&gt; 7 Sebulba         112    40 none    grey, … orange       NA male  mascu… Malast…
-&gt; 8 Kit Fisto       196    87 none    green   black        NA male  mascu… Glee A…
+&gt; 1 Tarfful         234   136 brown   brown   blue         NA male  mascu… Kashyy…
+&gt; 2 R5-D4            97    32 &lt;NA&gt;    white,… red          NA none  mascu… Tatooi…
+&gt; 3 Darth Maul      175    80 none    red     yellow       54 male  mascu… Dathom…
+&gt; 4 Ratts Tyere…     79    15 none    grey, … unknown      NA male  mascu… Aleen …
+&gt; 5 R4-P17           96    NA none    silver… red, b…      NA none  femin… &lt;NA&gt;   
+&gt; 6 Jango Fett      183    79 black   tan     brown        66 male  mascu… Concor…
+&gt; 7 Owen Lars       178   120 brown,… light   blue         52 male  mascu… Tatooi…
+&gt; 8 Eeth Koth       171    NA black   brown   brown        NA male  mascu… Iridon…
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
@@ -13150,11 +13151,412 @@ Dependencia lineal muy débil (en caso de existir, positiva), pero no sabemos si
 
 ---
 
-
 class: inverse center middle
 name: bloque-8
 
-# BLOQUE VIII: visualizando datos
+# BLOQUE VIII: análisis de regresión con R
+
+&amp;nbsp;
+
+&amp;nbsp;
+
+### [Análisis numérico y visual](#cor-cov)
+
+### [Ajuste de regresión](#reg)
+
+### [Análisis de la varianza (ANOVA)](#anova)
+
+### [Predicción](#prediccion)
+
+---
+
+name: cor-cov
+
+# Análisis .orange[NUMÉRICO]
+
+Vamos a tomar los datos del ejercicio 3 de la hoja 4
+
+
+```r
+datos &lt;- 
+  tibble("x" = c(20, 16, 34, 23, 27, 32, 18, 22, 25, 51,
+                 40, 15, 23, 31, 37, 41, 26),
+         "y" = c(6.5, 6, 8.5, 7, 9, 9.5, 7.5, 8, 7.2, 9.1,
+                 10, 4, 7.1, 8.2, 8.7, 9.9, 9.3))
+datos
+```
+
+```
+&gt; # A tibble: 17 × 2
+&gt;        x     y
+&gt;    &lt;dbl&gt; &lt;dbl&gt;
+&gt;  1    20   6.5
+&gt;  2    16   6  
+&gt;  3    34   8.5
+&gt;  4    23   7  
+&gt;  5    27   9  
+&gt;  6    32   9.5
+&gt;  7    18   7.5
+&gt;  8    22   8  
+&gt;  9    25   7.2
+&gt; 10    51   9.1
+&gt; 11    40  10  
+&gt; 12    15   4  
+&gt; 13    23   7.1
+&gt; 14    31   8.2
+&gt; 15    37   8.7
+&gt; 16    41   9.9
+&gt; 17    26   9.3
+```
+
+---
+
+# Análisis .orange[NUMÉRICO]
+
+Tras ello lo **.bg-purple_light[primero es obtener un resumen numérico]** de nuestros datos. Lo podemos sacar todo con `summarise()`
+
+
+```r
+datos %&gt;% 
+  summarise(mean_x = mean(x), mean_y = mean(y),
+            var_x = mean(x^2) - mean(x)^2, var_y = mean(y^2) - mean(y)^2,
+            cv_x = sqrt(var_x) / abs(mean_x), cv_y = sqrt(var_y) / abs(mean_y),
+            cov = cov(x, y), cor = cor(x, y))
+```
+
+```
+&gt; # A tibble: 1 × 8
+&gt;   mean_x mean_y var_x var_y  cv_x  cv_y   cov   cor
+&gt;    &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+&gt; 1   28.3   7.97  91.7  2.32 0.339 0.191  12.0 0.771
+```
+
+* La variable **.bg-purple_light[X es más dispersa]** que la y.
+
+* La correlación es positiva y relativamente elevada: en caso de existir una **.bg-purple_light[relación lineal, será fuerte y positiva]**.
+
+---
+
+# Análisis .orange[VISUAL]
+
+Con el paquete `{corrplot}` podemos tener una **.bg-purple_light[representación visual]**. Por ejemplo, vamos a calcular la **.bg-purple_light[matriz de correlaciones]** (siempre simétrica) de las numéricas de starwars (correlación de todas con todas)
+
+
+```r
+cor_matrix &lt;- 
+  starwars %&gt;%
+  select(where(is.numeric)) %&gt;% 
+  drop_na() %&gt;%
+  cor()
+cor_matrix
+```
+
+```
+&gt;                height      mass birth_year
+&gt; height      1.0000000 0.1075282 -0.4090274
+&gt; mass        0.1075282 1.0000000  0.4781391
+&gt; birth_year -0.4090274 0.4781391  1.0000000
+```
+
+---
+
+# Análisis .orange[VISUAL]
+
+Con el paquete `{corrplot}` podemos tener una **.bg-purple_light[representación visual]**.
+
+.pull-left[
+
+
+```r
+# install.packages("corrplot")
+library(corrplot)
+corrplot(cor_matrix)
+```
+
+* El **.bg-purple_light[color me indica el signo]** (rojo negativo, azul positivo)
+
+* La **.bg-purple_light[intensidad me indica la magnitud]**
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-553-1.png" width="85%" /&gt;
+
+]
+
+---
+
+# Análisis .orange[VISUAL]
+
+Dicho paquete cuenta con distintas opciones de visualización
+
+.pull-left[
+
+
+```r
+# install.packages("corrplot")
+library(corrplot)
+corrplot(cor_matrix, method = "ellipse")
+```
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-555-1.png" width="85%" /&gt;
+
+]
+
+---
+
+name: reg
+
+# Fase 1: .orange[AJUSTE]
+
+Volvemos a nuestros datos del ejercicio 3 de la hoja 4. Ya sabemos que la recta de regresión podría funcionar más o menos bien ya que la correlación no es excesivamente baja. **.bg-purple_light[¿Cómo realizar el ajuste?]** Con `lm(data = ..., formula = ...)`
+
+
+```r
+reg_lineal &lt;- lm(data = datos, formula = y ~ x)
+```
+
+--
+
+* **.bg-purple_light[Coeficientes]**: los tenemos en `reg_lineal %&gt;% coef()` o `reg_lineal$coefficients`
+
+
+```r
+reg_lineal %&gt;% coef()
+```
+
+```
+&gt; (Intercept)           x 
+&gt;   4.4990306   0.1226954
+```
+
+---
+
+
+# Fase 1: .orange[AJUSTE]
+
+
+
+```r
+reg_lineal &lt;- lm(data = datos, formula = y ~ x)
+```
+
+
+* **.bg-purple_light[Valores ajustados]**: los tenemos en `reg_lineal %&gt;% fitted.values()` o `reg_lineal$fitted.values`
+
+
+```r
+reg_lineal %&gt;% fitted.values()
+```
+
+```
+&gt;         1         2         3         4         5         6         7         8 
+&gt;  6.952938  6.462157  8.670674  7.321024  7.811806  8.425283  6.707548  7.198329 
+&gt;         9        10        11        12        13        14        15        16 
+&gt;  7.566415 10.756495  9.406846  6.339461  7.321024  8.302588  9.038760  9.529541 
+&gt;        17 
+&gt;  7.689111
+```
+
+---
+
+# Fase 1: .orange[AJUSTE]
+
+
+
+```r
+reg_lineal &lt;- lm(data = datos, formula = y ~ x)
+```
+
+
+* **.bg-purple_light[Errores (residuos)]**: los tenemos en `reg_lineal %&gt;% residuals()` o `reg_lineal$residuals`
+
+
+```r
+reg_lineal %&gt;% residuals()
+```
+
+```
+&gt;          1          2          3          4          5          6          7 
+&gt; -0.4529383 -0.4621568 -0.1706737 -0.3210244  1.1881940  1.0747171  0.7924525 
+&gt;          8          9         10         11         12         13         14 
+&gt;  0.8016709 -0.3664152 -1.6564952  0.5931540 -2.3394614 -0.2210244 -0.1025875 
+&gt;         15         16         17 
+&gt; -0.3387598  0.3704587  1.6108894
+```
+
+---
+
+
+# Fase 1: .orange[AJUSTE]
+
+Podemos **.bg-purple_light[añadir esos valores a mis datos originales]** para tenerlo todo en una tabla
+
+
+```r
+datos &lt;-
+  datos %&gt;% 
+  mutate(estim = reg_lineal %&gt;% fitted.values(),
+         error = y - estim)
+datos
+```
+
+```
+&gt; # A tibble: 17 × 4
+&gt;        x     y estim  error
+&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
+&gt;  1    20   6.5  6.95 -0.453
+&gt;  2    16   6    6.46 -0.462
+&gt;  3    34   8.5  8.67 -0.171
+&gt;  4    23   7    7.32 -0.321
+&gt;  5    27   9    7.81  1.19 
+&gt;  6    32   9.5  8.43  1.07 
+&gt;  7    18   7.5  6.71  0.792
+&gt;  8    22   8    7.20  0.802
+&gt;  9    25   7.2  7.57 -0.366
+&gt; 10    51   9.1 10.8  -1.66 
+&gt; 11    40  10    9.41  0.593
+&gt; 12    15   4    6.34 -2.34 
+&gt; 13    23   7.1  7.32 -0.221
+&gt; 14    31   8.2  8.30 -0.103
+&gt; 15    37   8.7  9.04 -0.339
+&gt; 16    41   9.9  9.53  0.370
+&gt; 17    26   9.3  7.69  1.61
+```
+
+---
+
+# Fase 2: .orange[INTERPRETACIÓN]
+
+
+```r
+reg_lineal &lt;- lm(data = datos, formula = y ~ x)
+reg_lineal %&gt;% coef()
+```
+
+```
+&gt; (Intercept)           x 
+&gt;   4.4990306   0.1226954
+```
+
+* Si las horas de estudio son 0, la estimación de mi modelo dice que la nota media será 4.49903
+
+* Por cada hora extra que estudie, mi nota sube 0.122695
+
+---
+
+name: anova
+
+# Fase 3-4: .orange[ANOVA Y EVALUACIÓN]
+
+Con dicha tabla podemos realizar un **.bg-purple_light[análisis de la varianza (ANOVA)]**
+
+
+```r
+datos %&gt;% 
+  summarise(mean_res = mean(error),
+            SST = sum((y - mean(y))^2), SSE = sum(estim^2),
+            SSR = sum(error^2), var_res = mean(error^2),
+            cor = cor(x, y), R2 = 1 - SSR / SST)
+```
+
+```
+&gt; # A tibble: 1 × 7
+&gt;    mean_res   SST   SSE   SSR var_res   cor    R2
+&gt;       &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+&gt; 1 -1.04e-16  39.5 1103.  16.0   0.941 0.771 0.595
+```
+
+* El `R2` o **.bg-purple_light[bondad de ajuste]** nos da la proporción de información explicada (fíjate que es definida como la info explicada entre la info total), y que en el caso de la reg. lineal, **.bg-purple_light[coincide con la correlación al cuadrado]** 
+
+* La **.bg-purple_light[media de los residuos]** es siempre 0.
+
+---
+
+# Fase 3-4: .orange[ANOVA Y EVALUACIÓN]
+
+* `%&gt;% summary()`: obtenemos un **.bg-purple_light[resumen automático]**
+
+
+```r
+reg_lineal %&gt;% summary()
+```
+
+```
+&gt; 
+&gt; Call:
+&gt; lm(formula = y ~ x, data = datos)
+&gt; 
+&gt; Residuals:
+&gt;     Min      1Q  Median      3Q     Max 
+&gt; -2.3395 -0.3664 -0.1707  0.7924  1.6109 
+&gt; 
+&gt; Coefficients:
+&gt;             Estimate Std. Error t value Pr(&gt;|t|)    
+&gt; (Intercept)  4.49903    0.78117   5.759 3.77e-05 ***
+&gt; x            0.12270    0.02615   4.692 0.000289 ***
+&gt; ---
+&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+&gt; 
+&gt; Residual standard error: 1.033 on 15 degrees of freedom
+&gt; Multiple R-squared:  0.5947,	Adjusted R-squared:  0.5677 
+&gt; F-statistic: 22.01 on 1 and 15 DF,  p-value: 0.0002894
+```
+
+
+---
+
+# Fase 3-4: .orange[ANOVA Y EVALUACIÓN]
+
+* `%&gt;% anova()`: obtenemos un **.bg-purple_light[ANOVA automático]**
+
+
+```r
+reg_lineal %&gt;% anova()
+```
+
+```
+&gt; Analysis of Variance Table
+&gt; 
+&gt; Response: y
+&gt;           Df Sum Sq Mean Sq F value    Pr(&gt;F)    
+&gt; x          1 23.477 23.4774  22.013 0.0002894 ***
+&gt; Residuals 15 15.998  1.0665                      
+&gt; ---
+&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+
+---
+
+name: prediccion
+
+# Fase 5: .orange[PREDICCIÓN]
+
+Por último con `predict()` podemos predecir usando cualquier modelo en `R`, pasándole el modelo y los nuevos datos (se tienen que llamar igualq que la variable predictora, en este caso `x`)
+
+
+```r
+reg_lineal %&gt;% predict(tibble(x = c(25, 17, 38, 43, 100)))
+```
+
+```
+&gt;         1         2         3         4         5 
+&gt;  7.566415  6.584852  9.161455  9.774932 16.768569
+```
+
+La predicción de los 4 primeros es relativamente fiable (nuestro modelo explicaba más del 50% de la información contenida en Y), pero la última no (de hecho fíjate que la nota está por encima de 10), ya que es un **.bg-purple_light[valor fuera del rango de X]** con el que nuestro modelo ha aprendido: independientemente de la bondad de ajuste, fuera de rango, no sabemos lo que sucede.
+
+---
+
+class: inverse center middle
+name: bloque-9
+
+# BLOQUE IX: visualizando datos
 
 &amp;nbsp;
 

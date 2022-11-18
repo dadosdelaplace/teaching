@@ -276,6 +276,8 @@ class: inverse center middle
 
 #### [CLASE 9: VALIDACIÓN CRUZADA, SOBREMUESTREO Y DATAVIZ](#clase-9)
 
+#### [CLASE 10: ÁRBOLES DE CLASIFICACIÓN/REGRESIÓN](#clase-10)
+
 ]
 
 
@@ -12137,7 +12139,7 @@ hoteles_knn_fit_tune <-
 
 ]
 
-```{r echo = FALSE}
+```{r echo = FALSE, eval = FALSE}
 # Entrenamos y evaluamos los 7 modelos
 hoteles_knn_fit_tune <-
  hoteles_wflow %>%
@@ -12154,7 +12156,7 @@ hoteles_knn_fit_tune <-
 
 Tras ello,  con `collect_metrics()` obtendremos de una sola vez la métrica (en validación) de todos ellos.
 
-```{r}
+```{r eval = FALSE}
 hoteles_knn_fit_tune %>% collect_metrics()
 ```
 
@@ -12164,7 +12166,7 @@ hoteles_knn_fit_tune %>% collect_metrics()
 
 Ese grid también podemos definirlo para el resto de parámetros, definiendo los **.bg-purple_light[posibles valores para cada parámetro]** y probar **.bg-purple_light[todas las combinaciones]** entre ellos. Para eso haremos uso de `expand_grid()`
 
-```{r}
+```{r eval = FALSE}
 expand_grid("x" = 1:3, "y" = 8:9)
 ```
 
@@ -12174,7 +12176,7 @@ expand_grid("x" = 1:3, "y" = 8:9)
 
 Con dicha herramienta vamos a **.bg-purple_light[crear 18 modelos]**: 3 valores diferentes de vecinos, 2 tipos de promedios y 3 métricas.
 
-```{r}
+```{r eval = FALSE}
 grid_knn <-
   expand_grid("k" = c(10, 50, 100),
               "weight" = c("inv", "gaussian"),
@@ -12206,7 +12208,7 @@ hoteles_knn_fit_tune %>% collect_metrics()
 
 Incluso podemos generar ese grid de una manera más  **.bg-purple_light[automática]**: primero extraemos los parámetros con `extract_parameter_set_dials()`, luego los actualizamos con `update()` indicándole solo los rangos máximos y mínimos, y con `grid_regular()` le indicamos cuantos niveles queremos en cada parámetro (fijo en todos).
 
-```{r}
+```{r eval = FALSE}
 grid_knn <-
   extract_parameter_set_dials(hoteles_wflow) %>%
   # Actualizamos
@@ -12224,7 +12226,7 @@ grid_knn # 18 modelos (3 x 2 x 3)
 La forma de definir el grid cambia pero una vez definido, todo es igual que el ejemplo anterior
 
 
-```{r}
+```{r eval = FALSE}
 # Entrenamos y evaluamos los 18 modelos
 hoteles_knn_fit_tune <-
  hoteles_wflow %>%
@@ -12243,7 +12245,7 @@ name: show-best
 
 No solo vamos a poder trastear con tidyverse en esos resultados en validación sino que tenemos **.bg-purple_light[dos funciones especialmente pensadas]** para ello: `show_best()` nos devuelve los mejores modelos según la métrica pedida, `select_best()` nos selecciona el mejor
 
-```{r}
+```{r eval = FALSE}
 hoteles_knn_fit_tune %>% show_best("roc_auc")
 hoteles_knn_fit_tune %>% select_best("accuracy")
 ```
@@ -12254,7 +12256,7 @@ hoteles_knn_fit_tune %>% select_best("accuracy")
 
 Una vez elegido **.bg-purple_light[finalizamos flujo con el mejor modelo]** (según una métrica)
 
-```{r}
+```{r eval = FALSE}
 best_knn_model_acc <- hoteles_knn_fit_tune %>% select_best("accuracy")
 final_wf <- 
   hoteles_wflow %>% 
@@ -12269,7 +12271,7 @@ final_wf
 
 Con `last_fit()` **.bg-purple_light[ajustamos a test]** con ese mejor modelo seleccionado en validación, y calculamos métricas en test.
 
-```{r}
+```{r eval = FALSE}
 final_knn_fit <- 
   final_wf %>%
   last_fit(hoteles_split) 
@@ -12285,7 +12287,7 @@ final_knn_fit %>% collect_metrics()
 
 Podemos volver a usar `predict()`, extrayendo antes el flujo de ese ajuste final con `extract_workflow(final_knn_fit)`, para calcular las **.bg-purple_light[clases predichas]** en test.
 
-```{r}
+```{r eval = FALSE}
 # Predecir el conjunto test: devuelve la clase
 predict(extract_workflow(final_knn_fit), hoteles_test)
 ```
@@ -12294,7 +12296,7 @@ predict(extract_workflow(final_knn_fit), hoteles_test)
 
 # Fase 5: .orange[PREDICCIÓN EN TEST]
 
-```{r}
+```{r eval = FALSE}
 # Predecir las probabilidades (las necesitamos para la ROC)
 predict(extract_workflow(final_knn_fit), hoteles_test, type = "prob")
 ```
@@ -12306,7 +12308,7 @@ predict(extract_workflow(final_knn_fit), hoteles_test, type = "prob")
 Con `augment()` podemos incluir en una sola tabla los datos en test y las predicciones, y con `conf_mat()` obtenemos la **.bg-purple_light[matriz de confusión]**
 
 
-```{r}
+```{r eval = FALSE}
 # Incluir predicciones en tabla
 prob_test <- augment(extract_workflow(final_knn_fit), hoteles_test)
 
@@ -12321,7 +12323,7 @@ conf_mat_test
 
 # Fase 5: .orange[PREDICCIÓN EN TEST]
 
-```{r}
+```{r eval = FALSE}
 # todas las métricas en test
 conf_mat_test %>%
   summary() #<<
@@ -12333,7 +12335,7 @@ conf_mat_test %>%
 
 Podemos **.bg-purple_light[dibujar la curva ROC]** haciendo uso de `roc_curve()` pasándole el archivo con las predicciones, y usando las probabilidades de ser 1 (guardadas en `.pred_children` en nuestro conjunto). Aprenderemos a dibujarla mejor pero podemos mientras hacerlo con `autoplot()`
 
-```{r}
+```{r eval = FALSE}
 roc_data <- prob_test %>% roc_curve(truth = children, .pred_children)
 roc_data
 ```
@@ -12347,7 +12349,7 @@ name: parallel
 
 Si queremos probar muchos modelos y/o nuestro volumen de datos es elevado, quizás nos lleve demasiado tiempo: vamos a hacer una incursión a la **.bg-purple_light[programación paralelizada]**. 
 
-```{r}
+```{r eval = FALSE}
 library(parallel)
 library(doParallel)
 ```
@@ -12366,7 +12368,7 @@ En muchas empresas u organismos de investigación se suele tener a disposición 
 
 Vamos a **.bg-purple_light[paralelizar en NUESTRO PROPIO ORDENADOR]**: un ordenador suele tener **.bg-purple_light[varios procesadores o cores]** que pueden funcionar de manera «independiente» uno de otro. Vamos a detectar la cantidad de núcleos de los que podemos disponer con `detectCores()`.
 
-```{r}
+```{r eval = FALSE}
 # Detectamos los cores que tenemos
 detectCores()
 ```
@@ -12379,7 +12381,7 @@ A la hora de paralelizar es importante que lo hagamos con cuidado ya que puede q
 
 Con `makeCluster()` montamos los **.bg-purple_light[clúster en cada nodo]** y con `registerDoParallel()` registramos la paralelización (puedes ver los hilos abiertos con `showConnections()`).
 
-```{r}
+```{r eval = FALSE}
 # Iniciamos la paralelización
 clusters <- detectCores() - 1
 make_cluster <- makeCluster(clusters)
@@ -12394,7 +12396,7 @@ showConnections()
  
 El único cambio respecto a antes es indicarle `tune_grid()`  que queremos la **.bg-purple_light[validación paralelizada]**, con `control = control_grid(allow_par = TRUE)`. Es importante que al **.bg-purple_light[acabar la paralelización le indiquemos que cerramos los clúster]**.
 
-```{r}
+```{r eval = FALSE}
 hoteles_knn_fit_tune <-
  hoteles_wflow %>%
   tune_grid(resamples = hoteles_val, grid = grid_knn,
@@ -12418,7 +12420,7 @@ name: oversampling
 
 Un paso que hemos obviado: si tenemos la **.bg-purple_light[variable objetivo desbalanceada]** solo aprenderá de la clase mayoritaria. Este desbalanceamiento podemos mitigarlo realizando **.bg-purple_light[sobremuestro/bajomuestreo]**, añadiendo `step_upsample()` (del paquete `{themis}`) a la receta (el parámetro `over_ratio` nos cuantifica el % de la clase minoritaria entre la mayoritaria).
 
-```{r}
+```{r eval = FALSE}
 hoteles_rec_oversampling <-
   hoteles_rec %>% 
   themis::step_upsample(children, over_ratio = 0.5) #<<
@@ -12446,7 +12448,7 @@ Puedes poder `skip = TRUE` siempre que quieras que un paso se lo salte luego en 
 
 Basta con repetir el proceso con la **receta con sobremuestreo**
 
-```{r chunk-IMPORTANTE}
+```{r chunk-IMPORTANTE, eval = FALSE}
 clusters <- detectCores() - 1
 make_cluster <- makeCluster(clusters)
 registerDoParallel(make_cluster)
@@ -12477,14 +12479,14 @@ registerDoSEQ()
 
 Tras ello volvemos a elegir el mejor modelo según accuracy para compararlo
 
-```{r}
+```{r eval = FALSE}
 best_knn_model_over_acc <-
   hoteles_knn_fit_tune_oversampling %>% select_best("accuracy")
 ```
 
 Y con ese modelo seleccionado finalizamos flujo y ajustamos a test
 
-```{r}
+```{r eval = FALSE}
 # Finalizamos flujo con el mejor modelo (según una métrica)
 final_wf_over <- 
   hoteles_wflow %>% 
@@ -12500,7 +12502,7 @@ final_knn_fit_over <-
 
 # .orange[SOBREMUESTREO] .green[BAJOMUESTREO]
 
-```{r}
+```{r eval = FALSE}
 # Calculamos métricas en test (las indicadas)
 final_knn_fit_over %>% collect_metrics()
 ```
@@ -12560,7 +12562,7 @@ Los datos se dividen en **.bg-purple_light[v subsubconjuntos de igual tamaño]**
 
 En muchas ocasiones ese proceso se **.bg-purple_light[repite un número k de veces]** con el objetivo de **.bg-purple_light[eliminar el efecto de la forma de subdivisión]** en v subconjuntos, obteniendo un promedio de $k*v$ conjuntos de validación, y tomar decisiones sobre los parámetros.
 
-```{r}
+```{r eval = FALSE}
 hoteles_split <- initial_split(hoteles_sample, strata = children, prop = 0.9)
 hoteles_train <- training(hoteles_split)
 hoteles_test <- testing(hoteles_split)
@@ -12575,7 +12577,7 @@ hoteles_cv_folds
 
 Todo igual salvo el conjunto de `resamples` que le pasamos
 
-```{r}
+```{r eval = FALSE}
 clusters <- detectCores() - 1
 make_cluster <- makeCluster(clusters)
 registerDoParallel(make_cluster)
@@ -12599,7 +12601,7 @@ registerDoSEQ()
 
 Ahora tendremos una métrica media con su desviación típica.
 
-```{r}
+```{r eval = FALSE}
 hoteles_knn_fit_tune
 ```
 
@@ -12611,7 +12613,7 @@ Incluso podemos usar `select_by_one_std_err()` para elegir el **.bg-purple_light
 
 
 
-```{r}
+```{r eval = FALSE}
 hoteles_knn_fit_tune %>% select_by_one_std_err(metric = "accuracy", k)  
 hoteles_knn_fit_tune %>% collect_metrics()
 ```
@@ -15365,6 +15367,239 @@ ggsave("./gapminder.png") #<<
 ```
 
 
+
+---
+
+class: inverse center middle
+name: clase-10
+
+# CLASE 10: árboles
+
+&nbsp;
+
+### [Introducción teórica](#intro-teoria)
+
+---
+
+name: intro-teoria
+
+# .orange[ÁRBOLES]: divide and conquer
+
+Los **.bg-purple_light[arboles de clasificación y regresión]** (empezaremos por los primeros), conocidos como CART, fueron
+propuestos por Breiman et al. en 1984.
+
+```{r echo = FALSE,  out.width = "63%", fig.align = "center", fig.cap = "Extraída de https://bookdown.org/content/2031/arboles-de-decision-parte-i.htmlque-son-los-arboles-de-decision30"}
+knitr::include_graphics("./img/arboles_segmentar.jpg")
+``` 
+
+**.bg-orange[Idea]**: segmentar el espacio de predictores (variables independientes) en **.bg-purple_light[regiones distintas y no solapadas]** a partir de un conjunto de reglas de decisión simples aplicadas de forma secuencial.
+
+
+---
+
+# .orange[ÁRBOLES]: introducción teórica
+
+Un árbol estará formado por los siguientes elementos:
+
+.pull-left[
+
+* **.bg-purple_light[Nodos]**: segmentos del árbol que contienen subconjuntos de la muestra.
+
+* **.bg-purple_light[Nodo raíz]**: segmento original (arranque inicial del árbol) que contiene a la **.bg-purple_light[totalidad]** de los datos.
+
+* **.bg-purple_light[Nodo padre/hijo]**: nodos predecesor/sucesor de otro nodo.
+
+* **.bg-purple_light[Rama]**: nodo y el conjunto de sus sucesores
+
+* **.bg-purple_light[Hojas]**: nodos sin hijos em los que **.bg-purple_light[finaliza una rama]** y que usaremos para asignar las clases predichas.
+
+]
+
+.pull-right[
+
+
+```{r echo = FALSE,  out.width = "100%", fig.align = "center"}
+knitr::include_graphics("./img/arbol_colesterol.jpg")
+``` 
+
+]
+
+---
+
+# .orange[ÁRBOLES]: construcción
+
+.pull-left[
+
+* **.bg-purple_light[Paso 1]**: partimos de un nodo raíz con todas las observaciones.
+
+* **.bg-purple_light[Paso 2]**: decidir la **.bg-purple_light[regla de decisión óptima]** (tomaremos decisiones binarias)
+  - Decidir el **.bg-purple_light[mejor punto de corte de todas]** las variables a elegir.
+  - Una vez que tenemos calculado el punto de corte óptimo de todas, nos quedamos con la mejor variable (¿qué es mejor?)
+
+* **.bg-purple_light[Paso 3]**: repetimos proceso anterior hasta criterio de parada
+
+]
+
+.pull-right[
+
+```{r echo = FALSE,  out.width = "110%", fig.align = "center"}
+knitr::include_graphics("./img/arboles_cortes.jpg")
+``` 
+
+Esta forma de construcción de árbol **.bg-purple_light[no asegura obtener el mejor árbol posible]**: no se evalúan todas las combinaciones posibles, es **.bg-purple_light[algoritmo greedy o voraz]**.
+
+]
+
+---
+
+# Criterios de .orange[PARADA]
+
+Existen muchos criterios de parada pero los más habituales son los siguientes:
+
+* **.bg-purple_light[Mejora insuficiente]**: ninguna de las variables y cortes posibles produce una mejora suficiente que compense sobreajustar el modelo.
+
+* **.bg-purple_light[Tamaño de hoja]**: los posibles hijos tienen pocas observaciones (tamaño inferior a un valor/porcentaje de la muestra fijado) para seguir dividiendo.
+
+* **.bg-purple_light[Tamaño de división]**: número de observaciones en la hoja actual (nodo susceptible de ser segmentado) demasiado pequeño. Tendrá relación con el criterio anterior.
+
+* **.bg-purple_light[Profundidad del árbol]**: distancia (en número de nodos entre raíz y hoja más alejada) que supere un umbral predefinido para evitar el sobreajuste.
+
+---
+
+# .orange[ASIGNACIÓN] de clase
+
+
+.pull-left[
+
+* **.bg-purple_light[Árbol de clasificación]**: para variables objetivo cualitativa se calcularán las **.bg-purple_light[probabilidades estimadas]** como la proporción de eventos en dicho
+nodo. Lo habitual es asignar al nodo la **.bg-purple_light[categoría modal]**.
+
+&nbsp;
+
+* **.bg-purple_light[Árbol de regresión]**: para variables objetivo cuantitativa se calculará la **.bg-purple_light[estimación de continua]** como la media de los valores en dicho nodo.
+
+]
+
+.pull-right[
+
+
+```{r echo = FALSE,  out.width = "100%", fig.align = "center"}
+knitr::include_graphics("./img/arbol_colesterol.jpg")
+``` 
+
+]
+
+---
+
+# Criterios de .orange[MEJORA/DIVISIÓN]
+
+
+* **.bg-purple_light[Criterios basados en la impureza]**: llamaremos impureza a la cantidad de **.bg-purple_light[«ruido»]** que quedaría en nuestros nodos en caso de realizar la división. Un **.bg-orange[nodo puro tendrá impureza nula]** (solo elementos de una clase) .
+
+```{r echo = FALSE,  out.width = "70%", fig.align = "center"}
+knitr::include_graphics("./img/impureza.jpg")
+``` 
+
+
+* **.bg-purple_light[Criterios basados en inferencia]**: los conocidos como **.bg-purple_light[árboles condicionados o inferenciales]** la selección de ramas se realiza en base a un **.bg-purple_light[contraste de independencia]**. Si el contraste nos pide rechazar la hipótresis nula de independencia, significa hay una dependencia entre el corte y el reparto de clases de la objetivo (corte útil para segmentar. 
+
+---
+
+# Impureza: .orange[ÍNDICE DE GINI]
+
+* **.bg-purple_light[Criterio del índice de Gini]**: criterio basado en la impureza, definida como la **.bg-purple_light[probabilidad]** de, **.bg-purple_light[extraídos dos elementos de un nodo]** (con remplazamiento), que **.bg-purple_light[no sean de la misma clase]**. Si tenemos una objetivo con $k$ categorías entonces, llamaremos $P(C_i)$ a la probabilidad de que los dos elementos sean de la categoría $C_i$, con $i=1, \ldots, C$
+
+Para cada nodo, la **.bg-purple_light[probabilidad de que ambos sean de la misma categoría]** (clases no solapadas, la intersección es nula) será por tanto
+
+$$P(C_1 \cup C_2 \cup \ldots \cup C_k) = \sum_{i=1}^{k}P(C_i) = \sum_{i=1}^{k} \left(\frac{n(C_i)}{n(nodo)}\right)^2$$
+
+--
+
+La impureza entonces queda definida como su complementario
+
+$$Gini(nodo) = 1 - \sum_{i=1}^{k} \left(\frac{n(C_i)}{n(nodo)}\right)^2$$
+
+---
+
+# Impureza: .orange[ÍNDICE DE GINI]
+
+La impureza entonces queda definida como
+
+$$Gini(nodo) = 1 - \sum_{i=1}^{k} \left(\frac{n(C_i)}{n(nodo)}\right)^2$$
+
+* **.bg-purple_light[Mejor caso]**: que todos sean de la misma clase, por ejemplo $C_1$, tal que $Gini(nodo) = 1 - \left(\frac{n(C_1)}{n(nodo)}\right)^2 = 0$
+
+* **.bg-purple_light[Peor caso]**: que tengas las clases igual de repartidas tal que $Gini(nodo) = 1 - \sum_{i=1}^{k} \left(\frac{n(nodo) / k}{n(nodo)}\right)^2 = 1-\sum_{i=1}^{k} \frac{1}{k^2} = 1 - \frac{1}{k}$ (0.5 en el caso de que tengamos $k=2$)
+
+--
+
+La **.bg-purple_light[impureza total del árbol]** se calculará como la suma de las impurezas de cada nodo ponderadas por su tamaño (número de observaciones de cada nodo).
+
+---
+
+# Impureza: .orange[ENTROPÍA]
+
+* **.bg-purple_light[Criterio de entropía]**: criterio basado en la impureza, definida como la **.bg-purple_light[cantidad de información necesaria para «explicar» el nodo]**. La entropía en teoría de la información se define como $H = -\sum_{i=1}^{k}p_i log_2(pi)$, donde $p_i$ es la probabilidad de cada uno de los posibles evenetos (se usa log en base 2 porque se asume que la información será representada en código binario)
+
+--
+
+Para cada nodo, la **.bg-purple_light[entropía]** será definida por tanto como
+
+$$H(nodo) = -\sum_{i=1}^{k}\frac{n(C_i)}{n(nodo)} log_2\left( \frac{n(C_i)}{n(nodo)} \right)$$
+
+---
+
+
+
+# Impureza: .orange[ENTROPÍA]
+
+Para cada nodo, la **.bg-purple_light[entropía]** será definida por tanto como
+
+$$H(nodo) = -\sum_{i=1}^{k}\frac{n(C_i)}{n(nodo)} log_2\left( \frac{n(C_i)}{n(nodo)} \right)$$
+
+* **.bg-purple_light[Mejor caso]**: que todos sean de la misma clase, por ejemplo $C_1$, tal que $H(nodo) =-\frac{n(C_1)}{n(nodo)} log_2\left(\frac{n(C_1)}{n(nodo)} \right) = -log_2(1) = 0$
+
+* **.bg-purple_light[Peor caso]**: que tengas las clases igual de repartidas tal que $H(nodo) = -\sum_{i=1}^{k}\frac{n(nodo)/k}{n(nodo)} log_2\left( \frac{n(nodo)/k}{n(nodo)} \right) = -\sum_{i=1}^{k}\frac{1}{k} log_2\left( \frac{1}{k} \right)$ (1 en el caso de que tengamos $k=2$)
+
+--
+
+La **.bg-purple_light[impureza total del árbol]** se calculará como la suma de las entropías de cada nodo ponderadas por su tamaño (número de observaciones de cada nodo).
+
+---
+
+# Impureza: .orange[caso práctico]
+
+Determina la impureza según ambos criterios en el ejemplo de la imagen, para cada uno de los posibles cortes, con la variable objetivo definida como «juega al cricket» (binaria)
+
+```{r echo = FALSE,  out.width = "100%", fig.align = "center"}
+knitr::include_graphics("./img/ej_impureza.jpg")
+```
+
+---
+
+contar chi cuadrado
+
+---
+
+contar poda
+
+---
+
+
+ejemplo con iris
+
+
+---
+
+ejemplo con hoteles
+
+---
+
+bagging
+boosting
+random forest
+
+dataviz¿?
 
 ---
 
