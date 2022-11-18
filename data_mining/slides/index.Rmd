@@ -15379,7 +15379,43 @@ name: clase-10
 
 ### [Introducción teórica](#intro-teoria)
 
+### [Criterios de parada/mejora](#criterios-parada-arbol)
+
+### [Criterios de mejora/división](#criterios-division)
+
+### [Poda](#poda)
+
+
 ---
+
+# .orange[RESUMEN]
+
+
+* Fase 1: muestreo (si fuese necesario) -> `group_by() + slice_sample()`
+
+* Fase 2: exploración
+
+* Fase 3: modificación (tidyverse + receta) -> `recipe()`, `step_...(..)`
+
+* Fase 4: modelización con validación cruzada
+  - Partición train/test: `initial_split()` --> `training()` y `testing()`
+  - Validación (v subconjuntos, repetidas): `cv_folds <- vfold_cv(data = ..., v = ..., repeats = ..., strata = ...)`
+  - Creación de un grid de modelos
+  - Iniciar paralelización (finalizarla después)
+  
+```{r eval = FALSE}
+fit_tune <-
+  wflow %>%
+  tune_grid(resamples = cv_folds, grid = grid_modelos,
+            control = control_grid(verbose = TRUE, allow_par = TRUE),
+            metrics = metric_set(accuracy, sensitivity, specificity, roc_auc))
+```
+
+* Fase 5: predicción/evaluación en test
+
+---
+
+
 
 name: intro-teoria
 
@@ -15452,6 +15488,8 @@ Esta forma de construcción de árbol **.bg-purple_light[no asegura obtener el m
 
 ---
 
+name: criterios-parada-arbol
+
 # Criterios de .orange[PARADA]
 
 Existen muchos criterios de parada pero los más habituales son los siguientes:
@@ -15491,6 +15529,8 @@ knitr::include_graphics("./img/arbol_colesterol.jpg")
 
 ---
 
+name: criterios-division
+
 # Criterios de .orange[MEJORA/DIVISIÓN]
 
 
@@ -15501,7 +15541,7 @@ knitr::include_graphics("./img/impureza.jpg")
 ``` 
 
 
-* **.bg-purple_light[Criterios basados en inferencia]**: los conocidos como **.bg-purple_light[árboles condicionados o inferenciales]** la selección de ramas se realiza en base a un **.bg-purple_light[contraste de independencia]**. Si el contraste nos pide rechazar la hipótresis nula de independencia, significa hay una dependencia entre el corte y el reparto de clases de la objetivo (corte útil para segmentar. 
+* **.bg-purple_light[Criterios basados en inferencia]**: los conocidos como **.bg-purple_light[árboles condicionados o inferenciales]** la selección de ramas se realiza en base a un **.bg-purple_light[contraste de independencia]**. Si el contraste nos pide rechazar la hipótresis nula de independencia, significa hay una dependencia entre el corte y el reparto de clases de la objetivo (corte útil para segmentar). 
 
 ---
 
@@ -15577,29 +15617,307 @@ knitr::include_graphics("./img/ej_impureza.jpg")
 
 ---
 
-contar chi cuadrado
+# Árboles .orange[INFERENCIALES]
+
+* **.bg-purple_light[Criterios basados en inferencia]**: los conocidos como **.bg-purple_light[árboles condicionados o inferenciales]** la selección de ramas se realiza en base a un **.bg-purple_light[contraste de independencia]**. 
+
+
+$$\sum_{i=1}^{2}\sum_{j=1}^{k} \frac{\left(O_{ij} - E_{ij}\right)^2}{E_{ij}} \sim \chi_{1, k-1}^{2}$$
+
+Tendremos una variable predictora (la que usamos para ejecutar el corte) con 2 modalidades (cortes binarias) y una objetivo de $k$ clases tal que
+
+* $O_{ij}$: frecuencias observadas, número de veces que $(X=x_i, Y=y_j)$, donde $x_1$ y $x_2$ son las opciones de corte.
+
+* $E_{ij}$: frecuencias esperadas si el corte fuese independiente de la objetivo, es decir, $E_{ij} = \frac{E_{i, \cdot} * E_{\cdot,j}}{N}$.
+
+
+Si el contraste nos pide rechazar la hipótesis nula de independencia, significa que hay una dependencia entre el corte y el reparto de clases de la objetivo -> **.bg-purple_light[corte útil]** para segmentar
+
 
 ---
 
-contar poda
+name: poda
+
+# Validación: .orange[PODA]
+
+Los árboles son modelos **.bg-purple_light[muy interpretables]** pero tienen una gran desventaja: tienen **.bg-purple_light[tendencia al sobreajuste]**, ya que es un algoritmo voraz. El modelo encontrado no necesariamente tiene que ser el mejor (solo era el mejor en cada paso, sin ver el árbol en su conjunto, al igual que la mejor decisión del coche amarillo sería cambiarse de carril con la información que tiene en ese momento, aunque no fuese la mejor global).
+
+```{r echo = FALSE,  out.width = "80%", fig.align = "center"}
+knitr::include_graphics("./img/poda_coche.jpg")
+``` 
+
+
+Para evitarlo una táctica habitual es **.bg-purple_light[usar el conjunto de validación]** para realizar una poda (con las reglas de decisión obtenidas en entrenamiento).
+
+---
+
+# Validación: .orange[PODA]
+
+La idea de la **.bg-purple_light[poda]** es la siguiente:
+
+* **.bg-purple_light[Paso 1: construir subárboles]**. Dado un árbol final (un árbol maximal de N hojas), construimos todos los subárboles posibles de N-1 hojas.
+
+* **.bg-purple_light[Paso 2: evaluación]**. Calculamos la tasa de mal clasificados para todos los subárboles y marcamos el que obtenga mejor métrica (incluido el árbol maximal).
+
+* **.bg-purple_light[Paso 3: recursividad]**. Repetimos los pasos 1-2 hasta llegar al nodo raíz inicial.
+
+* **.bg-purple_light[Paso 4: criterio de selección]**. Con todos los subárboles evaluados, seleccionamos como solución final el subárbol para el que un incremento de sus hojas no produza una mejora significativa.
+
+&nbsp;
+
+**.bg-green_light[Ventajas]**: amén de no tener hipótesis teóricas (tampoco el knn), **.bg-purple_light[no dummyficar]** (podremos introducir cuali vs cuanti), nos aportará al final una **.bg-purple_light[jerarquía de importancia]** de variables y nos crea una **.bg-purple_light[partición de nuestro espacio de predictores]**.
+
+---
+
+# .orange[ÁRBOLES] en .green[TIDYMODELS]
+
+La única diferencia con knn es la forma de definir el modelo  (con sus parámetros)y la adaptación de la receta que debamos hacer. Para ello usaremos `decision_tree()`
+
+* `mode = ...`: si queremos clasificación o regresión.
+* `tree_depth = ...`: **.bg-purple_light[máxima profundidad]** del árbol.
+* `min_n`: **.bg-purple_light[número mínimo de elementos en nodos padres]** para dividirse en hijos.
+
+* `cost_complexity`: número positivo que nos modelizará la penalización por complicar el modelo (valores altos harán podas más extremas).
+
+
+```{r}
+decision_tree <-
+  decision_tree(mode = "classification", tree_depth = tune("depth"),
+                min_n = tune("min_n"), cost_complexity = tune("cost"))
+```
+
+---
+
+# .orange[ÁRBOLES] en .green[TIDYMODELS]
+
+Con `set_engine()` le especificaremos en concreto el «motor» (el paquete) que contiene las herramientas matemáticas necesarias con el que realizaremos el ajuste. En este caso tendremos 3:
+
+* `set_engine("rpart")`: sirve tanto para clasificación como para regresión, e implementa el algoritmo CART (Clasification and Regression Trees, Breiman et al., 1984), cuya **.bg-purple_light[construcción se basa en la impureza de Gini]**.
+
+* `set_engine("C5.0")`: sirve solo para clasificación, e implementa el algoritmo C5.0 (Quinlan, 1996) cuya **.bg-purple_light[construcción se basa en la entropía]**.
+
+* `set_engine("spark")`: sirve tanto para clasificación como para regresión, e implementa un algoritmo de árboles basado en el paquete `{sparklyr}`, enfocado a la **.bg-purple_light[aplicación de técnicas Machine Learning en el contexto Big Data]**. Para aprender Spark: <https://www.datacamp.com/community/tutorials/apache-spark-tutorial-machine-learning>
+
+```{r}
+decision_tree_gini <- decision_tree %>% set_engine("rpart") 
+decision_tree_entropy <- decision_tree %>% set_engine("C5.0") 
+```
+
+---
+
+# Caso práctico: .orange[IRIS]
+
+```{r}
+# Partición 80-20% de train y test (solo instrucciones)
+iris_split <- initial_split(iris, strata = Species, prop = 0.8)
+iris_train <- training(iris_split)
+iris_test <- testing(iris_split)
+
+# Validación
+iris_cv_folds <- vfold_cv(data = iris_train, v = 4, repeats = 8, strata = Species)
+```
+
+---
+
+# Caso práctico: .orange[IRIS]
+
+```{r}
+# Receta
+iris_rec <-
+    recipe(data = iris_train, Species ~ .) %>%
+    # Roles
+    add_role(starts_with("Sepal"), new_role = "simétrica") %>% 
+    add_role(starts_with("Petal"), new_role = "no simétrica") %>%
+    # Detectar outliers
+    step_mutate(across(has_role("simétrica"),
+                       function(x) { ifelse(abs(scores(x, type = "z")) > 2.5, NA, x) }),
+                across(has_role("no simétrica"),
+                       function(x) { ifelse(abs(scores(x, type = "mad")) > 3, NA, x) })) %>%
+    # Filtro de correlación
+    step_corr(all_numeric_predictors(), threshold = 0.9)%>% 
+    # Filtro de cero varianza
+    step_zv(all_predictors()) 
+```
+
+---
+
+# Caso práctico: .orange[IRIS]
+
+Probaremos 86 modelos diferentes
+
+```{r}
+grid_tree <-
+  expand_grid("depth" = c(2, 3, 4, 5, 6, 7),
+              "min_n" = c(0.01, 0.025, 0.05, 0.1) * nrow(iris_train),
+              "cost" = c(0.01, 0.1, 0.5, 1))
+grid_tree
+```
+
+---
+
+# Caso práctico: .orange[IRIS]
+
+```{r}
+decision_tree <-
+  decision_tree(mode = "classification", tree_depth = tune("depth"),
+                min_n = tune("min_n"), cost_complexity = tune("cost"))
+decision_tree_gini <- decision_tree %>% set_engine("rpart") 
+decision_tree_entropy <- decision_tree %>% set_engine("C5.0") 
+```
+
+.pull-left[
+
+```{r}
+iris_wflow_gini <-
+  workflow() %>%
+  add_recipe(iris_rec) %>%
+  add_model(decision_tree_gini) 
+```
+
+]
+
+.pull-right[
+
+```{r}
+iris_wflow_entropy <-
+  workflow() %>%
+  add_recipe(iris_rec) %>%
+  add_model(decision_tree_entropy) 
+```
+
+]
+
+---
+
+# Caso práctico: .orange[IRIS]
+
+```{r, eval = FALSE}
+library(doParallel)
+library(parallel)
+clusters <- detectCores() - 1
+make_cluster <- makeCluster(clusters)
+registerDoParallel(make_cluster)
+
+iris_fit_val_gini <-
+  iris_wflow_gini %>%
+  tune_grid(resamples = iris_cv_folds,
+            grid = grid_tree,
+            control = control_grid(verbose = TRUE, allow_par = TRUE),
+            metrics = metric_set(accuracy, sensitivity,
+                                 specificity, roc_auc))
+
+iris_fit_val_entropy <-
+  iris_wflow_entropy %>%
+  tune_grid(resamples = iris_cv_folds,
+            grid = grid_knn,
+            control = control_grid(verbose = TRUE, allow_par = TRUE),
+            metrics = metric_set(accuracy, sensitivity,
+                                 specificity, roc_auc))
+stopCluster(make_cluster)
+registerDoSEQ()
+```
+
+---
+
+# Caso práctico: .orange[IRIS]
+
+```{r  eval = FALSE}
+# Métricas
+iris_fit_val_gini %>% collect_metrics()
+```
+
+---
+
+# Caso práctico: .orange[IRIS]
+
+```{r  eval = FALSE}
+# Métricas
+iris_fit_val_entropy %>% collect_metrics()
+```
+
+---
+
+# .orange[VISUALIZACIÓN] del árbol
+
+Con `rpart.plot()` podemos **.bg-purple_light[visualizar el árbol]** siempre y cuando el motor sea `"rpart"` (le indicamos que no redondee valores a enteros y de los modelos de visualización elegimos `extra = 4`, prueba con varios para ver las diferencias)
+
+```{r eval = FALSE}
+iris_fit_val_gini %>%
+  extract_fit_engine() %>%
+  rpart.plot(roundint = FALSE, extra = 4)
+```
+
+---
+
+# .orange[IMPORTANCIA] de las variables
+
+
+
+Con `vi()` (del paquete homónimo) podemos **.bg-purple_light[calcular la importancia relativa de las variables]**. Para detalles del cálculo ver <https://rdrr.io/cran/vip/man/vi_model.html> y <https://koalaverse.github.io/vip/articles/vip.html>
+
+```{r eval = FALSE}
+library(vip)
+tabla_vip <- vi(iris_fit_val_gini)
+tabla_vip
+```
 
 ---
 
 
-ejemplo con iris
+# .orange[ENSAMBLAJE] de modelos
+
+En general, **.bg-purple_light[árboles pequeños]** tendrán una baja varianza y un sesgo alto, **.bg-purple_light[árboles grandes]** tendrán una alta varianza y un sesgo bajo. Una forma de reducir la varianza es usar **.bg-purple_light[ensamblaje de modelos]**
+
+* **.bg-purple_light[Bagging]**: de los términos **.bg-purple_light[bootstrap aggregating]**, consiste en obtener como clasificación final un **.bg-purple_light[promedio de clasificadores]** (un meta-modelo, un modelo que promedio que modelos) construidos a partir de **.bg-purple_light[submuestras aleatorias]** de la muestra original **.bg-purple_light[con reemplazamiento]**:
+
+```{r echo = FALSE,  out.width = "40%", fig.align = "center"}
+knitr::include_graphics("./img/bagging.jpg")
+``` 
+
+---
+
+# .orange[RANDOM FOREST]
+
+En el caso de los árboles, si los árboles agregados están correlacionados (por ejemplo, porque exista un predictor muy influyente que acabe siendo elegidos en todos), el bagging puede no funcionar.
+
+Una solución son los conocidos como **.bg-purple_light[random forest]**. Es un ejemplo de **bagging** muy particular ya que no solo aplica múltiples árboles a diferentes submuestras, sino que en cada iteración de división se **.bg-purple_light[seleccionan m variables aleatorias]** (del total de p variables, por eje,plo $m = \sqrt{p}$), ignorando las demás.
+
+&nbsp;
+
+La idea es **.bg-purple_light[combinar muchos modelos «tontos»]** para que, agregados, nos de un **.bg-purple_light[modelo robusto]**.
 
 
 ---
 
-ejemplo con hoteles
+# .orange[BOOSTING]
+
+En el caso del **.bg-purple_light[bagging]** la idea era crear submuestras (con reemplazamiento), aplicar a cada una un modelo, para luego promediarlos.
+
+En el caso del **.bg-purple_light[boosting]** la idea es partir con todos los datos, aplicar un clasificador (un árbol por ejemplo), y **.bg-purple_light[reponderar las observaciones]**, de forma que aquellos registros **.bg-purple_light[peor clasificados pasen a tener un peso mayor]**. Tras ello, se vuelve a aplicar un clasificador, pero de forma que no todas las observaciones cuentan por igual, para **.bg-purple_light[construir secuencialmente]** un clasificador fuerte a partir de clasificadores débiles.
+
+
+```{r echo = FALSE,  out.width = "40%", fig.align = "center"}
+knitr::include_graphics("./img/boosting.jpg")
+``` 
+
 
 ---
 
-bagging
-boosting
-random forest
+# .orange[RANDOM FOREST]
 
-dataviz¿?
+Para implementar un **.bg-purple_light[random forest]** usaremos la función `rand_forest()` con tres argumentos:
+
+* `mtry`: **.bg-purple_light[número de predictores]** que el árbol puede ver en cada decisión (si es igual a p, es equivalenteun bagging clásico)
+* `min_n`: como antes, es el número mínimo de observaciones que se permite tener a un nodo para dividirse.
+* `trees`: árboles que prueba.
+
+```{r eval = FALSE}
+# Random forest con tune (y paralelizado)
+rf_hotel <-
+  rand_forest(mtry = tune(), min_n = tune(), trees = 1e2) %>% 
+  set_engine("ranger", num.threads = clusters) %>% 
+  set_mode("classification")
+```
 
 ---
 

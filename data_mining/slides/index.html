@@ -24,7 +24,7 @@ class: center, middle, inverse, title-slide
 # Técnicas de minería de datos
 ## Máster en Minería de Datos e Inteligencia de Negocio
 ### Javier Álvarez Liébana (Fac. Estudios Estadísticos - UCM)
-### Última actualización: 17-11-2022
+### Última actualización: 18-11-2022
 
 ---
 
@@ -2024,7 +2024,7 @@ hoy
 ```
 
 ```
-&gt; [1] "2022-11-17"
+&gt; [1] "2022-11-18"
 ```
 
 --
@@ -2037,7 +2037,7 @@ También podemos obtener el **.bg-purple_light[«hoy y ahora»]** con la funció
 ```
 
 ```
-&gt; [1] "2022-11-17 17:43:17 CET"
+&gt; [1] "2022-11-18 18:07:12 CET"
 ```
  
 ---
@@ -2421,7 +2421,7 @@ hoy - cumple
 ```
 
 ```
-&gt; Time difference of 12121 days
+&gt; Time difference of 12122 days
 ```
 
 ]
@@ -3098,9 +3098,9 @@ x &lt;- rnorm(1e3) # 1000 elementos aleatorias
 
 ```
 &gt; Unit: microseconds
-&gt;         expr    min     lq     mean  median      uq     max neval cld
-&gt;      sort(x) 41.223 44.988 52.08416 49.5360 55.6725 148.318  1000   b
-&gt;  x[order(x)] 28.239 31.108 36.34062 34.7615 38.2705 144.282  1000  a
+&gt;         expr    min      lq     mean   median       uq      max neval cld
+&gt;      sort(x) 46.390 89.5515 144.5433 104.7155 137.9525 4036.127  1000   b
+&gt;  x[order(x)] 30.457 60.2575 102.4093  70.1480  88.2005 2892.284  1000  a
 ```
 
 
@@ -6356,12 +6356,12 @@ microbenchmark(x^2,
 
 ```
 &gt; Unit: nanoseconds
-&gt;                                     expr     min      lq        mean  median
-&gt;                                      x^2     354     452    1249.407    1034
-&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 1696873 1870944 2206409.806 1998632
-&gt;         uq     max neval cld
-&gt;     1927.5   19893  1000  a 
-&gt;  2322279.0 8763610  1000   b
+&gt;                                     expr     min      lq        mean    median
+&gt;                                      x^2     402     559    1710.344    1766.5
+&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 2019021 2359180 2985507.414 2768117.5
+&gt;       uq      max neval cld
+&gt;     2310    23938  1000  a 
+&gt;  3326046 10988492  1000   b
 ```
 
 ---
@@ -9828,9 +9828,9 @@ starwars %&gt;% slice_sample(n = 3)
 &gt; # A tibble: 3 × 14
 &gt;   name         height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
 &gt;   &lt;chr&gt;         &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
-&gt; 1 Jek Tono Po…    180   110 brown   fair    blue         NA male  mascu… Bestin…
-&gt; 2 Ratts Tyere…     79    15 none    grey, … unknown      NA male  mascu… Aleen …
-&gt; 3 Arvel Crynyd     NA    NA brown   fair    brown        NA male  mascu… &lt;NA&gt;   
+&gt; 1 Palpatine       170    75 grey    pale    yellow       82 male  mascu… Naboo  
+&gt; 2 Beru Whites…    165    75 brown   light   blue         47 fema… femin… Tatooi…
+&gt; 3 Jar Jar Bin…    196    66 none    orange  orange       52 male  mascu… Naboo  
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
@@ -9851,12 +9851,12 @@ starwars %&gt;% slice_sample(prop = 0.05, replace = TRUE)
 
 ```
 &gt; # A tibble: 4 × 14
-&gt;   name        height  mass hair_c…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
-&gt;   &lt;chr&gt;        &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
-&gt; 1 IG-88          200   140 none     metal   red          15 none  mascu… &lt;NA&gt;   
-&gt; 2 Tion Medon     206    80 none     grey    black        NA male  mascu… Utapau 
-&gt; 3 Poe Dameron     NA    NA brown    light   brown        NA male  mascu… &lt;NA&gt;   
-&gt; 4 Nien Nunb      160    68 none     grey    black        NA male  mascu… Sullust
+&gt;   name         height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
+&gt;   &lt;chr&gt;         &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
+&gt; 1 R4-P17           96    NA none    silver… red, b…      NA none  femin… &lt;NA&gt;   
+&gt; 2 Palpatine       170    75 grey    pale    yellow       82 male  mascu… Naboo  
+&gt; 3 Luke Skywal…    172    77 blond   fair    blue         19 male  mascu… Tatooi…
+&gt; 4 Watto           137    NA black   blue, … yellow       NA male  mascu… Toydar…
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
@@ -10066,16 +10066,16 @@ starwars %&gt;%
 &gt; # A tibble: 38 × 14
 &gt;    name        height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
 &gt;    &lt;chr&gt;        &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
-&gt;  1 Padmé Amid…    165  45   brown   light   brown        46 fema… femin… Naboo  
-&gt;  2 Barriss Of…    166  50   black   yellow  blue         40 fema… femin… Mirial 
-&gt;  3 Zam Wesell     168  55   blonde  fair, … yellow       NA fema… femin… Zolan  
-&gt;  4 Cordé          157  NA   brown   light   brown        NA fema… femin… Naboo  
-&gt;  5 Leia Organa    150  49   brown   light   brown        19 fema… femin… Aldera…
-&gt;  6 Taun We        213  NA   none    grey    black        NA fema… femin… Kamino 
-&gt;  7 Luminara U…    170  56.2 black   yellow  blue         58 fema… femin… Mirial 
-&gt;  8 Mon Mothma     150  NA   auburn  fair    blue         48 fema… femin… Chandr…
-&gt;  9 Wat Tambor     193  48   none    green,… unknown      NA male  mascu… Skako  
-&gt; 10 Ben Quadin…    163  65   none    grey, … orange       NA male  mascu… Tund   
+&gt;  1 Dormé          165  NA   brown   light   brown        NA fema… femin… Naboo  
+&gt;  2 Padmé Amid…    165  45   brown   light   brown        46 fema… femin… Naboo  
+&gt;  3 Luminara U…    170  56.2 black   yellow  blue         58 fema… femin… Mirial 
+&gt;  4 Mon Mothma     150  NA   auburn  fair    blue         48 fema… femin… Chandr…
+&gt;  5 Adi Gallia     184  50   none    dark    blue         NA fema… femin… Corusc…
+&gt;  6 Shmi Skywa…    163  NA   black   fair    brown        72 fema… femin… Tatooi…
+&gt;  7 Zam Wesell     168  55   blonde  fair, … yellow       NA fema… femin… Zolan  
+&gt;  8 Leia Organa    150  49   brown   light   brown        19 fema… femin… Aldera…
+&gt;  9 Mas Amedda     196  NA   none    blue    blue         NA male  mascu… Champa…
+&gt; 10 Jango Fett     183  79   black   tan     brown        66 male  mascu… Concor…
 &gt; # … with 28 more rows, 4 more variables: species &lt;chr&gt;, films &lt;list&gt;,
 &gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names
 &gt; #   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
@@ -10446,16 +10446,16 @@ starwars %&gt;%
 &gt; # A tibble: 49 × 15
 &gt;    name        height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
 &gt;    &lt;chr&gt;        &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
-&gt;  1 Plo Koon       188    80 none    orange  black        22 male  mascu… Dorin  
-&gt;  2 Gasgano        122    NA none    white,… black        NA male  mascu… Troiken
-&gt;  3 Greedo         173    74 &lt;NA&gt;    green   black        44 male  mascu… Rodia  
-&gt;  4 Ratts Tyer…     79    15 none    grey, … unknown      NA male  mascu… Aleen …
-&gt;  5 Barriss Of…    166    50 black   yellow  blue         40 fema… femin… Mirial 
-&gt;  6 Rugor Nass     206    NA none    green   orange       NA male  mascu… Naboo  
-&gt;  7 Watto          137    NA black   blue, … yellow       NA male  mascu… Toydar…
-&gt;  8 Shaak Ti       178    57 none    red, b… black        NA fema… femin… Shili  
-&gt;  9 Yoda            66    17 white   green   brown       896 male  mascu… &lt;NA&gt;   
-&gt; 10 R5-D4           97    32 &lt;NA&gt;    white,… red          NA none  mascu… Tatooi…
+&gt;  1 R5-D4           97    32 &lt;NA&gt;    white,… red          NA none  mascu… Tatooi…
+&gt;  2 R2-D2           96    32 &lt;NA&gt;    white,… red          33 none  mascu… Naboo  
+&gt;  3 BB8             NA    NA none    none    black        NA none  mascu… &lt;NA&gt;   
+&gt;  4 Roos Tarpa…    224    82 none    grey    orange       NA male  mascu… Naboo  
+&gt;  5 Tion Medon     206    80 none    grey    black        NA male  mascu… Utapau 
+&gt;  6 Plo Koon       188    80 none    orange  black        22 male  mascu… Dorin  
+&gt;  7 Zam Wesell     168    55 blonde  fair, … yellow       NA fema… femin… Zolan  
+&gt;  8 Lama Su        229    88 none    grey    black        NA male  mascu… Kamino 
+&gt;  9 Adi Gallia     184    50 none    dark    blue         NA fema… femin… Corusc…
+&gt; 10 Watto          137    NA black   blue, … yellow       NA male  mascu… Toydar…
 &gt; # … with 39 more rows, 5 more variables: species &lt;chr&gt;, films &lt;list&gt;,
 &gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, `species == "Human"` &lt;lgl&gt;, and
 &gt; #   abbreviated variable names ¹​hair_color, ²​skin_color, ³​eye_color,
@@ -10480,11 +10480,11 @@ starwars %&gt;%
 &gt; # A tibble: 5 × 14
 &gt;   name         height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
 &gt;   &lt;chr&gt;         &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
-&gt; 1 Taun We         213    NA none    grey    black        NA fema… femin… Kamino 
+&gt; 1 Adi Gallia      184    50 none    dark    blue         NA fema… femin… Corusc…
 &gt; 2 Jabba Desil…    175  1358 &lt;NA&gt;    green-… orange      600 herm… mascu… Nal Hu…
-&gt; 3 Lando Calri…    177    79 black   dark    brown        31 male  mascu… Socorro
-&gt; 4 BB8              NA    NA none    none    black        NA none  mascu… &lt;NA&gt;   
-&gt; 5 Sly Moore       178    48 none    pale    white        NA &lt;NA&gt;  &lt;NA&gt;   Umbara 
+&gt; 3 Poe Dameron      NA    NA brown   light   brown        NA male  mascu… &lt;NA&gt;   
+&gt; 4 C-3PO           167    75 &lt;NA&gt;    gold    yellow      112 none  mascu… Tatooi…
+&gt; 5 Captain Pha…     NA    NA unknown unknown unknown      NA &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt;   
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
@@ -14716,16 +14716,16 @@ bake(iris_rec %&gt;% prep(), new_data = NULL)
 &gt; # A tibble: 105 × 4
 &gt;    Sepal.Length Sepal.Width Petal.Width Species
 &gt;           &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;  
-&gt;  1        0.222       0.714      0.0417 setosa 
-&gt;  2        0.167       0.476      0.0417 setosa 
-&gt;  3        0.111       0.571      0.0417 setosa 
-&gt;  4        0.194       0.762      0.0417 setosa 
-&gt;  5        0.194       0.667      0.0417 setosa 
-&gt;  6        0.306       0.810      0.0417 setosa 
-&gt;  7        0.139       0.667      0.0417 setosa 
-&gt;  8        0.139       0.476      0      setosa 
-&gt;  9        0           0.476      0      setosa 
-&gt; 10        0.417       0.952      0.0417 setosa 
+&gt;  1       0.143        0.444      0.0417 setosa 
+&gt;  2       0.0857       0.556      0.0417 setosa 
+&gt;  3       0.0571       0.5        0.0417 setosa 
+&gt;  4       0.171        0.778      0.0417 setosa 
+&gt;  5       0.286        0.944      0.125  setosa 
+&gt;  6       0.0571       0.667      0.0833 setosa 
+&gt;  7       0.171        0.667      0.0417 setosa 
+&gt;  8       0.286        0.833      0.0417 setosa 
+&gt;  9       0.114        0.667      0.0417 setosa 
+&gt; 10       0.114        0.444      0      setosa 
 &gt; # … with 95 more rows
 &gt; # ℹ Use `print(n = ...)` to see more rows
 ```
@@ -14942,16 +14942,16 @@ prob_test
 &gt; # A tibble: 45 × 9
 &gt;    Sepal.Length Sepal.…¹ Petal…² Petal…³ Species .pred…⁴ .pred…⁵ .pred…⁶ .pred…⁷
 &gt;           &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;fct&gt;   &lt;fct&gt;     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
-&gt;  1          4.6      3.1     1.5     0.2 setosa  setosa        1       0       0
-&gt;  2          5.4      3.9     1.7     0.4 setosa  setosa        1       0       0
-&gt;  3          4.6      3.4     1.4     0.3 setosa  setosa        1       0       0
-&gt;  4          4.4      2.9     1.4     0.2 setosa  setosa        1       0       0
-&gt;  5          4.9      3.1     1.5     0.1 setosa  setosa        1       0       0
-&gt;  6          4.8      3.4     1.9     0.2 setosa  setosa        1       0       0
-&gt;  7          4.8      3.1     1.6     0.2 setosa  setosa        1       0       0
-&gt;  8          5.4      3.4     1.5     0.4 setosa  setosa        1       0       0
-&gt;  9          5.5      4.2     1.4     0.2 setosa  setosa        1       0       0
-&gt; 10          5        3.2     1.2     0.2 setosa  setosa        1       0       0
+&gt;  1          5.1      3.5     1.4     0.2 setosa  setosa        1       0       0
+&gt;  2          4.4      2.9     1.4     0.2 setosa  setosa        1       0       0
+&gt;  3          4.9      3.1     1.5     0.1 setosa  setosa        1       0       0
+&gt;  4          4.3      3       1.1     0.1 setosa  setosa        1       0       0
+&gt;  5          5.7      4.4     1.5     0.4 setosa  setosa        1       0       0
+&gt;  6          5.1      3.3     1.7     0.5 setosa  setosa        1       0       0
+&gt;  7          4.8      3.4     1.9     0.2 setosa  setosa        1       0       0
+&gt;  8          5        3       1.6     0.2 setosa  setosa        1       0       0
+&gt;  9          4.7      3.2     1.6     0.2 setosa  setosa        1       0       0
+&gt; 10          5.2      4.1     1.5     0.1 setosa  setosa        1       0       0
 &gt; # … with 35 more rows, and abbreviated variable names ¹​Sepal.Width,
 &gt; #   ²​Petal.Length, ³​Petal.Width, ⁴​.pred_class, ⁵​.pred_setosa,
 &gt; #   ⁶​.pred_versicolor, ⁷​.pred_virginica
@@ -14978,8 +14978,8 @@ conf_mat_test
 &gt;             Truth
 &gt; Prediction   setosa versicolor virginica
 &gt;   setosa         14          0         0
-&gt;   versicolor      1         15         1
-&gt;   virginica       0          0        14
+&gt;   versicolor      1         15         2
+&gt;   virginica       0          0        13
 ```
 
 ---
@@ -14997,19 +14997,19 @@ conf_mat_test %&gt;% summary()
 &gt; # A tibble: 13 × 3
 &gt;    .metric              .estimator .estimate
 &gt;    &lt;chr&gt;                &lt;chr&gt;          &lt;dbl&gt;
-&gt;  1 accuracy             multiclass     0.956
-&gt;  2 kap                  multiclass     0.933
-&gt;  3 sens                 macro          0.956
-&gt;  4 spec                 macro          0.978
-&gt;  5 ppv                  macro          0.961
-&gt;  6 npv                  macro          0.978
-&gt;  7 mcc                  multiclass     0.935
-&gt;  8 j_index              macro          0.933
-&gt;  9 bal_accuracy         macro          0.967
+&gt;  1 accuracy             multiclass     0.933
+&gt;  2 kap                  multiclass     0.9  
+&gt;  3 sens                 macro          0.933
+&gt;  4 spec                 macro          0.967
+&gt;  5 ppv                  macro          0.944
+&gt;  6 npv                  macro          0.968
+&gt;  7 mcc                  multiclass     0.905
+&gt;  8 j_index              macro          0.9  
+&gt;  9 bal_accuracy         macro          0.95 
 &gt; 10 detection_prevalence macro          0.333
-&gt; 11 precision            macro          0.961
-&gt; 12 recall               macro          0.956
-&gt; 13 f_meas               macro          0.956
+&gt; 11 precision            macro          0.944
+&gt; 12 recall               macro          0.933
+&gt; 13 f_meas               macro          0.934
 ```
 
 ---
@@ -15028,9 +15028,9 @@ conf_mat_test %&gt;%
 &gt; # A tibble: 3 × 3
 &gt;   .metric  .estimator .estimate
 &gt;   &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
-&gt; 1 accuracy multiclass     0.956
-&gt; 2 sens     macro          0.956
-&gt; 3 spec     macro          0.978
+&gt; 1 accuracy multiclass     0.933
+&gt; 2 sens     macro          0.933
+&gt; 3 spec     macro          0.967
 ```
 
 Fíjate que aunque no sea un problema de clasificación binaria nos proporciona métricas como la sensibilidad y especificidad: lo que es, **.bg-purple_light[para cada clase, construir una matriz de confusión]** (ser setosa vs no serlo, ser virginica vs no serlo, ser versicolor vs no serlo), y devuelve la **.bg-purple_light[media de las tres sensibilidad o especificidades]**
@@ -15297,16 +15297,16 @@ bake(iris_rec %&gt;% prep(), new_data = NULL)
 &gt; # A tibble: 105 × 4
 &gt;    Sepal.Length Sepal.Width Petal.Width Species
 &gt;           &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;  
-&gt;  1       0.200        0.682      0.0417 setosa 
-&gt;  2       0.143        0.455      0.0417 setosa 
-&gt;  3       0.0857       0.545      0.0417 setosa 
-&gt;  4       0.0571       0.5        0.0417 setosa 
-&gt;  5       0.171        0.727      0.0417 setosa 
-&gt;  6       0.286        0.864      0.125  setosa 
-&gt;  7       0.0571       0.636      0.0833 setosa 
-&gt;  8       0            0.409      0.0417 setosa 
-&gt;  9       0.114        0.636      0.0417 setosa 
-&gt; 10       0.114        0.455      0      setosa 
+&gt;  1       0.200        0.765      0.0417 setosa 
+&gt;  2       0.143        0.471      0.0417 setosa 
+&gt;  3       0.0857       0.588      0.0417 setosa 
+&gt;  4       0.0571       0.529      0.0417 setosa 
+&gt;  5       0.171        0.824      0.0417 setosa 
+&gt;  6       0.286        1          0.125  setosa 
+&gt;  7       0.0571       0.706      0.0833 setosa 
+&gt;  8       0            0.412      0.0417 setosa 
+&gt;  9       0.143        0.529      0      setosa 
+&gt; 10       0.286        0.882      0.0417 setosa 
 &gt; # … with 95 more rows
 &gt; # ℹ Use `print(n = ...)` to see more rows
 ```
@@ -15319,16 +15319,16 @@ bake(iris_rec %&gt;% prep(), new_data = iris_test)
 &gt; # A tibble: 45 × 4
 &gt;    Sepal.Length Sepal.Width Petal.Width Species
 &gt;           &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;  
-&gt;  1       0.171        0.636      0.0417 setosa 
-&gt;  2       0.143        0.5        0      setosa 
-&gt;  3       0.286        0.773      0.0417 setosa 
-&gt;  4       0            0.455      0      setosa 
-&gt;  5       0.371        0.818      0.0833 setosa 
-&gt;  6       0.286        0.636      0.0417 setosa 
-&gt;  7       0.200        0.773      0.125  setosa 
-&gt;  8       0.200        0.591      0.167  setosa 
-&gt;  9       0.171        0.636      0.125  setosa 
-&gt; 10       0.0857       0.545      0.0417 setosa 
+&gt;  1        0.171       0.706      0.0417 setosa 
+&gt;  2        0.114       0.471      0      setosa 
+&gt;  3        0           0.471      0      setosa 
+&gt;  4        0.4         1          0.0417 setosa 
+&gt;  5        0.371       0.504      0.125  setosa 
+&gt;  6        0.200       0.765      0.0833 setosa 
+&gt;  7        0.200       0.882      0.125  setosa 
+&gt;  8        0.200       0.647      0.167  setosa 
+&gt;  9        0.171       0.471      0.0417 setosa 
+&gt; 10        0.229       0.765      0.0417 setosa 
 &gt; # … with 35 more rows
 &gt; # ℹ Use `print(n = ...)` to see more rows
 ```
@@ -15422,16 +15422,16 @@ predict(iris_knn_fit, iris_test, type = "prob")
 &gt; # A tibble: 45 × 3
 &gt;    .pred_setosa .pred_versicolor .pred_virginica
 &gt;           &lt;dbl&gt;            &lt;dbl&gt;           &lt;dbl&gt;
-&gt;  1            1                0               0
-&gt;  2            1                0               0
-&gt;  3            1                0               0
-&gt;  4            1                0               0
-&gt;  5            1                0               0
-&gt;  6            1                0               0
-&gt;  7            1                0               0
-&gt;  8            1                0               0
-&gt;  9            1                0               0
-&gt; 10            1                0               0
+&gt;  1        1               0                    0
+&gt;  2        1               0                    0
+&gt;  3        1               0                    0
+&gt;  4        1               0                    0
+&gt;  5        0.925           0.0755               0
+&gt;  6        1               0                    0
+&gt;  7        1               0                    0
+&gt;  8        1               0                    0
+&gt;  9        1               0                    0
+&gt; 10        1               0                    0
 &gt; # … with 35 more rows
 &gt; # ℹ Use `print(n = ...)` to see more rows
 ```
@@ -15454,16 +15454,16 @@ prob_test
 &gt; # A tibble: 45 × 9
 &gt;    Sepal.Length Sepal.…¹ Petal…² Petal…³ Species .pred…⁴ .pred…⁵ .pred…⁶ .pred…⁷
 &gt;           &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;fct&gt;   &lt;fct&gt;     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
-&gt;  1          5        3.4     1.5     0.2 setosa  setosa        1       0       0
-&gt;  2          4.9      3.1     1.5     0.1 setosa  setosa        1       0       0
-&gt;  3          5.4      3.7     1.5     0.2 setosa  setosa        1       0       0
-&gt;  4          4.3      3       1.1     0.1 setosa  setosa        1       0       0
-&gt;  5          5.7      3.8     1.7     0.3 setosa  setosa        1       0       0
-&gt;  6          5.4      3.4     1.7     0.2 setosa  setosa        1       0       0
-&gt;  7          5.1      3.7     1.5     0.4 setosa  setosa        1       0       0
-&gt;  8          5.1      3.3     1.7     0.5 setosa  setosa        1       0       0
-&gt;  9          5        3.4     1.6     0.4 setosa  setosa        1       0       0
-&gt; 10          4.7      3.2     1.6     0.2 setosa  setosa        1       0       0
+&gt;  1          5        3.4     1.5     0.2 setosa  setosa    1      0            0
+&gt;  2          4.8      3       1.4     0.1 setosa  setosa    1      0            0
+&gt;  3          4.3      3       1.1     0.1 setosa  setosa    1      0            0
+&gt;  4          5.8      4       1.2     0.2 setosa  setosa    1      0            0
+&gt;  5          5.7      4.4     1.5     0.4 setosa  setosa    0.925  0.0755       0
+&gt;  6          5.1      3.5     1.4     0.3 setosa  setosa    1      0            0
+&gt;  7          5.1      3.7     1.5     0.4 setosa  setosa    1      0            0
+&gt;  8          5.1      3.3     1.7     0.5 setosa  setosa    1      0            0
+&gt;  9          5        3       1.6     0.2 setosa  setosa    1      0            0
+&gt; 10          5.2      3.5     1.5     0.2 setosa  setosa    1      0            0
 &gt; # … with 35 more rows, and abbreviated variable names ¹​Sepal.Width,
 &gt; #   ²​Petal.Length, ³​Petal.Width, ⁴​.pred_class, ⁵​.pred_setosa,
 &gt; #   ⁶​.pred_versicolor, ⁷​.pred_virginica
@@ -15490,8 +15490,8 @@ conf_mat_test
 &gt;             Truth
 &gt; Prediction   setosa versicolor virginica
 &gt;   setosa         15          0         0
-&gt;   versicolor      0         14         1
-&gt;   virginica       0          1        14
+&gt;   versicolor      0         13         2
+&gt;   virginica       0          2        13
 ```
 
 ---
@@ -15511,19 +15511,19 @@ metricas
 &gt; # A tibble: 13 × 3
 &gt;    .metric              .estimator .estimate
 &gt;    &lt;chr&gt;                &lt;chr&gt;          &lt;dbl&gt;
-&gt;  1 accuracy             multiclass     0.956
-&gt;  2 kap                  multiclass     0.933
-&gt;  3 sens                 macro          0.956
-&gt;  4 spec                 macro          0.978
-&gt;  5 ppv                  macro          0.956
-&gt;  6 npv                  macro          0.978
-&gt;  7 mcc                  multiclass     0.933
-&gt;  8 j_index              macro          0.933
-&gt;  9 bal_accuracy         macro          0.967
+&gt;  1 accuracy             multiclass     0.911
+&gt;  2 kap                  multiclass     0.867
+&gt;  3 sens                 macro          0.911
+&gt;  4 spec                 macro          0.956
+&gt;  5 ppv                  macro          0.911
+&gt;  6 npv                  macro          0.956
+&gt;  7 mcc                  multiclass     0.867
+&gt;  8 j_index              macro          0.867
+&gt;  9 bal_accuracy         macro          0.933
 &gt; 10 detection_prevalence macro          0.333
-&gt; 11 precision            macro          0.956
-&gt; 12 recall               macro          0.956
-&gt; 13 f_meas               macro          0.956
+&gt; 11 precision            macro          0.911
+&gt; 12 recall               macro          0.911
+&gt; 13 f_meas               macro          0.911
 ```
 
 ---
@@ -17163,8 +17163,8 @@ hoteles_train %&gt;% count(children) %&gt;% mutate(porc = 100 * n / sum(n))
 &gt; # A tibble: 2 × 3
 &gt;   children     n  porc
 &gt;   &lt;fct&gt;    &lt;int&gt; &lt;dbl&gt;
-&gt; 1 none      4134 91.9 
-&gt; 2 children   365  8.11
+&gt; 1 none      4133 91.9 
+&gt; 2 children   366  8.14
 ```
 
 ```r
@@ -17175,8 +17175,8 @@ hoteles_test %&gt;% count(children) %&gt;% mutate(porc = 100 * n / sum(n))
 &gt; # A tibble: 2 × 3
 &gt;   children     n  porc
 &gt;   &lt;fct&gt;    &lt;int&gt; &lt;dbl&gt;
-&gt; 1 none       462  92.4
-&gt; 2 children    38   7.6
+&gt; 1 none       463  92.6
+&gt; 2 children    37   7.4
 ```
 
 ---
@@ -17349,10 +17349,10 @@ collect_metrics(hoteles_knn_fit_val)
 &gt; # A tibble: 4 × 6
 &gt;   .metric     .estimator  mean     n std_err .config             
 &gt;   &lt;chr&gt;       &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;fct&gt;               
-&gt; 1 accuracy    binary     0.932     1      NA Preprocessor1_Model1
-&gt; 2 roc_auc     binary     0.781     1      NA Preprocessor1_Model1
-&gt; 3 sensitivity binary     0.987     1      NA Preprocessor1_Model1
-&gt; 4 specificity binary     0.253     1      NA Preprocessor1_Model1
+&gt; 1 accuracy    binary     0.931     1      NA Preprocessor1_Model1
+&gt; 2 roc_auc     binary     0.796     1      NA Preprocessor1_Model1
+&gt; 3 sensitivity binary     0.991     1      NA Preprocessor1_Model1
+&gt; 4 specificity binary     0.281     1      NA Preprocessor1_Model1
 ```
 
 ---
@@ -17370,10 +17370,10 @@ collect_metrics(hoteles_knn_fit_val)
 &gt; # A tibble: 4 × 6
 &gt;   .metric     .estimator  mean     n std_err .config             
 &gt;   &lt;chr&gt;       &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;fct&gt;               
-&gt; 1 accuracy    binary     0.932     1      NA Preprocessor1_Model1
-&gt; 2 roc_auc     binary     0.781     1      NA Preprocessor1_Model1
-&gt; 3 sensitivity binary     0.987     1      NA Preprocessor1_Model1
-&gt; 4 specificity binary     0.253     1      NA Preprocessor1_Model1
+&gt; 1 accuracy    binary     0.931     1      NA Preprocessor1_Model1
+&gt; 2 roc_auc     binary     0.796     1      NA Preprocessor1_Model1
+&gt; 3 sensitivity binary     0.991     1      NA Preprocessor1_Model1
+&gt; 4 specificity binary     0.281     1      NA Preprocessor1_Model1
 ```
 
 --
@@ -18230,13 +18230,13 @@ hoteles_boots
 &gt; # A tibble: 7 × 2
 &gt;   splits              id        
 &gt;   &lt;list&gt;              &lt;chr&gt;     
-&gt; 1 &lt;split [4499/1641]&gt; Bootstrap1
-&gt; 2 &lt;split [4499/1694]&gt; Bootstrap2
-&gt; 3 &lt;split [4499/1667]&gt; Bootstrap3
-&gt; 4 &lt;split [4499/1670]&gt; Bootstrap4
-&gt; 5 &lt;split [4499/1678]&gt; Bootstrap5
-&gt; 6 &lt;split [4499/1656]&gt; Bootstrap6
-&gt; 7 &lt;split [4499/1640]&gt; Bootstrap7
+&gt; 1 &lt;split [4499/1657]&gt; Bootstrap1
+&gt; 2 &lt;split [4499/1666]&gt; Bootstrap2
+&gt; 3 &lt;split [4499/1678]&gt; Bootstrap3
+&gt; 4 &lt;split [4499/1658]&gt; Bootstrap4
+&gt; 5 &lt;split [4499/1692]&gt; Bootstrap5
+&gt; 6 &lt;split [4499/1660]&gt; Bootstrap6
+&gt; 7 &lt;split [4499/1641]&gt; Bootstrap7
 ```
 
 ---
@@ -20674,7 +20674,44 @@ name: clase-10
 
 ### [Introducción teórica](#intro-teoria)
 
+### [Criterios de parada/mejora](#criterios-parada-arbol)
+
+### [Criterios de mejora/división](#criterios-division)
+
+### [Poda](#poda)
+
+
 ---
+
+# .orange[RESUMEN]
+
+
+* Fase 1: muestreo (si fuese necesario) -&gt; `group_by() + slice_sample()`
+
+* Fase 2: exploración
+
+* Fase 3: modificación (tidyverse + receta) -&gt; `recipe()`, `step_...(..)`
+
+* Fase 4: modelización con validación cruzada
+  - Partición train/test: `initial_split()` --&gt; `training()` y `testing()`
+  - Validación (v subconjuntos, repetidas): `cv_folds &lt;- vfold_cv(data = ..., v = ..., repeats = ..., strata = ...)`
+  - Creación de un grid de modelos
+  - Iniciar paralelización (finalizarla después)
+  
+
+```r
+fit_tune &lt;-
+  wflow %&gt;%
+  tune_grid(resamples = cv_folds, grid = grid_modelos,
+            control = control_grid(verbose = TRUE, allow_par = TRUE),
+            metrics = metric_set(accuracy, sensitivity, specificity, roc_auc))
+```
+
+* Fase 5: predicción/evaluación en test
+
+---
+
+
 
 name: intro-teoria
 
@@ -20714,7 +20751,7 @@ Un árbol estará formado por los siguientes elementos:
 .pull-right[
 
 
-&lt;img src="./img/arbol_colesterol.jpg" width="99%" style="display: block; margin: auto;" /&gt;
+&lt;img src="./img/arbol_colesterol.jpg" width="100%" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -20736,13 +20773,15 @@ Un árbol estará formado por los siguientes elementos:
 
 .pull-right[
 
-&lt;img src="./img/arboles_cortes.jpg" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="./img/arboles_cortes.jpg" width="110%" style="display: block; margin: auto;" /&gt;
 
 Esta forma de construcción de árbol **.bg-purple_light[no asegura obtener el mejor árbol posible]**: no se evalúan todas las combinaciones posibles, es **.bg-purple_light[algoritmo greedy o voraz]**.
 
 ]
 
 ---
+
+name: criterios-parada-arbol
 
 # Criterios de .orange[PARADA]
 
@@ -20766,6 +20805,8 @@ Existen muchos criterios de parada pero los más habituales son los siguientes:
 * **.bg-purple_light[Árbol de clasificación]**: para variables objetivo cualitativa se calcularán las **.bg-purple_light[probabilidades estimadas]** como la proporción de eventos en dicho
 nodo. Lo habitual es asignar al nodo la **.bg-purple_light[categoría modal]**.
 
+&amp;nbsp;
+
 * **.bg-purple_light[Árbol de regresión]**: para variables objetivo cuantitativa se calculará la **.bg-purple_light[estimación de continua]** como la media de los valores en dicho nodo.
 
 ]
@@ -20773,11 +20814,13 @@ nodo. Lo habitual es asignar al nodo la **.bg-purple_light[categoría modal]**.
 .pull-right[
 
 
-&lt;img src="./img/arbol_colesterol.jpg" width="99%" style="display: block; margin: auto;" /&gt;
+&lt;img src="./img/arbol_colesterol.jpg" width="100%" style="display: block; margin: auto;" /&gt;
 
 ]
 
 ---
+
+name: criterios-division
 
 # Criterios de .orange[MEJORA/DIVISIÓN]
 
@@ -20787,7 +20830,7 @@ nodo. Lo habitual es asignar al nodo la **.bg-purple_light[categoría modal]**.
 &lt;img src="./img/impureza.jpg" width="70%" style="display: block; margin: auto;" /&gt;
 
 
-* **.bg-purple_light[Criterios basados en inferencia]**: los conocidos como **.bg-purple_light[árboles condicionados o inferenciales]** la selección de ramas se realiza en base a un **.bg-purple_light[contraste de independencia]**. Si el contraste nos pide rechazar la hipótresis nula de independencia, significa hay una dependencia entre el corte y el reparto de clases de la objetivo (corte útil para segmentar. 
+* **.bg-purple_light[Criterios basados en inferencia]**: los conocidos como **.bg-purple_light[árboles condicionados o inferenciales]** la selección de ramas se realiza en base a un **.bg-purple_light[contraste de independencia]**. Si el contraste nos pide rechazar la hipótresis nula de independencia, significa hay una dependencia entre el corte y el reparto de clases de la objetivo (corte útil para segmentar). 
 
 ---
 
@@ -20857,7 +20900,337 @@ La **.bg-purple_light[impureza total del árbol]** se calculará como la suma de
 
 Determina la impureza según ambos criterios en el ejemplo de la imagen, para cada uno de los posibles cortes, con la variable objetivo definida como «juega al cricket» (binaria)
 
-&lt;img src="./img/impureza.jpg" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="./img/ej_impureza.jpg" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Árboles .orange[INFERENCIALES]
+
+* **.bg-purple_light[Criterios basados en inferencia]**: los conocidos como **.bg-purple_light[árboles condicionados o inferenciales]** la selección de ramas se realiza en base a un **.bg-purple_light[contraste de independencia]**. 
+
+
+`$$\sum_{i=1}^{2}\sum_{j=1}^{k} \frac{\left(O_{ij} - E_{ij}\right)^2}{E_{ij}} \sim \chi_{1, k-1}^{2}$$`
+
+Tendremos una variable predictora (la que usamos para ejecutar el corte) con 2 modalidades (cortes binarias) y una objetivo de `\(k\)` clases tal que
+
+* `\(O_{ij}\)`: frecuencias observadas, número de veces que `\((X=x_i, Y=y_j)\)`, donde `\(x_1\)` y `\(x_2\)` son las opciones de corte.
+
+* `\(E_{ij}\)`: frecuencias esperadas si el corte fuese independiente de la objetivo, es decir, `\(E_{ij} = \frac{E_{i, \cdot} * E_{\cdot,j}}{N}\)`.
+
+
+Si el contraste nos pide rechazar la hipótesis nula de independencia, significa que hay una dependencia entre el corte y el reparto de clases de la objetivo -&gt; **.bg-purple_light[corte útil]** para segmentar
+
+
+---
+
+name: poda
+
+# Validación: .orange[PODA]
+
+Los árboles son modelos **.bg-purple_light[muy interpretables]** pero tienen una gran desventaja: tienen **.bg-purple_light[tendencia al sobreajuste]**, ya que es un algoritmo voraz. El modelo encontrado no necesariamente tiene que ser el mejor (solo era el mejor en cada paso, sin ver el árbol en su conjunto, al igual que la mejor decisión del coche amarillo sería cambiarse de carril con la información que tiene en ese momento, aunque no fuese la mejor global).
+
+&lt;img src="./img/poda_coche.jpg" width="80%" style="display: block; margin: auto;" /&gt;
+
+
+Para evitarlo una táctica habitual es **.bg-purple_light[usar el conjunto de validación]** para realizar una poda (con las reglas de decisión obtenidas en entrenamiento).
+
+---
+
+# Validación: .orange[PODA]
+
+La idea de la **.bg-purple_light[poda]** es la siguiente:
+
+* **.bg-purple_light[Paso 1: construir subárboles]**. Dado un árbol final (un árbol maximal de N hojas), construimos todos los subárboles posibles de N-1 hojas.
+
+* **.bg-purple_light[Paso 2: evaluación]**. Calculamos la tasa de mal clasificados para todos los subárboles y marcamos el que obtenga mejor métrica (incluido el árbol maximal).
+
+* **.bg-purple_light[Paso 3: recursividad]**. Repetimos los pasos 1-2 hasta llegar al nodo raíz inicial.
+
+* **.bg-purple_light[Paso 4: criterio de selección]**. Con todos los subárboles evaluados, seleccionamos como solución final el subárbol para el que un incremento de sus hojas no produza una mejora significativa.
+
+&amp;nbsp;
+
+**.bg-green_light[Ventajas]**: amén de no tener hipótesis teóricas (tampoco el knn), **.bg-purple_light[no dummyficar]** (podremos introducir cuali vs cuanti), nos aportará al final una **.bg-purple_light[jerarquía de importancia]** de variables y nos crea una **.bg-purple_light[partición de nuestro espacio de predictores]**.
+
+---
+
+# .orange[ÁRBOLES] en .green[TIDYMODELS]
+
+La única diferencia con knn es la forma de definir el modelo  (con sus parámetros)y la adaptación de la receta que debamos hacer. Para ello usaremos `decision_tree()`
+
+* `mode = ...`: si queremos clasificación o regresión.
+* `tree_depth = ...`: **.bg-purple_light[máxima profundidad]** del árbol.
+* `min_n`: **.bg-purple_light[número mínimo de elementos en nodos padres]** para dividirse en hijos.
+
+* `cost_complexity`: número positivo que nos modelizará la penalización por complicar el modelo (valores altos harán podas más extremas).
+
+
+
+```r
+decision_tree &lt;-
+  decision_tree(mode = "classification", tree_depth = tune("depth"),
+                min_n = tune("min_n"), cost_complexity = tune("cost"))
+```
+
+---
+
+# .orange[ÁRBOLES] en .green[TIDYMODELS]
+
+Con `set_engine()` le especificaremos en concreto el «motor» (el paquete) que contiene las herramientas matemáticas necesarias con el que realizaremos el ajuste. En este caso tendremos 3:
+
+* `set_engine("rpart")`: sirve tanto para clasificación como para regresión, e implementa el algoritmo CART (Clasification and Regression Trees, Breiman et al., 1984), cuya **.bg-purple_light[construcción se basa en la impureza de Gini]**.
+
+* `set_engine("C5.0")`: sirve solo para clasificación, e implementa el algoritmo C5.0 (Quinlan, 1996) cuya **.bg-purple_light[construcción se basa en la entropía]**.
+
+* `set_engine("spark")`: sirve tanto para clasificación como para regresión, e implementa un algoritmo de árboles basado en el paquete `{sparklyr}`, enfocado a la **.bg-purple_light[aplicación de técnicas Machine Learning en el contexto Big Data]**. Para aprender Spark: &lt;https://www.datacamp.com/community/tutorials/apache-spark-tutorial-machine-learning&gt;
+
+
+```r
+decision_tree_gini &lt;- decision_tree %&gt;% set_engine("rpart") 
+decision_tree_entropy &lt;- decision_tree %&gt;% set_engine("C5.0") 
+```
+
+---
+
+# Caso práctico: .orange[IRIS]
+
+
+```r
+# Partición 80-20% de train y test (solo instrucciones)
+iris_split &lt;- initial_split(iris, strata = Species, prop = 0.8)
+iris_train &lt;- training(iris_split)
+iris_test &lt;- testing(iris_split)
+
+# Validación
+iris_cv_folds &lt;- vfold_cv(data = iris_train, v = 4, repeats = 8, strata = Species)
+```
+
+---
+
+# Caso práctico: .orange[IRIS]
+
+
+```r
+# Receta
+iris_rec &lt;-
+    recipe(data = iris_train, Species ~ .) %&gt;%
+    # Roles
+    add_role(starts_with("Sepal"), new_role = "simétrica") %&gt;% 
+    add_role(starts_with("Petal"), new_role = "no simétrica") %&gt;%
+    # Detectar outliers
+    step_mutate(across(has_role("simétrica"),
+                       function(x) { ifelse(abs(scores(x, type = "z")) &gt; 2.5, NA, x) }),
+                across(has_role("no simétrica"),
+                       function(x) { ifelse(abs(scores(x, type = "mad")) &gt; 3, NA, x) })) %&gt;%
+    # Filtro de correlación
+    step_corr(all_numeric_predictors(), threshold = 0.9)%&gt;% 
+    # Filtro de cero varianza
+    step_zv(all_predictors()) 
+```
+
+---
+
+# Caso práctico: .orange[IRIS]
+
+Probaremos 86 modelos diferentes
+
+
+```r
+grid_tree &lt;-
+  expand_grid("depth" = c(2, 3, 4, 5, 6, 7),
+              "min_n" = c(0.01, 0.025, 0.05, 0.1) * nrow(iris_train),
+              "cost" = c(0.01, 0.1, 0.5, 1))
+grid_tree
+```
+
+```
+&gt; # A tibble: 96 × 3
+&gt;    depth min_n  cost
+&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+&gt;  1     2   1.2  0.01
+&gt;  2     2   1.2  0.1 
+&gt;  3     2   1.2  0.5 
+&gt;  4     2   1.2  1   
+&gt;  5     2   3    0.01
+&gt;  6     2   3    0.1 
+&gt;  7     2   3    0.5 
+&gt;  8     2   3    1   
+&gt;  9     2   6    0.01
+&gt; 10     2   6    0.1 
+&gt; # … with 86 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
+```
+
+---
+
+# Caso práctico: .orange[IRIS]
+
+
+```r
+decision_tree &lt;-
+  decision_tree(mode = "classification", tree_depth = tune("depth"),
+                min_n = tune("min_n"), cost_complexity = tune("cost"))
+decision_tree_gini &lt;- decision_tree %&gt;% set_engine("rpart") 
+decision_tree_entropy &lt;- decision_tree %&gt;% set_engine("C5.0") 
+```
+
+.pull-left[
+
+
+```r
+iris_wflow_gini &lt;-
+  workflow() %&gt;%
+  add_recipe(iris_rec) %&gt;%
+  add_model(decision_tree_gini) 
+```
+
+]
+
+.pull-right[
+
+
+```r
+iris_wflow_entropy &lt;-
+  workflow() %&gt;%
+  add_recipe(iris_rec) %&gt;%
+  add_model(decision_tree_entropy) 
+```
+
+]
+
+---
+
+# Caso práctico: .orange[IRIS]
+
+
+```r
+library(doParallel)
+library(parallel)
+clusters &lt;- detectCores() - 1
+make_cluster &lt;- makeCluster(clusters)
+registerDoParallel(make_cluster)
+
+iris_fit_val_gini &lt;-
+  iris_wflow_gini %&gt;%
+  tune_grid(resamples = iris_cv_folds,
+            grid = grid_tree,
+            control = control_grid(verbose = TRUE, allow_par = TRUE),
+            metrics = metric_set(accuracy, sensitivity,
+                                 specificity, roc_auc))
+
+iris_fit_val_entropy &lt;-
+  iris_wflow_entropy %&gt;%
+  tune_grid(resamples = iris_cv_folds,
+            grid = grid_knn,
+            control = control_grid(verbose = TRUE, allow_par = TRUE),
+            metrics = metric_set(accuracy, sensitivity,
+                                 specificity, roc_auc))
+stopCluster(make_cluster)
+registerDoSEQ()
+```
+
+---
+
+# Caso práctico: .orange[IRIS]
+
+
+```r
+# Métricas
+iris_fit_val_gini %&gt;% collect_metrics()
+```
+
+---
+
+# Caso práctico: .orange[IRIS]
+
+
+```r
+# Métricas
+iris_fit_val_entropy %&gt;% collect_metrics()
+```
+
+---
+
+# .orange[VISUALIZACIÓN] del árbol
+
+Con `rpart.plot()` podemos **.bg-purple_light[visualizar el árbol]** siempre y cuando el motor sea `"rpart"` (le indicamos que no redondee valores a enteros y de los modelos de visualización elegimos `extra = 4`, prueba con varios para ver las diferencias)
+
+
+```r
+iris_fit_val_gini %&gt;%
+  extract_fit_engine() %&gt;%
+  rpart.plot(roundint = FALSE, extra = 4)
+```
+
+---
+
+# .orange[IMPORTANCIA] de las variables
+
+
+
+Con `vi()` (del paquete homónimo) podemos **.bg-purple_light[calcular la importancia relativa de las variables]**. Para detalles del cálculo ver &lt;https://rdrr.io/cran/vip/man/vi_model.html&gt; y &lt;https://koalaverse.github.io/vip/articles/vip.html&gt;
+
+
+```r
+library(vip)
+tabla_vip &lt;- vi(iris_fit_val_gini)
+tabla_vip
+```
+
+---
+
+
+# .orange[ENSAMBLAJE] de modelos
+
+En general, **.bg-purple_light[árboles pequeños]** tendrán una baja varianza y un sesgo alto, **.bg-purple_light[árboles grandes]** tendrán una alta varianza y un sesgo bajo. Una forma de reducir la varianza es usar **.bg-purple_light[ensamblaje de modelos]**
+
+* **.bg-purple_light[Bagging]**: de los términos **.bg-purple_light[bootstrap aggregating]**, consiste en obtener como clasificación final un **.bg-purple_light[promedio de clasificadores]** (un meta-modelo, un modelo que promedio que modelos) construidos a partir de **.bg-purple_light[submuestras aleatorias]** de la muestra original **.bg-purple_light[con reemplazamiento]**:
+
+&lt;img src="./img/bagging.jpg" width="40%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# .orange[RANDOM FOREST]
+
+En el caso de los árboles, si los árboles agregados están correlacionados (por ejemplo, porque exista un predictor muy influyente que acabe siendo elegidos en todos), el bagging puede no funcionar.
+
+Una solución son los conocidos como **.bg-purple_light[random forest]**. Es un ejemplo de **bagging** muy particular ya que no solo aplica múltiples árboles a diferentes submuestras, sino que en cada iteración de división se **.bg-purple_light[seleccionan m variables aleatorias]** (del total de p variables, por eje,plo `\(m = \sqrt{p}\)`), ignorando las demás.
+
+&amp;nbsp;
+
+La idea es **.bg-purple_light[combinar muchos modelos «tontos»]** para que, agregados, nos de un **.bg-purple_light[modelo robusto]**.
+
+
+---
+
+# .orange[BOOSTING]
+
+En el caso del **.bg-purple_light[bagging]** la idea era crear submuestras (con reemplazamiento), aplicar a cada una un modelo, para luego promediarlos.
+
+En el caso del **.bg-purple_light[boosting]** la idea es partir con todos los datos, aplicar un clasificador (un árbol por ejemplo), y **.bg-purple_light[reponderar las observaciones]**, de forma que aquellos registros **.bg-purple_light[peor clasificados pasen a tener un peso mayor]**. Tras ello, se vuelve a aplicar un clasificador, pero de forma que no todas las observaciones cuentan por igual, para **.bg-purple_light[construir secuencialmente]** un clasificador fuerte a partir de clasificadores débiles.
+
+
+&lt;img src="./img/boosting.jpg" width="40%" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+# .orange[RANDOM FOREST]
+
+Para implementar un **.bg-purple_light[random forest]** usaremos la función `rand_forest()` con tres argumentos:
+
+* `mtry`: **.bg-purple_light[número de predictores]** que el árbol puede ver en cada decisión (si es igual a p, es equivalenteun bagging clásico)
+* `min_n`: como antes, es el número mínimo de observaciones que se permite tener a un nodo para dividirse.
+* `trees`: árboles que prueba.
+
+
+```r
+# Random forest con tune (y paralelizado)
+rf_hotel &lt;-
+  rand_forest(mtry = tune(), min_n = tune(), trees = 1e2) %&gt;% 
+  set_engine("ranger", num.threads = clusters) %&gt;% 
+  set_mode("classification")
+```
 
 ---
 
