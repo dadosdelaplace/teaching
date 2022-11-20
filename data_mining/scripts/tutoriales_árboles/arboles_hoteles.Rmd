@@ -1,0 +1,1359 @@
+---
+title: "Tutorial de knn en R: hoteles dataset"
+description: |
+  Flujo de trabajo paso a paso
+author:
+  - name: Javier Álvarez Liébana
+    url: https://javier-alvarez-liebana.github.io
+    affiliation: Universidad Complutense de Madrid
+    affiliation_url: 
+date: "`r Sys.Date()`"
+output:
+    distill::distill_article:
+        highlight: kate
+        colorlinks: true
+        code_folding: false
+        toc: true            
+        toc_depth: 3     
+---
+
+```{r setup, include = FALSE}
+# Ajuste comunes de los chunk
+knitr::opts_chunk$set(fig.width = 8, fig.asp = 1, out.width = "100%",
+                      message = FALSE, warning = FALSE,
+                      echo = TRUE, res = 400)
+```
+
+# Objetivo {#objetivo}
+
+El objetivo de este pequeño tutorial es saber aplicar un flujo de trabajo en el entorno `{tidymodels}` para poder implementar un algoritmo de clasificación knn en `R`, y las distintas **formas de validación**. Puedes ver más detalles y funcionalidades en la web oficial del paquete: <https://www.tidymodels.org/>
+
+
+## Paquetes necesarios
+
+Necesitaremos los siguientes paquetes
+
+* **Análisis exploratorio numérico**: paquete `{skimr}`
+* **Depuración y preprocesamiento**: paquete `{tidyverse}`
+* **Modelización**: paquete `{tidymodels}` para modelos
+* **Detección de outliers**: paquete `{outliers}`
+* **Detección de festivos**: paquete `{timeDate}`
+
+```{r paquetes}
+# Borramos
+rm(list = ls())
+
+# Paquetes
+library(skimr) # resumen numérico
+library(tidymodels) # depuración datos
+library(tidyverse) # modelos
+library(outliers) # outliers
+library(timeDate) # fechas
+```
+
+# Datos {#datos}
+
+Vamos ir a un **ejemplo real**, haciendo uso de un **dataset de reservas de hotel**
+
+```{r}
+hoteles_bruto <- read_csv(file = "./datos/hoteles.csv")
+```
+
+Los datos forman parte de un **conjunto de reservas de hotel** elaborado por Antonio et al., 2019 con 50 000 registros de reservas
+
+📚 **Detalle de variables**: <https://linkinghub.elsevier.com/retrieve/pii/S2352340918315191>
+
+
+
+## Análisis exploratorio inicial (numérico)
+
+Antes de tomar ninguna decisión con los datos lo primero que deberíamos hacer es **echar un vistazo numérico** a cómo se comportan las variables. Dado que vamos a clasificar, lo primero que deberíamos observar es como se distribuyen los niveles de nuestra variable objetivo.
+
+### Variables
+
+Lo primero es conocer las variables
+
+```{r}
+glimpse(hoteles_bruto)
+```
+
+* `hotel`: tipo de hotel (urbano o resort)
+* `lead_time`: número de días entre la reserva y la estancia.
+* `stays_in_weekend_nights, stays_in_week_nights`: noches en fin de semana y entre semana
+* `adults`: número de adultos
+* `children`: ¿la reserva tiene niños?
+* `meal`: régimen de comidas
+* `country`: país de origen
+* `market_segment`: segmento de mercado de la reserva
+* `distribution_channel`: canal de distribución de la oferta
+* `is_repeated_guest`: ¿repite como huésped?
+* `previous_cancellations`: cancelaciones previas
+* `previous_bookings_not_canceled`: reservas previas (no canceladas)
+* `reserved_room_type, assigned_room_type`: tipo de habitación reservada/asignada
+* `booking_changes`: cambios en la reserva
+* `deposit_type`: tipo de depósito
+* `days_in_waiting_list`: días en lista de espera
+* `customer_type`: tipo de cliente
+* `average_daily_rate`: tarifa media diaria
+* `required_car_parking_spaces`: ¿parking?
+* `total_of_special_requests`: número de requisitos especiales demandados
+* `arrival_date`: fecha de llegada 
+
+### Balance la variable objetivo
+
+El objetivo será **predecir si una reserva incluye niños/as o no**, por lo que `children` será nuestra variable objetivo. Primer paso: conocer cómo se **istribuyen los niveles de la objetivo** (es binaria)
+
+
+```{r}
+# Objetivo: predecir si la reserva viene o no con niños
+hoteles_bruto %>% 
+  count(children) %>%
+  mutate(porc = 100*n/sum(n))
+```
+
+### skim()
+
+Además con la función `skim()` del paquete `{skimr}` podemos **extraer algunas estadísticas básicas** de nuestros datos.
+
+```{r skim}
+# Resumen numérico
+iris %>% skim()
+```
+
+# Fase 1-2-3: muestreo-exploración-modificación
+
+Lo primero que debemos hacer es examinar los datos y apuntar las **decisiones que deberíamos adoptar**. Por ejemplo:
+
+&nbsp;
+
+* ¿Necesitamos **muestreo**? ¿De qué forma? ¿Podremos permitirnos crear esta vez un dataset de **validación**?
+
+* ¿De qué **tipo** es cada variable? ¿Tenemos **problemas de codificación o rango**?
+
+* ¿Cómo **afectan las predictoras** a los niveles de la variable objetivo?
+
+* ¿Hay problemas de **dependencia** entre las variables?
+
+* ¿Necesitamos **recategorizar** las variables? ¿Tenemos variables de **fecha**?
+
+* ¿Tenemos **datos atípicos**?  ¿Tenemos **datos ausentes**? ¿Cómo imputarlos?
+
+* ¿Todas las variables son **numéricas** para poder aplicar la métrica?
+
+&nbsp;
+
+La **filosofía** será la siguiente: 
+
+* modificaciones «estructurales» las hacemos fuera de la receta (modificando la base de datos)
+
+* modificaciones más concretas para un algoritmo dentro de la receta (sin modificar la base de datos).
+
+
+## Factores
+
+Una de las primeras decisiones será dotar a las variables de su **tipología correcta**: debemos decidir es si las variables de tipo texto son **variables cualitativas** (factores) o meros id's.
+
+```{r}
+hoteles_bruto %>%
+  select(where(is.character)) %>%
+  glimpse()
+```
+
+
+Todas las variables de tipo texto representan **categorías de una cualitativa** así que las convertimos todas ellas a factor (modificación estructural --> fuera de la receta)
+
+```{r}
+hoteles <- 
+  hoteles_bruto %>%
+  mutate(across(where(is.character), as_factor))
+hoteles
+```
+
+### Ordinales
+
+¿Existe además alguna variable que pueda ser ordinal?
+
+
+La variable `meal` si sigue una jerarquía: `SC` (sin nada) < `BB` (Bed & Breakfast) < `HB` (Half board, media pensión) < `FB` (Full board, pensión completa). Además tenemos un nivel para los desconocidos llamado `Undefined`
+
+```{r}
+hoteles %>%
+  count(meal) %>% 
+  mutate(porc = 100*n/sum(n))
+```
+
+Por ello convertiremos `meal` a cualitativa pero ordinal.
+
+```{r}
+hoteles <-
+  hoteles %>%
+  mutate(meal = factor(meal, levels = c("Undefined", "SC", "BB", "HB", "FB"),
+                       ordered = TRUE))
+```
+
+Esto nos permitirá hacer **operaciones asociadas a una jerarquía** como comparar registros
+
+```{r}
+hoteles %>%
+  group_by(meal < "HB") %>% #<<
+  count() %>% 
+  ungroup()
+```
+
+## Variables cuali
+
+Una vez convertidas en cualitativas analicemos cada una de ellas. La idea básica es la siguiente: ver que peso suponen cada nivel en las variables, y además, ver como **afectan los niveles a la variable objetivo**.
+
+### Variable hotel
+
+La variable `hotel` es **binaria**: urbanos vs resort (60% vs 40% aprox)
+
+```{r}
+hoteles %>%
+  count(hotel, sort = TRUE) %>%
+  mutate(porc = 100*n/sum(n))
+```
+
+Parece además que cuando hay **niños en la reserva** se opta ligeramente **más por los resort**, pero no de forma desproporcionada.
+
+```{r}
+hoteles %>%
+  group_by(hotel) %>% 
+  count(children) %>%
+  mutate(porc = 100*n/sum(n)) %>% 
+  ungroup()
+```
+
+
+### Variable meal
+
+La variable `meal` toma **5 modalidades**: quizás para algunos algoritmos haga falta reagrupar niveles (por ejemplo `Undefined` con `SC`)
+
+```{r}
+hoteles %>%
+  count(meal, sort = TRUE) %>%
+  mutate(porc = 100*n/sum(n))
+```
+
+
+
+Parece que **cuando hay niños** en la reserva hay el **doble de reservas con pensión completa**: aunque haya pocos registros de `meal = "FB"` pueden ser determinantes. El 11% de la reservas sin niños van sin nada, mientras que solo el 3% de las reservas con niños.
+
+
+```{r}
+hoteles %>%
+  group_by(meal) %>% 
+  count(children) %>% 
+  mutate(porc = 100*n/sum(n)) %>% 
+  ungroup()
+```
+
+
+```{r}
+hoteles %>%
+  group_by(children) %>% 
+  count(meal) %>% 
+  mutate(porc = 100*n/sum(n)) %>% 
+  ungroup()
+```
+
+### Variable country
+
+La variable `country` toma **155 modalidades** pero tan solo **21 modalidades aparecen en más del 0.5% de registros** (una de ellas es NULL): quizás sea más práctico reagrupar niveles de esos países (representan juntos aprox el 10% del total).
+
+```{r}
+hoteles %>%
+  count(country, sort = TRUE) %>%
+  mutate(porc = 100*n/sum(n), cumul = cumsum(porc))
+```
+
+
+Aunque hay países que representa muy poco de los datos, parece que **algunos son más propensos a reservas con niños**, así que quizás una idea pueda ser decidir no solo por peso sino por % de niños, para que aprenda más de los 1's que de los 0's.
+
+```{r}
+hoteles %>%
+  group_by(country) %>% count(children) %>% 
+  mutate(porc_children = 100*n/sum(n)) %>% 
+  ungroup()
+```
+
+Reminder: con estos análisis no vamos a eliminar registros (al menos no de manera general), solo decidir si recategorizamos/reagrupamos categorías. Esto además es **crucial** en el k-vecinos ya que **por cada variable cuali de N modalidades, deberemos luego crear N-1 dummys** asociadas.
+
+### Variable market_segment
+
+La variable `market_segment` toma **7 modalidades** aunque algunas representan menos del 1% del total.
+
+```{r}
+hoteles %>%
+  count(market_segment, sort = TRUE) %>%
+  mutate(porc = 100*n/sum(n), cumul = cumsum(porc))
+```
+
+Fíjate que aunque `market_segment = "Aviation"` representa muy pocos registros, el 100% son sin niños (casi similar con `market_segment = "Corporate"` y `market_segment = "Groups"`)
+
+```{r}
+hoteles %>%
+  group_by(market_segment) %>% 
+  count(children) %>% 
+  mutate(porc = 100*n/sum(n)) %>% 
+  ungroup()
+```
+
+
+### Variable distribution_channel
+
+La variable `distribution_channel` toma **5 modalidades**  pero solo **3 de ellas agrupan ya más del 99%** de los registros.
+
+```{r}
+hoteles %>%
+  count(distribution_channel, sort = TRUE) %>%
+  mutate(porc = 100*n/sum(n),
+         cumul = cumsum(porc))
+```
+
+Fíjate que de `distribution_channel = "Undefined"` y `distribution_channel = "GDS"` representan **muy pocos registros**, y todos con una sola modalidad en la objetivo (pero solo pesan el 0.2% de los datos)
+
+```{r}
+hoteles %>%
+  group_by(distribution_channel) %>% 
+  count(children) %>% 
+  mutate(porc = 100*n/sum(n)) %>% 
+  ungroup()
+```
+
+
+### Variable reserved_room_type
+
+La variable `reserved_room_type` toma **9 modalidades** (no nos especifican si hay jerarquía) pero **solo 5 de ellas tienen un peso superior al 1%** de los registros.
+
+```{r}
+hoteles %>%
+  count(reserved_room_type, sort = TRUE) %>%
+  mutate(porc = 100*n/sum(n),
+         cumul = cumsum(porc))
+```
+
+Fíjate que `reserved_room_type` será **tremendamente importante**: si la habitación es de tipo F, el 47% viene con niños (frente al 8% global), del 70% incluso si es de tipo C
+
+```{r}
+hoteles %>%
+  group_by(reserved_room_type) %>% 
+  count(children) %>% 
+  mutate(porc = 100*n/sum(n)) %>% 
+  ungroup()
+```
+
+
+### Variable assigned_room_type
+
+La variable `assigned_room_type` toma **10 modalidades** (no nos especifican si hay jerarquía) pero solo 7 de ellas tienen un peso superior al 1% de los registros.
+
+```{r}
+hoteles %>%
+  count(assigned_room_type, sort = TRUE) %>%
+  mutate(porc = 100*n/sum(n),
+         cumul = cumsum(porc))
+```
+
+Como sucedía antes `assigned_room_type` será tremendamente importante
+
+
+Quizás pueda ser además interesante, al margen del tipo de habitación, ver que sucede cuando la **asignada es distinta de la reservada**. 
+
+```{r}
+hoteles %>%
+  mutate(same_room = as.character(reserved_room_type) == as.character(assigned_room_type)) %>%
+  group_by(same_room) %>% 
+  count(children) %>% 
+  mutate(porc = 100*n/sum(n)) %>% 
+  ungroup()
+```
+
+No parece que influya significativamente
+
+### Variable deposit_type
+
+La variable `deposit_type` toma **3 modalidades** pero el 99.6% de los registros es la misma.
+
+```{r}
+hoteles %>%
+  count(deposit_type, sort = TRUE) %>%
+  mutate(porc = 100*n/sum(n), cumul = cumsum(porc))
+```
+
+Además de ser **muy pocos** los registros que no sean `No_Deposit`, prácticamente su totalidad son **sin niños** (clase ya mayoritaria en los datos).
+
+```{r}
+hoteles %>%
+  group_by(deposit_type) %>% 
+  count(children) %>% 
+  mutate(porc = 100*n/sum(n)) %>% 
+  ungroup()
+```
+
+
+### Variable customer_type
+
+La variable `customer_type` toma **4 modalidades** pero **dos de ellas representan más del 95%** de los registros.
+
+```{r}
+hoteles %>%
+  count(customer_type, sort = TRUE) %>%
+  mutate(porc = 100*n/sum(n),
+         cumul = cumsum(porc))
+```
+
+
+
+El 88% de las reservas con niños son de tipo `"Transient"`
+
+```{r}
+hoteles %>%
+  group_by(children) %>% 
+  count(customer_type) %>% 
+  mutate(porc = 100*n/sum(n)) %>% 
+  ungroup()
+```
+
+
+### Variable required_car_parking_spaces
+
+La variable `required_car_parking_spaces` es binaria (muy desbalanceada).
+
+```{r}
+hoteles %>%
+  count(required_car_parking_spaces, sort = TRUE) %>%
+  mutate(porc = 100*n/sum(n),
+         cumul = cumsum(porc))
+```
+
+El % de las reservas con niños es el doble cuando hay parking solicitado.
+
+```{r}
+hoteles %>%
+  group_by(children) %>% 
+  count(required_car_parking_spaces) %>% 
+  mutate(porc = 100*n/sum(n)) %>% 
+  ungroup()
+```
+
+## Dependencia entre  cuali
+
+Más allá del análisis exploratorio numérico, podemos ejecutar un **contraste de independencia** (prueba $\chi^2$ de independencia) para tener mayor certeza de si la predictora es dependiente o no de la variable objetivo (si fuera independiente, no tendría sentido mantenerla)
+
+```{r warning = FALSE}
+chisq.test(hoteles$children, hoteles$hotel)
+```
+
+Si fijamos $\alpha = 0.05$ (nivel de significación), si p-valor < 0.05 deberíamos rechazar la **hipótesis nula de independencia** (bajo dicho nivel).
+
+&nbsp;
+
+Podemos hacerlo con **todas las variables a la vez** enfrentándola a la objetivo, entendiendo que cada columna juega el rol de una lista si usamos las funciones del paquete `{purrr}`
+
+```{r warning = FALSE}
+chisq <-
+  tibble("variable" = hoteles %>% select(where(is.factor)) %>% names(),
+         "p_value" = hoteles %>% select(where(is.factor)) %>%
+           map_dbl(.f = function(x) { chisq.test(hoteles$children, x)$p.value}))
+chisq %>% arrange(desc(p_value))
+```
+
+
+```{r warning = FALSE}
+chisq %>% filter(p_value > 0.05)
+```
+
+**No hay evidencia suficiente para decir que existe predictora independiente de la objetivo** (al 95% de confianza) según la prueba de independencia realizada
+
+## Resumen de las cuali
+
+Esta es mi propuesta para un preprocesamiento básico (via libre para mejorarlo y completarlo)
+
+* `hotel` --> **no hacer nada**.
+
+* `meal`: aunque haya pocos registros de `meal = "FB"`, parece que pueden ser determinantes --> **reagrupar "Undefined" con "SC" y dejar "FB"**.
+
+* `country`: tan solo 21 de ellas aparecen en más del 0.5% de registros (una de ellas es NULL) --> **reagrupar niveles de países minoritarios** (representan juntos aprox el 10% del total) quedándonos con aquellos que superen en un mínimo de representatividad (más fino: incluir también los que sean más propensos que otros a reservas con niños).
+
+* `market_segment`:  algunas representan menos del 1% del total, aunque para `market_segment = "Aviation"` el 100% son sin niños (casi similar con `market_segment = "Corporate"` y `market_segment = "Groups"`) --> **agrupar los 3 junto con "complementary"** (pesan muy poco estos últimos) en un `"others"`.
+
+* `distribution_channel`: solo 3 de ellas agrupan ya más del 99% de los registros --> **reagrupar "Corporate" (98.9% no children), "GDS" (100%  no children) y "Undefined" (solo 1 dato)** en `"others"` (aprox. el 7% de los datos).
+
+* `reserved_room_type`: solo 5 de ellas tienen un peso superior al 1% de los registros, si es de tipo **C, H o L** (juntas suman el 1.3% de los datos aprox.), con niños superan el 70% --> **reagrupamos las 3** en un `"others"`
+
+* `assigned_room_type`: con el mismo razonamiento que antes podemos **reaagupar las categorías H-I-K** en `"others"` 
+
+* `deposit_type`: el 99.6% de registros es la misma -->  muy poca varianza y además casi todos de esas clases minoritarias son de la clase mayoritaria de la  objetivo  --> **eliminar**
+
+* `customer_type` --> **reagrupar "Transient" y "others"**
+
+* `required_car_parking_spaces` --> **no hacer nada**
+
+
+## Variables de fecha
+
+Solo tenemos una `arrival_date`: ¿qué parte de la fecha exactamente influye más? ¿El año? ¿El mes? ¿El día como número en sí o el día de la semana? Tras extraer info la eliminaremos.
+
+```{r}
+library(lubridate)
+hoteles <- 
+  hoteles %>% 
+  mutate(m_arr = month(arrival_date), y_arr = year(arrival_date),
+         wday_arr = wday(arrival_date))
+
+hoteles %>% group_by(y_arr) %>% count(children) %>% 
+  mutate(porc = 100*n/sum(n))
+```
+
+No parece que el año influya mucho (veremos si influyen los días festivos en sí)
+
+Sí parece que los meses de julio, agosto y diciembre influye mucho al tener más niños --> podemos agrupar los meses en `"month_holy"` y `"month_no_holy"`
+
+```{r}
+hoteles %>% 
+  group_by(m_arr) %>%
+  count(children) %>% 
+  mutate(porc = 100*n/sum(n))
+```
+
+Además parece que los viernes, sábados y domingos hay más reservas con niños --> podemos agrupar los meses en `"weekend"` y `"workday"`
+
+```{r}
+hoteles %>%  group_by(wday_arr) %>%  count(children) %>% 
+  mutate(porc = 100*n/sum(n))
+```
+
+
+## Variables numéricas
+
+Para las numéricas el proceso será ligeramente diferente, ya que ya no toman modalidades, aunque la mayoría de ellas como veremos podrían funcionar tanto de cuanti como de cuali (recategorizadas)
+
+### Variable lead_time
+
+* `lead_time`: variable con una alta concentración a la izquierda (cola pesada a la derecha), con un máximo de días muy elevado.
+
+```{r}
+hoteles %>% summarise(min_lead = min(lead_time), max_lead = max(lead_time))
+```
+
+Quizas no tenga sentido tanto número de días (¡más de un año!) entre la reserva y la estancia --> todo lo que **supere 365, imputarle 366** (representan además el 1.35% solo)
+
+```{r}
+hoteles %>%
+  count(lead_time > 365)
+```
+
+### Variable stays_in_weekend_nights
+
+* `stays_in_weekend_nights`: en realidad es una variable cualitativa más que cuantitativa, y a partir de 2 noches en festivo representa menos de 1% --> podríamos probar a **dejarla tal cual o recategorizarla en 4 categorías** (ninguna - 1 - 2 - más de 2)
+
+```{r}
+hoteles %>%
+  count(stays_in_weekend_nights, sort = TRUE) %>% 
+  mutate(porc = 100*n/sum(n), cumul = cumsum(porc))
+```
+
+### Variable stays_in_week_nights
+
+* `stays_in_week_nights`: en realidad es una variable cualitativa más que cuantitativa, y a partir de 5 noches representa menos del 5% --> podríamos probar a **dejarla tal cual o recategorizarla en 7 categorías** (ninguna - 1 - 2 - 3 - 4 - 5 - más de 5)
+
+```{r}
+hoteles %>%
+  count(stays_in_week_nights, sort = TRUE) %>% 
+  mutate(porc = 100*n/sum(n), cumul = cumsum(porc))
+```
+
+
+### Variable adults
+
+* `adults`: en realidad es una variable cualitativa más que cuantitativa --> podríamos probar a **dejarla tal cual o recategorizarla en 4 categorías** (ninguno - 1 - 2 - más de 2)
+
+```{r}
+hoteles %>% count(adults, sort = TRUE) %>% 
+  mutate(porc = 100*n/sum(n), cumul = cumsum(porc))
+```
+
+
+### Variable is_repeated_guest
+
+* `is_repeated_guest`: en realidad es **binaria** --> hay que convertirla a cualitativa (factor)
+
+```{r}
+hoteles %>%
+  count(is_repeated_guest, sort = TRUE) %>%
+  mutate(porc = 100*n/sum(n))
+
+hoteles %>%
+  group_by(is_repeated_guest) %>%
+  count(children) %>% 
+  mutate(porc = 100*n/sum(n)) %>%
+  ungroup()
+```
+
+
+### Variables previous_cancellations y previous_bookings_not_canceled
+
+* `previous_cancellations`: el 99.238% son 0 (y la mayoría de 1, sin niños) --> **eliminar**
+
+* `previous_bookings_not_canceled`: el 95.47% son 0, el 1.9% son 1 --> se podría probar a **dejarla tal cual o recategorizar en 3 categorías**
+
+```{r}
+hoteles %>% count(previous_cancellations == 0, sort = TRUE)
+
+hoteles %>% count(previous_bookings_not_canceled, sort = TRUE) %>%
+  mutate(porc = 100*n/sum(n), cumul = cumsum(porc))
+```
+
+### Variable booking_changes
+
+* `booking_changes`: el 94.194% son 0 o 1 --> se podría probar a **dejarla numérica o recategorizar en 3 categorías**
+
+```{r}
+hoteles %>% count(booking_changes, sort = TRUE) %>% 
+  mutate(porc = 100*n/sum(n), cumul = cumsum(porc))
+```
+
+#### Variable days_in_waiting_list
+
+* `days_in_waiting_list`: el 98% de los registros son 0 (y de los que no son casi todos no tienen niños) --> **eliminar variable**
+
+```{r}
+hoteles %>% count(days_in_waiting_list, sort = TRUE) %>% 
+  mutate(porc = 100*n/sum(n), cumul = cumsum(porc))
+```
+
+
+### Variable average_daily_rate
+
+* `average_daily_rate`: es la única numérica continua pero tiene **valores negativos o cero** (deberían ser estrictamente positivo) --> el 2.33% tiene **problemas de codificación o rango** que deberemos pasar a ausentes e imputarles un valores luego.
+
+```{r}
+hoteles %>%
+  count(average_daily_rate <= 0) %>%
+  mutate(porc = 100*n/sum(n))
+```
+
+
+### Variable total_of_special_requests
+
+* `total_of_special_requests`: más del 96% son 0-1-2 --> se podría **dejar numérica o recategorizarla en 4 categorías**.
+
+```{r}
+hoteles %>%
+  count(total_of_special_requests, sort = TRUE) %>% 
+  mutate(porc = 100*n/sum(n), cumul = cumsum(porc))
+```
+
+
+## Colinealidad
+
+Por último, nos falta comprobar los **problemas de  colinealidad** entre las predictoras numéricas. Podemos tratar las **numéricas por separado** (aunque tengamos muchas que en realidad hacen más de cuali que de cuanti)
+
+```{r}
+library(corrr)
+cor_matrix <- hoteles %>% select(where(is.numeric)) %>% cor() %>% round(2)
+cor_matrix
+```
+
+
+```{r}
+library(corrplot)
+cor_matrix %>%
+  corrplot(method = "number", tl.cex = 0.55, number.cex = 0.7, type = "lower")
+```
+
+
+No parece existir una correlación elevada entre ninguna.
+
+
+## Fase 3: modificación (fuera de la receta)
+
+Con lo observado en la fase de exploración deberemos tomar **dos tipos decisiones**:
+
+* las que afectan a la **base de datos en general**: pasar a factores, problemas de codificación o rango, variables que no aportan, creación de variables en general, etc
+
+* las que afectan a un **algoritmo en concreto**: normalización para la métrica, recategorización, tratamiento de outliers/ausentes, dummyficación, etc.
+
+Pero antes...¿hace falta **muestreo**? Parece que sí dado que tenemos muchas filas (al menos para hacer pruebas) --> muestreo **estratificado** (por ej., del 10%)
+
+```{r}
+# Muestreo del 10%
+hoteles_sample <-
+  hoteles_bruto %>%
+  group_by(children) %>% 
+  slice_sample(prop = 0.10) %>%
+  ungroup()
+```
+
+Tras ello procederemos a las **modificaciones estructurales** (la tabla está incorrectamente codificada)
+
+```{r}
+# Convertir a cuali
+hoteles_sample <-
+  hoteles_sample %>% 
+  mutate(across(where(is.character), as_factor)) %>%
+  mutate(meal = factor(meal, levels = c("Undefined", "SC", "BB", "HB", "FB"),
+                       ordered = TRUE))
+
+# Modificaciones de variables existentes
+hoteles_sample <-
+  hoteles_sample %>% 
+  mutate(lead_time = ifelse(lead_time > 365, 366, lead_time),
+         average_daily_rate = ifelse(average_daily_rate < 0 | is.na(average_daily_rate), NA, average_daily_rate),
+         is_repeated_guest = as_factor(is_repeated_guest))
+```
+
+
+## Fase 3: modificación (dentro de la receta)
+
+### Partición
+
+#### Test vs lo demás
+
+Antes de nada deberemos realizar nuestras particiones, y primero dividiremos en **test y lo demás**, con `initial_split()`, teniendo 10% en test y 90% en todo lo demás
+
+```{r}
+# Partición 10% de test
+hoteles_split <- initial_split(hoteles_sample, strata = children, prop = 0.9)
+hoteles_split
+```
+
+Fíjate que en `hoteles_split` solo tenemos las instrucciones. Vamos a aplicarlas
+
+```{r}
+# Aplicamos partición
+hoteles_train <- training(hoteles_split)
+hoteles_test <- testing(hoteles_split)
+```
+
+Tras ello nunca está de más comprobar que efectivamente lo ha realizado de manera estratificada
+
+```{r}
+# Comprobamos estratos
+hoteles_train %>% count(children) %>% mutate(porc = 100 * n / sum(n))
+hoteles_test %>% count(children) %>% mutate(porc = 100 * n / sum(n))
+```
+
+
+#### Validación
+
+Tras ello usamos `validation_split()` para **dividir en train-validación** lo que teníamos en `hoteles_train` (75% del 90% nos quedaría 67.5% en train vs 22.5% en validación y 10% que teníamos en test)
+
+```{r}
+# Validación
+hoteles_val <- validation_split(hoteles_train, strata = children,
+                                prop = 0.75)
+hoteles_val
+```
+
+De nuevo en `hoteles_val` solo tenemos las futuras instrucciones. Fíjate que de nuevo lo hacemos estratificado con `strata = children`
+
+### Roles
+
+
+Tras las particiones, el primer paso es **definir la receta**, indicándole el conjunto donde tenemos validación y train, y enfrentar `children` con todas. Después lo que haremos será **asignar posibles roles** que nos puedan diferencias las acciones entre las variables
+
+```{r}
+# Receta
+hoteles_rec <-
+  # Fórmula y datos
+  recipe(data = hoteles_train, children ~ .)%>%
+  # Roles
+  add_role(contains("date"), new_role = "date") %>% 
+  add_role(where(is.factor), new_role = "cuali") %>% 
+  add_role(where(is.numeric), new_role = "cuanti") %>% 
+  add_role(c(hotel, required_car_parking_spaces, is_repeated_guest), new_role = "binary") %>% 
+  add_role(where(is.numeric) & !average_daily_rate, new_role = "maybe_cuali")
+```
+
+### Eliminar variables
+
+Habíamos decidido que había variable que no queríamos usar así que lo primero es eliminarlas para no acumularlas en el proceso
+
+```{r}
+# Receta
+hoteles_rec <-
+  hoteles_rec %>% 
+  step_rm(c(deposit_type, days_in_waiting_list, previous_cancellations))
+```
+
+### Fechas
+
+Con `step_date()` podemos indicarle directamente que extraiga de la fecha los elementos que le pidamos (en nuestro caso mes, día de la semana y año). Además con `listHolidays()` del paquete `{timeDate}` seleccionaremos festivos relevantes internacionalmente, y con `step_holiday()` marcaremos las fechas que lo sean. Tras ello eliminaremos la fecha original con `step_rm()`.
+
+```{r}
+library(timeDate)
+# Receta
+hoteles_rec <-
+  hoteles_rec %>% 
+  step_date(arrival_date, features = c("month", "dow", "year")) %>% 
+  step_holiday(arrival_date,
+               holidays = c(listHolidays("\\Mary"), listHolidays("\\Easter"),
+                            listHolidays("\\Christ"), "NewYearsDay")) %>%
+  # Eliminamos la variable
+  step_rm(arrival_date)
+```
+
+Prueba a jugar con `listHolidays()` y las vacaciones que nos ofrecen (en global o para distintos países)
+
+```{r}
+listHolidays()
+```
+
+### Outliers
+
+En este caso yo voy a **detectar outliers a lo bruto**: detectando por la media e imputando por la media, pero solo de `has_role("cuanti")`, para no incluir a las binarias. Las cuali por la moda en caso de haber ausentes. Queda en tus manos mejorar esto.
+
+```{r}
+library(outliers)
+# Receta
+hoteles_rec <-
+  hoteles_rec %>% 
+  # Detectar outliers
+  step_mutate(across(where(is.numeric), function(x) { ifelse(abs(scores(x, type = "z")) > 2.5 & !is.na(x), NA, x) })) %>% 
+  # Imputar ausentes
+  step_impute_mean(has_role("cuanti")) %>%
+  step_impute_mode(has_role("cuali"))
+```
+
+### Filtro de correlación
+
+Aplicamos un filtro de correlación para **prevenir problemas de colinealidad**.
+
+
+```{r}
+# Receta
+hoteles_rec <-
+  hoteles_rec %>% 
+  # Filtro de correlación
+  step_corr(has_role("cuanti"), threshold = 0.9)
+```
+
+### Normalizar por rango
+
+**Normalizamos por rango** para poder aplicar una métrica en el knn (necesitamos todas entre [0,1] para que tengan el mismo peso)
+
+
+```{r}
+# Receta
+hoteles_rec <-
+  hoteles_rec %>% 
+  # Normalizar por rango
+  step_range(all_numeric_predictors())
+```
+
+
+### Variables dummy
+
+Además, en el caso concreto del knn, debemos **dummyficar** las cualitativas: crea k-1 variables binarias por de cada cualitativa de k niveles. Fíjate que le decimos que **tome todas las nominales, menos la variable objetivo**.
+
+```{r}
+# Receta
+hoteles_rec <-
+  hoteles_rec %>%
+  # Dummyficamos
+  step_dummy(all_nominal(), -all_outcomes())
+```
+
+### Filtro de cero varianza
+
+```{r}
+# Receta
+hoteles_rec <-
+  hoteles_rec %>%
+  # Filtro de cero varianza
+  step_zv(all_predictors())
+```
+
+
+# Fase 4: modelo y flujo
+
+**¿Qué sucedería si hacemos un sobremuestreo?** 
+
+```{r recipe2}
+rec_class_bin <- recipe(data = hotel_train, children ~ .) %>%
+  # Recategorizamos  
+  step_mutate(previous_bookings_not_canceled =
+                cut(previous_bookings_not_canceled,
+                    breaks = c(-Inf, 0, 1, 2, Inf),
+                    labels = c("none", "one", "two", "more")),
+              booking_changes =
+                cut(booking_changes, breaks = c(-Inf, 0, 1, 2, Inf),
+                    labels = c("none", "one", "two", "more")),
+              days_in_waiting_list =
+                cut(days_in_waiting_list, breaks = c(-Inf, 0, 7, Inf),
+                    labels = c("none", "week.or.less", "more.one.week")),
+              previous_cancellations =
+                cut(previous_cancellations, breaks = c(-Inf, 0, 1, 2, Inf),
+                    labels = c("none", "one", "two", "more")),
+              across(is_repeated_guest:days_in_waiting_list,
+                     as.factor)) %>%
+  # Imputamos ausentes (podríamos dejarlas como una categoría más)
+  step_impute_mean(all_numeric_predictors()) %>%
+  step_impute_mode(all_nominal_predictors())  %>%
+  # Extraemos cosas de la fecha
+  step_date(arrival_date, features = c("dow", "month")) %>%
+  step_holiday(arrival_date,
+               holidays =
+                 c(listHolidays("\\Mary"), listHolidays("\\Easter"),
+                   listHolidays("\\Christ"), "NewYearsDay")) %>%
+  step_rm(arrival_date) %>%
+  # Convertimos días de la semana para no tener tildes
+  step_mutate(arrival_date_dow =
+                factor(arrival_date_dow, labels = c(7, 1:6))) %>%
+  # Eliminamos variables sin varianza
+  step_zv(all_predictors()) %>%
+  # Reagrupamos
+  step_other(all_nominal_predictors(), threshold = 0.02) %>%
+  # Sobremuestreo 50-50%
+  step_upsample(children, over_ratio = 1)
+
+# Flujo de trabajo
+hoteles_wflow <-
+  workflow() %>%
+  add_recipe(rec_class_bin)
+
+# Aplicamos flujos
+decision_tree_gini_fit <-
+  hoteles_wflow %>%
+  add_model(decision_tree_gini) %>%
+  fit(data = hotel_train)
+decision_tree_entropy_fit <-
+  hoteles_wflow %>%
+  add_model(decision_tree_entropy) %>%
+  fit(data = hotel_train)
+
+# Ajustes
+decision_tree_gini_fit
+decision_tree_entropy_fit
+
+# Calculamos probabilidades de los dos
+models <- list("gini" = decision_tree_gini_fit,
+               "entropia" = decision_tree_entropy_fit)
+pred_probs <- imap_dfr(models, augment,
+                       new_data = hotel_test, .id = "model")
+
+# En realidad solo nos interesa el modelo, la variable Children
+# y las predicciones
+pred_probs <- pred_probs %>%
+  select(model, children, .pred_class, .pred_children, .pred_none)
+pred_probs
+
+# Métricas conjuntas
+multi_metric <- metric_set(accuracy, sensitivity, specificity, roc_auc)
+metrics <-
+  pred_probs %>% 
+  group_by(model) %>%
+  multi_metric(truth = factor(children), estimate = .pred_class, .pred_children)
+metrics
+
+# Curvas ROC (feas)
+roc_curves <-
+  pred_probs %>% group_by(model) %>%
+  roc_curve(factor(children), .pred_children)
+
+# Ploteado
+ggplot(roc_curves, aes(x = 1 - specificity, y = sensitivity, color = model)) +
+  geom_line(lwd = 1.3) + geom_abline(lty = 4) +
+  coord_equal() +
+  scale_color_tableau(limits = c("gini", "entropia"),
+                      labels = c("Gini (CART)", "Entropía (C5.0)")) +
+  scale_x_continuous(limits = c(0, 1), breaks = seq(0, 1, by = 0.1),
+                     expand = c(0.005, 0.005)) +
+  scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, by = 0.1),
+                     expand = c(0.005, 0.005)) +
+  labs(x = "1 - especificidad (proporción falsos positivos)",
+       y = "sensibilidad (proporción verdaderos positivos)",
+       title = "ÁRBOLES DE DECISIÓN",
+       color = "Método",
+       subtitle = "Métricas usadas: AUC, accuracy, sensib., especif. | Sobremuestreo: 50%-50%",
+       caption =
+         paste0("Autor: Javier Álvarez Liébana | ",
+                "Datos: Tidymodels (hotels.csv)"))
+```
+
+## Visualizar el árbol
+
+También podemos visualizar fácilmente los árboles generados con CART (Gini, del paquete `{rpart}`): primero con `extract_fit_engine()` extraemos las rutas del árbol, y después con `rpart.plot(roundint = FALSE, extra = 4)` le indicamos que no redondee valores a enteros y de los modelos de visualización elegimos `extra = 4` (prueba con varios para ver las diferencias). Para visualizar árboles `C5.0` ver documentación en <https://topepo.github.io/C5.0/reference/plot.C5.0.html>
+
+```{r visualizar}
+decision_tree_gini_fit %>%
+  extract_fit_engine() %>%
+  rpart.plot(roundint = FALSE, extra = 4)
+```
+  
+Recuerda que parar interpretar mejor el árbol puedes repasar el significado de cada variable en <https://github.com/rfordatascience/tidytuesday/tree/master/data/2020/2020-02-11#data-dictionary>
+
+## Importancia de las variables
+
+Con `vip()` (del paquete homónimo) podemos visualizar la **importancia relativa de las variables**. Para detalles del cálculo ver <https://rdrr.io/cran/vip/man/vi_model.html> y  <https://koalaverse.github.io/vip/articles/vip.html>
+
+```{r vip}
+# Extraemos el ajuste
+fit_gini <- decision_tree_gini_fit %>%
+  extract_fit_engine()
+
+# Aquí se guardan los scores
+fit_gini$variable.importance
+
+# En tabla por si queremos hacer otra visualización
+tabla_vip <- vi(fit_gini)
+tabla_vip
+
+# Visualizamos
+fit_gini %>% vip() +
+  labs(x = "Importancia", y = "Variables",
+       title = "IMPORTANCIA DE VARIABLES",
+       subtitle = "Con el paquete {vip}",
+       caption =
+         paste0("Autor: Javier Álvarez Liébana | ",
+                "Datos: Tidymodels (hotels.csv)"))
+```
+
+
+## Poda (prune)
+
+Hasta ahora no hemos realizado una tarea muy habitual en árboles que es la **poda**. Para ello vamos a añadir un parámetro extra `cost_complexity`, un número positivo que nos modelizará la penalización por complicar el modelo (valores altos harán podas más extremas).
+
+```{r decision-tree-prune}
+decision_tree_gini <-
+  decision_tree(mode = "classification", tree_depth = 7,
+                min_n = 0.025 * nrow(hotel_test),
+                cost_complexity = 0.1) %>%
+  set_engine("rpart")
+
+# Aplicamo flujo
+decision_tree_gini_fit <-
+  hoteles_wflow %>% add_model(decision_tree_gini) %>%
+  fit(data = hotel_train)
+
+# Calculamos probabilidades
+pred_probs <- augment(decision_tree_gini_fit, new_data = hotel_test)
+
+# Métricas conjuntas
+multi_metric <- metric_set(accuracy, sensitivity, specificity, roc_auc)
+metrics <-
+  pred_probs %>%
+  multi_metric(truth = factor(children),
+               estimate = .pred_class, .pred_children)
+metrics
+
+# Visualizando el árbol
+decision_tree_gini_fit %>%
+  extract_fit_engine() %>%
+  rpart.plot(roundint = FALSE, extra = 4)
+```
+
+# Validación
+
+Hasta ahora hemos probado un modelo, o varios modelos, pero con parámetros fijos y observando su métrica en el conjunto test. **¿Y si queremos un tercer conjunto intermedio de validación para decidir que parámetros son mejores?** A lo largo de esta sección vamos a ver varias formas obtener un conjunto de validación, y a **optimizar nuestros parámetros de forma automática**.
+
+## Conjunto de validación
+## Particionar a un conjunto de validación
+
+La **validación más sencilla** es añadir al inicio una tercera partición de validación a partir del conjunto de entrenamiento (por ejemplo, el 30% del conjunto de entrenamiento)
+
+```{r validation-split}
+# CONJUNTO DE VALIDACIÓN INICIAL
+val_set <- validation_split(hotel_train, strata = children,
+                            prop = 0.70)
+val_set
+```
+
+Este tipo de validación es **útil cuando tenemos suficientes datos para realizar tres particiones** y obtener conjuntos de datos no excesivamente pequeños. En este caso, dado que hemos hecho primero una partición 80-20% entre train-test y luego un 30% de entrenamiento va para validación, tendremos un **56% en entrenamiento, un 24% en validación y un 20% en test**. Tras realizar la partición podemos indicarle que el **modelo que ha construido en entrenamiento**, sea **evaluado en la submuestra de validación**.
+  
+```{r metric-validation}
+decision_tree <-
+  decision_tree(mode = "classification", tree_depth = 7,
+                min_n = 0.025 * nrow(hotel_test))
+decision_tree_gini <- decision_tree %>%
+  set_engine("rpart")
+decision_tree_entropy <- decision_tree %>%
+  set_engine("C5.0")
+
+# Solo contra un conjunto de validación
+decision_tree_gini_val <-
+  hoteles_wflow %>%
+  add_model(decision_tree_gini) %>% fit_resamples(val_set)
+collect_metrics(decision_tree_gini_val) # sin std_error porque...n = 1
+
+decision_tree_entropia_val <-
+  hoteles_wflow %>%
+  add_model(decision_tree_entropy) %>% fit_resamples(val_set)
+collect_metrics(decision_tree_gini_val)
+```
+
+## Validación cruzada k-folds
+
+```{r imagen-k-folds, echo = FALSE, out.width = "60%", fig.align = "center", fig.cap = "Filosofía de la validación cruzada (fuente: wikipedia)."}
+knitr::include_graphics("./img/K-fold_cross_validation.jpg")
+```
+ 
+Dado que no siempre disponemos de un volumen suficiente de datos, una **opción muy común y que arroja unos resultados bastante buenos** es la llamada **validación cruzada v-folds**: dividimos en $v$ trozos nuestro conjunto de entrenamiento, de forma que realizamos las siguientes iteraciones:
+
+* Iteración 1: entrenamos el modelo con los conjuntos $\left\lbrace 2, 3, \ldots, v \right\rbrace$ y validamos con el primer conjunto.
+
+* Iteración 1: entrenamos el modelo con los conjuntos $\left\lbrace 1, 3, \ldots, v \right\rbrace$ y validamos con el segundo conjunto.
+
+...
+
+* Iteración v: entrenamos el modelo con los conjuntos $\left\lbrace 1, 2, \ldots, v1 \right\rbrace$ y validamos con el conjunto $v$-ésimo.
+
+Este método nos permite, no solo no tener que disponer de un alto volumen de datos sino que además **la validación ya no es sobre una sola muestra sino un promedio de varias** (eso sí, muestras relacionadas entre sí, no son independientes). Además con `strata = children` le diremos que dichas particiones las hagan estratificadas para conservar 0's-1's. Antes **muestreamos 5000 para simular tener «pocos» datos**.
+
+```{r k-folds}
+# Muestreo inicial del 10% para simular tener menos datos
+hoteles_sample <- hoteles_raw %>% slice_sample(prop = 0.1)
+
+# Partición 80-20%: estratificada
+hoteles_split <-
+  initial_split(hoteles_sample, strata = children, prop = 0.8)
+
+# Aplicamos partición
+hotel_train <- training(hoteles_split)
+hotel_test  <- testing(hoteles_split)
+
+# Validación cruzada v-fold con v = 20 (20 conjuntos)
+folds <- vfold_cv(hotel_train, v = 20, strata = children)
+folds
+```
+
+El símil más fácil de visualizar es pensar en **nuestros datos como un cuadrado que hemos partido en $v$ trozos**, y en cada iteración elegimos una de las porciones para validar y el resto para entrenar. Sin embargo, esta partición puede ser determinante en nuestros resultados, ya que **la forma en la que hemos hecho la partición sesgará los resultados** (por ejemplo, partir nuestro cuadrado con cortes perpendiculares). Para eliminar ese sesgo, podemos indicarle en `repeats` las **veces que repetimos el proceso, realizando en cada repetición una partición distinta del cuadrado**, lo que **nos permite aumentar el número de datos en cada fold, pudiendo disminuir $v$**.
+
+```{r k-folds-rep}
+# Validación cruzada v-fold con v = 10 y 5 repeticiones
+# Tenemos 50 iteraciones
+folds <- vfold_cv(hotel_train, v = 10, strata = children, repeats = 5)
+folds
+```
+
+Cuando nuestro conjunto lo validamos una sola vez con un conjunto de validación inicial, para tener una métrica real de nuestro algoritmo, lo **ideal sería ejecutar un bucle, en cada iteración con una semilla aleatoria distinta**, ya que sino estamos tomando como métrica de referencia un solo intento (pudiendo tener buena o mala suerte, sin ser representativo de la calidad real de nuestro modelo). Con la validación cruzada obtenemos un **promedio mucho más ajustado a la realidad que un solo intento de validación**.
+
+```{r flujo-k-folds}
+decision_tree <-
+  decision_tree(mode = "classification", tree_depth = 7,
+                min_n = 0.025 * nrow(hotel_test))
+decision_tree_gini <- decision_tree %>%
+  set_engine("rpart")
+
+# Aplicamos flujo a las v-folds
+decision_tree_gini_cv <-
+  hoteles_wflow %>%
+  add_model(decision_tree_gini) %>% fit_resamples(folds)
+collect_metrics(decision_tree_gini_cv)
+```
+## Optimizando parámetros (tune)
+
+**¿Para qué validamos?** La verdadera **utilidad de la validación** es la **optimización de los parámetros del modelo**, encontrar los hiperparámetros que nos devuelvan un resultado más óptimo (en función de una métrica). Para ello lo que vamos a hacer al definir el modelo es no asignar una constante a los parámetros sino que los vamos a **dejar sin fijar, asignándoles `tune()`** (entre paréntesis una etiqueta para luego ser usada): lo que hará en validación es devolverte la **configuración óptima** usando los resultados obtenidos en validación.
+
+
+```{r modelo-tune}
+# Modelo con tune
+decision_tree <-
+  decision_tree(mode = "classification",
+                tree_depth = tune("depth"),
+                min_n = tune("min_split"),
+                cost_complexity = tune("cost"))
+decision_tree_gini <- decision_tree %>%
+  set_engine("rpart")
+
+# Flujo de trabajo
+hoteles_wflow <-
+  workflow() %>%
+  add_recipe(rec_class_bin) %>%
+  add_model(decision_tree_gini)
+
+# Parámetros a optimizar
+param <- parameters(decision_tree_gini)
+param$object
+
+```
+
+Tras indicarle los paráemtros que tiene que ajustar, vamos a **construir un grid de valores entre los que elegir**.
+
+```{r grid-arboles}
+# Construimos el grid de parámetros
+grid_tree <-
+  parameters(hoteles_wflow) %>%
+  # Actualizamos
+  update(depth = tree_depth(range = c(3, 8)),
+         min_split = min_n(range = c(0.01, 0.1) * nrow(hotel_test)),
+         cost = cost_complexity(range = c(-5, -1),
+                                trans = log10_trans())) %>%
+  grid_regular(levels = 3) 
+grid_tree  # 27 modelos (3x3x3)
+
+# Validación cruzada
+folds <- vfold_cv(hotel_train, v = 5, strata = children, repeats = 3)
+
+# Aplicamos flujo a las v-folds
+decision_tree_gini_cv_tune <-
+  hoteles_wflow %>%
+  tune_grid(resamples = folds, grid = grid_tree,
+            control = control_grid(verbose = TRUE),
+            metrics = multi_metric)
+# Métricas
+decision_tree_gini_cv_tune %>% collect_metrics()
+```
+
+De las configuraciones posibles, **¿cuál es la mejor de todas?** Con `show_best()` le podemos indicar que **obtenga AUTOMÁTICAMENTE los mejores modelos** en función de distintas métricas.
+
+```{r}
+# ¿Cuál es el mejor y con qué parámetros?
+decision_tree_gini_cv_tune %>% show_best("accuracy")
+decision_tree_gini_cv_tune %>% show_best("roc_auc")
+```
+
+## Validación en paralelo: visualizando el sobreajuste
+
+Si queremos **probar muchos modelos y/o nuestro volumen de datos es elevado**, quizás nos lleve demasiado tiempo la validación cruzada para optimizar el mejor modelo. Aunque no es el objetivo de la asignatura, vamos a hacer una **incursión a la programación paralelizada**. Vamos a empezar cargando algunos paquetes que necesitaremos.
+
+```{r doparal}
+library(parallel)
+library(doParallel)
+```
+
+Ambos paquetes serán los que nos **permitan paralelizar de forma sencilla** (se puede hacer más óptimo, pero de momento nos sirve) algunos de nuestros procesos. La idea es **mandar tareas independientes a procesadores distintos** (por ejemplo, una vez hecha la partición de la validación cruzada, cada iteración se podría hacer en ordenadores distintos), de forma que si una tarea tarda 6 minutos en un pc, al mandarlo a otros dos procesadores, el tiempo pueda bajar hasta los 2 minutos (no es del todo lineal ya que hay un tiempo mínimo necesario en cada paso pero para que nos hagamos una idea, supongamos que la reducción en tiempos fuese lineal aproximadamente).
+
+En muchas empresas u organismos de investigación se suele tener a disposición de los usuarios un **conjunto de ordenadores (un clúster)** común a todos de forma que cada persona pueda mandar sus hilos en paralelo. Pero...no tenemos de eso. ¿Entonces? Si es la primera vez que te lo dicen quizás te explote la almendra: **vamos a paralelizar en NUESTRO PROPIO ORDENADOR**. Sí, en nuestro ordenador, ya que quizás nunca te hayas fijado al comprar uno (a partir de ahora ya sabes que es algo clave a mirar) pero **un ordenador suele tener varios procesadores o _cores_** que **pueden funcionar de manera «independiente» uno de otro** (un portátil de gama media suele tener 4 núcleos, los portátiles más dedicados a simulación, programación y audiovisuales suelen tener 6-8-12 núcleos); ver más detalles sobre [cómo paralelizar en R](https://privefl.github.io/blog/a-guide-to-parallelism-in-r/). Vamos a detectar la cantidad de núcleos de los que podemos disponer con `detectCores()`.
+
+```{r detect-cores}
+# Detectamos los cores que tenemos
+detectCores()
+```
+
+Mi ordenador tiene `r detectCores()` (gracias, James Rhodes) pero el tuyo puede que tenga una cantidad diferente. A la hora de paralelizar es importante que lo hagamos **con cuidado** si es la primera vez que manejamos los paquetes de paralelización ya que puede que nuestro ordenador se quede colgado por abusar de los recursos del mismo, así mi consejo es que **definas el número de cores a usar como los que tienes menos uno, para asegurarte siempre de que uno anda libre** (para el resto de tareas de tu ordenador). Con `makeCluster()` montamos los clúster en cada nodo y con `registerDoParallel()` registramos la paralelización (puedes ver los hilos abiertos con `showConnections()`).
+
+```{r make-cluster}
+# Iniciamos la paralelización
+clusters <- detectCores() - 1
+make_cluster <- makeCluster(clusters)
+registerDoParallel(make_cluster)
+showConnections()
+```
+
+Esta vez vamos a definir un grid manual de parámetros.
+
+```{r}
+# Modelo con tune
+decision_tree <-
+  decision_tree(mode = "classification",
+                tree_depth = tune("depth"),
+                min_n = tune("min_split"),
+                cost_complexity = tune("cost"))
+decision_tree_gini <- decision_tree %>%
+  set_engine("rpart")
+
+# Flujo de trabajo
+hoteles_wflow <-
+  workflow() %>%
+  add_recipe(rec_class_bin) %>%
+  add_model(decision_tree_gini)
+
+# Grid
+grid_manual_tree <- 
+  expand_grid(depth = c(2, 4, 6, 8, 10), # 5 modelos
+              min_split = c(10, 50, 100, 150), # 4 modelos,
+              cost = 10^c(-5, -3, -2, -0.5)) # 4 modelos
+grid_manual_tree
+dim(grid_manual_tree) # 80 modelos
+
+# v-folds con repeticiones (cuidado con pasarse que no acaba :P)
+# 32 iteraciones de 80 modelos
+folds <- vfold_cv(hotel_train, v = 8, strata = children, repeats = 4)
+
+# Ajuste con tune paralelizado
+decision_tree_gini_tune_par <- 
+  hoteles_wflow %>% 
+  tune_grid(resamples = folds, grid = grid_manual_tree,
+            control = control_grid(allow_par = TRUE),
+            metrics = multi_metric)
+            
+# finalizamos clusters
+stopCluster(make_cluster)
+registerDoSEQ()
+
+# Métricas
+decision_tree_gini_tune_par %>% collect_metrics()
+decision_tree_gini_tune_par %>% show_best("accuracy")
+decision_tree_gini_tune_par %>% show_best("roc_auc")
+
+# Elegir el mejor
+decision_tree_gini_tune_par %>% select_best("accuracy")
+decision_tree_gini_tune_par %>% select_best("roc_auc")
+
+decision_tree_gini_tune_par %>% 
+  collect_metrics() %>% 
+  mutate(cost = factor(cost),
+         min_split = factor(min_split)) %>%
+  ggplot(aes(x = depth, y = mean,
+             color = cost, shape = min_split)) + 
+  geom_point(size = 1.7) + 
+  geom_line(size = 1.3, alpha = 0.8) +
+  facet_wrap(~.metric, scales = "free", nrow = 2) +
+  scale_color_tableau(labels = glue("coste = 1e{c(-5, -3, -2, -0.5)}")) +
+  labs(y = "Promedio", x = "Profundidad del árbol",
+       color = "Complejidad",
+       shape = "Mínimo split",
+       title = "Comparativa de árboles (v-folds paralelizada)",
+       subtitle = "Oversampling: ratio = 1",
+       caption =
+         paste0("Autor: Javier Álvarez Liébana | ",
+                "Datos: Tidymodels (hotels.csv)"))
+```
+
+
+
+## Random forest
+
+Por último, podemos aplicar fácilmente un **random forest**, un ejemplo de **bagging (bootstrap aggregaating)** de árboles (obtener como clasificación final el promedio o combinación de varios clasificadores construidos a partir de submuestras aleatoriamente elegidas de la muestra original con reemplazamiento). La idea de los **random forest** es intentar **reducir la varianza** (con el bagging clásico puede no conseguirse por existir un predictor muy influyente que acaba produciendo árboles similares): amén de considerar submuestras aleatorias diferentes, en cada decisión a tomar, se seleccionan aleatoriamente $m < p$ variables ($p$ variables en total, por ejemplo, $m = \sqrt{p}$), de forma que se hace un «barrido» de muchos árboles con una parte aleatoria de las variables y una parte aleatoria de los datos.
+
+Para ello usaremos la función `rand_forest()` con tres argumentos:
+* `mtry`: número de predictores que el árbol puede ver en cada decisión (si es igual a $p$, es equivalenteun bagging clásico)
+* `min_n`: como antes, es el número mínimo de observaciones que se permite tener a un nodo para dividirse.
+* `trees`: árboles que prueba.
+
+Ojo: vamos a lanzar 1000 árboles, que seleccione 25 configuraciones posibles del par `mtry`-`min_n`, para decidir cual es el par de hiperparámetros más óptimo (en total, 25 000 árboles).
+
+```{r random-forest, eval = FALSE}
+# Partición 80-20%
+hoteles_split <-
+  initial_split(hoteles_raw, strata = children, prop = 0.8)
+
+# Aplicamos partición
+hotel_train <- training(hoteles_split)
+hotel_test  <- testing(hoteles_split)
+
+# Conjunto de validación
+val_set <- validation_split(hotel_train, strata = children,
+                            prop = 0.70)
+
+# Iniciamos la paralelización
+clusters <- detectCores() - 1
+
+# Random forest con tune
+rf_hotel <-
+  rand_forest(mtry = tune(), min_n = tune(), trees = 1e2) %>% 
+  set_engine("ranger", num.threads = clusters) %>% 
+  set_mode("classification")
+
+# Flujo de trabajo
+hoteles_wflow <-
+  workflow() %>%
+  add_recipe(rec_class_bin) %>%
+  add_model(rf_hotel)
+
+# Ajuste con tune paralelizado
+rf_tune_par <- 
+  hoteles_wflow %>% 
+  tune_grid(resamples = val_set, grid = 10,
+            control = control_grid(save_pred = TRUE),
+            metrics = multi_metric)
+            
+# finalizamos clusters (por si acaso)
+stopCluster(make_cluster)
+registerDoSEQ()
+```
+
+

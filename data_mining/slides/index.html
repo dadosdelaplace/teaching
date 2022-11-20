@@ -24,7 +24,7 @@ class: center, middle, inverse, title-slide
 # Técnicas de minería de datos
 ## Máster en Minería de Datos e Inteligencia de Negocio
 ### Javier Álvarez Liébana (Fac. Estudios Estadísticos - UCM)
-### Última actualización: 18-11-2022
+### Última actualización: 20-11-2022
 
 ---
 
@@ -2024,7 +2024,7 @@ hoy
 ```
 
 ```
-&gt; [1] "2022-11-18"
+&gt; [1] "2022-11-20"
 ```
 
 --
@@ -2037,7 +2037,7 @@ También podemos obtener el **.bg-purple_light[«hoy y ahora»]** con la funció
 ```
 
 ```
-&gt; [1] "2022-11-18 18:07:12 CET"
+&gt; [1] "2022-11-20 02:08:47 CET"
 ```
  
 ---
@@ -2421,7 +2421,7 @@ hoy - cumple
 ```
 
 ```
-&gt; Time difference of 12122 days
+&gt; Time difference of 12124 days
 ```
 
 ]
@@ -3098,9 +3098,9 @@ x &lt;- rnorm(1e3) # 1000 elementos aleatorias
 
 ```
 &gt; Unit: microseconds
-&gt;         expr    min      lq     mean   median       uq      max neval cld
-&gt;      sort(x) 46.390 89.5515 144.5433 104.7155 137.9525 4036.127  1000   b
-&gt;  x[order(x)] 30.457 60.2575 102.4093  70.1480  88.2005 2892.284  1000  a
+&gt;         expr    min      lq     mean  median     uq     max neval cld
+&gt;      sort(x) 45.786 53.9355 74.29556 62.3940 86.433 222.517  1000   b
+&gt;  x[order(x)] 31.524 37.7215 51.24599 42.3405 57.807 220.814  1000  a
 ```
 
 
@@ -6356,12 +6356,12 @@ microbenchmark(x^2,
 
 ```
 &gt; Unit: nanoseconds
-&gt;                                     expr     min      lq        mean    median
-&gt;                                      x^2     402     559    1710.344    1766.5
-&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 2019021 2359180 2985507.414 2768117.5
+&gt;                                     expr     min      lq       mean  median
+&gt;                                      x^2     412     539    1681.54    1451
+&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 1975899 2258148 2877495.53 2579932
 &gt;       uq      max neval cld
-&gt;     2310    23938  1000  a 
-&gt;  3326046 10988492  1000   b
+&gt;     2393    21048  1000  a 
+&gt;  3162582 10557117  1000   b
 ```
 
 ---
@@ -9828,9 +9828,9 @@ starwars %&gt;% slice_sample(n = 3)
 &gt; # A tibble: 3 × 14
 &gt;   name         height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
 &gt;   &lt;chr&gt;         &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
-&gt; 1 Palpatine       170    75 grey    pale    yellow       82 male  mascu… Naboo  
-&gt; 2 Beru Whites…    165    75 brown   light   blue         47 fema… femin… Tatooi…
-&gt; 3 Jar Jar Bin…    196    66 none    orange  orange       52 male  mascu… Naboo  
+&gt; 1 Eeth Koth       171    NA black   brown   brown        NA male  mascu… Iridon…
+&gt; 2 Ric Olié        183    NA brown   fair    blue         NA &lt;NA&gt;  &lt;NA&gt;   Naboo  
+&gt; 3 Luke Skywal…    172    77 blond   fair    blue         19 male  mascu… Tatooi…
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
@@ -9853,10 +9853,10 @@ starwars %&gt;% slice_sample(prop = 0.05, replace = TRUE)
 &gt; # A tibble: 4 × 14
 &gt;   name         height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
 &gt;   &lt;chr&gt;         &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
-&gt; 1 R4-P17           96    NA none    silver… red, b…      NA none  femin… &lt;NA&gt;   
-&gt; 2 Palpatine       170    75 grey    pale    yellow       82 male  mascu… Naboo  
-&gt; 3 Luke Skywal…    172    77 blond   fair    blue         19 male  mascu… Tatooi…
-&gt; 4 Watto           137    NA black   blue, … yellow       NA male  mascu… Toydar…
+&gt; 1 Dooku           193    80 white   fair    brown       102 male  mascu… Serenno
+&gt; 2 Barriss Off…    166    50 black   yellow  blue         40 fema… femin… Mirial 
+&gt; 3 Roos Tarpals    224    82 none    grey    orange       NA male  mascu… Naboo  
+&gt; 4 C-3PO           167    75 &lt;NA&gt;    gold    yellow      112 none  mascu… Tatooi…
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
 &gt; #   ³​eye_color, ⁴​birth_year, ⁵​homeworld
@@ -9879,8 +9879,8 @@ starwars %&gt;% slice_sample(n = 2, weight_by = c(0.495, 0.495, rep(0.01/85, 85)
 &gt; # A tibble: 2 × 9
 &gt;   name           height  mass hair_color skin_color eye_c…¹ birth…² sex   gender
 &gt;   &lt;chr&gt;           &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
-&gt; 1 Luke Skywalker    172    77 blond      fair       blue         19 male  mascu…
-&gt; 2 C-3PO             167    75 &lt;NA&gt;       gold       yellow      112 none  mascu…
+&gt; 1 C-3PO             167    75 &lt;NA&gt;       gold       yellow      112 none  mascu…
+&gt; 2 Luke Skywalker    172    77 blond      fair       blue         19 male  mascu…
 &gt; # … with abbreviated variable names ¹​eye_color, ²​birth_year
 ```
 
@@ -10066,16 +10066,16 @@ starwars %&gt;%
 &gt; # A tibble: 38 × 14
 &gt;    name        height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
 &gt;    &lt;chr&gt;        &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
-&gt;  1 Dormé          165  NA   brown   light   brown        NA fema… femin… Naboo  
+&gt;  1 Shaak Ti       178  57   none    red, b… black        NA fema… femin… Shili  
 &gt;  2 Padmé Amid…    165  45   brown   light   brown        46 fema… femin… Naboo  
 &gt;  3 Luminara U…    170  56.2 black   yellow  blue         58 fema… femin… Mirial 
 &gt;  4 Mon Mothma     150  NA   auburn  fair    blue         48 fema… femin… Chandr…
-&gt;  5 Adi Gallia     184  50   none    dark    blue         NA fema… femin… Corusc…
-&gt;  6 Shmi Skywa…    163  NA   black   fair    brown        72 fema… femin… Tatooi…
-&gt;  7 Zam Wesell     168  55   blonde  fair, … yellow       NA fema… femin… Zolan  
-&gt;  8 Leia Organa    150  49   brown   light   brown        19 fema… femin… Aldera…
-&gt;  9 Mas Amedda     196  NA   none    blue    blue         NA male  mascu… Champa…
-&gt; 10 Jango Fett     183  79   black   tan     brown        66 male  mascu… Concor…
+&gt;  5 Rey             NA  NA   brown   light   hazel        NA fema… femin… &lt;NA&gt;   
+&gt;  6 Dormé          165  NA   brown   light   brown        NA fema… femin… Naboo  
+&gt;  7 Barriss Of…    166  50   black   yellow  blue         40 fema… femin… Mirial 
+&gt;  8 Beru White…    165  75   brown   light   blue         47 fema… femin… Tatooi…
+&gt;  9 Han Solo       180  80   brown   fair    brown        29 male  mascu… Corell…
+&gt; 10 Bib Fortuna    180  NA   none    pale    pink         NA male  mascu… Ryloth 
 &gt; # … with 28 more rows, 4 more variables: species &lt;chr&gt;, films &lt;list&gt;,
 &gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names
 &gt; #   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
@@ -10446,16 +10446,16 @@ starwars %&gt;%
 &gt; # A tibble: 49 × 15
 &gt;    name        height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
 &gt;    &lt;chr&gt;        &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
-&gt;  1 R5-D4           97    32 &lt;NA&gt;    white,… red          NA none  mascu… Tatooi…
-&gt;  2 R2-D2           96    32 &lt;NA&gt;    white,… red          33 none  mascu… Naboo  
-&gt;  3 BB8             NA    NA none    none    black        NA none  mascu… &lt;NA&gt;   
-&gt;  4 Roos Tarpa…    224    82 none    grey    orange       NA male  mascu… Naboo  
-&gt;  5 Tion Medon     206    80 none    grey    black        NA male  mascu… Utapau 
-&gt;  6 Plo Koon       188    80 none    orange  black        22 male  mascu… Dorin  
-&gt;  7 Zam Wesell     168    55 blonde  fair, … yellow       NA fema… femin… Zolan  
-&gt;  8 Lama Su        229    88 none    grey    black        NA male  mascu… Kamino 
-&gt;  9 Adi Gallia     184    50 none    dark    blue         NA fema… femin… Corusc…
-&gt; 10 Watto          137    NA black   blue, … yellow       NA male  mascu… Toydar…
+&gt;  1 Kit Fisto      196    87 none    green   black        NA male  mascu… Glee A…
+&gt;  2 IG-88          200   140 none    metal   red          15 none  mascu… &lt;NA&gt;   
+&gt;  3 Taun We        213    NA none    grey    black        NA fema… femin… Kamino 
+&gt;  4 Rugor Nass     206    NA none    green   orange       NA male  mascu… Naboo  
+&gt;  5 Jabba Desi…    175  1358 &lt;NA&gt;    green-… orange      600 herm… mascu… Nal Hu…
+&gt;  6 Ben Quadin…    163    65 none    grey, … orange       NA male  mascu… Tund   
+&gt;  7 Ayla Secura    178    55 none    blue    hazel        48 fema… femin… Ryloth 
+&gt;  8 Bib Fortuna    180    NA none    pale    pink         NA male  mascu… Ryloth 
+&gt;  9 Poggle the…    183    80 none    green   yellow       NA male  mascu… Geonos…
+&gt; 10 Barriss Of…    166    50 black   yellow  blue         40 fema… femin… Mirial 
 &gt; # … with 39 more rows, 5 more variables: species &lt;chr&gt;, films &lt;list&gt;,
 &gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, `species == "Human"` &lt;lgl&gt;, and
 &gt; #   abbreviated variable names ¹​hair_color, ²​skin_color, ³​eye_color,
@@ -10480,10 +10480,10 @@ starwars %&gt;%
 &gt; # A tibble: 5 × 14
 &gt;   name         height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
 &gt;   &lt;chr&gt;         &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  
-&gt; 1 Adi Gallia      184    50 none    dark    blue         NA fema… femin… Corusc…
+&gt; 1 Jocasta Nu      167    NA white   fair    blue         NA fema… femin… Corusc…
 &gt; 2 Jabba Desil…    175  1358 &lt;NA&gt;    green-… orange      600 herm… mascu… Nal Hu…
-&gt; 3 Poe Dameron      NA    NA brown   light   brown        NA male  mascu… &lt;NA&gt;   
-&gt; 4 C-3PO           167    75 &lt;NA&gt;    gold    yellow      112 none  mascu… Tatooi…
+&gt; 3 Qui-Gon Jinn    193    89 brown   fair    blue         92 male  mascu… &lt;NA&gt;   
+&gt; 4 IG-88           200   140 none    metal   red          15 none  mascu… &lt;NA&gt;   
 &gt; 5 Captain Pha…     NA    NA unknown unknown unknown      NA &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt;   
 &gt; # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
 &gt; #   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color, ²​skin_color,
@@ -14716,16 +14716,16 @@ bake(iris_rec %&gt;% prep(), new_data = NULL)
 &gt; # A tibble: 105 × 4
 &gt;    Sepal.Length Sepal.Width Petal.Width Species
 &gt;           &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;  
-&gt;  1       0.143        0.444      0.0417 setosa 
-&gt;  2       0.0857       0.556      0.0417 setosa 
-&gt;  3       0.0571       0.5        0.0417 setosa 
-&gt;  4       0.171        0.778      0.0417 setosa 
-&gt;  5       0.286        0.944      0.125  setosa 
-&gt;  6       0.0571       0.667      0.0833 setosa 
-&gt;  7       0.171        0.667      0.0417 setosa 
-&gt;  8       0.286        0.833      0.0417 setosa 
-&gt;  9       0.114        0.667      0.0417 setosa 
-&gt; 10       0.114        0.444      0      setosa 
+&gt;  1       0.176        0.421      0.0417 setosa 
+&gt;  2       0.118        0.526      0.0417 setosa 
+&gt;  3       0.206        0.737      0.0417 setosa 
+&gt;  4       0.0882       0.632      0.0833 setosa 
+&gt;  5       0.206        0.632      0.0417 setosa 
+&gt;  6       0.0294       0.368      0.0417 setosa 
+&gt;  7       0.176        0.474      0      setosa 
+&gt;  8       0.324        0.789      0.0417 setosa 
+&gt;  9       0.147        0.421      0      setosa 
+&gt; 10       0            0.421      0      setosa 
 &gt; # … with 95 more rows
 &gt; # ℹ Use `print(n = ...)` to see more rows
 ```
@@ -14860,7 +14860,7 @@ iris_knn_fit
 &gt; kknn::train.kknn(formula = ..y ~ ., data = data, ks = min_rows(10,     data, 5), distance = ~2, kernel = ~"inv")
 &gt; 
 &gt; Type of response variable: nominal
-&gt; Minimal misclassification: 0.03809524
+&gt; Minimal misclassification: 0.05714286
 &gt; Best kernel: inv
 &gt; Best k: 10
 ```
@@ -14911,16 +14911,16 @@ predict(iris_knn_fit, iris_test, type = "prob")
 &gt; # A tibble: 45 × 3
 &gt;    .pred_setosa .pred_versicolor .pred_virginica
 &gt;           &lt;dbl&gt;            &lt;dbl&gt;           &lt;dbl&gt;
-&gt;  1            1                0               0
-&gt;  2            1                0               0
-&gt;  3            1                0               0
-&gt;  4            1                0               0
-&gt;  5            1                0               0
-&gt;  6            1                0               0
-&gt;  7            1                0               0
-&gt;  8            1                0               0
-&gt;  9            1                0               0
-&gt; 10            1                0               0
+&gt;  1        1               0                    0
+&gt;  2        1               0                    0
+&gt;  3        1               0                    0
+&gt;  4        1               0                    0
+&gt;  5        0.919           0.0815               0
+&gt;  6        1               0                    0
+&gt;  7        1               0                    0
+&gt;  8        1               0                    0
+&gt;  9        1               0                    0
+&gt; 10        1               0                    0
 &gt; # … with 35 more rows
 &gt; # ℹ Use `print(n = ...)` to see more rows
 ```
@@ -14942,16 +14942,16 @@ prob_test
 &gt; # A tibble: 45 × 9
 &gt;    Sepal.Length Sepal.…¹ Petal…² Petal…³ Species .pred…⁴ .pred…⁵ .pred…⁶ .pred…⁷
 &gt;           &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;fct&gt;   &lt;fct&gt;     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
-&gt;  1          5.1      3.5     1.4     0.2 setosa  setosa        1       0       0
-&gt;  2          4.4      2.9     1.4     0.2 setosa  setosa        1       0       0
-&gt;  3          4.9      3.1     1.5     0.1 setosa  setosa        1       0       0
-&gt;  4          4.3      3       1.1     0.1 setosa  setosa        1       0       0
-&gt;  5          5.7      4.4     1.5     0.4 setosa  setosa        1       0       0
-&gt;  6          5.1      3.3     1.7     0.5 setosa  setosa        1       0       0
-&gt;  7          4.8      3.4     1.9     0.2 setosa  setosa        1       0       0
-&gt;  8          5        3       1.6     0.2 setosa  setosa        1       0       0
-&gt;  9          4.7      3.2     1.6     0.2 setosa  setosa        1       0       0
-&gt; 10          5.2      4.1     1.5     0.1 setosa  setosa        1       0       0
+&gt;  1          5.1      3.5     1.4     0.2 setosa  setosa    1      0            0
+&gt;  2          4.6      3.1     1.5     0.2 setosa  setosa    1      0            0
+&gt;  3          5.4      3.9     1.7     0.4 setosa  setosa    1      0            0
+&gt;  4          4.8      3.4     1.6     0.2 setosa  setosa    1      0            0
+&gt;  5          5.7      4.4     1.5     0.4 setosa  setosa    0.919  0.0815       0
+&gt;  6          5.1      3.7     1.5     0.4 setosa  setosa    1      0            0
+&gt;  7          4.6      3.6     1       0.2 setosa  setosa    1      0            0
+&gt;  8          4.8      3.4     1.9     0.2 setosa  setosa    1      0            0
+&gt;  9          5        3       1.6     0.2 setosa  setosa    1      0            0
+&gt; 10          5.2      3.5     1.5     0.2 setosa  setosa    1      0            0
 &gt; # … with 35 more rows, and abbreviated variable names ¹​Sepal.Width,
 &gt; #   ²​Petal.Length, ³​Petal.Width, ⁴​.pred_class, ⁵​.pred_setosa,
 &gt; #   ⁶​.pred_versicolor, ⁷​.pred_virginica
@@ -14978,8 +14978,8 @@ conf_mat_test
 &gt;             Truth
 &gt; Prediction   setosa versicolor virginica
 &gt;   setosa         14          0         0
-&gt;   versicolor      1         15         2
-&gt;   virginica       0          0        13
+&gt;   versicolor      1         13         3
+&gt;   virginica       0          2        12
 ```
 
 ---
@@ -14997,19 +14997,19 @@ conf_mat_test %&gt;% summary()
 &gt; # A tibble: 13 × 3
 &gt;    .metric              .estimator .estimate
 &gt;    &lt;chr&gt;                &lt;chr&gt;          &lt;dbl&gt;
-&gt;  1 accuracy             multiclass     0.933
-&gt;  2 kap                  multiclass     0.9  
-&gt;  3 sens                 macro          0.933
-&gt;  4 spec                 macro          0.967
-&gt;  5 ppv                  macro          0.944
-&gt;  6 npv                  macro          0.968
-&gt;  7 mcc                  multiclass     0.905
-&gt;  8 j_index              macro          0.9  
-&gt;  9 bal_accuracy         macro          0.95 
+&gt;  1 accuracy             multiclass     0.867
+&gt;  2 kap                  multiclass     0.8  
+&gt;  3 sens                 macro          0.867
+&gt;  4 spec                 macro          0.933
+&gt;  5 ppv                  macro          0.874
+&gt;  6 npv                  macro          0.933
+&gt;  7 mcc                  multiclass     0.802
+&gt;  8 j_index              macro          0.8  
+&gt;  9 bal_accuracy         macro          0.9  
 &gt; 10 detection_prevalence macro          0.333
-&gt; 11 precision            macro          0.944
-&gt; 12 recall               macro          0.933
-&gt; 13 f_meas               macro          0.934
+&gt; 11 precision            macro          0.874
+&gt; 12 recall               macro          0.867
+&gt; 13 f_meas               macro          0.869
 ```
 
 ---
@@ -15028,9 +15028,9 @@ conf_mat_test %&gt;%
 &gt; # A tibble: 3 × 3
 &gt;   .metric  .estimator .estimate
 &gt;   &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
-&gt; 1 accuracy multiclass     0.933
-&gt; 2 sens     macro          0.933
-&gt; 3 spec     macro          0.967
+&gt; 1 accuracy multiclass     0.867
+&gt; 2 sens     macro          0.867
+&gt; 3 spec     macro          0.933
 ```
 
 Fíjate que aunque no sea un problema de clasificación binaria nos proporciona métricas como la sensibilidad y especificidad: lo que es, **.bg-purple_light[para cada clase, construir una matriz de confusión]** (ser setosa vs no serlo, ser virginica vs no serlo, ser versicolor vs no serlo), y devuelve la **.bg-purple_light[media de las tres sensibilidad o especificidades]**
@@ -15297,16 +15297,16 @@ bake(iris_rec %&gt;% prep(), new_data = NULL)
 &gt; # A tibble: 105 × 4
 &gt;    Sepal.Length Sepal.Width Petal.Width Species
 &gt;           &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;  
-&gt;  1       0.200        0.765      0.0417 setosa 
-&gt;  2       0.143        0.471      0.0417 setosa 
-&gt;  3       0.0857       0.588      0.0417 setosa 
-&gt;  4       0.0571       0.529      0.0417 setosa 
-&gt;  5       0.171        0.824      0.0417 setosa 
-&gt;  6       0.286        1          0.125  setosa 
-&gt;  7       0.0571       0.706      0.0833 setosa 
-&gt;  8       0            0.412      0.0417 setosa 
-&gt;  9       0.143        0.529      0      setosa 
-&gt; 10       0.286        0.882      0.0417 setosa 
+&gt;  1       0.200        0.682      0.0417 setosa 
+&gt;  2       0.143        0.455      0.0417 setosa 
+&gt;  3       0.0857       0.545      0.0417 setosa 
+&gt;  4       0.0571       0.5        0.0417 setosa 
+&gt;  5       0.171        0.727      0.0417 setosa 
+&gt;  6       0.286        0.864      0.125  setosa 
+&gt;  7       0.171        0.636      0.0417 setosa 
+&gt;  8       0.286        0.773      0.0417 setosa 
+&gt;  9       0.114        0.636      0.0417 setosa 
+&gt; 10       0.4          0.909      0.0417 setosa 
 &gt; # … with 95 more rows
 &gt; # ℹ Use `print(n = ...)` to see more rows
 ```
@@ -15319,16 +15319,16 @@ bake(iris_rec %&gt;% prep(), new_data = iris_test)
 &gt; # A tibble: 45 × 4
 &gt;    Sepal.Length Sepal.Width Petal.Width Species
 &gt;           &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;  
-&gt;  1        0.171       0.706      0.0417 setosa 
-&gt;  2        0.114       0.471      0      setosa 
-&gt;  3        0           0.471      0      setosa 
-&gt;  4        0.4         1          0.0417 setosa 
-&gt;  5        0.371       0.504      0.125  setosa 
-&gt;  6        0.200       0.765      0.0833 setosa 
-&gt;  7        0.200       0.882      0.125  setosa 
-&gt;  8        0.200       0.647      0.167  setosa 
-&gt;  9        0.171       0.471      0.0417 setosa 
-&gt; 10        0.229       0.765      0.0417 setosa 
+&gt;  1       0.0571       0.636      0.0833 setosa 
+&gt;  2       0            0.409      0.0417 setosa 
+&gt;  3       0.143        0.5        0      setosa 
+&gt;  4       0.114        0.455      0      setosa 
+&gt;  5       0            0.455      0      setosa 
+&gt;  6       0.286        0.864      0.125  setosa 
+&gt;  7       0.200        0.818      0.0833 setosa 
+&gt;  8       0.286        0.636      0.0417 setosa 
+&gt;  9       0.0571       0.727      0.0417 setosa 
+&gt; 10       0.229        0.682      0.0417 setosa 
 &gt; # … with 35 more rows
 &gt; # ℹ Use `print(n = ...)` to see more rows
 ```
@@ -15422,16 +15422,16 @@ predict(iris_knn_fit, iris_test, type = "prob")
 &gt; # A tibble: 45 × 3
 &gt;    .pred_setosa .pred_versicolor .pred_virginica
 &gt;           &lt;dbl&gt;            &lt;dbl&gt;           &lt;dbl&gt;
-&gt;  1        1               0                    0
-&gt;  2        1               0                    0
-&gt;  3        1               0                    0
-&gt;  4        1               0                    0
-&gt;  5        0.925           0.0755               0
-&gt;  6        1               0                    0
-&gt;  7        1               0                    0
-&gt;  8        1               0                    0
-&gt;  9        1               0                    0
-&gt; 10        1               0                    0
+&gt;  1            1                0               0
+&gt;  2            1                0               0
+&gt;  3            1                0               0
+&gt;  4            1                0               0
+&gt;  5            1                0               0
+&gt;  6            1                0               0
+&gt;  7            1                0               0
+&gt;  8            1                0               0
+&gt;  9            1                0               0
+&gt; 10            1                0               0
 &gt; # … with 35 more rows
 &gt; # ℹ Use `print(n = ...)` to see more rows
 ```
@@ -15454,16 +15454,16 @@ prob_test
 &gt; # A tibble: 45 × 9
 &gt;    Sepal.Length Sepal.…¹ Petal…² Petal…³ Species .pred…⁴ .pred…⁵ .pred…⁶ .pred…⁷
 &gt;           &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;fct&gt;   &lt;fct&gt;     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
-&gt;  1          5        3.4     1.5     0.2 setosa  setosa    1      0            0
-&gt;  2          4.8      3       1.4     0.1 setosa  setosa    1      0            0
-&gt;  3          4.3      3       1.1     0.1 setosa  setosa    1      0            0
-&gt;  4          5.8      4       1.2     0.2 setosa  setosa    1      0            0
-&gt;  5          5.7      4.4     1.5     0.4 setosa  setosa    0.925  0.0755       0
-&gt;  6          5.1      3.5     1.4     0.3 setosa  setosa    1      0            0
-&gt;  7          5.1      3.7     1.5     0.4 setosa  setosa    1      0            0
-&gt;  8          5.1      3.3     1.7     0.5 setosa  setosa    1      0            0
-&gt;  9          5        3       1.6     0.2 setosa  setosa    1      0            0
-&gt; 10          5.2      3.5     1.5     0.2 setosa  setosa    1      0            0
+&gt;  1          4.6      3.4     1.4     0.3 setosa  setosa        1       0       0
+&gt;  2          4.4      2.9     1.4     0.2 setosa  setosa        1       0       0
+&gt;  3          4.9      3.1     1.5     0.1 setosa  setosa        1       0       0
+&gt;  4          4.8      3       1.4     0.1 setosa  setosa        1       0       0
+&gt;  5          4.3      3       1.1     0.1 setosa  setosa        1       0       0
+&gt;  6          5.4      3.9     1.3     0.4 setosa  setosa        1       0       0
+&gt;  7          5.1      3.8     1.5     0.3 setosa  setosa        1       0       0
+&gt;  8          5.4      3.4     1.7     0.2 setosa  setosa        1       0       0
+&gt;  9          4.6      3.6     1       0.2 setosa  setosa        1       0       0
+&gt; 10          5.2      3.5     1.5     0.2 setosa  setosa        1       0       0
 &gt; # … with 35 more rows, and abbreviated variable names ¹​Sepal.Width,
 &gt; #   ²​Petal.Length, ³​Petal.Width, ⁴​.pred_class, ⁵​.pred_setosa,
 &gt; #   ⁶​.pred_versicolor, ⁷​.pred_virginica
@@ -15489,9 +15489,9 @@ conf_mat_test
 ```
 &gt;             Truth
 &gt; Prediction   setosa versicolor virginica
-&gt;   setosa         15          0         0
-&gt;   versicolor      0         13         2
-&gt;   virginica       0          2        13
+&gt;   setosa         14          0         0
+&gt;   versicolor      1         15         1
+&gt;   virginica       0          0        14
 ```
 
 ---
@@ -15511,19 +15511,19 @@ metricas
 &gt; # A tibble: 13 × 3
 &gt;    .metric              .estimator .estimate
 &gt;    &lt;chr&gt;                &lt;chr&gt;          &lt;dbl&gt;
-&gt;  1 accuracy             multiclass     0.911
-&gt;  2 kap                  multiclass     0.867
-&gt;  3 sens                 macro          0.911
-&gt;  4 spec                 macro          0.956
-&gt;  5 ppv                  macro          0.911
-&gt;  6 npv                  macro          0.956
-&gt;  7 mcc                  multiclass     0.867
-&gt;  8 j_index              macro          0.867
-&gt;  9 bal_accuracy         macro          0.933
+&gt;  1 accuracy             multiclass     0.956
+&gt;  2 kap                  multiclass     0.933
+&gt;  3 sens                 macro          0.956
+&gt;  4 spec                 macro          0.978
+&gt;  5 ppv                  macro          0.961
+&gt;  6 npv                  macro          0.978
+&gt;  7 mcc                  multiclass     0.935
+&gt;  8 j_index              macro          0.933
+&gt;  9 bal_accuracy         macro          0.967
 &gt; 10 detection_prevalence macro          0.333
-&gt; 11 precision            macro          0.911
-&gt; 12 recall               macro          0.911
-&gt; 13 f_meas               macro          0.911
+&gt; 11 precision            macro          0.961
+&gt; 12 recall               macro          0.956
+&gt; 13 f_meas               macro          0.956
 ```
 
 ---
@@ -17163,8 +17163,8 @@ hoteles_train %&gt;% count(children) %&gt;% mutate(porc = 100 * n / sum(n))
 &gt; # A tibble: 2 × 3
 &gt;   children     n  porc
 &gt;   &lt;fct&gt;    &lt;int&gt; &lt;dbl&gt;
-&gt; 1 none      4133 91.9 
-&gt; 2 children   366  8.14
+&gt; 1 none      4136 91.9 
+&gt; 2 children   363  8.07
 ```
 
 ```r
@@ -17175,8 +17175,8 @@ hoteles_test %&gt;% count(children) %&gt;% mutate(porc = 100 * n / sum(n))
 &gt; # A tibble: 2 × 3
 &gt;   children     n  porc
 &gt;   &lt;fct&gt;    &lt;int&gt; &lt;dbl&gt;
-&gt; 1 none       463  92.6
-&gt; 2 children    37   7.4
+&gt; 1 none       460    92
+&gt; 2 children    40     8
 ```
 
 ---
@@ -17349,10 +17349,10 @@ collect_metrics(hoteles_knn_fit_val)
 &gt; # A tibble: 4 × 6
 &gt;   .metric     .estimator  mean     n std_err .config             
 &gt;   &lt;chr&gt;       &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;fct&gt;               
-&gt; 1 accuracy    binary     0.931     1      NA Preprocessor1_Model1
-&gt; 2 roc_auc     binary     0.796     1      NA Preprocessor1_Model1
-&gt; 3 sensitivity binary     0.991     1      NA Preprocessor1_Model1
-&gt; 4 specificity binary     0.281     1      NA Preprocessor1_Model1
+&gt; 1 accuracy    binary     0.940     1      NA Preprocessor1_Model1
+&gt; 2 roc_auc     binary     0.798     1      NA Preprocessor1_Model1
+&gt; 3 sensitivity binary     0.995     1      NA Preprocessor1_Model1
+&gt; 4 specificity binary     0.319     1      NA Preprocessor1_Model1
 ```
 
 ---
@@ -17370,10 +17370,10 @@ collect_metrics(hoteles_knn_fit_val)
 &gt; # A tibble: 4 × 6
 &gt;   .metric     .estimator  mean     n std_err .config             
 &gt;   &lt;chr&gt;       &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;fct&gt;               
-&gt; 1 accuracy    binary     0.931     1      NA Preprocessor1_Model1
-&gt; 2 roc_auc     binary     0.796     1      NA Preprocessor1_Model1
-&gt; 3 sensitivity binary     0.991     1      NA Preprocessor1_Model1
-&gt; 4 specificity binary     0.281     1      NA Preprocessor1_Model1
+&gt; 1 accuracy    binary     0.940     1      NA Preprocessor1_Model1
+&gt; 2 roc_auc     binary     0.798     1      NA Preprocessor1_Model1
+&gt; 3 sensitivity binary     0.995     1      NA Preprocessor1_Model1
+&gt; 4 specificity binary     0.319     1      NA Preprocessor1_Model1
 ```
 
 --
@@ -17996,6 +17996,28 @@ registerDoSEQ()
 hoteles_knn_fit_tune %&gt;% collect_metrics()
 ```
 
+---
+
+# Computación .orange[EN PARALELO]
+ 
+Es importante que si necesitamos **.bg-purple_light[algún paquete]** se lo indiquemos en `pkgs = ...` para que lo cargue en cada cluster, y si **.bg-purple_light[necesitamos alguna función propia]** que hayamos creado lo hagamos con `clusterExport(make_cluster, "nombre_funcion")` 
+
+
+
+```r
+hoteles_knn_fit_tune &lt;-
+ hoteles_wflow %&gt;%
+  tune_grid(resamples = hoteles_val, grid = grid_knn,
+*           control = control_grid(verbose = TRUE, allow_par = TRUE,
+                                   pkgs = c("outliers")),
+            metrics = metric_set(accuracy, sensitivity, specificity, roc_auc))
+# finalizamos clusters
+stopCluster(make_cluster)
+registerDoSEQ()
+
+# Métricas
+hoteles_knn_fit_tune %&gt;% collect_metrics()
+```
 
 ---
 
@@ -18230,13 +18252,13 @@ hoteles_boots
 &gt; # A tibble: 7 × 2
 &gt;   splits              id        
 &gt;   &lt;list&gt;              &lt;chr&gt;     
-&gt; 1 &lt;split [4499/1657]&gt; Bootstrap1
-&gt; 2 &lt;split [4499/1666]&gt; Bootstrap2
-&gt; 3 &lt;split [4499/1678]&gt; Bootstrap3
-&gt; 4 &lt;split [4499/1658]&gt; Bootstrap4
-&gt; 5 &lt;split [4499/1692]&gt; Bootstrap5
-&gt; 6 &lt;split [4499/1660]&gt; Bootstrap6
-&gt; 7 &lt;split [4499/1641]&gt; Bootstrap7
+&gt; 1 &lt;split [4499/1673]&gt; Bootstrap1
+&gt; 2 &lt;split [4499/1650]&gt; Bootstrap2
+&gt; 3 &lt;split [4499/1668]&gt; Bootstrap3
+&gt; 4 &lt;split [4499/1675]&gt; Bootstrap4
+&gt; 5 &lt;split [4499/1654]&gt; Bootstrap5
+&gt; 6 &lt;split [4499/1640]&gt; Bootstrap6
+&gt; 7 &lt;split [4499/1676]&gt; Bootstrap7
 ```
 
 ---
@@ -18977,7 +18999,7 @@ ggplot(data = gapminder_1997,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-811-1.png" width="80%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-812-1.png" width="80%" /&gt;
 ]
 
 ---
@@ -19002,7 +19024,7 @@ ggplot(gapminder_1997,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-813-1.png" width="93%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-814-1.png" width="93%" /&gt;
 
 ]
 
@@ -19031,7 +19053,7 @@ ggplot(gapminder_1997,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-815-1.png" width="93%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-816-1.png" width="93%" /&gt;
 
 ]
 
@@ -19061,7 +19083,7 @@ ggplot(gapminder_1997,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-817-1.png" width="91%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-818-1.png" width="91%" /&gt;
 ]
 
 ---
@@ -19093,7 +19115,7 @@ ggplot(gapminder_1997,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-819-1.png" width="91%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-820-1.png" width="91%" /&gt;
 
 ]
 
@@ -19121,7 +19143,7 @@ ggplot(gapminder_1997,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-821-1.png" width="91%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-822-1.png" width="91%" /&gt;
 
 ]
 
@@ -19146,7 +19168,7 @@ ggplot(gapminder_1997,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-823-1.png" width="91%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-824-1.png" width="91%" /&gt;
 
 ]
 
@@ -19175,7 +19197,7 @@ ggplot(gapminder_1997,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-826-1.png" width="91%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-827-1.png" width="91%" /&gt;
 
 ]
 
@@ -19204,7 +19226,7 @@ ggplot(gapminder_1997,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-829-1.png" width="91%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-830-1.png" width="91%" /&gt;
 
 ]
 
@@ -19230,7 +19252,7 @@ ggplot(gapminder_1997,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-831-1.png" width="91%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-832-1.png" width="91%" /&gt;
 
 ]
 
@@ -19258,7 +19280,7 @@ ggplot(gapminder_1997,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-833-1.png" width="91%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-834-1.png" width="91%" /&gt;
 
 ]
 
@@ -19287,7 +19309,7 @@ ggplot(gapminder_1997,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-835-1.png" width="91%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-836-1.png" width="91%" /&gt;
 
 ]
 
@@ -19321,7 +19343,7 @@ A este scatter plot particular se le conoce **.bg-purple_light[bubble chart]**
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-837-1.png" width="91%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-838-1.png" width="91%" /&gt;
 
 ]
 
@@ -19350,7 +19372,7 @@ ggplot(gapminder_1997,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-839-1.png" width="91%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-840-1.png" width="91%" /&gt;
 
 ]
 
@@ -19375,7 +19397,7 @@ ggplot(gapminder_1997,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-841-1.png" width="85%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-842-1.png" width="85%" /&gt;
 
 ]
   
@@ -19405,7 +19427,7 @@ ggplot(gapminder_1997,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-843-1.png" width="85%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-844-1.png" width="85%" /&gt;
 
 ]
 
@@ -19435,7 +19457,7 @@ ggplot(gapminder_1997 %&gt;%
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-845-1.png" width="85%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-846-1.png" width="85%" /&gt;
 
 ]
 
@@ -19465,7 +19487,7 @@ ggplot(gapminder_1997,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-847-1.png" width="85%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-848-1.png" width="85%" /&gt;
 
 ]
 
@@ -19494,7 +19516,7 @@ ggplot(gapminder_1997,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-849-1.png" width="85%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-850-1.png" width="85%" /&gt;
 
 ]
   
@@ -19524,7 +19546,7 @@ ggplot(gapminder_1997,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-851-1.png" width="85%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-852-1.png" width="85%" /&gt;
 
 ]
 
@@ -19554,7 +19576,7 @@ ggplot(gapminder_1997,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-853-1.png" width="85%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-854-1.png" width="85%" /&gt;
 
 ]
 
@@ -19586,7 +19608,7 @@ ggplot(gapminder_1997,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-855-1.png" width="85%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-856-1.png" width="85%" /&gt;
 
 ]
 
@@ -19620,7 +19642,7 @@ ggplot(gapminder_1997,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-857-1.png" width="85%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-858-1.png" width="85%" /&gt;
 
 ]
 
@@ -19650,7 +19672,7 @@ ggplot(gapminder_1997,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-859-1.png" width="85%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-860-1.png" width="85%" /&gt;
 
 ]
 
@@ -19681,7 +19703,7 @@ ggplot(gapminder_1997,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-861-1.png" width="85%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-862-1.png" width="85%" /&gt;
 
 ]
 
@@ -19712,7 +19734,7 @@ ggplot(gapminder_1997,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-863-1.png" width="85%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-864-1.png" width="85%" /&gt;
 
 ]
 
@@ -19743,7 +19765,7 @@ ggplot(gapminder_1997,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-865-1.png" width="85%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-866-1.png" width="85%" /&gt;
 
 ]
 
@@ -19786,7 +19808,7 @@ ggplot(gapminder_1997,
 &lt;p class="caption"&gt;Paleta basada en la casa Ravenclaw&lt;/p&gt;
 &lt;/div&gt;
 
-&lt;img src="index_files/figure-html/unnamed-chunk-868-1.png" width="70%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-869-1.png" width="70%" /&gt;
 
 ]
 
@@ -19818,7 +19840,7 @@ ggplot(gapminder_1997,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-870-1.png" width="85%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-871-1.png" width="85%" /&gt;
 
 ]
 
@@ -19855,7 +19877,7 @@ ggplot(gapminder_1997,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-872-1.png" width="85%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-873-1.png" width="85%" /&gt;
 
 ]
 
@@ -19885,7 +19907,7 @@ ggplot(gapminder_1997,
 .pull-right[
 
 
-&lt;img src="index_files/figure-html/unnamed-chunk-874-1.png" width="85%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-875-1.png" width="85%" /&gt;
 
 ]
 
@@ -19915,7 +19937,7 @@ ggplot(gapminder_1997,
 .pull-right[
 
 
-&lt;img src="index_files/figure-html/unnamed-chunk-876-1.png" width="85%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-877-1.png" width="85%" /&gt;
 
 ]
 
@@ -19945,7 +19967,7 @@ También le podemos pasar dos argumentos (variables) para formar un **.bg-purple
 .pull-right[
 
 
-&lt;img src="index_files/figure-html/unnamed-chunk-878-1.png" width="85%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-879-1.png" width="85%" /&gt;
 
 ]
 
@@ -19974,7 +19996,7 @@ ggplot(gapminder_1997,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-880-1.png" width="85%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-881-1.png" width="85%" /&gt;
 
 ]
 
@@ -20004,7 +20026,7 @@ ggplot(gapminder_1997,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-882-1.png" width="85%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-883-1.png" width="85%" /&gt;
 
 ]
 
@@ -20035,7 +20057,7 @@ ggplot(gapminder_1997,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-884-1.png" width="85%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-885-1.png" width="85%" /&gt;
 
 ]
 
@@ -20075,7 +20097,7 @@ ggplot(gapminder_1997,
 .pull-right[
 
 
-&lt;img src="index_files/figure-html/unnamed-chunk-886-1.png" width="85%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-887-1.png" width="85%" /&gt;
 
 
 ]
@@ -20106,7 +20128,7 @@ ggplot(gapminder,
 .pull-right[
 
 
-&lt;img src="index_files/figure-html/unnamed-chunk-888-1.png" width="85%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-889-1.png" width="85%" /&gt;
 
 ]
 
@@ -20135,7 +20157,7 @@ ggplot(gapminder,
 .pull-right[
 
 
-&lt;img src="index_files/figure-html/unnamed-chunk-890-1.png" width="85%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-891-1.png" width="85%" /&gt;
 
 ]
 
@@ -20170,7 +20192,7 @@ ggplot(gapminder_1997,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-892-1.png" width="85%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-893-1.png" width="85%" /&gt;
 
 ]
 
@@ -20206,7 +20228,7 @@ ggplot(gapminder_1997,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-894-1.png" width="85%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-895-1.png" width="85%" /&gt;
 
 ]
 
@@ -20242,7 +20264,7 @@ ggplot(gapminder_1997,
 .pull-right[
 
 
-&lt;img src="index_files/figure-html/unnamed-chunk-896-1.png" width="85%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-897-1.png" width="85%" /&gt;
 
 ]
 
@@ -20280,7 +20302,7 @@ ggplot(gapminder_1997,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-898-1.png" width="85%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-899-1.png" width="85%" /&gt;
 
 ]
 
@@ -20319,7 +20341,7 @@ ggplot(gapminder_1997,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-900-1.png" width="85%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-901-1.png" width="85%" /&gt;
 
 ]
 
@@ -20359,7 +20381,7 @@ ggplot(gapminder_1997,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-902-1.png" width="85%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-903-1.png" width="85%" /&gt;
 
 ]
 
@@ -20398,7 +20420,7 @@ ggplot(gapminder_1997,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-904-1.png" width="85%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-905-1.png" width="85%" /&gt;
 
 ]
 
@@ -20437,7 +20459,7 @@ ggplot(gapminder_1997,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-906-1.png" width="85%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-907-1.png" width="85%" /&gt;
 
 ]
 
@@ -20476,7 +20498,7 @@ ggplot(gapminder_1997,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-908-1.png" width="83%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-909-1.png" width="83%" /&gt;
 
 ]
 
@@ -20541,7 +20563,7 @@ ggplot(gapminder_1997,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-911-1.png" width="85%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-912-1.png" width="85%" /&gt;
 
 ]
 
@@ -20633,7 +20655,7 @@ plot_combined +
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-915-1.png" width="85%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-916-1.png" width="85%" /&gt;
 
 ]
 
@@ -20662,7 +20684,257 @@ plot_combined &lt;-
 ```
 
 
+---
 
+# .orange[SCATTER PLOT] .green[MÚLTIPLE]
+
+El paquete `facet_matrix()` nos proporciona `geom_autodensity()` junto con `facet_matrix()` para que **.bg-purple_light[podemos pintar todas las variables frente a todos]** con un scatter plot,, poniendo en la diagonal las **.bg-purple_light[funciones de densidad de cada variable]** (se indica `x = .panel_x` y `y = .panel_y` y el se encarga de seleccionar todas ellas)
+
+.pull-left[
+
+
+```r
+library(ggforce)
+ggplot(iris,
+       aes(x = .panel_x, y = .panel_y,
+           color = Species, fill = Species)) +
+    geom_point(alpha = 0.4, size = 3) +
+    geom_autodensity(alpha = 0.4) +
+    facet_matrix(vars(-Species),
+                 layer.diag = 2) + 
+    scale_color_brewer(palette = "Dark2") + 
+    scale_fill_brewer(palette = "Dark2") + 
+  labs(title = "Scatter plot de iris",
+       subtitle = "Todas vs todas") +
+  theme_minimal()
+```
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-919-1.png" width="90%" /&gt;
+
+]
+
+---
+
+
+# .orange[HISTOGRAMAS]
+
+.pull-left[
+
+En el caso **.bg-purple_light[variables continas]** también podremos representar un **.bg-purple_light[histograma]**, con la capa geométrica `geom_histogram()`
+
+* `alpha = ...`: transparencia del color.
+* `bins = ...`: número de barras a construir.
+* `color = ...`: color del contorno.
+* `fill = ...`: relleno del histograma.
+
+
+```r
+ggplot(iris, aes(x = Sepal.Length)) +
+  geom_histogram(alpha = 0.3, bins = 25,
+                 color = "white", fill = "blue") +
+  labs(title = "Histograma de iris",
+       subtitle = "Variable Sepal.Length",
+       x = "Longitud sépalo", y = "Frec.") +
+  theme_minimal()
+```
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-921-1.png" width="90%" /&gt;
+
+]
+
+---
+
+# .orange[HISTOGRAMAS]
+
+.pull-left[
+
+Con la **.bg-purple_light[capa de escalas]** `scale_x_continuous()` le indicamos dónde queremos las marcas en los ejes y las etiquetas de las unidades, usando `scales::label_number()`.
+
+
+```r
+library(scales)
+ggplot(iris, aes(x = Sepal.Length)) +
+  geom_histogram(alpha = 0.3, bins = 25,
+                 color = "white", fill = "blue") +
+  scale_x_continuous(breaks =
+                       seq(4, 8, by = 0.5),
+                     label =
+                       label_number(suffix = " cm")) +
+  labs(title = "Histograma de iris",
+       subtitle = "Variable Sepal.Length",
+       x = "Longitud sépalo", y = "Frec.") +
+  theme_minimal()
+```
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-923-1.png" width="90%" /&gt;
+
+]
+
+---
+
+# .orange[HISTOGRAMAS]
+
+Podemos pintarlos todos juntos, preparando antes los datos y convirtiéndolos a tidy
+
+
+```r
+iris_tidy &lt;-
+  iris %&gt;%
+  pivot_longer(cols = Sepal.Length:Petal.Width,
+               names_to = "variable", values_to = "values")
+iris_tidy
+```
+
+```
+&gt; # A tibble: 600 × 3
+&gt;    Species variable     values
+&gt;    &lt;fct&gt;   &lt;chr&gt;         &lt;dbl&gt;
+&gt;  1 setosa  Sepal.Length    5.1
+&gt;  2 setosa  Sepal.Width     3.5
+&gt;  3 setosa  Petal.Length    1.4
+&gt;  4 setosa  Petal.Width     0.2
+&gt;  5 setosa  Sepal.Length    4.9
+&gt;  6 setosa  Sepal.Width     3  
+&gt;  7 setosa  Petal.Length    1.4
+&gt;  8 setosa  Petal.Width     0.2
+&gt;  9 setosa  Sepal.Length    4.7
+&gt; 10 setosa  Sepal.Width     3.2
+&gt; # … with 590 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
+```
+
+---
+
+# .orange[HISTOGRAMAS]
+
+
+
+.pull-left[
+
+Tras ello, pintamos lo mismo (ahora `x = values`) pero añadimos `facet_wrap()` vista antes (mira `facet_wrap()` y `facet_grid()` para dos variables)
+
+
+```r
+ggplot(iris_tidy,
+       aes(x = values)) +
+  geom_histogram(alpha = 0.3, bins = 25,
+                 color = "white", fill = "blue") +
+  facet_wrap(~variable, scales = "free") + 
+  labs(title = "Histogramas de iris",
+       subtitle = "Con bins = 25 (nº barras)",
+       x = "Longitud sépalo", y = "Frec.") +
+  theme_minimal()
+```
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-926-1.png" width="90%" /&gt;
+
+]
+
+---
+
+# .orange[HISTOGRAMAS]
+
+.pull-left[
+
+
+```r
+ggplot(iris_tidy,
+       aes(x = values, bins = 25,
+*          color = Species,
+*          fill = Species)) +
+  geom_histogram(alpha = 0.3) +
+  scale_color_brewer(palette = "Dark2") +
+  scale_fill_brewer(palette = "Dark2") +  
+  facet_wrap(~variable, scales = "free") + 
+  labs(title = "Histogramas iris (por colores)",
+       subtitle = "Con bins = 25 (nº barras)",
+       x = "Longitud sépalo", y = "Frec.") +
+  theme_minimal()
+```
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-928-1.png" width="90%" /&gt;
+
+]
+
+---
+
+# .orange[DIAGRAMA DE BARRAS]
+
+.pull-left[
+
+Con `geom_bar()` construimos **.bg-purple_light[diagramas de barras]**. Fíjate que ggplot solo hace el conteo, no tenemos que hacer nosotros `count()` antes del gráfico.
+
+
+
+```r
+ggplot(starwars, aes(x = sex, fill = sex)) +
+  geom_bar(color = "white", alpha = 0.3) +
+  scale_fill_brewer(palette = "Dark2") +
+  labs(title = "Diagrama de barras (starwars)",
+       subtitle = "Conteo del sexo",
+       x = "Sexo", y = "Frecuencia") +
+  theme_minimal()
+```
+
+]
+
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-930-1.png" width="80%" /&gt;
+
+]
+
+---
+
+# .orange[DIAGRAMA DE BARRAS]
+
+
+
+.pull-left[
+
+Podemos usar lo que sabemos de **.bg-purple_light[factores para ordenarlos por frecuencia]**.
+
+
+```r
+ggplot(starwars, aes(x = fct_infreq(sex), fill = sex)) +
+  geom_bar(color = "white", alpha = 0.3) +
+  scale_fill_brewer(palette = "Dark2") +
+  labs(title = "Diagrama de barras (starwars)",
+       subtitle = "Conteo del sexo",
+       x = "Sexo", y = "Frecuencia") +
+  theme_minimal()
+```
+
+]
+
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-932-1.png" width="80%" /&gt;
+
+]
+    
 ---
 
 class: inverse center middle
@@ -21000,14 +21272,41 @@ decision_tree_entropy &lt;- decision_tree %&gt;% set_engine("C5.0")
 iris_split &lt;- initial_split(iris, strata = Species, prop = 0.8)
 iris_train &lt;- training(iris_split)
 iris_test &lt;- testing(iris_split)
-
 # Validación
 iris_cv_folds &lt;- vfold_cv(data = iris_train, v = 4, repeats = 8, strata = Species)
 ```
 
+Vamos a definir además una **.bg-purple_light[función para detectar outliers]** genérica que podamos aplicarla de forma flexible
+
+
+```r
+outlier_detection &lt;- function(x, method = "z", k = 2.5) {
+  output &lt;- ifelse(is.na(x) | abs(scores(x, type = method)) &gt; k, NA, x)
+  return(output)
+}
+
+x &lt;- c(1, 1.5, 2, 0, -1, -0.5, 0.3, 1, 0.1, 10, -12, 0, 1)
+outlier_detection(x, method = "z", k = 2)
+```
+
+```
+&gt;  [1]  1.0  1.5  2.0  0.0 -1.0 -0.5  0.3  1.0  0.1   NA   NA  0.0  1.0
+```
+
+```r
+outlier_detection(x, method = "mad", k = 3)
+```
+
+```
+&gt;  [1]  1.0  1.5  2.0  0.0 -1.0 -0.5  0.3  1.0  0.1   NA   NA  0.0  1.0
+```
+
+
 ---
 
 # Caso práctico: .orange[IRIS]
+
+Aplicamos la receta para completar esa fase 3.
 
 
 ```r
@@ -21018,10 +21317,8 @@ iris_rec &lt;-
     add_role(starts_with("Sepal"), new_role = "simétrica") %&gt;% 
     add_role(starts_with("Petal"), new_role = "no simétrica") %&gt;%
     # Detectar outliers
-    step_mutate(across(has_role("simétrica"),
-                       function(x) { ifelse(abs(scores(x, type = "z")) &gt; 2.5, NA, x) }),
-                across(has_role("no simétrica"),
-                       function(x) { ifelse(abs(scores(x, type = "mad")) &gt; 3, NA, x) })) %&gt;%
+    step_mutate(across(has_role("simétrica"), outlier_detection),
+                across(has_role("no simétrica"), outlier_detection, "mad", 3)) %&gt;%
     # Filtro de correlación
     step_corr(all_numeric_predictors(), threshold = 0.9)%&gt;% 
     # Filtro de cero varianza
@@ -21032,38 +21329,40 @@ iris_rec &lt;-
 
 # Caso práctico: .orange[IRIS]
 
-Probaremos 86 modelos diferentes
+Probaremos **.bg-purple_light[120 modelos diferentes]**
 
 
 ```r
 grid_tree &lt;-
-  expand_grid("depth" = c(2, 3, 4, 5, 6, 7),
-              "min_n" = c(0.01, 0.025, 0.05, 0.1) * nrow(iris_train),
-              "cost" = c(0.01, 0.1, 0.5, 1))
+  expand_grid("depth" = c(1, 2, 3, 4),
+              "min_n" = c(2, 5, 7, 10, 20),
+              "cost" = c(0.001, 0.01, 0.1, 0.5, 1, 2))
 grid_tree
 ```
 
 ```
-&gt; # A tibble: 96 × 3
+&gt; # A tibble: 120 × 3
 &gt;    depth min_n  cost
 &gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-&gt;  1     2   1.2  0.01
-&gt;  2     2   1.2  0.1 
-&gt;  3     2   1.2  0.5 
-&gt;  4     2   1.2  1   
-&gt;  5     2   3    0.01
-&gt;  6     2   3    0.1 
-&gt;  7     2   3    0.5 
-&gt;  8     2   3    1   
-&gt;  9     2   6    0.01
-&gt; 10     2   6    0.1 
-&gt; # … with 86 more rows
+&gt;  1     1     2 0.001
+&gt;  2     1     2 0.01 
+&gt;  3     1     2 0.1  
+&gt;  4     1     2 0.5  
+&gt;  5     1     2 1    
+&gt;  6     1     2 2    
+&gt;  7     1     5 0.001
+&gt;  8     1     5 0.01 
+&gt;  9     1     5 0.1  
+&gt; 10     1     5 0.5  
+&gt; # … with 110 more rows
 &gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 ---
 
 # Caso práctico: .orange[IRIS]
+
+Tras ello **.bg-purple_light[definimos nuestro modelo]**
 
 
 ```r
@@ -21078,7 +21377,7 @@ decision_tree_entropy &lt;- decision_tree %&gt;% set_engine("C5.0")
 
 
 ```r
-iris_wflow_gini &lt;-
+iris_tree_gini_wflow &lt;-
   workflow() %&gt;%
   add_recipe(iris_rec) %&gt;%
   add_model(decision_tree_gini) 
@@ -21090,7 +21389,7 @@ iris_wflow_gini &lt;-
 
 
 ```r
-iris_wflow_entropy &lt;-
+iris_tree_gini_entropy &lt;-
   workflow() %&gt;%
   add_recipe(iris_rec) %&gt;%
   add_model(decision_tree_entropy) 
@@ -21102,6 +21401,9 @@ iris_wflow_entropy &lt;-
 
 # Caso práctico: .orange[IRIS]
 
+A la hora de inicializar la paralelización, en este caso como tenemos definida una **.bg-purple_light[función que vamos a querer usar]** en cada hilo de la paralelización, vamos a **.bg-purple_light[exportarla a todos los clústers]** con `clusterExport()`.
+
+
 
 ```r
 library(doParallel)
@@ -21110,19 +21412,25 @@ clusters &lt;- detectCores() - 1
 make_cluster &lt;- makeCluster(clusters)
 registerDoParallel(make_cluster)
 
-iris_fit_val_gini &lt;-
-  iris_wflow_gini %&gt;%
+*clusterExport(make_cluster, "outlier_detection")
+```
+
+---
+
+# Caso práctico: .orange[IRIS]
+
+* `pkgs`: paquetes que necesite importar en cada cor
+* `save_pred = TRUE` que nos guarde las predicciones de cada conjunto de validación
+
+
+```r
+iris_fit_tree_gini &lt;-
+  iris_tree_gini_wflow %&gt;%
   tune_grid(resamples = iris_cv_folds,
             grid = grid_tree,
-            control = control_grid(verbose = TRUE, allow_par = TRUE),
-            metrics = metric_set(accuracy, sensitivity,
-                                 specificity, roc_auc))
-
-iris_fit_val_entropy &lt;-
-  iris_wflow_entropy %&gt;%
-  tune_grid(resamples = iris_cv_folds,
-            grid = grid_knn,
-            control = control_grid(verbose = TRUE, allow_par = TRUE),
+            control =
+              control_grid(verbose = TRUE, allow_par = TRUE,
+*                          pkgs = c("outliers"), save_pred = TRUE),
             metrics = metric_set(accuracy, sensitivity,
                                  specificity, roc_auc))
 stopCluster(make_cluster)
@@ -21133,52 +21441,478 @@ registerDoSEQ()
 
 # Caso práctico: .orange[IRIS]
 
+Para calcular las **.bg-purple_light[métricas en validación (ya podados)]** basta de nuevo con usar `collect_metrics()`
+
 
 ```r
 # Métricas
-iris_fit_val_gini %&gt;% collect_metrics()
+iris_fit_tree_gini %&gt;% collect_metrics()
+```
+
+```
+&gt; # A tibble: 480 × 9
+&gt;     cost depth min_n .metric     .estimator  mean     n std_err .config         
+&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;fct&gt;           
+&gt;  1 0.001     1     2 accuracy    multiclass 0.667    32       0 Preprocessor1_M…
+&gt;  2 0.001     1     2 roc_auc     hand_till  0.833    32       0 Preprocessor1_M…
+&gt;  3 0.001     1     2 sensitivity macro      0.667    32       0 Preprocessor1_M…
+&gt;  4 0.001     1     2 specificity macro      0.833    32       0 Preprocessor1_M…
+&gt;  5 0.01      1     2 accuracy    multiclass 0.667    32       0 Preprocessor1_M…
+&gt;  6 0.01      1     2 roc_auc     hand_till  0.833    32       0 Preprocessor1_M…
+&gt;  7 0.01      1     2 sensitivity macro      0.667    32       0 Preprocessor1_M…
+&gt;  8 0.01      1     2 specificity macro      0.833    32       0 Preprocessor1_M…
+&gt;  9 0.1       1     2 accuracy    multiclass 0.667    32       0 Preprocessor1_M…
+&gt; 10 0.1       1     2 roc_auc     hand_till  0.833    32       0 Preprocessor1_M…
+&gt; # … with 470 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 ---
 
 # Caso práctico: .orange[IRIS]
 
+Dado que el resultado es un `tibble` podemos aplicar lo que sabemos de `{tidyverse}` para filtrar, ordenar, etc. Las **métricas son muy parecidas porque tenemos muy pocas observaciones** de forma que nuestras validación son muy muy poco representativas.
+
+
 
 ```r
-# Métricas
-iris_fit_val_entropy %&gt;% collect_metrics()
+resultados &lt;- iris_fit_tree_gini %&gt;% collect_metrics()
+resultados %&gt;%
+  filter(.metric == "roc_auc") %&gt;% 
+  arrange(desc(mean), std_err)
+```
+
+```
+&gt; # A tibble: 120 × 9
+&gt;     cost depth min_n .metric .estimator  mean     n std_err .config             
+&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;fct&gt;               
+&gt;  1 0.001     2     2 roc_auc hand_till  0.974    32 0.00322 Preprocessor1_Model…
+&gt;  2 0.01      2     2 roc_auc hand_till  0.974    32 0.00322 Preprocessor1_Model…
+&gt;  3 0.1       2     2 roc_auc hand_till  0.974    32 0.00322 Preprocessor1_Model…
+&gt;  4 0.001     2     5 roc_auc hand_till  0.974    32 0.00322 Preprocessor1_Model…
+&gt;  5 0.01      2     5 roc_auc hand_till  0.974    32 0.00322 Preprocessor1_Model…
+&gt;  6 0.1       2     5 roc_auc hand_till  0.974    32 0.00322 Preprocessor1_Model…
+&gt;  7 0.001     2     7 roc_auc hand_till  0.974    32 0.00322 Preprocessor1_Model…
+&gt;  8 0.01      2     7 roc_auc hand_till  0.974    32 0.00322 Preprocessor1_Model…
+&gt;  9 0.1       2     7 roc_auc hand_till  0.974    32 0.00322 Preprocessor1_Model…
+&gt; 10 0.001     2    10 roc_auc hand_till  0.974    32 0.00322 Preprocessor1_Model…
+&gt; # … with 110 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
 ```
 
 ---
 
-# .orange[VISUALIZACIÓN] del árbol
+# .orange[VISUALIZACIÓN] de resultados
 
-Con `rpart.plot()` podemos **.bg-purple_light[visualizar el árbol]** siempre y cuando el motor sea `"rpart"` (le indicamos que no redondee valores a enteros y de los modelos de visualización elegimos `extra = 4`, prueba con varios para ver las diferencias)
+Lo primero es preparar los datos para visualizarlos, y para ello usaremos `pivot_longer()` para tener una columna de `parameter` (coste, profundad y min_n) y otra de `value` (con su valor). Tras prepararlos calcularemos la media de la métrica (que ya es una media en los 48 conjuntos de validación) por cada uno de los valores de los parámetros, para todos los modelos en los que coincida.
+
 
 
 ```r
-iris_fit_val_gini %&gt;%
+resultados_tidy &lt;-
+  resultados %&gt;% 
+  pivot_longer(cols = c("cost", "depth", "min_n"),
+               names_to = "parameter", values_to = "value")
+media_resultados &lt;-
+  resultados_tidy %&gt;%
+  group_by(parameter, value) %&gt;%
+  summarise(mean = mean(mean),  .metric = .metric) %&gt;%
+  ungroup()
+resultados_tidy
+```
+
+```
+&gt; # A tibble: 1,440 × 8
+&gt;    .metric     .estimator  mean     n std_err .config              param…¹ value
+&gt;    &lt;chr&gt;       &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;fct&gt;                &lt;chr&gt;   &lt;dbl&gt;
+&gt;  1 accuracy    multiclass 0.667    32       0 Preprocessor1_Model… cost    0.001
+&gt;  2 accuracy    multiclass 0.667    32       0 Preprocessor1_Model… depth   1    
+&gt;  3 accuracy    multiclass 0.667    32       0 Preprocessor1_Model… min_n   2    
+&gt;  4 roc_auc     hand_till  0.833    32       0 Preprocessor1_Model… cost    0.001
+&gt;  5 roc_auc     hand_till  0.833    32       0 Preprocessor1_Model… depth   1    
+&gt;  6 roc_auc     hand_till  0.833    32       0 Preprocessor1_Model… min_n   2    
+&gt;  7 sensitivity macro      0.667    32       0 Preprocessor1_Model… cost    0.001
+&gt;  8 sensitivity macro      0.667    32       0 Preprocessor1_Model… depth   1    
+&gt;  9 sensitivity macro      0.667    32       0 Preprocessor1_Model… min_n   2    
+&gt; 10 specificity macro      0.833    32       0 Preprocessor1_Model… cost    0.001
+&gt; # … with 1,430 more rows, and abbreviated variable name ¹​parameter
+&gt; # ℹ Use `print(n = ...)` to see more rows
+```
+
+---
+
+# .orange[VISUALIZACIÓN] de resultados
+
+.pull-left[
+
+
+
+```r
+theme_set(theme_minimal())
+ggplot(media_resultados,
+       aes(x = value, y = mean)) +
+  geom_line() +
+  geom_point(size = 2) +
+  facet_grid(.metric ~ parameter, scales = "free") +
+  labs(x = "Parámetros", y = "Media (en todos los conjuntos de validación",
+       title = "Resumen de las métricas en validación",
+       caption = "Autor: Javier Álvarez Liébana")
+```
+
+]
+
+.pull-right[
+
+
+&lt;img src="index_files/figure-html/unnamed-chunk-955-1.png" width="85%" /&gt;
+
+]
+
+---
+
+# Seleccionamos .orange[EL MEJOR]
+
+Como sucedía en knn, podemos **.bg-purple_light[ver los mejores]** con `show_best()` (e indicándole la métrica)
+
+
+```r
+iris_fit_tree_gini %&gt;% show_best("roc_auc", n = 10)
+```
+
+```
+&gt; # A tibble: 10 × 9
+&gt;     cost depth min_n .metric .estimator  mean     n std_err .config             
+&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;fct&gt;               
+&gt;  1 0.001     2     2 roc_auc hand_till  0.974    32 0.00322 Preprocessor1_Model…
+&gt;  2 0.01      2     2 roc_auc hand_till  0.974    32 0.00322 Preprocessor1_Model…
+&gt;  3 0.1       2     2 roc_auc hand_till  0.974    32 0.00322 Preprocessor1_Model…
+&gt;  4 0.001     2     5 roc_auc hand_till  0.974    32 0.00322 Preprocessor1_Model…
+&gt;  5 0.01      2     5 roc_auc hand_till  0.974    32 0.00322 Preprocessor1_Model…
+&gt;  6 0.1       2     5 roc_auc hand_till  0.974    32 0.00322 Preprocessor1_Model…
+&gt;  7 0.001     2     7 roc_auc hand_till  0.974    32 0.00322 Preprocessor1_Model…
+&gt;  8 0.01      2     7 roc_auc hand_till  0.974    32 0.00322 Preprocessor1_Model…
+&gt;  9 0.1       2     7 roc_auc hand_till  0.974    32 0.00322 Preprocessor1_Model…
+&gt; 10 0.001     2    10 roc_auc hand_till  0.974    32 0.00322 Preprocessor1_Model…
+```
+
+```r
+iris_fit_tree_gini %&gt;% show_best("accuracy", n = 10)
+```
+
+```
+&gt; # A tibble: 10 × 9
+&gt;     cost depth min_n .metric  .estimator  mean     n std_err .config            
+&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;fct&gt;              
+&gt;  1 0.001     2     2 accuracy multiclass 0.953    32 0.00633 Preprocessor1_Mode…
+&gt;  2 0.01      2     2 accuracy multiclass 0.953    32 0.00633 Preprocessor1_Mode…
+&gt;  3 0.1       2     2 accuracy multiclass 0.953    32 0.00633 Preprocessor1_Mode…
+&gt;  4 0.001     2     5 accuracy multiclass 0.953    32 0.00633 Preprocessor1_Mode…
+&gt;  5 0.01      2     5 accuracy multiclass 0.953    32 0.00633 Preprocessor1_Mode…
+&gt;  6 0.1       2     5 accuracy multiclass 0.953    32 0.00633 Preprocessor1_Mode…
+&gt;  7 0.001     2     7 accuracy multiclass 0.953    32 0.00633 Preprocessor1_Mode…
+&gt;  8 0.01      2     7 accuracy multiclass 0.953    32 0.00633 Preprocessor1_Mode…
+&gt;  9 0.1       2     7 accuracy multiclass 0.953    32 0.00633 Preprocessor1_Mode…
+&gt; 10 0.001     2    10 accuracy multiclass 0.953    32 0.00633 Preprocessor1_Mode…
+```
+
+---
+
+# Seleccionamos .orange[EL MEJOR]
+
+Con `select_best()` podemos **.bg-purple_light[seleccionar el mejor respecto a una métrica]** y con `select_by_one_std_err()` podemos seleccionar el mejor no solo por una métrica dada sino buscar el que tiene menor varianza (dado un parámetro), buscando ese **.bg-purple_light[equilibrio sesgo-varianza]**.
+
+
+```r
+best_tree_gini_iris_roc &lt;-
+  iris_fit_tree_gini %&gt;% select_best("roc_auc")
+best_tree_gini_iris_acc &lt;-
+  iris_fit_tree_gini %&gt;% select_best("accuracy")
+best_tree_gini_iris_roc_std &lt;-
+  iris_fit_tree_gini %&gt;% select_by_one_std_err("roc_auc", cost)
+best_tree_gini_iris_acc_std &lt;-
+  iris_fit_tree_gini %&gt;% select_by_one_std_err("accuracy", cost)
+```
+
+Con el modelo ganador que queramos tras validación, **.bg-purple_light[finalizamos el flujo]**
+
+
+```r
+final_wf &lt;- 
+  iris_tree_gini_wflow %&gt;% 
+  finalize_workflow(best_tree_gini_iris_roc)
+```
+
+---
+
+# .orange[EVALUACIÓN]
+
+Con ese flujo finalizado lo usamos para **.bg-purple_light[ajustar a test ese modelo ganador seleccionado en validación]**
+
+
+```r
+final_tree_fit &lt;- 
+  final_wf %&gt;%
+  last_fit(iris_split) 
+final_tree_fit %&gt;% collect_metrics()
+```
+
+```
+&gt; # A tibble: 2 × 4
+&gt;   .metric  .estimator .estimate .config             
+&gt;   &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt; &lt;fct&gt;               
+&gt; 1 accuracy multiclass     0.967 Preprocessor1_Model1
+&gt; 2 roc_auc  hand_till      0.983 Preprocessor1_Model1
+```
+
+---
+
+# .orange[PREDICCIÓN]
+
+Con `predict()` podemos **.bg-purple_light[predecir tanto la clase como la probabilidad estimada]** de pertenencia a cada clase
+
+
+```r
+# Predecir el conjunto test: devuelve la clase
+predict(extract_workflow(final_tree_fit), iris_test)
+```
+
+```
+&gt; # A tibble: 30 × 1
+&gt;    .pred_class
+&gt;    &lt;fct&gt;      
+&gt;  1 setosa     
+&gt;  2 setosa     
+&gt;  3 setosa     
+&gt;  4 setosa     
+&gt;  5 setosa     
+&gt;  6 setosa     
+&gt;  7 setosa     
+&gt;  8 setosa     
+&gt;  9 setosa     
+&gt; 10 setosa     
+&gt; # … with 20 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
+```
+
+---
+
+# .orange[PREDICCIÓN]
+
+Con `predict()` podemos **.bg-purple_light[predecir tanto la clase como la probabilidad estimada]** de pertenencia a cada clase
+
+
+```r
+# Predecir las probabilidades (las necesitamos para la ROC)
+predict(extract_workflow(final_tree_fit), iris_test, type = "prob")
+```
+
+```
+&gt; # A tibble: 30 × 3
+&gt;    .pred_setosa .pred_versicolor .pred_virginica
+&gt;           &lt;dbl&gt;            &lt;dbl&gt;           &lt;dbl&gt;
+&gt;  1            1                0               0
+&gt;  2            1                0               0
+&gt;  3            1                0               0
+&gt;  4            1                0               0
+&gt;  5            1                0               0
+&gt;  6            1                0               0
+&gt;  7            1                0               0
+&gt;  8            1                0               0
+&gt;  9            1                0               0
+&gt; 10            1                0               0
+&gt; # … with 20 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
+```
+
+---
+
+# .orange[PREDICCIÓN]
+
+Con `augment()` incluimos predicciones al conjunto de test y con `conf_mat()` construimos la **.bg-purple_light[matriz de confusión]**
+
+
+```r
+# Incluir predicciones en tabla
+prob_test &lt;- augment(extract_workflow(final_tree_fit), iris_test)
+
+# Matriz de confusión: etiqueta real vs etiqueta predicha
+conf_mat_test &lt;-
+  prob_test %&gt;%
+  conf_mat(truth = Species, estimate = .pred_class)
+conf_mat_test 
+```
+
+```
+&gt;             Truth
+&gt; Prediction   setosa versicolor virginica
+&gt;   setosa         10          0         0
+&gt;   versicolor      0         10         1
+&gt;   virginica       0          0         9
+```
+
+```r
+# todas las métricas en test
+conf_mat_test %&gt;% summary()
+```
+
+```
+&gt; # A tibble: 13 × 3
+&gt;    .metric              .estimator .estimate
+&gt;    &lt;chr&gt;                &lt;chr&gt;          &lt;dbl&gt;
+&gt;  1 accuracy             multiclass     0.967
+&gt;  2 kap                  multiclass     0.95 
+&gt;  3 sens                 macro          0.967
+&gt;  4 spec                 macro          0.983
+&gt;  5 ppv                  macro          0.970
+&gt;  6 npv                  macro          0.984
+&gt;  7 mcc                  multiclass     0.952
+&gt;  8 j_index              macro          0.95 
+&gt;  9 bal_accuracy         macro          0.975
+&gt; 10 detection_prevalence macro          0.333
+&gt; 11 precision            macro          0.970
+&gt; 12 recall               macro          0.967
+&gt; 13 f_meas               macro          0.967
+```
+
+
+---
+
+# .orange[VISUALIZACIÓN] de árboles
+
+En el caso de los árboles, amén de todo lo que podíamos hacer con knn, podemos además **.bg-purple_light[visualizar el árbol]** con `rpart.plot()` del paquete `{rpart.plot}` (el parámetro `extra` nos cambia la forma de visualizarlo)
+
+.pull-left[
+
+
+```r
+library(rpart.plot)
+final_tree_fit %&gt;%
   extract_fit_engine() %&gt;%
-  rpart.plot(roundint = FALSE, extra = 4)
+  rpart.plot(roundint = FALSE,
+             extra = 1)
+```
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/rpart-plot-1-1.png" width="100%" /&gt;
+
+]
+
+---
+
+# .orange[VISUALIZACIÓN] de árboles
+
+En el caso de los árboles, amén de todo lo que podíamos hacer con knn, podemos además **.bg-purple_light[visualizar el árbol]** con `rpart.plot()` del paquete `{rpart.plot}` (el parámetro `extra` nos cambia la forma de visualizarlo)
+
+.pull-left[
+
+
+```r
+library(rpart.plot)
+final_tree_fit %&gt;%
+  extract_fit_engine() %&gt;%
+  rpart.plot(roundint = FALSE,
+             extra = 3)
+```
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/rpart-plot-2-1.png" width="100%" /&gt;
+
+]
+
+---
+
+# .orange[VISUALIZACIÓN] de árboles
+
+En el caso de los árboles, amén de todo lo que podíamos hacer con knn, podemos además **.bg-purple_light[visualizar el árbol]** con `rpart.plot()` del paquete `{rpart.plot}` (el parámetro `extra` nos cambia la forma de visualizarlo)
+
+.pull-left[
+
+
+```r
+library(rpart.plot)
+final_tree_fit %&gt;%
+  extract_fit_engine() %&gt;%
+  rpart.plot(roundint = FALSE,
+             extra = 4)
+```
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/rpart-plot-3-1.png" width="100%" /&gt;
+
+]
+
+---
+
+# .orange[IMPORTANCIA] de las variables
+
+Con `vi()` del paquete `{vip}` podemos **.bg-purple_light[ver la importancia relativa de las variables]**. Para detalles del cálculo ver &lt;https://rdrr.io/cran/vip/man/vi_model.html&gt; y &lt;https://koalaverse.github.io/vip/articles/vip.html&gt;
+
+
+```r
+library(vip)
+fit_gini &lt;-
+  final_tree_fit %&gt;% 
+  extract_fit_engine()
+
+fit_gini$variable.importance
+```
+
+```
+&gt;  Petal.Width Sepal.Length  Sepal.Width 
+&gt;     70.79824     42.65339     28.98862
+```
+
+```r
+vi(fit_gini)
+```
+
+```
+&gt; # A tibble: 3 × 2
+&gt;   Variable     Importance
+&gt;   &lt;chr&gt;             &lt;dbl&gt;
+&gt; 1 Petal.Width        70.8
+&gt; 2 Sepal.Length       42.7
+&gt; 3 Sepal.Width        29.0
 ```
 
 ---
 
 # .orange[IMPORTANCIA] de las variables
 
+Con `vip()` podemos **.bg-purple_light[visualizar la importancia de las variables]**.
 
-
-Con `vi()` (del paquete homónimo) podemos **.bg-purple_light[calcular la importancia relativa de las variables]**. Para detalles del cálculo ver &lt;https://rdrr.io/cran/vip/man/vi_model.html&gt; y &lt;https://koalaverse.github.io/vip/articles/vip.html&gt;
+.pull-left[
 
 
 ```r
-library(vip)
-tabla_vip &lt;- vi(iris_fit_val_gini)
-tabla_vip
+fit_gini %&gt;%
+  vip() +
+  labs(x = "Importancia", y = "Variables",
+       title = "IMPORTANCIA DE VARIABLES",
+       subtitle = "Con el paquete {vip}",
+       caption =
+         paste0("Autor: Javier Álvarez Liébana | ",
+                "Datos: iris"))
 ```
 
----
+]
 
+.pull-right[
+
+&lt;img src="index_files/figure-html/vip-1.png" width="90%" /&gt;
+
+]
+
+---
 
 # .orange[ENSAMBLAJE] de modelos
 
@@ -21220,16 +21954,109 @@ En el caso del **.bg-purple_light[boosting]** la idea es partir con todos los da
 Para implementar un **.bg-purple_light[random forest]** usaremos la función `rand_forest()` con tres argumentos:
 
 * `mtry`: **.bg-purple_light[número de predictores]** que el árbol puede ver en cada decisión (si es igual a p, es equivalenteun bagging clásico)
-* `min_n`: como antes, es el número mínimo de observaciones que se permite tener a un nodo para dividirse.
-* `trees`: árboles que prueba.
+* `min_n`: como antes, es el **.bg-purple_light[número mínimo de observaciones]** que se permite tener a un nodo para dividirse.
+* `trees`: **.bg-purple_light[árboles que prueba]**.
+
+Vamos a lanzar 300 árboles, que seleccione **21 configuraciones posibles** del par `(mtry-min_n)`, para decidir cual es el par de hiperparámetros más óptimo (en total, 6300 árboles). Aquí en iris tampoco podemos elegir mucho ya que solo tenemos 3 variables así que podremos construir árboles solo con 1-2-3 variables. El criterio de división será Gini.
 
 
 ```r
-# Random forest con tune (y paralelizado)
-rf_hotel &lt;-
-  rand_forest(mtry = tune(), min_n = tune(), trees = 1e2) %&gt;% 
-  set_engine("ranger", num.threads = clusters) %&gt;% 
-  set_mode("classification")
+# Random forest con tune
+rf_iris &lt;-
+  rand_forest(mode = "classification", mtry = tune("n_pred"),
+              min_n = tune("min_n"), trees = 300) %&gt;% 
+  set_engine("ranger", num.threads = 7)
+```
+
+---
+
+# .orange[RANDOM FOREST]
+
+Definimos el grid y el flujo
+
+
+
+```r
+# Grid
+grid_rf &lt;- 
+  expand_grid("n_pred" = c(1, 2, 3),
+              "min_n" = c(1, 2,  5, 7, 10, 20, 30))
+
+# Flujo de trabajo
+iris_rf_wflow &lt;-
+  workflow() %&gt;%
+  add_recipe(iris_rec) %&gt;%
+  add_model(rf_iris)
+```
+
+
+---
+
+# .orange[RANDOM FOREST]
+
+
+```r
+# Ajuste con tune paralelizado
+clusters &lt;- detectCores() - 1
+make_cluster &lt;- makeCluster(clusters)
+registerDoParallel(make_cluster)
+clusterExport(make_cluster, "outlier_detection")
+
+metricas &lt;-
+  metric_set(accuracy, sensitivity, specificity, roc_auc)
+rf_tune_par &lt;- 
+  iris_rf_wflow %&gt;% 
+  tune_grid(resamples = iris_cv_folds,
+            grid = grid_rf, metrics = metricas,
+            control =
+              control_grid(verbose = TRUE, allow_par = TRUE,
+                           pkgs = c("outliers"), save_pred = TRUE))
+
+# finalizamos clusters (por si acaso)
+stopCluster(make_cluster)
+registerDoSEQ()
+```
+
+
+---
+
+# .orange[RANDOM FOREST]
+
+Tras ello podemos hacer la misma idea de seleccionar el mejor, para luego palicarlo a test. **Prueba dicha estrategia en hoteles donde tenemos bastantes más variables**
+
+
+
+```r
+rf_tune_par %&gt;% collect_metrics()
+```
+
+```
+&gt; # A tibble: 84 × 8
+&gt;    n_pred min_n .metric     .estimator  mean     n std_err .config              
+&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;fct&gt;                
+&gt;  1      1     1 accuracy    multiclass 0.928    32 0.00619 Preprocessor1_Model01
+&gt;  2      1     1 roc_auc     hand_till  0.982    32 0.00311 Preprocessor1_Model01
+&gt;  3      1     1 sensitivity macro      0.928    32 0.00619 Preprocessor1_Model01
+&gt;  4      1     1 specificity macro      0.964    32 0.00310 Preprocessor1_Model01
+&gt;  5      1     2 accuracy    multiclass 0.929    32 0.00648 Preprocessor1_Model02
+&gt;  6      1     2 roc_auc     hand_till  0.983    32 0.00270 Preprocessor1_Model02
+&gt;  7      1     2 sensitivity macro      0.929    32 0.00648 Preprocessor1_Model02
+&gt;  8      1     2 specificity macro      0.965    32 0.00324 Preprocessor1_Model02
+&gt;  9      1     5 accuracy    multiclass 0.938    32 0.00648 Preprocessor1_Model03
+&gt; 10      1     5 roc_auc     hand_till  0.981    32 0.00317 Preprocessor1_Model03
+&gt; # … with 74 more rows
+&gt; # ℹ Use `print(n = ...)` to see more rows
+```
+
+```r
+rf_tune_par %&gt;% select_best("roc_auc")
+```
+
+```
+&gt; # A tibble: 1 × 3
+&gt;   n_pred min_n .config              
+&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;fct&gt;                
+&gt; 1      2    20 Preprocessor1_Model13
 ```
 
 ---

@@ -12411,6 +12411,27 @@ registerDoSEQ()
 hoteles_knn_fit_tune %>% collect_metrics()
 ```
 
+---
+
+# Computación .orange[EN PARALELO]
+ 
+Es importante que si necesitamos **.bg-purple_light[algún paquete]** se lo indiquemos en `pkgs = ...` para que lo cargue en cada cluster, y si **.bg-purple_light[necesitamos alguna función propia]** que hayamos creado lo hagamos con `clusterExport(make_cluster, "nombre_funcion")` 
+
+
+```{r eval = FALSE}
+hoteles_knn_fit_tune <-
+ hoteles_wflow %>%
+  tune_grid(resamples = hoteles_val, grid = grid_knn,
+            control = control_grid(verbose = TRUE, allow_par = TRUE, #<<
+                                   pkgs = c("outliers")),
+            metrics = metric_set(accuracy, sensitivity, specificity, roc_auc))
+# finalizamos clusters
+stopCluster(make_cluster)
+registerDoSEQ()
+
+# Métricas
+hoteles_knn_fit_tune %>% collect_metrics()
+```
 
 ---
 
@@ -15367,7 +15388,303 @@ ggsave("./gapminder.png") #<<
 ```
 
 
+---
 
+# .orange[SCATTER PLOT] .green[MÚLTIPLE]
+
+El paquete `facet_matrix()` nos proporciona `geom_autodensity()` junto con `facet_matrix()` para que **.bg-purple_light[podemos pintar todas las variables frente a todos]** con un scatter plot,, poniendo en la diagonal las **.bg-purple_light[funciones de densidad de cada variable]** (se indica `x = .panel_x` y `y = .panel_y` y el se encarga de seleccionar todas ellas)
+
+.pull-left[
+
+```{r eval = FALSE}
+library(ggforce)
+ggplot(iris,
+       aes(x = .panel_x, y = .panel_y,
+           color = Species, fill = Species)) +
+    geom_point(alpha = 0.4, size = 3) +
+    geom_autodensity(alpha = 0.4) +
+    facet_matrix(vars(-Species),
+                 layer.diag = 2) + 
+    scale_color_brewer(palette = "Dark2") + 
+    scale_fill_brewer(palette = "Dark2") + 
+  labs(title = "Scatter plot de iris",
+       subtitle = "Todas vs todas") +
+  theme_minimal()
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "90%"}
+library(ggforce)
+ggplot(iris,
+       aes(x = .panel_x, y = .panel_y,
+           color = Species, fill = Species)) +
+    geom_point(alpha = 0.4, size = 3) +
+    geom_autodensity(alpha = 0.4) +
+    facet_matrix(vars(-Species), layer.diag = 2) + 
+    scale_color_brewer(palette = "Dark2") + 
+    scale_fill_brewer(palette = "Dark2") + 
+  labs(title = "Scatter plot de iris",
+       subtitle = "Todas vs todas") +
+  theme_minimal()
+```
+
+]
+
+---
+
+
+# .orange[HISTOGRAMAS]
+
+.pull-left[
+
+En el caso **.bg-purple_light[variables continas]** también podremos representar un **.bg-purple_light[histograma]**, con la capa geométrica `geom_histogram()`
+
+* `alpha = ...`: transparencia del color.
+* `bins = ...`: número de barras a construir.
+* `color = ...`: color del contorno.
+* `fill = ...`: relleno del histograma.
+
+```{r eval = FALSE}
+ggplot(iris, aes(x = Sepal.Length)) +
+  geom_histogram(alpha = 0.3, bins = 25,
+                 color = "white", fill = "blue") +
+  labs(title = "Histograma de iris",
+       subtitle = "Variable Sepal.Length",
+       x = "Longitud sépalo", y = "Frec.") +
+  theme_minimal()
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "90%"}
+ggplot(iris, aes(x = Sepal.Length)) +
+  geom_histogram(alpha = 0.3, bins = 25,
+                 color = "white", fill = "blue") +
+  labs(title = "Histograma de iris",
+       subtitle = "Variable Sepal.Length",
+       x = "Longitud sépalo", y = "Frec.") +
+  theme_minimal()
+```
+
+]
+
+---
+
+# .orange[HISTOGRAMAS]
+
+.pull-left[
+
+Con la **.bg-purple_light[capa de escalas]** `scale_x_continuous()` le indicamos dónde queremos las marcas en los ejes y las etiquetas de las unidades, usando `scales::label_number()`.
+
+```{r eval = FALSE}
+library(scales)
+ggplot(iris, aes(x = Sepal.Length)) +
+  geom_histogram(alpha = 0.3, bins = 25,
+                 color = "white", fill = "blue") +
+  scale_x_continuous(breaks =
+                       seq(4, 8, by = 0.5),
+                     label =
+                       label_number(suffix = " cm")) +
+  labs(title = "Histograma de iris",
+       subtitle = "Variable Sepal.Length",
+       x = "Longitud sépalo", y = "Frec.") +
+  theme_minimal()
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "90%"}
+library(scales)
+ggplot(iris, aes(x = Sepal.Length)) +
+  geom_histogram(alpha = 0.3, bins = 25,
+                 color = "white", fill = "blue") +
+  scale_x_continuous(breaks =
+                       seq(4, 8, by = 0.5),
+                     label =
+                       label_number(suffix = " cm")) +
+  labs(title = "Histograma de iris",
+       subtitle = "Variable Sepal.Length",
+       x = "Longitud sépalo", y = "Frec.") +
+  theme_minimal()
+```
+
+]
+
+---
+
+# .orange[HISTOGRAMAS]
+
+Podemos pintarlos todos juntos, preparando antes los datos y convirtiéndolos a tidy
+
+```{r}
+iris_tidy <-
+  iris %>%
+  pivot_longer(cols = Sepal.Length:Petal.Width,
+               names_to = "variable", values_to = "values")
+iris_tidy
+```
+
+---
+
+# .orange[HISTOGRAMAS]
+
+
+
+.pull-left[
+
+Tras ello, pintamos lo mismo (ahora `x = values`) pero añadimos `facet_wrap()` vista antes (mira `facet_wrap()` y `facet_grid()` para dos variables)
+
+```{r eval = FALSE}
+ggplot(iris_tidy,
+       aes(x = values)) +
+  geom_histogram(alpha = 0.3, bins = 25,
+                 color = "white", fill = "blue") +
+  facet_wrap(~variable, scales = "free") + 
+  labs(title = "Histogramas de iris",
+       subtitle = "Con bins = 25 (nº barras)",
+       x = "Longitud sépalo", y = "Frec.") +
+  theme_minimal()
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "90%"}
+ggplot(iris_tidy,
+       aes(x = values)) +
+  geom_histogram(alpha = 0.3, bins = 25,
+                 color = "white", fill = "blue") +
+  facet_wrap(~variable, scales = "free") + 
+  labs(title = "Histogramas de iris",
+       subtitle = "Con bins = 25 (nº barras)",
+       x = "Longitud sépalo", y = "Frec.") +
+  theme_minimal()
+```
+
+]
+
+---
+
+# .orange[HISTOGRAMAS]
+
+.pull-left[
+
+```{r eval = FALSE}
+ggplot(iris_tidy,
+       aes(x = values, bins = 25,
+           color = Species, #<<
+           fill = Species)) + #<<
+  geom_histogram(alpha = 0.3) +
+  scale_color_brewer(palette = "Dark2") +
+  scale_fill_brewer(palette = "Dark2") +  
+  facet_wrap(~variable, scales = "free") + 
+  labs(title = "Histogramas iris (por colores)",
+       subtitle = "Con bins = 25 (nº barras)",
+       x = "Longitud sépalo", y = "Frec.") +
+  theme_minimal()
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "90%"}
+ggplot(iris_tidy,
+       aes(x = values, bins = 25,
+           color = Species, fill = Species)) +
+  geom_histogram(alpha = 0.3) +
+  scale_color_brewer(palette = "Dark2") +
+  scale_fill_brewer(palette = "Dark2") +  
+  facet_wrap(~variable, scales = "free") + 
+  labs(title = "Histogramas iris (por colores)",
+       subtitle = "Con bins = 25 (nº barras)",
+       x = "Longitud sépalo", y = "Frec.") +
+  theme_minimal()
+```
+
+]
+
+---
+
+# .orange[DIAGRAMA DE BARRAS]
+
+.pull-left[
+
+Con `geom_bar()` construimos **.bg-purple_light[diagramas de barras]**. Fíjate que ggplot solo hace el conteo, no tenemos que hacer nosotros `count()` antes del gráfico.
+
+
+```{r eval = FALSE}
+ggplot(starwars, aes(x = sex, fill = sex)) +
+  geom_bar(color = "white", alpha = 0.3) +
+  scale_fill_brewer(palette = "Dark2") +
+  labs(title = "Diagrama de barras (starwars)",
+       subtitle = "Conteo del sexo",
+       x = "Sexo", y = "Frecuencia") +
+  theme_minimal()
+```
+
+]
+
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "80%"}
+ggplot(starwars, aes(x = sex, fill = sex)) +
+  geom_bar(color = "white", alpha = 0.3) +
+  scale_fill_brewer(palette = "Dark2") +
+  labs(title = "Diagrama de barras (starwars)",
+       subtitle = "Conteo del sexo",
+       x = "Sexo", y = "Frecuencia") +
+  theme_minimal()
+```
+
+]
+
+---
+
+# .orange[DIAGRAMA DE BARRAS]
+
+
+
+.pull-left[
+
+Podemos usar lo que sabemos de **.bg-purple_light[factores para ordenarlos por frecuencia]**.
+
+```{r eval = FALSE}
+ggplot(starwars, aes(x = fct_infreq(sex), fill = sex)) +
+  geom_bar(color = "white", alpha = 0.3) +
+  scale_fill_brewer(palette = "Dark2") +
+  labs(title = "Diagrama de barras (starwars)",
+       subtitle = "Conteo del sexo",
+       x = "Sexo", y = "Frecuencia") +
+  theme_minimal()
+```
+
+]
+
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "80%"}
+ggplot(starwars, aes(x = fct_infreq(sex), fill = sex)) +
+  geom_bar(color = "white", alpha = 0.3) +
+  scale_fill_brewer(palette = "Dark2") +
+  labs(title = "Diagrama de barras (starwars)",
+       subtitle = "Conteo del sexo",
+       x = "Sexo", y = "Frecuencia") +
+  theme_minimal()
+```
+
+]
+    
 ---
 
 class: inverse center middle
@@ -15712,14 +16029,29 @@ decision_tree_entropy <- decision_tree %>% set_engine("C5.0")
 iris_split <- initial_split(iris, strata = Species, prop = 0.8)
 iris_train <- training(iris_split)
 iris_test <- testing(iris_split)
-
 # Validación
 iris_cv_folds <- vfold_cv(data = iris_train, v = 4, repeats = 8, strata = Species)
 ```
 
+Vamos a definir además una **.bg-purple_light[función para detectar outliers]** genérica que podamos aplicarla de forma flexible
+
+```{r}
+outlier_detection <- function(x, method = "z", k = 2.5) {
+  output <- ifelse(is.na(x) | abs(scores(x, type = method)) > k, NA, x)
+  return(output)
+}
+
+x <- c(1, 1.5, 2, 0, -1, -0.5, 0.3, 1, 0.1, 10, -12, 0, 1)
+outlier_detection(x, method = "z", k = 2)
+outlier_detection(x, method = "mad", k = 3)
+```
+
+
 ---
 
 # Caso práctico: .orange[IRIS]
+
+Aplicamos la receta para completar esa fase 3.
 
 ```{r}
 # Receta
@@ -15729,10 +16061,8 @@ iris_rec <-
     add_role(starts_with("Sepal"), new_role = "simétrica") %>% 
     add_role(starts_with("Petal"), new_role = "no simétrica") %>%
     # Detectar outliers
-    step_mutate(across(has_role("simétrica"),
-                       function(x) { ifelse(abs(scores(x, type = "z")) > 2.5, NA, x) }),
-                across(has_role("no simétrica"),
-                       function(x) { ifelse(abs(scores(x, type = "mad")) > 3, NA, x) })) %>%
+    step_mutate(across(has_role("simétrica"), outlier_detection),
+                across(has_role("no simétrica"), outlier_detection, "mad", 3)) %>%
     # Filtro de correlación
     step_corr(all_numeric_predictors(), threshold = 0.9)%>% 
     # Filtro de cero varianza
@@ -15743,19 +16073,21 @@ iris_rec <-
 
 # Caso práctico: .orange[IRIS]
 
-Probaremos 86 modelos diferentes
+Probaremos **.bg-purple_light[120 modelos diferentes]**
 
 ```{r}
 grid_tree <-
-  expand_grid("depth" = c(2, 3, 4, 5, 6, 7),
-              "min_n" = c(0.01, 0.025, 0.05, 0.1) * nrow(iris_train),
-              "cost" = c(0.01, 0.1, 0.5, 1))
+  expand_grid("depth" = c(1, 2, 3, 4),
+              "min_n" = c(2, 5, 7, 10, 20),
+              "cost" = c(0.001, 0.01, 0.1, 0.5, 1, 2))
 grid_tree
 ```
 
 ---
 
 # Caso práctico: .orange[IRIS]
+
+Tras ello **.bg-purple_light[definimos nuestro modelo]**
 
 ```{r}
 decision_tree <-
@@ -15768,7 +16100,7 @@ decision_tree_entropy <- decision_tree %>% set_engine("C5.0")
 .pull-left[
 
 ```{r}
-iris_wflow_gini <-
+iris_tree_gini_wflow <-
   workflow() %>%
   add_recipe(iris_rec) %>%
   add_model(decision_tree_gini) 
@@ -15779,7 +16111,7 @@ iris_wflow_gini <-
 .pull-right[
 
 ```{r}
-iris_wflow_entropy <-
+iris_tree_gini_entropy <-
   workflow() %>%
   add_recipe(iris_rec) %>%
   add_model(decision_tree_entropy) 
@@ -15791,26 +16123,34 @@ iris_wflow_entropy <-
 
 # Caso práctico: .orange[IRIS]
 
-```{r, eval = FALSE}
+A la hora de inicializar la paralelización, en este caso como tenemos definida una **.bg-purple_light[función que vamos a querer usar]** en cada hilo de la paralelización, vamos a **.bg-purple_light[exportarla a todos los clústers]** con `clusterExport()`.
+
+
+```{r}
 library(doParallel)
 library(parallel)
 clusters <- detectCores() - 1
 make_cluster <- makeCluster(clusters)
 registerDoParallel(make_cluster)
 
-iris_fit_val_gini <-
-  iris_wflow_gini %>%
+clusterExport(make_cluster, "outlier_detection") #<<
+```
+
+---
+
+# Caso práctico: .orange[IRIS]
+
+* `pkgs`: paquetes que necesite importar en cada cor
+* `save_pred = TRUE` que nos guarde las predicciones de cada conjunto de validación
+
+```{r paralel-tree}
+iris_fit_tree_gini <-
+  iris_tree_gini_wflow %>%
   tune_grid(resamples = iris_cv_folds,
             grid = grid_tree,
-            control = control_grid(verbose = TRUE, allow_par = TRUE),
-            metrics = metric_set(accuracy, sensitivity,
-                                 specificity, roc_auc))
-
-iris_fit_val_entropy <-
-  iris_wflow_entropy %>%
-  tune_grid(resamples = iris_cv_folds,
-            grid = grid_knn,
-            control = control_grid(verbose = TRUE, allow_par = TRUE),
+            control =
+              control_grid(verbose = TRUE, allow_par = TRUE,
+                           pkgs = c("outliers"), save_pred = TRUE), #<<
             metrics = metric_set(accuracy, sensitivity,
                                  specificity, roc_auc))
 stopCluster(make_cluster)
@@ -15821,48 +16161,318 @@ registerDoSEQ()
 
 # Caso práctico: .orange[IRIS]
 
-```{r  eval = FALSE}
+Para calcular las **.bg-purple_light[métricas en validación (ya podados)]** basta de nuevo con usar `collect_metrics()`
+
+```{r}
 # Métricas
-iris_fit_val_gini %>% collect_metrics()
+iris_fit_tree_gini %>% collect_metrics()
 ```
 
 ---
 
 # Caso práctico: .orange[IRIS]
 
-```{r  eval = FALSE}
-# Métricas
-iris_fit_val_entropy %>% collect_metrics()
+Dado que el resultado es un `tibble` podemos aplicar lo que sabemos de `{tidyverse}` para filtrar, ordenar, etc. Las **métricas son muy parecidas porque tenemos muy pocas observaciones** de forma que nuestras validación son muy muy poco representativas.
+
+
+```{r}
+resultados <- iris_fit_tree_gini %>% collect_metrics()
+resultados %>%
+  filter(.metric == "roc_auc") %>% 
+  arrange(desc(mean), std_err)
 ```
 
 ---
 
-# .orange[VISUALIZACIÓN] del árbol
+# .orange[VISUALIZACIÓN] de resultados
 
-Con `rpart.plot()` podemos **.bg-purple_light[visualizar el árbol]** siempre y cuando el motor sea `"rpart"` (le indicamos que no redondee valores a enteros y de los modelos de visualización elegimos `extra = 4`, prueba con varios para ver las diferencias)
+Lo primero es preparar los datos para visualizarlos, y para ello usaremos `pivot_longer()` para tener una columna de `parameter` (coste, profundad y min_n) y otra de `value` (con su valor). Tras prepararlos calcularemos la media de la métrica (que ya es una media en los 48 conjuntos de validación) por cada uno de los valores de los parámetros, para todos los modelos en los que coincida.
+
+
+```{r}
+resultados_tidy <-
+  resultados %>% 
+  pivot_longer(cols = c("cost", "depth", "min_n"),
+               names_to = "parameter", values_to = "value")
+media_resultados <-
+  resultados_tidy %>%
+  group_by(parameter, value) %>%
+  summarise(mean = mean(mean),  .metric = .metric) %>%
+  ungroup()
+resultados_tidy
+```
+
+---
+
+# .orange[VISUALIZACIÓN] de resultados
+
+.pull-left[
+
 
 ```{r eval = FALSE}
-iris_fit_val_gini %>%
+theme_set(theme_minimal())
+ggplot(media_resultados,
+       aes(x = value, y = mean)) +
+  geom_line() +
+  geom_point(size = 2) +
+  facet_grid(.metric ~ parameter, scales = "free") +
+  labs(x = "Parámetros", y = "Media (en todos los conjuntos de validación",
+       title = "Resumen de las métricas en validación",
+       caption = "Autor: Javier Álvarez Liébana")
+```
+
+]
+
+.pull-right[
+
+
+```{r echo = FALSE, out.width = "85%"}
+theme_set(theme_minimal())
+ggplot(media_resultados,
+       aes(x = value, y = mean)) +
+  geom_line() +
+  geom_point(size = 2) +
+  facet_grid(.metric ~ parameter, scales = "free") +
+  labs(x = "Parámetros", y = "Media (en todos los conjuntos de validación",
+       title = "Resumen de las métricas en validación",
+       caption = "Autor: Javier Álvarez Liébana")
+```
+
+]
+
+---
+
+# Seleccionamos .orange[EL MEJOR]
+
+Como sucedía en knn, podemos **.bg-purple_light[ver los mejores]** con `show_best()` (e indicándole la métrica)
+
+```{r}
+iris_fit_tree_gini %>% show_best("roc_auc", n = 10)
+iris_fit_tree_gini %>% show_best("accuracy", n = 10)
+```
+
+---
+
+# Seleccionamos .orange[EL MEJOR]
+
+Con `select_best()` podemos **.bg-purple_light[seleccionar el mejor respecto a una métrica]** y con `select_by_one_std_err()` podemos seleccionar el mejor no solo por una métrica dada sino buscar el que tiene menor varianza (dado un parámetro), buscando ese **.bg-purple_light[equilibrio sesgo-varianza]**.
+
+```{r}
+best_tree_gini_iris_roc <-
+  iris_fit_tree_gini %>% select_best("roc_auc")
+best_tree_gini_iris_acc <-
+  iris_fit_tree_gini %>% select_best("accuracy")
+best_tree_gini_iris_roc_std <-
+  iris_fit_tree_gini %>% select_by_one_std_err("roc_auc", cost)
+best_tree_gini_iris_acc_std <-
+  iris_fit_tree_gini %>% select_by_one_std_err("accuracy", cost)
+```
+
+Con el modelo ganador que queramos tras validación, **.bg-purple_light[finalizamos el flujo]**
+
+```{r}
+final_wf <- 
+  iris_tree_gini_wflow %>% 
+  finalize_workflow(best_tree_gini_iris_roc)
+```
+
+---
+
+# .orange[EVALUACIÓN]
+
+Con ese flujo finalizado lo usamos para **.bg-purple_light[ajustar a test ese modelo ganador seleccionado en validación]**
+
+```{r}
+final_tree_fit <- 
+  final_wf %>%
+  last_fit(iris_split) 
+final_tree_fit %>% collect_metrics()
+```
+
+---
+
+# .orange[PREDICCIÓN]
+
+Con `predict()` podemos **.bg-purple_light[predecir tanto la clase como la probabilidad estimada]** de pertenencia a cada clase
+
+```{r}
+# Predecir el conjunto test: devuelve la clase
+predict(extract_workflow(final_tree_fit), iris_test)
+```
+
+---
+
+# .orange[PREDICCIÓN]
+
+Con `predict()` podemos **.bg-purple_light[predecir tanto la clase como la probabilidad estimada]** de pertenencia a cada clase
+
+```{r}
+# Predecir las probabilidades (las necesitamos para la ROC)
+predict(extract_workflow(final_tree_fit), iris_test, type = "prob")
+```
+
+---
+
+# .orange[PREDICCIÓN]
+
+Con `augment()` incluimos predicciones al conjunto de test y con `conf_mat()` construimos la **.bg-purple_light[matriz de confusión]**
+
+```{r conf-mat-tree}
+# Incluir predicciones en tabla
+prob_test <- augment(extract_workflow(final_tree_fit), iris_test)
+
+# Matriz de confusión: etiqueta real vs etiqueta predicha
+conf_mat_test <-
+  prob_test %>%
+  conf_mat(truth = Species, estimate = .pred_class)
+conf_mat_test 
+
+# todas las métricas en test
+conf_mat_test %>% summary()
+```
+
+
+---
+
+# .orange[VISUALIZACIÓN] de árboles
+
+En el caso de los árboles, amén de todo lo que podíamos hacer con knn, podemos además **.bg-purple_light[visualizar el árbol]** con `rpart.plot()` del paquete `{rpart.plot}` (el parámetro `extra` nos cambia la forma de visualizarlo)
+
+.pull-left[
+
+```{r eval = FALSE}
+library(rpart.plot)
+final_tree_fit %>%
+  extract_fit_engine() %>%
+  rpart.plot(roundint = FALSE,
+             extra = 1)
+```
+
+]
+
+.pull-right[
+
+```{r rpart-plot-1, echo = FALSE}
+library(rpart.plot)
+final_tree_fit %>%
+  extract_fit_engine() %>%
+  rpart.plot(roundint = FALSE, extra = 1)
+```
+
+]
+
+---
+
+# .orange[VISUALIZACIÓN] de árboles
+
+En el caso de los árboles, amén de todo lo que podíamos hacer con knn, podemos además **.bg-purple_light[visualizar el árbol]** con `rpart.plot()` del paquete `{rpart.plot}` (el parámetro `extra` nos cambia la forma de visualizarlo)
+
+.pull-left[
+
+```{r eval = FALSE}
+library(rpart.plot)
+final_tree_fit %>%
+  extract_fit_engine() %>%
+  rpart.plot(roundint = FALSE,
+             extra = 3)
+```
+
+]
+
+.pull-right[
+
+```{r rpart-plot-2, echo = FALSE}
+library(rpart.plot)
+final_tree_fit %>%
+  extract_fit_engine() %>%
+  rpart.plot(roundint = FALSE, extra = 3)
+```
+
+]
+
+---
+
+# .orange[VISUALIZACIÓN] de árboles
+
+En el caso de los árboles, amén de todo lo que podíamos hacer con knn, podemos además **.bg-purple_light[visualizar el árbol]** con `rpart.plot()` del paquete `{rpart.plot}` (el parámetro `extra` nos cambia la forma de visualizarlo)
+
+.pull-left[
+
+```{r eval = FALSE}
+library(rpart.plot)
+final_tree_fit %>%
+  extract_fit_engine() %>%
+  rpart.plot(roundint = FALSE,
+             extra = 4)
+```
+
+]
+
+.pull-right[
+
+```{r rpart-plot-3, echo = FALSE}
+library(rpart.plot)
+final_tree_fit %>%
   extract_fit_engine() %>%
   rpart.plot(roundint = FALSE, extra = 4)
+```
+
+]
+
+---
+
+# .orange[IMPORTANCIA] de las variables
+
+Con `vi()` del paquete `{vip}` podemos **.bg-purple_light[ver la importancia relativa de las variables]**. Para detalles del cálculo ver <https://rdrr.io/cran/vip/man/vi_model.html> y <https://koalaverse.github.io/vip/articles/vip.html>
+
+```{r vi-vip}
+library(vip)
+fit_gini <-
+  final_tree_fit %>% 
+  extract_fit_engine()
+
+fit_gini$variable.importance
+vi(fit_gini)
+
 ```
 
 ---
 
 # .orange[IMPORTANCIA] de las variables
 
+Con `vip()` podemos **.bg-purple_light[visualizar la importancia de las variables]**.
 
-
-Con `vi()` (del paquete homónimo) podemos **.bg-purple_light[calcular la importancia relativa de las variables]**. Para detalles del cálculo ver <https://rdrr.io/cran/vip/man/vi_model.html> y <https://koalaverse.github.io/vip/articles/vip.html>
+.pull-left[
 
 ```{r eval = FALSE}
-library(vip)
-tabla_vip <- vi(iris_fit_val_gini)
-tabla_vip
+fit_gini %>%
+  vip() +
+  labs(x = "Importancia", y = "Variables",
+       title = "IMPORTANCIA DE VARIABLES",
+       subtitle = "Con el paquete {vip}",
+       caption =
+         paste0("Autor: Javier Álvarez Liébana | ",
+                "Datos: iris"))
 ```
 
----
+]
 
+.pull-right[
+
+```{r vip, echo = FALSE, out.width = "90%"}
+fit_gini %>%
+  vip() +
+  labs(x = "Importancia", y = "Variables",
+       title = "IMPORTANCIA DE VARIABLES",
+       subtitle = "Con el paquete {vip}",
+       caption =
+         paste0("Autor: Javier Álvarez Liébana | ",
+                "Datos: iris"))
+```
+
+]
+
+---
 
 # .orange[ENSAMBLAJE] de modelos
 
@@ -15908,15 +16518,77 @@ knitr::include_graphics("./img/boosting.jpg")
 Para implementar un **.bg-purple_light[random forest]** usaremos la función `rand_forest()` con tres argumentos:
 
 * `mtry`: **.bg-purple_light[número de predictores]** que el árbol puede ver en cada decisión (si es igual a p, es equivalenteun bagging clásico)
-* `min_n`: como antes, es el número mínimo de observaciones que se permite tener a un nodo para dividirse.
-* `trees`: árboles que prueba.
+* `min_n`: como antes, es el **.bg-purple_light[número mínimo de observaciones]** que se permite tener a un nodo para dividirse.
+* `trees`: **.bg-purple_light[árboles que prueba]**.
 
-```{r eval = FALSE}
-# Random forest con tune (y paralelizado)
-rf_hotel <-
-  rand_forest(mtry = tune(), min_n = tune(), trees = 1e2) %>% 
-  set_engine("ranger", num.threads = clusters) %>% 
-  set_mode("classification")
+Vamos a lanzar 300 árboles, que seleccione **21 configuraciones posibles** del par `(mtry-min_n)`, para decidir cual es el par de hiperparámetros más óptimo (en total, 6300 árboles). Aquí en iris tampoco podemos elegir mucho ya que solo tenemos 3 variables así que podremos construir árboles solo con 1-2-3 variables. El criterio de división será Gini.
+
+```{r}
+# Random forest con tune
+rf_iris <-
+  rand_forest(mode = "classification", mtry = tune("n_pred"),
+              min_n = tune("min_n"), trees = 300) %>% 
+  set_engine("ranger", num.threads = 7)
+```
+
+---
+
+# .orange[RANDOM FOREST]
+
+Definimos el grid y el flujo
+
+
+```{r}
+# Grid
+grid_rf <- 
+  expand_grid("n_pred" = c(1, 2, 3),
+              "min_n" = c(1, 2,  5, 7, 10, 20, 30))
+
+# Flujo de trabajo
+iris_rf_wflow <-
+  workflow() %>%
+  add_recipe(iris_rec) %>%
+  add_model(rf_iris)
+```
+
+
+---
+
+# .orange[RANDOM FOREST]
+
+```{r rf-tune-par}
+# Ajuste con tune paralelizado
+clusters <- detectCores() - 1
+make_cluster <- makeCluster(clusters)
+registerDoParallel(make_cluster)
+clusterExport(make_cluster, "outlier_detection")
+
+metricas <-
+  metric_set(accuracy, sensitivity, specificity, roc_auc)
+rf_tune_par <- 
+  iris_rf_wflow %>% 
+  tune_grid(resamples = iris_cv_folds,
+            grid = grid_rf, metrics = metricas,
+            control =
+              control_grid(verbose = TRUE, allow_par = TRUE,
+                           pkgs = c("outliers"), save_pred = TRUE))
+
+# finalizamos clusters (por si acaso)
+stopCluster(make_cluster)
+registerDoSEQ()
+```
+
+
+---
+
+# .orange[RANDOM FOREST]
+
+Tras ello podemos hacer la misma idea de seleccionar el mejor, para luego palicarlo a test. **Prueba dicha estrategia en hoteles donde tenemos bastantes más variables**
+
+
+```{r}
+rf_tune_par %>% collect_metrics()
+rf_tune_par %>% select_best("roc_auc")
 ```
 
 ---
