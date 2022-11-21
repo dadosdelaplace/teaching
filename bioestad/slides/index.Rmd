@@ -10488,9 +10488,6 @@ name: clase-14
 
 ### [Introducción a ggplot2](#intro-ggplot2)
 
-### [La importancia de visualizar datos](#importancia-dataviz)
-
-
 ---
 
 name: intro-historica
@@ -13348,7 +13345,746 @@ ggsave("./gapminder.png") #<<
 Por último, podemos incluso **.bg-purple_light[animar gráficas]**, con el paquete `{gganimate}`
 
 ```{r eval = FALSE}
-libnter middle
+library(gganimate)
+p <-
+  ggplot(gapminder,
+       aes(y = gdpPercap, x = lifeExp,
+           size = pop, color = country)) +
+  geom_point(alpha = 0.7) +
+  scale_y_log10() +
+  scale_colour_manual(values = country_colors) +
+  facet_wrap(~continent) +
+  theme(legend.position = 'none') +
+  labs(title = 'Año: {frame_time}',
+       x = "Esperanza de vida",
+       y = "Renta per cápita") +
+  transition_time(year) +
+  ease_aes('linear')
+animate(p, 100, 10)
+```
+
+---
+
+class: inverse center middle
+name: clase-15
+
+# CLASE 15: profundizando en ggplot
+
+&nbsp;
+
+### [Ejemplo: paletas continuas](#ej-clima)
+
+### [Diagramas de barras](#bar-plots)
+
+### [HTML y gráficos interactivos](#html-textos)
+
+---
+
+name: ej-clima
+
+# .orange[EJERCICIO]
+
+Vamos a practicar lo aprendido, haciendo uso de los datos del **.bg-purple_light[National Morbidity and Mortality Air Pollution Study (NMMAPS)]** para Chicago desde 1997 a 2000. 
+```{r}
+chicago <-
+  read_csv("https://raw.githubusercontent.com/z3tt/ggplot-courses/main/data/chicago-nmmaps-custom.csv")
+chicago
+```
+
+---
+
+# .orange[EJERCICIO]
+
+1. Realiza un **diagrama de dispersión de puntos** enfrentando en el eje X la fecha y en el eje Y la temperatura (sin colores, solo editando la información visualizada en los ejes y títulos). Temperaturas en ºF
+
+--
+
+2. Realiza un **diagrama de líneas** enfrentando en el eje X la fecha y en el eje Y la temperatura con los mismos ajustes.
+
+--
+
+3. Del gráfico de dispersión de puntos anterior, **codifica los colores** en función de la estación del año (decide tú la paleta de colores)
+
+--
+
+4. Repite el gráfico anterior tomando como fuente Roboto.
+
+--
+
+5. Genera dos gráficos, con las paletas `scale_color_excel()` y `scale_color_tableau()` (del paquete `{ggthemes}`) y muéstralos uno al lado del otro, con una legenda común.
+
+--
+
+6. Busca alguna manera en `scale_color...` para usar una paleta de colores continua (valores de temperatura bajos, unos colores, altos otros)
+
+---
+
+# .orange[EJERCICIO]
+
+```{r eval = FALSE}
+temp_media <- mean(chicago$temp)
+ggplot(chicago, aes(x = date, y = temp)) +
+  geom_point(aes(color = temp), alpha = 0.8) +
+  scale_color_gradient2(midpoint = temp_media,
+                        low = "#766cb5",
+                        mid = "grey92",
+                        high = "#852826") +
+  labs(x = "Fecha", y = "Temperatura (ºF)",
+       color = "Temperatura (ºF)",
+       title = "Gráfico de dispersión",
+       subtitle = "Chicago (1997-200)",
+       caption = "Autor: Javier Álvarez Liébana") +
+  theme_minimal()
+```
+
+---
+
+# .orange[EJERCICIO]
+
+```{r echo = FALSE, out.width = "60%"}
+temp_media <- mean(chicago$temp)
+ggplot(chicago, aes(x = date, y = temp)) +
+  geom_point(aes(color = temp), alpha = 0.8) +
+  scale_color_gradient2(midpoint = temp_media,
+                        low = "#766cb5",
+                        mid = "grey92",
+                        high = "#852826") +
+  labs(x = "Fecha", y = "Temperatura (ºF)",
+       color = "Temperatura (ºF)",
+       title = "Gráfico de dispersión",
+       subtitle = "Chicago (1997-200)",
+       caption = "Autor: Javier Álvarez Liébana") +
+  theme_minimal()
+```
+
+---
+
+name: bar-plots
+
+# Diagrama de .orange[BARRAS]
+
+
+El gráfico anterior (diagrama de puntos o scatter plot) está principalmente pasado para **.bg-purple_light[representar variables numéricas ontinuas]**. ¿Y si tengo **.bg-orange[variables discretas o cualitativas]**?
+
+Vamos a usar el ya conocido conjunto `starwars` para visualizar en un **.bg-purple_light[diagrama de barras]**: vamos a representar la **.bg-purple_light[frecuencia]**  de una **.bg-orange[variable cualitativa]** como es `sex`.
+
+```{r}
+starwars %>% 
+  count(sex)
+```
+
+
+---
+
+# Diagrama de .orange[BARRAS]
+
+.pull-left[
+
+Para visualizar un **diagrama de barras** todo lo que hemos aprendido nos sirve: solo tenemos que **.bg-purple_light[cambiar la geometría]** con `geom_bar()` en lugar de `geom_point()`, con `x = sex` (ggplot hará solo el recuento por nosotros)
+
+```{r eval = FALSE}
+starwars <- starwars %>% drop_na(sex)
+ggplot(starwars,
+       aes(x = sex)) +
+  geom_bar() + #<<
+  theme_minimal()
+```
+
+]
+
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "95%"}
+starwars <- starwars %>% drop_na(sex)
+ggplot(starwars, aes(x = sex)) +
+  geom_bar() + #<<
+  theme_minimal()
+```
+
+]
+
+---
+
+# Diagrama de .orange[BARRAS]
+
+.pull-left[
+
+Podemos aplicar lo aprendido sobre **.bg-purple_light[colores para codificar]** la información, en este caso vamos a usar las paletas ya cargadas en `scale_color_brewer()` (info en <https://colorbrewer2.org>). Fíjate que ahora será importante distinguir entre `color` y `fill`
+
+```{r eval = FALSE}
+ggplot(starwars, aes(x = sex)) +
+  geom_bar(aes(color = sex), #<<
+           alpha = 0.5) + 
+  scale_color_brewer(palette = "Dark2") + 
+  theme_minimal()
+```
+
+]
+
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "95%"}
+ggplot(starwars, aes(x = sex)) +
+  geom_bar(aes(color = sex)) + #<<
+  scale_color_brewer(palette = "Dark2") + 
+  theme_minimal()
+```
+
+]
+
+---
+
+
+# Diagrama de .orange[BARRAS]
+
+.pull-left[
+
+Fíjate que ahora será importante distinguir entre `color` y `fill`
+
+```{r eval = FALSE}
+ggplot(starwars, aes(x = sex)) +
+  geom_bar(aes(fill = sex), #<<
+           alpha = 0.5) + 
+  scale_fill_brewer(palette = "Dark2") + 
+  theme_minimal()
+```
+
+]
+
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "95%"}
+ggplot(starwars, aes(x = sex)) +
+  geom_bar(aes(fill = sex), #<<
+           alpha = 0.5) + 
+  scale_fill_brewer(palette = "Dark2") + 
+  theme_minimal()
+```
+
+]
+
+---
+
+# Diagrama de .orange[BARRAS]
+
+.pull-left[
+
+Podemos personalizar el gráfico haciendo uso de las opciones ya vistas.
+
+```{r eval = FALSE}
+theme_set(theme_minimal())
+theme_update(
+  plot.title =
+    element_text(size = 25, face = "bold"),
+  plot.subtitle = element_text(size = 13),
+  plot.caption = element_text(size = 9)
+)
+
+ggplot(starwars, aes(x = sex)) +
+  geom_bar(aes(fill = sex),
+           alpha = 0.5) + 
+  scale_fill_brewer(palette = "Dark2") + 
+  labs(x = "Sexo", y = "Frecuencia",
+       fill = "Sexo",
+       title = "Diagrama de barras de starwars",
+       subtitle = "Frec. de variable sexo",
+       caption =
+         "Autor: J. Álvarez Liébana")
+```
+
+]
+
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "95%"}
+theme_set(theme_minimal())
+theme_update(
+  plot.title =
+    element_text(size = 25, face = "bold"),
+  plot.subtitle = element_text(size = 13),
+  plot.caption = element_text(size = 9)
+)
+
+ggplot(starwars, aes(x = sex)) +
+  geom_bar(aes(fill = sex),
+           alpha = 0.5) + 
+  scale_fill_brewer(palette = "Dark2") + 
+  labs(x = "Sexo", y = "Frecuencia",
+       fill = "Sexo",
+       title = "Diagrama de barras de starwars",
+       subtitle = "Frec. de la variable sexo",
+       caption =
+         "Autor: J. Álvarez Liébana")
+```
+
+]
+
+---
+
+# Diagrama de .orange[BARRAS]
+
+.pull-left[
+
+Haciendo uso de los que sabemos **.bg-purple_light[sobre factores]** podemos indicarle que nos ordene las columnas de mayor a menor frecuencia, usando simplemente `fct_infreq()`
+
+```{r eval = FALSE}
+ggplot(starwars,
+       aes(x = fct_infreq(sex))) +
+  geom_bar(aes(fill = sex),
+           alpha = 0.5) + 
+  scale_fill_brewer(palette = "Dark2") + 
+  labs(x = "Sexo", y = "Frecuencia",
+       fill = "Sexo",
+       title = "Diagrama de barras de starwars",
+       subtitle =
+         "Frec. de la variable sexo",
+       caption =
+         "Autor: J. Álvarez Liébana")
+```
+
+]
+
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "95%"}
+ggplot(starwars,
+       aes(x = fct_infreq(sex))) +
+  geom_bar(aes(fill = sex),
+           alpha = 0.5) + 
+  scale_fill_brewer(palette = "Dark2") + 
+  labs(x = "Sexo", y = "Frecuencia",
+       fill = "Sexo",
+       title = "Diagrama de barras de starwars",
+       subtitle = "Frec. de la variable sexo",
+       caption =
+         "Autor: J. Álvarez Liébana")
+```
+
+]
+
+
+---
+
+# Diagrama de .orange[BARRAS]
+
+.pull-left[
+
+Para cambiar el rol de los ejes, generando un diagrama de **.bg-purple_light[barras horizontales]**, podemos dejar el gráfico igual y luego simplemente hacer `coord_flip()`
+
+```{r eval = FALSE}
+ggplot(starwars,
+       aes(x = fct_infreq(sex))) +
+  geom_bar(aes(fill = sex),
+           alpha = 0.5) + 
+  coord_flip() + #<<
+  scale_fill_brewer(palette = "Dark2") + 
+  labs(x = "Sexo", y = "Frecuencia",
+       fill = "Sexo",
+       title = "Diagrama de barras de starwars",
+       subtitle =
+         "Frec. de la variable sexo",
+       caption =
+         "Autor: J. Álvarez Liébana")
+```
+
+]
+
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "90%"}
+ggplot(starwars,
+       aes(x = fct_infreq(sex))) +
+  geom_bar(aes(fill = sex),
+           alpha = 0.5) + 
+  coord_flip() + #<<
+  scale_fill_brewer(palette = "Dark2") + 
+  labs(x = "Sexo", y = "Frecuencia",
+       fill = "Sexo",
+       title = "Diagrama de barras de starwars",
+       subtitle =
+         "Frec. de la variable sexo",
+       caption =
+         "Autor: J. Álvarez Liébana")
+```
+
+]
+
+---
+
+# Diagrama de .orange[BARRAS]
+
+.pull-left[
+
+Para **.bg-purple_light[invertir el orden de los factores]** basta usar `fct_rev()`
+
+```{r eval = FALSE}
+ggplot(starwars,
+       aes(x = fct_rev(fct_infreq(sex)))) +
+  geom_bar(aes(fill = sex),
+           alpha = 0.5) + 
+  coord_flip() + #<<
+  scale_fill_brewer(palette = "Dark2") + 
+  labs(x = "Sexo", y = "Frecuencia",
+       fill = "Sexo",
+       title = "Diagrama de barras de starwars",
+       subtitle =
+         "Frec. de la variable sexo",
+       caption =
+         "Autor: J. Álvarez Liébana")
+```
+
+]
+
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "90%"}
+ggplot(starwars,
+       aes(x = fct_rev(fct_infreq(sex)))) +
+  geom_bar(aes(fill = sex),
+           alpha = 0.5) + 
+  coord_flip() + #<<
+  scale_fill_brewer(palette = "Dark2") + 
+  labs(x = "Sexo", y = "Frecuencia",
+       fill = "Sexo",
+       title = "Diagrama de barras de starwars",
+       subtitle =
+         "Frec. de la variable sexo",
+       caption =
+         "Autor: J. Álvarez Liébana")
+```
+
+]
+
+
+---
+
+
+# Diagrama de .orange[BARRAS]
+
+.pull-left[
+
+La capa `geom_bar()` está solo pensada para **.bg-purple_light[conteos de variables discretas o cualitativas]**. ¿Y si queremos visualizar en gapminder el producto interior bruto por año? Usaremos `geom_col()` (ahora si necesitamos dos argumentos x,y)
+
+
+```{r eval = FALSE}
+ggplot(gapminder,
+       aes(y = gdpPercap, x = year)) +
+  geom_col() + #<<
+  theme_minimal()
+```
+
+Fíjate que por defecto lo que hace es **.bg-purple_light[sumar la variable continua]** en cada año
+
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "95%"}
+ggplot(gapminder,
+       aes(y = gdpPercap, x = year)) +
+  geom_col() + 
+  theme_minimal()
+```
+
+]
+
+
+---
+
+# Diagrama de .orange[BARRAS]
+
+.pull-left[
+
+Si añadimos `fill = continent` nos creará lo que se conoce como **.bg-purple_light[diagrama de barras apilado]** (en cada barra apilará los continentes uno encima de otros). Usaremos una paleta `scale_fill_colorblind()` pensada para personas daltónicas.
+
+
+```{r eval = FALSE}
+ggplot(gapminder,
+       aes(y = gdpPercap, x = year)) +
+  geom_col(aes(fill = continent), #<<
+           alpha = 0.7) + 
+  scale_fill_colorblind() +
+  theme_minimal()
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "95%"}
+ggplot(gapminder,
+       aes(y = gdpPercap, x = year)) +
+  geom_col(aes(fill = continent), #<<
+           alpha = 0.7) + 
+  scale_fill_colorblind() +
+  theme_minimal()
+```
+
+]
+
+---
+
+# Diagrama de .orange[BARRAS]
+
+.pull-left[
+
+Si añadimos `position = "dodge"` nos creará lo que se conoce como **.bg-purple_light[diagrama de barras desapilado]**: nos pinta las barras de cada país y año (coloreados por continente) unas al lado de otras. 
+
+
+```{r eval = FALSE}
+ggplot(gapminder,
+       aes(y = gdpPercap, x = year)) +
+  geom_col(aes(fill = continent),
+           alpha = 0.7,
+           position = "dodge") + #<<
+  scale_fill_colorblind() +
+  theme_minimal()
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "95%"}
+ggplot(gapminder,
+       aes(y = gdpPercap, x = year)) +
+  geom_col(aes(fill = continent),
+           alpha = 0.7,
+           position = "dodge") + #<<
+  scale_fill_colorblind() +
+  theme_minimal()
+```
+
+]
+
+---
+
+# Diagrama de .orange[BARRAS]
+
+.pull-left[
+
+En este caso no parece una muy buena idea ya que tenemos muchos países. Si usamos `position = "dodge2"` nos creará el gráfico pero usando el máximo de cada grupo (continente).
+
+```{r eval = FALSE}
+ggplot(gapminder,
+       aes(y = gdpPercap, x = year)) +
+  geom_col(aes(fill = continent),
+           alpha = 0.7,
+           position = "dodge2") + #<<
+  scale_fill_colorblind() +
+  theme_minimal()
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "95%"}
+ggplot(gapminder,
+       aes(y = gdpPercap, x = year)) +
+  geom_col(aes(fill = continent),
+           alpha = 0.7,
+           position = "dodge2") + #<<
+  scale_fill_colorblind() +
+  theme_minimal()
+```
+
+]
+
+---
+
+# Diagrama de .orange[BARRAS]
+
+.pull-left[
+
+Podemos hacer antes un resumen para visualizar la media por continente y año
+
+```{r eval = FALSE}
+gapminder_continent <-
+  gapminder %>% 
+  group_by(continent, year) %>%
+  summarise(mean_gdp = mean(gdpPercap)) %>% 
+  ungroup()
+ggplot(gapminder_continent,
+       aes(y = mean_gdp, x = year)) +
+  geom_col(aes(fill = continent),
+           alpha = 0.7,
+           position = "dodge2") + #<<
+  scale_fill_colorblind() +
+  theme_minimal()
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "95%"}
+gapminder_continent <-
+  gapminder %>% 
+  group_by(continent, year) %>%
+  summarise(mean_gdp = mean(gdpPercap)) %>% 
+  ungroup()
+ggplot(gapminder_continent,
+       aes(y = mean_gdp, x = year)) +
+  geom_col(aes(fill = continent),
+           alpha = 0.7,
+           position = "dodge2") + #<<
+  scale_fill_colorblind() +
+  theme_minimal()
+```
+
+]
+
+---
+
+# Diagrama de .orange[BARRAS]
+
+.pull-left[
+
+Con `position = fill` lo que hacemos es que todas las barras ocupen lo mismo para **.bg-purple_light[facilitar la comparación]** (añadimos de paso la leyenda debajo)
+
+```{r eval = FALSE}
+ggplot(gapminder_continent,
+       aes(y = mean_gdp, x = year)) +
+  geom_col(aes(fill = continent),
+           alpha = 0.7,
+           position = "fill") + #<<
+  scale_fill_colorblind() +
+  theme_minimal() +
+  theme(legend.position = "bottom") +#<<
+  labs(x = "Año", y = "PIB medio",
+       fill = "continente",
+       title = "Diagrama de barras")
+```
+
+]
+
+.pull-right[
+
+```{r echo = FALSE, out.width = "95%"}
+ggplot(gapminder_continent,
+       aes(y = mean_gdp, x = year)) +
+  geom_col(aes(fill = continent),
+           alpha = 0.7,
+           position = "fill") + #<<
+  scale_fill_colorblind() +
+  theme_minimal() +
+  theme(legend.position = "bottom") +#<<
+  labs(x = "Año", y = "PIB medio",
+       fill = "continente",
+       title = "Diagrama de barras")
+```
+
+]
+
+
+---
+
+name: html-textos
+
+# .orange[HTML] en textos
+
+Con el paquete `{ggtext}` podemos indicarle dentro del tema `theme()` si alguno de los elementos lo vamos a querer **.bg-purple_light[escribir en HTML dando colores a textos]** haciendo uso de `element_markdown()`
+
+```{r eval = FALSE}
+library(ggtext)
+ggplot(gapminder_continent, aes(y = mean_gdp, x = year)) +
+  geom_col(aes(fill = continent), alpha = 0.7, position = "fill") +
+  scale_fill_colorblind() +
+  theme_minimal() +
+  theme(legend.position = "none",#<<
+        plot.subtitle = element_markdown(face = "bold")) +#<<
+  labs(x = "Año", y = "PIB medio",
+       title = "Diagrama de barras",
+       subtitle = "Media del PIB en <span style = 'color:#606060;'>África</span>, <span style = 'color:#f3bb53;'>América</span>, <span style = 'color:#7bcbf3;'>Asia</span>, <span style = 'color:#48bf9f;'>Europa</span> y <span style = 'color:#f3eb73;'>Oceanía</span>")
+```
+
+---
+
+# .orange[HTML] en textos
+
+```{r echo = FALSE, out.width = "50%"}
+library(ggtext)
+gg <- ggplot(gapminder_continent, aes(y = mean_gdp, x = year)) +
+  geom_col(aes(fill = continent), alpha = 0.7, position = "fill") +
+  scale_fill_colorblind() +
+  theme_minimal() +
+  theme(legend.position = "none",#<<
+        plot.subtitle = element_markdown(face = "bold")) +#<<
+  labs(x = "Año", y = "PIB medio",
+       title = "Diagrama de barras",
+       subtitle = "Media del PIB en <span style = 'color:#606060;'>África</span>, <span style = 'color:#f3bb53;'>América</span>, <span style = 'color:#7bcbf3;'>Asia</span>, <span style = 'color:#48bf9f;'>Europa</span> y <span style = 'color:#f3eb73;'>Oceanía</span>")
+gg
+```
+
+---
+  
+# .orange[INTERACTIVOS]: plotly
+
+También podemos crear **.bg-purple_light[gráficos interactivos]**: vamos a añadirle un  nuevo **.bg-purple_light[atributo de texto]** dentro de `geom_col()`, que construimos con `str_glue()` (<b>...</b> para meter negrita en HTML). Y guardamos el gráfico
+
+```{r}
+gg <-
+  ggplot(gapminder_continent, aes(y = mean_gdp, x = year)) +
+  geom_col(aes(fill = continent,
+  text = #<<
+  str_glue(
+  "<b>PIB medio</b>: {round(mean_gdp, 2)}$
+  <b>Continente</b>: {continent}
+  <b>Año</b>: {year}")),
+  alpha = 0.7, position = "fill") +
+  scale_fill_colorblind() +
+  theme_minimal() +
+  theme(legend.position = "bottom") + 
+  labs(x = "Año", y = "PIB medio",
+       title = "Diagrama de barras")
+```
+
+---
+
+# .orange[INTERACTIVOS]: plotly
+
+
+La librería `{plotly}` es una librería poco conocida pero muy completa para generar **.bg-purple_light[gráficos interactivos]**. Podemos o usar la gramática propia de dicho paquete o, aprovechando que tenemos ya el gráfico generado en ggplot, **.bg-purple_light[convertirlo a interactivo]** con `ggplotly()` (indicándole en `tooltip = ...` que atributos queremos que se visualicen al pasar el ratón)
+
+```{r eval = FALSE}
+library(plotly)
+ggplotly(gg, tooltip = c("text"))
+```
+
+
+---
+
+# .orange[INTERACTIVOS]: plotly
+
+```{r echo = FALSE, out.width = "70%"}
+library(plotly)
+ggplotly(gg, tooltip = c("text"))
+```
+
+---
+
+florence - hiking
+heat map
+
+boxplot y alternativas: histograma y densidades, violín, etc
+
+dumbell
+flujo (acumulativos) area chart
+flujo de partidos
+tablas
+circulos climáticos y florence (coordenadas polares)
+¿mapas?
+
+---
+
 name: clase-17
 
 # CLASE 17: entrega III

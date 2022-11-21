@@ -15,6 +15,14 @@
     <script>window.xaringanExtraClipboard(null, {"button":"Click para copiar código","success":"Código copiado","error":"Ctrl+C para copiar"})</script>
     <link href="index_files/panelset-0.2.6/panelset.css" rel="stylesheet" />
     <script src="index_files/panelset-0.2.6/panelset.js"></script>
+    <script src="index_files/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+    <script src="index_files/plotly-binding-4.9.4.1/plotly.js"></script>
+    <script src="index_files/typedarray-0.1/typedarray.min.js"></script>
+    <script src="index_files/jquery-3.5.1/jquery.min.js"></script>
+    <link href="index_files/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
+    <script src="index_files/crosstalk-1.1.1/js/crosstalk.min.js"></script>
+    <link href="index_files/plotly-htmlwidgets-css-1.57.1/plotly-htmlwidgets.css" rel="stylesheet" />
+    <script src="index_files/plotly-main-1.57.1/plotly-latest.min.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
   <body>
@@ -24,7 +32,7 @@ class: center, middle, inverse, title-slide
 # GESTIÓN DE BASES DE DATOS
 ## Máster en Bioestadística
 ### Javier Álvarez Liébana (Fac. Estudios Estadísticos - UCM)
-### Última actualización: 14-11-2022
+### Última actualización: 21-11-2022
 
 ---
 
@@ -1756,7 +1764,7 @@ hoy
 ```
 
 ```
-&gt; [1] "2022-11-14"
+&gt; [1] "2022-11-21"
 ```
 
 --
@@ -1769,7 +1777,7 @@ También podemos obtener el **.bg-purple_light[«hoy y ahora»]** con la funció
 ```
 
 ```
-&gt; [1] "2022-11-14 13:32:15 CET"
+&gt; [1] "2022-11-21 14:44:03 CET"
 ```
  
 ---
@@ -2153,7 +2161,7 @@ hoy - cumple
 ```
 
 ```
-&gt; Time difference of 12118 days
+&gt; Time difference of 12125 days
 ```
 
 ]
@@ -3075,9 +3083,9 @@ x &lt;- rnorm(1e3) # 1000 elementos aleatorias
 
 ```
 &gt; Unit: microseconds
-&gt;         expr    min      lq     mean  median     uq     max neval cld
-&gt;      sort(x) 50.728 57.4300 73.23293 62.9075 79.152 299.211  1000   b
-&gt;  x[order(x)] 34.904 39.5665 49.75956 43.6660 54.776 175.424  1000  a
+&gt;         expr    min      lq     mean  median      uq     max neval cld
+&gt;      sort(x) 42.250 47.4895 56.37904 51.4030 58.3115 666.729  1000   b
+&gt;  x[order(x)] 29.469 33.3325 40.46924 36.8815 41.5115 135.552  1000  a
 ```
 
 --
@@ -6326,11 +6334,11 @@ microbenchmark(x^2,
 ```
 &gt; Unit: nanoseconds
 &gt;                                     expr     min        lq        mean
-&gt;                                      x^2     360     549.5    1689.433
-&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 1738312 2163820.5 2790116.444
+&gt;                                      x^2     351     478.5    1391.866
+&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 1756428 1975828.5 2298427.340
 &gt;     median      uq      max neval cld
-&gt;     1170.5    2369    20205  1000  a 
-&gt;  2499665.0 3113904 12356706  1000   b
+&gt;     1284.5    1921    26636  1000  a 
+&gt;  2127463.5 2396596 10099197  1000   b
 ```
 
 ---
@@ -6643,7 +6651,7 @@ sample(x = 0:1, size = 30, replace = TRUE)
 ```
 
 ```
-&gt;  [1] 0 0 0 0 1 0 1 1 1 0 0 1 1 0 0 0 0 0 1 0 0 1 1 0 0 0 1 0 1 1
+&gt;  [1] 0 0 0 1 0 1 1 0 0 1 0 0 1 0 0 0 1 0 0 0 0 0 0 0 1 1 1 0 1 1
 ```
 
 ---
@@ -6658,7 +6666,7 @@ sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
 ```
 
 ```
-&gt;  [1] "cara" "cara" "cruz" "cruz" "cara" "cara" "cruz" "cara" "cara" "cara"
+&gt;  [1] "cruz" "cruz" "cruz" "cruz" "cara" "cara" "cara" "cara" "cruz" "cara"
 ```
 
 --
@@ -6671,7 +6679,7 @@ sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
 ```
 
 ```
-&gt;  [1] "cara" "cruz" "cara" "cruz" "cara" "cara" "cara" "cara" "cruz" "cara"
+&gt;  [1] "cara" "cruz" "cruz" "cara" "cara" "cara" "cruz" "cara" "cruz" "cara"
 ```
 
 ---
@@ -8672,11 +8680,11 @@ microbenchmark(sqrt(x), for (i in 1:700) { y[i] &lt;- sqrt(x[i]) }, times = 1e3)
 ```
 &gt; Unit: microseconds
 &gt;                                         expr      min        lq        mean
-&gt;                                      sqrt(x)    1.771    2.5595    3.890028
-&gt;  for (i in 1:700) {     y[i] &lt;- sqrt(x[i]) } 1765.478 2014.7735 2458.494052
-&gt;     median        uq       max neval cld
-&gt;     3.3175    4.1645    46.264  1000  a 
-&gt;  2259.1115 2626.4320 12864.101  1000   b
+&gt;                                      sqrt(x)    1.722    2.4925    3.875107
+&gt;  for (i in 1:700) {     y[i] &lt;- sqrt(x[i]) } 1792.066 2027.4365 3160.689501
+&gt;    median       uq        max neval cld
+&gt;     3.356    4.043     52.847  1000  a 
+&gt;  2281.428 2938.423 109340.841  1000   b
 ```
 
 
@@ -8760,11 +8768,11 @@ microbenchmark(map(x, .f = function(x) { mean(x^2) }), lapply(x, FUN = function(
 ```
 &gt; Unit: milliseconds
 &gt;                                            expr      min       lq     mean
-&gt;      map(x, .f = function(x) {     mean(x^2) }) 5.731899 7.140093 9.312803
-&gt;  lapply(x, FUN = function(x) {     mean(x^2) }) 5.630477 6.875818 8.790086
+&gt;      map(x, .f = function(x) {     mean(x^2) }) 5.642231 6.466147 8.793059
+&gt;  lapply(x, FUN = function(x) {     mean(x^2) }) 5.662906 6.280631 8.160772
 &gt;    median       uq       max neval cld
-&gt;  7.918654 9.004134 223.41935  1000   a
-&gt;  7.705138 8.795914  39.89723  1000   a
+&gt;  7.472333 8.034216 188.44544  1000   b
+&gt;  7.339182 7.915718  40.05956  1000  a
 ```
 
 
@@ -14996,16 +15004,16 @@ momo_datos
 &gt; # A tibble: 500,000 × 15
 &gt;    ambito   cod_amb…¹ cod_i…² nombr…³ cod_s…⁴ nombr…⁵ cod_g…⁶ nombr…⁷ fecha_de…⁸
 &gt;    &lt;chr&gt;    &lt;chr&gt;       &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;date&gt;    
-&gt;  1 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   all     todos   2022-11-19
-&gt;  2 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   +85     edad &gt;… 2022-11-19
-&gt;  3 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   0-14    edad 0… 2022-11-19
-&gt;  4 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   15-44   edad 1… 2022-11-19
-&gt;  5 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   45-64   edad 4… 2022-11-19
-&gt;  6 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   65-74   edad 6… 2022-11-19
-&gt;  7 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   75-84   edad 7… 2022-11-19
-&gt;  8 nacional &lt;NA&gt;           NA &lt;NA&gt;    1       hombres all     todos   2022-11-19
-&gt;  9 nacional &lt;NA&gt;           NA &lt;NA&gt;    1       hombres +85     edad &gt;… 2022-11-19
-&gt; 10 nacional &lt;NA&gt;           NA &lt;NA&gt;    1       hombres 0-14    edad 0… 2022-11-19
+&gt;  1 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   all     todos   2022-11-26
+&gt;  2 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   +85     edad &gt;… 2022-11-26
+&gt;  3 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   0-14    edad 0… 2022-11-26
+&gt;  4 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   15-44   edad 1… 2022-11-26
+&gt;  5 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   45-64   edad 4… 2022-11-26
+&gt;  6 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   65-74   edad 6… 2022-11-26
+&gt;  7 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   75-84   edad 7… 2022-11-26
+&gt;  8 nacional &lt;NA&gt;           NA &lt;NA&gt;    1       hombres all     todos   2022-11-26
+&gt;  9 nacional &lt;NA&gt;           NA &lt;NA&gt;    1       hombres +85     edad &gt;… 2022-11-26
+&gt; 10 nacional &lt;NA&gt;           NA &lt;NA&gt;    1       hombres 0-14    edad 0… 2022-11-26
 &gt; # … with 499,990 more rows, 6 more variables: defunciones_observadas &lt;dbl&gt;,
 &gt; #   defunciones_estimadas_base &lt;dbl&gt;, defunciones_estimadas_base_q01 &lt;dbl&gt;,
 &gt; #   defunciones_estimadas_base_q99 &lt;dbl&gt;, defunciones_atrib_exc_temp &lt;dbl&gt;,
@@ -15363,7 +15371,7 @@ owid_covid()
 ```
 
 ```
-&gt; # A tibble: 234,734 × 67
+&gt; # A tibble: 236,386 × 67
 &gt;    iso_code continent locat…¹ date       total…² new_c…³ new_c…⁴ total…⁵ new_d…⁶
 &gt;    &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;   &lt;date&gt;       &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
 &gt;  1 AFG      Asia      Afghan… 2020-02-24       5       5  NA          NA      NA
@@ -15376,7 +15384,7 @@ owid_covid()
 &gt;  8 AFG      Asia      Afghan… 2020-03-02       5       0   0          NA      NA
 &gt;  9 AFG      Asia      Afghan… 2020-03-03       5       0   0          NA      NA
 &gt; 10 AFG      Asia      Afghan… 2020-03-04       5       0   0          NA      NA
-&gt; # … with 234,724 more rows, 58 more variables: new_deaths_smoothed &lt;dbl&gt;,
+&gt; # … with 236,376 more rows, 58 more variables: new_deaths_smoothed &lt;dbl&gt;,
 &gt; #   total_cases_per_million &lt;dbl&gt;, new_cases_per_million &lt;dbl&gt;,
 &gt; #   new_cases_smoothed_per_million &lt;dbl&gt;, total_deaths_per_million &lt;dbl&gt;,
 &gt; #   new_deaths_per_million &lt;dbl&gt;, new_deaths_smoothed_per_million &lt;dbl&gt;,
@@ -15490,32 +15498,32 @@ aemet_last_obs("0076")
 ```
 
 
-|idema |      lon|fint                | prec| alt| vmax|  vv|  dv|      lat| dmax|ubi                  |   pres| hr| stdvv|   ts| pres_nmar| tamin|   ta| tamax|  tpr|  vis| stddv| inso|
-|:-----|--------:|:-------------------|----:|---:|----:|---:|---:|--------:|----:|:--------------------|------:|--:|-----:|----:|---------:|-----:|----:|-----:|----:|----:|-----:|----:|
-|0076  | 2.069995|2022-11-13 13:00:00 |    0|   4|  6.7| 4.4| 220| 41.29278|  220|BARCELONA/AEROPUERTO | 1018.4| 74|   0.3| 24.5|    1019.0|  20.1| 20.4|  20.5| 15.6| 26.6|     9|   60|
-|0076  | 2.069995|2022-11-13 14:00:00 |    0|   4|  7.7| 4.9| 220| 41.29278|  220|BARCELONA/AEROPUERTO | 1018.0| 76|   0.5| 23.3|    1018.6|  20.1| 20.3|  20.4| 16.0| 26.3|     7|   50|
-|0076  | 2.069995|2022-11-13 15:00:00 |    0|   4|  6.7| 3.5| 200| 41.29278|  220|BARCELONA/AEROPUERTO | 1018.0| 77|   0.4| 21.8|    1018.6|  20.2| 20.3|  20.4| 16.1| 25.2|     4|    0|
-|0076  | 2.069995|2022-11-13 16:00:00 |    0|   4|  5.7| 2.9| 200| 41.29278|  230|BARCELONA/AEROPUERTO | 1018.3| 80|   0.3| 19.7|    1018.9|  19.4| 19.5|  20.3| 16.0| 26.9|     8|    0|
-|0076  | 2.069995|2022-11-13 17:00:00 |    0|   4|  4.6| 2.8| 180| 41.29278|  200|BARCELONA/AEROPUERTO | 1018.5| 79|   0.2| 19.1|    1019.1|  19.2| 19.3|  19.4| 15.5| 30.0|     7|    0|
-|0076  | 2.069995|2022-11-13 18:00:00 |    0|   4|  4.6| 3.5| 140| 41.29278|  150|BARCELONA/AEROPUERTO | 1019.0| 81|   0.4| 19.1|    1019.6|  19.2| 19.2|  19.3| 15.9| 27.7|     8|    0|
-|0076  | 2.069995|2022-11-13 19:00:00 |    0|   4|  5.1| 2.6| 130| 41.29278|  150|BARCELONA/AEROPUERTO | 1019.2| 80|   0.3| 18.2|    1019.8|  18.8| 18.8|  19.2| 15.3| 30.0|     8|    0|
-|0076  | 2.069995|2022-11-13 20:00:00 |    0|   4|  3.6| 2.6| 120| 41.29278|  130|BARCELONA/AEROPUERTO | 1019.2| 79|   0.3| 18.5|    1019.8|  18.8| 18.9|  19.0| 15.2| 30.0|     8|    0|
-|0076  | 2.069995|2022-11-13 21:00:00 |    0|   4|  3.6| 0.0|   0| 41.29278|  120|BARCELONA/AEROPUERTO | 1019.1| 82|   0.1| 16.1|    1019.7|  17.8| 17.8|  19.0| 14.7| 30.0|   114|    0|
-|0076  | 2.069995|2022-11-13 22:00:00 |    0|   4|  2.6| 2.1| 340| 41.29278|  330|BARCELONA/AEROPUERTO | 1019.0| 87|   0.1| 15.4|    1019.6|  16.4| 16.5|  17.9| 14.3| 15.2|     2|    0|
-|0076  | 2.069995|2022-11-13 23:00:00 |    0|   4|  3.1| 2.8|  10| 41.29278|   20|BARCELONA/AEROPUERTO | 1018.7| 88|   0.2| 15.6|    1019.3|  16.3| 16.4|  16.6| 14.4| 15.4|     3|    0|
-|0076  | 2.069995|2022-11-14 00:00:00 |    0|   4|  3.6| 2.6| 360| 41.29278|  360|BARCELONA/AEROPUERTO | 1018.1| 90|   0.2| 15.9|    1018.7|  16.2| 16.2|  16.3| 14.5| 13.2|   149|    0|
-|0076  | 2.069995|2022-11-14 01:00:00 |    0|   4|  6.7| 2.9| 360| 41.29278|   30|BARCELONA/AEROPUERTO | 1017.8| 90|   0.1| 15.2|    1018.4|  15.7| 15.8|  16.2| 14.1| 13.9|   179|    0|
-|0076  | 2.069995|2022-11-14 02:00:00 |    0|   4|  4.1| 2.9|  10| 41.29278|   20|BARCELONA/AEROPUERTO | 1017.4| 90|   0.5| 15.4|    1018.0|  15.6| 15.8|  15.8| 14.1| 12.6|     5|    0|
-|0076  | 2.069995|2022-11-14 03:00:00 |    0|   4|  4.1| 3.2| 360| 41.29278|  360|BARCELONA/AEROPUERTO | 1016.9| 90|   0.5| 15.1|    1017.5|  15.5| 15.5|  15.8| 13.9| 11.6|   180|    0|
-|0076  | 2.069995|2022-11-14 04:00:00 |    0|   4|  5.7| 2.1|  10| 41.29278|  350|BARCELONA/AEROPUERTO | 1016.5| 91|   0.3| 15.5|    1017.1|  15.4| 15.8|  15.8| 14.3|  8.4|   181|    0|
-|0076  | 2.069995|2022-11-14 05:00:00 |    0|   4|  4.1| 2.9| 360| 41.29278|  360|BARCELONA/AEROPUERTO | 1016.3| 90|   0.3| 15.7|    1016.9|  15.8| 15.9|  16.1| 14.2| 11.1|   184|    0|
-|0076  | 2.069995|2022-11-14 06:00:00 |    0|   4|  4.1| 0.7|  50| 41.29278|   20|BARCELONA/AEROPUERTO | 1016.6| 90|   0.4| 15.0|    1017.2|  15.4| 15.4|  15.8| 13.8|  8.4|   100|    0|
-|0076  | 2.069995|2022-11-14 07:00:00 |    0|   4|  4.6| 2.2|  10| 41.29278|   10|BARCELONA/AEROPUERTO | 1016.5| 90|   0.3| 15.0|    1017.1|  15.4| 15.5|  15.6| 13.9|  8.1|     6|    0|
-|0076  | 2.069995|2022-11-14 08:00:00 |    0|   4|  4.6| 3.3|  10| 41.29278|   10|BARCELONA/AEROPUERTO | 1017.0| 89|   0.3| 15.6|    1017.6|  15.3| 15.8|  15.8| 13.9|  7.6|   111|    0|
-|0076  | 2.069995|2022-11-14 09:00:00 |    0|   4|  4.1| 3.0| 360| 41.29278|  360|BARCELONA/AEROPUERTO | 1017.4| 86|   0.4| 17.5|    1018.0|  15.8| 17.0|  17.4| 14.6| 10.0|   183|   12|
-|0076  | 2.069995|2022-11-14 10:00:00 |    0|   4|  2.6| 0.4| 110| 41.29278|   30|BARCELONA/AEROPUERTO | 1017.4| 74|   0.5| 21.5|    1018.0|  17.5| 20.0|  20.4| 15.3| 17.4|   118|   54|
-|0076  | 2.069995|2022-11-14 11:00:00 |    0|   4|  6.7| 3.5| 200| 41.29278|  220|BARCELONA/AEROPUERTO | 1017.1| 74|   0.4| 24.7|    1017.7|  20.4| 20.9|  20.9| 16.0| 21.8|    15|   60|
-|0076  | 2.069995|2022-11-14 12:00:00 |    0|   4|  8.2| 5.9| 220| 41.29278|  240|BARCELONA/AEROPUERTO | 1016.5| 76|   0.6| 24.6|    1017.1|  20.8| 21.2|  21.4| 16.8| 23.1|     6|   60|
+|idema |      lon|fint                | prec| alt| vmax|  vv|  dv|      lat| dmax|ubi                  |   pres| hr| stdvv|   ts| pres_nmar| tamin|   ta| tamax| tpr|  vis| stddv| inso|
+|:-----|--------:|:-------------------|----:|---:|----:|---:|---:|--------:|----:|:--------------------|------:|--:|-----:|----:|---------:|-----:|----:|-----:|---:|----:|-----:|----:|
+|0076  | 2.069995|2022-11-20 14:00:00 |    0|   4|  5.1| 1.9| 220| 41.29278|  260|BARCELONA/AEROPUERTO | 1016.7| 49|   0.4| 19.6|    1017.3|  15.6| 15.8|  16.0| 5.1| 30.0|    27|   31|
+|0076  | 2.069995|2022-11-20 15:00:00 |    0|   4|  4.1| 2.2| 210| 41.29278|  230|BARCELONA/AEROPUERTO | 1016.5| 51|   0.5| 18.6|    1017.1|  15.9| 16.4|  16.4| 6.2| 30.0|     7|    0|
+|0076  | 2.069995|2022-11-20 16:00:00 |    0|   4|  2.6| 1.1|  30| 41.29278|  200|BARCELONA/AEROPUERTO | 1016.1| 61|   0.2| 14.3|    1016.7|  15.3| 15.4|  16.4| 8.0| 30.0|    11|    0|
+|0076  | 2.069995|2022-11-20 17:00:00 |    0|   4|  3.1| 1.9|  10| 41.29278|   10|BARCELONA/AEROPUERTO | 1016.4| 62|   0.2| 12.2|    1017.0|  14.0| 14.1|  15.3| 7.0| 30.0|     5|    0|
+|0076  | 2.069995|2022-11-20 18:00:00 |    0|   4|  3.1| 0.7| 360| 41.29278|   10|BARCELONA/AEROPUERTO | 1016.8| 65|   0.3| 11.3|    1017.4|  13.2| 13.3|  14.2| 6.8| 30.0|   147|    0|
+|0076  | 2.069995|2022-11-20 19:00:00 |    0|   4|  2.1| 1.1|  20| 41.29278|   10|BARCELONA/AEROPUERTO | 1017.2| 68|   0.5| 10.0|    1017.8|  12.4| 12.4|  13.2| 6.7| 30.0|   139|    0|
+|0076  | 2.069995|2022-11-20 20:00:00 |    0|   4|  3.1| 1.4| 350| 41.29278|  330|BARCELONA/AEROPUERTO | 1017.6| 69|   0.4|  9.0|    1018.2|  11.5| 11.6|  12.3| 6.1| 30.0|   159|    0|
+|0076  | 2.069995|2022-11-20 21:00:00 |    0|   4|  3.6| 0.3|  10| 41.29278|   20|BARCELONA/AEROPUERTO | 1017.8| 68|   0.3|  9.8|    1018.4|  11.5| 11.7|  12.5| 5.9| 29.9|   175|    0|
+|0076  | 2.069995|2022-11-20 22:00:00 |    0|   4|  4.6| 2.5|  10| 41.29278|   20|BARCELONA/AEROPUERTO | 1018.2| 73|   0.3|  9.7|    1018.8|  10.6| 10.9|  11.5| 6.2| 29.9|   111|    0|
+|0076  | 2.069995|2022-11-20 23:00:00 |    0|   4|  4.6| 3.4|  10| 41.29278|   10|BARCELONA/AEROPUERTO | 1018.0| 73|   0.3| 10.5|    1018.6|  10.9| 11.1|  11.2| 6.4| 29.0|   108|    0|
+|0076  | 2.069995|2022-11-21 00:00:00 |    0|   4|  4.1| 3.0| 350| 41.29278|  360|BARCELONA/AEROPUERTO | 1018.2| 72|   0.6| 10.3|    1018.8|  11.1| 11.1|  11.9| 6.2| 30.0|   109|    0|
+|0076  | 2.069995|2022-11-21 01:00:00 |    0|   4|  4.1| 1.8| 350| 41.29278|   50|BARCELONA/AEROPUERTO | 1018.0| 69|   0.2| 10.8|    1018.6|  11.1| 11.6|  11.7| 6.1| 30.0|   140|    0|
+|0076  | 2.069995|2022-11-21 02:00:00 |    0|   4|  5.7| 3.0| 360| 41.29278|  360|BARCELONA/AEROPUERTO | 1016.8| 67|   0.7| 11.1|    1017.4|  11.4| 11.6|  11.7| 5.6| 30.0|   148|    0|
+|0076  | 2.069995|2022-11-21 03:00:00 |    0|   4|  5.1| 1.9|  10| 41.29278|  350|BARCELONA/AEROPUERTO | 1016.4| 69|   0.7| 11.1|    1017.0|  11.3| 11.3|  11.7| 5.8| 28.7|     5|    0|
+|0076  | 2.069995|2022-11-21 04:00:00 |    0|   4|  7.2| 4.3|  10| 41.29278|  360|BARCELONA/AEROPUERTO | 1015.6| 66|   0.3| 11.3|    1016.2|  11.3| 11.5|  11.5| 5.3| 29.9|     4|    0|
+|0076  | 2.069995|2022-11-21 05:00:00 |    0|   4|  6.2| 3.9| 360| 41.29278|  360|BARCELONA/AEROPUERTO | 1014.8| 63|   0.5| 11.2|    1015.4|  11.4| 11.6|  11.8| 4.8| 30.0|   113|    0|
+|0076  | 2.069995|2022-11-21 06:00:00 |    0|   4|  6.7| 3.6|  10| 41.29278|   10|BARCELONA/AEROPUERTO | 1013.5| 66|   0.7| 11.0|    1014.1|  11.0| 11.2|  11.4| 5.1| 30.0|     3|    0|
+|0076  | 2.069995|2022-11-21 07:00:00 |    0|   4|  6.7| 4.0| 350| 41.29278|  360|BARCELONA/AEROPUERTO | 1013.5| 66|   0.2| 11.5|    1014.1|  11.2| 11.4|  11.5| 5.3| 30.0|     4|    0|
+|0076  | 2.069995|2022-11-21 08:00:00 |    0|   4|  4.6| 3.9|  10| 41.29278|  360|BARCELONA/AEROPUERTO | 1012.7| 64|   0.3| 12.5|    1013.3|  11.5| 11.9|  12.0| 5.3| 29.8|     3|    0|
+|0076  | 2.069995|2022-11-21 09:00:00 |    0|   4|  5.1| 4.2|  10| 41.29278|   20|BARCELONA/AEROPUERTO | 1012.0| 63|   0.4| 13.0|    1012.6|  12.0| 12.6|  12.6| 5.8| 27.1|     5|    0|
+|0076  | 2.069995|2022-11-21 10:00:00 |    0|   4|  4.6| 3.3|  20| 41.29278|   30|BARCELONA/AEROPUERTO | 1010.7| 62|   0.2| 14.9|    1011.3|  12.6| 13.7|  13.8| 6.5| 28.3|     6|    0|
+|0076  | 2.069995|2022-11-21 11:00:00 |    0|   4|  5.7| 3.5| 360| 41.29278|  360|BARCELONA/AEROPUERTO | 1009.4| 64|   0.7| 15.2|    1010.0|  13.9| 14.3|  14.5| 7.6| 28.8|   182|    0|
+|0076  | 2.069995|2022-11-21 12:00:00 |    0|   4|  5.7| 2.9| 350| 41.29278|  360|BARCELONA/AEROPUERTO | 1007.5| 62|   0.3| 16.1|    1008.1|  14.5| 15.0|  15.1| 7.8| 29.0|     6|    0|
+|0076  | 2.069995|2022-11-21 13:00:00 |    0|   4|  3.6| 1.1| 320| 41.29278|   10|BARCELONA/AEROPUERTO | 1006.1| 62|   0.3| 16.3|    1006.7|  15.1| 15.4|  15.5| 8.1| 26.3|    17|    0|
 
 ---
 
@@ -16704,9 +16712,6 @@ name: clase-14
 ### [Dataviz: introducción histórica.](#intro-historica)
 
 ### [Introducción a ggplot2](#intro-ggplot2)
-
-### [La importancia de visualizar datos](#importancia-dataviz)
-
 
 ---
 
@@ -19258,7 +19263,6 @@ Por último, podemos incluso **.bg-purple_light[animar gráficas]**, con el paqu
 
 ```r
 library(gganimate)
-
 p &lt;-
   ggplot(gapminder,
        aes(y = gdpPercap, x = lifeExp,
@@ -19273,46 +19277,623 @@ p &lt;-
        y = "Renta per cápita") +
   transition_time(year) +
   ease_aes('linear')
-
 animate(p, 100, 10)
 ```
 
 ---
-
-
-
-* barras (verticales/horizontales, stacked, grouped, bullets bar)
-* histograma y densidades
-* dumbell
-* flujo (acumulativos) area chart
-* flujo de partidos
-* boxplot y alternativas
-* tablas
-* election donut
-* circulos climáticos y florence (coordenadas polares)
-* ¿mapas?
-
-
----
-
 
 class: inverse center middle
 name: clase-15
 
 # CLASE 15: profundizando en ggplot
 
+&amp;nbsp;
+
+### [Ejemplo: paletas continuas](#ej-clima)
+
+### [Diagramas de barras](#bar-plots)
+
+### [HTML y gráficos interactivos](#html-textos)
 
 ---
 
-class: inverse center middle
-name: clase-16
+name: ej-clima
 
-# CLASE 16: profundizando en ggplot
+# .orange[EJERCICIO]
+
+Vamos a practicar lo aprendido, haciendo uso de los datos del **.bg-purple_light[National Morbidity and Mortality Air Pollution Study (NMMAPS)]** para Chicago desde 1997 a 2000. 
+
+```r
+chicago &lt;-
+  read_csv("https://raw.githubusercontent.com/z3tt/ggplot-courses/main/data/chicago-nmmaps-custom.csv")
+chicago
+```
+
+```
+&gt; # A tibble: 1,461 × 11
+&gt;    city  date        temp    o3 dewpoint  pm10 season  yday month month_…¹  year
+&gt;    &lt;chr&gt; &lt;date&gt;     &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt;
+&gt;  1 chic  1997-01-01  36    5.66    37.5  13.1  Winter     1 Jan          1  1997
+&gt;  2 chic  1997-01-02  45    5.53    47.2  41.9  Winter     2 Jan          1  1997
+&gt;  3 chic  1997-01-03  40    6.29    38    27.0  Winter     3 Jan          1  1997
+&gt;  4 chic  1997-01-04  51.5  7.54    45.5  25.1  Winter     4 Jan          1  1997
+&gt;  5 chic  1997-01-05  27   20.8     11.2  15.3  Winter     5 Jan          1  1997
+&gt;  6 chic  1997-01-06  17   14.9      5.75  9.36 Winter     6 Jan          1  1997
+&gt;  7 chic  1997-01-07  16   11.9      7    20.2  Winter     7 Jan          1  1997
+&gt;  8 chic  1997-01-08  19    8.68    17.8  33.1  Winter     8 Jan          1  1997
+&gt;  9 chic  1997-01-09  26   13.4     24    12.1  Winter     9 Jan          1  1997
+&gt; 10 chic  1997-01-10  16   10.4      5.38 24.8  Winter    10 Jan          1  1997
+&gt; # … with 1,451 more rows, and abbreviated variable name ¹​month_numeric
+&gt; # ℹ Use `print(n = ...)` to see more rows
+```
+
+---
+
+# .orange[EJERCICIO]
+
+1. Realiza un **diagrama de dispersión de puntos** enfrentando en el eje X la fecha y en el eje Y la temperatura (sin colores, solo editando la información visualizada en los ejes y títulos). Temperaturas en ºF
+
+--
+
+2. Realiza un **diagrama de líneas** enfrentando en el eje X la fecha y en el eje Y la temperatura con los mismos ajustes.
+
+--
+
+3. Del gráfico de dispersión de puntos anterior, **codifica los colores** en función de la estación del año (decide tú la paleta de colores)
+
+--
+
+4. Repite el gráfico anterior tomando como fuente Roboto.
+
+--
+
+5. Genera dos gráficos, con las paletas `scale_color_excel()` y `scale_color_tableau()` (del paquete `{ggthemes}`) y muéstralos uno al lado del otro, con una legenda común.
+
+--
+
+6. Busca alguna manera en `scale_color...` para usar una paleta de colores continua (valores de temperatura bajos, unos colores, altos otros)
+
+---
+
+# .orange[EJERCICIO]
+
+
+```r
+temp_media &lt;- mean(chicago$temp)
+ggplot(chicago, aes(x = date, y = temp)) +
+  geom_point(aes(color = temp), alpha = 0.8) +
+  scale_color_gradient2(midpoint = temp_media,
+                        low = "#766cb5",
+                        mid = "grey92",
+                        high = "#852826") +
+  labs(x = "Fecha", y = "Temperatura (ºF)",
+       color = "Temperatura (ºF)",
+       title = "Gráfico de dispersión",
+       subtitle = "Chicago (1997-200)",
+       caption = "Autor: Javier Álvarez Liébana") +
+  theme_minimal()
+```
+
+---
+
+# .orange[EJERCICIO]
+
+&lt;img src="index_files/figure-html/unnamed-chunk-831-1.png" width="60%" /&gt;
+
+---
+
+name: bar-plots
+
+# Diagrama de .orange[BARRAS]
+
+
+El gráfico anterior (diagrama de puntos o scatter plot) está principalmente pasado para **.bg-purple_light[representar variables numéricas ontinuas]**. ¿Y si tengo **.bg-orange[variables discretas o cualitativas]**?
+
+Vamos a usar el ya conocido conjunto `starwars` para visualizar en un **.bg-purple_light[diagrama de barras]**: vamos a representar la **.bg-purple_light[frecuencia]**  de una **.bg-orange[variable cualitativa]** como es `sex`.
+
+
+```r
+starwars %&gt;% 
+  count(sex)
+```
+
+```
+&gt; # A tibble: 5 × 2
+&gt;   sex                n
+&gt;   &lt;chr&gt;          &lt;int&gt;
+&gt; 1 female            16
+&gt; 2 hermaphroditic     1
+&gt; 3 male              60
+&gt; 4 none               6
+&gt; 5 &lt;NA&gt;               4
+```
 
 
 ---
 
-class: inverse center middle
+# Diagrama de .orange[BARRAS]
+
+.pull-left[
+
+Para visualizar un **diagrama de barras** todo lo que hemos aprendido nos sirve: solo tenemos que **.bg-purple_light[cambiar la geometría]** con `geom_bar()` en lugar de `geom_point()`, con `x = sex` (ggplot hará solo el recuento por nosotros)
+
+
+```r
+starwars &lt;- starwars %&gt;% drop_na(sex)
+ggplot(starwars,
+       aes(x = sex)) +
+* geom_bar() +
+  theme_minimal()
+```
+
+]
+
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-834-1.png" width="95%" /&gt;
+
+]
+
+---
+
+# Diagrama de .orange[BARRAS]
+
+.pull-left[
+
+Podemos aplicar lo aprendido sobre **.bg-purple_light[colores para codificar]** la información, en este caso vamos a usar las paletas ya cargadas en `scale_color_brewer()` (info en &lt;https://colorbrewer2.org&gt;). Fíjate que ahora será importante distinguir entre `color` y `fill`
+
+
+```r
+ggplot(starwars, aes(x = sex)) +
+* geom_bar(aes(color = sex),
+           alpha = 0.5) + 
+  scale_color_brewer(palette = "Dark2") + 
+  theme_minimal()
+```
+
+]
+
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-836-1.png" width="95%" /&gt;
+
+]
+
+---
+
+
+# Diagrama de .orange[BARRAS]
+
+.pull-left[
+
+Fíjate que ahora será importante distinguir entre `color` y `fill`
+
+
+```r
+ggplot(starwars, aes(x = sex)) +
+* geom_bar(aes(fill = sex),
+           alpha = 0.5) + 
+  scale_fill_brewer(palette = "Dark2") + 
+  theme_minimal()
+```
+
+]
+
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-838-1.png" width="95%" /&gt;
+
+]
+
+---
+
+# Diagrama de .orange[BARRAS]
+
+.pull-left[
+
+Podemos personalizar el gráfico haciendo uso de las opciones ya vistas.
+
+
+```r
+theme_set(theme_minimal())
+theme_update(
+  plot.title =
+    element_text(size = 25, face = "bold"),
+  plot.subtitle = element_text(size = 13),
+  plot.caption = element_text(size = 9)
+)
+
+ggplot(starwars, aes(x = sex)) +
+  geom_bar(aes(fill = sex),
+           alpha = 0.5) + 
+  scale_fill_brewer(palette = "Dark2") + 
+  labs(x = "Sexo", y = "Frecuencia",
+       fill = "Sexo",
+       title = "Diagrama de barras de starwars",
+       subtitle = "Frec. de variable sexo",
+       caption =
+         "Autor: J. Álvarez Liébana")
+```
+
+]
+
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-840-1.png" width="95%" /&gt;
+
+]
+
+---
+
+# Diagrama de .orange[BARRAS]
+
+.pull-left[
+
+Haciendo uso de los que sabemos **.bg-purple_light[sobre factores]** podemos indicarle que nos ordene las columnas de mayor a menor frecuencia, usando simplemente `fct_infreq()`
+
+
+```r
+ggplot(starwars,
+       aes(x = fct_infreq(sex))) +
+  geom_bar(aes(fill = sex),
+           alpha = 0.5) + 
+  scale_fill_brewer(palette = "Dark2") + 
+  labs(x = "Sexo", y = "Frecuencia",
+       fill = "Sexo",
+       title = "Diagrama de barras de starwars",
+       subtitle =
+         "Frec. de la variable sexo",
+       caption =
+         "Autor: J. Álvarez Liébana")
+```
+
+]
+
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-842-1.png" width="95%" /&gt;
+
+]
+
+
+---
+
+# Diagrama de .orange[BARRAS]
+
+.pull-left[
+
+Para cambiar el rol de los ejes, generando un diagrama de **.bg-purple_light[barras horizontales]**, podemos dejar el gráfico igual y luego simplemente hacer `coord_flip()`
+
+
+```r
+ggplot(starwars,
+       aes(x = fct_infreq(sex))) +
+  geom_bar(aes(fill = sex),
+           alpha = 0.5) + 
+* coord_flip() +
+  scale_fill_brewer(palette = "Dark2") + 
+  labs(x = "Sexo", y = "Frecuencia",
+       fill = "Sexo",
+       title = "Diagrama de barras de starwars",
+       subtitle =
+         "Frec. de la variable sexo",
+       caption =
+         "Autor: J. Álvarez Liébana")
+```
+
+]
+
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-844-1.png" width="90%" /&gt;
+
+]
+
+---
+
+# Diagrama de .orange[BARRAS]
+
+.pull-left[
+
+Para **.bg-purple_light[invertir el orden de los factores]** basta usar `fct_rev()`
+
+
+```r
+ggplot(starwars,
+       aes(x = fct_rev(fct_infreq(sex)))) +
+  geom_bar(aes(fill = sex),
+           alpha = 0.5) + 
+* coord_flip() +
+  scale_fill_brewer(palette = "Dark2") + 
+  labs(x = "Sexo", y = "Frecuencia",
+       fill = "Sexo",
+       title = "Diagrama de barras de starwars",
+       subtitle =
+         "Frec. de la variable sexo",
+       caption =
+         "Autor: J. Álvarez Liébana")
+```
+
+]
+
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-846-1.png" width="90%" /&gt;
+
+]
+
+
+---
+
+
+# Diagrama de .orange[BARRAS]
+
+.pull-left[
+
+La capa `geom_bar()` está solo pensada para **.bg-purple_light[conteos de variables discretas o cualitativas]**. ¿Y si queremos visualizar en gapminder el producto interior bruto por año? Usaremos `geom_col()` (ahora si necesitamos dos argumentos x,y)
+
+
+
+```r
+ggplot(gapminder,
+       aes(y = gdpPercap, x = year)) +
+* geom_col() +
+  theme_minimal()
+```
+
+Fíjate que por defecto lo que hace es **.bg-purple_light[sumar la variable continua]** en cada año
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-848-1.png" width="95%" /&gt;
+
+]
+
+
+---
+
+# Diagrama de .orange[BARRAS]
+
+.pull-left[
+
+Si añadimos `fill = continent` nos creará lo que se conoce como **.bg-purple_light[diagrama de barras apilado]** (en cada barra apilará los continentes uno encima de otros). Usaremos una paleta `scale_fill_colorblind()` pensada para personas daltónicas.
+
+
+
+```r
+ggplot(gapminder,
+       aes(y = gdpPercap, x = year)) +
+* geom_col(aes(fill = continent),
+           alpha = 0.7) + 
+  scale_fill_colorblind() +
+  theme_minimal()
+```
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-850-1.png" width="95%" /&gt;
+
+]
+
+---
+
+# Diagrama de .orange[BARRAS]
+
+.pull-left[
+
+Si añadimos `position = "dodge"` nos creará lo que se conoce como **.bg-purple_light[diagrama de barras desapilado]**: nos pinta las barras de cada país y año (coloreados por continente) unas al lado de otras. 
+
+
+
+```r
+ggplot(gapminder,
+       aes(y = gdpPercap, x = year)) +
+  geom_col(aes(fill = continent),
+           alpha = 0.7,
+*          position = "dodge") +
+  scale_fill_colorblind() +
+  theme_minimal()
+```
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-852-1.png" width="95%" /&gt;
+
+]
+
+---
+
+# Diagrama de .orange[BARRAS]
+
+.pull-left[
+
+En este caso no parece una muy buena idea ya que tenemos muchos países. Si usamos `position = "dodge2"` nos creará el gráfico pero usando el máximo de cada grupo (continente).
+
+
+```r
+ggplot(gapminder,
+       aes(y = gdpPercap, x = year)) +
+  geom_col(aes(fill = continent),
+           alpha = 0.7,
+*          position = "dodge2") +
+  scale_fill_colorblind() +
+  theme_minimal()
+```
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-854-1.png" width="95%" /&gt;
+
+]
+
+---
+
+# Diagrama de .orange[BARRAS]
+
+.pull-left[
+
+Podemos hacer antes un resumen para visualizar la media por continente y año
+
+
+```r
+gapminder_continent &lt;-
+  gapminder %&gt;% 
+  group_by(continent, year) %&gt;%
+  summarise(mean_gdp = mean(gdpPercap)) %&gt;% 
+  ungroup()
+ggplot(gapminder_continent,
+       aes(y = mean_gdp, x = year)) +
+  geom_col(aes(fill = continent),
+           alpha = 0.7,
+*          position = "dodge2") +
+  scale_fill_colorblind() +
+  theme_minimal()
+```
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-856-1.png" width="95%" /&gt;
+
+]
+
+---
+
+# Diagrama de .orange[BARRAS]
+
+.pull-left[
+
+Con `position = fill` lo que hacemos es que todas las barras ocupen lo mismo para **.bg-purple_light[facilitar la comparación]** (añadimos de paso la leyenda debajo)
+
+
+```r
+ggplot(gapminder_continent,
+       aes(y = mean_gdp, x = year)) +
+  geom_col(aes(fill = continent),
+           alpha = 0.7,
+*          position = "fill") +
+  scale_fill_colorblind() +
+  theme_minimal() +
+* theme(legend.position = "bottom") +
+  labs(x = "Año", y = "PIB medio",
+       fill = "continente",
+       title = "Diagrama de barras")
+```
+
+]
+
+.pull-right[
+
+&lt;img src="index_files/figure-html/unnamed-chunk-858-1.png" width="95%" /&gt;
+
+]
+
+
+---
+
+name: html-textos
+
+# .orange[HTML] en textos
+
+Con el paquete `{ggtext}` podemos indicarle dentro del tema `theme()` si alguno de los elementos lo vamos a querer **.bg-purple_light[escribir en HTML dando colores a textos]** haciendo uso de `element_markdown()`
+
+
+```r
+library(ggtext)
+ggplot(gapminder_continent, aes(y = mean_gdp, x = year)) +
+  geom_col(aes(fill = continent), alpha = 0.7, position = "fill") +
+  scale_fill_colorblind() +
+  theme_minimal() +
+* theme(legend.position = "none",
+*       plot.subtitle = element_markdown(face = "bold")) +
+  labs(x = "Año", y = "PIB medio",
+       title = "Diagrama de barras",
+       subtitle = "Media del PIB en &lt;span style = 'color:#606060;'&gt;África&lt;/span&gt;, &lt;span style = 'color:#f3bb53;'&gt;América&lt;/span&gt;, &lt;span style = 'color:#7bcbf3;'&gt;Asia&lt;/span&gt;, &lt;span style = 'color:#48bf9f;'&gt;Europa&lt;/span&gt; y &lt;span style = 'color:#f3eb73;'&gt;Oceanía&lt;/span&gt;")
+```
+
+---
+
+# .orange[HTML] en textos
+
+&lt;img src="index_files/figure-html/unnamed-chunk-860-1.png" width="50%" /&gt;
+
+---
+  
+# .orange[INTERACTIVOS]: plotly
+
+También podemos crear **.bg-purple_light[gráficos interactivos]**: vamos a añadirle un  nuevo **.bg-purple_light[atributo de texto]** dentro de `geom_col()`, que construimos con `str_glue()` (&lt;b&gt;...&lt;/b&gt; para meter negrita en HTML). Y guardamos el gráfico
+
+
+```r
+gg &lt;-
+  ggplot(gapminder_continent, aes(y = mean_gdp, x = year)) +
+  geom_col(aes(fill = continent,
+* text =
+  str_glue(
+  "&lt;b&gt;PIB medio&lt;/b&gt;: {round(mean_gdp, 2)}$
+  &lt;b&gt;Continente&lt;/b&gt;: {continent}
+  &lt;b&gt;Año&lt;/b&gt;: {year}")),
+  alpha = 0.7, position = "fill") +
+  scale_fill_colorblind() +
+  theme_minimal() +
+  theme(legend.position = "bottom") + 
+  labs(x = "Año", y = "PIB medio",
+       title = "Diagrama de barras")
+```
+
+---
+
+# .orange[INTERACTIVOS]: plotly
+
+
+La librería `{plotly}` es una librería poco conocida pero muy completa para generar **.bg-purple_light[gráficos interactivos]**. Podemos o usar la gramática propia de dicho paquete o, aprovechando que tenemos ya el gráfico generado en ggplot, **.bg-purple_light[convertirlo a interactivo]** con `ggplotly()` (indicándole en `tooltip = ...` que atributos queremos que se visualicen al pasar el ratón)
+
+
+```r
+library(plotly)
+ggplotly(gg, tooltip = c("text"))
+```
+
+
+---
+
+# .orange[INTERACTIVOS]: plotly
+
+<div id="htmlwidget-d20dabd36b68245f4577" style="width:70%;height:700px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-d20dabd36b68245f4577">{"x":{"data":[{"orientation":"v","width":[4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5],"base":[0.952708598111373,0.954358779223076,0.951996569463208,0.946505693830392,0.949044996083606,0.947543903123967,0.951902519311172,0.958756869122911,0.959913418875341,0.96294946569192,0.963239654619816,0.962065066059655],"x":[1952,1957,1962,1967,1972,1977,1982,1987,1992,1997,2002,2007],"y":[0.0472914018886267,0.0456412207769236,0.0480034305367918,0.0534943061696077,0.0509550039163942,0.0524560968760334,0.0480974806888278,0.0412431308770888,0.0400865811246586,0.0370505343080801,0.0367603453801837,0.0379349339403448],"text":["<b>PIB medio<\/b>: 1252.57$<br /><b>Continente<\/b>: Africa<br /><b>Año<\/b>: 1952","<b>PIB medio<\/b>: 1385.24$<br /><b>Continente<\/b>: Africa<br /><b>Año<\/b>: 1957","<b>PIB medio<\/b>: 1598.08$<br /><b>Continente<\/b>: Africa<br /><b>Año<\/b>: 1962","<b>PIB medio<\/b>: 2050.36$<br /><b>Continente<\/b>: Africa<br /><b>Año<\/b>: 1967","<b>PIB medio<\/b>: 2339.62$<br /><b>Continente<\/b>: Africa<br /><b>Año<\/b>: 1972","<b>PIB medio<\/b>: 2585.94$<br /><b>Continente<\/b>: Africa<br /><b>Año<\/b>: 1977","<b>PIB medio<\/b>: 2481.59$<br /><b>Continente<\/b>: Africa<br /><b>Año<\/b>: 1982","<b>PIB medio<\/b>: 2282.67$<br /><b>Continente<\/b>: Africa<br /><b>Año<\/b>: 1987","<b>PIB medio<\/b>: 2281.81$<br /><b>Continente<\/b>: Africa<br /><b>Año<\/b>: 1992","<b>PIB medio<\/b>: 2378.76$<br /><b>Continente<\/b>: Africa<br /><b>Año<\/b>: 1997","<b>PIB medio<\/b>: 2599.39$<br /><b>Continente<\/b>: Africa<br /><b>Año<\/b>: 2002","<b>PIB medio<\/b>: 3089.03$<br /><b>Continente<\/b>: Africa<br /><b>Año<\/b>: 2007"],"type":"bar","marker":{"autocolorscale":false,"color":"rgba(0,0,0,0.7)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Africa","legendgroup":"Africa","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5],"base":[0.798701870557711,0.802267827448396,0.804763015622975,0.798620090389056,0.80766880335025,0.798407488322447,0.806409222067998,0.817946165434532,0.818580937822493,0.824493544042868,0.831893894997778,0.826942090273792],"x":[1952,1957,1962,1967,1972,1977,1982,1987,1992,1997,2002,2007],"y":[0.154006727553662,0.15209095177468,0.147233553840233,0.147885603441337,0.141376192733356,0.14913641480152,0.145493297243174,0.140810703688379,0.141332481052848,0.138455921649052,0.131345759622038,0.135122975785863],"text":["<b>PIB medio<\/b>: 4079.06$<br /><b>Continente<\/b>: Americas<br /><b>Año<\/b>: 1952","<b>PIB medio<\/b>: 4616.04$<br /><b>Continente<\/b>: Americas<br /><b>Año<\/b>: 1957","<b>PIB medio<\/b>: 4901.54$<br /><b>Continente<\/b>: Americas<br /><b>Año<\/b>: 1962","<b>PIB medio<\/b>: 5668.25$<br /><b>Continente<\/b>: Americas<br /><b>Año<\/b>: 1967","<b>PIB medio<\/b>: 6491.33$<br /><b>Continente<\/b>: Americas<br /><b>Año<\/b>: 1972","<b>PIB medio<\/b>: 7352.01$<br /><b>Continente<\/b>: Americas<br /><b>Año<\/b>: 1977","<b>PIB medio<\/b>: 7506.74$<br /><b>Continente<\/b>: Americas<br /><b>Año<\/b>: 1982","<b>PIB medio<\/b>: 7793.4$<br /><b>Continente<\/b>: Americas<br /><b>Año<\/b>: 1987","<b>PIB medio<\/b>: 8044.93$<br /><b>Continente<\/b>: Americas<br /><b>Año<\/b>: 1992","<b>PIB medio<\/b>: 8889.3$<br /><b>Continente<\/b>: Americas<br /><b>Año<\/b>: 1997","<b>PIB medio<\/b>: 9287.68$<br /><b>Continente<\/b>: Americas<br /><b>Año<\/b>: 2002","<b>PIB medio<\/b>: 11003.03$<br /><b>Continente<\/b>: Americas<br /><b>Año<\/b>: 2007"],"type":"bar","marker":{"autocolorscale":false,"color":"rgba(230,159,0,0.7)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Americas","legendgroup":"Americas","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5],"base":[0.602544180088376,0.611571668066277,0.632662996195583,0.642831260862377,0.629352123287509,0.640359676402933,0.662323073382788,0.680481170377275,0.66679985463529,0.671321942380566,0.688012533042515,0.673766805031049],"x":[1952,1957,1962,1967,1972,1977,1982,1987,1992,1997,2002,2007],"y":[0.196157690469336,0.190696159382119,0.172100019427393,0.155788829526678,0.178316680062741,0.158047811919513,0.14408614868521,0.137464995057257,0.151781083187203,0.153171601662302,0.143881361955263,0.153175285242743],"text":["<b>PIB medio<\/b>: 5195.48$<br /><b>Continente<\/b>: Asia<br /><b>Año<\/b>: 1952","<b>PIB medio<\/b>: 5787.73$<br /><b>Continente<\/b>: Asia<br /><b>Año<\/b>: 1957","<b>PIB medio<\/b>: 5729.37$<br /><b>Continente<\/b>: Asia<br /><b>Año<\/b>: 1962","<b>PIB medio<\/b>: 5971.17$<br /><b>Continente<\/b>: Asia<br /><b>Año<\/b>: 1967","<b>PIB medio<\/b>: 8187.47$<br /><b>Continente<\/b>: Asia<br /><b>Año<\/b>: 1972","<b>PIB medio<\/b>: 7791.31$<br /><b>Continente<\/b>: Asia<br /><b>Año<\/b>: 1977","<b>PIB medio<\/b>: 7434.14$<br /><b>Continente<\/b>: Asia<br /><b>Año<\/b>: 1982","<b>PIB medio<\/b>: 7608.23$<br /><b>Continente<\/b>: Asia<br /><b>Año<\/b>: 1987","<b>PIB medio<\/b>: 8639.69$<br /><b>Continente<\/b>: Asia<br /><b>Año<\/b>: 1992","<b>PIB medio<\/b>: 9834.09$<br /><b>Continente<\/b>: Asia<br /><b>Año<\/b>: 1997","<b>PIB medio<\/b>: 10174.09$<br /><b>Continente<\/b>: Asia<br /><b>Año<\/b>: 2002","<b>PIB medio<\/b>: 12473.03$<br /><b>Continente<\/b>: Asia<br /><b>Año<\/b>: 2007"],"type":"bar","marker":{"autocolorscale":false,"color":"rgba(86,180,233,0.7)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Asia","legendgroup":"Asia","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5],"base":[0.388808568323732,0.382151994507502,0.381378729766887,0.378177342598925,0.357556711514759,0.350607313964265,0.35962174808262,0.369454003067469,0.36706419161515,0.374190205332155,0.380966545678531,0.366084683349535],"x":[1952,1957,1962,1967,1972,1977,1982,1987,1992,1997,2002,2007],"y":[0.213735611764644,0.229419673558775,0.251284266428695,0.264653918263452,0.27179541177275,0.289752362438668,0.302701325300168,0.311027167309806,0.299735663020141,0.297131737048411,0.307045987363984,0.307682121681514],"text":["<b>PIB medio<\/b>: 5661.06$<br /><b>Continente<\/b>: Europe<br /><b>Año<\/b>: 1952","<b>PIB medio<\/b>: 6963.01$<br /><b>Continente<\/b>: Europe<br /><b>Año<\/b>: 1957","<b>PIB medio<\/b>: 8365.49$<br /><b>Continente<\/b>: Europe<br /><b>Año<\/b>: 1962","<b>PIB medio<\/b>: 10143.82$<br /><b>Continente<\/b>: Europe<br /><b>Año<\/b>: 1967","<b>PIB medio<\/b>: 12479.58$<br /><b>Continente<\/b>: Europe<br /><b>Año<\/b>: 1972","<b>PIB medio<\/b>: 14283.98$<br /><b>Continente<\/b>: Europe<br /><b>Año<\/b>: 1977","<b>PIB medio<\/b>: 15617.9$<br /><b>Continente<\/b>: Europe<br /><b>Año<\/b>: 1982","<b>PIB medio<\/b>: 17214.31$<br /><b>Continente<\/b>: Europe<br /><b>Año<\/b>: 1987","<b>PIB medio<\/b>: 17061.57$<br /><b>Continente<\/b>: Europe<br /><b>Año<\/b>: 1992","<b>PIB medio<\/b>: 19076.78$<br /><b>Continente<\/b>: Europe<br /><b>Año<\/b>: 1997","<b>PIB medio<\/b>: 21711.73$<br /><b>Continente<\/b>: Europe<br /><b>Año<\/b>: 2002","<b>PIB medio<\/b>: 25054.48$<br /><b>Continente<\/b>: Europe<br /><b>Año<\/b>: 2007"],"type":"bar","marker":{"autocolorscale":false,"color":"rgba(0,158,115,0.7)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Europe","legendgroup":"Europe","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5],"base":[0,0,0,0,0,0,0,0,0,0,0,0],"x":[1952,1957,1962,1967,1972,1977,1982,1987,1992,1997,2002,2007],"y":[0.388808568323732,0.382151994507502,0.381378729766887,0.378177342598925,0.357556711514759,0.350607313964265,0.35962174808262,0.369454003067469,0.36706419161515,0.374190205332155,0.380966545678531,0.366084683349535],"text":["<b>PIB medio<\/b>: 10298.09$<br /><b>Continente<\/b>: Oceania<br /><b>Año<\/b>: 1952","<b>PIB medio<\/b>: 11598.52$<br /><b>Continente<\/b>: Oceania<br /><b>Año<\/b>: 1957","<b>PIB medio<\/b>: 12696.45$<br /><b>Continente<\/b>: Oceania<br /><b>Año<\/b>: 1962","<b>PIB medio<\/b>: 14495.02$<br /><b>Continente<\/b>: Oceania<br /><b>Año<\/b>: 1967","<b>PIB medio<\/b>: 16417.33$<br /><b>Continente<\/b>: Oceania<br /><b>Año<\/b>: 1972","<b>PIB medio<\/b>: 17283.96$<br /><b>Continente<\/b>: Oceania<br /><b>Año<\/b>: 1977","<b>PIB medio<\/b>: 18554.71$<br /><b>Continente<\/b>: Oceania<br /><b>Año<\/b>: 1982","<b>PIB medio<\/b>: 20448.04$<br /><b>Continente<\/b>: Oceania<br /><b>Año<\/b>: 1987","<b>PIB medio<\/b>: 20894.05$<br /><b>Continente<\/b>: Oceania<br /><b>Año<\/b>: 1992","<b>PIB medio<\/b>: 24024.18$<br /><b>Continente<\/b>: Oceania<br /><b>Año<\/b>: 1997","<b>PIB medio<\/b>: 26938.78$<br /><b>Continente<\/b>: Oceania<br /><b>Año<\/b>: 2002","<b>PIB medio<\/b>: 29810.19$<br /><b>Continente<\/b>: Oceania<br /><b>Año<\/b>: 2007"],"type":"bar","marker":{"autocolorscale":false,"color":"rgba(240,228,66,0.7)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Oceania","legendgroup":"Oceania","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":40.8401826484018,"r":7.30593607305936,"b":37.2602739726027,"l":48.9497716894977},"font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"title":{"text":"Diagrama de barras","font":{"color":"rgba(0,0,0,1)","family":"","size":17.5342465753425},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[1946.775,2012.225],"tickmode":"array","ticktext":["1960","1980","2000"],"tickvals":[1960,1980,2000],"categoryorder":"array","categoryarray":["1960","1980","2000"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.65296803652968,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"y","title":{"text":"Año","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.05,1.05],"tickmode":"array","ticktext":["0.00","0.25","0.50","0.75","1.00"],"tickvals":[0,0.25,0.5,0.75,1],"categoryorder":"array","categoryarray":["0.00","0.25","0.50","0.75","1.00"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.65296803652968,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"x","title":{"text":"PIB medio","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":null,"bordercolor":null,"borderwidth":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"y":0.938132733408324},"annotations":[{"text":"continent","x":1.02,"y":1,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"left","yanchor":"bottom","legendTitle":true}],"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","showSendToCloud":false},"source":"A","attrs":{"73fe76c7f09a":{"x":{},"y":{},"fill":{},"text":{},"type":"bar"}},"cur_data":"73fe76c7f09a","visdat":{"73fe76c7f09a":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+
+---
+
+florence - hiking
+heat map
+
+boxplot y alternativas: histograma y densidades, violín, etc
+
+dumbell
+flujo (acumulativos) area chart
+flujo de partidos
+tablas
+circulos climáticos y florence (coordenadas polares)
+¿mapas?
+
+---
+
 name: clase-17
 
 # CLASE 17: entrega III
