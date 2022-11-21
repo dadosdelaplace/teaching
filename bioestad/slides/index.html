@@ -1777,7 +1777,7 @@ También podemos obtener el **.bg-purple_light[«hoy y ahora»]** con la funció
 ```
 
 ```
-&gt; [1] "2022-11-21 14:44:03 CET"
+&gt; [1] "2022-11-21 21:52:26 CET"
 ```
  
 ---
@@ -3084,8 +3084,8 @@ x &lt;- rnorm(1e3) # 1000 elementos aleatorias
 ```
 &gt; Unit: microseconds
 &gt;         expr    min      lq     mean  median      uq     max neval cld
-&gt;      sort(x) 42.250 47.4895 56.37904 51.4030 58.3115 666.729  1000   b
-&gt;  x[order(x)] 29.469 33.3325 40.46924 36.8815 41.5115 135.552  1000  a
+&gt;      sort(x) 47.397 50.9930 64.01099 55.7910 66.4130 198.002  1000   b
+&gt;  x[order(x)] 33.098 35.7955 43.66483 37.9815 44.9765 204.596  1000  a
 ```
 
 --
@@ -6333,12 +6333,12 @@ microbenchmark(x^2,
 
 ```
 &gt; Unit: nanoseconds
-&gt;                                     expr     min        lq        mean
-&gt;                                      x^2     351     478.5    1391.866
-&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 1756428 1975828.5 2298427.340
-&gt;     median      uq      max neval cld
-&gt;     1284.5    1921    26636  1000  a 
-&gt;  2127463.5 2396596 10099197  1000   b
+&gt;                                     expr     min      lq       mean    median
+&gt;                                      x^2     396     559    1627.08    1145.5
+&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 1868879 2222565 2835195.41 2525351.0
+&gt;         uq      max neval cld
+&gt;     2257.5    29838  1000  a 
+&gt;  3104661.0 11961315  1000   b
 ```
 
 ---
@@ -6651,7 +6651,7 @@ sample(x = 0:1, size = 30, replace = TRUE)
 ```
 
 ```
-&gt;  [1] 0 0 0 1 0 1 1 0 0 1 0 0 1 0 0 0 1 0 0 0 0 0 0 0 1 1 1 0 1 1
+&gt;  [1] 0 1 0 0 1 0 1 0 0 1 0 1 0 0 0 0 0 0 1 0 0 0 0 0 1 1 1 0 0 0
 ```
 
 ---
@@ -6666,7 +6666,7 @@ sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
 ```
 
 ```
-&gt;  [1] "cruz" "cruz" "cruz" "cruz" "cara" "cara" "cara" "cara" "cruz" "cara"
+&gt;  [1] "cara" "cruz" "cara" "cara" "cara" "cruz" "cara" "cruz" "cruz" "cruz"
 ```
 
 --
@@ -6679,7 +6679,7 @@ sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
 ```
 
 ```
-&gt;  [1] "cara" "cruz" "cruz" "cara" "cara" "cara" "cruz" "cara" "cruz" "cara"
+&gt;  [1] "cruz" "cruz" "cruz" "cara" "cruz" "cruz" "cara" "cara" "cara" "cruz"
 ```
 
 ---
@@ -8680,11 +8680,11 @@ microbenchmark(sqrt(x), for (i in 1:700) { y[i] &lt;- sqrt(x[i]) }, times = 1e3)
 ```
 &gt; Unit: microseconds
 &gt;                                         expr      min        lq        mean
-&gt;                                      sqrt(x)    1.722    2.4925    3.875107
-&gt;  for (i in 1:700) {     y[i] &lt;- sqrt(x[i]) } 1792.066 2027.4365 3160.689501
-&gt;    median       uq        max neval cld
-&gt;     3.356    4.043     52.847  1000  a 
-&gt;  2281.428 2938.423 109340.841  1000   b
+&gt;                                      sqrt(x)    2.003    2.8995    4.851893
+&gt;  for (i in 1:700) {     y[i] &lt;- sqrt(x[i]) } 2068.313 2437.2860 3615.642143
+&gt;    median        uq       max neval cld
+&gt;     3.871    4.9435   288.467  1000  a 
+&gt;  2993.729 3767.0425 72997.009  1000   b
 ```
 
 
@@ -8768,11 +8768,11 @@ microbenchmark(map(x, .f = function(x) { mean(x^2) }), lapply(x, FUN = function(
 ```
 &gt; Unit: milliseconds
 &gt;                                            expr      min       lq     mean
-&gt;      map(x, .f = function(x) {     mean(x^2) }) 5.642231 6.466147 8.793059
-&gt;  lapply(x, FUN = function(x) {     mean(x^2) }) 5.662906 6.280631 8.160772
+&gt;      map(x, .f = function(x) {     mean(x^2) }) 5.843842 7.766488 10.85233
+&gt;  lapply(x, FUN = function(x) {     mean(x^2) }) 5.798943 7.478557 10.06550
 &gt;    median       uq       max neval cld
-&gt;  7.472333 8.034216 188.44544  1000   b
-&gt;  7.339182 7.915718  40.05956  1000  a
+&gt;  8.858908 10.43777 235.27660  1000   b
+&gt;  8.578086 10.33457  55.69647  1000  a
 ```
 
 
@@ -15498,32 +15498,32 @@ aemet_last_obs("0076")
 ```
 
 
-|idema |      lon|fint                | prec| alt| vmax|  vv|  dv|      lat| dmax|ubi                  |   pres| hr| stdvv|   ts| pres_nmar| tamin|   ta| tamax| tpr|  vis| stddv| inso|
-|:-----|--------:|:-------------------|----:|---:|----:|---:|---:|--------:|----:|:--------------------|------:|--:|-----:|----:|---------:|-----:|----:|-----:|---:|----:|-----:|----:|
-|0076  | 2.069995|2022-11-20 14:00:00 |    0|   4|  5.1| 1.9| 220| 41.29278|  260|BARCELONA/AEROPUERTO | 1016.7| 49|   0.4| 19.6|    1017.3|  15.6| 15.8|  16.0| 5.1| 30.0|    27|   31|
-|0076  | 2.069995|2022-11-20 15:00:00 |    0|   4|  4.1| 2.2| 210| 41.29278|  230|BARCELONA/AEROPUERTO | 1016.5| 51|   0.5| 18.6|    1017.1|  15.9| 16.4|  16.4| 6.2| 30.0|     7|    0|
-|0076  | 2.069995|2022-11-20 16:00:00 |    0|   4|  2.6| 1.1|  30| 41.29278|  200|BARCELONA/AEROPUERTO | 1016.1| 61|   0.2| 14.3|    1016.7|  15.3| 15.4|  16.4| 8.0| 30.0|    11|    0|
-|0076  | 2.069995|2022-11-20 17:00:00 |    0|   4|  3.1| 1.9|  10| 41.29278|   10|BARCELONA/AEROPUERTO | 1016.4| 62|   0.2| 12.2|    1017.0|  14.0| 14.1|  15.3| 7.0| 30.0|     5|    0|
-|0076  | 2.069995|2022-11-20 18:00:00 |    0|   4|  3.1| 0.7| 360| 41.29278|   10|BARCELONA/AEROPUERTO | 1016.8| 65|   0.3| 11.3|    1017.4|  13.2| 13.3|  14.2| 6.8| 30.0|   147|    0|
-|0076  | 2.069995|2022-11-20 19:00:00 |    0|   4|  2.1| 1.1|  20| 41.29278|   10|BARCELONA/AEROPUERTO | 1017.2| 68|   0.5| 10.0|    1017.8|  12.4| 12.4|  13.2| 6.7| 30.0|   139|    0|
-|0076  | 2.069995|2022-11-20 20:00:00 |    0|   4|  3.1| 1.4| 350| 41.29278|  330|BARCELONA/AEROPUERTO | 1017.6| 69|   0.4|  9.0|    1018.2|  11.5| 11.6|  12.3| 6.1| 30.0|   159|    0|
-|0076  | 2.069995|2022-11-20 21:00:00 |    0|   4|  3.6| 0.3|  10| 41.29278|   20|BARCELONA/AEROPUERTO | 1017.8| 68|   0.3|  9.8|    1018.4|  11.5| 11.7|  12.5| 5.9| 29.9|   175|    0|
-|0076  | 2.069995|2022-11-20 22:00:00 |    0|   4|  4.6| 2.5|  10| 41.29278|   20|BARCELONA/AEROPUERTO | 1018.2| 73|   0.3|  9.7|    1018.8|  10.6| 10.9|  11.5| 6.2| 29.9|   111|    0|
-|0076  | 2.069995|2022-11-20 23:00:00 |    0|   4|  4.6| 3.4|  10| 41.29278|   10|BARCELONA/AEROPUERTO | 1018.0| 73|   0.3| 10.5|    1018.6|  10.9| 11.1|  11.2| 6.4| 29.0|   108|    0|
-|0076  | 2.069995|2022-11-21 00:00:00 |    0|   4|  4.1| 3.0| 350| 41.29278|  360|BARCELONA/AEROPUERTO | 1018.2| 72|   0.6| 10.3|    1018.8|  11.1| 11.1|  11.9| 6.2| 30.0|   109|    0|
-|0076  | 2.069995|2022-11-21 01:00:00 |    0|   4|  4.1| 1.8| 350| 41.29278|   50|BARCELONA/AEROPUERTO | 1018.0| 69|   0.2| 10.8|    1018.6|  11.1| 11.6|  11.7| 6.1| 30.0|   140|    0|
-|0076  | 2.069995|2022-11-21 02:00:00 |    0|   4|  5.7| 3.0| 360| 41.29278|  360|BARCELONA/AEROPUERTO | 1016.8| 67|   0.7| 11.1|    1017.4|  11.4| 11.6|  11.7| 5.6| 30.0|   148|    0|
-|0076  | 2.069995|2022-11-21 03:00:00 |    0|   4|  5.1| 1.9|  10| 41.29278|  350|BARCELONA/AEROPUERTO | 1016.4| 69|   0.7| 11.1|    1017.0|  11.3| 11.3|  11.7| 5.8| 28.7|     5|    0|
-|0076  | 2.069995|2022-11-21 04:00:00 |    0|   4|  7.2| 4.3|  10| 41.29278|  360|BARCELONA/AEROPUERTO | 1015.6| 66|   0.3| 11.3|    1016.2|  11.3| 11.5|  11.5| 5.3| 29.9|     4|    0|
-|0076  | 2.069995|2022-11-21 05:00:00 |    0|   4|  6.2| 3.9| 360| 41.29278|  360|BARCELONA/AEROPUERTO | 1014.8| 63|   0.5| 11.2|    1015.4|  11.4| 11.6|  11.8| 4.8| 30.0|   113|    0|
-|0076  | 2.069995|2022-11-21 06:00:00 |    0|   4|  6.7| 3.6|  10| 41.29278|   10|BARCELONA/AEROPUERTO | 1013.5| 66|   0.7| 11.0|    1014.1|  11.0| 11.2|  11.4| 5.1| 30.0|     3|    0|
-|0076  | 2.069995|2022-11-21 07:00:00 |    0|   4|  6.7| 4.0| 350| 41.29278|  360|BARCELONA/AEROPUERTO | 1013.5| 66|   0.2| 11.5|    1014.1|  11.2| 11.4|  11.5| 5.3| 30.0|     4|    0|
-|0076  | 2.069995|2022-11-21 08:00:00 |    0|   4|  4.6| 3.9|  10| 41.29278|  360|BARCELONA/AEROPUERTO | 1012.7| 64|   0.3| 12.5|    1013.3|  11.5| 11.9|  12.0| 5.3| 29.8|     3|    0|
-|0076  | 2.069995|2022-11-21 09:00:00 |    0|   4|  5.1| 4.2|  10| 41.29278|   20|BARCELONA/AEROPUERTO | 1012.0| 63|   0.4| 13.0|    1012.6|  12.0| 12.6|  12.6| 5.8| 27.1|     5|    0|
-|0076  | 2.069995|2022-11-21 10:00:00 |    0|   4|  4.6| 3.3|  20| 41.29278|   30|BARCELONA/AEROPUERTO | 1010.7| 62|   0.2| 14.9|    1011.3|  12.6| 13.7|  13.8| 6.5| 28.3|     6|    0|
-|0076  | 2.069995|2022-11-21 11:00:00 |    0|   4|  5.7| 3.5| 360| 41.29278|  360|BARCELONA/AEROPUERTO | 1009.4| 64|   0.7| 15.2|    1010.0|  13.9| 14.3|  14.5| 7.6| 28.8|   182|    0|
-|0076  | 2.069995|2022-11-21 12:00:00 |    0|   4|  5.7| 2.9| 350| 41.29278|  360|BARCELONA/AEROPUERTO | 1007.5| 62|   0.3| 16.1|    1008.1|  14.5| 15.0|  15.1| 7.8| 29.0|     6|    0|
-|0076  | 2.069995|2022-11-21 13:00:00 |    0|   4|  3.6| 1.1| 320| 41.29278|   10|BARCELONA/AEROPUERTO | 1006.1| 62|   0.3| 16.3|    1006.7|  15.1| 15.4|  15.5| 8.1| 26.3|    17|    0|
+|idema |      lon|fint                | prec| alt| vmax|  vv|  dv|      lat| dmax|ubi                  |   pres| hr| stdvv|   ts| pres_nmar| tamin|   ta| tamax|  tpr|  vis| stddv| inso|
+|:-----|--------:|:-------------------|----:|---:|----:|---:|---:|--------:|----:|:--------------------|------:|--:|-----:|----:|---------:|-----:|----:|-----:|----:|----:|-----:|----:|
+|0076  | 2.069995|2022-11-20 21:00:00 |  0.0|   4|  3.6| 0.3|  10| 41.29278|   20|BARCELONA/AEROPUERTO | 1017.8| 68|   0.3|  9.8|    1018.4|  11.5| 11.7|  12.5|  5.9| 29.9|   175|    0|
+|0076  | 2.069995|2022-11-20 22:00:00 |  0.0|   4|  4.6| 2.5|  10| 41.29278|   20|BARCELONA/AEROPUERTO | 1018.2| 73|   0.3|  9.7|    1018.8|  10.6| 10.9|  11.5|  6.2| 29.9|   111|    0|
+|0076  | 2.069995|2022-11-20 23:00:00 |  0.0|   4|  4.6| 3.4|  10| 41.29278|   10|BARCELONA/AEROPUERTO | 1018.0| 73|   0.3| 10.5|    1018.6|  10.9| 11.1|  11.2|  6.4| 29.0|   108|    0|
+|0076  | 2.069995|2022-11-21 00:00:00 |  0.0|   4|  4.1| 3.0| 350| 41.29278|  360|BARCELONA/AEROPUERTO | 1018.2| 72|   0.6| 10.3|    1018.8|  11.1| 11.1|  11.9|  6.2| 30.0|   109|    0|
+|0076  | 2.069995|2022-11-21 01:00:00 |  0.0|   4|  4.1| 1.8| 350| 41.29278|   50|BARCELONA/AEROPUERTO | 1018.0| 69|   0.2| 10.8|    1018.6|  11.1| 11.6|  11.7|  6.1| 30.0|   140|    0|
+|0076  | 2.069995|2022-11-21 02:00:00 |  0.0|   4|  5.7| 3.0| 360| 41.29278|  360|BARCELONA/AEROPUERTO | 1016.8| 67|   0.7| 11.1|    1017.4|  11.4| 11.6|  11.7|  5.6| 30.0|   148|    0|
+|0076  | 2.069995|2022-11-21 03:00:00 |  0.0|   4|  5.1| 1.9|  10| 41.29278|  350|BARCELONA/AEROPUERTO | 1016.4| 69|   0.7| 11.1|    1017.0|  11.3| 11.3|  11.7|  5.8| 28.7|     5|    0|
+|0076  | 2.069995|2022-11-21 04:00:00 |  0.0|   4|  7.2| 4.3|  10| 41.29278|  360|BARCELONA/AEROPUERTO | 1015.6| 66|   0.3| 11.3|    1016.2|  11.3| 11.5|  11.5|  5.3| 29.9|     4|    0|
+|0076  | 2.069995|2022-11-21 05:00:00 |  0.0|   4|  6.2| 3.9| 360| 41.29278|  360|BARCELONA/AEROPUERTO | 1014.8| 63|   0.5| 11.2|    1015.4|  11.4| 11.6|  11.8|  4.8| 30.0|   113|    0|
+|0076  | 2.069995|2022-11-21 06:00:00 |  0.0|   4|  6.7| 3.6|  10| 41.29278|   10|BARCELONA/AEROPUERTO | 1013.5| 66|   0.7| 11.0|    1014.1|  11.0| 11.2|  11.4|  5.1| 30.0|     3|    0|
+|0076  | 2.069995|2022-11-21 07:00:00 |  0.0|   4|  6.7| 4.0| 350| 41.29278|  360|BARCELONA/AEROPUERTO | 1013.5| 66|   0.2| 11.5|    1014.1|  11.2| 11.4|  11.5|  5.3| 30.0|     4|    0|
+|0076  | 2.069995|2022-11-21 08:00:00 |  0.0|   4|  4.6| 3.9|  10| 41.29278|  360|BARCELONA/AEROPUERTO | 1012.7| 64|   0.3| 12.5|    1013.3|  11.5| 11.9|  12.0|  5.3| 29.8|     3|    0|
+|0076  | 2.069995|2022-11-21 09:00:00 |  0.0|   4|  5.1| 4.2|  10| 41.29278|   20|BARCELONA/AEROPUERTO | 1012.0| 63|   0.4| 13.0|    1012.6|  12.0| 12.6|  12.6|  5.8| 27.1|     5|    0|
+|0076  | 2.069995|2022-11-21 10:00:00 |  0.0|   4|  4.6| 3.3|  20| 41.29278|   30|BARCELONA/AEROPUERTO | 1010.7| 62|   0.2| 14.9|    1011.3|  12.6| 13.7|  13.8|  6.5| 28.3|     6|    0|
+|0076  | 2.069995|2022-11-21 11:00:00 |  0.0|   4|  5.7| 3.5| 360| 41.29278|  360|BARCELONA/AEROPUERTO | 1009.4| 64|   0.7| 15.2|    1010.0|  13.9| 14.3|  14.5|  7.6| 28.8|   182|    0|
+|0076  | 2.069995|2022-11-21 12:00:00 |  0.0|   4|  5.7| 2.9| 350| 41.29278|  360|BARCELONA/AEROPUERTO | 1007.5| 62|   0.3| 16.1|    1008.1|  14.5| 15.0|  15.1|  7.8| 29.0|     6|    0|
+|0076  | 2.069995|2022-11-21 13:00:00 |  0.0|   4|  3.6| 1.1| 320| 41.29278|   10|BARCELONA/AEROPUERTO | 1006.1| 62|   0.3| 16.3|    1006.7|  15.1| 15.4|  15.5|  8.1| 26.3|    17|    0|
+|0076  | 2.069995|2022-11-21 14:00:00 |  0.0|   4|  2.6| 1.4| 360| 41.29278|  260|BARCELONA/AEROPUERTO | 1005.1| 64|   0.2| 16.6|    1005.7|  15.5| 15.9|  16.1|  9.0| 26.7|   182|    0|
+|0076  | 2.069995|2022-11-21 15:00:00 |  0.0|   4|  2.1| 0.8|  20| 41.29278|  350|BARCELONA/AEROPUERTO | 1004.2| 65|   0.3| 15.7|    1004.8|  15.6| 15.6|  15.9|  9.0| 29.9|   109|    0|
+|0076  | 2.069995|2022-11-21 16:00:00 |  0.0|   4|  4.6| 3.3| 350| 41.29278|  340|BARCELONA/AEROPUERTO | 1004.4| 69|   0.4| 14.6|    1005.0|  15.0| 15.0|  15.6|  9.3| 24.8|   163|    0|
+|0076  | 2.069995|2022-11-21 17:00:00 |  0.2|   4|  3.6| 1.6| 260| 41.29278|  260|BARCELONA/AEROPUERTO | 1002.4| 78|   1.0| 13.3|    1003.0|  14.5| 14.5|  15.0| 10.8| 26.7|    20|    0|
+|0076  | 2.069995|2022-11-21 18:00:00 |  0.0|   4|  6.2| 2.8| 240| 41.29278|  260|BARCELONA/AEROPUERTO | 1002.3| 81|   0.4| 14.1|    1002.9|  14.4| 15.3|  15.3| 12.1| 15.8|     8|    0|
+|0076  | 2.069995|2022-11-21 19:00:00 |  0.0|   4| 12.4| 8.0| 280| 41.29278|  290|BARCELONA/AEROPUERTO | 1002.1| 72|   2.3| 14.6|    1002.7|  15.1| 15.8|  16.5| 10.8| 28.9|     5|    0|
+|0076  | 2.069995|2022-11-21 20:00:00 |  0.0|   4| 13.9| 4.8| 320| 41.29278|  300|BARCELONA/AEROPUERTO | 1001.9| 57|   0.7| 13.9|    1002.5|  14.9| 15.0|  16.6|  6.5| 30.0|     7|    0|
 
 ---
 
@@ -19289,7 +19289,6 @@ name: clase-15
 
 &amp;nbsp;
 
-### [Ejemplo: paletas continuas](#ej-clima)
 
 ### [Diagramas de barras](#bar-plots)
 
@@ -19297,97 +19296,13 @@ name: clase-15
 
 ---
 
-name: ej-clima
-
-# .orange[EJERCICIO]
-
-Vamos a practicar lo aprendido, haciendo uso de los datos del **.bg-purple_light[National Morbidity and Mortality Air Pollution Study (NMMAPS)]** para Chicago desde 1997 a 2000. 
-
-```r
-chicago &lt;-
-  read_csv("https://raw.githubusercontent.com/z3tt/ggplot-courses/main/data/chicago-nmmaps-custom.csv")
-chicago
-```
-
-```
-&gt; # A tibble: 1,461 × 11
-&gt;    city  date        temp    o3 dewpoint  pm10 season  yday month month_…¹  year
-&gt;    &lt;chr&gt; &lt;date&gt;     &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt;
-&gt;  1 chic  1997-01-01  36    5.66    37.5  13.1  Winter     1 Jan          1  1997
-&gt;  2 chic  1997-01-02  45    5.53    47.2  41.9  Winter     2 Jan          1  1997
-&gt;  3 chic  1997-01-03  40    6.29    38    27.0  Winter     3 Jan          1  1997
-&gt;  4 chic  1997-01-04  51.5  7.54    45.5  25.1  Winter     4 Jan          1  1997
-&gt;  5 chic  1997-01-05  27   20.8     11.2  15.3  Winter     5 Jan          1  1997
-&gt;  6 chic  1997-01-06  17   14.9      5.75  9.36 Winter     6 Jan          1  1997
-&gt;  7 chic  1997-01-07  16   11.9      7    20.2  Winter     7 Jan          1  1997
-&gt;  8 chic  1997-01-08  19    8.68    17.8  33.1  Winter     8 Jan          1  1997
-&gt;  9 chic  1997-01-09  26   13.4     24    12.1  Winter     9 Jan          1  1997
-&gt; 10 chic  1997-01-10  16   10.4      5.38 24.8  Winter    10 Jan          1  1997
-&gt; # … with 1,451 more rows, and abbreviated variable name ¹​month_numeric
-&gt; # ℹ Use `print(n = ...)` to see more rows
-```
-
----
-
-# .orange[EJERCICIO]
-
-1. Realiza un **diagrama de dispersión de puntos** enfrentando en el eje X la fecha y en el eje Y la temperatura (sin colores, solo editando la información visualizada en los ejes y títulos). Temperaturas en ºF
-
---
-
-2. Realiza un **diagrama de líneas** enfrentando en el eje X la fecha y en el eje Y la temperatura con los mismos ajustes.
-
---
-
-3. Del gráfico de dispersión de puntos anterior, **codifica los colores** en función de la estación del año (decide tú la paleta de colores)
-
---
-
-4. Repite el gráfico anterior tomando como fuente Roboto.
-
---
-
-5. Genera dos gráficos, con las paletas `scale_color_excel()` y `scale_color_tableau()` (del paquete `{ggthemes}`) y muéstralos uno al lado del otro, con una legenda común.
-
---
-
-6. Busca alguna manera en `scale_color...` para usar una paleta de colores continua (valores de temperatura bajos, unos colores, altos otros)
-
----
-
-# .orange[EJERCICIO]
-
-
-```r
-temp_media &lt;- mean(chicago$temp)
-ggplot(chicago, aes(x = date, y = temp)) +
-  geom_point(aes(color = temp), alpha = 0.8) +
-  scale_color_gradient2(midpoint = temp_media,
-                        low = "#766cb5",
-                        mid = "grey92",
-                        high = "#852826") +
-  labs(x = "Fecha", y = "Temperatura (ºF)",
-       color = "Temperatura (ºF)",
-       title = "Gráfico de dispersión",
-       subtitle = "Chicago (1997-200)",
-       caption = "Autor: Javier Álvarez Liébana") +
-  theme_minimal()
-```
-
----
-
-# .orange[EJERCICIO]
-
-&lt;img src="index_files/figure-html/unnamed-chunk-831-1.png" width="60%" /&gt;
-
----
-
 name: bar-plots
+
 
 # Diagrama de .orange[BARRAS]
 
 
-El gráfico anterior (diagrama de puntos o scatter plot) está principalmente pasado para **.bg-purple_light[representar variables numéricas ontinuas]**. ¿Y si tengo **.bg-orange[variables discretas o cualitativas]**?
+El gráfico anterior (diagrama de puntos o scatter plot) está principalmente pasado para **.bg-purple_light[representar variables numéricas spanontinuas]**. ¿Y si tengo **.bg-orange[variables discretas o cualitativas]**?
 
 Vamos a usar el ya conocido conjunto `starwars` para visualizar en un **.bg-purple_light[diagrama de barras]**: vamos a representar la **.bg-purple_light[frecuencia]**  de una **.bg-orange[variable cualitativa]** como es `sex`.
 
@@ -19431,7 +19346,7 @@ ggplot(starwars,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-834-1.png" width="95%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-831-1.png" width="95%" /&gt;
 
 ]
 
@@ -19457,7 +19372,7 @@ ggplot(starwars, aes(x = sex)) +
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-836-1.png" width="95%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-833-1.png" width="95%" /&gt;
 
 ]
 
@@ -19484,7 +19399,7 @@ ggplot(starwars, aes(x = sex)) +
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-838-1.png" width="95%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-835-1.png" width="95%" /&gt;
 
 ]
 
@@ -19523,7 +19438,7 @@ ggplot(starwars, aes(x = sex)) +
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-840-1.png" width="95%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-837-1.png" width="95%" /&gt;
 
 ]
 
@@ -19556,7 +19471,7 @@ ggplot(starwars,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-842-1.png" width="95%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-839-1.png" width="95%" /&gt;
 
 ]
 
@@ -19591,7 +19506,7 @@ ggplot(starwars,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-844-1.png" width="90%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-841-1.png" width="90%" /&gt;
 
 ]
 
@@ -19625,7 +19540,7 @@ ggplot(starwars,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-846-1.png" width="90%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-843-1.png" width="90%" /&gt;
 
 ]
 
@@ -19654,7 +19569,7 @@ Fíjate que por defecto lo que hace es **.bg-purple_light[sumar la variable cont
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-848-1.png" width="95%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-845-1.png" width="95%" /&gt;
 
 ]
 
@@ -19682,7 +19597,7 @@ ggplot(gapminder,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-850-1.png" width="95%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-847-1.png" width="95%" /&gt;
 
 ]
 
@@ -19710,7 +19625,7 @@ ggplot(gapminder,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-852-1.png" width="95%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-849-1.png" width="95%" /&gt;
 
 ]
 
@@ -19737,7 +19652,7 @@ ggplot(gapminder,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-854-1.png" width="95%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-851-1.png" width="95%" /&gt;
 
 ]
 
@@ -19769,7 +19684,7 @@ ggplot(gapminder_continent,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-856-1.png" width="95%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-853-1.png" width="95%" /&gt;
 
 ]
 
@@ -19800,7 +19715,7 @@ ggplot(gapminder_continent,
 
 .pull-right[
 
-&lt;img src="index_files/figure-html/unnamed-chunk-858-1.png" width="95%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-855-1.png" width="95%" /&gt;
 
 ]
 
@@ -19831,7 +19746,7 @@ ggplot(gapminder_continent, aes(y = mean_gdp, x = year)) +
 
 # .orange[HTML] en textos
 
-&lt;img src="index_files/figure-html/unnamed-chunk-860-1.png" width="50%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-857-1.png" width="50%" /&gt;
 
 ---
   
@@ -19876,7 +19791,7 @@ ggplotly(gg, tooltip = c("text"))
 # .orange[INTERACTIVOS]: plotly
 
 <div id="htmlwidget-d20dabd36b68245f4577" style="width:70%;height:700px;" class="plotly html-widget"></div>
-<script type="application/json" data-for="htmlwidget-d20dabd36b68245f4577">{"x":{"data":[{"orientation":"v","width":[4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5],"base":[0.952708598111373,0.954358779223076,0.951996569463208,0.946505693830392,0.949044996083606,0.947543903123967,0.951902519311172,0.958756869122911,0.959913418875341,0.96294946569192,0.963239654619816,0.962065066059655],"x":[1952,1957,1962,1967,1972,1977,1982,1987,1992,1997,2002,2007],"y":[0.0472914018886267,0.0456412207769236,0.0480034305367918,0.0534943061696077,0.0509550039163942,0.0524560968760334,0.0480974806888278,0.0412431308770888,0.0400865811246586,0.0370505343080801,0.0367603453801837,0.0379349339403448],"text":["<b>PIB medio<\/b>: 1252.57$<br /><b>Continente<\/b>: Africa<br /><b>Año<\/b>: 1952","<b>PIB medio<\/b>: 1385.24$<br /><b>Continente<\/b>: Africa<br /><b>Año<\/b>: 1957","<b>PIB medio<\/b>: 1598.08$<br /><b>Continente<\/b>: Africa<br /><b>Año<\/b>: 1962","<b>PIB medio<\/b>: 2050.36$<br /><b>Continente<\/b>: Africa<br /><b>Año<\/b>: 1967","<b>PIB medio<\/b>: 2339.62$<br /><b>Continente<\/b>: Africa<br /><b>Año<\/b>: 1972","<b>PIB medio<\/b>: 2585.94$<br /><b>Continente<\/b>: Africa<br /><b>Año<\/b>: 1977","<b>PIB medio<\/b>: 2481.59$<br /><b>Continente<\/b>: Africa<br /><b>Año<\/b>: 1982","<b>PIB medio<\/b>: 2282.67$<br /><b>Continente<\/b>: Africa<br /><b>Año<\/b>: 1987","<b>PIB medio<\/b>: 2281.81$<br /><b>Continente<\/b>: Africa<br /><b>Año<\/b>: 1992","<b>PIB medio<\/b>: 2378.76$<br /><b>Continente<\/b>: Africa<br /><b>Año<\/b>: 1997","<b>PIB medio<\/b>: 2599.39$<br /><b>Continente<\/b>: Africa<br /><b>Año<\/b>: 2002","<b>PIB medio<\/b>: 3089.03$<br /><b>Continente<\/b>: Africa<br /><b>Año<\/b>: 2007"],"type":"bar","marker":{"autocolorscale":false,"color":"rgba(0,0,0,0.7)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Africa","legendgroup":"Africa","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5],"base":[0.798701870557711,0.802267827448396,0.804763015622975,0.798620090389056,0.80766880335025,0.798407488322447,0.806409222067998,0.817946165434532,0.818580937822493,0.824493544042868,0.831893894997778,0.826942090273792],"x":[1952,1957,1962,1967,1972,1977,1982,1987,1992,1997,2002,2007],"y":[0.154006727553662,0.15209095177468,0.147233553840233,0.147885603441337,0.141376192733356,0.14913641480152,0.145493297243174,0.140810703688379,0.141332481052848,0.138455921649052,0.131345759622038,0.135122975785863],"text":["<b>PIB medio<\/b>: 4079.06$<br /><b>Continente<\/b>: Americas<br /><b>Año<\/b>: 1952","<b>PIB medio<\/b>: 4616.04$<br /><b>Continente<\/b>: Americas<br /><b>Año<\/b>: 1957","<b>PIB medio<\/b>: 4901.54$<br /><b>Continente<\/b>: Americas<br /><b>Año<\/b>: 1962","<b>PIB medio<\/b>: 5668.25$<br /><b>Continente<\/b>: Americas<br /><b>Año<\/b>: 1967","<b>PIB medio<\/b>: 6491.33$<br /><b>Continente<\/b>: Americas<br /><b>Año<\/b>: 1972","<b>PIB medio<\/b>: 7352.01$<br /><b>Continente<\/b>: Americas<br /><b>Año<\/b>: 1977","<b>PIB medio<\/b>: 7506.74$<br /><b>Continente<\/b>: Americas<br /><b>Año<\/b>: 1982","<b>PIB medio<\/b>: 7793.4$<br /><b>Continente<\/b>: Americas<br /><b>Año<\/b>: 1987","<b>PIB medio<\/b>: 8044.93$<br /><b>Continente<\/b>: Americas<br /><b>Año<\/b>: 1992","<b>PIB medio<\/b>: 8889.3$<br /><b>Continente<\/b>: Americas<br /><b>Año<\/b>: 1997","<b>PIB medio<\/b>: 9287.68$<br /><b>Continente<\/b>: Americas<br /><b>Año<\/b>: 2002","<b>PIB medio<\/b>: 11003.03$<br /><b>Continente<\/b>: Americas<br /><b>Año<\/b>: 2007"],"type":"bar","marker":{"autocolorscale":false,"color":"rgba(230,159,0,0.7)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Americas","legendgroup":"Americas","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5],"base":[0.602544180088376,0.611571668066277,0.632662996195583,0.642831260862377,0.629352123287509,0.640359676402933,0.662323073382788,0.680481170377275,0.66679985463529,0.671321942380566,0.688012533042515,0.673766805031049],"x":[1952,1957,1962,1967,1972,1977,1982,1987,1992,1997,2002,2007],"y":[0.196157690469336,0.190696159382119,0.172100019427393,0.155788829526678,0.178316680062741,0.158047811919513,0.14408614868521,0.137464995057257,0.151781083187203,0.153171601662302,0.143881361955263,0.153175285242743],"text":["<b>PIB medio<\/b>: 5195.48$<br /><b>Continente<\/b>: Asia<br /><b>Año<\/b>: 1952","<b>PIB medio<\/b>: 5787.73$<br /><b>Continente<\/b>: Asia<br /><b>Año<\/b>: 1957","<b>PIB medio<\/b>: 5729.37$<br /><b>Continente<\/b>: Asia<br /><b>Año<\/b>: 1962","<b>PIB medio<\/b>: 5971.17$<br /><b>Continente<\/b>: Asia<br /><b>Año<\/b>: 1967","<b>PIB medio<\/b>: 8187.47$<br /><b>Continente<\/b>: Asia<br /><b>Año<\/b>: 1972","<b>PIB medio<\/b>: 7791.31$<br /><b>Continente<\/b>: Asia<br /><b>Año<\/b>: 1977","<b>PIB medio<\/b>: 7434.14$<br /><b>Continente<\/b>: Asia<br /><b>Año<\/b>: 1982","<b>PIB medio<\/b>: 7608.23$<br /><b>Continente<\/b>: Asia<br /><b>Año<\/b>: 1987","<b>PIB medio<\/b>: 8639.69$<br /><b>Continente<\/b>: Asia<br /><b>Año<\/b>: 1992","<b>PIB medio<\/b>: 9834.09$<br /><b>Continente<\/b>: Asia<br /><b>Año<\/b>: 1997","<b>PIB medio<\/b>: 10174.09$<br /><b>Continente<\/b>: Asia<br /><b>Año<\/b>: 2002","<b>PIB medio<\/b>: 12473.03$<br /><b>Continente<\/b>: Asia<br /><b>Año<\/b>: 2007"],"type":"bar","marker":{"autocolorscale":false,"color":"rgba(86,180,233,0.7)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Asia","legendgroup":"Asia","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5],"base":[0.388808568323732,0.382151994507502,0.381378729766887,0.378177342598925,0.357556711514759,0.350607313964265,0.35962174808262,0.369454003067469,0.36706419161515,0.374190205332155,0.380966545678531,0.366084683349535],"x":[1952,1957,1962,1967,1972,1977,1982,1987,1992,1997,2002,2007],"y":[0.213735611764644,0.229419673558775,0.251284266428695,0.264653918263452,0.27179541177275,0.289752362438668,0.302701325300168,0.311027167309806,0.299735663020141,0.297131737048411,0.307045987363984,0.307682121681514],"text":["<b>PIB medio<\/b>: 5661.06$<br /><b>Continente<\/b>: Europe<br /><b>Año<\/b>: 1952","<b>PIB medio<\/b>: 6963.01$<br /><b>Continente<\/b>: Europe<br /><b>Año<\/b>: 1957","<b>PIB medio<\/b>: 8365.49$<br /><b>Continente<\/b>: Europe<br /><b>Año<\/b>: 1962","<b>PIB medio<\/b>: 10143.82$<br /><b>Continente<\/b>: Europe<br /><b>Año<\/b>: 1967","<b>PIB medio<\/b>: 12479.58$<br /><b>Continente<\/b>: Europe<br /><b>Año<\/b>: 1972","<b>PIB medio<\/b>: 14283.98$<br /><b>Continente<\/b>: Europe<br /><b>Año<\/b>: 1977","<b>PIB medio<\/b>: 15617.9$<br /><b>Continente<\/b>: Europe<br /><b>Año<\/b>: 1982","<b>PIB medio<\/b>: 17214.31$<br /><b>Continente<\/b>: Europe<br /><b>Año<\/b>: 1987","<b>PIB medio<\/b>: 17061.57$<br /><b>Continente<\/b>: Europe<br /><b>Año<\/b>: 1992","<b>PIB medio<\/b>: 19076.78$<br /><b>Continente<\/b>: Europe<br /><b>Año<\/b>: 1997","<b>PIB medio<\/b>: 21711.73$<br /><b>Continente<\/b>: Europe<br /><b>Año<\/b>: 2002","<b>PIB medio<\/b>: 25054.48$<br /><b>Continente<\/b>: Europe<br /><b>Año<\/b>: 2007"],"type":"bar","marker":{"autocolorscale":false,"color":"rgba(0,158,115,0.7)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Europe","legendgroup":"Europe","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5],"base":[0,0,0,0,0,0,0,0,0,0,0,0],"x":[1952,1957,1962,1967,1972,1977,1982,1987,1992,1997,2002,2007],"y":[0.388808568323732,0.382151994507502,0.381378729766887,0.378177342598925,0.357556711514759,0.350607313964265,0.35962174808262,0.369454003067469,0.36706419161515,0.374190205332155,0.380966545678531,0.366084683349535],"text":["<b>PIB medio<\/b>: 10298.09$<br /><b>Continente<\/b>: Oceania<br /><b>Año<\/b>: 1952","<b>PIB medio<\/b>: 11598.52$<br /><b>Continente<\/b>: Oceania<br /><b>Año<\/b>: 1957","<b>PIB medio<\/b>: 12696.45$<br /><b>Continente<\/b>: Oceania<br /><b>Año<\/b>: 1962","<b>PIB medio<\/b>: 14495.02$<br /><b>Continente<\/b>: Oceania<br /><b>Año<\/b>: 1967","<b>PIB medio<\/b>: 16417.33$<br /><b>Continente<\/b>: Oceania<br /><b>Año<\/b>: 1972","<b>PIB medio<\/b>: 17283.96$<br /><b>Continente<\/b>: Oceania<br /><b>Año<\/b>: 1977","<b>PIB medio<\/b>: 18554.71$<br /><b>Continente<\/b>: Oceania<br /><b>Año<\/b>: 1982","<b>PIB medio<\/b>: 20448.04$<br /><b>Continente<\/b>: Oceania<br /><b>Año<\/b>: 1987","<b>PIB medio<\/b>: 20894.05$<br /><b>Continente<\/b>: Oceania<br /><b>Año<\/b>: 1992","<b>PIB medio<\/b>: 24024.18$<br /><b>Continente<\/b>: Oceania<br /><b>Año<\/b>: 1997","<b>PIB medio<\/b>: 26938.78$<br /><b>Continente<\/b>: Oceania<br /><b>Año<\/b>: 2002","<b>PIB medio<\/b>: 29810.19$<br /><b>Continente<\/b>: Oceania<br /><b>Año<\/b>: 2007"],"type":"bar","marker":{"autocolorscale":false,"color":"rgba(240,228,66,0.7)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Oceania","legendgroup":"Oceania","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":40.8401826484018,"r":7.30593607305936,"b":37.2602739726027,"l":48.9497716894977},"font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"title":{"text":"Diagrama de barras","font":{"color":"rgba(0,0,0,1)","family":"","size":17.5342465753425},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[1946.775,2012.225],"tickmode":"array","ticktext":["1960","1980","2000"],"tickvals":[1960,1980,2000],"categoryorder":"array","categoryarray":["1960","1980","2000"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.65296803652968,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"y","title":{"text":"Año","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.05,1.05],"tickmode":"array","ticktext":["0.00","0.25","0.50","0.75","1.00"],"tickvals":[0,0.25,0.5,0.75,1],"categoryorder":"array","categoryarray":["0.00","0.25","0.50","0.75","1.00"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.65296803652968,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"x","title":{"text":"PIB medio","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":null,"bordercolor":null,"borderwidth":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"y":0.938132733408324},"annotations":[{"text":"continent","x":1.02,"y":1,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"left","yanchor":"bottom","legendTitle":true}],"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","showSendToCloud":false},"source":"A","attrs":{"73fe76c7f09a":{"x":{},"y":{},"fill":{},"text":{},"type":"bar"}},"cur_data":"73fe76c7f09a","visdat":{"73fe76c7f09a":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<script type="application/json" data-for="htmlwidget-d20dabd36b68245f4577">{"x":{"data":[{"orientation":"v","width":[4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5],"base":[0.952708598111373,0.954358779223076,0.951996569463208,0.946505693830392,0.949044996083606,0.947543903123967,0.951902519311172,0.958756869122911,0.959913418875341,0.96294946569192,0.963239654619816,0.962065066059655],"x":[1952,1957,1962,1967,1972,1977,1982,1987,1992,1997,2002,2007],"y":[0.0472914018886267,0.0456412207769236,0.0480034305367918,0.0534943061696077,0.0509550039163942,0.0524560968760334,0.0480974806888278,0.0412431308770888,0.0400865811246586,0.0370505343080801,0.0367603453801837,0.0379349339403448],"text":["<b>PIB medio<\/b>: 1252.57$<br /><b>Continente<\/b>: Africa<br /><b>Año<\/b>: 1952","<b>PIB medio<\/b>: 1385.24$<br /><b>Continente<\/b>: Africa<br /><b>Año<\/b>: 1957","<b>PIB medio<\/b>: 1598.08$<br /><b>Continente<\/b>: Africa<br /><b>Año<\/b>: 1962","<b>PIB medio<\/b>: 2050.36$<br /><b>Continente<\/b>: Africa<br /><b>Año<\/b>: 1967","<b>PIB medio<\/b>: 2339.62$<br /><b>Continente<\/b>: Africa<br /><b>Año<\/b>: 1972","<b>PIB medio<\/b>: 2585.94$<br /><b>Continente<\/b>: Africa<br /><b>Año<\/b>: 1977","<b>PIB medio<\/b>: 2481.59$<br /><b>Continente<\/b>: Africa<br /><b>Año<\/b>: 1982","<b>PIB medio<\/b>: 2282.67$<br /><b>Continente<\/b>: Africa<br /><b>Año<\/b>: 1987","<b>PIB medio<\/b>: 2281.81$<br /><b>Continente<\/b>: Africa<br /><b>Año<\/b>: 1992","<b>PIB medio<\/b>: 2378.76$<br /><b>Continente<\/b>: Africa<br /><b>Año<\/b>: 1997","<b>PIB medio<\/b>: 2599.39$<br /><b>Continente<\/b>: Africa<br /><b>Año<\/b>: 2002","<b>PIB medio<\/b>: 3089.03$<br /><b>Continente<\/b>: Africa<br /><b>Año<\/b>: 2007"],"type":"bar","marker":{"autocolorscale":false,"color":"rgba(0,0,0,0.7)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Africa","legendgroup":"Africa","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5],"base":[0.798701870557711,0.802267827448396,0.804763015622975,0.798620090389056,0.80766880335025,0.798407488322447,0.806409222067998,0.817946165434532,0.818580937822493,0.824493544042868,0.831893894997778,0.826942090273792],"x":[1952,1957,1962,1967,1972,1977,1982,1987,1992,1997,2002,2007],"y":[0.154006727553662,0.15209095177468,0.147233553840233,0.147885603441337,0.141376192733356,0.14913641480152,0.145493297243174,0.140810703688379,0.141332481052848,0.138455921649052,0.131345759622038,0.135122975785863],"text":["<b>PIB medio<\/b>: 4079.06$<br /><b>Continente<\/b>: Americas<br /><b>Año<\/b>: 1952","<b>PIB medio<\/b>: 4616.04$<br /><b>Continente<\/b>: Americas<br /><b>Año<\/b>: 1957","<b>PIB medio<\/b>: 4901.54$<br /><b>Continente<\/b>: Americas<br /><b>Año<\/b>: 1962","<b>PIB medio<\/b>: 5668.25$<br /><b>Continente<\/b>: Americas<br /><b>Año<\/b>: 1967","<b>PIB medio<\/b>: 6491.33$<br /><b>Continente<\/b>: Americas<br /><b>Año<\/b>: 1972","<b>PIB medio<\/b>: 7352.01$<br /><b>Continente<\/b>: Americas<br /><b>Año<\/b>: 1977","<b>PIB medio<\/b>: 7506.74$<br /><b>Continente<\/b>: Americas<br /><b>Año<\/b>: 1982","<b>PIB medio<\/b>: 7793.4$<br /><b>Continente<\/b>: Americas<br /><b>Año<\/b>: 1987","<b>PIB medio<\/b>: 8044.93$<br /><b>Continente<\/b>: Americas<br /><b>Año<\/b>: 1992","<b>PIB medio<\/b>: 8889.3$<br /><b>Continente<\/b>: Americas<br /><b>Año<\/b>: 1997","<b>PIB medio<\/b>: 9287.68$<br /><b>Continente<\/b>: Americas<br /><b>Año<\/b>: 2002","<b>PIB medio<\/b>: 11003.03$<br /><b>Continente<\/b>: Americas<br /><b>Año<\/b>: 2007"],"type":"bar","marker":{"autocolorscale":false,"color":"rgba(230,159,0,0.7)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Americas","legendgroup":"Americas","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5],"base":[0.602544180088376,0.611571668066277,0.632662996195583,0.642831260862377,0.629352123287509,0.640359676402933,0.662323073382788,0.680481170377275,0.66679985463529,0.671321942380566,0.688012533042515,0.673766805031049],"x":[1952,1957,1962,1967,1972,1977,1982,1987,1992,1997,2002,2007],"y":[0.196157690469336,0.190696159382119,0.172100019427393,0.155788829526678,0.178316680062741,0.158047811919513,0.14408614868521,0.137464995057257,0.151781083187203,0.153171601662302,0.143881361955263,0.153175285242743],"text":["<b>PIB medio<\/b>: 5195.48$<br /><b>Continente<\/b>: Asia<br /><b>Año<\/b>: 1952","<b>PIB medio<\/b>: 5787.73$<br /><b>Continente<\/b>: Asia<br /><b>Año<\/b>: 1957","<b>PIB medio<\/b>: 5729.37$<br /><b>Continente<\/b>: Asia<br /><b>Año<\/b>: 1962","<b>PIB medio<\/b>: 5971.17$<br /><b>Continente<\/b>: Asia<br /><b>Año<\/b>: 1967","<b>PIB medio<\/b>: 8187.47$<br /><b>Continente<\/b>: Asia<br /><b>Año<\/b>: 1972","<b>PIB medio<\/b>: 7791.31$<br /><b>Continente<\/b>: Asia<br /><b>Año<\/b>: 1977","<b>PIB medio<\/b>: 7434.14$<br /><b>Continente<\/b>: Asia<br /><b>Año<\/b>: 1982","<b>PIB medio<\/b>: 7608.23$<br /><b>Continente<\/b>: Asia<br /><b>Año<\/b>: 1987","<b>PIB medio<\/b>: 8639.69$<br /><b>Continente<\/b>: Asia<br /><b>Año<\/b>: 1992","<b>PIB medio<\/b>: 9834.09$<br /><b>Continente<\/b>: Asia<br /><b>Año<\/b>: 1997","<b>PIB medio<\/b>: 10174.09$<br /><b>Continente<\/b>: Asia<br /><b>Año<\/b>: 2002","<b>PIB medio<\/b>: 12473.03$<br /><b>Continente<\/b>: Asia<br /><b>Año<\/b>: 2007"],"type":"bar","marker":{"autocolorscale":false,"color":"rgba(86,180,233,0.7)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Asia","legendgroup":"Asia","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5],"base":[0.388808568323732,0.382151994507502,0.381378729766887,0.378177342598925,0.357556711514759,0.350607313964265,0.35962174808262,0.369454003067469,0.36706419161515,0.374190205332155,0.380966545678531,0.366084683349535],"x":[1952,1957,1962,1967,1972,1977,1982,1987,1992,1997,2002,2007],"y":[0.213735611764644,0.229419673558775,0.251284266428695,0.264653918263452,0.27179541177275,0.289752362438668,0.302701325300168,0.311027167309806,0.299735663020141,0.297131737048411,0.307045987363984,0.307682121681514],"text":["<b>PIB medio<\/b>: 5661.06$<br /><b>Continente<\/b>: Europe<br /><b>Año<\/b>: 1952","<b>PIB medio<\/b>: 6963.01$<br /><b>Continente<\/b>: Europe<br /><b>Año<\/b>: 1957","<b>PIB medio<\/b>: 8365.49$<br /><b>Continente<\/b>: Europe<br /><b>Año<\/b>: 1962","<b>PIB medio<\/b>: 10143.82$<br /><b>Continente<\/b>: Europe<br /><b>Año<\/b>: 1967","<b>PIB medio<\/b>: 12479.58$<br /><b>Continente<\/b>: Europe<br /><b>Año<\/b>: 1972","<b>PIB medio<\/b>: 14283.98$<br /><b>Continente<\/b>: Europe<br /><b>Año<\/b>: 1977","<b>PIB medio<\/b>: 15617.9$<br /><b>Continente<\/b>: Europe<br /><b>Año<\/b>: 1982","<b>PIB medio<\/b>: 17214.31$<br /><b>Continente<\/b>: Europe<br /><b>Año<\/b>: 1987","<b>PIB medio<\/b>: 17061.57$<br /><b>Continente<\/b>: Europe<br /><b>Año<\/b>: 1992","<b>PIB medio<\/b>: 19076.78$<br /><b>Continente<\/b>: Europe<br /><b>Año<\/b>: 1997","<b>PIB medio<\/b>: 21711.73$<br /><b>Continente<\/b>: Europe<br /><b>Año<\/b>: 2002","<b>PIB medio<\/b>: 25054.48$<br /><b>Continente<\/b>: Europe<br /><b>Año<\/b>: 2007"],"type":"bar","marker":{"autocolorscale":false,"color":"rgba(0,158,115,0.7)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Europe","legendgroup":"Europe","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5],"base":[0,0,0,0,0,0,0,0,0,0,0,0],"x":[1952,1957,1962,1967,1972,1977,1982,1987,1992,1997,2002,2007],"y":[0.388808568323732,0.382151994507502,0.381378729766887,0.378177342598925,0.357556711514759,0.350607313964265,0.35962174808262,0.369454003067469,0.36706419161515,0.374190205332155,0.380966545678531,0.366084683349535],"text":["<b>PIB medio<\/b>: 10298.09$<br /><b>Continente<\/b>: Oceania<br /><b>Año<\/b>: 1952","<b>PIB medio<\/b>: 11598.52$<br /><b>Continente<\/b>: Oceania<br /><b>Año<\/b>: 1957","<b>PIB medio<\/b>: 12696.45$<br /><b>Continente<\/b>: Oceania<br /><b>Año<\/b>: 1962","<b>PIB medio<\/b>: 14495.02$<br /><b>Continente<\/b>: Oceania<br /><b>Año<\/b>: 1967","<b>PIB medio<\/b>: 16417.33$<br /><b>Continente<\/b>: Oceania<br /><b>Año<\/b>: 1972","<b>PIB medio<\/b>: 17283.96$<br /><b>Continente<\/b>: Oceania<br /><b>Año<\/b>: 1977","<b>PIB medio<\/b>: 18554.71$<br /><b>Continente<\/b>: Oceania<br /><b>Año<\/b>: 1982","<b>PIB medio<\/b>: 20448.04$<br /><b>Continente<\/b>: Oceania<br /><b>Año<\/b>: 1987","<b>PIB medio<\/b>: 20894.05$<br /><b>Continente<\/b>: Oceania<br /><b>Año<\/b>: 1992","<b>PIB medio<\/b>: 24024.18$<br /><b>Continente<\/b>: Oceania<br /><b>Año<\/b>: 1997","<b>PIB medio<\/b>: 26938.78$<br /><b>Continente<\/b>: Oceania<br /><b>Año<\/b>: 2002","<b>PIB medio<\/b>: 29810.19$<br /><b>Continente<\/b>: Oceania<br /><b>Año<\/b>: 2007"],"type":"bar","marker":{"autocolorscale":false,"color":"rgba(240,228,66,0.7)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Oceania","legendgroup":"Oceania","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":40.8401826484018,"r":7.30593607305936,"b":37.2602739726027,"l":48.9497716894977},"font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"title":{"text":"Diagrama de barras","font":{"color":"rgba(0,0,0,1)","family":"","size":17.5342465753425},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[1946.775,2012.225],"tickmode":"array","ticktext":["1960","1980","2000"],"tickvals":[1960,1980,2000],"categoryorder":"array","categoryarray":["1960","1980","2000"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.65296803652968,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"y","title":{"text":"Año","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.05,1.05],"tickmode":"array","ticktext":["0.00","0.25","0.50","0.75","1.00"],"tickvals":[0,0.25,0.5,0.75,1],"categoryorder":"array","categoryarray":["0.00","0.25","0.50","0.75","1.00"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.65296803652968,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"x","title":{"text":"PIB medio","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":null,"bordercolor":null,"borderwidth":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"y":0.938132733408324},"annotations":[{"text":"continent","x":1.02,"y":1,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"left","yanchor":"bottom","legendTitle":true}],"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","showSendToCloud":false},"source":"A","attrs":{"23cb3f5e3a93":{"x":{},"y":{},"fill":{},"text":{},"type":"bar"}},"cur_data":"23cb3f5e3a93","visdat":{"23cb3f5e3a93":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
 
 ---
 

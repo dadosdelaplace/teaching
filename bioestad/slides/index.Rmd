@@ -13372,7 +13372,6 @@ name: clase-15
 
 &nbsp;
 
-### [Ejemplo: paletas continuas](#ej-clima)
 
 ### [Diagramas de barras](#bar-plots)
 
@@ -13380,91 +13379,13 @@ name: clase-15
 
 ---
 
-name: ej-clima
-
-# .orange[EJERCICIO]
-
-Vamos a practicar lo aprendido, haciendo uso de los datos del **.bg-purple_light[National Morbidity and Mortality Air Pollution Study (NMMAPS)]** para Chicago desde 1997 a 2000. 
-```{r}
-chicago <-
-  read_csv("https://raw.githubusercontent.com/z3tt/ggplot-courses/main/data/chicago-nmmaps-custom.csv")
-chicago
-```
-
----
-
-# .orange[EJERCICIO]
-
-1. Realiza un **diagrama de dispersión de puntos** enfrentando en el eje X la fecha y en el eje Y la temperatura (sin colores, solo editando la información visualizada en los ejes y títulos). Temperaturas en ºF
-
---
-
-2. Realiza un **diagrama de líneas** enfrentando en el eje X la fecha y en el eje Y la temperatura con los mismos ajustes.
-
---
-
-3. Del gráfico de dispersión de puntos anterior, **codifica los colores** en función de la estación del año (decide tú la paleta de colores)
-
---
-
-4. Repite el gráfico anterior tomando como fuente Roboto.
-
---
-
-5. Genera dos gráficos, con las paletas `scale_color_excel()` y `scale_color_tableau()` (del paquete `{ggthemes}`) y muéstralos uno al lado del otro, con una legenda común.
-
---
-
-6. Busca alguna manera en `scale_color...` para usar una paleta de colores continua (valores de temperatura bajos, unos colores, altos otros)
-
----
-
-# .orange[EJERCICIO]
-
-```{r eval = FALSE}
-temp_media <- mean(chicago$temp)
-ggplot(chicago, aes(x = date, y = temp)) +
-  geom_point(aes(color = temp), alpha = 0.8) +
-  scale_color_gradient2(midpoint = temp_media,
-                        low = "#766cb5",
-                        mid = "grey92",
-                        high = "#852826") +
-  labs(x = "Fecha", y = "Temperatura (ºF)",
-       color = "Temperatura (ºF)",
-       title = "Gráfico de dispersión",
-       subtitle = "Chicago (1997-200)",
-       caption = "Autor: Javier Álvarez Liébana") +
-  theme_minimal()
-```
-
----
-
-# .orange[EJERCICIO]
-
-```{r echo = FALSE, out.width = "60%"}
-temp_media <- mean(chicago$temp)
-ggplot(chicago, aes(x = date, y = temp)) +
-  geom_point(aes(color = temp), alpha = 0.8) +
-  scale_color_gradient2(midpoint = temp_media,
-                        low = "#766cb5",
-                        mid = "grey92",
-                        high = "#852826") +
-  labs(x = "Fecha", y = "Temperatura (ºF)",
-       color = "Temperatura (ºF)",
-       title = "Gráfico de dispersión",
-       subtitle = "Chicago (1997-200)",
-       caption = "Autor: Javier Álvarez Liébana") +
-  theme_minimal()
-```
-
----
-
 name: bar-plots
+
 
 # Diagrama de .orange[BARRAS]
 
 
-El gráfico anterior (diagrama de puntos o scatter plot) está principalmente pasado para **.bg-purple_light[representar variables numéricas ontinuas]**. ¿Y si tengo **.bg-orange[variables discretas o cualitativas]**?
+El gráfico anterior (diagrama de puntos o scatter plot) está principalmente pasado para **.bg-purple_light[representar variables numéricas spanontinuas]**. ¿Y si tengo **.bg-orange[variables discretas o cualitativas]**?
 
 Vamos a usar el ya conocido conjunto `starwars` para visualizar en un **.bg-purple_light[diagrama de barras]**: vamos a representar la **.bg-purple_light[frecuencia]**  de una **.bg-orange[variable cualitativa]** como es `sex`.
 
