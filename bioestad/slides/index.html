@@ -32,7 +32,7 @@ class: center, middle, inverse, title-slide
 # GESTIÓN DE BASES DE DATOS
 ## Máster en Bioestadística
 ### Javier Álvarez Liébana (Fac. Estudios Estadísticos - UCM)
-### Última actualización: 21-11-2022
+### Última actualización: 24-11-2022
 
 ---
 
@@ -1764,7 +1764,7 @@ hoy
 ```
 
 ```
-&gt; [1] "2022-11-21"
+&gt; [1] "2022-11-24"
 ```
 
 --
@@ -1777,7 +1777,7 @@ También podemos obtener el **.bg-purple_light[«hoy y ahora»]** con la funció
 ```
 
 ```
-&gt; [1] "2022-11-21 21:52:26 CET"
+&gt; [1] "2022-11-24 12:58:45 CET"
 ```
  
 ---
@@ -2161,7 +2161,7 @@ hoy - cumple
 ```
 
 ```
-&gt; Time difference of 12125 days
+&gt; Time difference of 12128 days
 ```
 
 ]
@@ -3083,9 +3083,9 @@ x &lt;- rnorm(1e3) # 1000 elementos aleatorias
 
 ```
 &gt; Unit: microseconds
-&gt;         expr    min      lq     mean  median      uq     max neval cld
-&gt;      sort(x) 47.397 50.9930 64.01099 55.7910 66.4130 198.002  1000   b
-&gt;  x[order(x)] 33.098 35.7955 43.66483 37.9815 44.9765 204.596  1000  a
+&gt;         expr    min     lq     mean  median      uq     max neval cld
+&gt;      sort(x) 42.568 47.108 54.52978 50.2065 55.6465 201.916  1000   b
+&gt;  x[order(x)] 29.946 32.383 37.56023 35.7255 37.8805 167.368  1000  a
 ```
 
 --
@@ -6333,12 +6333,12 @@ microbenchmark(x^2,
 
 ```
 &gt; Unit: nanoseconds
-&gt;                                     expr     min      lq       mean    median
-&gt;                                      x^2     396     559    1627.08    1145.5
-&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 1868879 2222565 2835195.41 2525351.0
+&gt;                                     expr     min        lq       mean  median
+&gt;                                      x^2     354     453.5    1227.83     897
+&gt;  for (i in 1:100) {     y[i] &lt;- x[i]^2 } 1670293 1891756.5 2209879.66 1982436
 &gt;         uq      max neval cld
-&gt;     2257.5    29838  1000  a 
-&gt;  3104661.0 11961315  1000   b
+&gt;     1854.5    19096  1000  a 
+&gt;  2259330.0 10052777  1000   b
 ```
 
 ---
@@ -6651,7 +6651,7 @@ sample(x = 0:1, size = 30, replace = TRUE)
 ```
 
 ```
-&gt;  [1] 0 1 0 0 1 0 1 0 0 1 0 1 0 0 0 0 0 0 1 0 0 0 0 0 1 1 1 0 0 0
+&gt;  [1] 1 0 1 1 1 0 1 1 1 0 1 0 0 1 0 1 0 0 1 0 0 1 0 1 1 0 0 1 0 0
 ```
 
 ---
@@ -6666,7 +6666,7 @@ sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
 ```
 
 ```
-&gt;  [1] "cara" "cruz" "cara" "cara" "cara" "cruz" "cara" "cruz" "cruz" "cruz"
+&gt;  [1] "cruz" "cara" "cara" "cruz" "cruz" "cruz" "cruz" "cruz" "cara" "cara"
 ```
 
 --
@@ -6679,7 +6679,7 @@ sample(x = c("cara", "cruz"), size = 10, replace = TRUE)
 ```
 
 ```
-&gt;  [1] "cruz" "cruz" "cruz" "cara" "cruz" "cruz" "cara" "cara" "cara" "cruz"
+&gt;  [1] "cara" "cruz" "cara" "cara" "cruz" "cara" "cruz" "cara" "cara" "cara"
 ```
 
 ---
@@ -8680,11 +8680,11 @@ microbenchmark(sqrt(x), for (i in 1:700) { y[i] &lt;- sqrt(x[i]) }, times = 1e3)
 ```
 &gt; Unit: microseconds
 &gt;                                         expr      min        lq        mean
-&gt;                                      sqrt(x)    2.003    2.8995    4.851893
-&gt;  for (i in 1:700) {     y[i] &lt;- sqrt(x[i]) } 2068.313 2437.2860 3615.642143
-&gt;    median        uq       max neval cld
-&gt;     3.871    4.9435   288.467  1000  a 
-&gt;  2993.729 3767.0425 72997.009  1000   b
+&gt;                                      sqrt(x)    1.802    2.5615    3.590969
+&gt;  for (i in 1:700) {     y[i] &lt;- sqrt(x[i]) } 1895.806 2042.7825 2503.106661
+&gt;     median        uq       max neval cld
+&gt;     3.3825    4.0965    24.773  1000  a 
+&gt;  2188.3360 2575.9245 23471.192  1000   b
 ```
 
 
@@ -8768,11 +8768,11 @@ microbenchmark(map(x, .f = function(x) { mean(x^2) }), lapply(x, FUN = function(
 ```
 &gt; Unit: milliseconds
 &gt;                                            expr      min       lq     mean
-&gt;      map(x, .f = function(x) {     mean(x^2) }) 5.843842 7.766488 10.85233
-&gt;  lapply(x, FUN = function(x) {     mean(x^2) }) 5.798943 7.478557 10.06550
+&gt;      map(x, .f = function(x) {     mean(x^2) }) 5.637712 6.742263 9.203937
+&gt;  lapply(x, FUN = function(x) {     mean(x^2) }) 5.597755 6.612442 8.546795
 &gt;    median       uq       max neval cld
-&gt;  8.858908 10.43777 235.27660  1000   b
-&gt;  8.578086 10.33457  55.69647  1000  a
+&gt;  7.593709 8.578786 207.03077  1000   b
+&gt;  7.495167 8.370065  43.90213  1000  a
 ```
 
 
@@ -15004,16 +15004,16 @@ momo_datos
 &gt; # A tibble: 500,000 × 15
 &gt;    ambito   cod_amb…¹ cod_i…² nombr…³ cod_s…⁴ nombr…⁵ cod_g…⁶ nombr…⁷ fecha_de…⁸
 &gt;    &lt;chr&gt;    &lt;chr&gt;       &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;date&gt;    
-&gt;  1 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   all     todos   2022-11-26
-&gt;  2 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   +85     edad &gt;… 2022-11-26
-&gt;  3 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   0-14    edad 0… 2022-11-26
-&gt;  4 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   15-44   edad 1… 2022-11-26
-&gt;  5 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   45-64   edad 4… 2022-11-26
-&gt;  6 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   65-74   edad 6… 2022-11-26
-&gt;  7 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   75-84   edad 7… 2022-11-26
-&gt;  8 nacional &lt;NA&gt;           NA &lt;NA&gt;    1       hombres all     todos   2022-11-26
-&gt;  9 nacional &lt;NA&gt;           NA &lt;NA&gt;    1       hombres +85     edad &gt;… 2022-11-26
-&gt; 10 nacional &lt;NA&gt;           NA &lt;NA&gt;    1       hombres 0-14    edad 0… 2022-11-26
+&gt;  1 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   all     todos   2022-11-29
+&gt;  2 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   +85     edad &gt;… 2022-11-29
+&gt;  3 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   0-14    edad 0… 2022-11-29
+&gt;  4 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   15-44   edad 1… 2022-11-29
+&gt;  5 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   45-64   edad 4… 2022-11-29
+&gt;  6 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   65-74   edad 6… 2022-11-29
+&gt;  7 nacional &lt;NA&gt;           NA &lt;NA&gt;    all     todos   75-84   edad 7… 2022-11-29
+&gt;  8 nacional &lt;NA&gt;           NA &lt;NA&gt;    1       hombres all     todos   2022-11-29
+&gt;  9 nacional &lt;NA&gt;           NA &lt;NA&gt;    1       hombres +85     edad &gt;… 2022-11-29
+&gt; 10 nacional &lt;NA&gt;           NA &lt;NA&gt;    1       hombres 0-14    edad 0… 2022-11-29
 &gt; # … with 499,990 more rows, 6 more variables: defunciones_observadas &lt;dbl&gt;,
 &gt; #   defunciones_estimadas_base &lt;dbl&gt;, defunciones_estimadas_base_q01 &lt;dbl&gt;,
 &gt; #   defunciones_estimadas_base_q99 &lt;dbl&gt;, defunciones_atrib_exc_temp &lt;dbl&gt;,
@@ -15371,7 +15371,7 @@ owid_covid()
 ```
 
 ```
-&gt; # A tibble: 236,386 × 67
+&gt; # A tibble: 237,211 × 67
 &gt;    iso_code continent locat…¹ date       total…² new_c…³ new_c…⁴ total…⁵ new_d…⁶
 &gt;    &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;   &lt;date&gt;       &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
 &gt;  1 AFG      Asia      Afghan… 2020-02-24       5       5  NA          NA      NA
@@ -15384,7 +15384,7 @@ owid_covid()
 &gt;  8 AFG      Asia      Afghan… 2020-03-02       5       0   0          NA      NA
 &gt;  9 AFG      Asia      Afghan… 2020-03-03       5       0   0          NA      NA
 &gt; 10 AFG      Asia      Afghan… 2020-03-04       5       0   0          NA      NA
-&gt; # … with 236,376 more rows, 58 more variables: new_deaths_smoothed &lt;dbl&gt;,
+&gt; # … with 237,201 more rows, 58 more variables: new_deaths_smoothed &lt;dbl&gt;,
 &gt; #   total_cases_per_million &lt;dbl&gt;, new_cases_per_million &lt;dbl&gt;,
 &gt; #   new_cases_smoothed_per_million &lt;dbl&gt;, total_deaths_per_million &lt;dbl&gt;,
 &gt; #   new_deaths_per_million &lt;dbl&gt;, new_deaths_smoothed_per_million &lt;dbl&gt;,
@@ -15500,30 +15500,30 @@ aemet_last_obs("0076")
 
 |idema |      lon|fint                | prec| alt| vmax|  vv|  dv|      lat| dmax|ubi                  |   pres| hr| stdvv|   ts| pres_nmar| tamin|   ta| tamax|  tpr|  vis| stddv| inso|
 |:-----|--------:|:-------------------|----:|---:|----:|---:|---:|--------:|----:|:--------------------|------:|--:|-----:|----:|---------:|-----:|----:|-----:|----:|----:|-----:|----:|
-|0076  | 2.069995|2022-11-20 21:00:00 |  0.0|   4|  3.6| 0.3|  10| 41.29278|   20|BARCELONA/AEROPUERTO | 1017.8| 68|   0.3|  9.8|    1018.4|  11.5| 11.7|  12.5|  5.9| 29.9|   175|    0|
-|0076  | 2.069995|2022-11-20 22:00:00 |  0.0|   4|  4.6| 2.5|  10| 41.29278|   20|BARCELONA/AEROPUERTO | 1018.2| 73|   0.3|  9.7|    1018.8|  10.6| 10.9|  11.5|  6.2| 29.9|   111|    0|
-|0076  | 2.069995|2022-11-20 23:00:00 |  0.0|   4|  4.6| 3.4|  10| 41.29278|   10|BARCELONA/AEROPUERTO | 1018.0| 73|   0.3| 10.5|    1018.6|  10.9| 11.1|  11.2|  6.4| 29.0|   108|    0|
-|0076  | 2.069995|2022-11-21 00:00:00 |  0.0|   4|  4.1| 3.0| 350| 41.29278|  360|BARCELONA/AEROPUERTO | 1018.2| 72|   0.6| 10.3|    1018.8|  11.1| 11.1|  11.9|  6.2| 30.0|   109|    0|
-|0076  | 2.069995|2022-11-21 01:00:00 |  0.0|   4|  4.1| 1.8| 350| 41.29278|   50|BARCELONA/AEROPUERTO | 1018.0| 69|   0.2| 10.8|    1018.6|  11.1| 11.6|  11.7|  6.1| 30.0|   140|    0|
-|0076  | 2.069995|2022-11-21 02:00:00 |  0.0|   4|  5.7| 3.0| 360| 41.29278|  360|BARCELONA/AEROPUERTO | 1016.8| 67|   0.7| 11.1|    1017.4|  11.4| 11.6|  11.7|  5.6| 30.0|   148|    0|
-|0076  | 2.069995|2022-11-21 03:00:00 |  0.0|   4|  5.1| 1.9|  10| 41.29278|  350|BARCELONA/AEROPUERTO | 1016.4| 69|   0.7| 11.1|    1017.0|  11.3| 11.3|  11.7|  5.8| 28.7|     5|    0|
-|0076  | 2.069995|2022-11-21 04:00:00 |  0.0|   4|  7.2| 4.3|  10| 41.29278|  360|BARCELONA/AEROPUERTO | 1015.6| 66|   0.3| 11.3|    1016.2|  11.3| 11.5|  11.5|  5.3| 29.9|     4|    0|
-|0076  | 2.069995|2022-11-21 05:00:00 |  0.0|   4|  6.2| 3.9| 360| 41.29278|  360|BARCELONA/AEROPUERTO | 1014.8| 63|   0.5| 11.2|    1015.4|  11.4| 11.6|  11.8|  4.8| 30.0|   113|    0|
-|0076  | 2.069995|2022-11-21 06:00:00 |  0.0|   4|  6.7| 3.6|  10| 41.29278|   10|BARCELONA/AEROPUERTO | 1013.5| 66|   0.7| 11.0|    1014.1|  11.0| 11.2|  11.4|  5.1| 30.0|     3|    0|
-|0076  | 2.069995|2022-11-21 07:00:00 |  0.0|   4|  6.7| 4.0| 350| 41.29278|  360|BARCELONA/AEROPUERTO | 1013.5| 66|   0.2| 11.5|    1014.1|  11.2| 11.4|  11.5|  5.3| 30.0|     4|    0|
-|0076  | 2.069995|2022-11-21 08:00:00 |  0.0|   4|  4.6| 3.9|  10| 41.29278|  360|BARCELONA/AEROPUERTO | 1012.7| 64|   0.3| 12.5|    1013.3|  11.5| 11.9|  12.0|  5.3| 29.8|     3|    0|
-|0076  | 2.069995|2022-11-21 09:00:00 |  0.0|   4|  5.1| 4.2|  10| 41.29278|   20|BARCELONA/AEROPUERTO | 1012.0| 63|   0.4| 13.0|    1012.6|  12.0| 12.6|  12.6|  5.8| 27.1|     5|    0|
-|0076  | 2.069995|2022-11-21 10:00:00 |  0.0|   4|  4.6| 3.3|  20| 41.29278|   30|BARCELONA/AEROPUERTO | 1010.7| 62|   0.2| 14.9|    1011.3|  12.6| 13.7|  13.8|  6.5| 28.3|     6|    0|
-|0076  | 2.069995|2022-11-21 11:00:00 |  0.0|   4|  5.7| 3.5| 360| 41.29278|  360|BARCELONA/AEROPUERTO | 1009.4| 64|   0.7| 15.2|    1010.0|  13.9| 14.3|  14.5|  7.6| 28.8|   182|    0|
-|0076  | 2.069995|2022-11-21 12:00:00 |  0.0|   4|  5.7| 2.9| 350| 41.29278|  360|BARCELONA/AEROPUERTO | 1007.5| 62|   0.3| 16.1|    1008.1|  14.5| 15.0|  15.1|  7.8| 29.0|     6|    0|
-|0076  | 2.069995|2022-11-21 13:00:00 |  0.0|   4|  3.6| 1.1| 320| 41.29278|   10|BARCELONA/AEROPUERTO | 1006.1| 62|   0.3| 16.3|    1006.7|  15.1| 15.4|  15.5|  8.1| 26.3|    17|    0|
-|0076  | 2.069995|2022-11-21 14:00:00 |  0.0|   4|  2.6| 1.4| 360| 41.29278|  260|BARCELONA/AEROPUERTO | 1005.1| 64|   0.2| 16.6|    1005.7|  15.5| 15.9|  16.1|  9.0| 26.7|   182|    0|
-|0076  | 2.069995|2022-11-21 15:00:00 |  0.0|   4|  2.1| 0.8|  20| 41.29278|  350|BARCELONA/AEROPUERTO | 1004.2| 65|   0.3| 15.7|    1004.8|  15.6| 15.6|  15.9|  9.0| 29.9|   109|    0|
-|0076  | 2.069995|2022-11-21 16:00:00 |  0.0|   4|  4.6| 3.3| 350| 41.29278|  340|BARCELONA/AEROPUERTO | 1004.4| 69|   0.4| 14.6|    1005.0|  15.0| 15.0|  15.6|  9.3| 24.8|   163|    0|
-|0076  | 2.069995|2022-11-21 17:00:00 |  0.2|   4|  3.6| 1.6| 260| 41.29278|  260|BARCELONA/AEROPUERTO | 1002.4| 78|   1.0| 13.3|    1003.0|  14.5| 14.5|  15.0| 10.8| 26.7|    20|    0|
-|0076  | 2.069995|2022-11-21 18:00:00 |  0.0|   4|  6.2| 2.8| 240| 41.29278|  260|BARCELONA/AEROPUERTO | 1002.3| 81|   0.4| 14.1|    1002.9|  14.4| 15.3|  15.3| 12.1| 15.8|     8|    0|
-|0076  | 2.069995|2022-11-21 19:00:00 |  0.0|   4| 12.4| 8.0| 280| 41.29278|  290|BARCELONA/AEROPUERTO | 1002.1| 72|   2.3| 14.6|    1002.7|  15.1| 15.8|  16.5| 10.8| 28.9|     5|    0|
-|0076  | 2.069995|2022-11-21 20:00:00 |  0.0|   4| 13.9| 4.8| 320| 41.29278|  300|BARCELONA/AEROPUERTO | 1001.9| 57|   0.7| 13.9|    1002.5|  14.9| 15.0|  16.6|  6.5| 30.0|     7|    0|
+|0076  | 2.069995|2022-11-23 12:00:00 |    0|   4| 11.3| 5.6| 250| 41.29278|  250|BARCELONA/AEROPUERTO | 1006.5| 66|   0.5| 19.4|    1007.1|  19.1| 19.2|  19.8| 12.6| 30.0|     4|    0|
+|0076  | 2.069995|2022-11-23 13:00:00 |    0|   4|  8.8| 4.2| 260| 41.29278|  250|BARCELONA/AEROPUERTO | 1006.4| 59|   0.4| 25.7|    1007.0|  19.3| 22.1|  22.4| 13.8| 27.6|    12|   52|
+|0076  | 2.069995|2022-11-23 14:00:00 |    0|   4|  9.3| 5.4| 290| 41.29278|  290|BARCELONA/AEROPUERTO | 1006.5| 49|   1.1| 24.6|    1007.1|  21.4| 23.4|  23.8| 12.1| 30.0|     9|   11|
+|0076  | 2.069995|2022-11-23 15:00:00 |    0|   4|  9.3| 5.3| 330| 41.29278|  340|BARCELONA/AEROPUERTO | 1007.4| 47|   0.9| 21.8|    1008.0|  22.3| 22.4|  23.8| 10.5| 30.0|     4|    0|
+|0076  | 2.069995|2022-11-23 16:00:00 |    0|   4|  7.7| 6.2| 280| 41.29278|  280|BARCELONA/AEROPUERTO | 1008.4| 60|   0.3| 19.8|    1009.0|  20.7| 20.9|  22.3| 12.8| 24.7|     7|    0|
+|0076  | 2.069995|2022-11-23 17:00:00 |    0|   4|  7.2| 3.4| 100| 41.29278|  270|BARCELONA/AEROPUERTO | 1009.7| 79|   0.2| 16.8|    1010.3|  17.4| 17.5|  20.7| 13.9| 30.0|     4|    0|
+|0076  | 2.069995|2022-11-23 18:00:00 |    0|   4|  4.6| 2.5|  90| 41.29278|  150|BARCELONA/AEROPUERTO | 1010.8| 79|   0.3| 15.3|    1011.4|  16.6| 16.7|  17.4| 13.1| 30.0|     5|    0|
+|0076  | 2.069995|2022-11-23 19:00:00 |    0|   4|  4.6| 3.0|  70| 41.29278|   80|BARCELONA/AEROPUERTO | 1012.0| 80|   0.3| 14.9|    1012.6|  15.9| 16.4|  16.7| 13.0| 29.1|     5|    0|
+|0076  | 2.069995|2022-11-23 20:00:00 |    0|   4|  6.2| 2.2|  60| 41.29278|   90|BARCELONA/AEROPUERTO | 1012.6| 79|   0.5| 13.3|    1013.2|  15.4| 15.6|  16.4| 12.0| 24.5|     4|    0|
+|0076  | 2.069995|2022-11-23 21:00:00 |    0|   4|  3.6| 2.8| 120| 41.29278|  120|BARCELONA/AEROPUERTO | 1013.5| 80|   0.2| 14.3|    1014.1|  14.5| 15.8|  16.0| 12.3| 30.0|     8|    0|
+|0076  | 2.069995|2022-11-23 22:00:00 |    0|   4|  3.6| 2.7| 350| 41.29278|  350|BARCELONA/AEROPUERTO | 1014.4| 77|   0.6| 12.2|    1015.0|  13.7| 13.9|  16.0|  9.9| 29.4|   143|    0|
+|0076  | 2.069995|2022-11-23 23:00:00 |    0|   4|  5.1| 4.0| 360| 41.29278|  360|BARCELONA/AEROPUERTO | 1015.1| 79|   0.2| 12.9|    1015.7|  13.7| 13.8|  14.1| 10.2| 30.0|   112|    0|
+|0076  | 2.069995|2022-11-24 00:00:00 |    0|   4|  5.1| 3.6| 360| 41.29278|  350|BARCELONA/AEROPUERTO | 1015.3| 81|   0.2| 13.2|    1015.9|  13.6| 14.1|  14.2| 10.9| 29.6|   148|    0|
+|0076  | 2.069995|2022-11-24 01:00:00 |    0|   4|  6.7| 4.3| 360| 41.29278|   30|BARCELONA/AEROPUERTO | 1015.8| 78|   0.2| 13.4|    1016.4|  14.0| 14.3|  14.4| 10.5| 23.1|   149|    0|
+|0076  | 2.069995|2022-11-24 02:00:00 |    0|   4|  5.7| 3.2| 360| 41.29278|   20|BARCELONA/AEROPUERTO | 1016.0| 78|   0.3| 12.4|    1016.6|  13.5| 13.6|  14.5|  9.8| 25.0|   180|    0|
+|0076  | 2.069995|2022-11-24 03:00:00 |    0|   4|  6.2| 4.0| 350| 41.29278|  340|BARCELONA/AEROPUERTO | 1016.4| 72|   0.2| 12.0|    1017.0|  12.7| 12.9|  13.6|  8.0| 25.9|     4|    0|
+|0076  | 2.069995|2022-11-24 04:00:00 |    0|   4|  5.7| 2.5| 340| 41.29278|  350|BARCELONA/AEROPUERTO | 1017.3| 66|   0.4| 11.5|    1017.9|  12.3| 12.7|  12.9|  6.5| 30.0|     8|    0|
+|0076  | 2.069995|2022-11-24 05:00:00 |    0|   4|  6.2| 3.2| 360| 41.29278|  350|BARCELONA/AEROPUERTO | 1017.7| 69|   1.1| 10.8|    1018.3|  11.8| 11.9|  12.6|  6.4| 29.9|   150|    0|
+|0076  | 2.069995|2022-11-24 06:00:00 |    0|   4|  6.2| 4.6|  10| 41.29278|  360|BARCELONA/AEROPUERTO | 1018.2| 69|   0.3| 10.9|    1018.8|  11.5| 11.6|  11.9|  6.1| 27.0|     1|    0|
+|0076  | 2.069995|2022-11-24 07:00:00 |    0|   4|  7.7| 4.5| 360| 41.29278|  360|BARCELONA/AEROPUERTO | 1018.7| 70|   0.5| 10.9|    1019.3|  11.2| 11.3|  11.8|  6.1| 22.2|     4|    0|
+|0076  | 2.069995|2022-11-24 08:00:00 |    0|   4|  8.2| 5.1| 360| 41.29278|  360|BARCELONA/AEROPUERTO | 1019.2| 68|   0.9| 12.2|    1019.8|  11.2| 11.8|  11.9|  6.1| 22.2|   112|    0|
+|0076  | 2.069995|2022-11-24 09:00:00 |    0|   4|  5.7| 3.8| 360| 41.29278|   10|BARCELONA/AEROPUERTO | 1019.7| 65|   0.3| 14.4|    1020.3|  11.9| 13.4|  13.8|  7.0| 22.3|   171|   21|
+|0076  | 2.069995|2022-11-24 10:00:00 |    0|   4|  6.2| 3.5| 350| 41.29278|   10|BARCELONA/AEROPUERTO | 1019.7| 60|   0.5| 17.3|    1020.3|  13.9| 15.6|  15.7|  7.8| 19.0|   109|   33|
+|0076  | 2.069995|2022-11-24 11:00:00 |    0|   4|  6.2| 1.6|  10| 41.29278|   10|BARCELONA/AEROPUERTO | 1019.2| 66|   0.7| 17.5|    1019.8|  15.2| 15.7|  16.1|  9.3| 13.7|   160|    3|
 
 ---
 
@@ -19791,7 +19791,7 @@ ggplotly(gg, tooltip = c("text"))
 # .orange[INTERACTIVOS]: plotly
 
 <div id="htmlwidget-d20dabd36b68245f4577" style="width:70%;height:700px;" class="plotly html-widget"></div>
-<script type="application/json" data-for="htmlwidget-d20dabd36b68245f4577">{"x":{"data":[{"orientation":"v","width":[4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5],"base":[0.952708598111373,0.954358779223076,0.951996569463208,0.946505693830392,0.949044996083606,0.947543903123967,0.951902519311172,0.958756869122911,0.959913418875341,0.96294946569192,0.963239654619816,0.962065066059655],"x":[1952,1957,1962,1967,1972,1977,1982,1987,1992,1997,2002,2007],"y":[0.0472914018886267,0.0456412207769236,0.0480034305367918,0.0534943061696077,0.0509550039163942,0.0524560968760334,0.0480974806888278,0.0412431308770888,0.0400865811246586,0.0370505343080801,0.0367603453801837,0.0379349339403448],"text":["<b>PIB medio<\/b>: 1252.57$<br /><b>Continente<\/b>: Africa<br /><b>Año<\/b>: 1952","<b>PIB medio<\/b>: 1385.24$<br /><b>Continente<\/b>: Africa<br /><b>Año<\/b>: 1957","<b>PIB medio<\/b>: 1598.08$<br /><b>Continente<\/b>: Africa<br /><b>Año<\/b>: 1962","<b>PIB medio<\/b>: 2050.36$<br /><b>Continente<\/b>: Africa<br /><b>Año<\/b>: 1967","<b>PIB medio<\/b>: 2339.62$<br /><b>Continente<\/b>: Africa<br /><b>Año<\/b>: 1972","<b>PIB medio<\/b>: 2585.94$<br /><b>Continente<\/b>: Africa<br /><b>Año<\/b>: 1977","<b>PIB medio<\/b>: 2481.59$<br /><b>Continente<\/b>: Africa<br /><b>Año<\/b>: 1982","<b>PIB medio<\/b>: 2282.67$<br /><b>Continente<\/b>: Africa<br /><b>Año<\/b>: 1987","<b>PIB medio<\/b>: 2281.81$<br /><b>Continente<\/b>: Africa<br /><b>Año<\/b>: 1992","<b>PIB medio<\/b>: 2378.76$<br /><b>Continente<\/b>: Africa<br /><b>Año<\/b>: 1997","<b>PIB medio<\/b>: 2599.39$<br /><b>Continente<\/b>: Africa<br /><b>Año<\/b>: 2002","<b>PIB medio<\/b>: 3089.03$<br /><b>Continente<\/b>: Africa<br /><b>Año<\/b>: 2007"],"type":"bar","marker":{"autocolorscale":false,"color":"rgba(0,0,0,0.7)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Africa","legendgroup":"Africa","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5],"base":[0.798701870557711,0.802267827448396,0.804763015622975,0.798620090389056,0.80766880335025,0.798407488322447,0.806409222067998,0.817946165434532,0.818580937822493,0.824493544042868,0.831893894997778,0.826942090273792],"x":[1952,1957,1962,1967,1972,1977,1982,1987,1992,1997,2002,2007],"y":[0.154006727553662,0.15209095177468,0.147233553840233,0.147885603441337,0.141376192733356,0.14913641480152,0.145493297243174,0.140810703688379,0.141332481052848,0.138455921649052,0.131345759622038,0.135122975785863],"text":["<b>PIB medio<\/b>: 4079.06$<br /><b>Continente<\/b>: Americas<br /><b>Año<\/b>: 1952","<b>PIB medio<\/b>: 4616.04$<br /><b>Continente<\/b>: Americas<br /><b>Año<\/b>: 1957","<b>PIB medio<\/b>: 4901.54$<br /><b>Continente<\/b>: Americas<br /><b>Año<\/b>: 1962","<b>PIB medio<\/b>: 5668.25$<br /><b>Continente<\/b>: Americas<br /><b>Año<\/b>: 1967","<b>PIB medio<\/b>: 6491.33$<br /><b>Continente<\/b>: Americas<br /><b>Año<\/b>: 1972","<b>PIB medio<\/b>: 7352.01$<br /><b>Continente<\/b>: Americas<br /><b>Año<\/b>: 1977","<b>PIB medio<\/b>: 7506.74$<br /><b>Continente<\/b>: Americas<br /><b>Año<\/b>: 1982","<b>PIB medio<\/b>: 7793.4$<br /><b>Continente<\/b>: Americas<br /><b>Año<\/b>: 1987","<b>PIB medio<\/b>: 8044.93$<br /><b>Continente<\/b>: Americas<br /><b>Año<\/b>: 1992","<b>PIB medio<\/b>: 8889.3$<br /><b>Continente<\/b>: Americas<br /><b>Año<\/b>: 1997","<b>PIB medio<\/b>: 9287.68$<br /><b>Continente<\/b>: Americas<br /><b>Año<\/b>: 2002","<b>PIB medio<\/b>: 11003.03$<br /><b>Continente<\/b>: Americas<br /><b>Año<\/b>: 2007"],"type":"bar","marker":{"autocolorscale":false,"color":"rgba(230,159,0,0.7)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Americas","legendgroup":"Americas","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5],"base":[0.602544180088376,0.611571668066277,0.632662996195583,0.642831260862377,0.629352123287509,0.640359676402933,0.662323073382788,0.680481170377275,0.66679985463529,0.671321942380566,0.688012533042515,0.673766805031049],"x":[1952,1957,1962,1967,1972,1977,1982,1987,1992,1997,2002,2007],"y":[0.196157690469336,0.190696159382119,0.172100019427393,0.155788829526678,0.178316680062741,0.158047811919513,0.14408614868521,0.137464995057257,0.151781083187203,0.153171601662302,0.143881361955263,0.153175285242743],"text":["<b>PIB medio<\/b>: 5195.48$<br /><b>Continente<\/b>: Asia<br /><b>Año<\/b>: 1952","<b>PIB medio<\/b>: 5787.73$<br /><b>Continente<\/b>: Asia<br /><b>Año<\/b>: 1957","<b>PIB medio<\/b>: 5729.37$<br /><b>Continente<\/b>: Asia<br /><b>Año<\/b>: 1962","<b>PIB medio<\/b>: 5971.17$<br /><b>Continente<\/b>: Asia<br /><b>Año<\/b>: 1967","<b>PIB medio<\/b>: 8187.47$<br /><b>Continente<\/b>: Asia<br /><b>Año<\/b>: 1972","<b>PIB medio<\/b>: 7791.31$<br /><b>Continente<\/b>: Asia<br /><b>Año<\/b>: 1977","<b>PIB medio<\/b>: 7434.14$<br /><b>Continente<\/b>: Asia<br /><b>Año<\/b>: 1982","<b>PIB medio<\/b>: 7608.23$<br /><b>Continente<\/b>: Asia<br /><b>Año<\/b>: 1987","<b>PIB medio<\/b>: 8639.69$<br /><b>Continente<\/b>: Asia<br /><b>Año<\/b>: 1992","<b>PIB medio<\/b>: 9834.09$<br /><b>Continente<\/b>: Asia<br /><b>Año<\/b>: 1997","<b>PIB medio<\/b>: 10174.09$<br /><b>Continente<\/b>: Asia<br /><b>Año<\/b>: 2002","<b>PIB medio<\/b>: 12473.03$<br /><b>Continente<\/b>: Asia<br /><b>Año<\/b>: 2007"],"type":"bar","marker":{"autocolorscale":false,"color":"rgba(86,180,233,0.7)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Asia","legendgroup":"Asia","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5],"base":[0.388808568323732,0.382151994507502,0.381378729766887,0.378177342598925,0.357556711514759,0.350607313964265,0.35962174808262,0.369454003067469,0.36706419161515,0.374190205332155,0.380966545678531,0.366084683349535],"x":[1952,1957,1962,1967,1972,1977,1982,1987,1992,1997,2002,2007],"y":[0.213735611764644,0.229419673558775,0.251284266428695,0.264653918263452,0.27179541177275,0.289752362438668,0.302701325300168,0.311027167309806,0.299735663020141,0.297131737048411,0.307045987363984,0.307682121681514],"text":["<b>PIB medio<\/b>: 5661.06$<br /><b>Continente<\/b>: Europe<br /><b>Año<\/b>: 1952","<b>PIB medio<\/b>: 6963.01$<br /><b>Continente<\/b>: Europe<br /><b>Año<\/b>: 1957","<b>PIB medio<\/b>: 8365.49$<br /><b>Continente<\/b>: Europe<br /><b>Año<\/b>: 1962","<b>PIB medio<\/b>: 10143.82$<br /><b>Continente<\/b>: Europe<br /><b>Año<\/b>: 1967","<b>PIB medio<\/b>: 12479.58$<br /><b>Continente<\/b>: Europe<br /><b>Año<\/b>: 1972","<b>PIB medio<\/b>: 14283.98$<br /><b>Continente<\/b>: Europe<br /><b>Año<\/b>: 1977","<b>PIB medio<\/b>: 15617.9$<br /><b>Continente<\/b>: Europe<br /><b>Año<\/b>: 1982","<b>PIB medio<\/b>: 17214.31$<br /><b>Continente<\/b>: Europe<br /><b>Año<\/b>: 1987","<b>PIB medio<\/b>: 17061.57$<br /><b>Continente<\/b>: Europe<br /><b>Año<\/b>: 1992","<b>PIB medio<\/b>: 19076.78$<br /><b>Continente<\/b>: Europe<br /><b>Año<\/b>: 1997","<b>PIB medio<\/b>: 21711.73$<br /><b>Continente<\/b>: Europe<br /><b>Año<\/b>: 2002","<b>PIB medio<\/b>: 25054.48$<br /><b>Continente<\/b>: Europe<br /><b>Año<\/b>: 2007"],"type":"bar","marker":{"autocolorscale":false,"color":"rgba(0,158,115,0.7)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Europe","legendgroup":"Europe","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5],"base":[0,0,0,0,0,0,0,0,0,0,0,0],"x":[1952,1957,1962,1967,1972,1977,1982,1987,1992,1997,2002,2007],"y":[0.388808568323732,0.382151994507502,0.381378729766887,0.378177342598925,0.357556711514759,0.350607313964265,0.35962174808262,0.369454003067469,0.36706419161515,0.374190205332155,0.380966545678531,0.366084683349535],"text":["<b>PIB medio<\/b>: 10298.09$<br /><b>Continente<\/b>: Oceania<br /><b>Año<\/b>: 1952","<b>PIB medio<\/b>: 11598.52$<br /><b>Continente<\/b>: Oceania<br /><b>Año<\/b>: 1957","<b>PIB medio<\/b>: 12696.45$<br /><b>Continente<\/b>: Oceania<br /><b>Año<\/b>: 1962","<b>PIB medio<\/b>: 14495.02$<br /><b>Continente<\/b>: Oceania<br /><b>Año<\/b>: 1967","<b>PIB medio<\/b>: 16417.33$<br /><b>Continente<\/b>: Oceania<br /><b>Año<\/b>: 1972","<b>PIB medio<\/b>: 17283.96$<br /><b>Continente<\/b>: Oceania<br /><b>Año<\/b>: 1977","<b>PIB medio<\/b>: 18554.71$<br /><b>Continente<\/b>: Oceania<br /><b>Año<\/b>: 1982","<b>PIB medio<\/b>: 20448.04$<br /><b>Continente<\/b>: Oceania<br /><b>Año<\/b>: 1987","<b>PIB medio<\/b>: 20894.05$<br /><b>Continente<\/b>: Oceania<br /><b>Año<\/b>: 1992","<b>PIB medio<\/b>: 24024.18$<br /><b>Continente<\/b>: Oceania<br /><b>Año<\/b>: 1997","<b>PIB medio<\/b>: 26938.78$<br /><b>Continente<\/b>: Oceania<br /><b>Año<\/b>: 2002","<b>PIB medio<\/b>: 29810.19$<br /><b>Continente<\/b>: Oceania<br /><b>Año<\/b>: 2007"],"type":"bar","marker":{"autocolorscale":false,"color":"rgba(240,228,66,0.7)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Oceania","legendgroup":"Oceania","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":40.8401826484018,"r":7.30593607305936,"b":37.2602739726027,"l":48.9497716894977},"font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"title":{"text":"Diagrama de barras","font":{"color":"rgba(0,0,0,1)","family":"","size":17.5342465753425},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[1946.775,2012.225],"tickmode":"array","ticktext":["1960","1980","2000"],"tickvals":[1960,1980,2000],"categoryorder":"array","categoryarray":["1960","1980","2000"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.65296803652968,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"y","title":{"text":"Año","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.05,1.05],"tickmode":"array","ticktext":["0.00","0.25","0.50","0.75","1.00"],"tickvals":[0,0.25,0.5,0.75,1],"categoryorder":"array","categoryarray":["0.00","0.25","0.50","0.75","1.00"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.65296803652968,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"x","title":{"text":"PIB medio","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":null,"bordercolor":null,"borderwidth":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"y":0.938132733408324},"annotations":[{"text":"continent","x":1.02,"y":1,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"left","yanchor":"bottom","legendTitle":true}],"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","showSendToCloud":false},"source":"A","attrs":{"23cb3f5e3a93":{"x":{},"y":{},"fill":{},"text":{},"type":"bar"}},"cur_data":"23cb3f5e3a93","visdat":{"23cb3f5e3a93":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<script type="application/json" data-for="htmlwidget-d20dabd36b68245f4577">{"x":{"data":[{"orientation":"v","width":[4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5],"base":[0.952708598111373,0.954358779223076,0.951996569463208,0.946505693830392,0.949044996083606,0.947543903123967,0.951902519311172,0.958756869122911,0.959913418875341,0.96294946569192,0.963239654619816,0.962065066059655],"x":[1952,1957,1962,1967,1972,1977,1982,1987,1992,1997,2002,2007],"y":[0.0472914018886267,0.0456412207769236,0.0480034305367918,0.0534943061696077,0.0509550039163942,0.0524560968760334,0.0480974806888278,0.0412431308770888,0.0400865811246586,0.0370505343080801,0.0367603453801837,0.0379349339403448],"text":["<b>PIB medio<\/b>: 1252.57$<br /><b>Continente<\/b>: Africa<br /><b>Año<\/b>: 1952","<b>PIB medio<\/b>: 1385.24$<br /><b>Continente<\/b>: Africa<br /><b>Año<\/b>: 1957","<b>PIB medio<\/b>: 1598.08$<br /><b>Continente<\/b>: Africa<br /><b>Año<\/b>: 1962","<b>PIB medio<\/b>: 2050.36$<br /><b>Continente<\/b>: Africa<br /><b>Año<\/b>: 1967","<b>PIB medio<\/b>: 2339.62$<br /><b>Continente<\/b>: Africa<br /><b>Año<\/b>: 1972","<b>PIB medio<\/b>: 2585.94$<br /><b>Continente<\/b>: Africa<br /><b>Año<\/b>: 1977","<b>PIB medio<\/b>: 2481.59$<br /><b>Continente<\/b>: Africa<br /><b>Año<\/b>: 1982","<b>PIB medio<\/b>: 2282.67$<br /><b>Continente<\/b>: Africa<br /><b>Año<\/b>: 1987","<b>PIB medio<\/b>: 2281.81$<br /><b>Continente<\/b>: Africa<br /><b>Año<\/b>: 1992","<b>PIB medio<\/b>: 2378.76$<br /><b>Continente<\/b>: Africa<br /><b>Año<\/b>: 1997","<b>PIB medio<\/b>: 2599.39$<br /><b>Continente<\/b>: Africa<br /><b>Año<\/b>: 2002","<b>PIB medio<\/b>: 3089.03$<br /><b>Continente<\/b>: Africa<br /><b>Año<\/b>: 2007"],"type":"bar","marker":{"autocolorscale":false,"color":"rgba(0,0,0,0.7)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Africa","legendgroup":"Africa","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5],"base":[0.798701870557711,0.802267827448396,0.804763015622975,0.798620090389056,0.80766880335025,0.798407488322447,0.806409222067998,0.817946165434532,0.818580937822493,0.824493544042868,0.831893894997778,0.826942090273792],"x":[1952,1957,1962,1967,1972,1977,1982,1987,1992,1997,2002,2007],"y":[0.154006727553662,0.15209095177468,0.147233553840233,0.147885603441337,0.141376192733356,0.14913641480152,0.145493297243174,0.140810703688379,0.141332481052848,0.138455921649052,0.131345759622038,0.135122975785863],"text":["<b>PIB medio<\/b>: 4079.06$<br /><b>Continente<\/b>: Americas<br /><b>Año<\/b>: 1952","<b>PIB medio<\/b>: 4616.04$<br /><b>Continente<\/b>: Americas<br /><b>Año<\/b>: 1957","<b>PIB medio<\/b>: 4901.54$<br /><b>Continente<\/b>: Americas<br /><b>Año<\/b>: 1962","<b>PIB medio<\/b>: 5668.25$<br /><b>Continente<\/b>: Americas<br /><b>Año<\/b>: 1967","<b>PIB medio<\/b>: 6491.33$<br /><b>Continente<\/b>: Americas<br /><b>Año<\/b>: 1972","<b>PIB medio<\/b>: 7352.01$<br /><b>Continente<\/b>: Americas<br /><b>Año<\/b>: 1977","<b>PIB medio<\/b>: 7506.74$<br /><b>Continente<\/b>: Americas<br /><b>Año<\/b>: 1982","<b>PIB medio<\/b>: 7793.4$<br /><b>Continente<\/b>: Americas<br /><b>Año<\/b>: 1987","<b>PIB medio<\/b>: 8044.93$<br /><b>Continente<\/b>: Americas<br /><b>Año<\/b>: 1992","<b>PIB medio<\/b>: 8889.3$<br /><b>Continente<\/b>: Americas<br /><b>Año<\/b>: 1997","<b>PIB medio<\/b>: 9287.68$<br /><b>Continente<\/b>: Americas<br /><b>Año<\/b>: 2002","<b>PIB medio<\/b>: 11003.03$<br /><b>Continente<\/b>: Americas<br /><b>Año<\/b>: 2007"],"type":"bar","marker":{"autocolorscale":false,"color":"rgba(230,159,0,0.7)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Americas","legendgroup":"Americas","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5],"base":[0.602544180088376,0.611571668066277,0.632662996195583,0.642831260862377,0.629352123287509,0.640359676402933,0.662323073382788,0.680481170377275,0.66679985463529,0.671321942380566,0.688012533042515,0.673766805031049],"x":[1952,1957,1962,1967,1972,1977,1982,1987,1992,1997,2002,2007],"y":[0.196157690469336,0.190696159382119,0.172100019427393,0.155788829526678,0.178316680062741,0.158047811919513,0.14408614868521,0.137464995057257,0.151781083187203,0.153171601662302,0.143881361955263,0.153175285242743],"text":["<b>PIB medio<\/b>: 5195.48$<br /><b>Continente<\/b>: Asia<br /><b>Año<\/b>: 1952","<b>PIB medio<\/b>: 5787.73$<br /><b>Continente<\/b>: Asia<br /><b>Año<\/b>: 1957","<b>PIB medio<\/b>: 5729.37$<br /><b>Continente<\/b>: Asia<br /><b>Año<\/b>: 1962","<b>PIB medio<\/b>: 5971.17$<br /><b>Continente<\/b>: Asia<br /><b>Año<\/b>: 1967","<b>PIB medio<\/b>: 8187.47$<br /><b>Continente<\/b>: Asia<br /><b>Año<\/b>: 1972","<b>PIB medio<\/b>: 7791.31$<br /><b>Continente<\/b>: Asia<br /><b>Año<\/b>: 1977","<b>PIB medio<\/b>: 7434.14$<br /><b>Continente<\/b>: Asia<br /><b>Año<\/b>: 1982","<b>PIB medio<\/b>: 7608.23$<br /><b>Continente<\/b>: Asia<br /><b>Año<\/b>: 1987","<b>PIB medio<\/b>: 8639.69$<br /><b>Continente<\/b>: Asia<br /><b>Año<\/b>: 1992","<b>PIB medio<\/b>: 9834.09$<br /><b>Continente<\/b>: Asia<br /><b>Año<\/b>: 1997","<b>PIB medio<\/b>: 10174.09$<br /><b>Continente<\/b>: Asia<br /><b>Año<\/b>: 2002","<b>PIB medio<\/b>: 12473.03$<br /><b>Continente<\/b>: Asia<br /><b>Año<\/b>: 2007"],"type":"bar","marker":{"autocolorscale":false,"color":"rgba(86,180,233,0.7)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Asia","legendgroup":"Asia","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5],"base":[0.388808568323732,0.382151994507502,0.381378729766887,0.378177342598925,0.357556711514759,0.350607313964265,0.35962174808262,0.369454003067469,0.36706419161515,0.374190205332155,0.380966545678531,0.366084683349535],"x":[1952,1957,1962,1967,1972,1977,1982,1987,1992,1997,2002,2007],"y":[0.213735611764644,0.229419673558775,0.251284266428695,0.264653918263452,0.27179541177275,0.289752362438668,0.302701325300168,0.311027167309806,0.299735663020141,0.297131737048411,0.307045987363984,0.307682121681514],"text":["<b>PIB medio<\/b>: 5661.06$<br /><b>Continente<\/b>: Europe<br /><b>Año<\/b>: 1952","<b>PIB medio<\/b>: 6963.01$<br /><b>Continente<\/b>: Europe<br /><b>Año<\/b>: 1957","<b>PIB medio<\/b>: 8365.49$<br /><b>Continente<\/b>: Europe<br /><b>Año<\/b>: 1962","<b>PIB medio<\/b>: 10143.82$<br /><b>Continente<\/b>: Europe<br /><b>Año<\/b>: 1967","<b>PIB medio<\/b>: 12479.58$<br /><b>Continente<\/b>: Europe<br /><b>Año<\/b>: 1972","<b>PIB medio<\/b>: 14283.98$<br /><b>Continente<\/b>: Europe<br /><b>Año<\/b>: 1977","<b>PIB medio<\/b>: 15617.9$<br /><b>Continente<\/b>: Europe<br /><b>Año<\/b>: 1982","<b>PIB medio<\/b>: 17214.31$<br /><b>Continente<\/b>: Europe<br /><b>Año<\/b>: 1987","<b>PIB medio<\/b>: 17061.57$<br /><b>Continente<\/b>: Europe<br /><b>Año<\/b>: 1992","<b>PIB medio<\/b>: 19076.78$<br /><b>Continente<\/b>: Europe<br /><b>Año<\/b>: 1997","<b>PIB medio<\/b>: 21711.73$<br /><b>Continente<\/b>: Europe<br /><b>Año<\/b>: 2002","<b>PIB medio<\/b>: 25054.48$<br /><b>Continente<\/b>: Europe<br /><b>Año<\/b>: 2007"],"type":"bar","marker":{"autocolorscale":false,"color":"rgba(0,158,115,0.7)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Europe","legendgroup":"Europe","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5],"base":[0,0,0,0,0,0,0,0,0,0,0,0],"x":[1952,1957,1962,1967,1972,1977,1982,1987,1992,1997,2002,2007],"y":[0.388808568323732,0.382151994507502,0.381378729766887,0.378177342598925,0.357556711514759,0.350607313964265,0.35962174808262,0.369454003067469,0.36706419161515,0.374190205332155,0.380966545678531,0.366084683349535],"text":["<b>PIB medio<\/b>: 10298.09$<br /><b>Continente<\/b>: Oceania<br /><b>Año<\/b>: 1952","<b>PIB medio<\/b>: 11598.52$<br /><b>Continente<\/b>: Oceania<br /><b>Año<\/b>: 1957","<b>PIB medio<\/b>: 12696.45$<br /><b>Continente<\/b>: Oceania<br /><b>Año<\/b>: 1962","<b>PIB medio<\/b>: 14495.02$<br /><b>Continente<\/b>: Oceania<br /><b>Año<\/b>: 1967","<b>PIB medio<\/b>: 16417.33$<br /><b>Continente<\/b>: Oceania<br /><b>Año<\/b>: 1972","<b>PIB medio<\/b>: 17283.96$<br /><b>Continente<\/b>: Oceania<br /><b>Año<\/b>: 1977","<b>PIB medio<\/b>: 18554.71$<br /><b>Continente<\/b>: Oceania<br /><b>Año<\/b>: 1982","<b>PIB medio<\/b>: 20448.04$<br /><b>Continente<\/b>: Oceania<br /><b>Año<\/b>: 1987","<b>PIB medio<\/b>: 20894.05$<br /><b>Continente<\/b>: Oceania<br /><b>Año<\/b>: 1992","<b>PIB medio<\/b>: 24024.18$<br /><b>Continente<\/b>: Oceania<br /><b>Año<\/b>: 1997","<b>PIB medio<\/b>: 26938.78$<br /><b>Continente<\/b>: Oceania<br /><b>Año<\/b>: 2002","<b>PIB medio<\/b>: 29810.19$<br /><b>Continente<\/b>: Oceania<br /><b>Año<\/b>: 2007"],"type":"bar","marker":{"autocolorscale":false,"color":"rgba(240,228,66,0.7)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Oceania","legendgroup":"Oceania","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":40.8401826484018,"r":7.30593607305936,"b":37.2602739726027,"l":48.9497716894977},"font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"title":{"text":"Diagrama de barras","font":{"color":"rgba(0,0,0,1)","family":"","size":17.5342465753425},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[1946.775,2012.225],"tickmode":"array","ticktext":["1960","1980","2000"],"tickvals":[1960,1980,2000],"categoryorder":"array","categoryarray":["1960","1980","2000"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.65296803652968,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"y","title":{"text":"Año","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.05,1.05],"tickmode":"array","ticktext":["0.00","0.25","0.50","0.75","1.00"],"tickvals":[0,0.25,0.5,0.75,1],"categoryorder":"array","categoryarray":["0.00","0.25","0.50","0.75","1.00"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.65296803652968,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"x","title":{"text":"PIB medio","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":null,"bordercolor":null,"borderwidth":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"y":0.938132733408324},"annotations":[{"text":"continent","x":1.02,"y":1,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"left","yanchor":"bottom","legendTitle":true}],"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","showSendToCloud":false},"source":"A","attrs":{"ae9794a7586":{"x":{},"y":{},"fill":{},"text":{},"type":"bar"}},"cur_data":"ae9794a7586","visdat":{"ae9794a7586":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
 
 ---
 
@@ -19818,22 +19818,6 @@ name: clase-17
 
 # .orange[RECURSOS] y .green[BIBLIOGRAFÍA]
 
-&amp;nbsp;
-
-
-#### 📚 **.bg-purple_light[Artículos o libros]** científicos que han sido sometidos a revisión por pares.
-
-&amp;nbsp;
-
-#### 🔗 **.bg-green_light[Recursos online]** recomendados
-
-&amp;nbsp;
-
-#### 💻 Recursos para la **.bg-orange[programación en R]**
-
----
-
-# Bibliografía general
 
 📚 **«Statistical tests, P values, confidence intervals, and power: a guide to misinterpretations»**. Greenland et al. (2016) &lt;https://github.com/dadosdelaplace/teaching/blob/main/bioestad/biblio/p-value_Greenland_etal_2016.pdf&gt;
 
@@ -19846,7 +19830,7 @@ name: clase-17
 
 ---
 
-# Bibliografía general
+# .orange[RECURSOS] y .green[BIBLIOGRAFÍA]
 
 📚 **«The reproducibility of research and the misinterpretation of p-values»**. Colquhoun (2017) &lt;https://github.com/dadosdelaplace/teaching/blob/main/bioestad/biblio/p-values_Colquhoun_2017.pdf&gt;
 
@@ -19862,9 +19846,7 @@ name: clase-17
 
 ---
 
-# Recursos dataviz
-
-### Dataviz
+# .orange[RECURSOS] y .green[BIBLIOGRAFÍA]
 
 📚 **«Gramática de las gráficas: pistas para mejorar las representaciones de datos»**. Sevilla (2005) &lt;http://academica-e.unavarra.es/bitstream/handle/2454/15785/Gram%C3%A1tica.pdf&gt;
 
@@ -19876,46 +19858,6 @@ name: clase-17
 📚 **«40 years of boxplots»**. Wickham and Stryjewski (2011) &lt;https://github.com/dadosdelaplace/teaching/blob/main/bdba-pca-clustering-2022/biblio/boxplot_Wickham_Stryjewski_2011.pdf&gt;
  
  
-
-
----
-
-# Bibliografía componentes principales
-
-💻 **Componentes principales** en `{tidymodels}`. &lt;https://www.tmwr.org/dimensionality.html#beans&gt;
-
-
-📚 **«Principal Component Analysis»**. Jolliffe (2002) &lt;https://github.com/dadosdelaplace/teaching/blob/main/bdba-pca-clustering-2022/biblio/pca_jolliffe_2002.pdf&gt;
-
-📚 **«Principal Component Analysis»**. Hervé and Lynne (2010) &lt;http://staff.ustc.edu.cn/~zwp/teach/MVA/abdi-awPCA2010.pdf&gt;
-
-📚 **«Principal Component Analysis: a review and recent developments»**. Jolliffe and Cadima (2016) &lt;https://royalsocietypublishing.org/doi/10.1098/rsta.2015.0202&gt;
-
-🔗 **«The Mathematics Behind Principal Component Analysis»**. Dubey (2018).  &lt;https://towardsdatascience.com/the-mathematics-behind-principal-component-analysis-fff2d7f4b643&gt;
-
-
-🔗 **«A One-Stop Shop for Principal Component Analysis»**. Brems (2017). &lt;https://towardsdatascience.com/a-one-stop-shop-for-principal-component-analysis-5582fb7e0a9c&gt;
-
-📚 **«On the number of principal components: a test of dimensionality based on measurements of similarity between matrices»**. Dray (2008) &lt;https://github.com/dadosdelaplace/teaching/blob/main/bdba-pca-clustering-2022/biblio/numer_pca_dray_2008.pdf&gt;
-
-
----
-
-# Bibliografía análisis clúster
-
-📚 **«Multiclass classification of dry beans using computer vision and machine learning techniques»**. Koklu y Ozkan (2020) &lt;https://github.com/dadosdelaplace/teaching/blob/main/bdba-pca-clustering-2022/biblio/multiclass_classif_koklu_ozlan_2020.pdf&gt;
-
-💻 **«Clustering y heatmaps: aprendizaje no supervisado»**. Amat (2017). &lt;https://rpubs.com/Joaquin_AR/310338&gt;
-
-💻 **«K-means clustering with tidy data principles»** &lt;https://www.tidymodels.org/learn/statistics/k-means/&gt;
-
-🔗 **«ISLR tidymodels Labs»** &lt;https://emilhvitfeldt.github.io/ISLR-tidymodels-labs/unsupervised-learning.html#kmeans-clustering&gt;
-
-
-📚 **«Algorithm AS 136: a K-Means Clustering Algorithm»**. Hartigan y Wong (1979) &lt;http://www.jstor.org/stable/2346830&gt;
-
-🔗 **«Machine Learning for Social Scientists»**. Cimentada (2020) &lt;https://cimentadaj.github.io/ml_socsci/unsupervised-methods.html&gt;
-
 ---
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
